@@ -1,0 +1,82 @@
+
+buildscript {
+    
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        jcenter()
+        google()
+    }
+
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.13'
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: "eclipse"
+    apply plugin: 'com.google.protobuf'
+    apply plugin: 'idea'
+
+    version = '1.0'
+    ext {
+        appName = "my-gdx-game"
+        gdxVersion = '1.9.12'
+        roboVMVersion = '2.3.11'
+        box2DLightsVersion = '1.5'
+        ashleyVersion = '1.7.3'
+        aiVersion = '1.8.2'
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        google()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+    }
+
+    sourceSets {
+        main {
+            proto {
+                // In addition to the default 'src/main/proto'
+                srcDir 'src/proto'
+                // In addition to the default '**/*.proto' (use with caution).
+                // Using an extension other than 'proto' is NOT recommended,
+                // because when proto files are published along with class files, we can
+                // only tell the type of a file from its extension.
+                include '**/*.proto'
+            }
+        }
+    }
+
+}
+
+project(":desktop") {
+    apply plugin: "java-library"
+
+    dependencies {
+        implementation project(":core")
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+    }
+}
+
+project(":core") {
+    apply plugin: "java-library"
+    apply plugin: 'com.google.protobuf'
+
+    dependencies {
+        api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+
+        compile 'io.grpc:grpc-all:1.32.1'
+        compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
+    }
+}
+
