@@ -1,4 +1,4 @@
-package shareable;
+package org.shareable;
 
 public interface ShareableMap {
 

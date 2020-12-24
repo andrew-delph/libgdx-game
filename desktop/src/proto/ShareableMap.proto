@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "shareable";
+option java_package = "org.shareable";
 option java_outer_classname = "ShareableProto";
 
 message RequestKeys {
