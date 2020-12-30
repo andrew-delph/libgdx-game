@@ -17,7 +17,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		this.batch = new SpriteBatch();
-		this.entityManager = new EntityManager();
+		this.entityManager = EntityManager.getInstance();
 		this.player = new Entity();
 		this.entityManager.add(this.player);
 	}

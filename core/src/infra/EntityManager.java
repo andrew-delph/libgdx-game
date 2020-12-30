@@ -2,26 +2,32 @@ package infra;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class EntityManager {
 
-    private List<Entity> entityList;
+    static EntityManager singleton;
 
-
-    public EntityManager() {
-        entityList = new ArrayList<>();
+    public static EntityManager getInstance(){
+        if (singleton == null){
+            singleton = new EntityManager();
+        }
+        return singleton;
     }
 
+    private final Map<UUID,Entity> entityMap;
+
+    private EntityManager() {
+        entityMap = new HashMap<>();
+    }
 
     public void add(Entity entity){
-        this.entityList.add(entity);
+        this.entityMap.put(entity.id,entity);
     }
 
     public void updateAll(SpriteBatch batch){
-        for (Entity element : this.entityList){
-            element.update(batch);
+        for(Map.Entry<UUID,Entity> entry: this.entityMap.entrySet()){
+            entry.getValue().update(batch);
         }
     }
 
