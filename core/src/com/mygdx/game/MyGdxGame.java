@@ -4,22 +4,21 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import infra.Entity;
-import infra.EntityManager;
+import infra.entity.Entity;
+import infra.entity.factories.EntityFactory;
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
-	EntityManager entityManager;
+//	EntityManager entityManager;
 	Entity player;
 
 	@Override
 	public void create () {
 		this.batch = new SpriteBatch();
-		this.entityManager = EntityManager.getInstance();
-		this.player = new Entity();
-		this.entityManager.add(this.player);
+//		this.entityManager = EntityManager.getInstance();
+		this.player = EntityFactory.getInstance().createBasic();
+//		this.entityManager.create(this.player);
 	}
 
 	@Override
@@ -28,7 +27,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		entityManager.updateAll(batch);
+//		entityManager.updateAll(batch);
 		batch.end();
 	}
 	
