@@ -15,10 +15,7 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
     public void onNext(NetworkObject.CreateNetworkObject create) {
         EntityData createEntityData = EntityDataFactory.getInstance().createEntityData(create);
 
-
         Entity new_entity = EntityFactory.getInstance().create(createEntityData);
-
-        System.out.println("New entity:" + new_entity.getEntityData().getID() + "," + new_entity.getX() + "," + new_entity.getY());
 
         EntityManager.getInstance().add(new_entity);
     }

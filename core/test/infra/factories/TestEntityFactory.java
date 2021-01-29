@@ -2,7 +2,6 @@ package infra.factories;
 
 
 import infra.entity.Entity;
-import infra.entity.EntityData;
 import infra.entity.factories.EntityFactory;
 import org.junit.Test;
 

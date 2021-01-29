@@ -41,4 +41,8 @@ public class Entity {
     public int getY() {
         return Integer.parseInt(this.data.getY());
     }
+
+    public UUID getID() {
+        return UUID.fromString(this.data.getID());
+    }
 }
