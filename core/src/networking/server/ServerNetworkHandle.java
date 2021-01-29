@@ -22,18 +22,22 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     public StreamObserver<NetworkObject.CreateNetworkObject> create(StreamObserver<NetworkObject.CreateNetworkObject> responseObserver) {
         CreateObserver createObserver = new CreateObserver();
         System.out.println("new connection");
-        NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId("what up").build();
+        ;
         for (Entity entity : this.entityManager.getAll()) {
-            createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(entity.getEntityData().getID().toString()).build();
+
+            NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((entity.getEntityData().getX() + "")).build();
+            NetworkObject.NetworkObjectItem networkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((entity.getEntityData().getY() + "")).build();
+            NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(entity.getEntityData().getID()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
+
             responseObserver.onNext(createRequestObject);
         }
-        responseObserver.onNext(createRequestObject);
         return createObserver;
     }
 
     @Override
     public StreamObserver<NetworkObject.UpdateNetworkObject> update(StreamObserver<NetworkObject.UpdateNetworkObject> responseObserver) {
         UpdateObserver updateObserver = new UpdateObserver();
+
         return updateObserver;
     }
 

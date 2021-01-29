@@ -5,45 +5,68 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class EntityData{
-     private HashMap<String, Object> data;
+public class EntityData {
+    public HashMap<String, String> data;
 
     public EntityData() {
         this.data = new HashMap<>();
     }
-    void setImg(Texture texture){
+
+    public EntityData(HashMap<String, String> data) {
+        this.data = data;
+    }
+
+    void setImgPath(String texture) {
         this.data.put("img", texture);
     }
-    Texture getImg(){
-        return (Texture)this.data.get("img");
+
+    String getImgPath() {
+        return this.data.get("img");
     }
 
-    public void setId(UUID id){
+    public void setId(String id) {
         this.data.put("id", id);
     }
-    public UUID getID(){
-        return (UUID) this.data.get("id");
+
+    public String getID() {
+        return this.data.get("id");
     }
 
-    void setX(int x){
+    public void setX(String x) {
         this.data.put("x", x);
     }
-    int getX(){
-        return (int) this.data.get("x");
+
+    public String getX() {
+        return this.data.get("x");
     }
 
-    void setY(int y){
+    public void setY(String y) {
         this.data.put("y", y);
     }
-    int getY(){
-        return (int) this.data.get("y");
+
+    public String getY() {
+        return this.data.get("y");
     }
 
-    HashMap<String, Object> getData(){
+    HashMap<String, String> getData() {
         return this.data;
     }
 
-    void merge(EntityData data){
+    void merge(EntityData data) {
         this.data.putAll(data.getData());
+    }
+
+    void merge(HashMap<String, String> merge) {
+        this.data.putAll(merge);
+    }
+
+    public void setItem(String key, String value){
+        this.data.put(key, value);
+    }
+
+    public static void main(String args[]) {
+        EntityData data = new EntityData();
+        data.data.put("id", UUID.randomUUID().toString());
+        System.out.println(data.getID());
     }
 }

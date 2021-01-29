@@ -26,13 +26,13 @@ public class ClientNetworkHandle {
     private final NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
 
 
-    StreamObserver<NetworkObject.CreateNetworkObject> createObserver;
-    StreamObserver<NetworkObject.UpdateNetworkObject> updateObserver;
-    StreamObserver<NetworkObject.RemoveNetworkObject> removeObserver;
+    public StreamObserver<NetworkObject.CreateNetworkObject> createObserver;
+    public StreamObserver<NetworkObject.UpdateNetworkObject> updateObserver;
+    public StreamObserver<NetworkObject.RemoveNetworkObject> removeObserver;
     // responders
-    StreamObserver<NetworkObject.CreateNetworkObject> createRequest;
-    StreamObserver<NetworkObject.UpdateNetworkObject> updateRequest;
-    StreamObserver<NetworkObject.RemoveNetworkObject> removeRequest;
+    public StreamObserver<NetworkObject.CreateNetworkObject> createRequest;
+    public StreamObserver<NetworkObject.UpdateNetworkObject> updateRequest;
+    public StreamObserver<NetworkObject.RemoveNetworkObject> removeRequest;
 
     public ClientNetworkHandle(String host, int port) {
         this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
@@ -40,7 +40,7 @@ public class ClientNetworkHandle {
         this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
     }
 
-    void connect() {
+    public void connect() {
         // receivers
         createObserver = new CreateObserver();
         updateObserver = new UpdateObserver();

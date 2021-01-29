@@ -15,6 +15,15 @@ plugins {
     id "com.google.protobuf" version "0.8.14"
     id "java"
 }
+
+test {
+    useJUnitPlatform()
+}
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+}
+
 allprojects {
     apply plugin: 'java'
     apply plugin: "eclipse"
@@ -85,4 +94,5 @@ project(":core") {
         compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
     }
 }
+
 

@@ -1,14 +1,13 @@
 package infra.entity;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class EntityManager {
 
     static EntityManager instance;
-    HashMap<UUID, Entity> entityMap;
+    HashMap<String, Entity> entityMap;
 
     public static EntityManager getInstance() {
         if (instance == null) {
@@ -18,24 +17,27 @@ public class EntityManager {
     }
 
     EntityManager() {
+        System.out.println("new manager,");
         this.entityMap = new HashMap();
     }
 
     public void add(Entity data) {
+        System.out.println("adding: "+data.data.getID());
         this.entityMap.put(data.data.getID(), data);
     }
 
     public Entity get(UUID id) {
-        return this.entityMap.get(id);
+        System.out.println("getting:"+id.toString());
+        return this.entityMap.get(id.toString());
     }
 
     public Entity[] getAll() {
         return this.entityMap.values().toArray(new Entity[0]);
     }
 
-    public void update(SpriteBatch batch) {
+    public void update(Consumer<Entity> entityConsumer) {
         for (Entity entity : this.entityMap.values()) {
-            entity.update(batch);
+            entityConsumer.accept(entity);
         }
     }
 }

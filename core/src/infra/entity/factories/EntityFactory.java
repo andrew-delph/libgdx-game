@@ -8,8 +8,8 @@ import java.util.UUID;
 public class EntityFactory {
     static EntityFactory instance;
 
-    public static EntityFactory getInstance(){
-        if (instance == null){
+    public static EntityFactory getInstance() {
+        if (instance == null) {
             instance = new EntityFactory();
         }
         return instance;
@@ -18,11 +18,15 @@ public class EntityFactory {
     private EntityFactory() {
     }
 
-    public Entity create(EntityData data){
-        return  new Entity(data);
+    public Entity create(EntityData data) {
+        return new Entity(data);
     }
 
-    public Entity createBasic(){
-        return  new Entity(UUID.randomUUID(),0,0);
+    public Entity create(UUID id, int x, int y) {
+        return new Entity(id, x, y);
+    }
+
+    public Entity createBasic() {
+        return new Entity(UUID.randomUUID(), 0, 0);
     }
 }
