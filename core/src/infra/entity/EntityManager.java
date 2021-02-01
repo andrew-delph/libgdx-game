@@ -6,14 +6,16 @@ import java.util.function.Consumer;
 
 public class EntityManager {
 
-    static EntityManager instance;
+    static HashMap<UUID, EntityManager> managerMap = new HashMap<>();
+
     HashMap<String, Entity> entityMap;
 
-    public static EntityManager getInstance() {
-        if (instance == null) {
-            instance = new EntityManager();
+
+    public static EntityManager getInstance(UUID id) {
+        if (managerMap.get(id) == null) {
+            managerMap.put(id, new EntityManager());
         }
-        return instance;
+        return managerMap.get(id);
     }
 
     EntityManager() {

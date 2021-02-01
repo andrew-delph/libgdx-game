@@ -9,20 +9,28 @@ import networking.NetworkObject;
 import networking.NetworkObjectServiceGrpc;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
 
-    EntityManager entityManager;
+    final public EntityManager entityManager;
+    final UUID id;
+    final Server server;
 
     public ServerNetworkHandle() {
-        entityManager = EntityManager.getInstance();
+        this.id = UUID.randomUUID();
+        entityManager = EntityManager.getInstance(this.id);
+        server = ServerBuilder.forPort(99).addService(this).build();
+    }
+
+    public void start() throws IOException {
+        server.start();
     }
 
     @Override
     public StreamObserver<NetworkObject.CreateNetworkObject> create(StreamObserver<NetworkObject.CreateNetworkObject> responseObserver) {
-        CreateObserver createObserver = new CreateObserver();
+        CreateObserver createObserver = new CreateObserver(this.id);
         System.out.println("new connection");
-        ;
         for (Entity entity : this.entityManager.getAll()) {
 
             NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((entity.getEntityData().getX() + "")).build();
@@ -36,14 +44,14 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
     @Override
     public StreamObserver<NetworkObject.UpdateNetworkObject> update(StreamObserver<NetworkObject.UpdateNetworkObject> responseObserver) {
-        UpdateObserver updateObserver = new UpdateObserver();
+        UpdateObserver updateObserver = new UpdateObserver(this.id);
 
         return updateObserver;
     }
 
     @Override
     public StreamObserver<NetworkObject.RemoveNetworkObject> remove(StreamObserver<NetworkObject.RemoveNetworkObject> responseObserver) {
-        RemoveObserver removeObserver = new RemoveObserver();
+        RemoveObserver removeObserver = new RemoveObserver(this.id);
         return removeObserver;
     }
 

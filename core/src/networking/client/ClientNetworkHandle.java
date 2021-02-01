@@ -1,5 +1,6 @@
 package networking.client;
 
+import infra.entity.EntityManager;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -7,12 +8,15 @@ import networking.NetworkObject;
 import networking.NetworkObjectServiceGrpc;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 public class ClientNetworkHandle {
 
     static ClientNetworkHandle instance;
-    static String host = "localhost";
-    static int port = 99;
+    public static String host = "localhost";
+    public static int port = 99;
+    final public EntityManager entityManager;
+    final private UUID id;
 
     public static ClientNetworkHandle getInstance() {
         if (instance == null) {
@@ -38,13 +42,15 @@ public class ClientNetworkHandle {
         this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
         this.blockingStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
         this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
+        this.id = UUID.randomUUID();
+        this.entityManager = EntityManager.getInstance(id);
     }
 
     public void connect() {
         // receivers
-        createObserver = new CreateObserver();
-        updateObserver = new UpdateObserver();
-        removeObserver = new RemoveObserver();
+        createObserver = new CreateObserver(this.id);
+        updateObserver = new UpdateObserver(this.id);
+        removeObserver = new RemoveObserver(this.id);
         // responders
         createRequest = this.asyncStub.create(createObserver);
         updateRequest = this.asyncStub.update(updateObserver);
@@ -65,4 +71,3 @@ public class ClientNetworkHandle {
     }
 
 }
-

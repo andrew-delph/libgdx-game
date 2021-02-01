@@ -30,9 +30,8 @@ public class GameClient extends ApplicationAdapter {
         this.image = new Texture("badlogic.jpg");
         this.player = EntityFactory.getInstance().createBasic();
         this.batch = new SpriteBatch();
-        this.entityManager = EntityManager.getInstance();
-        this.entityManager.add(this.player);
         this.client = ClientNetworkHandle.getInstance();
+        this.client.entityManager.add(this.player);
         this.client.connect();
         NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((this.player.getEntityData().getX() + "")).build();
         NetworkObject.NetworkObjectItem networkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((this.player.getEntityData().getY() + "")).build();

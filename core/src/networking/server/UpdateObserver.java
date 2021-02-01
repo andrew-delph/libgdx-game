@@ -5,12 +5,18 @@ import infra.entity.EntityData;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityDataFactory;
 import io.grpc.stub.StreamObserver;
-import networking.ConnectionStore;
 import networking.NetworkObject;
 
 import java.util.UUID;
 
 public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetworkObject> {
+
+    UUID managerID;
+
+    UpdateObserver(UUID managerID){
+        this.managerID = managerID;
+    }
+
     @Override
     public void onNext(NetworkObject.UpdateNetworkObject updateNetworkObject) {
         EntityData entityUpdate = EntityDataFactory.getInstance().createEntityData(updateNetworkObject);
@@ -18,7 +24,7 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
         UUID targetUuid = UUID.fromString(entityUpdate.getID());
 
 
-        Entity target = EntityManager.getInstance().get(targetUuid);
+        Entity target = EntityManager.getInstance(this.managerID).get(targetUuid);
 
         if (target == null){
             System.out.println("target is null.");
@@ -29,12 +35,13 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
 
         target.updateEntityData(entityUpdate);
 
-        for (Object connectionObject : ConnectionStore.getInstance().getAll(null)) {
-            UpdateObserver connection = (UpdateObserver) connectionObject;
+        for (StreamObserver connection : ConnectionStore.getInstance().getAll(UpdateObserver.class)) {
+
             if (this == connection) {
                 continue;
             }
-            connection.onNext(updateNetworkObject);
+
+            ((UpdateObserver)connection).onNext(updateNetworkObject);
         }
     }
 

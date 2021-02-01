@@ -11,13 +11,20 @@ import networking.NetworkObject;
 import java.util.UUID;
 
 public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
+
+    UUID managerID;
+
+    CreateObserver(UUID managerID){
+        this.managerID = managerID;
+    }
+
     @Override
     public void onNext(NetworkObject.CreateNetworkObject create) {
         EntityData createEntityData = EntityDataFactory.getInstance().createEntityData(create);
 
         Entity new_entity = EntityFactory.getInstance().create(createEntityData);
 
-        EntityManager.getInstance().add(new_entity);
+        EntityManager.getInstance(this.managerID).add(new_entity);
     }
 
     @Override

@@ -8,11 +8,13 @@ import infra.entity.factories.EntityFactory;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 
-public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
-    EntityManager entityManager;
+import java.util.UUID;
 
-    CreateObserver() {
-        entityManager = EntityManager.getInstance();
+public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
+    UUID managerID;
+
+    CreateObserver(UUID managerID){
+        this.managerID = managerID;
     }
 
     @Override
@@ -22,7 +24,7 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
         EntityData createData = EntityDataFactory.getInstance().createEntityData(update);
 
         Entity createEntity = EntityFactory.getInstance().create(createData);
-        this.entityManager.add(createEntity);
+        EntityManager.getInstance(this.managerID).add(createEntity);
     }
 
     @Override
