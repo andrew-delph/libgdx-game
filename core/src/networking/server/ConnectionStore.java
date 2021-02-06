@@ -2,8 +2,9 @@ package networking.server;
 
 import io.grpc.stub.StreamObserver;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConnectionStore {
     static ConnectionStore instance;
@@ -15,21 +16,18 @@ public class ConnectionStore {
         return instance;
     }
 
-    HashMap<String, StreamObserver> connections;
+    List<StreamObserver> connections;
 
     ConnectionStore() {
-        this.connections = new HashMap<>();
+        this.connections = new ArrayList();
     }
 
-    public StreamObserver[] getAll(Class clazz) {
-        StreamObserver[] values = this.connections.values().toArray(new StreamObserver[0]);
-        if (clazz != null) {
-            values = (StreamObserver[]) Arrays.stream(values).filter(o -> {
-                return clazz.isInstance(o);
-            }).map( StreamObserver.class::cast ).toArray();
-        }
-        return values;
+    public void add(StreamObserver observer) {
+        connections.add(observer);
     }
 
-
+    public <E extends StreamObserver> List<E> getAll(Class<E> clazz) {
+        return this.connections.stream().filter(clazz::isInstance)
+                .map(clazz::cast).collect(Collectors.toList());
+    }
 }

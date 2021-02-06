@@ -9,7 +9,7 @@ public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetwor
 
     UUID managerID;
 
-    RemoveObserver(UUID managerID){
+    public RemoveObserver(UUID managerID){
         this.managerID = managerID;
     }
 

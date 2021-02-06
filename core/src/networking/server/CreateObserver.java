@@ -13,7 +13,7 @@ import java.util.UUID;
 public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
     UUID managerID;
 
-    CreateObserver(UUID managerID){
+    public CreateObserver(UUID managerID){
         this.managerID = managerID;
     }
 

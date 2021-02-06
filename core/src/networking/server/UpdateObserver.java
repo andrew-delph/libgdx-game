@@ -13,7 +13,7 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
 
     UUID managerID;
 
-    UpdateObserver(UUID managerID){
+    public UpdateObserver(UUID managerID){
         this.managerID = managerID;
     }
 
