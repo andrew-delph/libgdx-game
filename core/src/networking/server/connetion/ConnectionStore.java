@@ -1,4 +1,4 @@
-package networking.server;
+package networking.server.connetion;
 
 import io.grpc.stub.StreamObserver;
 
@@ -16,17 +16,17 @@ public class ConnectionStore {
         return instance;
     }
 
-    List<StreamObserver> connections;
+    List<AbtractConnection> connections;
 
     ConnectionStore() {
         this.connections = new ArrayList();
     }
 
-    public void add(StreamObserver observer) {
-        connections.add(observer);
+    public void add(AbtractConnection connection) {
+        connections.add(connection);
     }
 
-    public <E extends StreamObserver> List<E> getAll(Class<E> clazz) {
+    public <E extends AbtractConnection> List<E> getAll(Class<E> clazz) {
         return this.connections.stream().filter(clazz::isInstance)
                 .map(clazz::cast).collect(Collectors.toList());
     }

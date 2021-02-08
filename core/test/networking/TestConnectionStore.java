@@ -1,12 +1,13 @@
 package networking;
 
-import networking.server.ConnectionStore;
-import networking.server.CreateObserver;
-import networking.server.RemoveObserver;
-import networking.server.UpdateObserver;
+import networking.server.connetion.ConnectionStore;
+import networking.server.connetion.CreateConnection;
+import networking.server.connetion.UpdateConnection;
+import networking.server.observer.CreateObserver;
+import networking.server.observer.RemoveObserver;
+import networking.server.observer.UpdateObserver;
 import org.junit.Test;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,19 +27,19 @@ public class TestConnectionStore {
         UpdateObserver updateObserver2 = new UpdateObserver(managerID);
         RemoveObserver removeObserver = new RemoveObserver(managerID);
 
-        store.add(createObserver);
-        store.add(updateObserver);
-        store.add(updateObserver2);
-        store.add(removeObserver);
+        store.add(new CreateConnection(createObserver));
+        store.add(new UpdateConnection(updateObserver));
+        store.add(new UpdateConnection(updateObserver2));
+//        store.add(removeObserver);
 
-        List<UpdateObserver> returnedList = store.getAll(UpdateObserver.class);
+        List<UpdateConnection> returnedList = store.getAll(UpdateConnection.class);
 
-        assertEquals(1, store.getAll(CreateObserver.class).toArray().length);
-        assertEquals(store.getAll(CreateObserver.class).toArray()[0], createObserver);
+        assertEquals(1, store.getAll(CreateConnection.class).toArray().length);
+        assertEquals(store.getAll(CreateConnection.class).toArray(new CreateConnection[0])[0].responseObserver, createObserver);
 
-        assertEquals(2, store.getAll(UpdateObserver.class).toArray().length);
-        assertEquals(store.getAll(UpdateObserver.class).toArray()[0], updateObserver);
-        assertEquals(store.getAll(UpdateObserver.class).toArray()[1], updateObserver2);
+        assertEquals(2, store.getAll(UpdateConnection.class).toArray().length);
+        assertEquals(store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[0].responseObserver, updateObserver);
+        assertEquals(store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[1].responseObserver, updateObserver2);
 
 //        assertEquals(1, store.getAll(UpdateObserver.class).toArray().length);
 //        assertEquals(store.getAll(UpdateObserver.class).toArray()[0], updateObserver);

@@ -20,6 +20,7 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
 
     @Override
     public void onNext(NetworkObject.CreateNetworkObject create) {
+        System.out.println("CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE ");
         EntityData createEntityData = EntityDataFactory.getInstance().createEntityData(create);
 
         Entity new_entity = EntityFactory.getInstance().create(createEntityData);
