@@ -1,10 +1,12 @@
 package networking;
 
 import infra.entity.Entity;
+import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
 import io.grpc.stub.StreamObserver;
 import networking.client.ClientNetworkHandle;
 import networking.server.ServerNetworkHandle;
+import networking.server.connetion.ConnectionStore;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,12 +31,10 @@ public class TestEntityNetworking {
     @After
     public void cleanup() throws InterruptedException {
         server.close();
-
-        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test
-    public void singleClientCreate() throws IOException, InterruptedException {
+    public void singleClientCreate() throws InterruptedException {
 
         ClientNetworkHandle client_a = new ClientNetworkHandle(ClientNetworkHandle.host, ClientNetworkHandle.port);
         client_a.connect();

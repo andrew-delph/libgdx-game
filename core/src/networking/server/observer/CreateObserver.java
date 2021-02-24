@@ -21,17 +21,14 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
 
     @Override
     public void onNext(NetworkObject.CreateNetworkObject update) {
-        System.out.println("<<< " + update.getId());
         EntityData createData = EntityDataFactory.getInstance().createEntityData(update);
         Entity createEntity = EntityFactory.getInstance().create(createData);
         EntityManager.getInstance(this.managerID).add(createEntity);
-        System.out.println("send out");
         ConnectionStore.getInstance().getAll(CreateConnection.class).forEach(createConnection -> {
             if (createConnection.responseObserver == this){
                 return;
             }
             else{
-                System.out.println("here");
                 createConnection.responseObserver.onNext(update);
             }
         });

@@ -1,23 +1,19 @@
 package networking.server.connetion;
 
+import com.google.inject.Inject;
+import common.interfaces.Cleanup;
 import io.grpc.stub.StreamObserver;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ConnectionStore {
+public class ConnectionStore implements Cleanup {
     static ConnectionStore instance;
-
-    public static ConnectionStore getInstance() {
-        if (instance == null) {
-            instance = new ConnectionStore();
-        }
-        return instance;
-    }
 
     List<AbtractConnection> connections;
 
+    @Inject
     ConnectionStore() {
         this.connections = new ArrayList();
     }
@@ -30,4 +26,5 @@ public class ConnectionStore {
         return this.connections.stream().filter(clazz::isInstance)
                 .map(clazz::cast).collect(Collectors.toList());
     }
+
 }

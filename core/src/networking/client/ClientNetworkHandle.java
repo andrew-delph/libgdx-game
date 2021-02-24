@@ -1,9 +1,13 @@
 package networking.client;
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import infra.entity.EntityManager;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import modules.App;
 import networking.NetworkObject;
 import networking.NetworkObjectServiceGrpc;
 
@@ -12,18 +16,10 @@ import java.util.UUID;
 
 public class ClientNetworkHandle {
 
-    static ClientNetworkHandle instance;
     public static String host = "localhost";
     public static int port = 99;
     final public EntityManager entityManager;
     final private UUID id;
-
-    public static ClientNetworkHandle getInstance() {
-        if (instance == null) {
-            instance = new ClientNetworkHandle(host, port);
-        }
-        return instance;
-    }
 
     private final ManagedChannel channel;
     private final NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockingStub;
@@ -38,12 +34,13 @@ public class ClientNetworkHandle {
     public StreamObserver<NetworkObject.UpdateNetworkObject> updateRequest;
     public StreamObserver<NetworkObject.RemoveNetworkObject> removeRequest;
 
-    public ClientNetworkHandle(String host, int port) {
+    @Inject
+    public ClientNetworkHandle(String host, int port, EntityManager entityManager) {
         this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
         this.blockingStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
         this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
         this.id = UUID.randomUUID();
-        this.entityManager = EntityManager.getInstance(id);
+        this.entityManager = entityManager;
     }
 
     public void connect() {
@@ -58,9 +55,14 @@ public class ClientNetworkHandle {
     }
 
     public static void main(String args[]) throws InterruptedException {
+        Injector injector = Guice.createInjector(
+                new App()
+        );
+
         Scanner myInput = new Scanner(System.in);
 
-        ClientNetworkHandle client = ClientNetworkHandle.getInstance();
+        ClientNetworkHandle client = injector.getInstance(ClientNetworkHandle.class);
+
         client.connect();
         System.out.println("starting..!");
         while (true) {

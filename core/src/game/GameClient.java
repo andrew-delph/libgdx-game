@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.google.inject.Inject;
 import infra.entity.Entity;
 import infra.entity.EntityData;
 import infra.entity.EntityManager;
@@ -17,20 +18,22 @@ import java.util.function.Consumer;
 
 public class GameClient extends ApplicationAdapter {
     SpriteBatch batch;
-    EntityManager entityManager;
     Entity player;
 
     ClientNetworkHandle client;
 
     Texture image;
 
+    @Inject
+    GameClient(ClientNetworkHandle client){
+        this.client = client;
+    }
 
     @Override
     public void create() {
         this.image = new Texture("badlogic.jpg");
         this.player = EntityFactory.getInstance().createBasic();
         this.batch = new SpriteBatch();
-        this.client = ClientNetworkHandle.getInstance();
         this.client.entityManager.add(this.player);
         this.client.connect();
         NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((this.player.getEntityData().getX() + "")).build();
@@ -51,7 +54,7 @@ public class GameClient extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         Consumer<Entity> renderConsumer = e -> batch.draw(this.image, e.getX(), e.getY());
-        entityManager.update(renderConsumer);
+        this.client.entityManager.update(renderConsumer);
         batch.end();
     }
 

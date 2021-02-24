@@ -1,5 +1,6 @@
 package networking.client;
 
+import com.google.inject.Inject;
 import infra.entity.Entity;
 import infra.entity.EntityData;
 import infra.entity.EntityManager;
@@ -12,20 +13,18 @@ import java.util.UUID;
 
 public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
 
-    UUID managerID;
+    EntityManager entityManager;
 
-    CreateObserver(UUID managerID){
-        this.managerID = managerID;
+    @Inject
+    CreateObserver(EntityManager entityManager){
+        this.entityManager = entityManager;
     }
 
     @Override
     public void onNext(NetworkObject.CreateNetworkObject create) {
-        System.out.println("CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE ");
         EntityData createEntityData = EntityDataFactory.getInstance().createEntityData(create);
-
         Entity new_entity = EntityFactory.getInstance().create(createEntityData);
-
-        EntityManager.getInstance(this.managerID).add(new_entity);
+        this.entityManager.add(new_entity);
     }
 
     @Override

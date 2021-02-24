@@ -1,35 +1,26 @@
 package infra.entity;
 
+import com.google.inject.Inject;
+import common.interfaces.Cleanup;
+
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class EntityManager {
-
-    static HashMap<UUID, EntityManager> managerMap = new HashMap<>();
+public class EntityManager implements Cleanup {
 
     HashMap<String, Entity> entityMap;
 
-
-    public static EntityManager getInstance(UUID id) {
-        if (managerMap.get(id) == null) {
-            managerMap.put(id, new EntityManager());
-        }
-        return managerMap.get(id);
-    }
-
+    @Inject
     EntityManager() {
-        System.out.println("new manager,");
         this.entityMap = new HashMap();
     }
 
     public void add(Entity data) {
-        System.out.println("adding: "+data.data.getID());
         this.entityMap.put(data.data.getID(), data);
     }
 
     public Entity get(UUID id) {
-        System.out.println("getting:"+id.toString());
         return this.entityMap.get(id.toString());
     }
 
@@ -42,4 +33,5 @@ public class EntityManager {
             entityConsumer.accept(entity);
         }
     }
+
 }
