@@ -1,16 +1,17 @@
-package networking.client;
+package networking.server.observers;
 
+import infra.entity.EntityManager;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
-
-import java.util.UUID;
+import networking.server.connetion.ConnectionStore;
 
 public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetworkObject> {
 
-    UUID managerID;
-
-    RemoveObserver(UUID managerID){
-        this.managerID = managerID;
+    EntityManager entityManager;
+    ConnectionStore connectionStore;
+    public RemoveObserver(EntityManager entityManager, ConnectionStore connectionStore){
+        this.entityManager =  entityManager;
+        this.connectionStore = connectionStore;
     }
 
     @Override

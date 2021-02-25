@@ -1,5 +1,7 @@
-package networking.server.observer;
+package networking.client.observers;
 
+import com.google.inject.Inject;
+import infra.entity.EntityManager;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 
@@ -7,10 +9,10 @@ import java.util.UUID;
 
 public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetworkObject> {
 
-    UUID managerID;
+    EntityManager entityManager;
 
-    public RemoveObserver(UUID managerID){
-        this.managerID = managerID;
+    public RemoveObserver(EntityManager entityManager){
+        this.entityManager = entityManager;
     }
 
     @Override

@@ -10,6 +10,9 @@ import io.grpc.stub.StreamObserver;
 import modules.App;
 import networking.NetworkObject;
 import networking.NetworkObjectServiceGrpc;
+import networking.client.observers.CreateObserver;
+import networking.client.observers.RemoveObserver;
+import networking.client.observers.UpdateObserver;
 
 import java.util.Scanner;
 import java.util.UUID;
@@ -19,7 +22,6 @@ public class ClientNetworkHandle {
     public static String host = "localhost";
     public static int port = 99;
     final public EntityManager entityManager;
-    final private UUID id;
 
     private final ManagedChannel channel;
     private final NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockingStub;
@@ -35,19 +37,18 @@ public class ClientNetworkHandle {
     public StreamObserver<NetworkObject.RemoveNetworkObject> removeRequest;
 
     @Inject
-    public ClientNetworkHandle(String host, int port, EntityManager entityManager) {
+    public ClientNetworkHandle(EntityManager entityManager) {
         this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
         this.blockingStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
         this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
-        this.id = UUID.randomUUID();
         this.entityManager = entityManager;
     }
 
     public void connect() {
         // receivers
-        createObserver = new CreateObserver(this.id);
-        updateObserver = new UpdateObserver(this.id);
-        removeObserver = new RemoveObserver(this.id);
+        createObserver = new CreateObserver(this.entityManager);
+        updateObserver = new UpdateObserver(this.entityManager);
+        removeObserver = new RemoveObserver(this.entityManager);
         // responders
         createRequest = this.asyncStub.create(createObserver);
         updateRequest = this.asyncStub.update(updateObserver);

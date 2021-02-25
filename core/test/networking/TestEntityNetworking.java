@@ -1,9 +1,12 @@
 package networking;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import infra.entity.Entity;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
 import io.grpc.stub.StreamObserver;
+import modules.App;
 import networking.client.ClientNetworkHandle;
 import networking.server.ServerNetworkHandle;
 import networking.server.connetion.ConnectionStore;
@@ -24,7 +27,8 @@ public class TestEntityNetworking {
 
     @Before
     public void setup() throws IOException {
-        server = new ServerNetworkHandle();
+        Injector injector = Guice.createInjector(new App());
+        server = injector.getInstance(ServerNetworkHandle.class);
         server.start();
     }
 
@@ -36,7 +40,8 @@ public class TestEntityNetworking {
     @Test
     public void singleClientCreate() throws InterruptedException {
 
-        ClientNetworkHandle client_a = new ClientNetworkHandle(ClientNetworkHandle.host, ClientNetworkHandle.port);
+        Injector injector = Guice.createInjector(new App());
+        ClientNetworkHandle client_a = injector.getInstance(ClientNetworkHandle.class);
         client_a.connect();
 
         UUID testID = UUID.randomUUID();
@@ -63,10 +68,12 @@ public class TestEntityNetworking {
 
     @Test
     public void doubleClientCreate() throws IOException, InterruptedException {
+        Injector injector_a = Guice.createInjector(new App());
+        Injector injector_b = Guice.createInjector(new App());
 
-        ClientNetworkHandle client_a = new ClientNetworkHandle(ClientNetworkHandle.host, ClientNetworkHandle.port);
+        ClientNetworkHandle client_a = injector_a.getInstance(ClientNetworkHandle.class);
         client_a.connect();
-        ClientNetworkHandle client_b = new ClientNetworkHandle(ClientNetworkHandle.host, ClientNetworkHandle.port);
+        ClientNetworkHandle client_b = injector_b.getInstance(ClientNetworkHandle.class);
         client_b.connect();
         UUID testID = UUID.randomUUID();
         int x = 6;
@@ -98,8 +105,9 @@ public class TestEntityNetworking {
 
     @Test
     public void singleClientCreateUpdate() throws IOException, InterruptedException {
+        Injector injector_a = Guice.createInjector(new App());
 
-        ClientNetworkHandle client_a = new ClientNetworkHandle(ClientNetworkHandle.host, ClientNetworkHandle.port);
+        ClientNetworkHandle client_a = injector_a.getInstance(ClientNetworkHandle.class);
         client_a.connect();
 
         UUID testID = UUID.randomUUID();
@@ -141,9 +149,12 @@ public class TestEntityNetworking {
     @Test
     public void doubleClientCreateUpdate() throws IOException, InterruptedException {
 
-        ClientNetworkHandle client_a = new ClientNetworkHandle(ClientNetworkHandle.host, ClientNetworkHandle.port);
+        Injector injector_a = Guice.createInjector(new App());
+        Injector injector_b = Guice.createInjector(new App());
+
+        ClientNetworkHandle client_a = injector_a.getInstance(ClientNetworkHandle.class);
         client_a.connect();
-        ClientNetworkHandle client_b = new ClientNetworkHandle(ClientNetworkHandle.host, ClientNetworkHandle.port);
+        ClientNetworkHandle client_b = injector_b.getInstance(ClientNetworkHandle.class);
         client_b.connect();
         UUID testID = UUID.randomUUID();
         int x = 6;

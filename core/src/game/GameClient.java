@@ -25,7 +25,7 @@ public class GameClient extends ApplicationAdapter {
     Texture image;
 
     @Inject
-    GameClient(ClientNetworkHandle client){
+    public GameClient(ClientNetworkHandle client){
         this.client = client;
     }
 

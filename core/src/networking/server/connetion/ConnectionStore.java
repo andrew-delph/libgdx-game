@@ -1,19 +1,16 @@
 package networking.server.connetion;
 
 import com.google.inject.Inject;
-import common.interfaces.Cleanup;
-import io.grpc.stub.StreamObserver;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ConnectionStore implements Cleanup {
+public class ConnectionStore {
     static ConnectionStore instance;
 
     List<AbtractConnection> connections;
 
-    @Inject
     ConnectionStore() {
         this.connections = new ArrayList();
     }

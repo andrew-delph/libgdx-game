@@ -1,4 +1,4 @@
-package networking.server.observer;
+package networking.server.observers;
 
 import infra.entity.Entity;
 import infra.entity.EntityData;
@@ -10,21 +10,21 @@ import networking.NetworkObject;
 import networking.server.connetion.ConnectionStore;
 import networking.server.connetion.CreateConnection;
 
-import java.util.UUID;
-
 public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
-    UUID managerID;
+    EntityManager entityManager;
+    ConnectionStore connectionStore;
 
-    public CreateObserver(UUID managerID){
-        this.managerID = managerID;
+    public CreateObserver(EntityManager entityManager, ConnectionStore connectionStore){
+        this.entityManager = entityManager;
+        this.connectionStore = connectionStore;
     }
 
     @Override
     public void onNext(NetworkObject.CreateNetworkObject update) {
         EntityData createData = EntityDataFactory.getInstance().createEntityData(update);
         Entity createEntity = EntityFactory.getInstance().create(createData);
-        EntityManager.getInstance(this.managerID).add(createEntity);
-        ConnectionStore.getInstance().getAll(CreateConnection.class).forEach(createConnection -> {
+        this.entityManager.add(createEntity);
+        this.connectionStore.getAll(CreateConnection.class).forEach(createConnection -> {
             if (createConnection.responseObserver == this){
                 return;
             }

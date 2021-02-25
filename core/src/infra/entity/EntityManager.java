@@ -1,13 +1,12 @@
 package infra.entity;
 
 import com.google.inject.Inject;
-import common.interfaces.Cleanup;
 
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class EntityManager implements Cleanup {
+public class EntityManager{
 
     HashMap<String, Entity> entityMap;
 

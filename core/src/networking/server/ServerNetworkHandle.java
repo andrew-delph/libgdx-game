@@ -1,34 +1,38 @@
 package networking.server;
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import infra.entity.Entity;
 import infra.entity.EntityManager;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+import modules.App;
 import networking.NetworkObject;
 import networking.NetworkObjectServiceGrpc;
 import networking.server.connetion.ConnectionStore;
 import networking.server.connetion.CreateConnection;
 import networking.server.connetion.UpdateConnection;
-import networking.server.observer.CreateObserver;
-import networking.server.observer.RemoveObserver;
-import networking.server.observer.UpdateObserver;
+import networking.server.observers.CreateObserver;
+import networking.server.observers.RemoveObserver;
+import networking.server.observers.UpdateObserver;
 
 import java.io.IOException;
-import java.util.UUID;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
 
     final public EntityManager entityManager;
     final public ConnectionStore connectionStore;
-    final UUID id;
-    final Server server;
+    final ServerObserverFactory serverObserverFactory;
+    final private Server server;
 
-    public ServerNetworkHandle() {
-        this.id = UUID.randomUUID();
-        entityManager = EntityManager.getInstance(this.id);
+    @Inject
+    public ServerNetworkHandle(EntityManager entityManager, ConnectionStore connectionStore, ServerObserverFactory serverObserverFactory) {
+        this.entityManager = entityManager;
+        this.connectionStore = connectionStore;
+        this.serverObserverFactory = serverObserverFactory;
         server = ServerBuilder.forPort(99).addService(this).build();
-        connectionStore = ConnectionStore.getInstance();
     }
 
     public void start() throws IOException {
@@ -42,7 +46,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
     @Override
     public StreamObserver<NetworkObject.CreateNetworkObject> create(StreamObserver<NetworkObject.CreateNetworkObject> responseObserver) {
-        CreateObserver createObserver = new CreateObserver(this.id);
+        CreateObserver createObserver = this.serverObserverFactory.createCreateObserver();
         connectionStore.add(new CreateConnection(responseObserver));
         for (Entity entity : this.entityManager.getAll()) {
             NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((entity.getEntityData().getX() + "")).build();
@@ -55,23 +59,24 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
     @Override
     public StreamObserver<NetworkObject.UpdateNetworkObject> update(StreamObserver<NetworkObject.UpdateNetworkObject> responseObserver) {
-        UpdateObserver updateObserver = new UpdateObserver(this.id);
+        UpdateObserver updateObserver = this.serverObserverFactory.createUpdateObserver();
         connectionStore.add(new UpdateConnection(responseObserver));
         return updateObserver;
     }
 
     @Override
     public StreamObserver<NetworkObject.RemoveNetworkObject> remove(StreamObserver<NetworkObject.RemoveNetworkObject> responseObserver) {
-        RemoveObserver removeObserver = new RemoveObserver(this.id);
-//        connectionStore.add(removeObserver);
+        RemoveObserver removeObserver = this.serverObserverFactory.createRemoveObserver();
         return removeObserver;
+    }
+    public void awaitTermination() throws InterruptedException {
+        this.server.awaitTermination();
     }
 
     public static void main(String args[]) throws IOException, InterruptedException {
         System.out.println("init server");
-        Server server = ServerBuilder.forPort(99).addService(new ServerNetworkHandle()).build().start();
-        System.out.println("running server");
+        Injector injector = Guice.createInjector(new App());
+        ServerNetworkHandle server = injector.getInstance(ServerNetworkHandle.class);
         server.awaitTermination();
-        System.out.println("ended server");
     }
 }

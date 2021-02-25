@@ -1,4 +1,4 @@
-package networking.client;
+package networking.client.observers;
 
 import infra.entity.Entity;
 import infra.entity.EntityData;
@@ -11,16 +11,16 @@ import java.util.UUID;
 
 public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetworkObject> {
 
-    UUID managerID;
+    EntityManager entityManager;
 
-    UpdateObserver(UUID managerID){
-        this.managerID = managerID;
+    public UpdateObserver(EntityManager entityManager){
+        this.entityManager = entityManager;
     }
 
     @Override
     public void onNext(NetworkObject.UpdateNetworkObject updateNetworkObject) {
         EntityData entityDataUpdate = EntityDataFactory.getInstance().createEntityData(updateNetworkObject);
-        Entity target_entity = EntityManager.getInstance(this.managerID).get(UUID.fromString(entityDataUpdate.getID()));
+        Entity target_entity = this.entityManager.get(UUID.fromString(entityDataUpdate.getID()));
         if (target_entity == null){
             return;
         }

@@ -1,4 +1,4 @@
-package networking.client;
+package networking.client.observers;
 
 import com.google.inject.Inject;
 import infra.entity.Entity;
@@ -15,8 +15,7 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
 
     EntityManager entityManager;
 
-    @Inject
-    CreateObserver(EntityManager entityManager){
+    public CreateObserver(EntityManager entityManager){
         this.entityManager = entityManager;
     }
 

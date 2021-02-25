@@ -2,9 +2,12 @@ package main;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import game.GameClient;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import modules.App;
 import networking.server.ServerNetworkHandle;
 
 import java.io.IOException;
@@ -20,7 +23,11 @@ public class GameClientMain {
 
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        new LwjglApplication(new GameClient(), config);
+        Injector injector = Guice.createInjector(
+                new App()
+        );
+
+        new LwjglApplication(injector.getInstance(GameClient.class), config);
 
 //        server.awaitTermination();
     }
