@@ -34,7 +34,7 @@ public class EntityDataFactory {
         EntityData updateData = new EntityData();
         updateData.setId(id);
         for (NetworkObject.NetworkObjectItem item : list) {
-            System.out.println("item:"+item.getKey()+","+item.getValue());
+//            System.out.println("item:"+item.getKey()+","+item.getValue());
             updateData.setItem(item.getKey(), item.getValue());
         }
         return updateData;

@@ -35,9 +35,11 @@ public class ClientNetworkHandle {
     public StreamObserver<NetworkObject.CreateNetworkObject> createRequest;
     public StreamObserver<NetworkObject.UpdateNetworkObject> updateRequest;
     public StreamObserver<NetworkObject.RemoveNetworkObject> removeRequest;
+    public ClientObserverFactory clientObserverFactory;
 
     @Inject
-    public ClientNetworkHandle(EntityManager entityManager) {
+    public ClientNetworkHandle(EntityManager entityManager,ClientObserverFactory clientObserverFactory) {
+        this.clientObserverFactory = clientObserverFactory;
         this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
         this.blockingStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
         this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
@@ -46,9 +48,9 @@ public class ClientNetworkHandle {
 
     public void connect() {
         // receivers
-        createObserver = new CreateObserver(this.entityManager);
-        updateObserver = new UpdateObserver(this.entityManager);
-        removeObserver = new RemoveObserver(this.entityManager);
+        createObserver = this.clientObserverFactory.createCreateObserver();
+        updateObserver = this.clientObserverFactory.createUpdateObserver();
+        removeObserver = this.clientObserverFactory.createRemoveObserver();
         // responders
         createRequest = this.asyncStub.create(createObserver);
         updateRequest = this.asyncStub.update(updateObserver);
