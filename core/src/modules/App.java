@@ -12,11 +12,11 @@ public class App  extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(EntityManager.class).to(EntityManager.class);
-        bind(ConnectionStore.class).to(ConnectionStore.class);
-        bind(ServerNetworkHandle.class).to(ServerNetworkHandle.class);
-        bind(ClientObserverFactory.class).to(ClientObserverFactory.class);
-        bind(ServerObserverFactory.class).to(ServerObserverFactory.class);
-        bind(GameClient.class).to(GameClient.class);
+        bind(EntityManager.class).asEagerSingleton();
+        bind(ConnectionStore.class).asEagerSingleton();
+        bind(ServerNetworkHandle.class).asEagerSingleton();
+        bind(ClientObserverFactory.class).asEagerSingleton();
+        bind(ServerObserverFactory.class).asEagerSingleton();
+        bind(GameClient.class).asEagerSingleton();
     }
 }

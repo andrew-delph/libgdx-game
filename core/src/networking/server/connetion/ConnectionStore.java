@@ -1,11 +1,13 @@
 package networking.server.connetion;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Singleton
 public class ConnectionStore {
     static ConnectionStore instance;
 

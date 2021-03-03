@@ -206,14 +206,4 @@ public class TestEntityNetworking {
         assertEquals(y, entity_b.getY());
     }
 
-
-    @Test
-    public void test(){
-
-        String x = "andrew";
-        Object y = x;
-        assertEquals(x, y);
-
-    }
-
 }
