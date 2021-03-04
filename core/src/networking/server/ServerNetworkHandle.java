@@ -77,6 +77,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         System.out.println("init server");
         Injector injector = Guice.createInjector(new App());
         ServerNetworkHandle server = injector.getInstance(ServerNetworkHandle.class);
+        server.start();
         server.awaitTermination();
     }
 }
