@@ -27,8 +27,6 @@ public class TestConnectionStore {
         ConnectionStore store = injector.getInstance(ConnectionStore.class);
         ServerObserverFactory observerFactory = injector.getInstance(ServerObserverFactory.class);
 
-        UUID managerID = UUID.randomUUID();
-
         CreateObserver createObserver = observerFactory.createCreateObserver();
         UpdateObserver updateObserver = observerFactory.createUpdateObserver();
         UpdateObserver updateObserver2 = observerFactory.createUpdateObserver();

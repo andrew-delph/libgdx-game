@@ -1,8 +1,12 @@
 package infra.factories;
 
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
+import modules.App;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -11,6 +15,8 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 
 public class TestEntityFactory {
+
+
     @Test
     public void createFromEntityData() {
         HashMap<String, String> map = new HashMap<>();
@@ -25,7 +31,8 @@ public class TestEntityFactory {
 
     @Test
     public void createBasic() {
-        Entity test = EntityFactory.getInstance().createBasic();
+        Injector injector = Guice.createInjector(new App());
+        Entity test = injector.getInstance(EntityFactory.class).createBasic();
         UUID.fromString(test.getEntityData().getID());
         assertEquals("0", test.getEntityData().getX());
         assertEquals("0", test.getEntityData().getY());

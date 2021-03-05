@@ -57,6 +57,10 @@ public class ClientNetworkHandle {
         removeRequest = this.asyncStub.remove(removeObserver);
     }
 
+    public void disconnect(){
+        this.channel.shutdown();
+    }
+
     public static void main(String args[]) throws InterruptedException {
         Injector injector = Guice.createInjector(
                 new App()

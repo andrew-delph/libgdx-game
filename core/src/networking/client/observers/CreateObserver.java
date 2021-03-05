@@ -14,15 +14,17 @@ import java.util.UUID;
 public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
 
     EntityManager entityManager;
+    EntityFactory entityFactory;
 
-    public CreateObserver(EntityManager entityManager){
+    public CreateObserver(EntityManager entityManager, EntityFactory entityFactory){
         this.entityManager = entityManager;
+        this.entityFactory = entityFactory;
     }
 
     @Override
     public void onNext(NetworkObject.CreateNetworkObject create) {
         EntityData createEntityData = EntityDataFactory.getInstance().createEntityData(create);
-        Entity new_entity = EntityFactory.getInstance().create(createEntityData);
+        Entity new_entity = entityFactory.create(createEntityData);
         this.entityManager.add(new_entity);
     }
 

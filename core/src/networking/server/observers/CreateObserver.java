@@ -1,5 +1,6 @@
 package networking.server.observers;
 
+import com.google.inject.Inject;
 import infra.entity.Entity;
 import infra.entity.EntityData;
 import infra.entity.EntityManager;
@@ -13,16 +14,18 @@ import networking.server.connetion.CreateConnection;
 public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
     EntityManager entityManager;
     ConnectionStore connectionStore;
+    EntityFactory entityFactory;
 
-    public CreateObserver(EntityManager entityManager, ConnectionStore connectionStore){
+    public CreateObserver(EntityManager entityManager, ConnectionStore connectionStore, EntityFactory entityFactory){
         this.entityManager = entityManager;
         this.connectionStore = connectionStore;
+        this.entityFactory = entityFactory;
     }
 
     @Override
     public void onNext(NetworkObject.CreateNetworkObject update) {
         EntityData createData = EntityDataFactory.getInstance().createEntityData(update);
-        Entity createEntity = EntityFactory.getInstance().create(createData);
+        Entity createEntity = entityFactory.create(createData);
         this.entityManager.add(createEntity);
         this.connectionStore.getAll(CreateConnection.class).forEach(createConnection -> {
             if (createConnection.responseObserver == this){

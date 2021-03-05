@@ -13,6 +13,7 @@ import networking.NetworkObject;
 import networking.NetworkObjectServiceGrpc;
 import networking.server.connetion.ConnectionStore;
 import networking.server.connetion.CreateConnection;
+import networking.server.connetion.RemoveConnection;
 import networking.server.connetion.UpdateConnection;
 import networking.server.observers.CreateObserver;
 import networking.server.observers.RemoveObserver;
@@ -67,6 +68,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     @Override
     public StreamObserver<NetworkObject.RemoveNetworkObject> remove(StreamObserver<NetworkObject.RemoveNetworkObject> responseObserver) {
         RemoveObserver removeObserver = this.serverObserverFactory.createRemoveObserver();
+        connectionStore.add(new RemoveConnection(responseObserver));
         return removeObserver;
     }
     public void awaitTermination() throws InterruptedException {

@@ -1,6 +1,7 @@
 package networking.client.observers;
 
 import infra.entity.EntityManager;
+import infra.entity.factories.EntityDataFactory;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 
@@ -14,7 +15,7 @@ public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetwor
 
     @Override
     public void onNext(NetworkObject.RemoveNetworkObject removeNetworkObject) {
-
+        this.entityManager.remove(EntityDataFactory.getInstance().createEntityData(removeNetworkObject).getID());
     }
 
     @Override

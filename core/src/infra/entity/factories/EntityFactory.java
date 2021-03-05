@@ -1,20 +1,14 @@
 package infra.entity.factories;
 
+import com.google.inject.Inject;
 import infra.entity.Entity;
 import infra.entity.EntityData;
 
 import java.util.UUID;
 
 public class EntityFactory {
-    static EntityFactory instance;
 
-    public static EntityFactory getInstance() {
-        if (instance == null) {
-            instance = new EntityFactory();
-        }
-        return instance;
-    }
-
+    @Inject
     private EntityFactory() {
     }
 

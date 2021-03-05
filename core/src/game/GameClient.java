@@ -25,6 +25,9 @@ public class GameClient extends ApplicationAdapter {
     Texture image;
 
     @Inject
+    EntityFactory entityFactory;
+
+    @Inject
     public GameClient(ClientNetworkHandle client){
         this.client = client;
     }
@@ -32,7 +35,7 @@ public class GameClient extends ApplicationAdapter {
     @Override
     public void create() {
         this.image = new Texture("badlogic.jpg");
-        this.player = EntityFactory.getInstance().createBasic();
+        this.player = entityFactory.createBasic();
         this.batch = new SpriteBatch();
         this.client.entityManager.add(this.player);
         this.client.connect();
@@ -61,6 +64,9 @@ public class GameClient extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
+        NetworkObject.RemoveNetworkObject removeNetworkObject = NetworkObject.RemoveNetworkObject.newBuilder().setId(this.player.getEntityData().getID()).build();
+        this.client.removeRequest.onNext(removeNetworkObject);
+        this.client.disconnect();
         System.out.println("andrew dispose.");
     }
 
@@ -79,7 +85,7 @@ public class GameClient extends ApplicationAdapter {
         }
         NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((this.player.getEntityData().getX() + "")).build();
         NetworkObject.NetworkObjectItem networkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((this.player.getEntityData().getY() + "")).build();
-        NetworkObject.UpdateNetworkObject updateRequestObject = NetworkObject.UpdateNetworkObject.newBuilder().setId(this.player.getEntityData().getID().toString()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
+        NetworkObject.UpdateNetworkObject updateRequestObject = NetworkObject.UpdateNetworkObject.newBuilder().setId(this.player.getEntityData().getID()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
         this.client.updateRequest.onNext(updateRequestObject);
     }
 }
