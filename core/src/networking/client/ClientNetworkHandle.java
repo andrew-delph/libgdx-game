@@ -10,12 +10,9 @@ import io.grpc.stub.StreamObserver;
 import modules.App;
 import networking.NetworkObject;
 import networking.NetworkObjectServiceGrpc;
-import networking.client.observers.CreateObserver;
-import networking.client.observers.RemoveObserver;
-import networking.client.observers.UpdateObserver;
+import networking.client.observers.ClientObserverFactory;
 
 import java.util.Scanner;
-import java.util.UUID;
 
 public class ClientNetworkHandle {
 
@@ -58,6 +55,9 @@ public class ClientNetworkHandle {
     }
 
     public void disconnect(){
+        this.createRequest.onCompleted();
+        this.updateRequest.onCompleted();
+        this.removeRequest.onCompleted();
         this.channel.shutdown();
     }
 

@@ -1,6 +1,5 @@
-package networking.server.connetion;
+package networking.connetion;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;

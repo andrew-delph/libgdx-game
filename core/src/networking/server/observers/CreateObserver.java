@@ -1,6 +1,5 @@
 package networking.server.observers;
 
-import com.google.inject.Inject;
 import infra.entity.Entity;
 import infra.entity.EntityData;
 import infra.entity.EntityManager;
@@ -8,15 +7,15 @@ import infra.entity.factories.EntityDataFactory;
 import infra.entity.factories.EntityFactory;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
-import networking.server.connetion.ConnectionStore;
-import networking.server.connetion.CreateConnection;
+import networking.connetion.ConnectionStore;
+import networking.connetion.CreateConnection;
 
 public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
     EntityManager entityManager;
     ConnectionStore connectionStore;
     EntityFactory entityFactory;
 
-    public CreateObserver(EntityManager entityManager, ConnectionStore connectionStore, EntityFactory entityFactory){
+    protected CreateObserver(EntityManager entityManager, ConnectionStore connectionStore, EntityFactory entityFactory){
         this.entityManager = entityManager;
         this.connectionStore = connectionStore;
         this.entityFactory = entityFactory;
@@ -44,6 +43,6 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
 
     @Override
     public void onCompleted() {
-        System.out.println("COMPLETE");
+        System.out.println("COMPLETE CreateObserver");
     }
 }

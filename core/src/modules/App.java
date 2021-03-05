@@ -4,10 +4,10 @@ import com.google.inject.AbstractModule;
 import game.GameClient;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
-import networking.client.ClientObserverFactory;
+import networking.client.observers.ClientObserverFactory;
 import networking.server.ServerNetworkHandle;
-import networking.server.ServerObserverFactory;
-import networking.server.connetion.ConnectionStore;
+import networking.server.observers.ServerObserverFactory;
+import networking.connetion.ConnectionStore;
 
 public class App  extends AbstractModule {
 

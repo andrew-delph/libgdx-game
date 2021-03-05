@@ -1,4 +1,4 @@
-package networking.client;
+package networking.client.observers;
 
 import com.google.inject.Inject;
 import infra.entity.EntityManager;

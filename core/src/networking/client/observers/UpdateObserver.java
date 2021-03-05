@@ -13,7 +13,7 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
 
     EntityManager entityManager;
 
-    public UpdateObserver(EntityManager entityManager) {
+    protected UpdateObserver(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

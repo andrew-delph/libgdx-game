@@ -3,13 +3,10 @@ package networking;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import infra.entity.Entity;
-import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
-import io.grpc.stub.StreamObserver;
 import modules.App;
 import networking.client.ClientNetworkHandle;
 import networking.server.ServerNetworkHandle;
-import networking.server.connetion.ConnectionStore;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -219,7 +216,7 @@ public class TestEntityNetworking {
     }
 
     @Test
-    public void clientRemoveToServer() throws IOException, InterruptedException {
+    public void clientRemoveToServer() throws InterruptedException {
         Injector injector = Guice.createInjector(new App());
         ClientNetworkHandle client_a = injector.getInstance(ClientNetworkHandle.class);
         client_a.connect();

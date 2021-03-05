@@ -11,12 +11,13 @@ import io.grpc.stub.StreamObserver;
 import modules.App;
 import networking.NetworkObject;
 import networking.NetworkObjectServiceGrpc;
-import networking.server.connetion.ConnectionStore;
-import networking.server.connetion.CreateConnection;
-import networking.server.connetion.RemoveConnection;
-import networking.server.connetion.UpdateConnection;
+import networking.connetion.ConnectionStore;
+import networking.connetion.CreateConnection;
+import networking.connetion.RemoveConnection;
+import networking.connetion.UpdateConnection;
 import networking.server.observers.CreateObserver;
 import networking.server.observers.RemoveObserver;
+import networking.server.observers.ServerObserverFactory;
 import networking.server.observers.UpdateObserver;
 
 import java.io.IOException;

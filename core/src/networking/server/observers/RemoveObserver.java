@@ -4,15 +4,14 @@ import infra.entity.EntityManager;
 import infra.entity.factories.EntityDataFactory;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
-import networking.server.connetion.ConnectionStore;
-import networking.server.connetion.CreateConnection;
-import networking.server.connetion.RemoveConnection;
+import networking.connetion.ConnectionStore;
+import networking.connetion.RemoveConnection;
 
 public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetworkObject> {
 
     EntityManager entityManager;
     ConnectionStore connectionStore;
-    public RemoveObserver(EntityManager entityManager, ConnectionStore connectionStore){
+    protected RemoveObserver(EntityManager entityManager, ConnectionStore connectionStore){
         this.entityManager =  entityManager;
         this.connectionStore = connectionStore;
     }
@@ -38,6 +37,6 @@ public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetwor
 
     @Override
     public void onCompleted() {
-
+        System.out.println("COMPLETE RemoveObserver");
     }
 }

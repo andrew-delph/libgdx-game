@@ -1,9 +1,9 @@
-package networking.server;
+package networking.server.observers;
 
 import com.google.inject.Inject;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
-import networking.server.connetion.ConnectionStore;
+import networking.connetion.ConnectionStore;
 import networking.server.observers.CreateObserver;
 import networking.server.observers.RemoveObserver;
 import networking.server.observers.UpdateObserver;

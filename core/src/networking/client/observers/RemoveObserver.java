@@ -9,7 +9,7 @@ public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetwor
 
     EntityManager entityManager;
 
-    public RemoveObserver(EntityManager entityManager) {
+    protected RemoveObserver(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

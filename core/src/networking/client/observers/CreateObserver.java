@@ -16,7 +16,7 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
     EntityManager entityManager;
     EntityFactory entityFactory;
 
-    public CreateObserver(EntityManager entityManager, EntityFactory entityFactory){
+    protected CreateObserver(EntityManager entityManager, EntityFactory entityFactory){
         this.entityManager = entityManager;
         this.entityFactory = entityFactory;
     }

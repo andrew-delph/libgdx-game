@@ -18,7 +18,5 @@ public class GameClientMain {
         );
 
         new LwjglApplication(injector.getInstance(GameClient.class), config);
-        new LwjglApplication(injector.getInstance(GameClient.class), config);
-
     }
 }

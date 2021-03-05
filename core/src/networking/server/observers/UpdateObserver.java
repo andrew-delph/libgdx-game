@@ -6,8 +6,8 @@ import infra.entity.EntityManager;
 import infra.entity.factories.EntityDataFactory;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
-import networking.server.connetion.ConnectionStore;
-import networking.server.connetion.UpdateConnection;
+import networking.connetion.ConnectionStore;
+import networking.connetion.UpdateConnection;
 
 import java.util.UUID;
 
@@ -15,7 +15,7 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
 
     EntityManager entityManager;
     ConnectionStore connectionStore;
-    public UpdateObserver(EntityManager entityManager, ConnectionStore connectionStore){
+    protected UpdateObserver(EntityManager entityManager, ConnectionStore connectionStore){
         this.entityManager = entityManager;
         this.connectionStore = connectionStore;
     }
@@ -46,6 +46,6 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
 
     @Override
     public void onCompleted() {
-
+        System.out.println("COMPLETE UpdateObserver");
     }
 }

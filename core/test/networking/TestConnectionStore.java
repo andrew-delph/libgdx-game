@@ -3,18 +3,16 @@ package networking;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import modules.App;
-import networking.client.ClientObserverFactory;
-import networking.server.ServerObserverFactory;
-import networking.server.connetion.ConnectionStore;
-import networking.server.connetion.CreateConnection;
-import networking.server.connetion.UpdateConnection;
+import networking.server.observers.ServerObserverFactory;
+import networking.connetion.ConnectionStore;
+import networking.connetion.CreateConnection;
+import networking.connetion.UpdateConnection;
 import networking.server.observers.CreateObserver;
 import networking.server.observers.RemoveObserver;
 import networking.server.observers.UpdateObserver;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
