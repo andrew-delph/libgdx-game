@@ -13,7 +13,7 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
 
     EntityManager entityManager;
 
-    public UpdateObserver(EntityManager entityManager){
+    public UpdateObserver(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
@@ -21,7 +21,7 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
     public void onNext(NetworkObject.UpdateNetworkObject updateNetworkObject) {
         EntityData entityDataUpdate = EntityDataFactory.getInstance().createEntityData(updateNetworkObject);
         Entity target_entity = this.entityManager.get(UUID.fromString(entityDataUpdate.getID()));
-        if (target_entity == null){
+        if (target_entity == null) {
             return;
         }
         target_entity.updateEntityData(entityDataUpdate);
@@ -29,7 +29,7 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
 
     @Override
     public void onError(Throwable throwable) {
-
+        System.out.println("UpdateObserver error " + throwable);
     }
 
     @Override

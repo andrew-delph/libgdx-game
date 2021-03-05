@@ -28,7 +28,7 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
 
     @Override
     public void onError(Throwable throwable) {
-        System.out.println("error " + throwable);
+        System.out.println("CreateObserver error " + throwable);
     }
 
     @Override

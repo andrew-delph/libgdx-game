@@ -38,7 +38,7 @@ public class ClientNetworkHandle {
     public ClientObserverFactory clientObserverFactory;
 
     @Inject
-    public ClientNetworkHandle(EntityManager entityManager,ClientObserverFactory clientObserverFactory) {
+    public ClientNetworkHandle(EntityManager entityManager, ClientObserverFactory clientObserverFactory) {
         this.clientObserverFactory = clientObserverFactory;
         this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
         this.blockingStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
