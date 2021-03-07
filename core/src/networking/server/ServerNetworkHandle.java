@@ -47,37 +47,36 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     }
 
     @Override
-    public StreamObserver<NetworkObject.CreateNetworkObject> create(StreamObserver<NetworkObject.CreateNetworkObject> responseObserver) {
-        CreateObserver createObserver = this.serverObserverFactory.createCreateObserver();
-        connectionStore.add(new CreateConnection(responseObserver));
+    public StreamObserver<NetworkObject.CreateNetworkObject> create(StreamObserver<NetworkObject.CreateNetworkObject> requestObserver) {
+        CreateObserver responseObserver = this.serverObserverFactory.createCreateObserver();
+        connectionStore.add(new CreateConnection(responseObserver, requestObserver));
         for (Entity entity : this.entityManager.getAll()) {
             NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((entity.getEntityData().getX() + "")).build();
             NetworkObject.NetworkObjectItem networkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((entity.getEntityData().getY() + "")).build();
             NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(entity.getEntityData().getID()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
-            responseObserver.onNext(createRequestObject);
+            requestObserver.onNext(createRequestObject);
         }
-        return createObserver;
+        return responseObserver;
     }
 
     @Override
-    public StreamObserver<NetworkObject.UpdateNetworkObject> update(StreamObserver<NetworkObject.UpdateNetworkObject> responseObserver) {
-        UpdateObserver updateObserver = this.serverObserverFactory.createUpdateObserver();
-        connectionStore.add(new UpdateConnection(responseObserver));
-        return updateObserver;
+    public StreamObserver<NetworkObject.UpdateNetworkObject> update(StreamObserver<NetworkObject.UpdateNetworkObject> requestObserver) {
+        UpdateObserver responseObserver = this.serverObserverFactory.createUpdateObserver();
+        connectionStore.add(new UpdateConnection(responseObserver, requestObserver));
+        return responseObserver;
     }
 
     @Override
-    public StreamObserver<NetworkObject.RemoveNetworkObject> remove(StreamObserver<NetworkObject.RemoveNetworkObject> responseObserver) {
-        RemoveObserver removeObserver = this.serverObserverFactory.createRemoveObserver();
-        connectionStore.add(new RemoveConnection(responseObserver));
-        return removeObserver;
+    public StreamObserver<NetworkObject.RemoveNetworkObject> remove(StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver) {
+        RemoveObserver responseObserver = this.serverObserverFactory.createRemoveObserver();
+        connectionStore.add(new RemoveConnection(responseObserver, requestObserver));
+        return responseObserver;
     }
     public void awaitTermination() throws InterruptedException {
         this.server.awaitTermination();
     }
 
     public static void main(String args[]) throws IOException, InterruptedException {
-        System.out.println("init server");
         Injector injector = Guice.createInjector(new App());
         ServerNetworkHandle server = injector.getInstance(ServerNetworkHandle.class);
         server.start();

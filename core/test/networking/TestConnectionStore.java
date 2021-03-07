@@ -24,24 +24,23 @@ public class TestConnectionStore {
         Injector injector = Guice.createInjector(new App());
         ConnectionStore store = injector.getInstance(ConnectionStore.class);
         ServerObserverFactory observerFactory = injector.getInstance(ServerObserverFactory.class);
-
-        CreateObserver createObserver = observerFactory.createCreateObserver();
-        UpdateObserver updateObserver = observerFactory.createUpdateObserver();
-        UpdateObserver updateObserver2 = observerFactory.createUpdateObserver();
-        RemoveObserver removeObserver = observerFactory.createRemoveObserver();
-
-        store.add(new CreateConnection(createObserver));
-        store.add(new UpdateConnection(updateObserver));
-        store.add(new UpdateConnection(updateObserver2));
+        CreateConnection c1 = new CreateConnection(null,null);
+        store.add(c1);
+        UpdateConnection c2 = new UpdateConnection(null,null);
+        store.add(c2);
+        UpdateConnection c3 = new UpdateConnection(null,null);
+        System.out.println(c3);
+        store.add(c3);
 
         List<UpdateConnection> returnedList = store.getAll(UpdateConnection.class);
 
         assertEquals(1, store.getAll(CreateConnection.class).toArray().length);
-        assertEquals(store.getAll(CreateConnection.class).toArray(new CreateConnection[0])[0].responseObserver, createObserver);
+        assertEquals(c1,store.getAll(CreateConnection.class).toArray(new CreateConnection[0])[0]);
 
         assertEquals(2, store.getAll(UpdateConnection.class).toArray().length);
-        assertEquals(store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[0].responseObserver, updateObserver);
-        assertEquals(store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[1].responseObserver, updateObserver2);
+        System.out.println(store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[1]);
+        assertEquals(c2,store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[0]);
+        assertEquals(c3,store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[1]);
 
 ;
     }

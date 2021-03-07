@@ -28,10 +28,9 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
         this.entityManager.add(createEntity);
         this.connectionStore.getAll(CreateConnection.class).forEach(createConnection -> {
             if (createConnection.responseObserver == this){
-                return;
             }
             else{
-                createConnection.responseObserver.onNext(update);
+                createConnection.requestObserver.onNext(update);
             }
         });
     }

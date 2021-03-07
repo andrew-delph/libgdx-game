@@ -38,7 +38,6 @@ public class GameClient extends ApplicationAdapter {
         this.player = entityFactory.createBasic();
         this.batch = new SpriteBatch();
         this.client.entityManager.add(this.player);
-        this.client.connect();
         NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((this.player.getEntityData().getX() + "")).build();
         NetworkObject.NetworkObjectItem networkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((this.player.getEntityData().getY() + "")).build();
         NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(this.player.getEntityData().getID()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
@@ -56,7 +55,9 @@ public class GameClient extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        Consumer<Entity> renderConsumer = e -> batch.draw(this.image, e.getX(), e.getY());
+        Consumer<Entity> renderConsumer = e -> {
+            batch.draw(this.image, e.getX(), e.getY());
+        };
         this.client.entityManager.update(renderConsumer);
         batch.end();
     }
@@ -70,7 +71,7 @@ public class GameClient extends ApplicationAdapter {
         System.out.println("andrew dispose.");
     }
 
-    private void handleInput() {
+    private void handleInput(){
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             this.player.moveX(-1);
         }

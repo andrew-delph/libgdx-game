@@ -31,10 +31,9 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
         target.updateEntityData(entityUpdate);
         this.connectionStore.getAll(UpdateConnection.class).forEach(updateConnection -> {
             if (updateConnection.responseObserver == this){
-                return;
             }
             else{
-                updateConnection.responseObserver.onNext(updateNetworkObject);
+                updateConnection.requestObserver.onNext(updateNetworkObject);
             }
         });
     }

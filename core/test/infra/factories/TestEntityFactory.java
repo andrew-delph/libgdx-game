@@ -17,17 +17,17 @@ import static org.junit.Assert.assertEquals;
 public class TestEntityFactory {
 
 
-    @Test
-    public void createFromEntityData() {
-        HashMap<String, String> map = new HashMap<>();
-        String x = "0";
-        String y = "0";
-        String id = UUID.randomUUID().toString();
-        map.put("x", x);
-        map.put("y", y);
-        map.put("id", id);
-        assertEquals(1, 1);
-    }
+//    @Test
+//    public void createFromEntityData() {
+//        HashMap<String, String> map = new HashMap<>();
+//        String x = "0";
+//        String y = "0";
+//        String id = UUID.randomUUID().toString();
+//        map.put("x", x);
+//        map.put("y", y);
+//        map.put("id", id);
+//        assertEquals(1, 1);
+//    }
 
     @Test
     public void createBasic() {

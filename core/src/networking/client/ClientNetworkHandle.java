@@ -25,13 +25,13 @@ public class ClientNetworkHandle {
     private final NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
 
 
-    public StreamObserver<NetworkObject.CreateNetworkObject> createObserver;
-    public StreamObserver<NetworkObject.UpdateNetworkObject> updateObserver;
-    public StreamObserver<NetworkObject.RemoveNetworkObject> removeObserver;
+    public  StreamObserver<NetworkObject.CreateNetworkObject> createObserver;
+    public  StreamObserver<NetworkObject.UpdateNetworkObject> updateObserver;
+    public  StreamObserver<NetworkObject.RemoveNetworkObject> removeObserver;
     // responders
-    public StreamObserver<NetworkObject.CreateNetworkObject> createRequest;
-    public StreamObserver<NetworkObject.UpdateNetworkObject> updateRequest;
-    public StreamObserver<NetworkObject.RemoveNetworkObject> removeRequest;
+    public  StreamObserver<NetworkObject.CreateNetworkObject> createRequest;
+    public  StreamObserver<NetworkObject.UpdateNetworkObject> updateRequest;
+    public  StreamObserver<NetworkObject.RemoveNetworkObject> removeRequest;
     public ClientObserverFactory clientObserverFactory;
 
     @Inject
@@ -41,14 +41,13 @@ public class ClientNetworkHandle {
         this.blockingStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
         this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
         this.entityManager = entityManager;
-    }
 
-    public void connect() {
-        // receivers
         createObserver = this.clientObserverFactory.createCreateObserver();
         updateObserver = this.clientObserverFactory.createUpdateObserver();
         removeObserver = this.clientObserverFactory.createRemoveObserver();
-        // responders
+    }
+
+    public void connect(){
         createRequest = this.asyncStub.create(createObserver);
         updateRequest = this.asyncStub.update(updateObserver);
         removeRequest = this.asyncStub.remove(removeObserver);
@@ -70,7 +69,6 @@ public class ClientNetworkHandle {
 
         ClientNetworkHandle client = injector.getInstance(ClientNetworkHandle.class);
 
-        client.connect();
         System.out.println("starting..!");
         while (true) {
             String id = myInput.nextLine();

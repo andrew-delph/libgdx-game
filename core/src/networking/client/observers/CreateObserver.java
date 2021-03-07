@@ -9,8 +9,6 @@ import infra.entity.factories.EntityFactory;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 
-import java.util.UUID;
-
 public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
 
     EntityManager entityManager;

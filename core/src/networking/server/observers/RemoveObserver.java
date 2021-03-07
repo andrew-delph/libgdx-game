@@ -25,7 +25,7 @@ public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetwor
                 return;
             }
             else{
-                createConnection.responseObserver.onNext(removeNetworkObject);
+                createConnection.requestObserver.onNext(removeNetworkObject);
             }
         });
     }
