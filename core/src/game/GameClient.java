@@ -34,6 +34,7 @@ public class GameClient extends ApplicationAdapter {
 
     @Override
     public void create() {
+        client.connect();
         this.image = new Texture("badlogic.jpg");
         this.player = entityFactory.createBasic();
         this.batch = new SpriteBatch();
