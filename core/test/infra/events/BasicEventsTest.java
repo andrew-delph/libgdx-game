@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 
 class TestEvent implements Event{
     String changeTo;
-    HashMap<String, String> data;
+    HashMap<String, Object> data;
     TestEvent(String changeTo){
         this.data = new HashMap<>();
         data.put("changeTo", changeTo);
@@ -24,7 +24,7 @@ class TestEvent implements Event{
     }
 
     @Override
-    public HashMap<String, String> getData() {
+    public HashMap<String, Object> getData() {
         return this.data;
     }
 }
@@ -40,7 +40,7 @@ public class BasicEventsTest {
         Consumer<Event> testConsumer = new Consumer<Event>() {
             @Override
             public void accept(Event testEvent) {
-                changeByEvent[0] = testEvent.getData().get("changeTo");
+                changeByEvent[0] = testEvent.getData().get("changeTo").toString();
             }
         };
         eventService.addListener(event.getType(), testConsumer);
