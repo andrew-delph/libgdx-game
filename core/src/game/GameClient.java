@@ -12,6 +12,7 @@ import infra.entity.EntityData;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
 import networking.NetworkObject;
+import networking.NetworkObjectFactory;
 import networking.client.ClientNetworkHandle;
 
 import java.util.function.Consumer;
@@ -28,6 +29,9 @@ public class GameClient extends ApplicationAdapter {
     EntityFactory entityFactory;
 
     @Inject
+    NetworkObjectFactory networkObjectFactory;
+
+    @Inject
     public GameClient(ClientNetworkHandle client){
         this.client = client;
     }
@@ -39,10 +43,7 @@ public class GameClient extends ApplicationAdapter {
         this.player = entityFactory.createBasic();
         this.batch = new SpriteBatch();
         this.client.entityManager.add(this.player);
-        NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((this.player.getEntityData().getX() + "")).build();
-        NetworkObject.NetworkObjectItem networkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((this.player.getEntityData().getY() + "")).build();
-        NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(this.player.getEntityData().getID()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
-        this.client.createRequest.onNext(createRequestObject);
+        this.client.createRequest.onNext(networkObjectFactory.createNetworkObject(this.player.getEntityData()));
         try {
             Thread.sleep(4000);
         } catch (InterruptedException e) {
@@ -66,8 +67,7 @@ public class GameClient extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        NetworkObject.RemoveNetworkObject removeNetworkObject = NetworkObject.RemoveNetworkObject.newBuilder().setId(this.player.getEntityData().getID()).build();
-        this.client.removeRequest.onNext(removeNetworkObject);
+        this.client.removeRequest.onNext(this.networkObjectFactory.removeNetworkObject(this.player.getEntityData()));
         this.client.disconnect();
         System.out.println("andrew dispose.");
     }
@@ -85,9 +85,6 @@ public class GameClient extends ApplicationAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             this.player.moveY(+1);
         }
-        NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((this.player.getEntityData().getX() + "")).build();
-        NetworkObject.NetworkObjectItem networkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((this.player.getEntityData().getY() + "")).build();
-        NetworkObject.UpdateNetworkObject updateRequestObject = NetworkObject.UpdateNetworkObject.newBuilder().setId(this.player.getEntityData().getID()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
-        this.client.updateRequest.onNext(updateRequestObject);
+        this.client.updateRequest.onNext(this.networkObjectFactory.updateNetworkObject(this.player.getEntityData()));
     }
 }

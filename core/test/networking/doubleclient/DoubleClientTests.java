@@ -77,10 +77,8 @@ public class DoubleClientTests {
         assertEquals(entity_b.getY(),y);
     }
 
-
-
     @Test
-    public void doubleClientCreateUpdate() throws IOException, InterruptedException {
+    public void doubleClientCreateUpdate() throws InterruptedException {
         UUID testID = UUID.randomUUID();
         int x = 6;
         int y = 7;
@@ -120,7 +118,7 @@ public class DoubleClientTests {
         assertEquals(receivedEntity.getY(),y);
         // check entity on client b
         entity_b = client_b.entityManager.get(receivedEntity.getID());
-        client_b.entityManager.update(e ->System.out.println("cleint b entity"+e.getEntityData().getID()));
+        client_b.entityManager.update(e ->System.out.println("2ncleint b entity"+e.getEntityData().getID()));
         assertEquals(entity_b.getID(),testID);
         assertEquals(x, entity_b.getX());
     }
