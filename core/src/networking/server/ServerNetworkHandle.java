@@ -16,11 +16,9 @@ import modules.App;
 import networking.NetworkObject;
 import networking.NetworkObjectFactory;
 import networking.NetworkObjectServiceGrpc;
-import networking.connetion.ConnectionStore;
-import networking.connetion.CreateConnection;
-import networking.connetion.RemoveConnection;
-import networking.connetion.UpdateConnection;
+import networking.connetion.*;
 import networking.events.CreateEntityEvent;
+import networking.events.DisconnectEvent;
 import networking.events.RemoveEntityEvent;
 import networking.events.UpdateEntityEvent;
 import networking.server.observers.CreateObserver;
@@ -102,12 +100,14 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
                 });
             }
         });
-//        this.eventService.addListener(UpdateEntityEvent.type, new Consumer<Event>() {
-//            @Override
-//            public void accept(Event event) {
-//
-//            }
-//        });
+        this.eventService.addListener(DisconnectEvent.type, new Consumer<Event>() {
+            @Override
+            public void accept(Event event) {
+                StreamObserver requestObserver = (StreamObserver) event.getData().get("requestObserver");
+                AbtractConnection connection = connectionStore.get(requestObserver);
+                connectionStore.remove(connection.id);
+            }
+        });
 //        this.eventService.addListener(RemoveEntityEvent.type, new Consumer<Event>() {
 //            @Override
 //            public void accept(Event event) {

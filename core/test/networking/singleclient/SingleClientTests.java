@@ -7,12 +7,15 @@ import infra.entity.factories.EntityFactory;
 import modules.App;
 import networking.NetworkObject;
 import networking.client.ClientNetworkHandle;
+import networking.connetion.AbtractConnection;
+import networking.connetion.ConnectionStore;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -118,4 +121,6 @@ public class SingleClientTests {
         TimeUnit.SECONDS.sleep(1);
         assertNull(server.entityManager.get(testEntity.getID()));
     }
+
+
 }

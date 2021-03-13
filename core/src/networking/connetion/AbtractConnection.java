@@ -5,7 +5,12 @@ import io.grpc.stub.StreamObserver;
 import java.util.UUID;
 
 public abstract class AbtractConnection {
-    UUID id = UUID.randomUUID();
+    public UUID id = UUID.randomUUID();
     public StreamObserver responseObserver;
     public StreamObserver requestObserver;
+
+    public void close(){
+        this.requestObserver.onCompleted();
+        this.responseObserver.onCompleted();
+    }
 }

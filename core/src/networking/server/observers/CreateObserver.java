@@ -9,6 +9,7 @@ import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
 import networking.events.CreateEntityEvent;
+import networking.events.DisconnectEvent;
 
 public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
     EntityManager entityManager;
@@ -33,24 +34,20 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
 
         this.eventService.fireEvent(createEntityEvent);
 
-//        Entity createEntity = entityFactory.create(createData);
-//        this.entityManager.add(createEntity);
-//        this.connectionStore.getAll(CreateConnection.class).forEach(createConnection -> {
-//            if (createConnection.responseObserver == this){
-//            }
-//            else{
-//                createConnection.requestObserver.onNext(update);
-//            }
-//        });
     }
 
     @Override
     public void onError(Throwable throwable) {
-        System.out.println("error " + throwable);
+//        System.out.println("error " + throwable);
+//        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
+//        this.eventService.fireEvent(disconnectEvent);
     }
 
     @Override
     public void onCompleted() {
         System.out.println("COMPLETE CreateObserver");
+        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
+
+        this.eventService.fireEvent(disconnectEvent);
     }
 }

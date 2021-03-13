@@ -10,7 +10,7 @@ public class DisconnectEvent implements Event {
     HashMap<String, Object> data;
     public static String type = "disconnect";
 
-    DisconnectEvent(StreamObserver requestObserver) {
+    public DisconnectEvent(StreamObserver requestObserver) {
         this.data = new HashMap<>();
         this.data.put("requestObserver", requestObserver);
     }

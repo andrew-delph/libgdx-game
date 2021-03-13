@@ -6,6 +6,7 @@ import infra.events.EventService;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
+import networking.events.DisconnectEvent;
 import networking.events.RemoveEntityEvent;
 
 public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetworkObject> {
@@ -29,25 +30,18 @@ public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetwor
 
         this.eventService.fireEvent(removeEvent);
 
-//        this.entityManager.remove(EntityDataFactory.getInstance().createEntityData(removeNetworkObject).getID());
-//
-//        this.connectionStore.getAll(RemoveConnection.class).forEach(createConnection -> {
-//            if (createConnection.responseObserver == this){
-//                return;
-//            }
-//            else{
-//                createConnection.requestObserver.onNext(removeNetworkObject);
-//            }
-//        });
     }
 
     @Override
     public void onError(Throwable throwable) {
-
+//        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
+//        this.eventService.fireEvent(disconnectEvent);
     }
 
     @Override
     public void onCompleted() {
         System.out.println("COMPLETE RemoveObserver");
+        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
+        this.eventService.fireEvent(disconnectEvent);
     }
 }
