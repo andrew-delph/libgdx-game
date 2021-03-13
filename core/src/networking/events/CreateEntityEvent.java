@@ -4,7 +4,6 @@ import infra.entity.EntityData;
 import infra.events.Event;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
-import networking.connetion.CreateConnection;
 
 import java.util.HashMap;
 

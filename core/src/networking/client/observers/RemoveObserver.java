@@ -15,6 +15,7 @@ public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetwor
 
     @Override
     public void onNext(NetworkObject.RemoveNetworkObject removeNetworkObject) {
+        System.out.println("remove");
         this.entityManager.remove(EntityDataFactory.getInstance().createEntityData(removeNetworkObject).getID());
     }
 

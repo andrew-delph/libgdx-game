@@ -1,19 +1,17 @@
 package networking.events;
 
-import infra.entity.EntityData;
 import infra.events.Event;
 import io.grpc.stub.StreamObserver;
-import networking.NetworkObject;
 
 import java.util.HashMap;
 
-public class RemoveEntityEvent implements Event {
-    HashMap<String, Object> data;
-    public static String type = "remove_entity";
+public class DisconnectEvent implements Event {
 
-    public RemoveEntityEvent(EntityData removeData, StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver) {
+    HashMap<String, Object> data;
+    public static String type = "disconnect";
+
+    DisconnectEvent(StreamObserver requestObserver) {
         this.data = new HashMap<>();
-        this.data.put("entityData", removeData);
         this.data.put("requestObserver", requestObserver);
     }
 
@@ -26,6 +24,4 @@ public class RemoveEntityEvent implements Event {
     public HashMap<String, Object> getData() {
         return this.data;
     }
-
 }
-

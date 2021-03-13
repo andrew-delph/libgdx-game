@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class EntityManager{
+public class EntityManager {
 
     HashMap<String, Entity> entityMap;
 
@@ -33,11 +33,11 @@ public class EntityManager{
         }
     }
 
-    public void remove(UUID id){
+    public void remove(UUID id) {
         this.entityMap.remove(id.toString());
     }
 
-    public void remove(String id){
+    public void remove(String id) {
         this.entityMap.remove(id);
     }
 

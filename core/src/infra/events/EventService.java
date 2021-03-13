@@ -19,14 +19,14 @@ public class EventService {
         this.eventListeners = new HashMap<>();
     }
 
-    public void addListener(String type, Consumer<Event> eventConsumer){
-        if (!this.eventListeners.containsKey(type)){
-            this.eventListeners.put(type,new ArrayList<>());
+    public void addListener(String type, Consumer<Event> eventConsumer) {
+        if (!this.eventListeners.containsKey(type)) {
+            this.eventListeners.put(type, new ArrayList<>());
         }
         this.eventListeners.get(type).add(eventConsumer);
     }
 
-    public void  fireEvent(Event event){
+    public void fireEvent(Event event) {
         this.eventListeners.get(event.getType()).forEach(eventConsumer -> eventConsumer.accept(event));
     }
 }

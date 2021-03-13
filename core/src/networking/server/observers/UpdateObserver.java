@@ -1,6 +1,5 @@
 package networking.server.observers;
 
-import infra.entity.Entity;
 import infra.entity.EntityData;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityDataFactory;
@@ -8,10 +7,7 @@ import infra.events.EventService;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
-import networking.connetion.UpdateConnection;
 import networking.events.UpdateEntityEvent;
-
-import java.util.UUID;
 
 public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetworkObject> {
 
@@ -19,7 +15,8 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
     ConnectionStore connectionStore;
     EventService eventService;
     StreamObserver<NetworkObject.UpdateNetworkObject> requestObserver;
-    protected UpdateObserver(EntityManager entityManager, ConnectionStore connectionStore, EventService eventService, StreamObserver<NetworkObject.UpdateNetworkObject> requestObserver){
+
+    protected UpdateObserver(EntityManager entityManager, ConnectionStore connectionStore, EventService eventService, StreamObserver<NetworkObject.UpdateNetworkObject> requestObserver) {
         this.entityManager = entityManager;
         this.connectionStore = connectionStore;
         this.eventService = eventService;
@@ -29,7 +26,7 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
     @Override
     public void onNext(NetworkObject.UpdateNetworkObject updateNetworkObject) {
         EntityData entityUpdate = EntityDataFactory.getInstance().createEntityData(updateNetworkObject);
-        UpdateEntityEvent updateEvent =  new UpdateEntityEvent(entityUpdate, this.requestObserver);
+        UpdateEntityEvent updateEvent = new UpdateEntityEvent(entityUpdate, this.requestObserver);
         this.eventService.fireEvent(updateEvent);
 //        UUID targetUuid = UUID.fromString(entityUpdate.getID());
 //        Entity target = this.entityManager.get(targetUuid);

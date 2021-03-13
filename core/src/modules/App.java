@@ -6,11 +6,11 @@ import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
 import infra.events.EventService;
 import networking.client.observers.ClientObserverFactory;
+import networking.connetion.ConnectionStore;
 import networking.server.ServerNetworkHandle;
 import networking.server.observers.ServerObserverFactory;
-import networking.connetion.ConnectionStore;
 
-public class App  extends AbstractModule {
+public class App extends AbstractModule {
 
     @Override
     protected void configure() {

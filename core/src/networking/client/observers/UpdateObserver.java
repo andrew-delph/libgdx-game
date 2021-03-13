@@ -19,6 +19,7 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
 
     @Override
     public void onNext(NetworkObject.UpdateNetworkObject updateNetworkObject) {
+        System.out.println("update");
         EntityData entityDataUpdate = EntityDataFactory.getInstance().createEntityData(updateNetworkObject);
         Entity target_entity = this.entityManager.get(UUID.fromString(entityDataUpdate.getID()));
         if (target_entity == null) {

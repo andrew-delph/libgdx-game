@@ -3,9 +3,6 @@ package networking.client.observers;
 import com.google.inject.Inject;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
-import networking.client.observers.CreateObserver;
-import networking.client.observers.RemoveObserver;
-import networking.client.observers.UpdateObserver;
 
 public class ClientObserverFactory {
 
@@ -13,20 +10,20 @@ public class ClientObserverFactory {
     EntityFactory entityFactory;
 
     @Inject
-    ClientObserverFactory(EntityManager entityManager, EntityFactory entityFactory){
+    ClientObserverFactory(EntityManager entityManager, EntityFactory entityFactory) {
         this.entityManager = entityManager;
         this.entityFactory = entityFactory;
     }
 
-    public CreateObserver createCreateObserver(){
+    public CreateObserver createCreateObserver() {
         return new CreateObserver(this.entityManager, this.entityFactory);
     }
 
-    public UpdateObserver createUpdateObserver(){
+    public UpdateObserver createUpdateObserver() {
         return new UpdateObserver(this.entityManager);
     }
 
-    public RemoveObserver createRemoveObserver(){
+    public RemoveObserver createRemoveObserver() {
         return new RemoveObserver(this.entityManager);
     }
 }

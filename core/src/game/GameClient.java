@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 import infra.entity.Entity;
-import infra.entity.EntityData;
-import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
-import networking.NetworkObject;
 import networking.NetworkObjectFactory;
 import networking.client.ClientNetworkHandle;
 
@@ -32,7 +29,7 @@ public class GameClient extends ApplicationAdapter {
     NetworkObjectFactory networkObjectFactory;
 
     @Inject
-    public GameClient(ClientNetworkHandle client){
+    public GameClient(ClientNetworkHandle client) {
         this.client = client;
     }
 
@@ -58,6 +55,7 @@ public class GameClient extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         Consumer<Entity> renderConsumer = e -> {
+//            System.out.println("id:"+e.getID()+","+e.getX()+","+e.getY());
             batch.draw(this.image, e.getX(), e.getY());
         };
         this.client.entityManager.update(renderConsumer);
@@ -72,7 +70,7 @@ public class GameClient extends ApplicationAdapter {
         System.out.println("andrew dispose.");
     }
 
-    private void handleInput(){
+    private void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             this.player.moveX(-1);
         }

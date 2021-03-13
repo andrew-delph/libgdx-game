@@ -25,13 +25,13 @@ public class ClientNetworkHandle {
     private final NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
 
 
-    public  StreamObserver<NetworkObject.CreateNetworkObject> createObserver;
-    public  StreamObserver<NetworkObject.UpdateNetworkObject> updateObserver;
-    public  StreamObserver<NetworkObject.RemoveNetworkObject> removeObserver;
+    public StreamObserver<NetworkObject.CreateNetworkObject> createObserver;
+    public StreamObserver<NetworkObject.UpdateNetworkObject> updateObserver;
+    public StreamObserver<NetworkObject.RemoveNetworkObject> removeObserver;
     // responders
-    public  StreamObserver<NetworkObject.CreateNetworkObject> createRequest;
-    public  StreamObserver<NetworkObject.UpdateNetworkObject> updateRequest;
-    public  StreamObserver<NetworkObject.RemoveNetworkObject> removeRequest;
+    public StreamObserver<NetworkObject.CreateNetworkObject> createRequest;
+    public StreamObserver<NetworkObject.UpdateNetworkObject> updateRequest;
+    public StreamObserver<NetworkObject.RemoveNetworkObject> removeRequest;
     public ClientObserverFactory clientObserverFactory;
 
     @Inject
@@ -47,20 +47,20 @@ public class ClientNetworkHandle {
         removeObserver = this.clientObserverFactory.createRemoveObserver();
     }
 
-    public void connect(){
+    public void connect() {
         createRequest = this.asyncStub.create(createObserver);
         updateRequest = this.asyncStub.update(updateObserver);
         removeRequest = this.asyncStub.remove(removeObserver);
     }
 
-    public void disconnect(){
+    public void disconnect() {
         this.createRequest.onCompleted();
         this.updateRequest.onCompleted();
         this.removeRequest.onCompleted();
         this.channel.shutdown();
     }
 
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         Injector injector = Guice.createInjector(
                 new App()
         );

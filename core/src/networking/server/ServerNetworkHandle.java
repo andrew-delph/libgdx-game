@@ -51,13 +51,14 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         this.eventService.addListener(CreateEntityEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
-                EntityData entityData = (EntityData)event.getData().get("entityData");
-                StreamObserver<NetworkObject.CreateNetworkObject> requestObserver = null;
+                EntityData entityData = (EntityData) event.getData().get("entityData");
+                StreamObserver<NetworkObject.CreateNetworkObject> requestObserver = (StreamObserver<NetworkObject.CreateNetworkObject>) event.getData().get("requestObserver");
                 Entity createEntity = entityFactory.create(entityData);
                 entityManager.add(createEntity);
                 connectionStore.getAll(CreateConnection.class).forEach(createConnection -> {
                     if (createConnection.requestObserver == requestObserver) {
                     } else {
+                        System.out.println("send");
                         createConnection.requestObserver.onNext(networkObjectFactory.createNetworkObject(entityData));
                     }
                 });
@@ -66,11 +67,11 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         this.eventService.addListener(UpdateEntityEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
-                EntityData entityData = (EntityData)event.getData().get("entityData");
-                StreamObserver<NetworkObject.UpdateNetworkObject> requestObserver = (StreamObserver<NetworkObject.UpdateNetworkObject>)event.getData().get("requestObserver");;
+                EntityData entityData = (EntityData) event.getData().get("entityData");
+                StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver = (StreamObserver<NetworkObject.RemoveNetworkObject>) event.getData().get("requestObserver");
                 UUID targetUuid = UUID.fromString(entityData.getID());
                 Entity target = entityManager.get(targetUuid);
-                if (target == null){
+                if (target == null) {
                     return;
                 }
                 target.updateEntityData(entityData);
@@ -85,11 +86,11 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         this.eventService.addListener(RemoveEntityEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
-                EntityData entityData = (EntityData)event.getData().get("entityData");
-                StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver = (StreamObserver<NetworkObject.RemoveNetworkObject>)event.getData().get("requestObserver");
+                EntityData entityData = (EntityData) event.getData().get("entityData");
+                StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver = (StreamObserver<NetworkObject.RemoveNetworkObject>) event.getData().get("requestObserver");
                 UUID targetUuid = UUID.fromString(entityData.getID());
                 Entity target = entityManager.get(targetUuid);
-                if (target == null){
+                if (target == null) {
                     return;
                 }
                 entityManager.remove(entityData.getID());
@@ -101,21 +102,21 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
                 });
             }
         });
-        this.eventService.addListener(UpdateEntityEvent.type, new Consumer<Event>() {
-            @Override
-            public void accept(Event event) {
-
-            }
-        });
-        this.eventService.addListener(RemoveEntityEvent.type, new Consumer<Event>() {
-            @Override
-            public void accept(Event event) {
-
-            }
-        });
+//        this.eventService.addListener(UpdateEntityEvent.type, new Consumer<Event>() {
+//            @Override
+//            public void accept(Event event) {
+//
+//            }
+//        });
+//        this.eventService.addListener(RemoveEntityEvent.type, new Consumer<Event>() {
+//            @Override
+//            public void accept(Event event) {
+//
+//            }
+//        });
     }
 
-    public static void main(String args[]) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         Injector injector = Guice.createInjector(new App());
         ServerNetworkHandle server = injector.getInstance(ServerNetworkHandle.class);
         server.start();

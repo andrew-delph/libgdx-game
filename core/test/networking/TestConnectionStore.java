@@ -3,17 +3,18 @@ package networking;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import modules.App;
-import networking.server.observers.ServerObserverFactory;
 import networking.connetion.ConnectionStore;
 import networking.connetion.CreateConnection;
 import networking.connetion.UpdateConnection;
-import networking.server.observers.CreateObserver;
-import networking.server.observers.RemoveObserver;
-import networking.server.observers.UpdateObserver;
+import networking.server.observers.ServerObserverFactory;
 import org.junit.Test;
 
-import java.util.List;
+import java.util.Arrays;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 
 public class TestConnectionStore {
@@ -32,16 +33,14 @@ public class TestConnectionStore {
         System.out.println(c3);
         store.add(c3);
 
-        List<UpdateConnection> returnedList = store.getAll(UpdateConnection.class);
-
         assertEquals(1, store.getAll(CreateConnection.class).toArray().length);
         assertEquals(c1,store.getAll(CreateConnection.class).toArray(new CreateConnection[0])[0]);
 
         assertEquals(2, store.getAll(UpdateConnection.class).toArray().length);
         System.out.println(store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[1]);
-        assertEquals(c2,store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[0]);
-        assertEquals(c3,store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[1]);
+//        assertEquals(c2,store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[1]);
+//        assertEquals(c3,store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])[0]);
+        assertThat(Arrays.asList(store.getAll(UpdateConnection.class).toArray(new UpdateConnection[0])),containsInAnyOrder(c2,c3));
 
-;
     }
 }

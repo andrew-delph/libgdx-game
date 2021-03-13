@@ -1,6 +1,5 @@
 package networking.client.observers;
 
-import com.google.inject.Inject;
 import infra.entity.Entity;
 import infra.entity.EntityData;
 import infra.entity.EntityManager;
@@ -14,13 +13,14 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
     EntityManager entityManager;
     EntityFactory entityFactory;
 
-    protected CreateObserver(EntityManager entityManager, EntityFactory entityFactory){
+    protected CreateObserver(EntityManager entityManager, EntityFactory entityFactory) {
         this.entityManager = entityManager;
         this.entityFactory = entityFactory;
     }
 
     @Override
     public void onNext(NetworkObject.CreateNetworkObject create) {
+        System.out.println("create");
         EntityData createEntityData = EntityDataFactory.getInstance().createEntityData(create);
         Entity new_entity = entityFactory.create(createEntityData);
         this.entityManager.add(new_entity);

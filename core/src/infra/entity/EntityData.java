@@ -1,7 +1,5 @@
 package infra.entity;
 
-import com.badlogic.gdx.graphics.Texture;
-
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -60,11 +58,11 @@ public class EntityData {
         this.data.putAll(merge);
     }
 
-    public void setItem(String key, String value){
+    public void setItem(String key, String value) {
         this.data.put(key, value);
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         EntityData data = new EntityData();
         data.data.put("id", UUID.randomUUID().toString());
         System.out.println(data.getID());

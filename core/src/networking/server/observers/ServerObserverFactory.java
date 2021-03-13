@@ -7,12 +7,6 @@ import infra.events.EventService;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
-import networking.connetion.CreateConnection;
-import networking.connetion.RemoveConnection;
-import networking.connetion.UpdateConnection;
-import networking.server.observers.CreateObserver;
-import networking.server.observers.RemoveObserver;
-import networking.server.observers.UpdateObserver;
 
 public class ServerObserverFactory {
 
@@ -22,22 +16,22 @@ public class ServerObserverFactory {
     EventService eventService;
 
     @Inject
-    ServerObserverFactory(EntityManager entityManager, ConnectionStore connectionStore, EntityFactory entityFactory, EventService eventService){
+    ServerObserverFactory(EntityManager entityManager, ConnectionStore connectionStore, EntityFactory entityFactory, EventService eventService) {
         this.entityManager = entityManager;
         this.connectionStore = connectionStore;
-        this.entityFactory  = entityFactory;
-        this.eventService  = eventService;
+        this.entityFactory = entityFactory;
+        this.eventService = eventService;
     }
 
-    public CreateObserver createCreateObserver(StreamObserver<NetworkObject.CreateNetworkObject> requestObserver){
+    public CreateObserver createCreateObserver(StreamObserver<NetworkObject.CreateNetworkObject> requestObserver) {
         return new CreateObserver(this.entityManager, this.connectionStore, this.entityFactory, this.eventService, requestObserver);
     }
 
-    public UpdateObserver createUpdateObserver(StreamObserver<NetworkObject.UpdateNetworkObject> requestObserver){
+    public UpdateObserver createUpdateObserver(StreamObserver<NetworkObject.UpdateNetworkObject> requestObserver) {
         return new UpdateObserver(this.entityManager, this.connectionStore, this.eventService, requestObserver);
     }
 
-    public RemoveObserver createRemoveObserver(StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver){
+    public RemoveObserver createRemoveObserver(StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver) {
         return new RemoveObserver(this.entityManager, this.connectionStore, this.eventService, requestObserver);
     }
 

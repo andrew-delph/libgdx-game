@@ -4,8 +4,8 @@ option java_package = "networking";
 option java_outer_classname = "NetworkObject";
 
 message NetworkObjectItem{
-  string key=1;
-  string value=2;
+  string key = 1;
+  string value = 2;
 }
 
 message CreateNetworkObject{
