@@ -16,11 +16,11 @@ public class EntityFactory {
         return new Entity(data);
     }
 
-    public Entity create(UUID id, int x, int y) {
-        return new Entity(id, x, y);
+    public Entity create(UUID id, int x, int y, UUID owner) {
+        return new Entity(id, x, y, owner);
     }
 
     public Entity createBasic() {
-        return new Entity(UUID.randomUUID(), 0, 0);
+        return new Entity(UUID.randomUUID(), 0, 0, UUID.randomUUID());
     }
 }

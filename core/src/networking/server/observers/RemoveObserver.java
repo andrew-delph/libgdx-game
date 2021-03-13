@@ -25,17 +25,14 @@ public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetwor
 
     @Override
     public void onNext(NetworkObject.RemoveNetworkObject removeNetworkObject) {
-
         RemoveEntityEvent removeEvent = new RemoveEntityEvent(EntityDataFactory.getInstance().createEntityData(removeNetworkObject), this.requestObserver);
-
         this.eventService.fireEvent(removeEvent);
-
     }
 
     @Override
     public void onError(Throwable throwable) {
-//        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
-//        this.eventService.fireEvent(disconnectEvent);
+        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
+        this.eventService.fireEvent(disconnectEvent);
     }
 
     @Override

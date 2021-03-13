@@ -6,11 +6,12 @@ public class Entity {
 
     EntityData data;
 
-    public Entity(UUID id, int x, int y) {
+    public Entity(UUID id, int x, int y, UUID owner) {
         this.data = new EntityData();
         this.data.setId(id.toString());
         this.data.setX(String.valueOf(x));
         this.data.setY(String.valueOf(y));
+        this.data.setOwner(owner.toString());
     }
 
     public Entity(EntityData data) {
@@ -44,5 +45,9 @@ public class Entity {
 
     public UUID getID() {
         return UUID.fromString(this.data.getID());
+    }
+
+    public UUID getOwner() {
+        return UUID.fromString(this.data.getOwner());
     }
 }

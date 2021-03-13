@@ -34,8 +34,8 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
 
     @Override
     public void onError(Throwable throwable) {
-//        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
-//        this.eventService.fireEvent(disconnectEvent);
+        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
+        this.eventService.fireEvent(disconnectEvent);
     }
 
     @Override

@@ -46,6 +46,14 @@ public class EntityData {
         return this.data.get("y");
     }
 
+    public void setOwner(String y) {
+        this.data.put("owner", y);
+    }
+
+    public String getOwner() {
+        return this.data.get("owner");
+    }
+
     HashMap<String, String> getData() {
         return this.data;
     }

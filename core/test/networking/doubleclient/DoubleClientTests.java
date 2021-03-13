@@ -57,7 +57,7 @@ public class DoubleClientTests {
         int y = 7;
         // client a create entity
         EntityFactory serverEntityFactory = client_aInjector.getInstance(EntityFactory.class);
-        Entity testEntity = serverEntityFactory.create(testID, x, y);
+        Entity testEntity = serverEntityFactory.create(testID, x, y, UUID.randomUUID());
         NetworkObject.NetworkObjectItem createNetworkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((testEntity.getEntityData().getX() + "")).build();
         NetworkObject.NetworkObjectItem createNetworkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((testEntity.getEntityData().getY() + "")).build();
         NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(createNetworkObjectItem_x).addItem(createNetworkObjectItem_y).build();
@@ -84,7 +84,7 @@ public class DoubleClientTests {
         int y = 7;
         EntityFactory entityFactory = client_aInjector.getInstance(EntityFactory.class);
         // client a create entity
-        Entity testEntity = entityFactory.create(testID, x, y);
+        Entity testEntity = entityFactory.create(testID, x, y, UUID.randomUUID());
         NetworkObject.NetworkObjectItem createNetworkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((testEntity.getEntityData().getX() + "")).build();
         NetworkObject.NetworkObjectItem createNetworkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((testEntity.getEntityData().getY() + "")).build();
         NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(createNetworkObjectItem_x).addItem(createNetworkObjectItem_y).build();
@@ -130,7 +130,7 @@ public class DoubleClientTests {
         int y = 7;
         // client a create entity
         EntityFactory serverEntityFactory = client_aInjector.getInstance(EntityFactory.class);
-        Entity testEntity = serverEntityFactory.create(testID, x, y);
+        Entity testEntity = serverEntityFactory.create(testID, x, y, UUID.randomUUID());
         NetworkObject.NetworkObjectItem createNetworkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((testEntity.getEntityData().getX() + "")).build();
         NetworkObject.NetworkObjectItem createNetworkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((testEntity.getEntityData().getY() + "")).build();
         NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(createNetworkObjectItem_x).addItem(createNetworkObjectItem_y).build();

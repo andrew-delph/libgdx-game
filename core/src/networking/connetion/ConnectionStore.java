@@ -22,8 +22,8 @@ public class ConnectionStore {
 
     public void add(AbtractConnection connection) {
         connections.put(connection.id, connection);
-        observersMap.put(connection.responseObserver,connection);
-        observersMap.put(connection.requestObserver,connection);
+        observersMap.put(connection.responseObserver, connection);
+        observersMap.put(connection.requestObserver, connection);
     }
 
     public AbtractConnection get(UUID id) {

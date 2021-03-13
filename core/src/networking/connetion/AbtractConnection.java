@@ -9,7 +9,7 @@ public abstract class AbtractConnection {
     public StreamObserver responseObserver;
     public StreamObserver requestObserver;
 
-    public void close(){
+    public void close() {
         this.requestObserver.onCompleted();
         this.responseObserver.onCompleted();
     }

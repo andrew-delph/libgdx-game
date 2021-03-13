@@ -7,10 +7,8 @@ import com.google.inject.Injector;
 import game.GameClient;
 import modules.App;
 
-import java.io.IOException;
-
 public class GameClientMain {
-    public static void main(String[] arg) throws InterruptedException, IOException {
+    public static void main(String[] arg) {
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         Injector injector = Guice.createInjector(
