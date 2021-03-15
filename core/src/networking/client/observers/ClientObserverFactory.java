@@ -4,8 +4,6 @@ import com.google.inject.Inject;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
 import infra.events.EventService;
-import io.grpc.stub.StreamObserver;
-import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
 
 public class ClientObserverFactory {

@@ -18,13 +18,9 @@ import networking.NetworkObjectFactory;
 import networking.NetworkObjectServiceGrpc;
 import networking.client.observers.ClientObserverFactory;
 import networking.connetion.ConnectionStore;
-import networking.connetion.CreateConnection;
-import networking.connetion.RemoveConnection;
-import networking.connetion.UpdateConnection;
 import networking.events.CreateEntityEvent;
 import networking.events.RemoveEntityEvent;
 import networking.events.UpdateEntityEvent;
-import networking.server.observers.ServerObserverFactory;
 
 import java.util.Scanner;
 import java.util.UUID;

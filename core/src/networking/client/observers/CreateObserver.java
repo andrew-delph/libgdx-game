@@ -1,6 +1,5 @@
 package networking.client.observers;
 
-import infra.entity.Entity;
 import infra.entity.EntityData;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityDataFactory;

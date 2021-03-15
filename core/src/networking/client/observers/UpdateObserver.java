@@ -1,6 +1,5 @@
 package networking.client.observers;
 
-import infra.entity.Entity;
 import infra.entity.EntityData;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityDataFactory;
@@ -9,8 +8,6 @@ import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
 import networking.events.UpdateEntityEvent;
-
-import java.util.UUID;
 
 public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetworkObject> {
 
