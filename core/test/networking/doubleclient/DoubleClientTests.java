@@ -39,7 +39,7 @@ public class DoubleClientTests {
         client_a.connect();
 
         client_bInjector = Guice.createInjector(new App());
-        client_b = client_aInjector.getInstance(ClientNetworkHandle.class);
+        client_b = client_bInjector.getInstance(ClientNetworkHandle.class);
         client_b.connect();
     }
 

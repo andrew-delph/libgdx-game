@@ -3,27 +3,35 @@ package networking.client.observers;
 import com.google.inject.Inject;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
+import infra.events.EventService;
+import io.grpc.stub.StreamObserver;
+import networking.NetworkObject;
+import networking.connetion.ConnectionStore;
 
 public class ClientObserverFactory {
 
     EntityManager entityManager;
+    ConnectionStore connectionStore;
     EntityFactory entityFactory;
+    EventService eventService;
 
     @Inject
-    ClientObserverFactory(EntityManager entityManager, EntityFactory entityFactory) {
+    ClientObserverFactory(EntityManager entityManager, ConnectionStore connectionStore, EntityFactory entityFactory, EventService eventService) {
         this.entityManager = entityManager;
+        this.connectionStore = connectionStore;
         this.entityFactory = entityFactory;
+        this.eventService = eventService;
     }
 
-    public CreateObserver createCreateObserver() {
-        return new CreateObserver(this.entityManager, this.entityFactory);
+    public networking.client.observers.CreateObserver createCreateObserver() {
+        return new CreateObserver(this.entityManager, this.connectionStore, this.entityFactory, this.eventService);
     }
 
-    public UpdateObserver createUpdateObserver() {
-        return new UpdateObserver(this.entityManager);
+    public networking.client.observers.UpdateObserver createUpdateObserver() {
+        return new UpdateObserver(this.entityManager, this.connectionStore, this.eventService);
     }
 
-    public RemoveObserver createRemoveObserver() {
-        return new RemoveObserver(this.entityManager);
+    public networking.client.observers.RemoveObserver createRemoveObserver() {
+        return new RemoveObserver(this.entityManager, this.connectionStore, this.eventService);
     }
 }

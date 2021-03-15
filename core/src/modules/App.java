@@ -5,6 +5,7 @@ import game.GameClient;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
 import infra.events.EventService;
+import networking.client.ClientNetworkHandle;
 import networking.client.observers.ClientObserverFactory;
 import networking.connetion.ConnectionStore;
 import networking.server.ServerNetworkHandle;
@@ -18,9 +19,11 @@ public class App extends AbstractModule {
         bind(EntityFactory.class).asEagerSingleton();
         bind(ConnectionStore.class).asEagerSingleton();
         bind(ServerNetworkHandle.class).asEagerSingleton();
+        bind(ClientNetworkHandle.class).asEagerSingleton();
         bind(ClientObserverFactory.class).asEagerSingleton();
         bind(ServerObserverFactory.class).asEagerSingleton();
         bind(GameClient.class).asEagerSingleton();
         bind(EventService.class).asEagerSingleton();
+        bind(ClientObserverFactory.class).asEagerSingleton();
     }
 }

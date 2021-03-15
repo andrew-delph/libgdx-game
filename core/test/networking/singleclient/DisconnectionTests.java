@@ -96,7 +96,6 @@ public class DisconnectionTests {
         client_b = client_bInjector.getInstance(ClientNetworkHandle.class);
         client_b.connect();
 
-
         ConnectionStore connectionStore = serverInjector.getInstance(ConnectionStore.class);
         TimeUnit.SECONDS.sleep(1);
         List serverConnections = connectionStore.getAll(AbtractConnection.class);
