@@ -119,5 +119,8 @@ public class DisconnectionTests {
         serverConnections = connectionStore.getAll(AbtractConnection.class);
         assertEquals(3, serverConnections.size());
         client_b.disconnect();
+        TimeUnit.SECONDS.sleep(1);
+        serverConnections = connectionStore.getAll(AbtractConnection.class);
+        assertEquals(0, serverConnections.size());
     }
 }
