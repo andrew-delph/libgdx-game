@@ -10,10 +10,11 @@ import java.util.function.Consumer;
 
 import static org.junit.Assert.assertEquals;
 
-class TestEvent implements Event{
+class TestEvent implements Event {
     String changeTo;
     HashMap<String, Object> data;
-    TestEvent(String changeTo){
+
+    TestEvent(String changeTo) {
         this.data = new HashMap<>();
         data.put("changeTo", changeTo);
     }
@@ -32,7 +33,7 @@ class TestEvent implements Event{
 public class BasicEventsTest {
 
     @Test
-    public void singleTest(){
+    public void singleTest() {
         Injector injector = Guice.createInjector(new App());
         EventService eventService = injector.getInstance(EventService.class);
         final String[] changeByEvent = {"before"};

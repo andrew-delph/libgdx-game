@@ -7,15 +7,12 @@ import infra.entity.factories.EntityFactory;
 import modules.App;
 import networking.NetworkObject;
 import networking.client.ClientNetworkHandle;
-import networking.connetion.AbtractConnection;
-import networking.connetion.ConnectionStore;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -47,9 +44,9 @@ public class SingleClientTests {
 
     @Test
     public void test() throws InterruptedException {
-        assertNotEquals(client_a.createObserver,client_a.createRequest);
-        assertNotEquals(client_a.updateObserver,client_a.updateRequest);
-        assertNotEquals(client_a.removeObserver,client_a.removeRequest);
+        assertNotEquals(client_a.createObserver, client_a.createRequest);
+        assertNotEquals(client_a.updateObserver, client_a.updateRequest);
+        assertNotEquals(client_a.removeObserver, client_a.removeRequest);
     }
 
     @Test
@@ -66,8 +63,8 @@ public class SingleClientTests {
         TimeUnit.SECONDS.sleep(1);
         Entity receivedEntity = server.entityManager.get(testID);
         assertNotNull(receivedEntity);
-        assertEquals(receivedEntity.getX(),x);
-        assertEquals(receivedEntity.getY(),y);
+        assertEquals(receivedEntity.getX(), x);
+        assertEquals(receivedEntity.getY(), y);
     }
 
     @Test
@@ -84,8 +81,8 @@ public class SingleClientTests {
         TimeUnit.SECONDS.sleep(1);
         Entity receivedEntity = server.entityManager.get(testID);
         assertNotNull(receivedEntity);
-        assertEquals(receivedEntity.getX(),x);
-        assertEquals(receivedEntity.getY(),y);
+        assertEquals(receivedEntity.getX(), x);
+        assertEquals(receivedEntity.getY(), y);
         TimeUnit.SECONDS.sleep(1);
         testEntity.moveX(2);
         testEntity.moveY(3);
@@ -94,9 +91,9 @@ public class SingleClientTests {
         NetworkObject.UpdateNetworkObject updateRequestObject = NetworkObject.UpdateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
         client_a.updateRequest.onNext(updateRequestObject);
         TimeUnit.SECONDS.sleep(1);
-        assertEquals(receivedEntity.getID(),testID);
-        assertEquals(x+2, receivedEntity.getX());
-        assertEquals(y+3 ,receivedEntity.getY());
+        assertEquals(receivedEntity.getID(), testID);
+        assertEquals(x + 2, receivedEntity.getX());
+        assertEquals(y + 3, receivedEntity.getY());
     }
 
     @Test
@@ -113,8 +110,8 @@ public class SingleClientTests {
         TimeUnit.SECONDS.sleep(1);
         Entity receivedEntity = server.entityManager.get(testID);
         assertNotNull(receivedEntity);
-        assertEquals(receivedEntity.getX(),x);
-        assertEquals(receivedEntity.getY(),y);
+        assertEquals(receivedEntity.getX(), x);
+        assertEquals(receivedEntity.getY(), y);
         // remove
         NetworkObject.RemoveNetworkObject removeNetworkObject = NetworkObject.RemoveNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).build();
         client_a.removeRequest.onNext(removeNetworkObject);

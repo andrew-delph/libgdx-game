@@ -66,15 +66,15 @@ public class DoubleClientTests {
         // check entity on server
         Entity receivedEntity = server.entityManager.get(testID);
         assertNotNull(receivedEntity);
-        assertEquals(receivedEntity.getX(),x);
-        assertEquals(receivedEntity.getY(),y);
+        assertEquals(receivedEntity.getX(), x);
+        assertEquals(receivedEntity.getY(), y);
         TimeUnit.SECONDS.sleep(1);
         // check if it exists in client_b
         Entity entity_b = client_b.entityManager.get(receivedEntity.getID());
-        client_b.entityManager.update(e ->System.out.println("cleint b entity"+e.getEntityData().getID()));
-        assertEquals(entity_b.getID(),testID);
-        assertEquals(entity_b.getX(),x);
-        assertEquals(entity_b.getY(),y);
+        client_b.entityManager.update(e -> System.out.println("cleint b entity" + e.getEntityData().getID()));
+        assertEquals(entity_b.getID(), testID);
+        assertEquals(entity_b.getX(), x);
+        assertEquals(entity_b.getY(), y);
     }
 
     @Test
@@ -93,15 +93,15 @@ public class DoubleClientTests {
         // check entity on server
         Entity receivedEntity = server.entityManager.get(testID);
         assertNotNull(receivedEntity);
-        assertEquals(receivedEntity.getX(),x);
-        assertEquals(receivedEntity.getY(),y);
+        assertEquals(receivedEntity.getX(), x);
+        assertEquals(receivedEntity.getY(), y);
         TimeUnit.SECONDS.sleep(1);
         // check if it exists in client_b
         Entity entity_b = client_b.entityManager.get(receivedEntity.getID());
-        client_b.entityManager.update(e ->System.out.println("cleint b entity"+e.getEntityData().getID()));
-        assertEquals(entity_b.getID(),testID);
-        assertEquals(entity_b.getX(),x);
-        assertEquals(entity_b.getY(),y);
+        client_b.entityManager.update(e -> System.out.println("cleint b entity" + e.getEntityData().getID()));
+        assertEquals(entity_b.getID(), testID);
+        assertEquals(entity_b.getX(), x);
+        assertEquals(entity_b.getY(), y);
         // client a update entity
         testEntity.moveX(2);
         testEntity.moveY(3);
@@ -113,13 +113,13 @@ public class DoubleClientTests {
         client_a.updateRequest.onNext(updateRequestObject);
         TimeUnit.SECONDS.sleep(1);
         // check entity move on server
-        assertEquals(receivedEntity.getID(),testID);
-        assertEquals(receivedEntity.getX(),x);
-        assertEquals(receivedEntity.getY(),y);
+        assertEquals(receivedEntity.getID(), testID);
+        assertEquals(receivedEntity.getX(), x);
+        assertEquals(receivedEntity.getY(), y);
         // check entity on client b
         entity_b = client_b.entityManager.get(receivedEntity.getID());
-        client_b.entityManager.update(e ->System.out.println("2ncleint b entity"+e.getEntityData().getID()));
-        assertEquals(entity_b.getID(),testID);
+        client_b.entityManager.update(e -> System.out.println("2ncleint b entity" + e.getEntityData().getID()));
+        assertEquals(entity_b.getID(), testID);
         assertEquals(x, entity_b.getX());
     }
 
@@ -139,15 +139,15 @@ public class DoubleClientTests {
         // check entity on server
         Entity receivedEntity = server.entityManager.get(testID);
         assertNotNull(receivedEntity);
-        assertEquals(receivedEntity.getX(),x);
-        assertEquals(receivedEntity.getY(),y);
+        assertEquals(receivedEntity.getX(), x);
+        assertEquals(receivedEntity.getY(), y);
         TimeUnit.SECONDS.sleep(1);
         // check if it exists in client_b
         Entity entity_b = client_b.entityManager.get(receivedEntity.getID());
-        client_b.entityManager.update(e ->System.out.println("cleint b entity"+e.getEntityData().getID()));
-        assertEquals(entity_b.getID(),testID);
-        assertEquals(entity_b.getX(),x);
-        assertEquals(entity_b.getY(),y);
+        client_b.entityManager.update(e -> System.out.println("cleint b entity" + e.getEntityData().getID()));
+        assertEquals(entity_b.getID(), testID);
+        assertEquals(entity_b.getX(), x);
+        assertEquals(entity_b.getY(), y);
         // remove from client a
         NetworkObject.RemoveNetworkObject removeNetworkObject = NetworkObject.RemoveNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).build();
         client_a.removeRequest.onNext(removeNetworkObject);
