@@ -6,6 +6,7 @@ import infra.events.EventService;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
+import networking.events.DisconnectEvent;
 import networking.events.RemoveEntityEvent;
 
 public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetworkObject> {
@@ -30,11 +31,13 @@ public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetwor
 
     @Override
     public void onError(Throwable throwable) {
-
+        DisconnectEvent disconnectEvent = new DisconnectEvent(null);
+        this.eventService.fireEvent(disconnectEvent);
     }
 
     @Override
     public void onCompleted() {
-
+        DisconnectEvent disconnectEvent = new DisconnectEvent(null);
+        this.eventService.fireEvent(disconnectEvent);
     }
 }

@@ -46,6 +46,7 @@ public class ClientNetworkHandle {
     public StreamObserver<NetworkObject.RemoveNetworkObject> removeRequest;
     public ClientObserverFactory clientObserverFactory;
     EventService eventService;
+    EntityFactory entityFactory;
 
     @Inject
     public ClientNetworkHandle(EntityManager entityManager, ConnectionStore connectionStore, ClientObserverFactory clientObserverFactory, EventService eventService, EntityFactory entityFactory, NetworkObjectFactory networkObjectFactory) {
@@ -55,6 +56,20 @@ public class ClientNetworkHandle {
         this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
         this.entityManager = entityManager;
         this.eventService = eventService;
+        this.entityFactory = entityFactory;
+
+
+    }
+
+    public void connect() {
+
+        createObserver = this.clientObserverFactory.createCreateObserver();
+        updateObserver = this.clientObserverFactory.createUpdateObserver();
+        removeObserver = this.clientObserverFactory.createRemoveObserver();
+
+        createRequest = this.asyncStub.create(createObserver);
+        updateRequest = this.asyncStub.update(updateObserver);
+        removeRequest = this.asyncStub.remove(removeObserver);
 
         this.eventService.addListener(CreateEntityEvent.type, new Consumer<Event>() {
             @Override
@@ -88,17 +103,6 @@ public class ClientNetworkHandle {
                 entityManager.remove(entityData.getID());
             }
         });
-    }
-
-    public void connect() {
-
-        createObserver = this.clientObserverFactory.createCreateObserver();
-        updateObserver = this.clientObserverFactory.createUpdateObserver();
-        removeObserver = this.clientObserverFactory.createRemoveObserver();
-
-        createRequest = this.asyncStub.create(createObserver);
-        updateRequest = this.asyncStub.update(updateObserver);
-        removeRequest = this.asyncStub.remove(removeObserver);
     }
 
     public void disconnect() {

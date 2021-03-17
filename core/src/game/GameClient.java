@@ -9,8 +9,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
+import infra.events.Event;
+import infra.events.EventService;
 import networking.NetworkObjectFactory;
 import networking.client.ClientNetworkHandle;
+import networking.events.DisconnectEvent;
 
 import java.util.function.Consumer;
 
@@ -29,6 +32,9 @@ public class GameClient extends ApplicationAdapter {
     NetworkObjectFactory networkObjectFactory;
 
     @Inject
+    EventService eventService;
+
+    @Inject
     public GameClient(ClientNetworkHandle client) {
         this.client = client;
     }
@@ -41,11 +47,12 @@ public class GameClient extends ApplicationAdapter {
         this.batch = new SpriteBatch();
         this.client.entityManager.add(this.player);
         this.client.createRequest.onNext(networkObjectFactory.createNetworkObject(this.player.getEntityData()));
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.eventService.addListener(DisconnectEvent.type, new Consumer<Event>() {
+            @Override
+            public void accept(Event event) {
+                System.exit(0);
+            }
+        });
     }
 
     @Override

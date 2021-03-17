@@ -9,6 +9,7 @@ import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
 import networking.events.CreateEntityEvent;
+import networking.events.DisconnectEvent;
 
 import java.util.UUID;
 
@@ -44,10 +45,14 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
     @Override
     public void onError(Throwable throwable) {
         System.out.println("CreateObserver error " + throwable);
+        DisconnectEvent disconnectEvent = new DisconnectEvent(null);
+        this.eventService.fireEvent(disconnectEvent);
     }
 
     @Override
     public void onCompleted() {
-        System.out.println("COMPLETE");
+        System.out.println("COMPLETE andrew");
+        DisconnectEvent disconnectEvent = new DisconnectEvent(null);
+        this.eventService.fireEvent(disconnectEvent);
     }
 }

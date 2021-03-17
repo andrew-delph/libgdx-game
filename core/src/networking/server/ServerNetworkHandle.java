@@ -37,6 +37,8 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     final ServerObserverFactory serverObserverFactory;
     final private Server server;
     EventService eventService;
+    EntityFactory entityFactory;
+    NetworkObjectFactory networkObjectFactory;
 
 
     @Inject
@@ -45,7 +47,28 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         this.connectionStore = connectionStore;
         this.serverObserverFactory = serverObserverFactory;
         this.eventService = eventService;
+        this.entityFactory = entityFactory;
+        this.networkObjectFactory = networkObjectFactory;
         server = ServerBuilder.forPort(99).addService(this).build();
+
+
+
+//        this.eventService.addListener(RemoveEntityEvent.type, new Consumer<Event>() {
+//            @Override
+//            public void accept(Event event) {
+//
+//            }
+//        });
+    }
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        Injector injector = Guice.createInjector(new App());
+        ServerNetworkHandle server = injector.getInstance(ServerNetworkHandle.class);
+        server.start();
+        server.awaitTermination();
+    }
+
+    public void start() throws IOException {
         this.eventService.addListener(CreateEntityEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
@@ -108,22 +131,6 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
                 connectionStore.remove(connection.id);
             }
         });
-//        this.eventService.addListener(RemoveEntityEvent.type, new Consumer<Event>() {
-//            @Override
-//            public void accept(Event event) {
-//
-//            }
-//        });
-    }
-
-    public static void main(String[] args) throws IOException, InterruptedException {
-        Injector injector = Guice.createInjector(new App());
-        ServerNetworkHandle server = injector.getInstance(ServerNetworkHandle.class);
-        server.start();
-        server.awaitTermination();
-    }
-
-    public void start() throws IOException {
         server.start();
     }
 
