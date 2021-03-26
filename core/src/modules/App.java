@@ -1,10 +1,12 @@
 package modules;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.name.Names;
 import game.GameClient;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
 import infra.events.EventService;
+import infra.map.block.BlockFactory;
 import networking.client.ClientNetworkHandle;
 import networking.client.observers.ClientObserverFactory;
 import networking.connetion.ConnectionStore;
@@ -25,5 +27,7 @@ public class App extends AbstractModule {
         bind(GameClient.class).asEagerSingleton();
         bind(EventService.class).asEagerSingleton();
         bind(ClientObserverFactory.class).asEagerSingleton();
+        bind(Integer.class).annotatedWith(Names.named("CoordinateScale")).toInstance(15);
+        bind(BlockFactory.class).asEagerSingleton();
     }
 }

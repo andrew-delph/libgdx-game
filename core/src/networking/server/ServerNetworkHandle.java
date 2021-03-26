@@ -52,7 +52,6 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         server = ServerBuilder.forPort(99).addService(this).build();
 
 
-
 //        this.eventService.addListener(RemoveEntityEvent.type, new Consumer<Event>() {
 //            @Override
 //            public void accept(Event event) {

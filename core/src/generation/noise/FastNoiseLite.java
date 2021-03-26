@@ -334,12 +334,12 @@ public class FastNoiseLite {
 
         for (int y = 0; y < 128; y++) {
             for (int x = 0; x < 128; x++) {
-                noiseData[index++] = (int)(noise.GetNoise(x, y)*10);
+                noiseData[index++] = (int) (noise.GetNoise(x, y) * 10);
             }
         }
 
         for (int i = 0; i < 128; i++) {
-            System.out.println(Arrays.toString(Arrays.copyOfRange(noiseData, i*128, i*128+128)));
+            System.out.println(Arrays.toString(Arrays.copyOfRange(noiseData, i * 128, i * 128 + 128)));
         }
     }
 
