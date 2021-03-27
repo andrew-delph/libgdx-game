@@ -6,7 +6,7 @@ import infra.common.Coordinate;
 
 public class BlockFactory {
 
-    int size;
+    int size = 10;
 
     @Inject
     BlockFactory(@Named("CoordinateScale") int size){
