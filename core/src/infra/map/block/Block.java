@@ -11,7 +11,7 @@ public class Block {
     Texture image;
     Sprite sprite;
 
-    int size;
+    public final int size;
 
     public Block(Coordinate coordinate, int size) {
         this.coordinate = coordinate;
