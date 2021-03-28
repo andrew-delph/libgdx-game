@@ -1,4 +1,4 @@
-package modules;
+package configure;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
@@ -12,8 +12,10 @@ import networking.client.observers.ClientObserverFactory;
 import networking.connetion.ConnectionStore;
 import networking.server.ServerNetworkHandle;
 import networking.server.observers.ServerObserverFactory;
+import render.MapRender;
+import render.RenderManager;
 
-public class App extends AbstractModule {
+public class CoreApp extends AbstractModule {
 
     @Override
     protected void configure() {
@@ -29,5 +31,10 @@ public class App extends AbstractModule {
         bind(ClientObserverFactory.class).asEagerSingleton();
         bind(Integer.class).annotatedWith(Names.named("CoordinateScale")).toInstance(15);
         bind(BlockFactory.class).asEagerSingleton();
+        bind(MapRender.class).asEagerSingleton();
+
+        bind(RenderManager.class).asEagerSingleton();
+
+
     }
 }

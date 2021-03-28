@@ -2,7 +2,7 @@ package infra.events;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import modules.App;
+import configure.CoreApp;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class BasicEventsTest {
 
     @Test
     public void singleTest() {
-        Injector injector = Guice.createInjector(new App());
+        Injector injector = Guice.createInjector(new CoreApp());
         EventService eventService = injector.getInstance(EventService.class);
         final String[] changeByEvent = {"before"};
         TestEvent event = new TestEvent("after");

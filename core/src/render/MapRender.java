@@ -1,20 +1,25 @@
 package render;
 
+import base.BaseApplicationAdapter;
+import base.BaseAssetManager;
+import base.BaseCamera;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
 import generation.noise.FastNoiseLite;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class MapRender extends ApplicationAdapter {
+public class MapRender extends BaseApplicationAdapter {
 
     public int size = 1;
     public int width = size * 1280;
@@ -22,27 +27,24 @@ public class MapRender extends ApplicationAdapter {
     SpriteBatch batch;
     Texture image;
     float[] noiseData;
-    OrthographicCamera camera;
     Sprite sprite;
 
-
     @Inject
-    public MapRender() {
-
-
-        // Gather noise data
-
-
-//        for (int i = 0; i < noiseData.length; i++) {
-//            System.out.println(Arrays.toString(Arrays.copyOfRange(noiseData, i * 128, i * 128 + 128)));
-//        }
+    public MapRender(BaseAssetManager assetManager, BaseCamera camera) {
+        super(assetManager, camera);
     }
+
 
     @Override
     public void create() {
-        this.image = new Texture("badlogic.jpg");
+        this.init();
+        this.image = assetManager.get("badlogic.jpg", Texture.class);
         this.batch = new SpriteBatch();
-        camera = new OrthographicCamera(1280, 720);
+//        camera = new OrthographicCamera(1280, 720);
+        this.camera.setToOrtho(false, 1280, 720);
+        this.camera.position.set(0,0,0);
+        this.camera.update();
+
 
         sprite = new Sprite(this.image);
         sprite.setOrigin(0, 0);
@@ -54,7 +56,7 @@ public class MapRender extends ApplicationAdapter {
         noiseData = new float[width * height];
         int index = 0;
         FastNoiseLite noise = new FastNoiseLite(ThreadLocalRandom.current().nextInt());
-        noise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
+        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 noiseData[index++] = ((noise.GetNoise(x, y) + 1) * 5) / 10.0f;

@@ -2,7 +2,7 @@ package networking;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import modules.App;
+import configure.CoreApp;
 import networking.connetion.ConnectionStore;
 import networking.connetion.CreateConnection;
 import networking.connetion.UpdateConnection;
@@ -20,7 +20,7 @@ public class TestConnectionStore {
     @Test
     public void testGetAll() {
 
-        Injector injector = Guice.createInjector(new App());
+        Injector injector = Guice.createInjector(new CoreApp());
         ConnectionStore store = injector.getInstance(ConnectionStore.class);
         ServerObserverFactory observerFactory = injector.getInstance(ServerObserverFactory.class);
         CreateConnection c1 = new CreateConnection(null, null);

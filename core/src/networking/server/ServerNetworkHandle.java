@@ -12,7 +12,7 @@ import infra.events.EventService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
-import modules.App;
+import configure.CoreApp;
 import networking.NetworkObject;
 import networking.NetworkObjectFactory;
 import networking.NetworkObjectServiceGrpc;
@@ -61,7 +61,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Injector injector = Guice.createInjector(new App());
+        Injector injector = Guice.createInjector(new CoreApp());
         ServerNetworkHandle server = injector.getInstance(ServerNetworkHandle.class);
         server.start();
         server.awaitTermination();

@@ -4,7 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
-import modules.App;
+import configure.CoreApp;
 import networking.NetworkObject;
 import networking.client.ClientNetworkHandle;
 import networking.server.ServerNetworkHandle;
@@ -30,15 +30,15 @@ public class DoubleClientTests {
 
     @Before
     public void setup() throws IOException {
-        serverInjector = Guice.createInjector(new App());
+        serverInjector = Guice.createInjector(new CoreApp());
         server = serverInjector.getInstance(ServerNetworkHandle.class);
         server.start();
 
-        client_aInjector = Guice.createInjector(new App());
+        client_aInjector = Guice.createInjector(new CoreApp());
         client_a = client_aInjector.getInstance(ClientNetworkHandle.class);
         client_a.connect();
 
-        client_bInjector = Guice.createInjector(new App());
+        client_bInjector = Guice.createInjector(new CoreApp());
         client_b = client_bInjector.getInstance(ClientNetworkHandle.class);
         client_b.connect();
     }

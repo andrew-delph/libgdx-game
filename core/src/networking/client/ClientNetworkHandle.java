@@ -12,7 +12,7 @@ import infra.events.EventService;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-import modules.App;
+import configure.CoreApp;
 import networking.NetworkObject;
 import networking.NetworkObjectFactory;
 import networking.NetworkObjectServiceGrpc;
@@ -114,7 +114,7 @@ public class ClientNetworkHandle {
 
     public static void main(String[] args) throws InterruptedException {
         Injector injector = Guice.createInjector(
-                new App()
+                new CoreApp()
         );
 
         Scanner myInput = new Scanner(System.in);
