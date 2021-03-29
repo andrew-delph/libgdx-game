@@ -18,7 +18,11 @@ import com.google.inject.Inject;
 import generation.noise.FastNoiseLite;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
+import infra.map.WorldMap;
+import infra.map.block.Block;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MapRender extends BaseApplicationAdapter {
@@ -30,12 +34,16 @@ public class MapRender extends BaseApplicationAdapter {
     float[] noiseData;
 
     Entity entity;
+    Sprite sprite;
 
     @Inject
     EntityFactory entityFactory;
 
     @Inject
     RenderManager renderManager;
+
+    @Inject
+    WorldMap worldMap;
 
     @Inject
     public MapRender(BaseAssetManager assetManager, BaseCamera camera) {
@@ -47,13 +55,12 @@ public class MapRender extends BaseApplicationAdapter {
     public void create() {
         this.init();
         this.batch = new SpriteBatch();
-//        camera = new OrthographicCamera(1280, 720);
-        this.camera.setToOrtho(false, 1280, 720);
-        this.camera.position.set(0,0,0);
-        this.camera.update();
 
         this.entity = entityFactory.createBasic();
-
+        this.sprite = new Sprite(assetManager.get("frog.png", Texture.class));
+//        this.sprite.setTexture(assetManager.get("frog.png", Texture.class));
+//        this.sprite.setPosition();
+        this.sprite.setSize(200,100);
 
         noiseData = new float[width * height];
         int index = 0;
@@ -71,15 +78,16 @@ public class MapRender extends BaseApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        worldMap.generateArea(0,0,20,20);
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        for (int i = 0; i < noiseData.length; i++) {
-            shapeRenderer.setColor(0.5f, noiseData[i], 0.5f, 1);
-            shapeRenderer.rect((i % width) * size, ((i / width)) * size, size, size);
-        }
-        shapeRenderer.end();
-
+//        ShapeRenderer shapeRenderer = new ShapeRenderer();
+//
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        for (int i = 0; i < noiseData.length; i++) {
+//            shapeRenderer.setColor(0.5f, noiseData[i], 0.5f, 1);
+//            shapeRenderer.rect((i % width) * size, ((i / width)) * size, size, size);
+//        }
+//        shapeRenderer.end();
 //        try {
 //            Thread.sleep(4000);
 //        } catch (InterruptedException e) {
@@ -90,13 +98,22 @@ public class MapRender extends BaseApplicationAdapter {
 
         batch.begin();
 
-        renderManager.render(this.entity, batch);
+//        renderManager.render(this.entity, batch);
+
+        this.sprite.draw(batch);
+
+        List<Block> blocks = worldMap.getBlocksInRange(0,0,20,20);
+
+        for (Block block : blocks) {
+            renderManager.render(block, batch);
+        }
 
         batch.end();
 
         handleInput();
 
-        System.out.println(camera.position.toString());
+        System.out.println(camera.position.x+", "+camera.position.y+", "+camera.position.z);
+        System.out.println(Arrays.toString(camera.projection.getValues()));
 
     }
 
