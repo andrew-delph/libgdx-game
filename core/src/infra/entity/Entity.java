@@ -1,10 +1,18 @@
 package infra.entity;
 
+import base.BaseAssetManager;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.google.inject.Inject;
+
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 public class Entity {
 
     EntityData data;
+
+
 
     public Entity(UUID id, int x, int y, UUID owner) {
         this.data = new EntityData();

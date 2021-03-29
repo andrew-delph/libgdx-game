@@ -16,6 +16,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
 import generation.noise.FastNoiseLite;
+import infra.entity.Entity;
+import infra.entity.factories.EntityFactory;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -25,9 +27,15 @@ public class MapRender extends BaseApplicationAdapter {
     public int width = size * 1280;
     public int height = size * 720;
     SpriteBatch batch;
-    Texture image;
     float[] noiseData;
-    Sprite sprite;
+
+    Entity entity;
+
+    @Inject
+    EntityFactory entityFactory;
+
+    @Inject
+    RenderManager renderManager;
 
     @Inject
     public MapRender(BaseAssetManager assetManager, BaseCamera camera) {
@@ -38,20 +46,14 @@ public class MapRender extends BaseApplicationAdapter {
     @Override
     public void create() {
         this.init();
-        this.image = assetManager.get("badlogic.jpg", Texture.class);
         this.batch = new SpriteBatch();
 //        camera = new OrthographicCamera(1280, 720);
         this.camera.setToOrtho(false, 1280, 720);
         this.camera.position.set(0,0,0);
         this.camera.update();
 
+        this.entity = entityFactory.createBasic();
 
-        sprite = new Sprite(this.image);
-        sprite.setOrigin(0, 0);
-
-        sprite.setPosition(-sprite.getWidth() / 2, -sprite.getHeight() / 2);
-
-        sprite.setSize(15, 55);
 
         noiseData = new float[width * height];
         int index = 0;
@@ -68,7 +70,6 @@ public class MapRender extends BaseApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
         ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -87,10 +88,9 @@ public class MapRender extends BaseApplicationAdapter {
 
         batch.setProjectionMatrix(camera.combined);
 
-
         batch.begin();
 
-        sprite.draw(batch);
+        renderManager.render(this.entity, batch);
 
         batch.end();
 

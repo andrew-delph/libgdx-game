@@ -35,6 +35,5 @@ public class CoreApp extends AbstractModule {
 
         bind(RenderManager.class).asEagerSingleton();
 
-
     }
 }
