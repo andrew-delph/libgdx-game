@@ -1,10 +1,18 @@
 package infra.map.block;
 
+import base.BaseAssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import infra.common.Coordinate;
 
 public class BlockFactory {
+
+    @Inject
+    BaseAssetManager assetManager;
+
+    @Inject @Named("provideTexture")
+    Boolean provideTexture;
 
     int size = 10;
 
@@ -14,9 +22,19 @@ public class BlockFactory {
     }
 
     public Block createBlock(int x, int y){
-        return new Block(new Coordinate(x,y), this.size);
+        if (provideTexture){
+            return new Block(new Coordinate(x,y), this.size, assetManager.get("dirtblock.jpg", Texture.class));
+        }
+        else{
+            return new Block(new Coordinate(x,y), this.size);
+        }
     }
     public Block createBlock(Coordinate coordinate){
-        return new Block(coordinate, this.size);
+        if (provideTexture) {
+            return new Block(coordinate, this.size, assetManager.get("dirtblock.jpg", Texture.class));
+        }
+        else{
+            return new Block(coordinate, this.size);
+        }
     }
 }

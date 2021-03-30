@@ -3,6 +3,7 @@ package infra.factories;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import configure.TestApp;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
 import configure.CoreApp;
@@ -29,7 +30,7 @@ public class TestEntityFactory {
 
     @Test
     public void createBasic() {
-        Injector injector = Guice.createInjector(new CoreApp());
+        Injector injector = Guice.createInjector(new TestApp());
         Entity test = injector.getInstance(EntityFactory.class).createBasic();
         UUID.fromString(test.getEntityData().getID());
         assertEquals("0", test.getEntityData().getX());

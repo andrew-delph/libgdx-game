@@ -2,6 +2,7 @@ package networking.doubleclient;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import configure.TestApp;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
 import configure.CoreApp;
@@ -30,15 +31,15 @@ public class DoubleClientTests {
 
     @Before
     public void setup() throws IOException {
-        serverInjector = Guice.createInjector(new CoreApp());
+        serverInjector = Guice.createInjector(new TestApp());
         server = serverInjector.getInstance(ServerNetworkHandle.class);
         server.start();
 
-        client_aInjector = Guice.createInjector(new CoreApp());
+        client_aInjector = Guice.createInjector(new TestApp());
         client_a = client_aInjector.getInstance(ClientNetworkHandle.class);
         client_a.connect();
 
-        client_bInjector = Guice.createInjector(new CoreApp());
+        client_bInjector = Guice.createInjector(new TestApp());
         client_b = client_bInjector.getInstance(ClientNetworkHandle.class);
         client_b.connect();
     }

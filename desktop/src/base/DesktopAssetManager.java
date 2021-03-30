@@ -10,6 +10,7 @@ public class DesktopAssetManager extends BaseAssetManager {
     public void init() {
         this.load("badlogic.jpg", Texture.class);
         this.load("frog.png", Texture.class);
+        this.load("dirtblock.jpg", Texture.class);
         this.update();
         this.finishLoading();
     }

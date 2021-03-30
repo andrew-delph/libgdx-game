@@ -13,11 +13,15 @@ public class Block {
 
     public final int size;
 
+    public Block(Coordinate coordinate, int size, Texture texture) {
+        this(coordinate, size);
+        this.sprite = new Sprite(texture);
+        this.sprite.setSize(this.size,this.size);
+        this.sprite.setPosition(this.size*this.coordinate.getX(),this.size*this.coordinate.getY());
+    }
+
     public Block(Coordinate coordinate, int size) {
         this.coordinate = coordinate;
         this.size = size;
-        this.sprite = new Sprite();
-        this.sprite.setSize(this.size,this.size);
-        this.sprite.setPosition(this.size*this.coordinate.getX(),this.size*this.coordinate.getY());
     }
 }

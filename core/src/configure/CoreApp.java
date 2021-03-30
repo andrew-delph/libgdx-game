@@ -29,7 +29,7 @@ public class CoreApp extends AbstractModule {
         bind(GameClient.class).asEagerSingleton();
         bind(EventService.class).asEagerSingleton();
         bind(ClientObserverFactory.class).asEagerSingleton();
-        bind(Integer.class).annotatedWith(Names.named("CoordinateScale")).toInstance(15);
+
         bind(BlockFactory.class).asEagerSingleton();
         bind(MapRender.class).asEagerSingleton();
 

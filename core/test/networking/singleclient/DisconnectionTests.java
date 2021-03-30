@@ -2,6 +2,7 @@ package networking.singleclient;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import configure.TestApp;
 import infra.entity.Entity;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
@@ -28,7 +29,7 @@ public class DisconnectionTests {
 
     @Before
     public void setup() throws IOException {
-        serverInjector = Guice.createInjector(new CoreApp());
+        serverInjector = Guice.createInjector(new TestApp());
         server = serverInjector.getInstance(ServerNetworkHandle.class);
         server.start();
     }
@@ -42,7 +43,7 @@ public class DisconnectionTests {
     public void clientDisconnection() throws InterruptedException {
         Injector client_aInjector;
         ClientNetworkHandle client_a;
-        client_aInjector = Guice.createInjector(new CoreApp());
+        client_aInjector = Guice.createInjector(new TestApp());
         client_a = client_aInjector.getInstance(ClientNetworkHandle.class);
         client_a.connect();
         ConnectionStore connectionStore = serverInjector.getInstance(ConnectionStore.class);
@@ -59,7 +60,7 @@ public class DisconnectionTests {
     public void clientDisconnectionAndRemove() throws InterruptedException {
         Injector client_aInjector;
         ClientNetworkHandle client_a;
-        client_aInjector = Guice.createInjector(new CoreApp());
+        client_aInjector = Guice.createInjector(new TestApp());
         client_a = client_aInjector.getInstance(ClientNetworkHandle.class);
         client_a.connect();
         ConnectionStore connectionStore = serverInjector.getInstance(ConnectionStore.class);
@@ -86,13 +87,13 @@ public class DisconnectionTests {
     public void doubleClientDisconnectionAndRemove() throws InterruptedException {
         Injector client_aInjector;
         ClientNetworkHandle client_a;
-        client_aInjector = Guice.createInjector(new CoreApp());
+        client_aInjector = Guice.createInjector(new TestApp());
         client_a = client_aInjector.getInstance(ClientNetworkHandle.class);
         client_a.connect();
 
         Injector client_bInjector;
         ClientNetworkHandle client_b;
-        client_bInjector = Guice.createInjector(new CoreApp());
+        client_bInjector = Guice.createInjector(new TestApp());
         client_b = client_bInjector.getInstance(ClientNetworkHandle.class);
         client_b.connect();
 

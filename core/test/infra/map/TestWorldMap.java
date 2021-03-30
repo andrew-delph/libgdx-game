@@ -3,6 +3,7 @@ package infra.map;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configure.CoreApp;
+import configure.TestApp;
 import infra.map.block.Block;
 import infra.map.block.BlockFactory;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class TestWorldMap {
 
     @Test
     public void testGenerateAndGet() {
-        Injector injector = Guice.createInjector(new CoreApp());
+        Injector injector = Guice.createInjector(new TestApp());
         WorldMap worldMap = injector.getInstance(WorldMap.class);
         worldMap.generateArea(0,0,15,20);
         List<Block> blocks = worldMap.getBlocksInRange(0,0,15,20);

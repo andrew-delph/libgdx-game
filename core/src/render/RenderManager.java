@@ -26,23 +26,6 @@ public class RenderManager{
         });
 
         this.put(Block.class, (b, batch)->{
-            // TODO dont assign texture here
-            if(b.sprite.getTexture() == null){
-                Texture texture = assetManager.get("badlogic.jpg", Texture.class);
-                Pixmap pixmap = new Pixmap(256,128, Pixmap.Format.RGBA8888);
-                double rand = Math.random();
-                if (rand<0.3){
-                    pixmap.setColor(Color.YELLOW);
-                }
-                else if(rand < 0.6){
-                    pixmap.setColor(Color.BLUE);
-                }
-                else{
-                    pixmap.setColor(Color.GREEN);
-                }
-                pixmap.fill();
-                b.sprite.setTexture(new Texture(pixmap));
-            }
             b.sprite.draw(batch);
 //            batch.draw(b.sprite);
         });

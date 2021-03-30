@@ -71,6 +71,7 @@ public class MapRender extends BaseApplicationAdapter {
                 noiseData[index++] = ((noise.GetNoise(x, y) + 1) * 5) / 10.0f;
             }
         }
+        worldMap.generateArea(0,0,20,20);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class MapRender extends BaseApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        worldMap.generateArea(0,0,20,20);
+
 
 //        ShapeRenderer shapeRenderer = new ShapeRenderer();
 //
