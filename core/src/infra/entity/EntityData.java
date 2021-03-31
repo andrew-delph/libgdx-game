@@ -1,5 +1,7 @@
 package infra.entity;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
 import java.util.HashMap;
 import java.util.UUID;
 

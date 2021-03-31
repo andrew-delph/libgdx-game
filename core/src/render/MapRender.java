@@ -23,6 +23,7 @@ import infra.map.block.Block;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MapRender extends BaseApplicationAdapter {
@@ -56,11 +57,11 @@ public class MapRender extends BaseApplicationAdapter {
         this.init();
         this.batch = new SpriteBatch();
 
-        this.entity = entityFactory.createBasic();
-        this.sprite = new Sprite(assetManager.get("frog.png", Texture.class));
+        this.entity = entityFactory.create(UUID.randomUUID(),50,50,UUID.randomUUID());
+//        this.sprite = new Sprite(assetManager.get("frog.png", Texture.class));
 //        this.sprite.setTexture(assetManager.get("frog.png", Texture.class));
 //        this.sprite.setPosition();
-        this.sprite.setSize(200,100);
+//        this.sprite.setSize(200,100);
 
         noiseData = new float[width * height];
         int index = 0;
@@ -94,14 +95,13 @@ public class MapRender extends BaseApplicationAdapter {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
+        handleInput();
 
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
 
-//        renderManager.render(this.entity, batch);
-
-        this.sprite.draw(batch);
+//        this.sprite.draw(batch);
 
         List<Block> blocks = worldMap.getBlocksInRange(0,0,20,20);
 
@@ -109,13 +109,13 @@ public class MapRender extends BaseApplicationAdapter {
             renderManager.render(block, batch);
         }
 
+        renderManager.render(this.entity, batch);
+
         batch.end();
 
-        handleInput();
 
         System.out.println(camera.position.x+", "+camera.position.y+", "+camera.position.z);
         System.out.println(Arrays.toString(camera.projection.getValues()));
-
     }
 
     @Override
@@ -125,18 +125,18 @@ public class MapRender extends BaseApplicationAdapter {
 
     private void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            camera.translate(-1, 0);
+            this.entity.moveX(-1);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            camera.translate(1, 0);
+            this.entity.moveX(1);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            camera.translate(0, -1);
+            this.entity.moveY(-1);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            camera.translate(0, 1);
+            this.entity.moveY(1);
         }
-
+        camera.position.set(this.entity.getX()+this.entity.size/2,this.entity.getY()+this.entity.size/2,0);
         camera.update();
     }
 

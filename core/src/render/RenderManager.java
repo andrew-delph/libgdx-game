@@ -22,12 +22,11 @@ public class RenderManager{
     public RenderManager() {
         this.put(Entity.class, (e, batch)->{
             Texture texture = assetManager.get("badlogic.jpg", Texture.class);
-            batch.draw(texture,e.getX(),e.getY());
+            e.sprite.draw(batch);
         });
 
         this.put(Block.class, (b, batch)->{
             b.sprite.draw(batch);
-//            batch.draw(b.sprite);
         });
     }
 
