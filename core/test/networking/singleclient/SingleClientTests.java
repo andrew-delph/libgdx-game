@@ -5,7 +5,6 @@ import com.google.inject.Injector;
 import configure.TestApp;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
-import configure.CoreApp;
 import networking.NetworkObject;
 import networking.client.ClientNetworkHandle;
 import networking.server.ServerNetworkHandle;

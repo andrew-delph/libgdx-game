@@ -2,7 +2,6 @@ package networking;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configure.CoreApp;
 import configure.TestApp;
 import networking.connetion.ConnectionStore;
 import networking.connetion.CreateConnection;

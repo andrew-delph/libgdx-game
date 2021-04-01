@@ -2,11 +2,11 @@ package infra.map.block;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configure.CoreApp;
 import configure.TestApp;
 import org.junit.Test;
-import static org.junit.Assert.assertNotNull;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TestBlockFactory {
     @Test

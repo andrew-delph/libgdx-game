@@ -2,15 +2,13 @@ package infra.map;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configure.CoreApp;
 import configure.TestApp;
 import infra.map.block.Block;
-import infra.map.block.BlockFactory;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 public class TestWorldMap {
 

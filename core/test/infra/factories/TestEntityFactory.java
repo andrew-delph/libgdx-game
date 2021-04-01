@@ -6,7 +6,6 @@ import com.google.inject.Injector;
 import configure.TestApp;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
-import configure.CoreApp;
 import org.junit.Test;
 
 import java.util.UUID;

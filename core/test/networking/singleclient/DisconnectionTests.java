@@ -6,7 +6,6 @@ import configure.TestApp;
 import infra.entity.Entity;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
-import configure.CoreApp;
 import networking.NetworkObject;
 import networking.client.ClientNetworkHandle;
 import networking.connetion.AbtractConnection;

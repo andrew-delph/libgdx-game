@@ -2,7 +2,6 @@ package render;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configure.CoreApp;
 import configure.TestApp;
 import infra.entity.Entity;
 import org.junit.Test;

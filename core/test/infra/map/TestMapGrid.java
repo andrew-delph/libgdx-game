@@ -1,13 +1,8 @@
 package infra.map;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import configure.CoreApp;
 import infra.common.Coordinate;
 import infra.map.block.Block;
 import org.junit.Test;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
