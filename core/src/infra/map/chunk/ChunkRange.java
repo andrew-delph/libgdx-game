@@ -8,7 +8,7 @@ public class ChunkRange {
     public int bottom_y;
     public int top_x;
     public int top_y;
-    ChunkRange(Coordinate coordinate){
+    public ChunkRange(Coordinate coordinate){
         this.bottom_x  = ((coordinate.getX()/size))*size;
         this.bottom_y  = ((coordinate.getY()/size))*size;
         this.top_x = this.bottom_x+size;
