@@ -41,4 +41,8 @@ public class Coordinate {
         Coordinate other = (Coordinate) obj;
         return x == other.x && y == other.y;
     }
+
+    public String tostring(){
+        return this.getX()+","+this.getY();
+    }
 }

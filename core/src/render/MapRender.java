@@ -16,10 +16,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
 import generation.noise.FastNoiseLite;
+import infra.common.Coordinate;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
 import infra.map.WorldMap;
 import infra.map.block.Block;
+import infra.map.chunk.Chunk;
+import infra.map.chunk.MapBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +39,7 @@ public class MapRender extends BaseApplicationAdapter {
 
     Entity entity;
     Sprite sprite;
+    Chunk chunk;
 
     @Inject
     EntityFactory entityFactory;
@@ -45,6 +49,9 @@ public class MapRender extends BaseApplicationAdapter {
 
     @Inject
     WorldMap worldMap;
+
+    @Inject
+    MapBuilder mapBuilder;
 
     @Inject
     public MapRender(BaseAssetManager assetManager, BaseCamera camera) {
@@ -63,24 +70,24 @@ public class MapRender extends BaseApplicationAdapter {
 //        this.sprite.setPosition();
 //        this.sprite.setSize(200,100);
 
-        noiseData = new float[width * height];
-        int index = 0;
-        FastNoiseLite noise = new FastNoiseLite(ThreadLocalRandom.current().nextInt());
-        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                noiseData[index++] = ((noise.GetNoise(x, y) + 1) * 5) / 10.0f;
-            }
-        }
-        worldMap.generateArea(0,0,20,20);
+//        noiseData = new float[width * height];
+//        int index = 0;
+//        FastNoiseLite noise = new FastNoiseLite(ThreadLocalRandom.current().nextInt());
+//        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+//        for (int y = 0; y < height; y++) {
+//            for (int x = 0; x < width; x++) {
+//                noiseData[index++] = ((noise.GetNoise(x, y) + 1) * 5) / 10.0f;
+//            }
+//        }
+
+        chunk = worldMap.mapGrid.getChunk(new Coordinate(0,0));
+        mapBuilder.generateDirt(chunk);
     }
 
     @Override
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-
 
 //        ShapeRenderer shapeRenderer = new ShapeRenderer();
 //
@@ -95,15 +102,16 @@ public class MapRender extends BaseApplicationAdapter {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
+
         handleInput();
 
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
 
-//        this.sprite.draw(batch);
+        worldMap.cameraGenerateArea(camera);
 
-        List<Block> blocks = worldMap.getBlocksInRange(0,0,20,20);
+        List<Block> blocks = worldMap.cameraGetBlocks(camera);
 
         for (Block block : blocks) {
             renderManager.render(block, batch);
@@ -113,9 +121,8 @@ public class MapRender extends BaseApplicationAdapter {
 
         batch.end();
 
-
-        System.out.println(camera.position.x+", "+camera.position.y+", "+camera.position.z);
-        System.out.println(Arrays.toString(camera.projection.getValues()));
+//        System.out.println(camera.position.x+", "+camera.position.y+", "+camera.position.z);
+//        System.out.println(Arrays.toString(camera.projection.getValues()));
     }
 
     @Override
@@ -124,17 +131,18 @@ public class MapRender extends BaseApplicationAdapter {
     }
 
     private void handleInput() {
+        int moveDistance = 5;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            this.entity.moveX(-1);
+            this.entity.moveX(-moveDistance);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            this.entity.moveX(1);
+            this.entity.moveX(moveDistance);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            this.entity.moveY(-1);
+            this.entity.moveY(-moveDistance);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            this.entity.moveY(1);
+            this.entity.moveY(moveDistance);
         }
         camera.position.set(this.entity.getX()+this.entity.size/2,this.entity.getY()+this.entity.size/2,0);
         camera.update();

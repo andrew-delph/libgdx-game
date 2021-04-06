@@ -17,4 +17,17 @@ public class TestChunkRange {
 
         assertEquals(chunkRange1,chunkRange2);
     }
+
+    @Test
+    public void negative() {
+        Coordinate c1 = new Coordinate(0, 0);
+        ChunkRange chunkRange1 = new ChunkRange(c1);
+        System.out.println(chunkRange1.tostring());
+
+        Coordinate c2 = new Coordinate(-51, -1);
+        ChunkRange chunkRange2 = new ChunkRange(c2);
+        System.out.println(chunkRange2.tostring());
+
+    }
+
 }

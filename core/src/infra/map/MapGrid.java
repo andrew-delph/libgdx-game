@@ -32,6 +32,14 @@ public class MapGrid {
         return this.chunkMap.get(new ChunkRange(coordinate)).getBlock(coordinate);
     }
 
+    public  Chunk getChunk(Coordinate coordinate) {
+        ChunkRange chunkRange = new ChunkRange(coordinate);
+        if (this.chunkMap.get(chunkRange)==null ){
+            this.chunkMap.put(chunkRange, new Chunk(chunkRange));
+        }
+        return this.chunkMap.get(chunkRange);
+    }
+
     List<Block> getBlocksInRange(int x, int y, int width, int height) {
         ArrayList<Block> blocksList = new ArrayList();
         for (int i = 0; i < width; i++) {

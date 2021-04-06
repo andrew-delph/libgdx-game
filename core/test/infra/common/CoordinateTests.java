@@ -17,4 +17,10 @@ public class CoordinateTests {
         set.add(c2);
         assert set.size() == 1;
     }
+
+    @Test
+    public void negative() {
+        Coordinate c1 = new Coordinate(-11, -22);
+        System.out.println(c1.tostring());
+    }
 }
