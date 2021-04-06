@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Chunk {
-    static final int size = 50;
+    public static final int size = 50;
     Map<Coordinate, Block> blockMap;
     public ChunkRange chunkRange;
     public Boolean generated = false;

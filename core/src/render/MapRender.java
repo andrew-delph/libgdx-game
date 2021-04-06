@@ -106,19 +106,13 @@ public class MapRender extends BaseApplicationAdapter {
         handleInput();
 
         batch.setProjectionMatrix(camera.combined);
-
         batch.begin();
-
         worldMap.cameraGenerateArea(camera);
-
         List<Block> blocks = worldMap.cameraGetBlocks(camera);
-
         for (Block block : blocks) {
             renderManager.render(block, batch);
         }
-
         renderManager.render(this.entity, batch);
-
         batch.end();
 
 //        System.out.println(camera.position.x+", "+camera.position.y+", "+camera.position.z);
@@ -144,9 +138,7 @@ public class MapRender extends BaseApplicationAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             this.entity.moveY(moveDistance);
         }
-        camera.position.set(this.entity.getX()+this.entity.size/2,this.entity.getY()+this.entity.size/2,0);
+        camera.position.set(this.entity.getX(),this.entity.getY(),0);
         camera.update();
     }
-
-
 }

@@ -1,6 +1,7 @@
 package infra.map;
 
 import base.BaseCamera;
+import com.google.api.client.util.Lists;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import infra.common.Coordinate;
@@ -9,7 +10,10 @@ import infra.map.block.BlockFactory;
 import infra.map.chunk.Chunk;
 import infra.map.chunk.MapBuilder;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class WorldMap {
     public MapGrid mapGrid;
@@ -48,21 +52,39 @@ public class WorldMap {
     }
 
     public void cameraGenerateArea(BaseCamera camera){
-        Chunk genChunk  = this.mapGrid.getChunk(cameraPositionToCoordinate(camera));
-        if (!genChunk.generated){
-            mapBuilder.generateDirt(genChunk);
+        List<Chunk> chunkList = getChunksOnCamera(camera);
+        for (Chunk chunk: chunkList) {
+            if (!chunk.generated){
+                mapBuilder.generateDirt(chunk);
+            }
         }
     }
 
     public List<Block> cameraGetBlocks(BaseCamera camera){
-        Chunk genChunk  = this.mapGrid.getChunk(cameraPositionToCoordinate(camera));
-        return genChunk.getBlocks();
+        List<Chunk> chunkList = getChunksOnCamera(camera);
+        List<Block>  blockList = new LinkedList();
+        for (Chunk chunk: chunkList) {
+            blockList.addAll(chunk.getBlocks());
+        }
+        return blockList;
     }
 
     public Coordinate cameraPositionToCoordinate(BaseCamera camera){
-
         Coordinate coordinate = new Coordinate(camera.position.x/size,camera.position.y/size);
         System.out.println(coordinate.getX()+","+coordinate.getY());
         return coordinate;
+    }
+
+    public List<Chunk> getChunksOnCamera(BaseCamera camera){
+        Set<Chunk> chunkSet = new HashSet<>();
+        Coordinate cameraCord  = cameraPositionToCoordinate(camera);
+//        chunkSet.add(this.mapGrid.getChunk(new Coordinate(camera.position.x/size-camera.viewportWidth/size,camera.position.y/size)));
+        chunkSet.add(this.mapGrid.getChunk(cameraCord));
+
+        Coordinate diffCoord = new Coordinate(cameraCord.getX()-camera.viewportWidth/size/2,cameraCord.getY());
+
+        chunkSet.add(this.mapGrid.getChunk(diffCoord));
+
+        return Lists.newArrayList(chunkSet);
     }
 }
