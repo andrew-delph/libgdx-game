@@ -29,11 +29,8 @@ public class CoreApp extends AbstractModule {
         bind(GameClient.class).asEagerSingleton();
         bind(EventService.class).asEagerSingleton();
         bind(ClientObserverFactory.class).asEagerSingleton();
-
         bind(BlockFactory.class).asEagerSingleton();
         bind(MapRender.class).asEagerSingleton();
-
         bind(RenderManager.class).asEagerSingleton();
-
     }
 }
