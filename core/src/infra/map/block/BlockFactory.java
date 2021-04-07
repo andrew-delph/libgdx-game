@@ -6,6 +6,8 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import infra.common.Coordinate;
 
+import java.util.Random;
+
 public class BlockFactory {
 
     @Inject
@@ -23,7 +25,14 @@ public class BlockFactory {
 
     public Block createBlock(int x, int y){
         if (provideTexture){
-            return new Block(new Coordinate(x,y), this.size, assetManager.get("dirtblock.jpg", Texture.class));
+            Random rand = new Random();
+            int rand_int1 = rand.nextInt(1000);
+            if(rand_int1<100){
+                return new Block(new Coordinate(x,y), this.size, assetManager.get("dirtblock.jpg", Texture.class));
+            }
+            else{
+                return new Block(new Coordinate(x,y), this.size, assetManager.get("frog.png", Texture.class));
+            }
         }
         else{
             return new Block(new Coordinate(x,y), this.size);
