@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.google.inject.Inject;
 import infra.entity.Entity;
 import infra.map.block.Block;
+import infra.map.block.DirtBlock;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +22,16 @@ public class RenderManager{
 
     public RenderManager() {
         this.put(Entity.class, (e, batch)->{
-            Texture texture = assetManager.get("badlogic.jpg", Texture.class);
             e.sprite.draw(batch);
         });
 
         this.put(Block.class, (b, batch)->{
             b.sprite.draw(batch);
         });
+        this.put(DirtBlock.class, (b, batch)->{
+            b.sprite.draw(batch);
+        });
+
     }
 
     private Map<Class<? extends Object>, BiConsumer<?, Batch>> renderConsumerMap = new HashMap<>();

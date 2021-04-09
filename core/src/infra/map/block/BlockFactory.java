@@ -1,6 +1,7 @@
 package infra.map.block;
 
 import base.BaseAssetManager;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -24,26 +25,27 @@ public class BlockFactory {
     }
 
     public Block createBlock(int x, int y){
-        if (provideTexture){
-            Random rand = new Random();
-            int rand_int1 = rand.nextInt(1000);
-            if(rand_int1<100){
-                return new Block(new Coordinate(x,y), this.size, assetManager.get("dirtblock.jpg", Texture.class));
-            }
-            else{
-                return new Block(new Coordinate(x,y), this.size, assetManager.get("frog.png", Texture.class));
-            }
-        }
-        else{
-            return new Block(new Coordinate(x,y), this.size);
-        }
+        return this.createBlock(new Coordinate(x,y));
     }
     public Block createBlock(Coordinate coordinate){
         if (provideTexture) {
-            return new Block(coordinate, this.size, assetManager.get("dirtblock.jpg", Texture.class));
+            Pixmap pixmap = new Pixmap( 64, 64, Pixmap.Format.RGBA8888 );
+            pixmap.setColor( 0, 1, 0, 0.75f );
+            pixmap.fillCircle( 32, 32, 32 );
+            Texture pixmaptex = new Texture( pixmap );
+            pixmap.dispose();
+            return new Block(coordinate, this.size, pixmaptex);
         }
         else{
             return new Block(coordinate, this.size);
+        }
+    }
+    public DirtBlock createDirtBlock(Coordinate coordinate){
+        if (provideTexture) {
+            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg", Texture.class));
+        }
+        else{
+            return new DirtBlock(coordinate, this.size);
         }
     }
 }
