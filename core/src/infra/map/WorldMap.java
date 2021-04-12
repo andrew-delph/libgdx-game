@@ -55,7 +55,7 @@ public class WorldMap {
         List<Chunk> chunkList = getChunksOnCamera(camera);
         for (Chunk chunk: chunkList) {
             if (!chunk.generated){
-                mapBuilder.generateDirt(chunk);
+                mapBuilder.generateWorld(chunk);
             }
         }
     }
@@ -81,15 +81,12 @@ public class WorldMap {
 //        chunkSet.add(this.mapGrid.getChunk(new Coordinate(camera.position.x/size-camera.viewportWidth/size,camera.position.y/size)));
         chunkSet.add(this.mapGrid.getChunk(cameraCord));
 
-
         for(int x = (int)(cameraCord.getX()-camera.viewportWidth/size/2); x <cameraCord.getX()+camera.viewportWidth/size/2; x++){
             for(int y = (int)(cameraCord.getY()-camera.viewportHeight/size/2); y <cameraCord.getY()+camera.viewportHeight/size/2; y++) {
                 Coordinate diffCoord = new Coordinate(x,y);
                 chunkSet.add(this.mapGrid.getChunk(diffCoord));
             }
         }
-
-
 
         return Lists.newArrayList(chunkSet);
     }
