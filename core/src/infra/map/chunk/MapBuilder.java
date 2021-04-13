@@ -1,6 +1,7 @@
 package infra.map.chunk;
 
 import com.google.inject.Inject;
+import generation.noise.FastNoiseGenerator;
 import generation.noise.FastNoiseLite;
 import infra.common.Coordinate;
 import infra.map.block.BlockFactory;
@@ -13,11 +14,13 @@ public class MapBuilder {
     @Inject
     BlockFactory blockFactory;
 
-    FastNoiseLite noise;
+    FastNoiseGenerator noise;
 
     public MapBuilder() {
-        noise = new FastNoiseLite(ThreadLocalRandom.current().nextInt());
-        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+        noise = new FastNoiseGenerator();
+        noise.setTopRange(2);
+        noise.setyScale(7);
+        noise.setxScale(7);
     }
 
     public void generateDirt(Chunk chunk){
@@ -41,8 +44,8 @@ public class MapBuilder {
         ChunkRange chunkRange = chunk.chunkRange;
         for (int i =chunkRange.bottom_x; i < chunkRange.top_x; i++) {
             for (int j = chunkRange.bottom_y; j <chunkRange.top_y;j++){
-                float noise_float = noise.GetNoise(i,j);
-                if(noise_float<0){
+                int noise_value = noise.getValue(i,j);
+                if(noise_value==0){
                     chunk.addBlock(blockFactory.createBlock(new Coordinate(i,j)));
                 }
                 else{
