@@ -3,31 +3,22 @@ package render;
 import base.BaseApplicationAdapter;
 import base.BaseAssetManager;
 import base.BaseCamera;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
-import generation.noise.FastNoiseLite;
+import generation.MapBuilder;
 import infra.common.Coordinate;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
 import infra.map.WorldMap;
 import infra.map.block.Block;
 import infra.map.chunk.Chunk;
-import infra.map.chunk.MapBuilder;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class MapRender extends BaseApplicationAdapter {
 
@@ -64,7 +55,7 @@ public class MapRender extends BaseApplicationAdapter {
         this.init();
         this.batch = new SpriteBatch();
 
-        this.entity = entityFactory.create(UUID.randomUUID(),50,50,UUID.randomUUID());
+        this.entity = entityFactory.create(UUID.randomUUID(), 50, 50, UUID.randomUUID());
 //        this.sprite = new Sprite(assetManager.get("frog.png", Texture.class));
 //        this.sprite.setTexture(assetManager.get("frog.png", Texture.class));
 //        this.sprite.setPosition();
@@ -80,8 +71,8 @@ public class MapRender extends BaseApplicationAdapter {
 //            }
 //        }
 
-        chunk = worldMap.mapGrid.getChunk(new Coordinate(0,0));
-        mapBuilder.generateDirt(chunk);
+        chunk = worldMap.mapGrid.getChunk(new Coordinate(0, 0));
+        mapBuilder.generateWorld(chunk);
     }
 
     @Override
@@ -138,7 +129,7 @@ public class MapRender extends BaseApplicationAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             this.entity.moveY(moveDistance);
         }
-        camera.position.set(this.entity.getX(),this.entity.getY(),0);
+        camera.position.set(this.entity.getX(), this.entity.getY(), 0);
         camera.update();
     }
 }

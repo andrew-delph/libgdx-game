@@ -1,8 +1,6 @@
 package base;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.google.inject.Inject;
 
 public class BaseApplicationAdapter extends ApplicationAdapter {
@@ -16,7 +14,7 @@ public class BaseApplicationAdapter extends ApplicationAdapter {
         this.camera = camera;
     }
 
-    public void init(){
+    public void init() {
         this.assetManager.init();
         this.camera.init();
     }

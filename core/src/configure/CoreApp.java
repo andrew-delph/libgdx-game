@@ -1,8 +1,10 @@
 package configure;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.name.Names;
 import game.GameClient;
+import generation.MapBuilder;
+import generation.layer.fill.DirtFillLayer;
+import generation.layer.random.StoneRandomLayer;
 import infra.entity.EntityManager;
 import infra.entity.factories.EntityFactory;
 import infra.events.EventService;
@@ -32,5 +34,8 @@ public class CoreApp extends AbstractModule {
         bind(BlockFactory.class).asEagerSingleton();
         bind(MapRender.class).asEagerSingleton();
         bind(RenderManager.class).asEagerSingleton();
+        bind(MapBuilder.class).asEagerSingleton();
+        bind(StoneRandomLayer.class).asEagerSingleton();
+        bind(DirtFillLayer.class).asEagerSingleton();
     }
 }

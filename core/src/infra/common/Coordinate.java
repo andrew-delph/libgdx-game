@@ -42,7 +42,7 @@ public class Coordinate {
         return x == other.x && y == other.y;
     }
 
-    public String tostring(){
-        return this.getX()+","+this.getY();
+    public String tostring() {
+        return this.getX() + "," + this.getY();
     }
 }

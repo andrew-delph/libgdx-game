@@ -5,6 +5,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configure.DesktopApp;
+import generation.MapBuilder;
+import generation.layer.random.StoneRandomLayer;
 import render.MapRender;
 
 public class MapRenderMain {
@@ -17,6 +19,9 @@ public class MapRenderMain {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
         MapRender mapRender = injector.getInstance(MapRender.class);
+
+        System.out.println(injector.getInstance(StoneRandomLayer.class));
+        System.out.println(injector.getInstance(MapBuilder.class));
 
         config.height = mapRender.height;
         config.width = mapRender.width;

@@ -1,7 +1,6 @@
 package infra.map;
 
 import infra.common.Coordinate;
-import infra.entity.EntityManager;
 import infra.map.block.Block;
 import infra.map.chunk.Chunk;
 import infra.map.chunk.ChunkRange;
@@ -19,22 +18,22 @@ public class MapGrid {
     }
 
     void addBlock(Block block) {
-        if (this.chunkMap.get(new ChunkRange(block.coordinate)) == null){
-            this.chunkMap.put(new ChunkRange(block.coordinate),new Chunk(new ChunkRange(block.coordinate)));
+        if (this.chunkMap.get(new ChunkRange(block.coordinate)) == null) {
+            this.chunkMap.put(new ChunkRange(block.coordinate), new Chunk(new ChunkRange(block.coordinate)));
         }
         this.chunkMap.get(new ChunkRange(block.coordinate)).addBlock(block);
     }
 
     Block getBlock(Coordinate coordinate) {
-        if (coordinate==null || this.chunkMap.get(new ChunkRange(coordinate))==null ){
+        if (coordinate == null || this.chunkMap.get(new ChunkRange(coordinate)) == null) {
             return null;
         }
         return this.chunkMap.get(new ChunkRange(coordinate)).getBlock(coordinate);
     }
 
-    public  Chunk getChunk(Coordinate coordinate) {
+    public Chunk getChunk(Coordinate coordinate) {
         ChunkRange chunkRange = new ChunkRange(coordinate);
-        if (this.chunkMap.get(chunkRange)==null ){
+        if (this.chunkMap.get(chunkRange) == null) {
             this.chunkMap.put(chunkRange, new Chunk(chunkRange));
         }
         return this.chunkMap.get(chunkRange);

@@ -3,6 +3,7 @@ package networking.client;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import configure.CoreApp;
 import infra.entity.Entity;
 import infra.entity.EntityData;
 import infra.entity.EntityManager;
@@ -12,7 +13,6 @@ import infra.events.EventService;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-import configure.CoreApp;
 import networking.NetworkObject;
 import networking.NetworkObjectFactory;
 import networking.NetworkObjectServiceGrpc;
@@ -59,6 +59,23 @@ public class ClientNetworkHandle {
         this.entityFactory = entityFactory;
 
 
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Injector injector = Guice.createInjector(
+                new CoreApp()
+        );
+
+        Scanner myInput = new Scanner(System.in);
+
+        ClientNetworkHandle client = injector.getInstance(ClientNetworkHandle.class);
+
+        System.out.println("starting..!");
+        while (true) {
+            String id = myInput.nextLine();
+            NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(id).build();
+            client.createRequest.onNext(createRequestObject);
+        }
     }
 
     public void connect() {
@@ -110,23 +127,6 @@ public class ClientNetworkHandle {
         this.updateRequest.onCompleted();
         this.removeRequest.onCompleted();
         this.channel.shutdown();
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        Injector injector = Guice.createInjector(
-                new CoreApp()
-        );
-
-        Scanner myInput = new Scanner(System.in);
-
-        ClientNetworkHandle client = injector.getInstance(ClientNetworkHandle.class);
-
-        System.out.println("starting..!");
-        while (true) {
-            String id = myInput.nextLine();
-            NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(id).build();
-            client.createRequest.onNext(createRequestObject);
-        }
     }
 
 }

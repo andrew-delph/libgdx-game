@@ -8,8 +8,8 @@ import networking.NetworkObject;
 import java.util.HashMap;
 
 public class RemoveEntityEvent implements Event {
-    HashMap<String, Object> data;
     public static String type = "remove_entity";
+    HashMap<String, Object> data;
 
     public RemoveEntityEvent(EntityData removeData, StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver) {
         this.data = new HashMap<>();

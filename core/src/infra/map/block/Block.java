@@ -2,22 +2,19 @@ package infra.map.block;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import infra.common.Coordinate;
 
 public class Block {
-    public Coordinate coordinate;
-    Texture image;
-    public Sprite sprite;
-
     public final int size;
+    public Coordinate coordinate;
+    public Sprite sprite;
+    Texture image;
 
     public Block(Coordinate coordinate, int size, Texture texture) {
         this(coordinate, size);
         this.sprite = new Sprite(texture);
-        this.sprite.setSize(this.size,this.size);
-        this.sprite.setPosition(this.size*this.coordinate.getX(),this.size*this.coordinate.getY());
+        this.sprite.setSize(this.size, this.size);
+        this.sprite.setPosition(this.size * this.coordinate.getX(), this.size * this.coordinate.getY());
     }
 
     public Block(Coordinate coordinate, int size) {

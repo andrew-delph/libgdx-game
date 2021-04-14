@@ -8,29 +8,28 @@ public class ChunkRange {
     public int bottom_y;
     public int top_x;
     public int top_y;
-    public ChunkRange(Coordinate coordinate){
-        if(coordinate.getX()<0){
-            this.bottom_x  = (((coordinate.getX()/size))*size)-size;
-        }
-        else{
-            this.bottom_x  = ((coordinate.getX()/size))*size;
+
+    public ChunkRange(Coordinate coordinate) {
+        if (coordinate.getX() < 0) {
+            this.bottom_x = (((coordinate.getX() / size)) * size) - size;
+        } else {
+            this.bottom_x = ((coordinate.getX() / size)) * size;
         }
 
-        if(coordinate.getY()<0){
-            this.bottom_y  = (((coordinate.getY()/size))*size)-size;
-        }
-        else{
-            this.bottom_y  = ((coordinate.getY()/size))*size;
+        if (coordinate.getY() < 0) {
+            this.bottom_y = (((coordinate.getY() / size)) * size) - size;
+        } else {
+            this.bottom_y = ((coordinate.getY() / size)) * size;
         }
 
-        this.top_y = this.bottom_y+size;
-        this.top_x = this.bottom_x+size;
+        this.top_y = this.bottom_y + size;
+        this.top_x = this.bottom_x + size;
 
     }
 
     @Override
     public int hashCode() {
-        return (this.bottom_x + "," + this.bottom_x+","+this.top_x+","+this.top_y).hashCode();
+        return (this.bottom_x + "," + this.bottom_x + "," + this.top_x + "," + this.top_y).hashCode();
     }
 
     @Override
@@ -45,7 +44,7 @@ public class ChunkRange {
         return bottom_x == other.bottom_x && bottom_y == other.bottom_y && top_x == other.top_x && top_y == other.top_y;
     }
 
-    public String tostring(){
-        return this.bottom_x+","+this.bottom_y+","+this.top_x+","+this.top_y;
+    public String tostring() {
+        return this.bottom_x + "," + this.bottom_y + "," + this.top_x + "," + this.top_y;
     }
 }
