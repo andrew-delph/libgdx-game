@@ -59,6 +59,20 @@ public class BlockFactory {
         }
     }
 
+    public AirBlock createAirBlock(Coordinate coordinate) {
+        if (provideTexture) {
+            Pixmap pixmap = this.createPixmapDefaulltSize();
+            pixmap.setColor(Color.BLUE);
+            pixmap.fill();
+            Texture pixmaptex = new Texture(pixmap);
+            pixmap.dispose();
+            return new AirBlock(coordinate, this.size, pixmaptex);
+//            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg", Texture.class));
+        } else {
+            return new AirBlock(coordinate, this.size);
+        }
+    }
+
     public StoneBlock createStoneBlock(Coordinate coordinate) {
         if (provideTexture) {
             Pixmap pixmap = this.createPixmapDefaulltSize();

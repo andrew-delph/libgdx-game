@@ -4,6 +4,7 @@ import base.BaseAssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.google.inject.Inject;
 import infra.entity.Entity;
+import infra.map.block.AirBlock;
 import infra.map.block.Block;
 import infra.map.block.DirtBlock;
 import infra.map.block.StoneBlock;
@@ -30,6 +31,9 @@ public class RenderManager {
             b.sprite.draw(batch);
         });
         this.put(StoneBlock.class, (b, batch) -> {
+            b.sprite.draw(batch);
+        });
+        this.put(AirBlock.class, (b, batch) -> {
             b.sprite.draw(batch);
         });
     }
