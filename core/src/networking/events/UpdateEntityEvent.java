@@ -9,8 +9,8 @@ import java.util.HashMap;
 
 public class UpdateEntityEvent implements Event {
 
-    HashMap<String, Object> data;
     public static String type = "update_entity";
+    HashMap<String, Object> data;
 
     public UpdateEntityEvent(EntityData updateData, StreamObserver<NetworkObject.UpdateNetworkObject> requestObserver) {
         this.data = new HashMap<>();

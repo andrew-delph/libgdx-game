@@ -10,7 +10,8 @@ import java.util.UUID;
 
 public class EntityFactory {
 
-    @Inject @Named("provideTexture")
+    @Inject
+    @Named("provideTexture")
     Boolean provideTexture;
 
     @Inject
@@ -23,8 +24,7 @@ public class EntityFactory {
     public Entity create(UUID id, int x, int y, UUID owner) {
         if (provideTexture) {
             return new Entity(id, x, y, owner, assetManager.get("badlogic.jpg"));
-        }
-        else{
+        } else {
             return new Entity(id, x, y, owner);
         }
     }

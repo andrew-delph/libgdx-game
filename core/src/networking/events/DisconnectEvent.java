@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 public class DisconnectEvent implements Event {
 
-    HashMap<String, Object> data;
     public static String type = "disconnect";
+    HashMap<String, Object> data;
 
     public DisconnectEvent(StreamObserver requestObserver) {
         this.data = new HashMap<>();

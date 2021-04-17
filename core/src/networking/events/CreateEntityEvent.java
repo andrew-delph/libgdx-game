@@ -8,8 +8,8 @@ import networking.NetworkObject;
 import java.util.HashMap;
 
 public class CreateEntityEvent implements Event {
-    HashMap<String, Object> data;
     public static String type = "create_entity";
+    HashMap<String, Object> data;
 
     public CreateEntityEvent(EntityData createData, StreamObserver<NetworkObject.CreateNetworkObject> requestObserver) {
         this.data = new HashMap<>();

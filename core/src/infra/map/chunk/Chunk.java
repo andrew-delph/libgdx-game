@@ -10,16 +10,17 @@ import java.util.Map;
 
 public class Chunk {
     public static final int size = 50;
-    Map<Coordinate, Block> blockMap;
     public ChunkRange chunkRange;
     public Boolean generated = false;
+    Map<Coordinate, Block> blockMap;
 
-    public Chunk(ChunkRange chunkRange){
+    public Chunk(ChunkRange chunkRange) {
         this.chunkRange = chunkRange;
-        this.blockMap  = new HashMap<>();
+        this.blockMap = new HashMap<>();
     }
 
     public void addBlock(Block block) {
+        // TODO we can add blocks outside the chunk
         this.blockMap.put(block.coordinate, block);
     }
 
@@ -27,7 +28,7 @@ public class Chunk {
         return this.blockMap.get(coordinate);
     }
 
-    public List<Block> getBlocks(){
+    public List<Block> getBlocks() {
         List blocks = Arrays.asList(this.blockMap.values().toArray());
         return blocks;
     }
