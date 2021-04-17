@@ -2,11 +2,10 @@ package generation;
 
 import com.google.inject.Inject;
 import generation.layer.AbstractLayer;
+import generation.layer.fill.AirFillLayer;
 import generation.layer.fill.DirtFillLayer;
-import generation.layer.noise.AirNoiseLayer;
 import generation.layer.random.StoneRandomLayer;
 import generation.noise.FastNoiseGenerator;
-import infra.map.block.BlockFactory;
 import infra.map.chunk.Chunk;
 
 import java.util.LinkedList;
@@ -22,7 +21,7 @@ public class MapBuilder {
 //    BlockFactory blockFactory;
 
     @Inject
-    public MapBuilder(StoneRandomLayer stoneRandomLayer, DirtFillLayer dirtFillLayer, AirNoiseLayer airNoiseLayer) {
+    public MapBuilder(StoneRandomLayer stoneRandomLayer, DirtFillLayer dirtFillLayer, AirFillLayer airFillLayer) {
         noise = new FastNoiseGenerator();
         noise.setTopRange(2);
         noise.setyScale(7);
@@ -30,7 +29,7 @@ public class MapBuilder {
         layerList = new LinkedList<>();
         layerList.add(dirtFillLayer);
         layerList.add(stoneRandomLayer);
-        layerList.add(airNoiseLayer);
+        layerList.add(airFillLayer);
     }
 
     public void generateWorld(Chunk chunk) {

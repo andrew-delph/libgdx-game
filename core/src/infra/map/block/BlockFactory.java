@@ -32,7 +32,7 @@ public class BlockFactory {
 
     public Block createBlock(Coordinate coordinate) {
         if (provideTexture) {
-            if(dirtTexture == null){
+            if (dirtTexture == null) {
                 Pixmap pixmap = this.createPixmapDefaulltSize();
                 pixmap.setColor(0, 1, 0, 0.75f);
                 pixmap.fillCircle(this.size / 2, this.size / 2, this.size / 2);

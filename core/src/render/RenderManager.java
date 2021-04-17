@@ -15,9 +15,9 @@ import java.util.function.BiConsumer;
 
 public class RenderManager {
 
+    private final Map<Class<? extends Object>, BiConsumer<?, Batch>> renderConsumerMap = new HashMap<>();
     @Inject
     BaseAssetManager assetManager;
-    private final Map<Class<? extends Object>, BiConsumer<?, Batch>> renderConsumerMap = new HashMap<>();
 
     public RenderManager() {
         this.put(Entity.class, (e, batch) -> {
@@ -48,7 +48,7 @@ public class RenderManager {
 
     public <T> void render(T o, Batch batch) {
         BiConsumer<T, Batch> renderConsumer = (BiConsumer<T, Batch>) this.get(o.getClass());
-        if (renderConsumer == null){
+        if (renderConsumer == null) {
             throw new NullPointerException("No render consumer found!");
         }
         renderConsumer.accept(o, batch);
