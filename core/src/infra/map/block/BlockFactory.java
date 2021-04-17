@@ -42,7 +42,13 @@ public class BlockFactory {
     }
     public DirtBlock createDirtBlock(Coordinate coordinate){
         if (provideTexture) {
-            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg", Texture.class));
+            Pixmap pixmap = new Pixmap( 64, 64, Pixmap.Format.RGBA8888 );
+            pixmap.setColor( 1, 1, 0, 0.75f );
+            pixmap.fillCircle( 32, 32, 32 );
+            Texture pixmaptex = new Texture( pixmap );
+            pixmap.dispose();
+            return new DirtBlock(coordinate, this.size, pixmaptex);
+//            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg", Texture.class));
         }
         else{
             return new DirtBlock(coordinate, this.size);
