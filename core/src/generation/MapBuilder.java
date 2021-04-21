@@ -5,6 +5,7 @@ import generation.layer.AbstractLayer;
 import generation.layer.fill.AirFillLayer;
 import generation.layer.fill.DirtFillLayer;
 import generation.layer.random.StoneRandomLayer;
+import generation.layer.random.tunnel.TunnelRandomLayer;
 import generation.noise.FastNoiseGenerator;
 import infra.map.chunk.Chunk;
 
@@ -21,7 +22,7 @@ public class MapBuilder {
 //    BlockFactory blockFactory;
 
     @Inject
-    public MapBuilder(StoneRandomLayer stoneRandomLayer, DirtFillLayer dirtFillLayer, AirFillLayer airFillLayer) {
+    public MapBuilder(StoneRandomLayer stoneRandomLayer, DirtFillLayer dirtFillLayer, AirFillLayer airFillLayer, TunnelRandomLayer tunnelRandomLayer) {
         noise = new FastNoiseGenerator();
         noise.setTopRange(2);
         noise.setyScale(7);
@@ -29,6 +30,7 @@ public class MapBuilder {
         layerList = new LinkedList<>();
         layerList.add(dirtFillLayer);
         layerList.add(stoneRandomLayer);
+        layerList.add(tunnelRandomLayer);
         layerList.add(airFillLayer);
     }
 
