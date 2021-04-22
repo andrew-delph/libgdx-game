@@ -25,6 +25,22 @@ public class Coordinate {
         return this.y;
     }
 
+    public Coordinate getUp() {
+        return new Coordinate(this.getX(), this.getY() + 1);
+    }
+
+    public Coordinate getDown() {
+        return new Coordinate(this.getX(), this.getY() - 1);
+    }
+
+    public Coordinate getLeft() {
+        return new Coordinate(this.getX() - 1, this.getY());
+    }
+
+    public Coordinate getRight() {
+        return new Coordinate(this.getX() + 1, this.getY());
+    }
+
     @Override
     public int hashCode() {
         return (this.x + "," + this.y).hashCode();

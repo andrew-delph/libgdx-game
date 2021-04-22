@@ -14,12 +14,12 @@ public class TestMapGrid {
 
         assertNull(mapGrid.getBlock(null));
 
-        Block testBlock = new Block(new Coordinate(15,15),15);
+        Block testBlock = new Block(new Coordinate(15, 15), 15);
 
         mapGrid.addBlock(testBlock);
 
-        assertEquals(testBlock, mapGrid.getBlock(new Coordinate(15,15)));
+        assertEquals(testBlock, mapGrid.getBlock(new Coordinate(15, 15)));
 
-        assertNull(mapGrid.getBlock(new Coordinate(15,77)));
+        assertNull(mapGrid.getBlock(new Coordinate(15, 77)));
     }
 }
