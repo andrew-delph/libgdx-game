@@ -50,7 +50,7 @@ public class TunnelRandomLayer extends AbstractLayer {
                 int rand_int1 = rand.nextInt(1000);
                 if (rand_int1 < 10) {
                     chunk.addBlock(blockFactory.createAirBlock(new Coordinate(i, j)));
-                    tunnelList.add(new Tunnel(rand_int1, new Coordinate(i, j)));
+                    tunnelList.add(new Tunnel(rand.nextInt(99999999), new Coordinate(i, j)));
                 }
             }
         }
