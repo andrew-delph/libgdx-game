@@ -75,4 +75,9 @@ public class EntityData {
     public void setItem(String key, String value) {
         this.data.put(key, value);
     }
+
+    public String[] keys(){
+        return this.data.keySet().toArray(new String[0]);
+    }
+
 }
