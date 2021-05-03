@@ -1,18 +1,19 @@
-package networking.events;
+package networking.events.outgoing;
 
+import infra.entity.EntityData;
 import infra.events.Event;
 import io.grpc.stub.StreamObserver;
+import networking.NetworkObject;
 
 import java.util.HashMap;
 
-public class DisconnectEvent implements Event {
-
-    public static String type = "disconnect";
+public class OutgoingUpdateEntityEvent implements Event {
+    public static String type = "outgoing_update_entity";
     HashMap<String, Object> data;
 
-    public DisconnectEvent(StreamObserver requestObserver) {
+    public OutgoingUpdateEntityEvent(EntityData updateData) {
         this.data = new HashMap<>();
-        this.data.put("requestObserver", requestObserver);
+        this.data.put("entityData", updateData);
     }
 
     @Override

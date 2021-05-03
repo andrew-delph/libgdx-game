@@ -2,7 +2,10 @@ package infra.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.google.inject.Inject;
 import infra.common.EntityDataSerializable;
+import infra.events.EventService;
+import networking.events.outgoing.OutgoingUpdateEntityEvent;
 
 import java.util.UUID;
 
@@ -11,50 +14,48 @@ public class Entity implements EntityDataSerializable {
     public Sprite sprite;
     public int size = 60;
     UUID id;
-    int x;
-    int y;
     UUID owner;
 
-    public Entity(UUID id, int x, int y, UUID owner) {
-        this.x = x;
-        this.y  =y;
+    @Inject
+    EventService eventService;
+
+    public Entity(UUID id, float x, float y, UUID owner) {
         this.id =id;
         this.owner = owner;
-    }
-
-    public Entity(UUID id, int x, int y, UUID owner, Texture texture) {
-        this(id,x,y,owner);
-        this.sprite = new Sprite(texture);
+        this.sprite = new Sprite();
         this.sprite.setPosition(x, y);
         this.sprite.setSize(size, size);
+    }
+
+    public Entity(UUID id, float x, float y, UUID owner, Texture texture) {
+        this(id,x,y,owner);
+        this.sprite.setTexture(texture);
     }
 
     public Entity(EntityData data) {
         this.fromEntityData(data);
     }
 
-
-
     public void moveX(int move) {
-        this.x = this.x + move;
         if (this.sprite != null) {
-            this.sprite.setX(this.x);
+            this.sprite.setX(this.sprite.getX()+move);
         }
+        this.eventService.fireEvent(new OutgoingUpdateEntityEvent(this.toEntityData()));
     }
 
     public void moveY(int move) {
-        this.y = this.y + move;
         if (this.sprite != null) {
-            this.sprite.setY(this.y);
+            this.sprite.setY(this.sprite.getX()+move);
         }
+        this.eventService.fireEvent(new OutgoingUpdateEntityEvent(this.toEntityData()));
     }
 
-    public int getX() {
-        return this.x;
+    public float getX() {
+        return this.sprite.getX();
     }
 
-    public int getY() {
-        return this.y;
+    public float getY() {
+        return this.sprite.getY();
     }
 
     public UUID getID() {
@@ -69,22 +70,22 @@ public class Entity implements EntityDataSerializable {
     public EntityData toEntityData() {
         EntityData data = new EntityData();
         data.setId(this.id.toString());
-        data.setX(String.valueOf(this.x));
-        data.setY(String.valueOf(this.y));
+        data.setX(String.valueOf(this.sprite.getX()));
+        data.setY(String.valueOf(this.sprite.getY()));
         data.setOwner(this.owner.toString());
         return data;
     }
 
     @Override
     public void fromEntityData(EntityData entityData) {
-        this.x = Integer.parseInt(entityData.getX());
-        this.y =  Integer.parseInt(entityData.getY());
+        this.sprite.setX(Float.parseFloat(entityData.getX()));
+        this.sprite.setY(Float.parseFloat(entityData.getY()));
         this.id = UUID.fromString(entityData.getID());
         this.owner = UUID.fromString(entityData.getOwner());
-        for (String key :entityData.keys()) {
-            switch (key){
-//                case
-            }
-        }
+//        for (String key :entityData.keys()) {
+//            switch (key){
+////                case
+//            }
+//        }
     }
 }

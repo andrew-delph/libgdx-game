@@ -17,10 +17,12 @@ import networking.NetworkObject;
 import networking.NetworkObjectFactory;
 import networking.NetworkObjectServiceGrpc;
 import networking.connetion.*;
-import networking.events.CreateEntityEvent;
-import networking.events.DisconnectEvent;
-import networking.events.RemoveEntityEvent;
-import networking.events.UpdateEntityEvent;
+import networking.events.incoming.IncomingCreateEntityEvent;
+import networking.events.incoming.IncomingDisconnectEvent;
+import networking.events.incoming.IncomingRemoveEntityEvent;
+import networking.events.incoming.IncomingUpdateEntityEvent;
+import networking.events.outgoing.OutgoingRemoveEntityEvent;
+import networking.events.outgoing.OutgoingUpdateEntityEvent;
 import networking.server.observers.CreateObserver;
 import networking.server.observers.RemoveObserver;
 import networking.server.observers.ServerObserverFactory;
@@ -50,14 +52,6 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         this.entityFactory = entityFactory;
         this.networkObjectFactory = networkObjectFactory;
         server = ServerBuilder.forPort(99).addService(this).build();
-
-
-//        this.eventService.addListener(RemoveEntityEvent.type, new Consumer<Event>() {
-//            @Override
-//            public void accept(Event event) {
-//
-//            }
-//        });
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -68,7 +62,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     }
 
     public void start() throws IOException {
-        this.eventService.addListener(CreateEntityEvent.type, new Consumer<Event>() {
+        this.eventService.addListener(IncomingCreateEntityEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
                 EntityData entityData = (EntityData) event.getData().get("entityData");
@@ -84,45 +78,39 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
                 });
             }
         });
-        this.eventService.addListener(UpdateEntityEvent.type, new Consumer<Event>() {
+        this.eventService.addListener(IncomingUpdateEntityEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
                 EntityData entityData = (EntityData) event.getData().get("entityData");
                 StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver = (StreamObserver<NetworkObject.RemoveNetworkObject>) event.getData().get("requestObserver");
                 UUID targetUuid = UUID.fromString(entityData.getID());
                 Entity target = entityManager.get(targetUuid);
-                if (target == null) {
-                    return;
-                }
-                target.updateEntityData(entityData);
-                connectionStore.getAll(UpdateConnection.class).forEach(updateConnection -> {
-                    if (updateConnection.requestObserver == requestObserver) {
-                    } else {
-                        updateConnection.requestObserver.onNext(networkObjectFactory.updateNetworkObject(entityData));
-                    }
-                });
+                target.fromEntityData(entityData);
+                eventService.fireEvent(new OutgoingUpdateEntityEvent(entityData));
+//                connectionStore.getAll(UpdateConnection.class).forEach(updateConnection -> {
+//                    if (updateConnection.requestObserver == requestObserver) {
+//                    } else {
+//                        updateConnection.requestObserver.onNext(networkObjectFactory.updateNetworkObject(entityData));
+//                    }
+//                });
             }
         });
-        this.eventService.addListener(RemoveEntityEvent.type, new Consumer<Event>() {
+        this.eventService.addListener(IncomingRemoveEntityEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
                 EntityData entityData = (EntityData) event.getData().get("entityData");
                 StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver = (StreamObserver<NetworkObject.RemoveNetworkObject>) event.getData().get("requestObserver");
-                UUID targetUuid = UUID.fromString(entityData.getID());
-                Entity target = entityManager.get(targetUuid);
-                if (target == null) {
-                    return;
-                }
                 entityManager.remove(entityData.getID());
-                connectionStore.getAll(RemoveConnection.class).forEach(removeConnection -> {
-                    if (removeConnection.requestObserver == requestObserver) {
-                    } else {
-                        removeConnection.requestObserver.onNext(networkObjectFactory.removeNetworkObject(entityData));
-                    }
-                });
+                eventService.fireEvent(new OutgoingRemoveEntityEvent(entityData));
+//                connectionStore.getAll(RemoveConnection.class).forEach(removeConnection -> {
+//                    if (removeConnection.requestObserver == requestObserver) {
+//                    } else {
+//                        removeConnection.requestObserver.onNext(networkObjectFactory.removeNetworkObject(entityData));
+//                    }
+//                });
             }
         });
-        this.eventService.addListener(DisconnectEvent.type, new Consumer<Event>() {
+        this.eventService.addListener(IncomingDisconnectEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
                 StreamObserver requestObserver = (StreamObserver) event.getData().get("requestObserver");
@@ -145,9 +133,10 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
         connectionStore.add(connection);
         for (Entity entity : this.entityManager.getAll()) {
-            NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((entity.getEntityData().getX() + "")).build();
-            NetworkObject.NetworkObjectItem networkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((entity.getEntityData().getY() + "")).build();
-            NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(entity.getEntityData().getID()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
+            EntityData entityData = entity.toEntityData();
+            NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((entityData.getX() + "")).build();
+            NetworkObject.NetworkObjectItem networkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((entityData.getY() + "")).build();
+            NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(entityData.getID()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
             requestObserver.onNext(createRequestObject);
         }
         return responseObserver;

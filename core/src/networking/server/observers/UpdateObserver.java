@@ -7,8 +7,8 @@ import infra.events.EventService;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
-import networking.events.DisconnectEvent;
-import networking.events.UpdateEntityEvent;
+import networking.events.incoming.IncomingDisconnectEvent;
+import networking.events.incoming.IncomingUpdateEntityEvent;
 
 public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetworkObject> {
 
@@ -27,21 +27,21 @@ public class UpdateObserver implements StreamObserver<NetworkObject.UpdateNetwor
     @Override
     public void onNext(NetworkObject.UpdateNetworkObject updateNetworkObject) {
         EntityData entityUpdate = EntityDataFactory.getInstance().createEntityData(updateNetworkObject);
-        UpdateEntityEvent updateEvent = new UpdateEntityEvent(entityUpdate, this.requestObserver);
+        IncomingUpdateEntityEvent updateEvent = new IncomingUpdateEntityEvent(entityUpdate, this.requestObserver);
         this.eventService.fireEvent(updateEvent);
 
     }
 
     @Override
     public void onError(Throwable throwable) {
-        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
-        this.eventService.fireEvent(disconnectEvent);
+        IncomingDisconnectEvent incomingDisconnectEvent = new IncomingDisconnectEvent(this.requestObserver);
+        this.eventService.fireEvent(incomingDisconnectEvent);
     }
 
     @Override
     public void onCompleted() {
         System.out.println("COMPLETE UpdateObserver");
-        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
-        this.eventService.fireEvent(disconnectEvent);
+        IncomingDisconnectEvent incomingDisconnectEvent = new IncomingDisconnectEvent(this.requestObserver);
+        this.eventService.fireEvent(incomingDisconnectEvent);
     }
 }

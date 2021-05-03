@@ -8,8 +8,8 @@ import infra.events.EventService;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
-import networking.events.CreateEntityEvent;
-import networking.events.DisconnectEvent;
+import networking.events.incoming.IncomingCreateEntityEvent;
+import networking.events.incoming.IncomingDisconnectEvent;
 
 import java.util.UUID;
 
@@ -33,8 +33,8 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
 
         EntityData createData = EntityDataFactory.getInstance().createEntityData(create);
         createData.setOwner(this.ownerID.toString());
-        CreateEntityEvent createEntityEvent = new CreateEntityEvent(createData, null);
-        this.eventService.fireEvent(createEntityEvent);
+        IncomingCreateEntityEvent incomingCreateEntityEvent = new IncomingCreateEntityEvent(createData, null);
+        this.eventService.fireEvent(incomingCreateEntityEvent);
 
 
 //        EntityData createEntityData = EntityDataFactory.getInstance().createEntityData(create);
@@ -45,14 +45,14 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
     @Override
     public void onError(Throwable throwable) {
         System.out.println("CreateObserver error " + throwable);
-        DisconnectEvent disconnectEvent = new DisconnectEvent(null);
-        this.eventService.fireEvent(disconnectEvent);
+        IncomingDisconnectEvent incomingDisconnectEvent = new IncomingDisconnectEvent(null);
+        this.eventService.fireEvent(incomingDisconnectEvent);
     }
 
     @Override
     public void onCompleted() {
         System.out.println("COMPLETE andrew");
-        DisconnectEvent disconnectEvent = new DisconnectEvent(null);
-        this.eventService.fireEvent(disconnectEvent);
+        IncomingDisconnectEvent incomingDisconnectEvent = new IncomingDisconnectEvent(null);
+        this.eventService.fireEvent(incomingDisconnectEvent);
     }
 }

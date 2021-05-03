@@ -5,8 +5,12 @@ import com.google.inject.Injector;
 import configure.TestApp;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
+import infra.events.EventService;
 import networking.NetworkObject;
 import networking.client.ClientNetworkHandle;
+import networking.events.outgoing.OutgoingCreateEntityEvent;
+import networking.events.outgoing.OutgoingRemoveEntityEvent;
+import networking.events.outgoing.OutgoingUpdateEntityEvent;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Before;
@@ -56,10 +60,7 @@ public class SingleClientTests {
         int y = 7;
         EntityFactory serverEntityFactory = client_aInjector.getInstance(EntityFactory.class);
         Entity testEntity = serverEntityFactory.create(testID, x, y, UUID.randomUUID());
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((testEntity.getEntityData().getX() + "")).build();
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((testEntity.getEntityData().getY() + "")).build();
-        NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(createNetworkObjectItem_x).addItem(createNetworkObjectItem_y).build();
-        client_a.createRequest.onNext(createRequestObject);
+        client_aInjector.getInstance(EventService.class).fireEvent(new OutgoingCreateEntityEvent(testEntity.toEntityData()));
         TimeUnit.SECONDS.sleep(1);
         Entity receivedEntity = server.entityManager.get(testID);
         assertNotNull(receivedEntity);
@@ -74,11 +75,11 @@ public class SingleClientTests {
         int y = 7;
         EntityFactory entityFactory = client_aInjector.getInstance(EntityFactory.class);
         Entity testEntity = entityFactory.create(testID, x, y, UUID.randomUUID());
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((testEntity.getEntityData().getX() + "")).build();
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((testEntity.getEntityData().getY() + "")).build();
-        NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(createNetworkObjectItem_x).addItem(createNetworkObjectItem_y).build();
-        client_a.createRequest.onNext(createRequestObject);
+
+        client_aInjector.getInstance(EventService.class).fireEvent(new OutgoingCreateEntityEvent(testEntity.toEntityData()));
+
         TimeUnit.SECONDS.sleep(1);
+
         Entity receivedEntity = server.entityManager.get(testID);
         assertNotNull(receivedEntity);
         assertEquals(receivedEntity.getX(), x);
@@ -86,10 +87,9 @@ public class SingleClientTests {
         TimeUnit.SECONDS.sleep(1);
         testEntity.moveX(2);
         testEntity.moveY(3);
-        NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((testEntity.getEntityData().getX() + "")).build();
-        NetworkObject.NetworkObjectItem networkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((testEntity.getEntityData().getY() + "")).build();
-        NetworkObject.UpdateNetworkObject updateRequestObject = NetworkObject.UpdateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
-        client_a.updateRequest.onNext(updateRequestObject);
+
+        client_aInjector.getInstance(EventService.class).fireEvent(new OutgoingUpdateEntityEvent(testEntity.toEntityData()));
+
         TimeUnit.SECONDS.sleep(1);
         assertEquals(receivedEntity.getID(), testID);
         assertEquals(x + 2, receivedEntity.getX());
@@ -103,18 +103,18 @@ public class SingleClientTests {
         int y = 7;
         EntityFactory serverEntityFactory = client_aInjector.getInstance(EntityFactory.class);
         Entity testEntity = serverEntityFactory.create(testID, x, y, UUID.randomUUID());
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((testEntity.getEntityData().getX() + "")).build();
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((testEntity.getEntityData().getY() + "")).build();
-        NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(createNetworkObjectItem_x).addItem(createNetworkObjectItem_y).build();
-        client_a.createRequest.onNext(createRequestObject);
+
+        client_aInjector.getInstance(EventService.class).fireEvent(new OutgoingCreateEntityEvent(testEntity.toEntityData()));
+
         TimeUnit.SECONDS.sleep(1);
         Entity receivedEntity = server.entityManager.get(testID);
         assertNotNull(receivedEntity);
         assertEquals(receivedEntity.getX(), x);
         assertEquals(receivedEntity.getY(), y);
         // remove
-        NetworkObject.RemoveNetworkObject removeNetworkObject = NetworkObject.RemoveNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).build();
-        client_a.removeRequest.onNext(removeNetworkObject);
+
+        client_aInjector.getInstance(EventService.class).fireEvent(new OutgoingRemoveEntityEvent(testEntity.toEntityData()));
+
         TimeUnit.SECONDS.sleep(1);
         assertNull(server.entityManager.get(testEntity.getID()));
     }

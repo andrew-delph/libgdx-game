@@ -1,4 +1,4 @@
-package networking.events;
+package networking.events.incoming;
 
 import infra.entity.EntityData;
 import infra.events.Event;
@@ -7,13 +7,13 @@ import networking.NetworkObject;
 
 import java.util.HashMap;
 
-public class CreateEntityEvent implements Event {
-    public static String type = "create_entity";
+public class IncomingRemoveEntityEvent implements Event {
+    public static String type = "remove_entity";
     HashMap<String, Object> data;
 
-    public CreateEntityEvent(EntityData createData, StreamObserver<NetworkObject.CreateNetworkObject> requestObserver) {
+    public IncomingRemoveEntityEvent(EntityData removeData, StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver) {
         this.data = new HashMap<>();
-        this.data.put("entityData", createData);
+        this.data.put("entityData", removeData);
         this.data.put("requestObserver", requestObserver);
     }
 
@@ -26,4 +26,6 @@ public class CreateEntityEvent implements Event {
     public HashMap<String, Object> getData() {
         return this.data;
     }
+
 }
+

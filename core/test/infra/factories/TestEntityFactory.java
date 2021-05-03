@@ -31,9 +31,9 @@ public class TestEntityFactory {
     public void createBasic() {
         Injector injector = Guice.createInjector(new TestApp());
         Entity test = injector.getInstance(EntityFactory.class).createBasic();
-        UUID.fromString(test.getEntityData().getID());
-        assertEquals("0", test.getEntityData().getX());
-        assertEquals("0", test.getEntityData().getY());
+        UUID.fromString(test.toEntityData().getID());
+        assertEquals("0", test.toEntityData().getX());
+        assertEquals("0", test.toEntityData().getY());
     }
 
 }

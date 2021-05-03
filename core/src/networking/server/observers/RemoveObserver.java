@@ -6,8 +6,8 @@ import infra.events.EventService;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
-import networking.events.DisconnectEvent;
-import networking.events.RemoveEntityEvent;
+import networking.events.incoming.IncomingDisconnectEvent;
+import networking.events.incoming.IncomingRemoveEntityEvent;
 
 public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetworkObject> {
 
@@ -25,20 +25,20 @@ public class RemoveObserver implements StreamObserver<NetworkObject.RemoveNetwor
 
     @Override
     public void onNext(NetworkObject.RemoveNetworkObject removeNetworkObject) {
-        RemoveEntityEvent removeEvent = new RemoveEntityEvent(EntityDataFactory.getInstance().createEntityData(removeNetworkObject), this.requestObserver);
+        IncomingRemoveEntityEvent removeEvent = new IncomingRemoveEntityEvent(EntityDataFactory.getInstance().createEntityData(removeNetworkObject), this.requestObserver);
         this.eventService.fireEvent(removeEvent);
     }
 
     @Override
     public void onError(Throwable throwable) {
-        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
-        this.eventService.fireEvent(disconnectEvent);
+        IncomingDisconnectEvent incomingDisconnectEvent = new IncomingDisconnectEvent(this.requestObserver);
+        this.eventService.fireEvent(incomingDisconnectEvent);
     }
 
     @Override
     public void onCompleted() {
         System.out.println("COMPLETE RemoveObserver");
-        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
-        this.eventService.fireEvent(disconnectEvent);
+        IncomingDisconnectEvent incomingDisconnectEvent = new IncomingDisconnectEvent(this.requestObserver);
+        this.eventService.fireEvent(incomingDisconnectEvent);
     }
 }

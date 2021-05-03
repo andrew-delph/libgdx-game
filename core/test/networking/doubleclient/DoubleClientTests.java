@@ -5,8 +5,12 @@ import com.google.inject.Injector;
 import configure.TestApp;
 import infra.entity.Entity;
 import infra.entity.factories.EntityFactory;
+import infra.events.EventService;
 import networking.NetworkObject;
 import networking.client.ClientNetworkHandle;
+import networking.events.outgoing.OutgoingCreateEntityEvent;
+import networking.events.outgoing.OutgoingRemoveEntityEvent;
+import networking.events.outgoing.OutgoingUpdateEntityEvent;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Before;
@@ -58,10 +62,7 @@ public class DoubleClientTests {
         // client a create entity
         EntityFactory serverEntityFactory = client_aInjector.getInstance(EntityFactory.class);
         Entity testEntity = serverEntityFactory.create(testID, x, y, UUID.randomUUID());
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((testEntity.getEntityData().getX() + "")).build();
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((testEntity.getEntityData().getY() + "")).build();
-        NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(createNetworkObjectItem_x).addItem(createNetworkObjectItem_y).build();
-        client_a.createRequest.onNext(createRequestObject);
+        client_aInjector.getInstance(EventService.class).fireEvent(new OutgoingCreateEntityEvent(testEntity.toEntityData()));
         TimeUnit.SECONDS.sleep(1);
         // check entity on server
         Entity receivedEntity = server.entityManager.get(testID);
@@ -71,7 +72,6 @@ public class DoubleClientTests {
         TimeUnit.SECONDS.sleep(1);
         // check if it exists in client_b
         Entity entity_b = client_b.entityManager.get(receivedEntity.getID());
-        client_b.entityManager.update(e -> System.out.println("cleint b entity" + e.getEntityData().getID()));
         assertEquals(entity_b.getID(), testID);
         assertEquals(entity_b.getX(), x);
         assertEquals(entity_b.getY(), y);
@@ -80,15 +80,12 @@ public class DoubleClientTests {
     @Test
     public void doubleClientCreateUpdate() throws InterruptedException {
         UUID testID = UUID.randomUUID();
-        int x = 6;
-        int y = 7;
+        float x = 6;
+        float y = 7;
         EntityFactory entityFactory = client_aInjector.getInstance(EntityFactory.class);
         // client a create entity
         Entity testEntity = entityFactory.create(testID, x, y, UUID.randomUUID());
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((testEntity.getEntityData().getX() + "")).build();
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((testEntity.getEntityData().getY() + "")).build();
-        NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(createNetworkObjectItem_x).addItem(createNetworkObjectItem_y).build();
-        client_a.createRequest.onNext(createRequestObject);
+        client_aInjector.getInstance(EventService.class).fireEvent(new OutgoingCreateEntityEvent(testEntity.toEntityData()));
         TimeUnit.SECONDS.sleep(1);
         // check entity on server
         Entity receivedEntity = server.entityManager.get(testID);
@@ -98,7 +95,6 @@ public class DoubleClientTests {
         TimeUnit.SECONDS.sleep(1);
         // check if it exists in client_b
         Entity entity_b = client_b.entityManager.get(receivedEntity.getID());
-        client_b.entityManager.update(e -> System.out.println("cleint b entity" + e.getEntityData().getID()));
         assertEquals(entity_b.getID(), testID);
         assertEquals(entity_b.getX(), x);
         assertEquals(entity_b.getY(), y);
@@ -107,10 +103,9 @@ public class DoubleClientTests {
         testEntity.moveY(3);
         x = testEntity.getX();
         y = testEntity.getY();
-        NetworkObject.NetworkObjectItem networkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((testEntity.getEntityData().getX() + "")).build();
-        NetworkObject.NetworkObjectItem networkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((testEntity.getEntityData().getY() + "")).build();
-        NetworkObject.UpdateNetworkObject updateRequestObject = NetworkObject.UpdateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(networkObjectItem_x).addItem(networkObjectItem_y).build();
-        client_a.updateRequest.onNext(updateRequestObject);
+
+        client_aInjector.getInstance(EventService.class).fireEvent(new OutgoingUpdateEntityEvent(testEntity.toEntityData()));
+
         TimeUnit.SECONDS.sleep(1);
         // check entity move on server
         assertEquals(receivedEntity.getID(), testID);
@@ -118,7 +113,6 @@ public class DoubleClientTests {
         assertEquals(receivedEntity.getY(), y);
         // check entity on client b
         entity_b = client_b.entityManager.get(receivedEntity.getID());
-        client_b.entityManager.update(e -> System.out.println("2ncleint b entity" + e.getEntityData().getID()));
         assertEquals(entity_b.getID(), testID);
         assertEquals(x, entity_b.getX());
     }
@@ -131,10 +125,7 @@ public class DoubleClientTests {
         // client a create entity
         EntityFactory serverEntityFactory = client_aInjector.getInstance(EntityFactory.class);
         Entity testEntity = serverEntityFactory.create(testID, x, y, UUID.randomUUID());
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_x = NetworkObject.NetworkObjectItem.newBuilder().setKey("x").setValue((testEntity.getEntityData().getX() + "")).build();
-        NetworkObject.NetworkObjectItem createNetworkObjectItem_y = NetworkObject.NetworkObjectItem.newBuilder().setKey("y").setValue((testEntity.getEntityData().getY() + "")).build();
-        NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).addItem(createNetworkObjectItem_x).addItem(createNetworkObjectItem_y).build();
-        client_a.createRequest.onNext(createRequestObject);
+        client_aInjector.getInstance(EventService.class).fireEvent(new OutgoingCreateEntityEvent(testEntity.toEntityData()));
         TimeUnit.SECONDS.sleep(1);
         // check entity on server
         Entity receivedEntity = server.entityManager.get(testID);
@@ -144,13 +135,11 @@ public class DoubleClientTests {
         TimeUnit.SECONDS.sleep(1);
         // check if it exists in client_b
         Entity entity_b = client_b.entityManager.get(receivedEntity.getID());
-        client_b.entityManager.update(e -> System.out.println("cleint b entity" + e.getEntityData().getID()));
         assertEquals(entity_b.getID(), testID);
         assertEquals(entity_b.getX(), x);
         assertEquals(entity_b.getY(), y);
         // remove from client a
-        NetworkObject.RemoveNetworkObject removeNetworkObject = NetworkObject.RemoveNetworkObject.newBuilder().setId(testEntity.getEntityData().getID()).build();
-        client_a.removeRequest.onNext(removeNetworkObject);
+        client_aInjector.getInstance(EventService.class).fireEvent(new OutgoingRemoveEntityEvent(testEntity.toEntityData()));
         TimeUnit.SECONDS.sleep(1);
         assertNull(server.entityManager.get(testEntity.getID()));
         assertNull(client_b.entityManager.get(testEntity.getID()));

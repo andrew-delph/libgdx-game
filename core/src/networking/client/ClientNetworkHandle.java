@@ -18,9 +18,9 @@ import networking.NetworkObjectFactory;
 import networking.NetworkObjectServiceGrpc;
 import networking.client.observers.ClientObserverFactory;
 import networking.connetion.ConnectionStore;
-import networking.events.CreateEntityEvent;
-import networking.events.RemoveEntityEvent;
-import networking.events.UpdateEntityEvent;
+import networking.events.incoming.IncomingCreateEntityEvent;
+import networking.events.incoming.IncomingRemoveEntityEvent;
+import networking.events.incoming.IncomingUpdateEntityEvent;
 
 import java.util.Scanner;
 import java.util.UUID;
@@ -57,8 +57,6 @@ public class ClientNetworkHandle {
         this.entityManager = entityManager;
         this.eventService = eventService;
         this.entityFactory = entityFactory;
-
-
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -88,7 +86,7 @@ public class ClientNetworkHandle {
         updateRequest = this.asyncStub.update(updateObserver);
         removeRequest = this.asyncStub.remove(removeObserver);
 
-        this.eventService.addListener(CreateEntityEvent.type, new Consumer<Event>() {
+        this.eventService.addListener(IncomingCreateEntityEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
                 EntityData entityData = (EntityData) event.getData().get("entityData");
@@ -96,7 +94,7 @@ public class ClientNetworkHandle {
                 entityManager.add(createEntity);
             }
         });
-        this.eventService.addListener(UpdateEntityEvent.type, new Consumer<Event>() {
+        this.eventService.addListener(IncomingUpdateEntityEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
                 EntityData entityData = (EntityData) event.getData().get("entityData");
@@ -105,10 +103,10 @@ public class ClientNetworkHandle {
                 if (target == null) {
                     return;
                 }
-                target.updateEntityData(entityData);
+                target.fromEntityData(entityData);
             }
         });
-        this.eventService.addListener(RemoveEntityEvent.type, new Consumer<Event>() {
+        this.eventService.addListener(IncomingRemoveEntityEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
                 EntityData entityData = (EntityData) event.getData().get("entityData");

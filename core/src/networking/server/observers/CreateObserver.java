@@ -9,9 +9,9 @@ import infra.events.EventService;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 import networking.connetion.ConnectionStore;
-import networking.events.CreateEntityEvent;
-import networking.events.DisconnectEvent;
-import networking.events.RemoveEntityEvent;
+import networking.events.incoming.IncomingCreateEntityEvent;
+import networking.events.incoming.IncomingDisconnectEvent;
+import networking.events.incoming.IncomingRemoveEntityEvent;
 
 import java.util.UUID;
 
@@ -36,23 +36,23 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
     public void onNext(NetworkObject.CreateNetworkObject update) {
         EntityData createData = EntityDataFactory.getInstance().createEntityData(update);
         createData.setOwner(this.ownerID.toString());
-        CreateEntityEvent createEntityEvent = new CreateEntityEvent(createData, requestObserver);
-        this.eventService.fireEvent(createEntityEvent);
+        IncomingCreateEntityEvent incomingCreateEntityEvent = new IncomingCreateEntityEvent(createData, requestObserver);
+        this.eventService.fireEvent(incomingCreateEntityEvent);
     }
 
     @Override
     public void onError(Throwable throwable) {
         System.out.println("error " + throwable);
-        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
-        this.eventService.fireEvent(disconnectEvent);
+        IncomingDisconnectEvent incomingDisconnectEvent = new IncomingDisconnectEvent(this.requestObserver);
+        this.eventService.fireEvent(incomingDisconnectEvent);
         this.removeOwned();
     }
 
     @Override
     public void onCompleted() {
         System.out.println("COMPLETE CreateObserver");
-        DisconnectEvent disconnectEvent = new DisconnectEvent(this.requestObserver);
-        this.eventService.fireEvent(disconnectEvent);
+        IncomingDisconnectEvent incomingDisconnectEvent = new IncomingDisconnectEvent(this.requestObserver);
+        this.eventService.fireEvent(incomingDisconnectEvent);
         this.removeOwned();
     }
 
@@ -60,7 +60,7 @@ public class CreateObserver implements StreamObserver<NetworkObject.CreateNetwor
         for (Entity entity : this.entityManager.getAll()) {
             System.out.println(entity.getOwner().toString().compareTo(this.ownerID.toString()));
             if (entity.getOwner().toString().compareTo(this.ownerID.toString()) == 0) {
-                RemoveEntityEvent removeEvent = new RemoveEntityEvent(entity.getEntityData(), null);
+                IncomingRemoveEntityEvent removeEvent = new IncomingRemoveEntityEvent(entity.toEntityData(), null);
                 this.eventService.fireEvent(removeEvent);
             }
         }

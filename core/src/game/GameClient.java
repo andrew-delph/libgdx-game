@@ -13,7 +13,8 @@ import infra.events.Event;
 import infra.events.EventService;
 import networking.NetworkObjectFactory;
 import networking.client.ClientNetworkHandle;
-import networking.events.DisconnectEvent;
+import networking.events.incoming.IncomingDisconnectEvent;
+import networking.events.outgoing.OutgoingRemoveEntityEvent;
 
 import java.util.function.Consumer;
 
@@ -46,8 +47,8 @@ public class GameClient extends ApplicationAdapter {
         this.player = entityFactory.createBasic();
         this.batch = new SpriteBatch();
         this.client.entityManager.add(this.player);
-        this.client.createRequest.onNext(networkObjectFactory.createNetworkObject(this.player.getEntityData()));
-        this.eventService.addListener(DisconnectEvent.type, new Consumer<Event>() {
+
+        this.eventService.addListener(IncomingDisconnectEvent.type, new Consumer<Event>() {
             @Override
             public void accept(Event event) {
                 System.exit(0);
@@ -62,7 +63,6 @@ public class GameClient extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         Consumer<Entity> renderConsumer = e -> {
-//            System.out.println("id:"+e.getID()+","+e.getX()+","+e.getY());
             batch.draw(this.image, e.getX(), e.getY());
         };
         this.client.entityManager.update(renderConsumer);
@@ -72,7 +72,7 @@ public class GameClient extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        this.client.removeRequest.onNext(this.networkObjectFactory.removeNetworkObject(this.player.getEntityData()));
+        this.eventService.fireEvent(new OutgoingRemoveEntityEvent(this.player.toEntityData()));
         this.client.disconnect();
         System.out.println("andrew dispose.");
     }
@@ -90,6 +90,5 @@ public class GameClient extends ApplicationAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             this.player.moveY(+1);
         }
-        this.client.updateRequest.onNext(this.networkObjectFactory.updateNetworkObject(this.player.getEntityData()));
     }
 }
