@@ -1,8 +1,9 @@
 package infra.common;
 
-import infra.entity.EntityData;
+import infra.entitydata.EntityData;
 
 public interface EntityDataSerializable {
-    EntityData toEntityData();
-    void fromEntityData(EntityData entityData);
+  EntityData toEntityData();
+
+  void fromEntityData(EntityData entityData);
 }

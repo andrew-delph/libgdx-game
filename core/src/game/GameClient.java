@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 import infra.entity.Entity;
-import infra.entity.factories.EntityFactory;
+import infra.entity.EntityFactory;
 import infra.events.Event;
 import infra.events.EventService;
 import networking.NetworkObjectFactory;
@@ -19,76 +19,76 @@ import networking.events.outgoing.OutgoingRemoveEntityEvent;
 import java.util.function.Consumer;
 
 public class GameClient extends ApplicationAdapter {
-    SpriteBatch batch;
-    Entity player;
+  SpriteBatch batch;
+  Entity player;
 
-    ClientNetworkHandle client;
+  ClientNetworkHandle client;
 
-    Texture image;
+  Texture image;
 
-    @Inject
-    EntityFactory entityFactory;
+  @Inject EntityFactory entityFactory;
 
-    @Inject
-    NetworkObjectFactory networkObjectFactory;
+  @Inject NetworkObjectFactory networkObjectFactory;
 
-    @Inject
-    EventService eventService;
+  @Inject EventService eventService;
 
-    @Inject
-    public GameClient(ClientNetworkHandle client) {
-        this.client = client;
-    }
+  @Inject
+  public GameClient(ClientNetworkHandle client) {
+    this.client = client;
+  }
 
-    @Override
-    public void create() {
-        client.connect();
-        this.image = new Texture("badlogic.jpg");
-        this.player = entityFactory.createBasic();
-        this.batch = new SpriteBatch();
-        this.client.entityManager.add(this.player);
+  @Override
+  public void create() {
+    client.connect();
+    this.image = new Texture("badlogic.jpg");
+    this.player = entityFactory.createBasic();
+    this.batch = new SpriteBatch();
+    this.client.entityManager.add(this.player);
 
-        this.eventService.addListener(IncomingDisconnectEvent.type, new Consumer<Event>() {
-            @Override
-            public void accept(Event event) {
-                System.exit(0);
-            }
+    this.eventService.addListener(
+        IncomingDisconnectEvent.type,
+        new Consumer<Event>() {
+          @Override
+          public void accept(Event event) {
+            System.exit(0);
+          }
         });
-    }
+  }
 
-    @Override
-    public void render() {
-        this.handleInput();
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        Consumer<Entity> renderConsumer = e -> {
-            batch.draw(this.image, e.getX(), e.getY());
+  @Override
+  public void render() {
+    this.handleInput();
+    Gdx.gl.glClearColor(1, 0, 0, 1);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    batch.begin();
+    Consumer<Entity> renderConsumer =
+        e -> {
+          batch.draw(this.image, e.getX(), e.getY());
         };
-        this.client.entityManager.update(renderConsumer);
-        batch.end();
-    }
+    this.client.entityManager.update(renderConsumer);
+    batch.end();
+  }
 
-    @Override
-    public void dispose() {
-        batch.dispose();
-        this.eventService.fireEvent(new OutgoingRemoveEntityEvent(this.player.toEntityData()));
-        this.client.disconnect();
-        System.out.println("andrew dispose.");
-    }
+  @Override
+  public void dispose() {
+    batch.dispose();
+    this.eventService.fireEvent(new OutgoingRemoveEntityEvent(this.player.toEntityData()));
+    this.client.disconnect();
+    System.out.println("andrew dispose.");
+  }
 
-    private void handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            this.player.moveX(-1);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            this.player.moveX(+1);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            this.player.moveY(-1);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            this.player.moveY(+1);
-        }
+  private void handleInput() {
+    if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+      this.player.moveX(-1);
     }
+    if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+      this.player.moveX(+1);
+    }
+    if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+      this.player.moveY(-1);
+    }
+    if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+      this.player.moveY(+1);
+    }
+  }
 }
