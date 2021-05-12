@@ -15,27 +15,38 @@ import java.util.function.BiConsumer;
 
 public class RenderManager {
 
-    private final Map<Class<? extends Object>, BiConsumer<?, Batch>> renderConsumerMap = new HashMap<>();
+    private final Map<Class<? extends Object>, BiConsumer<?, Batch>> renderConsumerMap =
+            new HashMap<>();
     @Inject
     BaseAssetManager assetManager;
 
     public RenderManager() {
-        this.put(Entity.class, (e, batch) -> {
-            e.sprite.draw(batch);
-        });
+        this.put(
+                Entity.class,
+                (e, batch) -> {
+                    e.sprite.draw(batch);
+                });
 
-        this.put(Block.class, (b, batch) -> {
-            b.sprite.draw(batch);
-        });
-        this.put(DirtBlock.class, (b, batch) -> {
-            b.sprite.draw(batch);
-        });
-        this.put(StoneBlock.class, (b, batch) -> {
-            b.sprite.draw(batch);
-        });
-        this.put(AirBlock.class, (b, batch) -> {
-            b.sprite.draw(batch);
-        });
+        this.put(
+                Block.class,
+                (b, batch) -> {
+                    b.sprite.draw(batch);
+                });
+        this.put(
+                DirtBlock.class,
+                (b, batch) -> {
+                    b.sprite.draw(batch);
+                });
+        this.put(
+                StoneBlock.class,
+                (b, batch) -> {
+                    b.sprite.draw(batch);
+                });
+        this.put(
+                AirBlock.class,
+                (b, batch) -> {
+                    b.sprite.draw(batch);
+                });
     }
 
     public <T> BiConsumer<T, Batch> put(Class<T> key, BiConsumer<T, Batch> c) {

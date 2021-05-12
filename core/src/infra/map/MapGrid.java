@@ -19,7 +19,8 @@ public class MapGrid {
 
     void addBlock(Block block) {
         if (this.chunkMap.get(new ChunkRange(block.coordinate)) == null) {
-            this.chunkMap.put(new ChunkRange(block.coordinate), new Chunk(new ChunkRange(block.coordinate)));
+            this.chunkMap.put(
+                    new ChunkRange(block.coordinate), new Chunk(new ChunkRange(block.coordinate)));
         }
         this.chunkMap.get(new ChunkRange(block.coordinate)).addBlock(block);
     }

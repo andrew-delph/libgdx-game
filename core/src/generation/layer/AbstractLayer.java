@@ -8,6 +8,5 @@ public abstract class AbstractLayer {
     public AbstractLayer() {
     }
 
-    abstract public void generateLayer(Chunk chunk);
-
+    public abstract void generateLayer(Chunk chunk);
 }

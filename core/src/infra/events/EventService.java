@@ -1,6 +1,5 @@
 package infra.events;
 
-
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
@@ -27,6 +26,8 @@ public class EventService {
     }
 
     public void fireEvent(Event event) {
-        this.eventListeners.get(event.getType()).forEach(eventConsumer -> eventConsumer.accept(event));
+        if (this.eventListeners.get(event.getType()) != null) {
+            this.eventListeners.get(event.getType()).forEach(eventConsumer -> eventConsumer.accept(event));
+        }
     }
 }

@@ -8,18 +8,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class TestMapGrid {
-    @Test
-    public void test() {
-        MapGrid mapGrid = new MapGrid();
+  @Test
+  public void test() {
+    MapGrid mapGrid = new MapGrid();
 
-        assertNull(mapGrid.getBlock(null));
+    assertNull(mapGrid.getBlock(null));
 
-        Block testBlock = new Block(new Coordinate(15, 15), 15);
+    Block testBlock = new Block(new Coordinate(15, 15), 15);
 
-        mapGrid.addBlock(testBlock);
+    mapGrid.addBlock(testBlock);
 
-        assertEquals(testBlock, mapGrid.getBlock(new Coordinate(15, 15)));
+    assertEquals(testBlock, mapGrid.getBlock(new Coordinate(15, 15)));
 
-        assertNull(mapGrid.getBlock(new Coordinate(15, 77)));
-    }
+    assertNull(mapGrid.getBlock(new Coordinate(15, 77)));
+  }
 }

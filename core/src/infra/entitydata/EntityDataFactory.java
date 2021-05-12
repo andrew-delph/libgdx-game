@@ -1,6 +1,5 @@
-package infra.entity.factories;
+package infra.entitydata;
 
-import infra.entity.EntityData;
 import networking.NetworkObject;
 
 import java.util.HashMap;
@@ -34,7 +33,6 @@ public class EntityDataFactory {
         EntityData updateData = new EntityData();
         updateData.setId(id);
         for (NetworkObject.NetworkObjectItem item : list) {
-//            System.out.println("item:"+item.getKey()+","+item.getValue());
             updateData.setItem(item.getKey(), item.getValue());
         }
         return updateData;

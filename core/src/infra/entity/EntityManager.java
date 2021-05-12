@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 
 public class EntityManager {
 
-    HashMap<String, Entity> entityMap;
+    HashMap<UUID, Entity> entityMap;
 
     @Inject
     EntityManager() {
@@ -16,11 +16,11 @@ public class EntityManager {
     }
 
     public void add(Entity data) {
-        this.entityMap.put(data.data.getID(), data);
+        this.entityMap.put(data.getID(), data);
     }
 
     public Entity get(UUID id) {
-        return this.entityMap.get(id.toString());
+        return this.entityMap.get(id);
     }
 
     public Entity[] getAll() {
@@ -34,11 +34,10 @@ public class EntityManager {
     }
 
     public void remove(UUID id) {
-        this.entityMap.remove(id.toString());
-    }
-
-    public void remove(String id) {
         this.entityMap.remove(id);
     }
 
+    public void remove(String id) {
+        this.entityMap.remove(UUID.fromString(id));
+    }
 }

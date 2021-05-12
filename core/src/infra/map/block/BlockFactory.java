@@ -53,7 +53,8 @@ public class BlockFactory {
             Texture pixmaptex = new Texture(pixmap);
             pixmap.dispose();
             return new DirtBlock(coordinate, this.size, pixmaptex);
-//            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg", Texture.class));
+            //            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg",
+            // Texture.class));
         } else {
 
             return new DirtBlock(coordinate, this.size);
@@ -68,7 +69,8 @@ public class BlockFactory {
             Texture pixmaptex = new Texture(pixmap);
             pixmap.dispose();
             return new AirBlock(coordinate, this.size, pixmaptex);
-//            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg", Texture.class));
+            //            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg",
+            // Texture.class));
         } else {
             return new AirBlock(coordinate, this.size);
         }
@@ -82,7 +84,8 @@ public class BlockFactory {
             Texture pixmaptex = new Texture(pixmap);
             pixmap.dispose();
             return new StoneBlock(coordinate, this.size, pixmaptex);
-//            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg", Texture.class));
+            //            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg",
+            // Texture.class));
         } else {
             return new StoneBlock(coordinate, this.size);
         }

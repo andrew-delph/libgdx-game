@@ -2,73 +2,79 @@ package infra.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import infra.common.EntityDataSerializable;
+import infra.entitydata.EntityData;
 
 import java.util.UUID;
 
-public class Entity {
+public class Entity implements EntityDataSerializable {
 
     public Sprite sprite;
     public int size = 60;
-    EntityData data;
+    UUID id;
+    UUID owner;
 
-    public Entity(UUID id, int x, int y, UUID owner) {
-        this.data = new EntityData();
-        this.data.setId(id.toString());
-        this.data.setX(String.valueOf(x));
-        this.data.setY(String.valueOf(y));
-        this.data.setOwner(owner.toString());
-    }
 
-    public Entity(UUID id, int x, int y, UUID owner, Texture texture) {
-        this.data = new EntityData();
-        this.data.setId(id.toString());
-        this.data.setX(String.valueOf(x));
-        this.data.setY(String.valueOf(y));
-        this.data.setOwner(owner.toString());
-        this.sprite = new Sprite(texture);
+    protected Entity(UUID id, float x, float y, UUID owner) {
+        this.id = id;
+        this.owner = owner;
+        this.sprite = new Sprite();
         this.sprite.setPosition(x, y);
         this.sprite.setSize(size, size);
     }
 
-    public Entity(EntityData data) {
-        this.data = data;
+    protected Entity(UUID id, float x, float y, UUID owner, Texture texture) {
+        this(id, x, y, owner);
+        this.sprite.setTexture(texture);
     }
 
-    public EntityData getEntityData() {
-        return this.data;
-    }
-
-    public void updateEntityData(EntityData data) {
-        this.data.merge(data);
+    protected Entity(EntityData data) {
+        this.sprite = new Sprite();
+        this.fromEntityData(data);
     }
 
     public void moveX(int move) {
-        this.data.setX(String.valueOf((Integer.parseInt(this.data.getX()) + move)));
         if (this.sprite != null) {
-            this.sprite.setX(Integer.parseInt(this.data.getX()) + move);
+            this.sprite.setX(this.sprite.getX() + move);
         }
     }
 
     public void moveY(int move) {
-        this.data.setY(String.valueOf(Integer.parseInt(this.data.getY()) + move));
-        if (this.sprite != null) {
-            this.sprite.setY(Integer.parseInt(this.data.getY()) + move);
-        }
+        this.sprite.setY(this.sprite.getY() + move);
     }
 
-    public int getX() {
-        return Integer.parseInt(this.data.getX());
+    public float getX() {
+        return this.sprite.getX();
     }
 
-    public int getY() {
-        return Integer.parseInt(this.data.getY());
+    public float getY() {
+        return this.sprite.getY();
     }
 
     public UUID getID() {
-        return UUID.fromString(this.data.getID());
+        return this.id;
     }
 
     public UUID getOwner() {
-        return UUID.fromString(this.data.getOwner());
+        return this.owner;
+    }
+
+    @Override
+    public EntityData toEntityData() {
+        EntityData data = new EntityData();
+        data.setId(this.id.toString());
+        data.setX(String.valueOf(this.sprite.getX()));
+        data.setY(String.valueOf(this.sprite.getY()));
+        data.setOwner(this.owner.toString());
+        return data;
+    }
+
+    @Override
+    public void fromEntityData(EntityData entityData) {
+        this.sprite.setX(Float.parseFloat(entityData.getX()));
+        this.sprite.setY(Float.parseFloat(entityData.getY()));
+        this.id = UUID.fromString(entityData.getID());
+        this.owner = UUID.fromString(entityData.getOwner());
+        // TODO use switch
     }
 }

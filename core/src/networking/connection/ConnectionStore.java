@@ -1,4 +1,4 @@
-package networking.connetion;
+package networking.connection;
 
 import com.google.inject.Singleton;
 import io.grpc.stub.StreamObserver;
@@ -42,8 +42,9 @@ public class ConnectionStore {
     }
 
     public <E extends AbtractConnection> List<E> getAll(Class<E> clazz) {
-        return this.connections.values().stream().filter(clazz::isInstance)
-                .map(clazz::cast).collect(Collectors.toList());
+        return this.connections.values().stream()
+                .filter(clazz::isInstance)
+                .map(clazz::cast)
+                .collect(Collectors.toList());
     }
-
 }

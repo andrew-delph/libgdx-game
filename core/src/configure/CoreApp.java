@@ -1,18 +1,16 @@
 package configure;
 
 import com.google.inject.AbstractModule;
-import game.GameClient;
+import game.User;
 import generation.MapBuilder;
 import generation.layer.fill.DirtFillLayer;
 import generation.layer.random.StoneRandomLayer;
+import infra.entity.EntityFactory;
 import infra.entity.EntityManager;
-import infra.entity.factories.EntityFactory;
 import infra.events.EventService;
 import infra.map.block.BlockFactory;
-import networking.client.ClientNetworkHandle;
 import networking.client.observers.ClientObserverFactory;
-import networking.connetion.ConnectionStore;
-import networking.server.ServerNetworkHandle;
+import networking.connection.ConnectionStore;
 import networking.server.observers.ServerObserverFactory;
 import render.MapRender;
 import render.RenderManager;
@@ -24,18 +22,15 @@ public class CoreApp extends AbstractModule {
         bind(EntityManager.class).asEagerSingleton();
         bind(EntityFactory.class).asEagerSingleton();
         bind(ConnectionStore.class).asEagerSingleton();
-        bind(ServerNetworkHandle.class).asEagerSingleton();
-        bind(ClientNetworkHandle.class).asEagerSingleton();
         bind(ClientObserverFactory.class).asEagerSingleton();
         bind(ServerObserverFactory.class).asEagerSingleton();
-        bind(GameClient.class).asEagerSingleton();
         bind(EventService.class).asEagerSingleton();
-        bind(ClientObserverFactory.class).asEagerSingleton();
         bind(BlockFactory.class).asEagerSingleton();
         bind(MapRender.class).asEagerSingleton();
         bind(RenderManager.class).asEagerSingleton();
         bind(MapBuilder.class).asEagerSingleton();
         bind(StoneRandomLayer.class).asEagerSingleton();
         bind(DirtFillLayer.class).asEagerSingleton();
+        bind(User.class).asEagerSingleton();
     }
 }

@@ -30,7 +30,6 @@ public class AirFillLayer extends AbstractLayer {
                 if (j > 50) {
                     chunk.addBlock(blockFactory.createAirBlock(new Coordinate(i, j)));
                 }
-
             }
         }
     }

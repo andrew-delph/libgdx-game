@@ -22,7 +22,7 @@ public class Tunnel {
         this.coordinateSet.add(startingCoordinate);
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         Tunnel tunnel = new Tunnel(1, null);
         for (int i = 0; i < 25; i++) {
             tunnel.next();

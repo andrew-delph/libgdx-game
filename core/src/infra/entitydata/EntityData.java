@@ -1,4 +1,4 @@
-package infra.entity;
+package infra.entitydata;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -6,6 +6,7 @@ import java.util.UUID;
 public class EntityData {
     public HashMap<String, String> data;
 
+    // TODO make protected
     public EntityData() {
         this.data = new HashMap<>();
     }
@@ -74,5 +75,9 @@ public class EntityData {
 
     public void setItem(String key, String value) {
         this.data.put(key, value);
+    }
+
+    public String[] keys() {
+        return this.data.keySet().toArray(new String[0]);
     }
 }

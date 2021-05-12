@@ -36,7 +36,7 @@ public class WorldMap {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 Coordinate genCoordinate = new Coordinate(x + i, y + j);
-//                System.out.println("new"+(x + i)+","+);
+                //                System.out.println("new"+(x + i)+","+);
 
                 if (this.mapGrid.getBlock(genCoordinate) != null) {
                     continue;
@@ -78,11 +78,16 @@ public class WorldMap {
     public List<Chunk> getChunksOnCamera(BaseCamera camera) {
         Set<Chunk> chunkSet = new HashSet<>();
         Coordinate cameraCord = cameraPositionToCoordinate(camera);
-//        chunkSet.add(this.mapGrid.getChunk(new Coordinate(camera.position.x/size-camera.viewportWidth/size,camera.position.y/size)));
+        //        chunkSet.add(this.mapGrid.getChunk(new
+        // Coordinate(camera.position.x/size-camera.viewportWidth/size,camera.position.y/size)));
         chunkSet.add(this.mapGrid.getChunk(cameraCord));
 
-        for (int x = (int) (cameraCord.getX() - camera.viewportWidth / size / 2); x < cameraCord.getX() + camera.viewportWidth / size / 2; x++) {
-            for (int y = (int) (cameraCord.getY() - camera.viewportHeight / size / 2); y < cameraCord.getY() + camera.viewportHeight / size / 2; y++) {
+        for (int x = (int) (cameraCord.getX() - camera.viewportWidth / size / 2);
+             x < cameraCord.getX() + camera.viewportWidth / size / 2;
+             x++) {
+            for (int y = (int) (cameraCord.getY() - camera.viewportHeight / size / 2);
+                 y < cameraCord.getY() + camera.viewportHeight / size / 2;
+                 y++) {
                 Coordinate diffCoord = new Coordinate(x, y);
                 chunkSet.add(this.mapGrid.getChunk(diffCoord));
             }

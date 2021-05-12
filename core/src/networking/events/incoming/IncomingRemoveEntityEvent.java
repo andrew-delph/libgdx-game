@@ -1,20 +1,20 @@
-package networking.events;
+package networking.events.incoming;
 
-import infra.entity.EntityData;
+import infra.entitydata.EntityData;
 import infra.events.Event;
 import io.grpc.stub.StreamObserver;
 import networking.NetworkObject;
 
 import java.util.HashMap;
 
-public class UpdateEntityEvent implements Event {
-
-    public static String type = "update_entity";
+public class IncomingRemoveEntityEvent implements Event {
+    public static String type = "remove_entity";
     HashMap<String, Object> data;
 
-    public UpdateEntityEvent(EntityData updateData, StreamObserver<NetworkObject.UpdateNetworkObject> requestObserver) {
+    public IncomingRemoveEntityEvent(
+            EntityData removeData, StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver) {
         this.data = new HashMap<>();
-        this.data.put("entityData", updateData);
+        this.data.put("entityData", removeData);
         this.data.put("requestObserver", requestObserver);
     }
 

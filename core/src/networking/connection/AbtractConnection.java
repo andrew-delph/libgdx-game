@@ -1,4 +1,4 @@
-package networking.connetion;
+package networking.connection;
 
 import io.grpc.stub.StreamObserver;
 

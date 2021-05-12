@@ -24,7 +24,6 @@ public class ChunkRange {
 
         this.top_y = this.bottom_y + size;
         this.top_x = this.bottom_x + size;
-
     }
 
     @Override
@@ -34,14 +33,14 @@ public class ChunkRange {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ChunkRange other = (ChunkRange) obj;
-        return bottom_x == other.bottom_x && bottom_y == other.bottom_y && top_x == other.top_x && top_y == other.top_y;
+        return bottom_x == other.bottom_x
+                && bottom_y == other.bottom_y
+                && top_x == other.top_x
+                && top_y == other.top_y;
     }
 
     public String tostring() {

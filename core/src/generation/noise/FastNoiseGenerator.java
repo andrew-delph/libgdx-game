@@ -40,6 +40,7 @@ public class FastNoiseGenerator implements NoiseGeneratorInterface {
     }
 
     public float getFloatValue(int x, int y) {
-        return bottomRange + (((noise.GetNoise(x * this.xScale, y * this.yScale) + 1) / 2) * (topRange - bottomRange));
+        return bottomRange
+                + (((noise.GetNoise(x * this.xScale, y * this.yScale) + 1) / 2) * (topRange - bottomRange));
     }
 }
