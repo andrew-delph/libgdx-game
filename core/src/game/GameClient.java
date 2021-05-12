@@ -18,7 +18,6 @@ import networking.events.outgoing.OutgoingCreateEntityEvent;
 import networking.events.outgoing.OutgoingRemoveEntityEvent;
 import networking.events.outgoing.OutgoingUpdateEntityEvent;
 
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class GameClient extends ApplicationAdapter {
@@ -51,11 +50,6 @@ public class GameClient extends ApplicationAdapter {
         this.batch = new SpriteBatch();
         this.client.entityManager.add(this.player);
 
-        try {
-            TimeUnit.SECONDS.sleep(5);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         this.eventService.fireEvent(new OutgoingCreateEntityEvent(this.player.toEntityData()));
 
         this.eventService.addListener(
@@ -64,7 +58,7 @@ public class GameClient extends ApplicationAdapter {
                     @Override
                     public void accept(Event event) {
                         System.out.println("disconnect event");
-//            System.exit(0);
+                        System.exit(0);
                     }
                 });
     }
