@@ -3,9 +3,10 @@ package generation.layer;
 import infra.map.chunk.Chunk;
 
 public abstract class AbstractLayer {
-  int seed;
+    int seed;
 
-  public AbstractLayer() {}
+    public AbstractLayer() {
+    }
 
-  public abstract void generateLayer(Chunk chunk);
+    public abstract void generateLayer(Chunk chunk);
 }

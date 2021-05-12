@@ -6,39 +6,39 @@ import java.util.HashMap;
 import java.util.List;
 
 public class EntityDataFactory {
-  static EntityDataFactory instance;
+    static EntityDataFactory instance;
 
-  public static EntityDataFactory getInstance() {
-    if (instance == null) {
-      instance = new EntityDataFactory();
+    public static EntityDataFactory getInstance() {
+        if (instance == null) {
+            instance = new EntityDataFactory();
+        }
+        return instance;
     }
-    return instance;
-  }
 
-  public EntityData createEntityData(NetworkObject.UpdateNetworkObject updateNetworkObject) {
-    return this.createEntityData(updateNetworkObject.getId(), updateNetworkObject.getItemList());
-  }
-
-  public EntityData createEntityData(NetworkObject.CreateNetworkObject createNetworkObject) {
-    return this.createEntityData(createNetworkObject.getId(), createNetworkObject.getItemList());
-  }
-
-  public EntityData createEntityData(NetworkObject.RemoveNetworkObject removeNetworkObject) {
-    EntityData data = new EntityData();
-    data.setId(removeNetworkObject.getId());
-    return data;
-  }
-
-  public EntityData createEntityData(String id, List<NetworkObject.NetworkObjectItem> list) {
-    EntityData updateData = new EntityData();
-    updateData.setId(id);
-    for (NetworkObject.NetworkObjectItem item : list) {
-      updateData.setItem(item.getKey(), item.getValue());
+    public EntityData createEntityData(NetworkObject.UpdateNetworkObject updateNetworkObject) {
+        return this.createEntityData(updateNetworkObject.getId(), updateNetworkObject.getItemList());
     }
-    return updateData;
-  }
 
-  public EntityData createEntityData(HashMap<String, String> map) {
-    return new EntityData(map);
-  }
+    public EntityData createEntityData(NetworkObject.CreateNetworkObject createNetworkObject) {
+        return this.createEntityData(createNetworkObject.getId(), createNetworkObject.getItemList());
+    }
+
+    public EntityData createEntityData(NetworkObject.RemoveNetworkObject removeNetworkObject) {
+        EntityData data = new EntityData();
+        data.setId(removeNetworkObject.getId());
+        return data;
+    }
+
+    public EntityData createEntityData(String id, List<NetworkObject.NetworkObjectItem> list) {
+        EntityData updateData = new EntityData();
+        updateData.setId(id);
+        for (NetworkObject.NetworkObjectItem item : list) {
+            updateData.setItem(item.getKey(), item.getValue());
+        }
+        return updateData;
+    }
+
+    public EntityData createEntityData(HashMap<String, String> map) {
+        return new EntityData(map);
+    }
 }

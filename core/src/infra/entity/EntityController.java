@@ -5,7 +5,6 @@ import infra.events.EventService;
 import networking.events.outgoing.OutgoingUpdateEntityEvent;
 
 
-
 public class EntityController {
 
     @Inject
@@ -15,6 +14,7 @@ public class EntityController {
         entity.moveX(move);
         eventService.fireEvent(new OutgoingUpdateEntityEvent(entity.toEntityData()));
     }
+
     public void moveY(Entity entity, int move) {
         entity.moveY(move);
         eventService.fireEvent(new OutgoingUpdateEntityEvent(entity.toEntityData()));

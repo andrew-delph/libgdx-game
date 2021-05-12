@@ -3,7 +3,7 @@ package infra.events;
 import java.util.HashMap;
 
 public interface Event {
-  String getType();
+    String getType();
 
-  HashMap<String, Object> getData();
+    HashMap<String, Object> getData();
 }
