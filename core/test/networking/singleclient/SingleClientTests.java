@@ -119,8 +119,8 @@ public class SingleClientTests {
     TimeUnit.SECONDS.sleep(1);
     Entity receivedEntity = server.entityManager.get(testID);
     assertNotNull(receivedEntity);
-    assertEquals(receivedEntity.getX(), x);
-    assertEquals(receivedEntity.getY(), y);
+    assertEquals(receivedEntity.getX(), x, 0.1);
+    assertEquals(receivedEntity.getY(), y, 0.1);
     // remove
 
     client_aInjector

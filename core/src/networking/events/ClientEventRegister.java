@@ -12,6 +12,7 @@ import networking.events.incoming.IncomingCreateEntityEvent;
 import networking.events.incoming.IncomingRemoveEntityEvent;
 import networking.events.incoming.IncomingUpdateEntityEvent;
 import networking.events.outgoing.OutgoingCreateEntityEvent;
+import networking.events.outgoing.OutgoingRemoveEntityEvent;
 import networking.events.outgoing.OutgoingUpdateEntityEvent;
 
 import java.util.UUID;
@@ -68,6 +69,12 @@ public class ClientEventRegister implements EventRegister {
               event -> {
                   EntityData entityData = (EntityData) event.getData().get("entityData");
                   clientNetworkHandle.updateRequest.onNext(networkObjectFactory.updateNetworkObject(entityData));
+              });
+      this.eventService.addListener(
+              OutgoingRemoveEntityEvent.type,
+              event -> {
+                  EntityData entityData = (EntityData) event.getData().get("entityData");
+                  clientNetworkHandle.removeRequest.onNext(networkObjectFactory.removeNetworkObject(entityData));
               });
   }
 }

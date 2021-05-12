@@ -34,10 +34,10 @@ public class EntityManager {
   }
 
   public void remove(UUID id) {
-    this.entityMap.remove(id.toString());
+    this.entityMap.remove(id);
   }
 
   public void remove(String id) {
-    this.entityMap.remove(id);
+    this.entityMap.remove(UUID.fromString(id));
   }
 }
