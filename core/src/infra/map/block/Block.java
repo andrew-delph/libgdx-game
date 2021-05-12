@@ -3,22 +3,23 @@ package infra.map.block;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import infra.common.Coordinate;
+import infra.entity.Entity;
 
-public class Block {
-    public final int size;
+import java.util.UUID;
+
+public class Block extends Entity {
     public Coordinate coordinate;
-    public Sprite sprite;
 
-    public Block(Coordinate coordinate, int size, Texture texture) {
-        this(coordinate, size);
+    public Block(UUID id, Coordinate coordinate,UUID owner, int size, Texture texture) {
+        this(id,coordinate,owner,size);
         this.sprite.setTexture(texture);
     }
 
-    public Block(Coordinate coordinate, int size) {
+    public Block(UUID id, Coordinate coordinate,UUID owner, int size) {
+        super(id, coordinate.getX(), coordinate.getY(),owner);
         this.coordinate = coordinate;
         this.size = size;
-        this.sprite = new Sprite();
         this.sprite.setSize(this.size, this.size);
-        this.sprite.setPosition(this.size * this.coordinate.getX(), this.size * this.coordinate.getY());
+        this.sprite.setPosition(this.size * coordinate.getX(), this.size * coordinate.getY());
     }
 }

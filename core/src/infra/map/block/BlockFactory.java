@@ -6,12 +6,18 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import game.User;
 import infra.common.Coordinate;
+
+import java.util.UUID;
 
 public class BlockFactory {
 
     @Inject
     BaseAssetManager assetManager;
+
+    @Inject
+    User user;
 
     @Inject
     @Named("provideTexture")
@@ -39,9 +45,9 @@ public class BlockFactory {
                 dirtTexture = new Texture(pixmap);
                 pixmap.dispose();
             }
-            return new Block(coordinate, this.size, dirtTexture);
+            return new Block(UUID.randomUUID(),coordinate,user.getId(), this.size, dirtTexture);
         } else {
-            return new Block(coordinate, this.size);
+            return new Block(UUID.randomUUID(),coordinate,user.getId(), this.size);
         }
     }
 
@@ -52,12 +58,12 @@ public class BlockFactory {
             pixmap.fill();
             Texture pixmaptex = new Texture(pixmap);
             pixmap.dispose();
-            return new DirtBlock(coordinate, this.size, pixmaptex);
+            return new DirtBlock(UUID.randomUUID(),coordinate,user.getId(), this.size, pixmaptex);
             //            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg",
             // Texture.class));
         } else {
 
-            return new DirtBlock(coordinate, this.size);
+            return new DirtBlock(UUID.randomUUID(),coordinate,user.getId(), this.size);
         }
     }
 
@@ -68,11 +74,11 @@ public class BlockFactory {
             pixmap.fill();
             Texture pixmaptex = new Texture(pixmap);
             pixmap.dispose();
-            return new AirBlock(coordinate, this.size, pixmaptex);
+            return new AirBlock(UUID.randomUUID(),coordinate,user.getId(), this.size, pixmaptex);
             //            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg",
             // Texture.class));
         } else {
-            return new AirBlock(coordinate, this.size);
+            return new AirBlock(UUID.randomUUID(),coordinate,user.getId(), this.size);
         }
     }
 
@@ -83,11 +89,11 @@ public class BlockFactory {
             pixmap.fill();
             Texture pixmaptex = new Texture(pixmap);
             pixmap.dispose();
-            return new StoneBlock(coordinate, this.size, pixmaptex);
+            return new StoneBlock(UUID.randomUUID(),coordinate,user.getId(), this.size, pixmaptex);
             //            return new DirtBlock(coordinate, this.size, assetManager.get("dirtblock.jpg",
             // Texture.class));
         } else {
-            return new StoneBlock(coordinate, this.size);
+            return new StoneBlock(UUID.randomUUID(),coordinate,user.getId(), this.size);
         }
     }
 

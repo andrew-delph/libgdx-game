@@ -1,7 +1,11 @@
 package infra.map;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import configure.ClientTestApp;
 import infra.common.Coordinate;
 import infra.map.block.Block;
+import infra.map.block.BlockFactory;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -14,7 +18,11 @@ public class TestMapGrid {
 
     assertNull(mapGrid.getBlock(null));
 
-    Block testBlock = new Block(new Coordinate(15, 15), 15);
+    Injector injector = Guice.createInjector(new ClientTestApp());;
+
+    injector.getInstance(BlockFactory.class).createBlock(new Coordinate(15, 15));
+
+    Block testBlock = injector.getInstance(BlockFactory.class).createBlock(new Coordinate(15, 15));
 
     mapGrid.addBlock(testBlock);
 
