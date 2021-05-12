@@ -17,20 +17,20 @@ import render.RenderManager;
 
 public class CoreApp extends AbstractModule {
 
-    @Override
-    protected void configure() {
-        bind(EntityManager.class).asEagerSingleton();
-        bind(EntityFactory.class).asEagerSingleton();
-        bind(ConnectionStore.class).asEagerSingleton();
-        bind(ClientObserverFactory.class).asEagerSingleton();
-        bind(ServerObserverFactory.class).asEagerSingleton();
-        bind(EventService.class).asEagerSingleton();
-        bind(BlockFactory.class).asEagerSingleton();
-        bind(MapRender.class).asEagerSingleton();
-        bind(RenderManager.class).asEagerSingleton();
-        bind(MapBuilder.class).asEagerSingleton();
-        bind(StoneRandomLayer.class).asEagerSingleton();
-        bind(DirtFillLayer.class).asEagerSingleton();
-        bind(User.class).asEagerSingleton();
-    }
+  @Override
+  protected void configure() {
+    bind(EntityManager.class).asEagerSingleton();
+    bind(EntityFactory.class).asEagerSingleton();
+    bind(ConnectionStore.class).asEagerSingleton();
+    bind(ClientObserverFactory.class).asEagerSingleton();
+    bind(ServerObserverFactory.class).asEagerSingleton();
+    bind(EventService.class).asEagerSingleton();
+    bind(BlockFactory.class).asEagerSingleton();
+    bind(MapRender.class).asEagerSingleton();
+    bind(RenderManager.class).asEagerSingleton();
+    bind(MapBuilder.class).asEagerSingleton();
+    bind(StoneRandomLayer.class).asEagerSingleton();
+    bind(DirtFillLayer.class).asEagerSingleton();
+    bind(User.class).asEagerSingleton();
+  }
 }

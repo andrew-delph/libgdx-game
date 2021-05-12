@@ -138,14 +138,14 @@ public class DoubleClientTests {
     // check entity on server
     Entity receivedEntity = server.entityManager.get(testID);
     assertNotNull(receivedEntity);
-    assertEquals(receivedEntity.getX(), x,.1);
-    assertEquals(receivedEntity.getY(), y,.1);
+    assertEquals(receivedEntity.getX(), x, .1);
+    assertEquals(receivedEntity.getY(), y, .1);
     TimeUnit.SECONDS.sleep(1);
     // check if it exists in client_b
     Entity entity_b = client_b.entityManager.get(receivedEntity.getID());
     assertEquals(entity_b.getID(), testID);
-    assertEquals(entity_b.getX(), x,.1);
-    assertEquals(entity_b.getY(), y,.1);
+    assertEquals(entity_b.getX(), x, .1);
+    assertEquals(entity_b.getY(), y, .1);
     // remove from client a
     client_aInjector
         .getInstance(EventService.class)

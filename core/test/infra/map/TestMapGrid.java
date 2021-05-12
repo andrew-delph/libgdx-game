@@ -18,7 +18,8 @@ public class TestMapGrid {
 
     assertNull(mapGrid.getBlock(null));
 
-    Injector injector = Guice.createInjector(new ClientTestApp());;
+    Injector injector = Guice.createInjector(new ClientTestApp());
+    ;
 
     injector.getInstance(BlockFactory.class).createBlock(new Coordinate(15, 15));
 

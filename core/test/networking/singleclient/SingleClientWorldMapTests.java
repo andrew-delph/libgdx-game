@@ -13,33 +13,33 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SingleClientWorldMapTests {
-    @Test
-    public void test() throws InterruptedException, IOException {
-        Injector serverInjector;
-        Injector client_aInjector;
+  @Test
+  public void test() throws InterruptedException, IOException {
+    Injector serverInjector;
+    Injector client_aInjector;
 
-        ServerNetworkHandle server;
-        ClientNetworkHandle client_a;
+    ServerNetworkHandle server;
+    ClientNetworkHandle client_a;
 
-        serverInjector = Guice.createInjector(new ServerTestApp());
-        server = serverInjector.getInstance(ServerNetworkHandle.class);
-        server.start();
+    serverInjector = Guice.createInjector(new ServerTestApp());
+    server = serverInjector.getInstance(ServerNetworkHandle.class);
+    server.start();
 
-        client_aInjector = Guice.createInjector(new ClientTestApp());
-        client_a = client_aInjector.getInstance(ClientNetworkHandle.class);
-        client_a.connect();
+    client_aInjector = Guice.createInjector(new ClientTestApp());
+    client_a = client_aInjector.getInstance(ClientNetworkHandle.class);
+    client_a.connect();
 
-        WorldMap serverWorldMap = serverInjector.getInstance(WorldMap.class);
-        WorldMap clientWorldMap = serverInjector.getInstance(WorldMap.class);
+    WorldMap serverWorldMap = serverInjector.getInstance(WorldMap.class);
+    WorldMap clientWorldMap = serverInjector.getInstance(WorldMap.class);
 
-        serverWorldMap.generateArea(0,0,10,10);
-        List<Block> serverBlocks = serverWorldMap.getBlocksInRange(0,0,10,10);
+    serverWorldMap.generateArea(0, 0, 10, 10);
+    List<Block> serverBlocks = serverWorldMap.getBlocksInRange(0, 0, 10, 10);
 
-        List<Block> clientBlocks = clientWorldMap.getBlocksInRange(0,0,10,10);
+    List<Block> clientBlocks = clientWorldMap.getBlocksInRange(0, 0, 10, 10);
 
-        assertEquals(serverBlocks,clientBlocks);
-    }
+    assertEquals(serverBlocks, clientBlocks);
+  }
 }

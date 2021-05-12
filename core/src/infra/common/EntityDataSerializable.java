@@ -3,7 +3,7 @@ package infra.common;
 import infra.entitydata.EntityData;
 
 public interface EntityDataSerializable {
-    EntityData toEntityData();
+  EntityData toEntityData();
 
-    void fromEntityData(EntityData entityData);
+  void fromEntityData(EntityData entityData);
 }

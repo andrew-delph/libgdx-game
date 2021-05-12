@@ -16,62 +16,62 @@ import networking.events.incoming.IncomingRemoveEntityEvent;
 import java.util.UUID;
 
 public class ServerCreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
-    EntityManager entityManager;
-    ConnectionStore connectionStore;
-    EntityFactory entityFactory;
-    EventService eventService;
-    StreamObserver<NetworkObject.CreateNetworkObject> requestObserver;
-    UUID ownerID;
+  EntityManager entityManager;
+  ConnectionStore connectionStore;
+  EntityFactory entityFactory;
+  EventService eventService;
+  StreamObserver<NetworkObject.CreateNetworkObject> requestObserver;
+  UUID ownerID;
 
-    protected ServerCreateObserver(
-            EntityManager entityManager,
-            ConnectionStore connectionStore,
-            EntityFactory entityFactory,
-            EventService eventService,
-            StreamObserver<NetworkObject.CreateNetworkObject> requestObserver) {
-        this.entityManager = entityManager;
-        this.connectionStore = connectionStore;
-        this.entityFactory = entityFactory;
-        this.eventService = eventService;
-        this.requestObserver = requestObserver;
-        this.ownerID = UUID.randomUUID();
-    }
+  protected ServerCreateObserver(
+      EntityManager entityManager,
+      ConnectionStore connectionStore,
+      EntityFactory entityFactory,
+      EventService eventService,
+      StreamObserver<NetworkObject.CreateNetworkObject> requestObserver) {
+    this.entityManager = entityManager;
+    this.connectionStore = connectionStore;
+    this.entityFactory = entityFactory;
+    this.eventService = eventService;
+    this.requestObserver = requestObserver;
+    this.ownerID = UUID.randomUUID();
+  }
 
-    @Override
-    public void onNext(NetworkObject.CreateNetworkObject update) {
-        EntityData createData = EntityDataFactory.getInstance().createEntityData(update);
-        createData.setOwner(this.ownerID.toString());
-        IncomingCreateEntityEvent incomingCreateEntityEvent =
-                new IncomingCreateEntityEvent(createData, requestObserver);
-        this.eventService.fireEvent(incomingCreateEntityEvent);
-    }
+  @Override
+  public void onNext(NetworkObject.CreateNetworkObject update) {
+    EntityData createData = EntityDataFactory.getInstance().createEntityData(update);
+    createData.setOwner(this.ownerID.toString());
+    IncomingCreateEntityEvent incomingCreateEntityEvent =
+        new IncomingCreateEntityEvent(createData, requestObserver);
+    this.eventService.fireEvent(incomingCreateEntityEvent);
+  }
 
-    @Override
-    public void onError(Throwable throwable) {
-        System.out.println("ServerCreateObserver error " + throwable);
-        IncomingDisconnectEvent incomingDisconnectEvent =
-                new IncomingDisconnectEvent(this.requestObserver);
-        this.eventService.fireEvent(incomingDisconnectEvent);
-        this.removeOwned();
-    }
+  @Override
+  public void onError(Throwable throwable) {
+    System.out.println("ServerCreateObserver error " + throwable);
+    IncomingDisconnectEvent incomingDisconnectEvent =
+        new IncomingDisconnectEvent(this.requestObserver);
+    this.eventService.fireEvent(incomingDisconnectEvent);
+    this.removeOwned();
+  }
 
-    @Override
-    public void onCompleted() {
-        System.out.println("COMPLETE CreateObserver");
-        IncomingDisconnectEvent incomingDisconnectEvent =
-                new IncomingDisconnectEvent(this.requestObserver);
-        this.eventService.fireEvent(incomingDisconnectEvent);
-        this.removeOwned();
-    }
+  @Override
+  public void onCompleted() {
+    System.out.println("COMPLETE CreateObserver");
+    IncomingDisconnectEvent incomingDisconnectEvent =
+        new IncomingDisconnectEvent(this.requestObserver);
+    this.eventService.fireEvent(incomingDisconnectEvent);
+    this.removeOwned();
+  }
 
-    private void removeOwned() {
-        for (Entity entity : this.entityManager.getAll()) {
-            System.out.println(entity.getOwner().toString().compareTo(this.ownerID.toString()));
-            if (entity.getOwner().toString().compareTo(this.ownerID.toString()) == 0) {
-                IncomingRemoveEntityEvent removeEvent =
-                        new IncomingRemoveEntityEvent(entity.toEntityData(), null);
-                this.eventService.fireEvent(removeEvent);
-            }
-        }
+  private void removeOwned() {
+    for (Entity entity : this.entityManager.getAll()) {
+      System.out.println(entity.getOwner().toString().compareTo(this.ownerID.toString()));
+      if (entity.getOwner().toString().compareTo(this.ownerID.toString()) == 0) {
+        IncomingRemoveEntityEvent removeEvent =
+            new IncomingRemoveEntityEvent(entity.toEntityData(), null);
+        this.eventService.fireEvent(removeEvent);
+      }
     }
+  }
 }

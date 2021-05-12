@@ -22,93 +22,99 @@ import java.util.UUID;
 
 public class ServerEventRegister implements EventRegister {
 
-    @Inject
-    EventService eventService;
+  @Inject EventService eventService;
 
-    @Inject
-    EntityManager entityManager;
+  @Inject EntityManager entityManager;
 
-    @Inject
-    EntityFactory entityFactory;
+  @Inject EntityFactory entityFactory;
 
-    @Inject
-    ConnectionStore connectionStore;
+  @Inject ConnectionStore connectionStore;
 
-    @Inject
-    NetworkObjectFactory networkObjectFactory;
+  @Inject NetworkObjectFactory networkObjectFactory;
 
-    @Override
-    public void register() {
-        this.eventService.addListener(
-                IncomingCreateEntityEvent.type,
-                event -> {
-                    EntityData entityData = (EntityData) event.getData().get("entityData");
-                    StreamObserver<NetworkObject.CreateNetworkObject> requestObserver =
-                            (StreamObserver<NetworkObject.CreateNetworkObject>)
-                                    event.getData().get("requestObserver");
-                    Entity createEntity = entityFactory.create(entityData);
-                    entityManager.add(createEntity);
-                    eventService.fireEvent(new OutgoingCreateEntityEvent(entityData));
-                });
-        this.eventService.addListener(
-                IncomingUpdateEntityEvent.type,
-                event -> {
-                    EntityData entityData = (EntityData) event.getData().get("entityData");
-                    StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver =
-                            (StreamObserver<NetworkObject.RemoveNetworkObject>)
-                                    event.getData().get("requestObserver");
-                    UUID targetUuid = UUID.fromString(entityData.getID());
-                    Entity target = entityManager.get(targetUuid);
-                    if (target == null) {
-                        return;
-                    }
-                    target.fromEntityData(entityData);
-                    eventService.fireEvent(new OutgoingUpdateEntityEvent(entityData));
-
-                });
-        this.eventService.addListener(
-                IncomingRemoveEntityEvent.type,
-                event -> {
-                    EntityData entityData = (EntityData) event.getData().get("entityData");
-                    StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver =
-                            (StreamObserver<NetworkObject.RemoveNetworkObject>)
-                                    event.getData().get("requestObserver");
-                    entityManager.remove(entityData.getID());
-                    eventService.fireEvent(new OutgoingRemoveEntityEvent(entityData));
-                });
-        this.eventService.addListener(
-                IncomingDisconnectEvent.type,
-                event -> {
-                    StreamObserver requestObserver =
-                            (StreamObserver) event.getData().get("requestObserver");
-                    AbtractConnection connection = connectionStore.get(requestObserver);
-                    connectionStore.remove(connection.id);
-                });
-        this.eventService.addListener(OutgoingCreateEntityEvent.type, event -> {
-            EntityData entityData = (EntityData) event.getData().get("entityData");
+  @Override
+  public void register() {
+    this.eventService.addListener(
+        IncomingCreateEntityEvent.type,
+        event -> {
+          EntityData entityData = (EntityData) event.getData().get("entityData");
+          StreamObserver<NetworkObject.CreateNetworkObject> requestObserver =
+              (StreamObserver<NetworkObject.CreateNetworkObject>)
+                  event.getData().get("requestObserver");
+          Entity createEntity = entityFactory.create(entityData);
+          entityManager.add(createEntity);
+          eventService.fireEvent(new OutgoingCreateEntityEvent(entityData));
+        });
+    this.eventService.addListener(
+        IncomingUpdateEntityEvent.type,
+        event -> {
+          EntityData entityData = (EntityData) event.getData().get("entityData");
+          StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver =
+              (StreamObserver<NetworkObject.RemoveNetworkObject>)
+                  event.getData().get("requestObserver");
+          UUID targetUuid = UUID.fromString(entityData.getID());
+          Entity target = entityManager.get(targetUuid);
+          if (target == null) {
+            return;
+          }
+          target.fromEntityData(entityData);
+          eventService.fireEvent(new OutgoingUpdateEntityEvent(entityData));
+        });
+    this.eventService.addListener(
+        IncomingRemoveEntityEvent.type,
+        event -> {
+          EntityData entityData = (EntityData) event.getData().get("entityData");
+          StreamObserver<NetworkObject.RemoveNetworkObject> requestObserver =
+              (StreamObserver<NetworkObject.RemoveNetworkObject>)
+                  event.getData().get("requestObserver");
+          entityManager.remove(entityData.getID());
+          eventService.fireEvent(new OutgoingRemoveEntityEvent(entityData));
+        });
+    this.eventService.addListener(
+        IncomingDisconnectEvent.type,
+        event -> {
+          StreamObserver requestObserver = (StreamObserver) event.getData().get("requestObserver");
+          AbtractConnection connection = connectionStore.get(requestObserver);
+          connectionStore.remove(connection.id);
+        });
+    this.eventService.addListener(
+        OutgoingCreateEntityEvent.type,
+        event -> {
+          EntityData entityData = (EntityData) event.getData().get("entityData");
+          connectionStore
+              .getAll(CreateConnection.class)
+              .forEach(
+                  createConnection -> {
+                    System.out.println("send");
+                    createConnection.requestObserver.onNext(
+                        networkObjectFactory.createNetworkObject(entityData));
+                  });
+        });
+    this.eventService.addListener(
+        OutgoingUpdateEntityEvent.type,
+        event -> {
+          EntityData entityData = (EntityData) event.getData().get("entityData");
+          synchronized (this) {
             connectionStore
-                    .getAll(CreateConnection.class)
-                    .forEach(
-                            createConnection -> {
-                                System.out.println("send");
-                                createConnection.requestObserver.onNext(
-                                        networkObjectFactory.createNetworkObject(entityData));
-                            });
-
+                .getAll(UpdateConnection.class)
+                .forEach(
+                    updateConnection -> {
+                      updateConnection.requestObserver.onNext(
+                          networkObjectFactory.updateNetworkObject(entityData));
+                    });
+          }
         });
-        this.eventService.addListener(OutgoingUpdateEntityEvent.type, event -> {
-            EntityData entityData = (EntityData) event.getData().get("entityData");
-            synchronized (this) {
-                connectionStore.getAll(UpdateConnection.class).forEach(updateConnection -> {
-                    updateConnection.requestObserver.onNext(networkObjectFactory.updateNetworkObject(entityData));
-                });
-            }
+    this.eventService.addListener(
+        OutgoingRemoveEntityEvent.type,
+        event -> {
+          EntityData entityData = (EntityData) event.getData().get("entityData");
+          connectionStore
+              .getAll(RemoveConnection.class)
+              .forEach(
+                  removeConnection -> {
+                    removeConnection.requestObserver.onNext(
+                        networkObjectFactory.removeNetworkObject(entityData));
+                  });
         });
-        this.eventService.addListener(OutgoingRemoveEntityEvent.type, event -> {
-            EntityData entityData = (EntityData) event.getData().get("entityData");
-            connectionStore.getAll(RemoveConnection.class).forEach(removeConnection -> {
-                removeConnection.requestObserver.onNext(networkObjectFactory.removeNetworkObject(entityData));
-            });
-        });
-    }
+  }
 }
