@@ -25,16 +25,16 @@ public class ClientObserverFactory {
     this.eventService = eventService;
   }
 
-  public networking.client.observers.CreateObserver createCreateObserver() {
-    return new CreateObserver(
+  public ClientCreateObserver createCreateObserver() {
+    return new ClientCreateObserver(
         this.entityManager, this.connectionStore, this.entityFactory, this.eventService);
   }
 
-  public networking.client.observers.UpdateObserver createUpdateObserver() {
-    return new UpdateObserver(this.entityManager, this.connectionStore, this.eventService);
+  public ClientUpdateObserver createUpdateObserver() {
+    return new ClientUpdateObserver(this.entityManager, this.connectionStore, this.eventService);
   }
 
-  public networking.client.observers.RemoveObserver createRemoveObserver() {
-    return new RemoveObserver(this.entityManager, this.connectionStore, this.eventService);
+  public ClientRemoveObserver createRemoveObserver() {
+    return new ClientRemoveObserver(this.entityManager, this.connectionStore, this.eventService);
   }
 }

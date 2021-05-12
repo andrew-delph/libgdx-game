@@ -45,6 +45,9 @@ public class ClientEventRegister implements EventRegister {
               EntityData entityData = (EntityData) event.getData().get("entityData");
               UUID targetUuid = UUID.fromString(entityData.getID());
               Entity target = entityManager.get(targetUuid);
+              if( target == null){
+                  return;
+              }
               target.fromEntityData(entityData);
             });
       this.eventService.addListener(
@@ -54,6 +57,7 @@ public class ClientEventRegister implements EventRegister {
                   UUID targetUuid = UUID.fromString(entityData.getID());
                   Entity target = entityManager.get(targetUuid);
                   if (target == null) {
+
                       return;
                   }
                   entityManager.remove(entityData.getID());

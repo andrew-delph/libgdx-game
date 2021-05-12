@@ -13,14 +13,14 @@ import networking.events.incoming.IncomingDisconnectEvent;
 
 import java.util.UUID;
 
-public class CreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
+public class ClientCreateObserver implements StreamObserver<NetworkObject.CreateNetworkObject> {
 
   EntityManager entityManager;
   EntityFactory entityFactory;
   EventService eventService;
   UUID ownerID;
 
-  protected CreateObserver(
+  protected ClientCreateObserver(
       EntityManager entityManager,
       ConnectionStore connectionStore,
       EntityFactory entityFactory,

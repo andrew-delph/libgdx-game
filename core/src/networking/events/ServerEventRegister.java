@@ -56,6 +56,9 @@ public class ServerEventRegister implements EventRegister {
                       event.getData().get("requestObserver");
               UUID targetUuid = UUID.fromString(entityData.getID());
               Entity target = entityManager.get(targetUuid);
+              if (target == null){
+                  return;
+              }
               target.fromEntityData(entityData);
               eventService.fireEvent(new OutgoingUpdateEntityEvent(entityData));
 

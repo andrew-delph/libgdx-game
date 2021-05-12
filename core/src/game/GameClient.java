@@ -14,7 +14,9 @@ import infra.events.EventService;
 import networking.NetworkObjectFactory;
 import networking.client.ClientNetworkHandle;
 import networking.events.incoming.IncomingDisconnectEvent;
+import networking.events.outgoing.OutgoingCreateEntityEvent;
 import networking.events.outgoing.OutgoingRemoveEntityEvent;
+import networking.events.outgoing.OutgoingUpdateEntityEvent;
 
 import java.util.function.Consumer;
 
@@ -44,12 +46,14 @@ public class GameClient extends ApplicationAdapter {
     this.player = entityFactory.createBasic();
     this.batch = new SpriteBatch();
     this.client.entityManager.add(this.player);
+    this.eventService.fireEvent(new OutgoingCreateEntityEvent(this.player.toEntityData()));
 
     this.eventService.addListener(
         IncomingDisconnectEvent.type,
         new Consumer<Event>() {
           @Override
           public void accept(Event event) {
+            System.out.println("disconnect event");
             System.exit(0);
           }
         });
@@ -90,5 +94,6 @@ public class GameClient extends ApplicationAdapter {
     if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
       this.player.moveY(+1);
     }
+    this.eventService.fireEvent(new OutgoingUpdateEntityEvent(this.player.toEntityData()));
   }
 }
