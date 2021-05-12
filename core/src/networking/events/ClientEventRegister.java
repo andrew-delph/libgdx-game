@@ -57,7 +57,6 @@ public class ClientEventRegister implements EventRegister {
                   UUID targetUuid = UUID.fromString(entityData.getID());
                   Entity target = entityManager.get(targetUuid);
                   if (target == null) {
-
                       return;
                   }
                   entityManager.remove(entityData.getID());

@@ -74,7 +74,6 @@ public class Entity implements EntityDataSerializable {
     this.sprite.setX(Float.parseFloat(entityData.getX()));
     this.sprite.setY(Float.parseFloat(entityData.getY()));
     this.id = UUID.fromString(entityData.getID());
-    System.out.println("andrew:" +entityData.getOwner());
     this.owner = UUID.fromString(entityData.getOwner());
     // TODO use switch
   }

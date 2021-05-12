@@ -25,7 +25,6 @@ public class ClientUpdateObserver implements StreamObserver<NetworkObject.Update
 
   @Override
   public void onNext(NetworkObject.UpdateNetworkObject updateNetworkObject) {
-    System.out.println("update");
     EntityData entityUpdate = EntityDataFactory.getInstance().createEntityData(updateNetworkObject);
     IncomingUpdateEntityEvent updateEvent = new IncomingUpdateEntityEvent(entityUpdate, null);
     this.eventService.fireEvent(updateEvent);
