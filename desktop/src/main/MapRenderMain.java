@@ -10,22 +10,20 @@ import generation.layer.random.StoneRandomLayer;
 import render.MapRender;
 
 public class MapRenderMain {
-    public static void main(String[] arg) {
+  public static void main(String[] arg) {
 
-        Injector injector = Guice.createInjector(
-                new DesktopApp()
-        );
+    Injector injector = Guice.createInjector(new DesktopApp());
 
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+    LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-        MapRender mapRender = injector.getInstance(MapRender.class);
+    MapRender mapRender = injector.getInstance(MapRender.class);
 
-        System.out.println(injector.getInstance(StoneRandomLayer.class));
-        System.out.println(injector.getInstance(MapBuilder.class));
+    System.out.println(injector.getInstance(StoneRandomLayer.class));
+    System.out.println(injector.getInstance(MapBuilder.class));
 
-        config.height = mapRender.height;
-        config.width = mapRender.width;
+    config.height = mapRender.height;
+    config.width = mapRender.width;
 
-        new LwjglApplication(mapRender, config);
-    }
+    new LwjglApplication(mapRender, config);
+  }
 }

@@ -1,6 +1,5 @@
 package main;
 
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -15,158 +14,156 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class PhysicsTest extends ApplicationAdapter {
-    SpriteBatch batch;
-    Sprite sprite;
-    Texture img;
-    World world;
-    Body body;
-    OrthographicCamera camera;
-    Box2DDebugRenderer debugRenderer;
+  SpriteBatch batch;
+  Sprite sprite;
+  Texture img;
+  World world;
+  Body body;
+  OrthographicCamera camera;
+  Box2DDebugRenderer debugRenderer;
 
-    @Override
-    public void create() {
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth()*6, Gdx.graphics.getHeight()*6);
-        camera.position.set(0,0,0);
-        camera.update();
+  public static void main(String[] arg) {
+    LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-        debugRenderer = new Box2DDebugRenderer();
+    new LwjglApplication(new PhysicsTest(), config);
+  }
 
-        batch = new SpriteBatch();
-        batch.setProjectionMatrix(camera.combined);
-        // We will use the default LibGdx logo for this example, but we need a
-        // sprite since it's going to move
-        img = new Texture("frog.png");
-        sprite = new Sprite(img);
-        // Center the sprite in the top/middle of the screen
-        sprite.setPosition(Gdx.graphics.getWidth() / 2 - sprite.getWidth() / 2,
-                Gdx.graphics.getHeight());
-        // Create a physics world, the heart of the simulation.  The Vector
-        //passed in is gravity
-        world = new World(new Vector2(0, -298f), false);
-        // Now create a BodyDefinition.  This defines the physics objects type
-        //and position in the simulation
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        // We are going to use 1 to 1 dimensions.  Meaning 1 in physics engine
-        //is 1 pixel
-        // Set our body to the same position as our sprite
-        bodyDef.position.set(sprite.getX(), sprite.getY());
-        // Create a body in the world using our definition
-        body = world.createBody(bodyDef);
-        // Now define the dimensions of the physics shape
-        PolygonShape shape = new PolygonShape();
-        // We are a box, so this makes sense, no?
-        // Basically set the physics polygon to a box with the same dimensions
-        //as our sprite
-        shape.setAsBox(sprite.getWidth()/2, sprite.getHeight()/2);
-        System.out.println(sprite.getWidth()+","+ sprite.getHeight());
-        // FixtureDef is a confusing expression for physical properties
-        // Basically this is where you, in addition to defining the shape of the
-        // body
-        // you also define it's properties like density, restitution and others
-        // we will see shortly
-        // If you are wondering, density and area are used to calculate over all
-        // mass
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-        fixtureDef.friction = 1f;
-        Fixture fixture = body.createFixture(fixtureDef);
-        // Shape is the only disposable of the lot, so get rid of it
-        shape.dispose();
+  @Override
+  public void create() {
+    camera = new OrthographicCamera();
+    camera.setToOrtho(false, Gdx.graphics.getWidth() * 6, Gdx.graphics.getHeight() * 6);
+    camera.position.set(0, 0, 0);
+    camera.update();
 
+    debugRenderer = new Box2DDebugRenderer();
 
-        /// ground # 1
-        BodyDef groundBodyDef = new BodyDef();
-        groundBodyDef.position.set(new Vector2(0, 0));
-        Body groundBody = world.createBody(groundBodyDef);
-        PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(2000, 10.0f);
-        FixtureDef groundFixture = new FixtureDef();
-        groundFixture.shape = groundBox;
-        groundFixture.density = 0f;
-        groundFixture.friction = 0f;
-        groundBody.createFixture(groundFixture);
-        groundBox.dispose();
+    batch = new SpriteBatch();
+    batch.setProjectionMatrix(camera.combined);
+    // We will use the default LibGdx logo for this example, but we need a
+    // sprite since it's going to move
+    img = new Texture("frog.png");
+    sprite = new Sprite(img);
+    // Center the sprite in the top/middle of the screen
+    sprite.setPosition(
+        Gdx.graphics.getWidth() / 2 - sprite.getWidth() / 2, Gdx.graphics.getHeight());
+    // Create a physics world, the heart of the simulation.  The Vector
+    // passed in is gravity
+    world = new World(new Vector2(0, -298f), false);
+    // Now create a BodyDefinition.  This defines the physics objects type
+    // and position in the simulation
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyDef.BodyType.DynamicBody;
+    // We are going to use 1 to 1 dimensions.  Meaning 1 in physics engine
+    // is 1 pixel
+    // Set our body to the same position as our sprite
+    bodyDef.position.set(sprite.getX(), sprite.getY());
+    // Create a body in the world using our definition
+    body = world.createBody(bodyDef);
+    // Now define the dimensions of the physics shape
+    PolygonShape shape = new PolygonShape();
+    // We are a box, so this makes sense, no?
+    // Basically set the physics polygon to a box with the same dimensions
+    // as our sprite
+    shape.setAsBox(sprite.getWidth() / 2, sprite.getHeight() / 2);
+    System.out.println(sprite.getWidth() + "," + sprite.getHeight());
+    // FixtureDef is a confusing expression for physical properties
+    // Basically this is where you, in addition to defining the shape of the
+    // body
+    // you also define it's properties like density, restitution and others
+    // we will see shortly
+    // If you are wondering, density and area are used to calculate over all
+    // mass
+    FixtureDef fixtureDef = new FixtureDef();
+    fixtureDef.shape = shape;
+    fixtureDef.density = 1f;
+    fixtureDef.friction = 1f;
+    Fixture fixture = body.createFixture(fixtureDef);
+    // Shape is the only disposable of the lot, so get rid of it
+    shape.dispose();
 
-        /// ground # 2
-        BodyDef groundBodyDef2 = new BodyDef();
-        groundBodyDef2.position.set(new Vector2(-1000, 0));
-        Body groundBody2 = world.createBody(groundBodyDef2);
-        PolygonShape groundBox2 = new PolygonShape();
-        groundBox2.setAsBox(999, 10.0f);
-        FixtureDef groundFixture2 = new FixtureDef();
-        groundFixture2.shape = groundBox2;
-        groundFixture2.density = 3f;
-        groundFixture2.friction = 2f;
-        groundBody2.createFixture(groundFixture2);
-        groundBox2.dispose();
+    /// ground # 1
+    BodyDef groundBodyDef = new BodyDef();
+    groundBodyDef.position.set(new Vector2(0, 0));
+    Body groundBody = world.createBody(groundBodyDef);
+    PolygonShape groundBox = new PolygonShape();
+    groundBox.setAsBox(2000, 10.0f);
+    FixtureDef groundFixture = new FixtureDef();
+    groundFixture.shape = groundBox;
+    groundFixture.density = 0f;
+    groundFixture.friction = 0f;
+    groundBody.createFixture(groundFixture);
+    groundBox.dispose();
 
+    /// ground # 2
+    BodyDef groundBodyDef2 = new BodyDef();
+    groundBodyDef2.position.set(new Vector2(-1000, 0));
+    Body groundBody2 = world.createBody(groundBodyDef2);
+    PolygonShape groundBox2 = new PolygonShape();
+    groundBox2.setAsBox(999, 10.0f);
+    FixtureDef groundFixture2 = new FixtureDef();
+    groundFixture2.shape = groundBox2;
+    groundFixture2.density = 3f;
+    groundFixture2.friction = 2f;
+    groundBody2.createFixture(groundFixture2);
+    groundBox2.dispose();
+  }
+
+  @Override
+  public void render() {
+    this.handleInput();
+    // Advance the world, by the amount of time that has elapsed since the
+    // last frame
+    // Generally in a real game, dont do this in the render loop, as you are
+    // tying the physics
+    // update rate to the frame rate, and vice versa
+    world.step(1, 10, 10);
+    // Now update the spritee position accordingly to it's now updated
+    // Physics body
+    sprite.setPosition(body.getPosition().x, body.getPosition().y);
+    // You know the rest...
+    Gdx.gl.glClearColor(1, 1, 1, 1);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    //        batch.begin();
+    //        batch.draw(sprite, sprite.getX()-sprite.getWidth()/2, sprite.getY()-
+    // sprite.getHeight()/2);
+    //        batch.end();
+    debugRenderer.render(world, camera.combined);
+
+    camera.position.set(body.getPosition().x, body.getPosition().y, 0);
+    camera.update();
+  }
+
+  private void handleInput() {
+    int moveDistance = 999999;
+    if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+      //            this.body.setLinearVelocity(-moveDistance,0f);
+      this.body.applyForceToCenter(new Vector2(-moveDistance, 0), true);
+    } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+      //            this.body.setLinearVelocity(moveDistance,0f);
+      this.body.applyForceToCenter(new Vector2(moveDistance, 0), true);
     }
-    @Override
-    public void render() {
-        this.handleInput();
-        // Advance the world, by the amount of time that has elapsed since the
-        // last frame
-        // Generally in a real game, dont do this in the render loop, as you are
-        // tying the physics
-        // update rate to the frame rate, and vice versa
-        world.step(1, 10, 10);
-        // Now update the spritee position accordingly to it's now updated
-        // Physics body
-        sprite.setPosition(body.getPosition().x, body.getPosition().y);
-        // You know the rest...
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        batch.begin();
-//        batch.draw(sprite, sprite.getX()-sprite.getWidth()/2, sprite.getY()- sprite.getHeight()/2);
-//        batch.end();
-        debugRenderer.render(world, camera.combined);
+    //        else{
+    //            this.body.setLinearVelocity(0f,0f);
+    //        }
+    //        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+    //            this.entity.moveY(-moveDistance);
+    //        }
+    //        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+    //            this.entity.moveY(moveDistance);
+    //        }
+    //        camera.position.set(this.entity.getX(), this.entity.getY(), 0);
+    //        camera.update();
+  }
 
-        camera.position.set(body.getPosition().x, body.getPosition().y,0);
-        camera.update();
-    }
-
-    private void handleInput() {
-        int moveDistance = 999999;
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-//            this.body.setLinearVelocity(-moveDistance,0f);
-            this.body.applyForceToCenter(new Vector2(-moveDistance,0), true);
-        }
-        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-//            this.body.setLinearVelocity(moveDistance,0f);
-            this.body.applyForceToCenter(new Vector2(moveDistance,0), true);
-        }
-//        else{
-//            this.body.setLinearVelocity(0f,0f);
-//        }
-//        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-//            this.entity.moveY(-moveDistance);
-//        }
-//        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-//            this.entity.moveY(moveDistance);
-//        }
-//        camera.position.set(this.entity.getX(), this.entity.getY(), 0);
-//        camera.update();
-    }
-
-    @Override
-    public void dispose() {
-        // Hey, I actually did some clean up in a code sample!
-        img.dispose();
-        world.dispose();
-    }
-
-    public static void main(String[] arg) {
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-
-        new LwjglApplication(new PhysicsTest(), config);
-    }
+  @Override
+  public void dispose() {
+    // Hey, I actually did some clean up in a code sample!
+    img.dispose();
+    world.dispose();
+  }
 }
 
-
-//public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
+// public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
 //    SpriteBatch batch;
 //    Sprite sprite;
 //    Texture img;
@@ -341,4 +338,4 @@ public class PhysicsTest extends ApplicationAdapter {
 //        return false;
 //    }
 //
-//}
+// }

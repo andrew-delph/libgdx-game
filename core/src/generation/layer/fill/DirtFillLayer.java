@@ -11,17 +11,16 @@ import java.util.Random;
 
 public class DirtFillLayer extends AbstractLayer {
 
-    @Inject
-    BlockFactory blockFactory;
+  @Inject BlockFactory blockFactory;
 
-    @Override
-    public void generateLayer(Chunk chunk) {
-        ChunkRange chunkRange = chunk.chunkRange;
-        for (int i = chunkRange.bottom_x; i < chunkRange.top_x; i++) {
-            for (int j = chunkRange.bottom_y; j < chunkRange.top_y; j++) {
-                Random rand = new Random();
-                chunk.addBlock(blockFactory.createDirtBlock(new Coordinate(i, j)));
-            }
-        }
+  @Override
+  public void generateLayer(Chunk chunk) {
+    ChunkRange chunkRange = chunk.chunkRange;
+    for (int i = chunkRange.bottom_x; i < chunkRange.top_x; i++) {
+      for (int j = chunkRange.bottom_y; j < chunkRange.top_y; j++) {
+        Random rand = new Random();
+        chunk.addBlock(blockFactory.createDirtBlock(new Coordinate(i, j)));
+      }
     }
+  }
 }

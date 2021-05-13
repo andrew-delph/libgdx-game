@@ -12,39 +12,39 @@ import java.util.stream.Collectors;
 @Singleton
 public class ConnectionStore {
 
-    Map<UUID, AbtractConnection> connections;
-    Map<StreamObserver, AbtractConnection> observersMap;
+  Map<UUID, AbtractConnection> connections;
+  Map<StreamObserver, AbtractConnection> observersMap;
 
-    ConnectionStore() {
-        this.connections = new HashMap<>();
-        this.observersMap = new HashMap<>();
-    }
+  ConnectionStore() {
+    this.connections = new HashMap<>();
+    this.observersMap = new HashMap<>();
+  }
 
-    public void add(AbtractConnection connection) {
-        connections.put(connection.id, connection);
-        observersMap.put(connection.responseObserver, connection);
-        observersMap.put(connection.requestObserver, connection);
-    }
+  public void add(AbtractConnection connection) {
+    connections.put(connection.id, connection);
+    observersMap.put(connection.responseObserver, connection);
+    observersMap.put(connection.requestObserver, connection);
+  }
 
-    public AbtractConnection get(UUID id) {
-        return this.connections.get(id);
-    }
+  public AbtractConnection get(UUID id) {
+    return this.connections.get(id);
+  }
 
-    public AbtractConnection get(StreamObserver observer) {
-        return this.observersMap.get(observer);
-    }
+  public AbtractConnection get(StreamObserver observer) {
+    return this.observersMap.get(observer);
+  }
 
-    public void remove(UUID id) {
-        AbtractConnection connection = this.connections.get(id);
-        this.connections.remove(id);
-        this.observersMap.remove(connection.requestObserver);
-        this.observersMap.remove(connection.responseObserver);
-    }
+  public void remove(UUID id) {
+    AbtractConnection connection = this.connections.get(id);
+    this.connections.remove(id);
+    this.observersMap.remove(connection.requestObserver);
+    this.observersMap.remove(connection.responseObserver);
+  }
 
-    public <E extends AbtractConnection> List<E> getAll(Class<E> clazz) {
-        return this.connections.values().stream()
-                .filter(clazz::isInstance)
-                .map(clazz::cast)
-                .collect(Collectors.toList());
-    }
+  public <E extends AbtractConnection> List<E> getAll(Class<E> clazz) {
+    return this.connections.values().stream()
+        .filter(clazz::isInstance)
+        .map(clazz::cast)
+        .collect(Collectors.toList());
+  }
 }
