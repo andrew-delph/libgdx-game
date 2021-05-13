@@ -37,5 +37,7 @@ public class SingleClientBlockTests {
   }
 
   @Test
-  public void test() throws InterruptedException {}
+  public void serverCreateBlock() throws InterruptedException {
+
+  }
 }
