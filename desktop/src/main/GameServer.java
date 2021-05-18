@@ -2,8 +2,8 @@ package main;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configure.ServerApp;
-import networking.server.ServerNetworkHandle;
+import old.configure.ServerApp;
+import old.networking.server.ServerNetworkHandle;
 
 import java.io.IOException;
 

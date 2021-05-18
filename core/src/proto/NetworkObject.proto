@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "networking";
+option java_package = "old.networking";
 option java_outer_classname = "NetworkObject";
 
 message NetworkObjectItem{

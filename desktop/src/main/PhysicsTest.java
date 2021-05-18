@@ -113,7 +113,7 @@ public class PhysicsTest extends ApplicationAdapter {
     this.handleInput();
     // Advance the world, by the amount of time that has elapsed since the
     // last frame
-    // Generally in a real game, dont do this in the render loop, as you are
+    // Generally in a real old.game, dont do this in the old.render loop, as you are
     // tying the physics
     // update rate to the frame rate, and vice versa
     world.step(1, 10, 10);
@@ -218,7 +218,7 @@ public class PhysicsTest extends ApplicationAdapter {
 //    }
 //    private float elapsed = 0;
 //    @Override
-//    public void render() {
+//    public void old.render() {
 //        camera.update();
 //        // Step the physics simulation forward at a rate of 60hz
 //        world.step(1f/60f, 6, 2);
@@ -254,10 +254,10 @@ public class PhysicsTest extends ApplicationAdapter {
 //
 //        batch.end();
 //
-//        // Now render the physics world using our scaled down matrix
+//        // Now old.render the physics world using our scaled down matrix
 //        // Note, this is strictly optional and is, as the name suggests, just
 //        //for debugging purposes
-//        debugRenderer.render(world, debugMatrix);
+//        debugRenderer.old.render(world, debugMatrix);
 //    }
 //    @Override
 //    public void dispose() {

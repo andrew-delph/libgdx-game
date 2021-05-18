@@ -4,10 +4,10 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configure.DesktopApp;
-import generation.MapBuilder;
-import generation.layer.random.StoneRandomLayer;
-import render.MapRender;
+import old.configure.DesktopApp;
+import old.generation.MapBuilder;
+import old.generation.layer.random.StoneRandomLayer;
+import old.render.MapRender;
 
 public class MapRenderMain {
   public static void main(String[] arg) {
