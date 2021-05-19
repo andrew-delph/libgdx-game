@@ -1,2 +1,4 @@
-package infra.serialization;public class SerializationConverter {
+package infra.serialization;
+
+public class SerializationConverter {
 }

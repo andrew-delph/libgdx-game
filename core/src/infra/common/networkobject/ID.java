@@ -3,7 +3,16 @@ package infra.common.networkobject;
 import infra.serialization.SerializationItem;
 import networking.NetworkObject;
 
-public class UUID extends implements SerializationItem {
+import java.util.UUID;
+
+public class ID implements SerializationItem {
+
+    UUID uuid;
+
+    public ID(UUID uuid) {
+        this.uuid = uuid;
+    }
+
     @Override
     public NetworkObject getNetworkObject() {
         return null;

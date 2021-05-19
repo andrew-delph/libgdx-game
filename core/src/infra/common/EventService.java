@@ -1,2 +1,4 @@
-package infra.common;public class EventService {
+package infra.common;
+
+public class EventService {
 }

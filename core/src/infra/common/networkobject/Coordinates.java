@@ -1,2 +1,4 @@
-package infra.common.networkobject;public class Coordinates {
+package infra.common.networkobject;
+
+public class Coordinates {
 }

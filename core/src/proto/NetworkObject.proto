@@ -1,29 +1,20 @@
 syntax = "proto3";
 
-option java_package = "old.networking";
+option java_package = "infra.networking";
 option java_outer_classname = "NetworkObject";
 
-message NetworkObjectItem{
-  string key = 1;
-  string value = 2;
+message NetworkEvent{
+  string event = 1;
+  NetworkObject object = 2;
 }
 
-message CreateNetworkObject{
+message NetworkObject{
   string id = 1;
-  repeated NetworkObjectItem item = 2;
+  string class  = 2;
+  repeated NetworkObject children = 3;
 }
 
-message UpdateNetworkObject{
-  string id = 1;
-  repeated NetworkObjectItem item = 2;
-}
-
-message RemoveNetworkObject{
-  string id = 1;
-}
 
 service NetworkObjectService{
-  rpc create(stream CreateNetworkObject) returns (stream CreateNetworkObject) {}
-  rpc update(stream UpdateNetworkObject) returns (stream UpdateNetworkObject) {};
-  rpc remove(stream RemoveNetworkObject) returns (stream RemoveNetworkObject) {};
+  rpc networkObjectStream(stream NetworkObject) returns (stream NetworkObject) {};
 }

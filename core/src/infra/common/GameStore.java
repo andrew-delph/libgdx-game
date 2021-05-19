@@ -1,5 +1,7 @@
-package infra;
+package infra.common;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.Body;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkRange;
 import infra.entity.Entity;
@@ -13,10 +15,14 @@ public class GameStore {
 
     Map<UUID, Entity> entityMap;
     Map<ChunkRange, Chunk> chunkMap;
+    Map<Integer,List<Chunk>> clockMap;
+    Body body;
+    Sprite sprite;
 
     GameStore(){
         this.entityMap = new HashMap<>();
         this.chunkMap = new HashMap<>();
+        this.clockMap = new HashMap<>();
     }
 
     public void addEntity(Entity entity){
@@ -36,7 +42,7 @@ public class GameStore {
     }
 
     public List<Chunk> getChunkOnClock(int clock){
-        return null;
+        return this.clockMap.get(Integer.valueOf(clock));
     }
 
 }

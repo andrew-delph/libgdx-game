@@ -1,2 +1,7 @@
-package infra.entity;public class Controller {
+package infra.entity;
+
+public class Controller {
+    public void update(){
+
+    }
 }

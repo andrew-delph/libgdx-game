@@ -1,4 +1,4 @@
 package infra.chunk;
 
-public class ControlableEntity {
+public class ControllableEntity {
 }

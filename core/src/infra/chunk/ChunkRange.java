@@ -1,2 +1,4 @@
-package infra.chunk;public class ChunkRange {
+package infra.chunk;
+
+public class ChunkRange {
 }
