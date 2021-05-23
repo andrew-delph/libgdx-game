@@ -2,47 +2,72 @@ package infra.common;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.google.inject.Inject;
 import infra.chunk.Chunk;
+import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.entity.Entity;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class GameStore {
 
-    Map<UUID, Entity> entityMap;
-    Map<ChunkRange, Chunk> chunkMap;
-    Map<Integer,List<Chunk>> clockMap;
-    Body body;
-    Sprite sprite;
+  Map<UUID, ChunkRange> entityMap;
 
-    GameStore(){
-        this.entityMap = new HashMap<>();
-        this.chunkMap = new HashMap<>();
-        this.clockMap = new HashMap<>();
+  @Inject
+  ChunkClockMap chunkClockMap;
+
+  Body body;
+  Sprite sprite;
+
+  @Inject
+  ChunkFactory chunkFactory;
+
+  GameStore() {
+    this.entityMap = new ConcurrentHashMap<UUID, ChunkRange>();
+  }
+
+  public void addEntity(Entity entity) {
+    ChunkRange entityChunkRange = new ChunkRange(entity.coordinates);
+    if(this.chunkClockMap.get(entityChunkRange) == null){
+      this.chunkClockMap.add(chunkFactory.create(entityChunkRange));
     }
+    this.chunkClockMap.get(entityChunkRange).addEntity(entity);
+    this.entityMap.put(entity.uuid, entityChunkRange);
+  }
 
-    public void addEntity(Entity entity){
+  public Entity getEntity(UUID uuid) {
+    return this.chunkClockMap.get(this.entityMap.get(uuid)).getEntity(uuid);
+  }
 
+  public void addChunk(Chunk chunk) {
+    this.chunkClockMap.add(chunk);
+  }
+
+  public Chunk getChunk(ChunkRange chunkRange) {
+    return this.chunkClockMap.get(chunkRange);
+  }
+
+  public void syncEntity(Entity entity) {
+    this.addEntity(entity);
+  }
+
+  public List<Entity> getEntityListInRange(int x1, int y1, int x2, int y2) {
+    List<Entity> entityList = new ArrayList<>();
+    for (UUID entityUUID : this.entityMap.keySet().stream().collect(Collectors.toList())) {
+      entityList.add(this.getEntity(entityUUID));
     }
+    return entityList;
+  }
 
-    public Entity getEntity(UUID uuid){
-        return this.entityMap.get(uuid);
-    }
+  public Set<ChunkRange> getActiveChunkRangeSet(){
+    return this.entityMap.values().stream().collect(Collectors.toSet());
+  }
 
-    public Chunk getChunk(ChunkRange chunkRange){
-        return this.chunkMap.get(chunkRange);
-    }
-
-    public List<Entity> getEntityListInRange(int x1, int y1, int x2, int y2){
-        return null;
-    }
-
-    public List<Chunk> getChunkOnClock(int clock){
-        return this.clockMap.get(Integer.valueOf(clock));
-    }
-
+  public List<Callable<Chunk>> getChunkOnClock(Tick tick) {
+    return this.chunkClockMap.getChunksOnTick(tick);
+  }
 }

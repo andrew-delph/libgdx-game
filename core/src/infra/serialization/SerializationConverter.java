@@ -1,4 +1,3 @@
 package infra.serialization;
 
-public class SerializationConverter {
-}
+public class SerializationConverter {}

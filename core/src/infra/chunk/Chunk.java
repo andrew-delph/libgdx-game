@@ -1,7 +1,12 @@
 package infra.chunk;
 
 import com.badlogic.gdx.physics.box2d.World;
-import infra.common.networkobject.Coordinates;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+import infra.common.Clock;
+import infra.common.GameStore;
+import infra.common.Tick;
 import infra.entity.Entity;
 
 import java.util.HashMap;
@@ -10,32 +15,52 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 
 public class Chunk implements Callable<Chunk> {
-    World world;
-    Map<UUID, Entity> chunkMap;
 
-    int updateTimeout;
+  public ChunkRange chunkRange;
+  public Tick updateTick;
+  GameStore gameStore;
+  Clock clock;
+  World world;
+  Map<UUID, Entity> chunkMap;
 
-    Chunk(){
-        this.chunkMap = new HashMap();
+  @Inject
+  public Chunk(Clock clock,GameStore gameStore, @Assisted  ChunkRange chunkRange) {
+    this.gameStore = gameStore;
+    this.clock = clock;
+    this.chunkRange = chunkRange;
+    this.chunkMap = new HashMap();
+    this.nextTick(1);
+  }
+
+  void nextTick(int timeout) {
+    this.updateTick = new Tick(clock.currentTick.time + timeout);
+  }
+
+  @Override
+  public Chunk call() throws Exception {
+    this.update();
+    return this;
+  }
+
+  public void addEntity(Entity entity) {
+    this.chunkMap.put(entity.uuid, entity);
+  }
+
+  public Entity getEntity(UUID uuid) {
+    return this.chunkMap.get(uuid);
+  }
+
+  void update() {
+    int tickTimeout = Integer.MAX_VALUE;
+    for (Entity entity : this.chunkMap.values()) {
+      entity.controller.update();
+      this.gameStore.syncEntity(entity);
+
+      int entityTick = entity.getUpdateTimeout();
+      if (tickTimeout < entityTick) {
+        tickTimeout = entityTick;
+      }
     }
-
-    public int getUpdateTimeout(){
-        return this.updateTimeout;
-    }
-
-    @Override
-    public Chunk call() throws Exception {
-        return null;
-    }
-
-    void update(){
-        updateTimeout = Integer.MAX_VALUE;
-        for (Entity entity :this.chunkMap.values()) {
-            entity.controller.update();
-            int entityTimeout = entity.getUpdateTimeout();
-            if (this.updateTimeout<entityTimeout){
-                this.updateTimeout = entityTimeout;
-            }
-        }
-    }
+    this.nextTick(1);
+  }
 }

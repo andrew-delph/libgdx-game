@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 option java_package = "infra.networking";
-option java_outer_classname = "NetworkObject";
+option java_outer_classname = "NetworkObjects";
 
 message NetworkEvent{
   string event = 1;
@@ -10,7 +10,7 @@ message NetworkEvent{
 
 message NetworkObject{
   string id = 1;
-  string class  = 2;
+  string class = 2;
   repeated NetworkObject children = 3;
 }
 

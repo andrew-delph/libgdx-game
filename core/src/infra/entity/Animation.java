@@ -1,4 +1,3 @@
 package infra.entity;
 
-public class Animation {
-}
+public class Animation {}

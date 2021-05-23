@@ -7,14 +7,14 @@ import java.util.UUID;
 
 public class ID implements SerializationItem {
 
-    UUID uuid;
+  UUID uuid;
 
-    public ID(UUID uuid) {
-        this.uuid = uuid;
-    }
+  public ID(UUID uuid) {
+    this.uuid = uuid;
+  }
 
-    @Override
-    public NetworkObject getNetworkObject() {
-        return null;
-    }
+  @Override
+  public NetworkObject getNetworkObject() {
+    return null;
+  }
 }

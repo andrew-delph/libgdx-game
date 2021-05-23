@@ -4,6 +4,5 @@ import networking.NetworkObject;
 
 public interface SerializationItem {
 
-    NetworkObject getNetworkObject();
-
+  NetworkObject getNetworkObject();
 }
