@@ -11,7 +11,6 @@ public class UserController extends Controller{
 
     @Override
     public void update() {
-    System.out.println("user controller");
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             this.entity.coordinates = this.entity.coordinates.getLeft();
         }
@@ -24,6 +23,5 @@ public class UserController extends Controller{
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             this.entity.coordinates = this.entity.coordinates.getUp();
         }
-    System.out.println(entity.coordinates);
     }
 }
