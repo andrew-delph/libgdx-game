@@ -56,7 +56,7 @@ public class Coordinates {
     return x == other.x && y == other.y;
   }
 
-  public String tostring() {
+  public String toString() {
     return this.getX() + "," + this.getY();
   }
 }

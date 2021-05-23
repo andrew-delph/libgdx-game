@@ -1,8 +1,11 @@
 package infra.app;
 
 import com.google.inject.Inject;
+import infra.chunk.ChunkFactory;
+import infra.chunk.ChunkRange;
 import infra.client.BaseCamera;
 import infra.common.GameStore;
+import infra.common.networkobject.Coordinates;
 import infra.entity.Entity;
 
 import java.util.List;
@@ -18,6 +21,9 @@ public class Game {
   @Inject BaseCamera camera;
 
   @Inject UpdateLoop updateLoop;
+
+  @Inject
+  ChunkFactory chunkFactory;
 
   Timer timer;
 

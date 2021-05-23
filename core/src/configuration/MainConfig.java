@@ -2,6 +2,7 @@ package configuration;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import infra.app.Game;
 import infra.chunk.ChunkFactory;
 import infra.common.Clock;
 import infra.common.GameStore;
@@ -13,6 +14,7 @@ public class MainConfig extends AbstractModule {
     protected void configure() {
         bind(Clock.class).asEagerSingleton();
         bind(GameStore.class).asEagerSingleton();
+        bind(Game.class).asEagerSingleton();
         install(new FactoryModuleBuilder()
                 .build(ChunkFactory.class));
 

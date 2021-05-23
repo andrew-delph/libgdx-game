@@ -3,7 +3,10 @@ package infra.app;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
+import infra.chunk.ChunkFactory;
+import infra.chunk.ChunkRange;
 import infra.common.GameStore;
+import infra.common.networkobject.Coordinates;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.entity.controllers.UserController;
@@ -16,6 +19,9 @@ public class GameScreen extends ApplicationAdapter {
   GameStore gameStore;
 
   @Inject
+  ChunkFactory chunkFactory;
+
+  @Inject
   EntityFactory entityFactory;
 
   SpriteBatch batch;
@@ -24,6 +30,7 @@ public class GameScreen extends ApplicationAdapter {
   public void create() {
     game.start();
     batch = new SpriteBatch();
+    this.gameStore.addChunk(this.chunkFactory.create(new ChunkRange(new Coordinates(0,0))));
     Entity myEntity = entityFactory.createEntity();
     myEntity.setController(new UserController(myEntity));
 

@@ -32,9 +32,6 @@ public class GameStore {
 
   public void addEntity(Entity entity) {
     ChunkRange entityChunkRange = new ChunkRange(entity.coordinates);
-    if(this.chunkClockMap.get(entityChunkRange) == null){
-      this.chunkClockMap.add(chunkFactory.create(entityChunkRange));
-    }
     this.chunkClockMap.get(entityChunkRange).addEntity(entity);
     this.entityMap.put(entity.uuid, entityChunkRange);
   }

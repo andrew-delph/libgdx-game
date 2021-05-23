@@ -7,6 +7,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import infra.common.Clock;
 import infra.common.GameStore;
 import infra.common.Tick;
+import infra.common.networkobject.Coordinates;
 import infra.entity.Entity;
 
 import java.util.HashMap;
@@ -23,6 +24,9 @@ public class Chunk implements Callable<Chunk> {
   World world;
   Map<UUID, Entity> chunkMap;
 
+  static int count = 0;
+  int myCount;
+
   @Inject
   public Chunk(Clock clock,GameStore gameStore, @Assisted  ChunkRange chunkRange) {
     this.gameStore = gameStore;
@@ -30,6 +34,8 @@ public class Chunk implements Callable<Chunk> {
     this.chunkRange = chunkRange;
     this.chunkMap = new HashMap();
     this.nextTick(1);
+    this.myCount = count;
+    count++;
   }
 
   void nextTick(int timeout) {
@@ -50,9 +56,18 @@ public class Chunk implements Callable<Chunk> {
     return this.chunkMap.get(uuid);
   }
 
+  public void removeEntity(UUID uuid){
+    this.chunkMap.remove(uuid);
+  }
+
   void update() {
+    System.out.println("chunk: "+this.myCount);
     int tickTimeout = Integer.MAX_VALUE;
     for (Entity entity : this.chunkMap.values()) {
+      if(!(new ChunkRange(entity.coordinates).equals(this.chunkRange))){
+        this.removeEntity(entity.uuid);
+        continue;
+      }
       entity.controller.update();
       this.gameStore.syncEntity(entity);
 

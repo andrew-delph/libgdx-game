@@ -16,7 +16,6 @@ public class ChunkClockMap {
 
   ChunkClockMap() {
     this.map = new ConcurrentHashMap<>();
-    System.out.println("HEERE");
   }
 
   void add(Chunk chunk) {
@@ -24,10 +23,6 @@ public class ChunkClockMap {
   }
 
   Chunk get(ChunkRange chunkRange) {
-    //    System.out.println("before");
-    //    for (ChunkRange chunkRange1 : this.map.keySet()) {
-    //      System.out.println(chunkRange1);
-    //    }
     return this.map.get(chunkRange);
   }
 

@@ -33,9 +33,9 @@ public class UpdateLoop extends TimerTask {
     this.clock.tick();
     List<Callable<Chunk>> callableChunkList = this.gameStore.getChunkOnClock(this.clock.currentTick);
 
-//    for (ChunkRange chunkRange : this.gameStore.getActiveChunkRangeSet()) {
-//      callableChunkList.addAll(this.generationManager.generateAround(chunkRange));
-//    }
+    for (ChunkRange chunkRange : this.gameStore.getActiveChunkRangeSet()) {
+      callableChunkList.addAll(this.generationManager.generateAround(chunkRange));
+    }
 
     try {
       executor.invokeAll(callableChunkList);
