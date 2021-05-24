@@ -11,13 +11,13 @@ public class ChunkRange {
 
   public ChunkRange(Coordinates coordinates) {
     if (coordinates.getX() < 0) {
-      this.bottom_x = (((coordinates.getX() / size)) * size) - size;
+      this.bottom_x = ((((coordinates.getX()+1) / size)) * size) - size;
     } else {
       this.bottom_x = ((coordinates.getX() / size)) * size;
     }
 
     if (coordinates.getY() < 0) {
-      this.bottom_y = (((coordinates.getY() / size)) * size) - size;
+      this.bottom_y = ((((coordinates.getY()+1) / size)) * size) - size;
     } else {
       this.bottom_y = ((coordinates.getY() / size)) * size;
     }

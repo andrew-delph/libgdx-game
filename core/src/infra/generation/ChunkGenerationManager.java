@@ -4,15 +4,14 @@ import com.google.inject.Inject;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkRange;
 import infra.common.GameStore;
+import infra.entity.Entity;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 public class ChunkGenerationManager {
   Set<ChunkRange> generatedSet;
+  Set<Entity> activeEntity;
 
   @Inject GameStore gameStore;
 
@@ -20,6 +19,23 @@ public class ChunkGenerationManager {
 
   ChunkGenerationManager() {
     this.generatedSet = new HashSet<>();
+    this.activeEntity = new HashSet<>();
+  }
+
+  public void registerActiveEntity(Entity entity){
+    this.activeEntity.add(entity);
+  }
+
+  public List<Entity> getActiveEntityList(){
+    return new ArrayList<>(this.activeEntity);
+  }
+
+  public List<Callable<Chunk>> generateActiveEntities(){
+    List<Callable<Chunk>> generationList = new LinkedList<>();
+    for (Entity entity : this.getActiveEntityList()) {
+      generationList.addAll(generateAround(new ChunkRange(entity.coordinates)));
+    }
+    return generationList;
   }
 
   Boolean isGenerated(ChunkRange chunkRange) {

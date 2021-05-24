@@ -6,7 +6,6 @@ import com.google.inject.assistedinject.Assisted;
 import infra.common.Clock;
 import infra.common.GameStore;
 import infra.common.Tick;
-import infra.common.networkobject.Coordinates;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 
@@ -14,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Chunk implements Callable<Chunk> {
 
@@ -24,15 +24,15 @@ public class Chunk implements Callable<Chunk> {
   World world;
   Map<UUID, Entity> chunkMap;
 
-  @Inject
-  EntityFactory entityFactory;
+  @Inject EntityFactory entityFactory;
+
 
   @Inject
   public Chunk(Clock clock, GameStore gameStore, @Assisted ChunkRange chunkRange) {
     this.gameStore = gameStore;
     this.clock = clock;
     this.chunkRange = chunkRange;
-    this.chunkMap = new HashMap();
+    this.chunkMap = new ConcurrentHashMap();
     this.nextTick(1);
   }
 
@@ -42,7 +42,11 @@ public class Chunk implements Callable<Chunk> {
 
   @Override
   public Chunk call() throws Exception {
-    this.update();
+    try {
+      this.update();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     return this;
   }
 

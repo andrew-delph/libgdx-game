@@ -29,15 +29,21 @@ public class ChunkBuilder implements Callable<Chunk> {
 
   @Override
   public Chunk call() throws Exception {
-    Chunk chunk = this.chunkFactory.create(this.chunkRange);
-    for (int i = chunkRange.bottom_x; i < chunkRange.top_x; i++) {
-      for (int j = chunkRange.bottom_y; j < chunkRange.top_y; j++) {
-        Block block = blockFactory.create();
-        block.coordinates = new Coordinates(i, j);
-        chunk.addEntity(block);
+    try{
+      Chunk chunk = this.chunkFactory.create(this.chunkRange);
+      this.gameStore.addChunk(chunk);
+      for (int i = chunkRange.bottom_x; i < chunkRange.top_x; i++) {
+        for (int j = chunkRange.bottom_y; j < chunkRange.top_y; j++) {
+          Block block = blockFactory.create();
+          block.coordinates = new Coordinates(i, j);
+          this.gameStore.addEntity(block);
+        }
       }
+      return chunk;
+    }catch (Exception e){
+      e.printStackTrace();
     }
-    this.gameStore.addChunk(chunk);
-    return chunk;
+
+    return null;
   }
 }

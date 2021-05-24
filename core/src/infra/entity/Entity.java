@@ -22,7 +22,7 @@ public  class Entity implements SerializationItem {
   public Coordinates coordinates;
   @Inject public Clock clock;
   public int zindex = 1;
-  int coordinatesScale = 25;
+  public int coordinatesScale = 25;
   public String textureName = "badlogic.jpg";
 
   @Inject

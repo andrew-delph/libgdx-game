@@ -48,14 +48,14 @@ public class GameStore {
 
   public List<Entity> getEntityListInRange(int x1, int y1, int x2, int y2) {
     List<Entity> entityList = new ArrayList<>();
-    for (UUID entityUUID : this.entityMap.keySet().stream().collect(Collectors.toList())) {
+    for (UUID entityUUID : new ArrayList<>(this.entityMap.keySet())) {
       entityList.add(this.getEntity(entityUUID));
     }
     return entityList;
   }
 
   public Set<ChunkRange> getActiveChunkRangeSet() {
-    return this.entityMap.values().stream().collect(Collectors.toSet());
+    return new HashSet<>(this.entityMap.values());
   }
 
   public List<Callable<Chunk>> getChunkOnClock(Tick tick) {

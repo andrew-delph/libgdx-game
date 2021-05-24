@@ -11,6 +11,7 @@ import infra.common.render.BaseAssetManager;
 import infra.entity.EntityFactory;
 import infra.entity.block.BlockFactory;
 import infra.generation.ChunkBuilderFactory;
+import infra.generation.ChunkGenerationManager;
 
 public class MainConfig extends AbstractModule {
     @Override
@@ -19,6 +20,7 @@ public class MainConfig extends AbstractModule {
         bind(Clock.class).asEagerSingleton();
         bind(GameStore.class).asEagerSingleton();
         bind(Game.class).asEagerSingleton();
+        bind(ChunkGenerationManager.class).asEagerSingleton();
         install(new FactoryModuleBuilder()
                 .build(ChunkFactory.class));
 

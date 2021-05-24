@@ -16,6 +16,9 @@ public class GameMain {
 
     LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
+    config.height = 500;
+    config.width = 500;
+
     new LwjglApplication(gameScreen, config);
   }
 }
