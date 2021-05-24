@@ -3,12 +3,12 @@ package infra.chunk;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import infra.common.Clock;
 import infra.common.GameStore;
 import infra.common.Tick;
 import infra.common.networkobject.Coordinates;
 import infra.entity.Entity;
+import infra.entity.EntityFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,15 +24,16 @@ public class Chunk implements Callable<Chunk> {
   World world;
   Map<UUID, Entity> chunkMap;
 
+  @Inject
+  EntityFactory entityFactory;
 
   @Inject
-  public Chunk(Clock clock,GameStore gameStore, @Assisted  ChunkRange chunkRange) {
+  public Chunk(Clock clock, GameStore gameStore, @Assisted ChunkRange chunkRange) {
     this.gameStore = gameStore;
     this.clock = clock;
     this.chunkRange = chunkRange;
     this.chunkMap = new HashMap();
     this.nextTick(1);
-
   }
 
   void nextTick(int timeout) {
@@ -53,7 +54,7 @@ public class Chunk implements Callable<Chunk> {
     return this.chunkMap.get(uuid);
   }
 
-  public void removeEntity(UUID uuid){
+  public void removeEntity(UUID uuid) {
     this.chunkMap.remove(uuid);
   }
 
@@ -64,7 +65,7 @@ public class Chunk implements Callable<Chunk> {
       entity.controller.update();
       this.gameStore.syncEntity(entity);
 
-      if(!(new ChunkRange(entity.coordinates).equals(this.chunkRange))){
+      if (!(new ChunkRange(entity.coordinates).equals(this.chunkRange))) {
         this.removeEntity(entity.uuid);
         continue;
       }

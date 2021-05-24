@@ -1,10 +1,7 @@
 package infra.common;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
 import infra.chunk.Chunk;
-import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.entity.Entity;
 
@@ -17,17 +14,10 @@ public class GameStore {
 
   Map<UUID, ChunkRange> entityMap;
 
-  @Inject
-  ChunkClockMap chunkClockMap;
-
-  Body body;
-  Sprite sprite;
-
-  @Inject
-  ChunkFactory chunkFactory;
+  @Inject ChunkClockMap chunkClockMap;
 
   GameStore() {
-    this.entityMap = new ConcurrentHashMap<UUID, ChunkRange>();
+    this.entityMap = new ConcurrentHashMap<>();
   }
 
   public void addEntity(Entity entity) {
@@ -38,6 +28,10 @@ public class GameStore {
 
   public Entity getEntity(UUID uuid) {
     return this.chunkClockMap.get(this.entityMap.get(uuid)).getEntity(uuid);
+  }
+
+  public Chunk getEntityChunk(UUID uuid) {
+    return this.chunkClockMap.get(this.entityMap.get(uuid));
   }
 
   public void addChunk(Chunk chunk) {
@@ -60,7 +54,7 @@ public class GameStore {
     return entityList;
   }
 
-  public Set<ChunkRange> getActiveChunkRangeSet(){
+  public Set<ChunkRange> getActiveChunkRangeSet() {
     return this.entityMap.values().stream().collect(Collectors.toSet());
   }
 

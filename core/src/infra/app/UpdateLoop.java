@@ -5,7 +5,9 @@ import infra.chunk.Chunk;
 import infra.chunk.ChunkRange;
 import infra.common.Clock;
 import infra.common.GameStore;
-import infra.generation.GenerationManager;
+import infra.common.networkobject.Coordinates;
+import infra.generation.ChunkGenerationManager;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.List;
 import java.util.TimerTask;
@@ -20,7 +22,7 @@ public class UpdateLoop extends TimerTask {
   @Inject GameStore gameStore;
 
   @Inject
-  GenerationManager generationManager;
+  ChunkGenerationManager chunkGenerationManager;
 
   ExecutorService executor;
 
@@ -33,9 +35,10 @@ public class UpdateLoop extends TimerTask {
     this.clock.tick();
     List<Callable<Chunk>> callableChunkList = this.gameStore.getChunkOnClock(this.clock.currentTick);
 
-    for (ChunkRange chunkRange : this.gameStore.getActiveChunkRangeSet()) {
-      callableChunkList.addAll(this.generationManager.generateAround(chunkRange));
-    }
+//    for (ChunkRange chunkRange : this.gameStore.getActiveChunkRangeSet()) {
+//      callableChunkList.addAll(this.chunkGenerationManager.generateAround(chunkRange));
+//    }
+    callableChunkList.addAll(this.chunkGenerationManager.generateAround(new ChunkRange(new Coordinates(0,0))));
 
     try {
       executor.invokeAll(callableChunkList);

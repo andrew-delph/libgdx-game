@@ -7,6 +7,7 @@ import infra.client.BaseCamera;
 import infra.common.GameStore;
 import infra.common.networkobject.Coordinates;
 import infra.entity.Entity;
+import infra.generation.ChunkGenerationManager;
 
 import java.util.List;
 import java.util.Timer;
@@ -26,6 +27,12 @@ public class Game {
   ChunkFactory chunkFactory;
 
   Timer timer;
+
+  @Inject
+  public Game(GameStore gameStore,ChunkFactory chunkFactory, ChunkGenerationManager chunkGenerationManager) throws Exception {
+    gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0,0))));
+    chunkGenerationManager.generate(new ChunkRange(new Coordinates(0,0))).call();
+  }
 
   void start() {
     //    updateLoop = new UpdateLoop();

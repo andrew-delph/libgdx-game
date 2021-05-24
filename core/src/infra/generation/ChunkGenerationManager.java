@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-public class GenerationManager {
+public class ChunkGenerationManager {
   Set<ChunkRange> generatedSet;
 
   @Inject GameStore gameStore;
 
   @Inject ChunkBuilderFactory chunkBuilderFactory;
 
-  GenerationManager() {
+  ChunkGenerationManager() {
     this.generatedSet = new HashSet<>();
   }
 
@@ -26,7 +26,7 @@ public class GenerationManager {
     return this.generatedSet.contains(chunkRange);
   }
 
-  ChunkBuilder generate(ChunkRange chunkRange) {
+  public ChunkBuilder generate(ChunkRange chunkRange) {
     this.generatedSet.add(chunkRange);
     return chunkBuilderFactory.create(chunkRange);
   }

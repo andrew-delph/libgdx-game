@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
 import infra.common.Clock;
 import infra.common.networkobject.Coordinates;
+import infra.common.render.BaseAssetManager;
 import infra.entity.controllers.Controller;
 import infra.serialization.SerializationItem;
 import networking.NetworkObject;
@@ -19,13 +20,17 @@ public  class Entity implements SerializationItem {
   public Sprite sprite;
   public Body body;
   public Coordinates coordinates;
-  @Inject Clock clock;
-  private int zindex;
+  @Inject public Clock clock;
+  public int zindex = 1;
+  int coordinatesScale = 25;
+  public String textureName = "badlogic.jpg";
+
+  @Inject
+  BaseAssetManager baseAssetManager;
 
   @Inject
   public Entity() {
-    this.sprite = new Sprite(new Texture("frog.png"));
-//    this.sprite = new Sprite();
+    this.sprite = new Sprite();
     this.sprite.setPosition(0, 0);
     this.sprite.setSize(50, 50);
     this.coordinates = new Coordinates(0,0);
@@ -37,8 +42,10 @@ public  class Entity implements SerializationItem {
     this.controller = controller;
   }
 
-  public synchronized void sync(){
-    this.sprite.setPosition(this.coordinates.getX(), this.coordinates.getY());
+  public synchronized void renderSync(){
+    this.sprite = new Sprite((Texture) baseAssetManager.get(this.textureName));
+    this.sprite.setSize(this.coordinatesScale, this.coordinatesScale);
+    this.sprite.setPosition(this.coordinates.getXReal()*coordinatesScale, this.coordinates.getYReal()*coordinatesScale);
   }
 
   public synchronized void setZindex(int zindex) {

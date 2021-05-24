@@ -3,7 +3,7 @@ package infra.chunk;
 import infra.common.networkobject.Coordinates;
 
 public class ChunkRange {
-  public static final int size = 50;
+  public static final int size = 5;
   public int bottom_x;
   public int bottom_y;
   public int top_x;
@@ -27,11 +27,11 @@ public class ChunkRange {
   }
 
   public synchronized ChunkRange getUp() {
-    return new ChunkRange(new Coordinates(this.top_x,this.top_y+1));
+    return new ChunkRange(new Coordinates(this.bottom_x,this.top_y+1));
   }
 
   public synchronized ChunkRange getDown() {
-    return new ChunkRange(new Coordinates(this.top_x,this.bottom_y-1));
+    return new ChunkRange(new Coordinates(this.bottom_x,this.bottom_y-1));
   }
 
   public synchronized ChunkRange getLeft() {
