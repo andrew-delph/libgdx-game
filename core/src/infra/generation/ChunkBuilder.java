@@ -20,6 +20,8 @@ public class ChunkBuilder implements Callable<Chunk> {
 
   @Inject BlockFactory blockFactory;
 
+  @Inject BlockGenerator blockGenerator;
+
   ChunkRange chunkRange;
 
   @Inject
@@ -34,8 +36,7 @@ public class ChunkBuilder implements Callable<Chunk> {
       this.gameStore.addChunk(chunk);
       for (int i = chunkRange.bottom_x; i < chunkRange.top_x; i++) {
         for (int j = chunkRange.bottom_y; j < chunkRange.top_y; j++) {
-          Block block = blockFactory.create();
-          block.coordinates = new Coordinates(i, j);
+          Block block = blockGenerator.generate(new Coordinates(i, j));
           this.gameStore.addEntity(block);
         }
       }

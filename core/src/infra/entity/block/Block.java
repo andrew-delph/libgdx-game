@@ -5,7 +5,7 @@ import infra.entity.Entity;
 public class Block extends Entity {
     public Block() {
         super();
-        this.textureName = "dirtblock.jpg";
+        this.textureName = "badlogic.jpg";
         this.zindex = 0;
     }
 }

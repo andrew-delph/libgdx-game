@@ -14,6 +14,8 @@ public class BaseAssetManager extends AssetManager {
         this.load("badlogic.jpg", Texture.class);
         this.load("frog.png", Texture.class);
         this.load("dirtblock.jpg", Texture.class);
+        this.load("stone.png", Texture.class);
+        this.load("sky.png", Texture.class);
         this.update();
         this.finishLoading();
         this.loaded = true;

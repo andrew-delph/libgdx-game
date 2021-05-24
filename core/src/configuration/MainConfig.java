@@ -10,6 +10,7 @@ import infra.common.GameStore;
 import infra.common.render.BaseAssetManager;
 import infra.entity.EntityFactory;
 import infra.entity.block.BlockFactory;
+import infra.generation.BlockGenerator;
 import infra.generation.ChunkBuilderFactory;
 import infra.generation.ChunkGenerationManager;
 
@@ -21,6 +22,7 @@ public class MainConfig extends AbstractModule {
         bind(GameStore.class).asEagerSingleton();
         bind(Game.class).asEagerSingleton();
         bind(ChunkGenerationManager.class).asEagerSingleton();
+        bind(BlockGenerator.class).asEagerSingleton();
         install(new FactoryModuleBuilder()
                 .build(ChunkFactory.class));
 
