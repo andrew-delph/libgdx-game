@@ -5,16 +5,16 @@ option java_outer_classname = "NetworkObjects";
 
 message NetworkEvent{
   string event = 1;
-  NetworkObject object = 2;
+  NetworkData data = 2;
 }
 
-message NetworkObject{
-  string id = 1;
-  string class = 2;
-  repeated NetworkObject children = 3;
+message NetworkData{
+  string key = 1;
+  string value = 2;
+  repeated NetworkData children = 3;
 }
 
 
 service NetworkObjectService{
-  rpc networkObjectStream(stream NetworkObject) returns (stream NetworkObject) {};
+  rpc networkObjectStream(stream NetworkEvent) returns (stream NetworkEvent) {};
 }

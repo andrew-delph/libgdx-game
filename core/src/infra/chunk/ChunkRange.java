@@ -3,7 +3,7 @@ package infra.chunk;
 import infra.common.networkobject.Coordinates;
 
 public class ChunkRange {
-  public static final int size = 5;
+  public static final int size = 2;
   public int bottom_x;
   public int bottom_y;
   public int top_x;

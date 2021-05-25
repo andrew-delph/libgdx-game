@@ -1,11 +1,11 @@
 package infra.common.networkobject;
 
-import infra.serialization.SerializationItem;
-import networking.NetworkObject;
+import infra.networking.NetworkObjects;
+import infra.serialization.SerializationData;
 
 import java.util.UUID;
 
-public class ID implements SerializationItem {
+public class ID implements SerializationData {
 
   UUID uuid;
 
@@ -14,7 +14,7 @@ public class ID implements SerializationItem {
   }
 
   @Override
-  public NetworkObject getNetworkObject() {
+  public NetworkObjects.NetworkData toNetworkData() {
     return null;
   }
 }

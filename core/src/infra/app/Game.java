@@ -3,15 +3,14 @@ package infra.app;
 import com.google.inject.Inject;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
-import infra.client.BaseCamera;
 import infra.common.GameStore;
 import infra.common.networkobject.Coordinates;
+import infra.common.render.BaseCamera;
 import infra.entity.Entity;
 import infra.generation.ChunkGenerationManager;
 
 import java.util.List;
 import java.util.Timer;
-import java.util.concurrent.TimeUnit;
 
 public class Game {
 
@@ -19,7 +18,8 @@ public class Game {
 
   @Inject GameScreen gameScreen;
 
-  @Inject BaseCamera camera;
+  @Inject
+  BaseCamera camera;
 
   @Inject UpdateLoop updateLoop;
 

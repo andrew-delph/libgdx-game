@@ -8,12 +8,12 @@ import infra.common.Clock;
 import infra.common.networkobject.Coordinates;
 import infra.common.render.BaseAssetManager;
 import infra.entity.controllers.Controller;
-import infra.serialization.SerializationItem;
-import networking.NetworkObject;
+import infra.networking.NetworkObjects;
+import infra.serialization.SerializationData;
 
 import java.util.UUID;
 
-public  class Entity implements SerializationItem {
+public  class Entity implements SerializationData {
   public UUID uuid;
   public Controller controller;
   public Animation animation;
@@ -57,7 +57,10 @@ public  class Entity implements SerializationItem {
   }
 
   @Override
-  public NetworkObject getNetworkObject() {
-    return null;
+  public NetworkObjects.NetworkData toNetworkData() {
+    NetworkObjects.NetworkData x = NetworkObjects.NetworkData.newBuilder().setKey("x").setValue(String.valueOf(this.coordinates.getXReal())).build();
+    NetworkObjects.NetworkData y = NetworkObjects.NetworkData.newBuilder().setKey("y").setValue(String.valueOf(this.coordinates.getYReal())).build();
+    NetworkObjects.NetworkData coordinates = NetworkObjects.NetworkData.newBuilder().setKey(Coordinates.class.getName()).addChildren(x).addChildren(y).build();
+    return NetworkObjects.NetworkData.newBuilder().setKey("class").setValue(this.getClass().getName()).addChildren(coordinates).setKey("uuid").setValue(this.uuid.toString()).build();
   }
 }
