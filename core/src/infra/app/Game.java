@@ -3,11 +3,12 @@ package infra.app;
 import com.google.inject.Inject;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
+import infra.common.Coordinates;
 import infra.common.GameStore;
-import infra.common.networkobject.Coordinates;
 import infra.common.render.BaseCamera;
 import infra.entity.Entity;
 import infra.generation.ChunkGenerationManager;
+import infra.networking.consumer.NetworkConsumer;
 
 import java.util.List;
 import java.util.Timer;
@@ -18,20 +19,23 @@ public class Game {
 
   @Inject GameScreen gameScreen;
 
-  @Inject
-  BaseCamera camera;
+  @Inject BaseCamera camera;
 
   @Inject UpdateLoop updateLoop;
 
-  @Inject
-  ChunkFactory chunkFactory;
+  @Inject ChunkFactory chunkFactory;
+
+//  @Inject NetworkConsumer networkConsumer;
 
   Timer timer;
 
   @Inject
-  public Game(GameStore gameStore,ChunkFactory chunkFactory, ChunkGenerationManager chunkGenerationManager) throws Exception {
-    gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0,0))));
-    chunkGenerationManager.generate(new ChunkRange(new Coordinates(0,0))).call();
+  public Game(
+      GameStore gameStore, ChunkFactory chunkFactory, ChunkGenerationManager chunkGenerationManager, NetworkConsumer networkConsumer)
+      throws Exception {
+    gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
+    chunkGenerationManager.generate(new ChunkRange(new Coordinates(0, 0))).call();
+    networkConsumer.init();
   }
 
   void start() {

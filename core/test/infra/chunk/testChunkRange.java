@@ -1,6 +1,6 @@
 package infra.chunk;
 
-import infra.common.networkobject.Coordinates;
+import infra.common.Coordinates;
 import org.junit.Test;
 
 public class testChunkRange {
@@ -14,12 +14,11 @@ public class testChunkRange {
   }
 
   @Test
-  public void testRelative(){
+  public void testRelative() {
     ChunkRange chunkRange1 = new ChunkRange(new Coordinates(0, 0));
     assert chunkRange1.getLeft().equals(new ChunkRange(new Coordinates(-1, 0)));
     assert chunkRange1.getRight().equals(new ChunkRange(new Coordinates(ChunkRange.size, 0)));
     assert chunkRange1.getDown().equals(new ChunkRange(new Coordinates(0, -ChunkRange.size)));
     assert chunkRange1.getUp().equals(new ChunkRange(new Coordinates(0, ChunkRange.size)));
   }
-
 }

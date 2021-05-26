@@ -1,6 +1,7 @@
 package infra.common.events;
 
 import com.google.inject.Inject;
+import infra.common.events.Event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-// TODO change to Observer and Observable
 public class EventService {
 
   Map<String, List<Consumer<Event>>> eventListeners;

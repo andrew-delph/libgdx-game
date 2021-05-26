@@ -2,11 +2,10 @@ package infra.common;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configuration.MainConfig;
+import configuration.ClientConfig;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
-import infra.common.networkobject.Coordinates;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,14 +21,14 @@ public class testChunkClockMap {
 
   @Before
   public void setup() throws IOException {
-    injector = Guice.createInjector(new MainConfig());
+    injector = Guice.createInjector(new ClientConfig());
     chunkClockMap = injector.getInstance(ChunkClockMap.class);
     chunkFactory = injector.getInstance(ChunkFactory.class);
   }
 
   @Test
   public void testExistence() {
-    Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
+    Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(2, 1)));
 
     chunkClockMap.add(chunk);
 

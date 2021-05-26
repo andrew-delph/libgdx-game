@@ -5,12 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
+import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.render.BaseAssetManager;
 import infra.common.render.BaseCamera;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
-import infra.entity.controllers.UserController;
+import infra.entity.controllers.EntityControllerFactory;
 import infra.generation.ChunkGenerationManager;
 
 import java.util.Comparator;
@@ -21,24 +22,23 @@ public class GameScreen extends ApplicationAdapter {
 
   @Inject Game game;
 
-  @Inject
-  GameStore gameStore;
+  @Inject GameStore gameStore;
 
-  @Inject
-  EntityFactory entityFactory;
+  @Inject EntityFactory entityFactory;
 
   SpriteBatch batch;
 
-  @Inject
-  BaseAssetManager baseAssetManager;
+  @Inject BaseAssetManager baseAssetManager;
 
-  @Inject
-  ChunkGenerationManager chunkGenerationManager;
+  @Inject ChunkGenerationManager chunkGenerationManager;
 
-  @Inject
-  BaseCamera baseCamera;
+  @Inject BaseCamera baseCamera;
 
   Entity myEntity;
+
+  @Inject GameController gameController;
+
+  @Inject EntityControllerFactory entityControllerFactory;
 
   @Override
   public void create() {
@@ -47,16 +47,19 @@ public class GameScreen extends ApplicationAdapter {
     baseCamera.init();
     game.start();
     batch = new SpriteBatch();
-    myEntity = entityFactory.createEntity();
-    myEntity.setController(new UserController(myEntity));
-    gameStore.addEntity(myEntity);
+    myEntity = gameController.createEntity(new Coordinates(0, 0));
+    System.out.println("123123 " + myEntity.uuid);
+    myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     chunkGenerationManager.registerActiveEntity(myEntity);
   }
 
   @Override
   public void render() {
 
-    baseCamera.position.set(myEntity.coordinates.getXReal()*myEntity.coordinatesScale, myEntity.coordinates.getYReal()*myEntity.coordinatesScale, 0);
+    baseCamera.position.set(
+        myEntity.coordinates.getXReal() * myEntity.coordinatesScale,
+        myEntity.coordinates.getYReal() * myEntity.coordinatesScale,
+        0);
     baseCamera.update();
 
     // focus camera
@@ -69,10 +72,12 @@ public class GameScreen extends ApplicationAdapter {
 
     List<Entity> renderList = game.getEntityListInRange(0, 0, 100, 100);
 
-    try{
-      renderList = renderList.stream().sorted(Comparator.comparingInt(entity -> entity.zindex)).collect(Collectors.toList());
-    }
-    catch (Exception e){
+    try {
+      renderList =
+          renderList.stream()
+              .sorted(Comparator.comparingInt(entity -> entity.zindex))
+              .collect(Collectors.toList());
+    } catch (Exception e) {
       System.out.println(e);
     }
     for (Entity entity : renderList) {
@@ -87,5 +92,4 @@ public class GameScreen extends ApplicationAdapter {
   public void dispose() {
     this.game.stop();
   }
-
 }

@@ -5,8 +5,9 @@ import com.google.inject.assistedinject.Assisted;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
+import infra.common.Coordinates;
 import infra.common.GameStore;
-import infra.common.networkobject.Coordinates;
+import infra.entity.Entity;
 import infra.entity.block.Block;
 import infra.entity.block.BlockFactory;
 
@@ -31,17 +32,17 @@ public class ChunkBuilder implements Callable<Chunk> {
 
   @Override
   public Chunk call() throws Exception {
-    try{
+    try {
       Chunk chunk = this.chunkFactory.create(this.chunkRange);
       this.gameStore.addChunk(chunk);
       for (int i = chunkRange.bottom_x; i < chunkRange.top_x; i++) {
         for (int j = chunkRange.bottom_y; j < chunkRange.top_y; j++) {
-          Block block = blockGenerator.generate(new Coordinates(i, j));
+          Entity block = blockGenerator.generate(new Coordinates(i, j));
           this.gameStore.addEntity(block);
         }
       }
       return chunk;
-    }catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
 

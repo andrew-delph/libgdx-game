@@ -22,15 +22,15 @@ public class ChunkGenerationManager {
     this.activeEntity = new HashSet<>();
   }
 
-  public void registerActiveEntity(Entity entity){
+  public void registerActiveEntity(Entity entity) {
     this.activeEntity.add(entity);
   }
 
-  public List<Entity> getActiveEntityList(){
+  public List<Entity> getActiveEntityList() {
     return new ArrayList<>(this.activeEntity);
   }
 
-  public List<Callable<Chunk>> generateActiveEntities(){
+  public List<Callable<Chunk>> generateActiveEntities() {
     List<Callable<Chunk>> generationList = new LinkedList<>();
     for (Entity entity : this.getActiveEntityList()) {
       generationList.addAll(generateAround(new ChunkRange(entity.coordinates)));
@@ -62,7 +62,7 @@ public class ChunkGenerationManager {
     List<Callable<Chunk>> chunkBuilderList = new LinkedList<>();
 
     for (ChunkRange chunkRange : surroundingChunkRangeList) {
-      if(!isGenerated(chunkRange)){
+      if (!isGenerated(chunkRange)) {
         chunkBuilderList.add(generate(chunkRange));
       }
     }

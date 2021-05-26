@@ -1,8 +1,7 @@
-package infra.serialization;
+package infra.networking.events.interfaces;
 
 import infra.networking.NetworkObjects;
 
-public interface SerializationEvent {
-
+public interface SerializeNetworkEvent {
     NetworkObjects.NetworkEvent toNetworkEvent();
 }

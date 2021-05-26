@@ -1,4 +1,4 @@
-package infra.common.networkobject;
+package infra.common;
 
 public class Coordinates {
   float x;
@@ -40,7 +40,6 @@ public class Coordinates {
   public synchronized Coordinates getRight() {
     return new Coordinates(this.getX() + 1, this.getY());
   }
-
 
   @Override
   public int hashCode() {

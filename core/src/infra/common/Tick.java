@@ -1,7 +1,5 @@
 package infra.common;
 
-import infra.chunk.ChunkRange;
-
 public class Tick {
   public int time;
 
@@ -11,7 +9,7 @@ public class Tick {
 
   @Override
   public int hashCode() {
-    return (this.time+"".hashCode());
+    return (this.time + "".hashCode());
   }
 
   @Override

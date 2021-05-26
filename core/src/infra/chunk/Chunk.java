@@ -9,7 +9,6 @@ import infra.common.Tick;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -25,7 +24,6 @@ public class Chunk implements Callable<Chunk> {
   Map<UUID, Entity> chunkMap;
 
   @Inject EntityFactory entityFactory;
-
 
   @Inject
   public Chunk(Clock clock, GameStore gameStore, @Assisted ChunkRange chunkRange) {
@@ -66,7 +64,7 @@ public class Chunk implements Callable<Chunk> {
     int tickTimeout = Integer.MAX_VALUE;
     for (Entity entity : this.chunkMap.values()) {
 
-      entity.controller.update();
+      entity.entityController.update();
       this.gameStore.syncEntity(entity);
 
       if (!(new ChunkRange(entity.coordinates).equals(this.chunkRange))) {

@@ -2,9 +2,10 @@ package infra.entity.controllers;
 
 import infra.entity.Entity;
 
-public class Controller {
+public class EntityController {
   Entity entity;
-  public Controller(Entity entity) {
+
+  public EntityController(Entity entity) {
     this.entity = entity;
   }
 
