@@ -11,6 +11,22 @@ public class ChunkRange {
   public int top_y;
 
   public ChunkRange(Coordinates coordinates) {
+    this.fromCoordinates(coordinates);
+  }
+
+  public ChunkRange(NetworkObjects.NetworkData networkData) {
+    float x = 0, y = 0;
+    for (NetworkObjects.NetworkData child : networkData.getChildrenList()) {
+      if (child.getKey() == "x") {
+        x = Float.parseFloat(child.getValue());
+      } else if (child.getKey() == "y") {
+        y = Float.parseFloat(child.getValue());
+      }
+    }
+    this.fromCoordinates(new Coordinates(x, y));
+  }
+
+  private void fromCoordinates(Coordinates coordinates) {
     if (coordinates.getX() < 0) {
       this.bottom_x = ((((coordinates.getX() + 1) / size)) * size) - size;
     } else {
@@ -25,6 +41,22 @@ public class ChunkRange {
 
     this.top_y = this.bottom_y + size;
     this.top_x = this.bottom_x + size;
+  }
+
+  public NetworkObjects.NetworkData toNetworkData() {
+    NetworkObjects.NetworkData.Builder builder =
+        NetworkObjects.NetworkData.newBuilder().setKey(this.getClass().getName());
+    NetworkObjects.NetworkData x =
+        NetworkObjects.NetworkData.newBuilder()
+            .setKey("x")
+            .setValue(String.valueOf(this.bottom_x))
+            .build();
+    NetworkObjects.NetworkData y =
+        NetworkObjects.NetworkData.newBuilder()
+            .setKey("x")
+            .setValue(String.valueOf(this.bottom_x))
+            .build();
+    return builder.addChildren(x).addChildren(y).build();
   }
 
   public synchronized ChunkRange getUp() {
@@ -63,12 +95,4 @@ public class ChunkRange {
   public String toString() {
     return this.bottom_x + "," + this.bottom_y + "," + this.top_x + "," + this.top_y;
   }
-
-  public NetworkObjects.NetworkData toNetworkData() {
-    NetworkObjects.NetworkData.Builder builder = NetworkObjects.NetworkData.newBuilder().setKey(this.getClass().getName());
-    NetworkObjects.NetworkData x = NetworkObjects.NetworkData.newBuilder().setKey("x").setValue(String.valueOf(this.bottom_x)).build();
-    NetworkObjects.NetworkData y = NetworkObjects.NetworkData.newBuilder().setKey("x").setValue(String.valueOf(this.bottom_x)).build();
-    return  builder.addChildren(x).addChildren(y).build();
-  }
-
 }

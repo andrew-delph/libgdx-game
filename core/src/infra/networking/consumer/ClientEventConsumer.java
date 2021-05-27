@@ -2,21 +2,21 @@ package infra.networking.consumer;
 
 import com.google.inject.Inject;
 import infra.app.GameController;
-import infra.common.events.EventService;
 import infra.common.events.Event;
+import infra.common.events.EventService;
 import infra.entity.EntitySerializationConverter;
 import infra.networking.events.CreateEntityIncomingEvent;
 import infra.networking.events.UpdateEntityIncomingEvent;
 
 import java.util.function.Consumer;
 
-public class ClientNetworkConsumer extends NetworkConsumer {
+public class ClientEventConsumer extends NetworkConsumer {
   @Inject EventService eventService;
   @Inject GameController gameController;
   @Inject EntitySerializationConverter entitySerializationConverter;
 
   @Inject
-  public ClientNetworkConsumer() {}
+  public ClientEventConsumer() {}
 
   public void init() {
     this.eventService.addListener(

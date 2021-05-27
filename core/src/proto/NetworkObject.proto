@@ -6,6 +6,7 @@ option java_outer_classname = "NetworkObjects";
 message NetworkEvent{
   string event = 1;
   NetworkData data = 2;
+  string user = 3;
 }
 
 message NetworkData{

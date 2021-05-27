@@ -14,7 +14,7 @@ import infra.entity.EntitySerializationConverter;
 import infra.entity.block.BlockFactory;
 import infra.networking.NetworkEventHandler;
 import infra.networking.NetworkObjects;
-import infra.networking.events.EntityEventFactory;
+import infra.networking.events.EventFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class testEntitySerialization {
   ChunkFactory chunkFactory;
 
   EventService eventService;
-  EntityEventFactory entityEventFactory;
+  EventFactory eventFactory;
   NetworkEventHandler networkEventHandler;
 
   @Before
@@ -44,7 +44,7 @@ public class testEntitySerialization {
     gameStore = injector.getInstance(GameStore.class);
     chunkFactory = injector.getInstance(ChunkFactory.class);
     eventService = injector.getInstance(EventService.class);
-    entityEventFactory = injector.getInstance(EntityEventFactory.class);
+    eventFactory = injector.getInstance(EventFactory.class);
     blockFactory = injector.getInstance(BlockFactory.class);
     networkEventHandler = injector.getInstance(NetworkEventHandler.class);
   }
@@ -74,7 +74,8 @@ public class testEntitySerialization {
   public void testCreateEntityNetworkEvent() {
     Entity entityWrite = entityFactory.createEntity();
     UUID uuid = entityWrite.uuid;
-    networkEventHandler.handleNetworkEvent(entityEventFactory.createCreateEntityIncomingEvent(entityWrite.toNetworkData()).toNetworkEvent());
+    networkEventHandler.handleNetworkEvent(
+        eventFactory.createCreateEntityIncomingEvent(entityWrite.toNetworkData()).toNetworkEvent());
     assert uuid.equals(gameStore.getEntity(uuid).uuid);
   }
 
@@ -82,7 +83,8 @@ public class testEntitySerialization {
   public void testBlockWrite() {
     Entity block = blockFactory.create();
     UUID uuid = block.uuid;
-    networkEventHandler.handleNetworkEvent(entityEventFactory.createCreateEntityIncomingEvent(block.toNetworkData()).toNetworkEvent());
+    networkEventHandler.handleNetworkEvent(
+        eventFactory.createCreateEntityIncomingEvent(block.toNetworkData()).toNetworkEvent());
     assert uuid.equals(gameStore.getEntity(uuid).uuid);
     assert gameStore.getEntity(uuid).getClass().getName().equals(block.getClass().getName());
   }

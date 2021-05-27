@@ -15,8 +15,7 @@ import infra.entity.controllers.EntityControllerFactory;
 import infra.generation.BlockGenerator;
 import infra.generation.ChunkBuilderFactory;
 import infra.generation.ChunkGenerationManager;
-import infra.networking.consumer.NetworkConsumer;
-import infra.networking.events.EntityEventFactory;
+import infra.networking.events.EventFactory;
 
 public abstract class MainConfig extends AbstractModule {
   @Override
@@ -37,7 +36,7 @@ public abstract class MainConfig extends AbstractModule {
     install(new FactoryModuleBuilder().build(BlockFactory.class));
     install(new FactoryModuleBuilder().build(EntityControllerFactory.class));
 
-    install(new FactoryModuleBuilder().build(EntityEventFactory.class));
+    install(new FactoryModuleBuilder().build(EventFactory.class));
 
     bind(Game.class).asEagerSingleton();
   }

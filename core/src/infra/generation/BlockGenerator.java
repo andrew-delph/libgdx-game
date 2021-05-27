@@ -4,13 +4,13 @@ import com.google.inject.Inject;
 import infra.app.GameController;
 import infra.common.Coordinates;
 import infra.entity.Entity;
-import infra.entity.block.Block;
-import infra.entity.block.BlockFactory;
 
 public class BlockGenerator {
 
+  @Inject GameController gameController;
+
   @Inject
-  GameController gameController;
+  BlockGenerator() {}
 
   public Entity generate(Coordinates coordinates) {
     Entity block;

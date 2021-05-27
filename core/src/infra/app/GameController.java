@@ -2,13 +2,13 @@ package infra.app;
 
 import com.google.inject.Inject;
 import infra.common.Coordinates;
-import infra.common.events.EventService;
 import infra.common.GameStore;
+import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.entity.block.BlockFactory;
 import infra.networking.events.CreateEntityOutgoingEvent;
-import infra.networking.events.EntityEventFactory;
+import infra.networking.events.EventFactory;
 
 public class GameController {
   @Inject GameStore gameStore;
@@ -17,10 +17,9 @@ public class GameController {
 
   @Inject EventService eventService;
 
-  @Inject EntityEventFactory entityEventFactory;
+  @Inject EventFactory eventFactory;
 
-  @Inject
-  BlockFactory blockFactory;
+  @Inject BlockFactory blockFactory;
 
   public Entity createEntity(Coordinates coordinates) {
     Entity entity = entityFactory.createEntity();
@@ -28,7 +27,7 @@ public class GameController {
     this.gameStore.addEntity(entity);
 
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-            entityEventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
+        eventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
 
     this.eventService.fireEvent(createEntityOutgoingEvent);
 
@@ -40,7 +39,7 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-            entityEventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
+        eventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -50,7 +49,7 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-            entityEventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
+        eventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -60,7 +59,7 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-            entityEventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
+        eventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -70,7 +69,7 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-            entityEventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
+        eventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -82,12 +81,12 @@ public class GameController {
   public void moveEntity(Entity entity, Coordinates coordinates) {
     entity.coordinates = coordinates;
     this.eventService.fireEvent(
-        entityEventFactory.createUpdateEntityOutgoingEvent(entity.toNetworkData()));
+        eventFactory.createUpdateEntityOutgoingEvent(entity.toNetworkData()));
   }
 
   public void triggerMoveEntity(Entity entity, Coordinates coordinates) {
     entity.coordinates = coordinates;
     this.eventService.fireEvent(
-        entityEventFactory.createUpdateEntityOutgoingEvent(entity.toNetworkData()));
+        eventFactory.createUpdateEntityOutgoingEvent(entity.toNetworkData()));
   }
 }

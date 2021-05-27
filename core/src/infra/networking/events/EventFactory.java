@@ -1,8 +1,11 @@
 package infra.networking.events;
 
+import infra.chunk.ChunkRange;
 import infra.networking.NetworkObjects;
 
-public interface EntityEventFactory {
+import java.util.List;
+
+public interface EventFactory {
   CreateEntityOutgoingEvent createCreateEntityOutgoingEvent(NetworkObjects.NetworkData entityData);
 
   CreateEntityIncomingEvent createCreateEntityIncomingEvent(NetworkObjects.NetworkData entityData);
@@ -10,4 +13,8 @@ public interface EntityEventFactory {
   UpdateEntityOutgoingEvent createUpdateEntityOutgoingEvent(NetworkObjects.NetworkData entityData);
 
   UpdateEntityIncomingEvent createUpdateEntityIncomingEvent(NetworkObjects.NetworkData entityData);
+
+  SubscriptionEvent createSubscriptionEvent(NetworkObjects.NetworkData entityData);
+
+  SubscriptionEvent createSubscriptionEvent(List<ChunkRange> chunkRangeList);
 }

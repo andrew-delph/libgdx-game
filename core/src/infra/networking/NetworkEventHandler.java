@@ -4,11 +4,12 @@ import com.google.inject.Inject;
 import infra.common.events.EventService;
 import infra.networking.consumer.NetworkConsumer;
 import infra.networking.events.CreateEntityIncomingEvent;
-import infra.networking.events.EntityEventFactory;
+import infra.networking.events.EventFactory;
+import infra.networking.events.SubscriptionEvent;
 
 public class NetworkEventHandler extends NetworkConsumer {
 
-  @Inject EntityEventFactory entityEventFactory;
+  @Inject EventFactory eventFactory;
   @Inject EventService eventService;
 
   public NetworkEventHandler() {
@@ -16,12 +17,13 @@ public class NetworkEventHandler extends NetworkConsumer {
   }
 
   public void handleNetworkEvent(NetworkObjects.NetworkEvent networkEvent) {
-    if (networkEvent.getEvent().equals(CreateEntityIncomingEvent.type)) {
-      eventService.fireEvent(
-          entityEventFactory.createCreateEntityIncomingEvent(networkEvent.getData()));
-    } else if (networkEvent.getEvent().equals("update_entity")) {
-      eventService.fireEvent(
-          entityEventFactory.createUpdateEntityIncomingEvent(networkEvent.getData()));
+    String event = networkEvent.getEvent();
+    if (event.equals(CreateEntityIncomingEvent.type)) {
+      eventService.fireEvent(eventFactory.createCreateEntityIncomingEvent(networkEvent.getData()));
+    } else if (event.equals("update_entity")) {
+      eventService.fireEvent(eventFactory.createUpdateEntityIncomingEvent(networkEvent.getData()));
+    } else if (event.equals(SubscriptionEvent.type)) {
+
     }
   }
 }
