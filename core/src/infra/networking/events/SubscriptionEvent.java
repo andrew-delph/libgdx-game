@@ -22,7 +22,6 @@ public class SubscriptionEvent extends Event implements SerializeNetworkEvent {
 
   NetworkObjects.NetworkEvent networkEvent;
 
-  @Inject
   public SubscriptionEvent(@Assisted List<ChunkRange> chunkRangeList) {
     this.chunkRangeList = chunkRangeList;
   }

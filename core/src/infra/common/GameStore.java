@@ -25,6 +25,10 @@ public class GameStore {
     this.entityMap.put(entity.uuid, entityChunkRange);
   }
 
+  public int getEntityNumber() {
+    return this.entityMap.size();
+  }
+
   public Entity getEntity(UUID uuid) {
     return this.chunkClockMap.get(this.entityMap.get(uuid)).getEntity(uuid);
   }

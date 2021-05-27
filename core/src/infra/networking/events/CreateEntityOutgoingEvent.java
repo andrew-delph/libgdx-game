@@ -9,19 +9,18 @@ public class CreateEntityOutgoingEvent extends Event {
 
   NetworkObjects.NetworkData entityData;
 
+  public static String type = "create_entity_outgoing";
+
   @Inject
   CreateEntityOutgoingEvent(@Assisted NetworkObjects.NetworkData entityData) {
     this.entityData = entityData;
   }
 
   public NetworkObjects.NetworkEvent getNetworkEvent() {
-    return NetworkObjects.NetworkEvent.newBuilder()
-        .setData(this.entityData)
-        .setEvent("create_entity")
-        .build();
+    return NetworkObjects.NetworkEvent.newBuilder().setData(this.entityData).setEvent(type).build();
   }
 
   public String getType() {
-    return null;
+    return type;
   }
 }

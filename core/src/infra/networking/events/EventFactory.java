@@ -1,9 +1,6 @@
 package infra.networking.events;
 
-import infra.chunk.ChunkRange;
 import infra.networking.NetworkObjects;
-
-import java.util.List;
 
 public interface EventFactory {
   CreateEntityOutgoingEvent createCreateEntityOutgoingEvent(NetworkObjects.NetworkData entityData);
@@ -14,7 +11,5 @@ public interface EventFactory {
 
   UpdateEntityIncomingEvent createUpdateEntityIncomingEvent(NetworkObjects.NetworkData entityData);
 
-  SubscriptionEvent createSubscriptionEvent(NetworkObjects.NetworkData entityData);
-
-  SubscriptionEvent createSubscriptionEvent(List<ChunkRange> chunkRangeList);
+  SubscriptionEvent createSubscriptionEvent(NetworkObjects.NetworkEvent entityData);
 }

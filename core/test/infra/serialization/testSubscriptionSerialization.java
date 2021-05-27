@@ -30,6 +30,6 @@ public class testSubscriptionSerialization {
     List<ChunkRange> chunkRangeList = new LinkedList<>();
     chunkRangeList.add(new ChunkRange(new Coordinates(0, 1)));
     chunkRangeList.add(new ChunkRange(new Coordinates(-2, 1)));
-    SubscriptionEvent subscriptionEvent = eventFactory.createSubscriptionEvent(chunkRangeList);
+    SubscriptionEvent subscriptionEvent = new SubscriptionEvent(chunkRangeList);
   }
 }

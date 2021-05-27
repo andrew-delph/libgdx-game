@@ -5,6 +5,7 @@ import infra.app.GameController;
 import infra.chunk.ChunkSubscriptionService;
 import infra.common.events.EventService;
 import infra.entity.EntitySerializationConverter;
+import infra.networking.events.CreateEntityIncomingEvent;
 import infra.networking.events.SubscriptionEvent;
 
 public class ServerEventConsumer extends NetworkConsumer {
@@ -20,6 +21,13 @@ public class ServerEventConsumer extends NetworkConsumer {
           SubscriptionEvent realEvent = (SubscriptionEvent) event;
           chunkSubscriptionService.registerSubscription(
               realEvent.getUser(), realEvent.getChunkRangeList());
+        });
+    this.eventService.addListener(
+        CreateEntityIncomingEvent.type,
+        event -> {
+          CreateEntityIncomingEvent realEvent = (CreateEntityIncomingEvent) event;
+          gameController.triggerCreateEntity(
+              entitySerializationConverter.createEntity(realEvent.getData()));
         });
   }
 }
