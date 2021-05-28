@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import infra.app.GameController;
 import infra.chunk.ChunkSubscriptionService;
 import infra.common.events.EventService;
+import infra.entity.Entity;
 import infra.entity.EntitySerializationConverter;
 import infra.networking.NetworkObjects;
 import infra.networking.events.*;
@@ -19,6 +20,7 @@ public class ServerEventConsumer extends NetworkConsumer {
   @Inject ServerNetworkHandle serverNetworkHandle;
 
   public void init() {
+    super.init();
     this.eventService.addListener(
         SubscriptionIncomingEvent.type,
         event -> {
@@ -29,16 +31,17 @@ public class ServerEventConsumer extends NetworkConsumer {
     this.eventService.addListener(
         CreateEntityIncomingEvent.type,
         event -> {
+          System.out.println("create entity");
           CreateEntityIncomingEvent realEvent = (CreateEntityIncomingEvent) event;
-          gameController.triggerCreateEntity(
+          gameController.createEntity(
               entitySerializationConverter.createEntity(realEvent.getData()));
         });
     this.eventService.addListener(
         UpdateEntityIncomingEvent.type,
         event -> {
           UpdateEntityIncomingEvent realEvent = (UpdateEntityIncomingEvent) event;
-          gameController.triggerCreateEntity(
-              entitySerializationConverter.createEntity(realEvent.getData()));
+          Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
+          gameController.moveEntity(entity.uuid, entity.coordinates);
         });
     this.eventService.addListener(
         CreateEntityOutgoingEvent.type,

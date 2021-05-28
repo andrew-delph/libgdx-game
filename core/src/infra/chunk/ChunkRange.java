@@ -4,7 +4,7 @@ import infra.common.Coordinates;
 import infra.networking.NetworkObjects;
 
 public class ChunkRange {
-  public static final int size = 2;
+  public static final int size = 500;
   public int bottom_x;
   public int bottom_y;
   public int top_x;

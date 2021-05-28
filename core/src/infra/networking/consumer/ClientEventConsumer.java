@@ -21,9 +21,11 @@ public class ClientEventConsumer extends NetworkConsumer {
   public ClientEventConsumer() {}
 
   public void init() {
+    super.init();
     this.eventService.addListener(
         CreateEntityIncomingEvent.type,
         event -> {
+          System.out.println("create entity incoming");
           CreateEntityIncomingEvent realEvent = (CreateEntityIncomingEvent) event;
           gameController.triggerCreateEntity(
               entitySerializationConverter.createEntity(realEvent.getData()));

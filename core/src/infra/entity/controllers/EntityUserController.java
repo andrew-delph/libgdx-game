@@ -21,25 +21,25 @@ public class EntityUserController extends EntityController {
   public void update() {
     if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
       gameController.moveEntity(
-          this.entity,
+          this.entity.uuid,
           new Coordinates(
               this.entity.coordinates.getXReal() - 0.1f, this.entity.coordinates.getYReal()));
     }
     if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
       gameController.moveEntity(
-          this.entity,
+          this.entity.uuid,
           new Coordinates(
               this.entity.coordinates.getXReal() + 0.1f, this.entity.coordinates.getYReal()));
     }
     if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
       gameController.moveEntity(
-          this.entity,
+          this.entity.uuid,
           new Coordinates(
               this.entity.coordinates.getXReal(), this.entity.coordinates.getYReal() - 0.1f));
     }
     if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
       gameController.moveEntity(
-          this.entity,
+          this.entity.uuid,
           new Coordinates(
               this.entity.coordinates.getXReal(), this.entity.coordinates.getYReal() + 0.1f));
     }

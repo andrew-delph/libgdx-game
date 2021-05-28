@@ -14,6 +14,7 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
   @Override
   public void onNext(NetworkObjects.NetworkEvent networkEvent) {
     if (networkEvent.getEvent().equals("authentication")) {
+      System.out.println("authentication");
       connectionStore.addConnection(UUID.fromString(networkEvent.getUser()), this);
     } else {
       networkEventHandler.handleNetworkEvent(networkEvent);

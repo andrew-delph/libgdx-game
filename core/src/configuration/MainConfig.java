@@ -20,7 +20,7 @@ import infra.networking.ConnectionStore;
 import infra.networking.ObserverFactory;
 import infra.networking.events.EventFactory;
 
-public class MainConfig extends AbstractModule {
+public abstract class MainConfig extends AbstractModule {
   @Override
   protected void configure() {
     bind(BaseAssetManager.class).in(Singleton.class);
@@ -45,6 +45,5 @@ public class MainConfig extends AbstractModule {
 
     install(new FactoryModuleBuilder().build(ObserverFactory.class));
 
-    bind(Game.class).asEagerSingleton();
   }
 }

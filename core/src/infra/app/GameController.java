@@ -11,6 +11,8 @@ import infra.entity.block.BlockFactory;
 import infra.networking.events.CreateEntityOutgoingEvent;
 import infra.networking.events.EventFactory;
 
+import java.util.UUID;
+
 public class GameController {
   @Inject GameStore gameStore;
 
@@ -22,14 +24,12 @@ public class GameController {
 
   @Inject BlockFactory blockFactory;
 
-  public Entity createEntity(Coordinates coordinates) {
-    Entity entity = entityFactory.createEntity();
-    entity.coordinates = coordinates;
+  public Entity createEntity(Entity entity) {
     this.gameStore.addEntity(entity);
 
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
         eventFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(coordinates));
+            entity.toNetworkData(), new ChunkRange(entity.coordinates));
 
     this.eventService.fireEvent(createEntityOutgoingEvent);
 
@@ -84,7 +84,8 @@ public class GameController {
     this.gameStore.addEntity(entity);
   }
 
-  public void moveEntity(Entity entity, Coordinates coordinates) {
+  public void moveEntity(UUID uuid, Coordinates coordinates) {
+    Entity entity = this.gameStore.getEntity(uuid);
     entity.coordinates = coordinates;
     this.eventService.fireEvent(
         eventFactory.createUpdateEntityOutgoingEvent(

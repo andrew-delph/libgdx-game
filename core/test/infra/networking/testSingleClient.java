@@ -11,6 +11,7 @@ import infra.chunk.ChunkSubscriptionService;
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.entity.Entity;
+import infra.entity.EntityFactory;
 import infra.networking.client.ClientNetworkHandle;
 import infra.networking.events.EventFactory;
 import infra.networking.server.ServerNetworkHandle;
@@ -75,9 +76,11 @@ public class testSingleClient {
     ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
     clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
 
+    EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
+
     TimeUnit.SECONDS.sleep(1);
 
-    Entity clientEntity = clientGameController.createEntity(new Coordinates(0, 0));
+    Entity clientEntity = clientGameController.createEntity(clientEntityFactory.createEntity());
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -101,7 +104,9 @@ public class testSingleClient {
 
     TimeUnit.SECONDS.sleep(1);
 
-    Entity clientEntity = clientGameController.createEntity(new Coordinates(0, 0));
+    EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
+
+    Entity clientEntity = clientGameController.createEntity(clientEntityFactory.createEntity());
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -111,7 +116,7 @@ public class testSingleClient {
         .coordinates
         .equals(clientEntity.coordinates);
 
-    clientGameController.moveEntity(clientEntity, new Coordinates(0, 1));
+    clientGameController.moveEntity(clientEntity.uuid, new Coordinates(0, 1));
 
     TimeUnit.SECONDS.sleep(1);
     assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
@@ -169,7 +174,7 @@ public class testSingleClient {
         .coordinates
         .equals(clientEntity.coordinates);
 
-    clientGameController.moveEntity(clientEntity, new Coordinates(0, 1));
+    clientGameController.moveEntity(clientEntity.uuid, new Coordinates(0, 1));
 
     TimeUnit.SECONDS.sleep(1);
     assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
@@ -234,7 +239,9 @@ public class testSingleClient {
             chunkRangeList,
             serverChunkSubscriptionService.getUserChunkRangeSubscriptions(clientNetworkHandle.uuid));
 
-    Entity serverEntity = serverGameController.createEntity(new Coordinates(-1, 0));
+    EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
+
+    Entity serverEntity = serverGameController.createEntity(clientEntityFactory.createEntity());
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -272,14 +279,17 @@ public class testSingleClient {
             chunkRangeList,
             serverChunkSubscriptionService.getUserChunkRangeSubscriptions(clientNetworkHandle.uuid));
 
-    Entity serverEntity = serverGameController.createEntity(new Coordinates(-1, 0));
+
+    EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
+
+    Entity serverEntity = serverGameController.createEntity(clientEntityFactory.createEntity());
 
     TimeUnit.SECONDS.sleep(1);
 
     assert serverEntity.uuid.equals(clientGameStore.getEntity(serverEntity.uuid).uuid);
     assert serverEntity.coordinates.equals(clientGameStore.getEntity(serverEntity.uuid).coordinates);
 
-    serverGameController.moveEntity(serverEntity,new Coordinates(-1, 1));
+    serverGameController.moveEntity(serverEntity.uuid,new Coordinates(-1, 1));
 
     TimeUnit.SECONDS.sleep(1);
 

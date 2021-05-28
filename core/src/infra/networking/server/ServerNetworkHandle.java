@@ -15,6 +15,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   private Server server;
 
   public void start() throws IOException {
+    System.out.println("server start");
     server = ServerBuilder.forPort(99).addService(this).build();
     server.start();
   }

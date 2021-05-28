@@ -5,11 +5,11 @@ import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
-import infra.common.render.BaseCamera;
 import infra.entity.Entity;
 import infra.generation.ChunkGenerationManager;
 import infra.networking.consumer.NetworkConsumer;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Timer;
 
@@ -17,15 +17,7 @@ public class Game {
 
   @Inject GameStore gameStore;
 
-  @Inject GameScreen gameScreen;
-
-  @Inject BaseCamera camera;
-
   @Inject UpdateLoop updateLoop;
-
-  @Inject ChunkFactory chunkFactory;
-
-  //  @Inject NetworkConsumer networkConsumer;
 
   Timer timer;
 
@@ -40,14 +32,12 @@ public class Game {
     networkConsumer.init();
   }
 
-  void start() {
-    //    updateLoop = new UpdateLoop();
+  public void start() throws IOException {
     timer = new Timer(true);
     timer.scheduleAtFixedRate(updateLoop, 0, 16);
   }
 
   void stop() {
-    // TODO stop updateLoop
     timer.cancel();
   }
 

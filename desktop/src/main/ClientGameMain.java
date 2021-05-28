@@ -6,13 +6,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.ClientConfig;
 import configuration.MainConfig;
-import configuration.SoloConfig;
 import infra.app.GameScreen;
 
-public class GameMain {
+public class ClientGameMain {
   public static void main(String[] arg) {
 
-    Injector injector = Guice.createInjector(new SoloConfig());
+    Injector injector = Guice.createInjector(new ClientConfig());
 
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
 

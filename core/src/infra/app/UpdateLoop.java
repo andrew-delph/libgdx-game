@@ -14,13 +14,13 @@ import java.util.concurrent.Executors;
 
 public class UpdateLoop extends TimerTask {
 
-  @Inject Clock clock;
+  @Inject public Clock clock;
 
-  @Inject GameStore gameStore;
+  @Inject public GameStore gameStore;
 
   @Inject ChunkGenerationManager chunkGenerationManager;
 
-  ExecutorService executor;
+  public ExecutorService executor;
 
   public UpdateLoop() {
     executor = Executors.newCachedThreadPool();

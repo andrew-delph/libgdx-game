@@ -15,6 +15,7 @@ import infra.entity.EntityFactory;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.generation.ChunkGenerationManager;
 
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,14 +44,18 @@ public class GameScreen extends ApplicationAdapter {
 
   @Inject EntityControllerFactory entityControllerFactory;
 
+
   @Override
   public void create() {
     baseAssetManager.init();
-    baseAssetManager.get("badlogic.jpg");
     baseCamera.init();
-    game.start();
+    try {
+      game.start();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     batch = new SpriteBatch();
-    myEntity = gameController.createEntity(new Coordinates(0, 0));
+    myEntity = gameController.createEntity(entityFactory.createEntity());
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     chunkGenerationManager.registerActiveEntity(myEntity);
   }
