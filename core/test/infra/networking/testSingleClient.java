@@ -222,22 +222,22 @@ public class testSingleClient {
     ChunkFactory serverChunkFactory = serverInjector.getInstance(ChunkFactory.class);
 
     ChunkSubscriptionService serverChunkSubscriptionService =
-            serverInjector.getInstance(ChunkSubscriptionService.class);
+        serverInjector.getInstance(ChunkSubscriptionService.class);
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
-    serverGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(-1, 0))));
+    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
+    serverGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-    clientGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(-1, 0))));
+    clientGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
     clientNetworkHandle.send(
-            clientEventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+        clientEventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
     TimeUnit.SECONDS.sleep(1);
 
     Assert.assertEquals(
-            chunkRangeList,
-            serverChunkSubscriptionService.getUserChunkRangeSubscriptions(clientNetworkHandle.uuid));
+        chunkRangeList,
+        serverChunkSubscriptionService.getUserChunkRangeSubscriptions(clientNetworkHandle.uuid));
 
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
 
@@ -246,7 +246,8 @@ public class testSingleClient {
     TimeUnit.SECONDS.sleep(1);
 
     assert serverEntity.uuid.equals(clientGameStore.getEntity(serverEntity.uuid).uuid);
-    assert serverEntity.coordinates.equals(clientGameStore.getEntity(serverEntity.uuid).coordinates);
+    assert serverEntity.coordinates.equals(
+        clientGameStore.getEntity(serverEntity.uuid).coordinates);
   }
 
   @Test
@@ -262,23 +263,22 @@ public class testSingleClient {
     ChunkFactory serverChunkFactory = serverInjector.getInstance(ChunkFactory.class);
 
     ChunkSubscriptionService serverChunkSubscriptionService =
-            serverInjector.getInstance(ChunkSubscriptionService.class);
+        serverInjector.getInstance(ChunkSubscriptionService.class);
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
-    serverGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(-1, 0))));
+    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
+    serverGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-    clientGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(-1, 0))));
+    clientGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
     clientNetworkHandle.send(
-            clientEventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+        clientEventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
     TimeUnit.SECONDS.sleep(1);
 
     Assert.assertEquals(
-            chunkRangeList,
-            serverChunkSubscriptionService.getUserChunkRangeSubscriptions(clientNetworkHandle.uuid));
-
+        chunkRangeList,
+        serverChunkSubscriptionService.getUserChunkRangeSubscriptions(clientNetworkHandle.uuid));
 
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
 
@@ -287,13 +287,15 @@ public class testSingleClient {
     TimeUnit.SECONDS.sleep(1);
 
     assert serverEntity.uuid.equals(clientGameStore.getEntity(serverEntity.uuid).uuid);
-    assert serverEntity.coordinates.equals(clientGameStore.getEntity(serverEntity.uuid).coordinates);
+    assert serverEntity.coordinates.equals(
+        clientGameStore.getEntity(serverEntity.uuid).coordinates);
 
-    serverGameController.moveEntity(serverEntity.uuid,new Coordinates(-1, 1));
+    serverGameController.moveEntity(serverEntity.uuid, new Coordinates(0, 1));
 
     TimeUnit.SECONDS.sleep(1);
 
     assert serverEntity.uuid.equals(clientGameStore.getEntity(serverEntity.uuid).uuid);
-    assert serverEntity.coordinates.equals(clientGameStore.getEntity(serverEntity.uuid).coordinates);
+    assert serverEntity.coordinates.equals(
+        clientGameStore.getEntity(serverEntity.uuid).coordinates);
   }
 }
