@@ -1,7 +1,6 @@
 package infra.common.events;
 
 import com.google.inject.Inject;
-import infra.common.events.Event;
 
 import java.util.ArrayList;
 import java.util.HashMap;

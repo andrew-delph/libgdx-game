@@ -17,9 +17,9 @@ public class ChunkRange {
   public ChunkRange(NetworkObjects.NetworkData networkData) {
     float x = 0, y = 0;
     for (NetworkObjects.NetworkData child : networkData.getChildrenList()) {
-      if (child.getKey() == "x") {
+      if (child.getKey().equals("x")) {
         x = Float.parseFloat(child.getValue());
-      } else if (child.getKey() == "y") {
+      } else if (child.getKey().equals("y")) {
         y = Float.parseFloat(child.getValue());
       }
     }

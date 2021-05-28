@@ -50,6 +50,7 @@ public class ChunkGenerationManager {
   public List<Callable<Chunk>> generateAround(ChunkRange chunkRangeRoot) {
     List<ChunkRange> surroundingChunkRangeList = new LinkedList<>();
 
+    surroundingChunkRangeList.add(chunkRangeRoot);
     surroundingChunkRangeList.add(chunkRangeRoot.getLeft());
     surroundingChunkRangeList.add(chunkRangeRoot.getRight());
     surroundingChunkRangeList.add(chunkRangeRoot.getUp());

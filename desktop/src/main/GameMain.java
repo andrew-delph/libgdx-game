@@ -11,7 +11,7 @@ import infra.app.GameScreen;
 public class GameMain {
   public static void main(String[] arg) {
 
-    Injector injector = Guice.createInjector(new ClientConfig());
+    Injector injector = Guice.createInjector(new MainConfig());
 
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
 

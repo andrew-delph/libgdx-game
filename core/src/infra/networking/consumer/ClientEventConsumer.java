@@ -2,15 +2,13 @@ package infra.networking.consumer;
 
 import com.google.inject.Inject;
 import infra.app.GameController;
-import infra.common.events.Event;
 import infra.common.events.EventService;
 import infra.entity.EntitySerializationConverter;
 import infra.networking.client.ClientNetworkHandle;
 import infra.networking.events.CreateEntityIncomingEvent;
 import infra.networking.events.CreateEntityOutgoingEvent;
 import infra.networking.events.UpdateEntityIncomingEvent;
-
-import java.util.function.Consumer;
+import infra.networking.events.UpdateEntityOutgoingEvent;
 
 public class ClientEventConsumer extends NetworkConsumer {
   @Inject EventService eventService;
@@ -25,31 +23,28 @@ public class ClientEventConsumer extends NetworkConsumer {
   public void init() {
     this.eventService.addListener(
         CreateEntityIncomingEvent.type,
-        new Consumer<Event>() {
-          @Override
-          public void accept(Event event) {
-            CreateEntityIncomingEvent realEvent = (CreateEntityIncomingEvent) event;
-            gameController.triggerCreateEntity(
-                entitySerializationConverter.createEntity(realEvent.getData()));
-          }
+        event -> {
+          CreateEntityIncomingEvent realEvent = (CreateEntityIncomingEvent) event;
+          gameController.triggerCreateEntity(
+              entitySerializationConverter.createEntity(realEvent.getData()));
         });
     this.eventService.addListener(
         UpdateEntityIncomingEvent.type,
-        new Consumer<Event>() {
-          @Override
-          public void accept(Event event) {
-            UpdateEntityIncomingEvent realEvent = (UpdateEntityIncomingEvent) event;
-            entitySerializationConverter.updateEntity(realEvent.getData());
-          }
+        event -> {
+          UpdateEntityIncomingEvent realEvent = (UpdateEntityIncomingEvent) event;
+          entitySerializationConverter.updateEntity(realEvent.getData());
         });
     this.eventService.addListener(
         CreateEntityOutgoingEvent.type,
-        new Consumer<Event>() {
-          @Override
-          public void accept(Event event) {
-            CreateEntityOutgoingEvent realEvent = (CreateEntityOutgoingEvent) event;
-            clientNetworkHandle.send(realEvent.getNetworkEvent());
-          }
+        event -> {
+          CreateEntityOutgoingEvent realEvent = (CreateEntityOutgoingEvent) event;
+          clientNetworkHandle.send(realEvent.toNetworkEvent());
+        });
+    this.eventService.addListener(
+        UpdateEntityOutgoingEvent.type,
+        event -> {
+          UpdateEntityOutgoingEvent realEvent = (UpdateEntityOutgoingEvent) event;
+          clientNetworkHandle.send(realEvent.toNetworkEvent());
         });
   }
 }

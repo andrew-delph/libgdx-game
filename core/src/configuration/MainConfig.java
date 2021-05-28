@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import infra.app.Game;
 import infra.chunk.ChunkFactory;
+import infra.chunk.ChunkSubscriptionService;
 import infra.common.Clock;
 import infra.common.GameStore;
 import infra.common.events.EventService;
@@ -19,7 +20,7 @@ import infra.networking.ConnectionStore;
 import infra.networking.ObserverFactory;
 import infra.networking.events.EventFactory;
 
-public abstract class MainConfig extends AbstractModule {
+public class MainConfig extends AbstractModule {
   @Override
   protected void configure() {
     bind(BaseAssetManager.class).in(Singleton.class);
@@ -29,6 +30,7 @@ public abstract class MainConfig extends AbstractModule {
     bind(BlockGenerator.class).asEagerSingleton();
     bind(EventService.class).asEagerSingleton();
     bind(ConnectionStore.class).asEagerSingleton();
+    bind(ChunkSubscriptionService.class).asEagerSingleton();
 
     install(new FactoryModuleBuilder().build(ChunkFactory.class));
 

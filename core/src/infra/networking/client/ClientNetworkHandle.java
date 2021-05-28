@@ -13,16 +13,11 @@ import java.util.UUID;
 public class ClientNetworkHandle {
   public static String host = "localhost";
   public static int port = 99;
-
-  private ManagedChannel channel;
-
-  private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
-
+  public UUID uuid;
   RequestNetworkEventObserver requestNetworkEventObserver;
-
   @Inject ObserverFactory observerFactory;
-
-  UUID uuid;
+  private ManagedChannel channel;
+  private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
 
   @Inject
   public ClientNetworkHandle() {
@@ -45,5 +40,9 @@ public class ClientNetworkHandle {
   public void send(NetworkObjects.NetworkEvent networkEvent) {
     networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
     requestNetworkEventObserver.responseObserver.onNext(networkEvent);
+  }
+
+  public void close() {
+    this.channel.shutdown();
   }
 }

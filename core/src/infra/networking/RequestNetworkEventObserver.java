@@ -7,11 +7,9 @@ import java.util.UUID;
 
 public class RequestNetworkEventObserver implements StreamObserver<NetworkObjects.NetworkEvent> {
 
-  @Inject NetworkEventHandler networkEventHandler;
-
-  @Inject ConnectionStore connectionStore;
-
   public StreamObserver<NetworkObjects.NetworkEvent> responseObserver;
+  @Inject NetworkEventHandler networkEventHandler;
+  @Inject ConnectionStore connectionStore;
 
   @Override
   public void onNext(NetworkObjects.NetworkEvent networkEvent) {

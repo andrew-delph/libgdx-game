@@ -19,6 +19,10 @@ public class ConnectionStore {
     this.connectionMap.put(uuid, requestNetworkEventObserver);
   }
 
+  public RequestNetworkEventObserver getConnection(UUID uuid){
+    return this.connectionMap.get(uuid);
+  }
+
   public int size() {
     return this.connectionMap.size();
   }

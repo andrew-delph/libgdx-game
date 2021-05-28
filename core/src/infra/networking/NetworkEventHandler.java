@@ -5,7 +5,8 @@ import infra.common.events.EventService;
 import infra.networking.consumer.NetworkConsumer;
 import infra.networking.events.CreateEntityOutgoingEvent;
 import infra.networking.events.EventFactory;
-import infra.networking.events.SubscriptionEvent;
+import infra.networking.events.SubscriptionOutgoingEvent;
+import infra.networking.events.UpdateEntityOutgoingEvent;
 
 public class NetworkEventHandler extends NetworkConsumer {
 
@@ -20,10 +21,10 @@ public class NetworkEventHandler extends NetworkConsumer {
     String event = networkEvent.getEvent();
     if (event.equals(CreateEntityOutgoingEvent.type)) {
       eventService.fireEvent(eventFactory.createCreateEntityIncomingEvent(networkEvent.getData()));
-    } else if (event.equals("update_entity")) {
+    } else if (event.equals(UpdateEntityOutgoingEvent.type)) {
       eventService.fireEvent(eventFactory.createUpdateEntityIncomingEvent(networkEvent.getData()));
-    } else if (event.equals(SubscriptionEvent.type)) {
-
+    } else if (event.equals(SubscriptionOutgoingEvent.type)) {
+      eventService.fireEvent(eventFactory.createSubscriptionIncomingEvent(networkEvent));
     }
   }
 }

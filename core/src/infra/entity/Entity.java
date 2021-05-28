@@ -68,19 +68,21 @@ public class Entity {
             .setValue(String.valueOf(this.coordinates.getYReal()))
             .build();
     NetworkObjects.NetworkData coordinates =
-            NetworkObjects.NetworkData.newBuilder()
-                    .setKey(Coordinates.class.getName())
-                    .addChildren(x)
-                    .addChildren(y)
-                    .build();
+        NetworkObjects.NetworkData.newBuilder()
+            .setKey(Coordinates.class.getName())
+            .addChildren(x)
+            .addChildren(y)
+            .build();
     NetworkObjects.NetworkData uuid =
-            NetworkObjects.NetworkData.newBuilder()
-                    .setKey(UUID.class.getName()).setValue(this.uuid.toString())
-                    .build();
+        NetworkObjects.NetworkData.newBuilder()
+            .setKey(UUID.class.getName())
+            .setValue(this.uuid.toString())
+            .build();
     return NetworkObjects.NetworkData.newBuilder()
         .setKey("class")
         .setValue(this.getClass().getName())
-        .addChildren(coordinates).addChildren(uuid)
+        .addChildren(coordinates)
+        .addChildren(uuid)
         .build();
   }
 }

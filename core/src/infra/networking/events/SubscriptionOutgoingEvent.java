@@ -7,33 +7,21 @@ import infra.common.events.Event;
 import infra.networking.NetworkObjects;
 import infra.networking.events.interfaces.SerializeNetworkEvent;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class SubscriptionEvent extends Event implements SerializeNetworkEvent {
+public class SubscriptionOutgoingEvent extends Event implements SerializeNetworkEvent {
+  public static String type = "subscription_outgoing_event";
   List<ChunkRange> chunkRangeList;
-
-  public List<ChunkRange> getChunkRangeList() {
-    return chunkRangeList;
-  }
-
-  public static String type = "subscription_event";
-
   NetworkObjects.NetworkEvent networkEvent;
 
-  public SubscriptionEvent(@Assisted List<ChunkRange> chunkRangeList) {
+  @Inject
+  public SubscriptionOutgoingEvent(@Assisted List<ChunkRange> chunkRangeList) {
     this.chunkRangeList = chunkRangeList;
   }
 
-  @Inject
-  public SubscriptionEvent(@Assisted NetworkObjects.NetworkEvent networkEvent) {
-    this.networkEvent = networkEvent;
-    NetworkObjects.NetworkData data = networkEvent.getData();
-    this.chunkRangeList = new LinkedList<>();
-    for (NetworkObjects.NetworkData child : data.getChildrenList()) {
-      chunkRangeList.add(new ChunkRange(child));
-    }
+  public List<ChunkRange> getChunkRangeList() {
+    return chunkRangeList;
   }
 
   public UUID getUser() {

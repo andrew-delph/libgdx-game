@@ -1,6 +1,7 @@
 package infra.app;
 
 import com.google.inject.Inject;
+import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.events.EventService;
@@ -27,7 +28,8 @@ public class GameController {
     this.gameStore.addEntity(entity);
 
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
+        eventFactory.createCreateEntityOutgoingEvent(
+            entity.toNetworkData(), new ChunkRange(coordinates));
 
     this.eventService.fireEvent(createEntityOutgoingEvent);
 
@@ -39,7 +41,8 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
+        eventFactory.createCreateEntityOutgoingEvent(
+            entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -49,7 +52,8 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
+        eventFactory.createCreateEntityOutgoingEvent(
+            entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -59,7 +63,8 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
+        eventFactory.createCreateEntityOutgoingEvent(
+            entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -69,7 +74,8 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(entity.toNetworkData());
+        eventFactory.createCreateEntityOutgoingEvent(
+            entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -81,12 +87,14 @@ public class GameController {
   public void moveEntity(Entity entity, Coordinates coordinates) {
     entity.coordinates = coordinates;
     this.eventService.fireEvent(
-        eventFactory.createUpdateEntityOutgoingEvent(entity.toNetworkData()));
+        eventFactory.createUpdateEntityOutgoingEvent(
+            entity.toNetworkData(), new ChunkRange(coordinates)));
   }
 
   public void triggerMoveEntity(Entity entity, Coordinates coordinates) {
     entity.coordinates = coordinates;
     this.eventService.fireEvent(
-        eventFactory.createUpdateEntityOutgoingEvent(entity.toNetworkData()));
+        eventFactory.createUpdateEntityOutgoingEvent(
+            entity.toNetworkData(), new ChunkRange(coordinates)));
   }
 }

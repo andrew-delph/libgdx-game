@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
+import infra.chunk.ChunkFactory;
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.render.BaseAssetManager;
@@ -38,6 +39,8 @@ public class GameScreen extends ApplicationAdapter {
 
   @Inject GameController gameController;
 
+  @Inject ChunkFactory chunkFactory;
+
   @Inject EntityControllerFactory entityControllerFactory;
 
   @Override
@@ -48,7 +51,6 @@ public class GameScreen extends ApplicationAdapter {
     game.start();
     batch = new SpriteBatch();
     myEntity = gameController.createEntity(new Coordinates(0, 0));
-    System.out.println("123123 " + myEntity.uuid);
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     chunkGenerationManager.registerActiveEntity(myEntity);
   }

@@ -25,16 +25,18 @@ public class Game {
 
   @Inject ChunkFactory chunkFactory;
 
-//  @Inject NetworkConsumer networkConsumer;
+  //  @Inject NetworkConsumer networkConsumer;
 
   Timer timer;
 
   @Inject
   public Game(
-      GameStore gameStore, ChunkFactory chunkFactory, ChunkGenerationManager chunkGenerationManager, NetworkConsumer networkConsumer)
+      GameStore gameStore,
+      ChunkFactory chunkFactory,
+      ChunkGenerationManager chunkGenerationManager,
+      NetworkConsumer networkConsumer)
       throws Exception {
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
-    chunkGenerationManager.generate(new ChunkRange(new Coordinates(0, 0))).call();
     networkConsumer.init();
   }
 

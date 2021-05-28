@@ -32,7 +32,6 @@ public class EntitySerializationConverter {
       if (networkDataChild.getKey().equals(Coordinates.class.getName())) {
         entity.coordinates = this.createCoordinates(networkDataChild);
       } else if (networkDataChild.getKey().equals(UUID.class.getName())) {
-        System.out.println(networkDataChild.getValue());
         entity.uuid = UUID.fromString(networkDataChild.getValue());
       }
     }
@@ -58,9 +57,9 @@ public class EntitySerializationConverter {
     Coordinates coordinates = null;
     UUID uuid = null;
     for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
-      if (networkDataChild.getKey() == Coordinates.class.getName()) {
+      if (networkDataChild.getKey().equals(Coordinates.class.getName())) {
         coordinates = this.createCoordinates(networkDataChild);
-      } else if (networkDataChild.getKey() == UUID.class.getName()) {
+      } else if (networkDataChild.getKey().equals(UUID.class.getName())) {
         uuid = UUID.fromString(networkDataChild.getValue());
       }
     }
