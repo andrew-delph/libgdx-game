@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.ClientConfig;
 import configuration.ServerConfig;
+import infra.app.Game;
 import infra.app.GameController;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
@@ -35,20 +36,27 @@ public class testSingleClient {
 
   ServerNetworkHandle serverNetworkHandle;
 
+  Game clientGame, serverGame;
+
   @Before
-  public void setup() {
+  public void setup() throws IOException {
     clientInjector = Guice.createInjector(new ClientConfig());
     serverInjector = Guice.createInjector(new ServerConfig());
 
     clientNetworkHandle = clientInjector.getInstance(ClientNetworkHandle.class);
-
     serverNetworkHandle = serverInjector.getInstance(ServerNetworkHandle.class);
+
+    clientGame = clientInjector.getInstance(Game.class);
+    serverGame = serverInjector.getInstance(Game.class);
+
+    clientGame.start();
+    serverGame.start();
   }
 
   @After
   public void cleanup() {
-    clientNetworkHandle.close();
-    serverNetworkHandle.close();
+    clientGame.stop();
+    serverGame.stop();
   }
 
   @Test
@@ -56,19 +64,15 @@ public class testSingleClient {
 
     ConnectionStore connectionStore = serverInjector.getInstance(ConnectionStore.class);
 
-    serverNetworkHandle.start();
     assert connectionStore.size() == 0;
 
-    clientNetworkHandle.connect();
     TimeUnit.SECONDS.sleep(1);
 
     assert connectionStore.size() == 1;
   }
 
   @Test
-  public void testCreateEntity() throws IOException, InterruptedException {
-    serverNetworkHandle.start();
-    clientNetworkHandle.connect();
+  public void testClientCreateEntity() throws IOException, InterruptedException {
 
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
@@ -92,9 +96,7 @@ public class testSingleClient {
   }
 
   @Test
-  public void testCreateUpdateEntity() throws IOException, InterruptedException {
-    serverNetworkHandle.start();
-    clientNetworkHandle.connect();
+  public void testClientCreateUpdateEntity() throws IOException, InterruptedException {
 
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
@@ -121,6 +123,9 @@ public class testSingleClient {
     TimeUnit.SECONDS.sleep(1);
     assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
 
+    System.out.println(serverGameStore.getEntity(clientEntity.uuid).coordinates);
+    System.out.println(clientEntity.coordinates);
+
     assert serverGameStore
         .getEntity(clientEntity.uuid)
         .coordinates
@@ -128,9 +133,7 @@ public class testSingleClient {
   }
 
   @Test
-  public void testCreateBlock() throws IOException, InterruptedException {
-    serverNetworkHandle.start();
-    clientNetworkHandle.connect();
+  public void testClientCreateBlock() throws IOException, InterruptedException {
 
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
@@ -152,9 +155,7 @@ public class testSingleClient {
   }
 
   @Test
-  public void testCreateUpdateBlock() throws IOException, InterruptedException {
-    serverNetworkHandle.start();
-    clientNetworkHandle.connect();
+  public void testClientCreateUpdateBlock() throws IOException, InterruptedException {
 
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
@@ -186,9 +187,7 @@ public class testSingleClient {
   }
 
   @Test
-  public void testSubscription() throws IOException, InterruptedException {
-    serverNetworkHandle.start();
-    clientNetworkHandle.connect();
+  public void testClientSubscription() throws IOException, InterruptedException {
 
     EventFactory clientEventFactory = clientInjector.getInstance(EventFactory.class);
 
@@ -210,9 +209,7 @@ public class testSingleClient {
   }
 
   @Test
-  public void testSubscriptionCreateEntity() throws IOException, InterruptedException {
-    serverNetworkHandle.start();
-    clientNetworkHandle.connect();
+  public void testSubscriptionServerCreateEntity() throws IOException, InterruptedException {
 
     GameController serverGameController = serverInjector.getInstance(GameController.class);
 
@@ -251,9 +248,7 @@ public class testSingleClient {
   }
 
   @Test
-  public void testSubscriptionCreateEntityUpdate() throws IOException, InterruptedException {
-    serverNetworkHandle.start();
-    clientNetworkHandle.connect();
+  public void testSubscriptionServerCreateEntityUpdate() throws IOException, InterruptedException {
 
     GameController serverGameController = serverInjector.getInstance(GameController.class);
 

@@ -17,24 +17,33 @@ import java.util.List;
 
 public class ClientGame extends Game {
 
+  @Inject ClientNetworkHandle clientNetworkHandle;
 
-    @Inject
-    ClientNetworkHandle clientNetworkHandle;
+  @Inject EventFactory eventFactory;
 
-    @Inject
-    EventFactory eventFactory;
-    
-    @Inject
-    public ClientGame(GameStore gameStore, ChunkFactory chunkFactory, ChunkGenerationManager chunkGenerationManager, NetworkConsumer networkConsumer) throws Exception {
-        super(gameStore, chunkFactory, chunkGenerationManager, networkConsumer);
-    }
+  @Inject
+  public ClientGame(
+      GameStore gameStore,
+      ChunkFactory chunkFactory,
+      ChunkGenerationManager chunkGenerationManager,
+      NetworkConsumer networkConsumer)
+      throws Exception {
+    super(gameStore, chunkFactory, chunkGenerationManager, networkConsumer);
+  }
 
-    @Override
-    public void start() throws IOException {
-        super.start();
-        this.clientNetworkHandle.connect();
-        List<ChunkRange> chunkRangeList = new LinkedList<>();
-        chunkRangeList.add(new ChunkRange(new Coordinates(0,0)));
-        this.clientNetworkHandle.send(eventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
-    }
+  @Override
+  public void stop() {
+    super.stop();
+    this.clientNetworkHandle.close();
+  }
+
+  @Override
+  public void start() throws IOException {
+    super.start();
+    this.clientNetworkHandle.connect();
+    List<ChunkRange> chunkRangeList = new LinkedList<>();
+    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
+    this.clientNetworkHandle.send(
+        eventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+  }
 }

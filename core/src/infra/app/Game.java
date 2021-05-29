@@ -37,7 +37,7 @@ public class Game {
     timer.scheduleAtFixedRate(updateLoop, 0, 16);
   }
 
-  void stop() {
+  public void stop() {
     timer.cancel();
   }
 

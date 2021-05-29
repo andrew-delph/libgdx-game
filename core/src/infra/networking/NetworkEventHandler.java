@@ -18,14 +18,21 @@ public class NetworkEventHandler extends NetworkConsumer {
   }
 
   public void handleNetworkEvent(NetworkObjects.NetworkEvent networkEvent) {
-    String event = networkEvent.getEvent();
-    if (event.equals(CreateEntityOutgoingEvent.type)) {
-      eventService.fireEvent(eventFactory.createCreateEntityIncomingEvent(networkEvent.getData()));
-    } else if (event.equals(UpdateEntityOutgoingEvent.type)) {
-      eventService.fireEvent(eventFactory.createUpdateEntityIncomingEvent(networkEvent.getData()));
-    } else if (event.equals(SubscriptionOutgoingEvent.type)) {
-      System.out.println("sub event");
-      eventService.fireEvent(eventFactory.createSubscriptionIncomingEvent(networkEvent));
+    try {
+      String event = networkEvent.getEvent();
+      if (event.equals(CreateEntityOutgoingEvent.type)) {
+        eventService.fireEvent(
+            eventFactory.createCreateEntityIncomingEvent(networkEvent.getData()));
+      } else if (event.equals(UpdateEntityOutgoingEvent.type)) {
+        System.out.println("update");
+        eventService.fireEvent(
+            eventFactory.createUpdateEntityIncomingEvent(networkEvent.getData()));
+      } else if (event.equals(SubscriptionOutgoingEvent.type)) {
+        System.out.println("sub event");
+        eventService.fireEvent(eventFactory.createSubscriptionIncomingEvent(networkEvent));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 }

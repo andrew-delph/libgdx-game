@@ -2,7 +2,9 @@ package infra.networking.consumer;
 
 import com.google.inject.Inject;
 import infra.app.GameController;
+import infra.common.GameStore;
 import infra.common.events.EventService;
+import infra.entity.Entity;
 import infra.entity.EntitySerializationConverter;
 import infra.networking.client.ClientNetworkHandle;
 import infra.networking.events.CreateEntityIncomingEvent;
@@ -16,6 +18,7 @@ public class ClientEventConsumer extends NetworkConsumer {
   @Inject EntitySerializationConverter entitySerializationConverter;
 
   @Inject ClientNetworkHandle clientNetworkHandle;
+  @Inject GameStore gameStore;
 
   @Inject
   public ClientEventConsumer() {}
@@ -27,8 +30,15 @@ public class ClientEventConsumer extends NetworkConsumer {
         event -> {
           System.out.println("create entity incoming");
           CreateEntityIncomingEvent realEvent = (CreateEntityIncomingEvent) event;
-          gameController.triggerCreateEntity(
-              entitySerializationConverter.createEntity(realEvent.getData()));
+          Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
+          //           TODO remove or update
+          if (this.gameStore.getEntity(entity.uuid) != null) {
+            System.out.println(1);
+            return;
+          } else {
+            System.out.println(2);
+          }
+          gameController.triggerCreateEntity(entity);
         });
     this.eventService.addListener(
         UpdateEntityIncomingEvent.type,

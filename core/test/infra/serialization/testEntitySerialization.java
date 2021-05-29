@@ -76,7 +76,10 @@ public class testEntitySerialization {
     UUID uuid = entityWrite.uuid;
     gameStore.addChunk(chunkFactory.create(new ChunkRange(entityWrite.coordinates)));
     networkEventHandler.handleNetworkEvent(
-        eventFactory.createCreateEntityOutgoingEvent(entityWrite.toNetworkData(),new ChunkRange(entityWrite.coordinates)).toNetworkEvent());
+        eventFactory
+            .createCreateEntityOutgoingEvent(
+                entityWrite.toNetworkData(), new ChunkRange(entityWrite.coordinates))
+            .toNetworkEvent());
     assert uuid.equals(gameStore.getEntity(uuid).uuid);
   }
 
@@ -86,7 +89,10 @@ public class testEntitySerialization {
     UUID uuid = block.uuid;
     gameStore.addChunk(chunkFactory.create(new ChunkRange(block.coordinates)));
     networkEventHandler.handleNetworkEvent(
-        eventFactory.createCreateEntityOutgoingEvent(block.toNetworkData(),new ChunkRange(block.coordinates)).toNetworkEvent());
+        eventFactory
+            .createCreateEntityOutgoingEvent(
+                block.toNetworkData(), new ChunkRange(block.coordinates))
+            .toNetworkEvent());
     assert uuid.equals(gameStore.getEntity(uuid).uuid);
     assert gameStore.getEntity(uuid).getClass().getName().equals(block.getClass().getName());
   }
