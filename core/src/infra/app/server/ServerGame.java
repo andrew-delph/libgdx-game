@@ -17,12 +17,6 @@ public class ServerGame extends Game {
 
   @Inject ServerNetworkHandle serverNetworkHandle;
 
-  @Override
-  public void start() throws IOException {
-    super.start();
-    serverNetworkHandle.start();
-  }
-
   @Inject
   public ServerGame(
       GameStore gameStore,
@@ -33,12 +27,6 @@ public class ServerGame extends Game {
     super(gameStore, chunkFactory, chunkGenerationManager, networkConsumer);
   }
 
-  @Override
-  public void stop() {
-    super.stop();
-    this.serverNetworkHandle.close();
-  }
-
   public static void main(String[] args) throws InterruptedException, IOException {
     Injector injector = Guice.createInjector(new ServerConfig());
     Game game = injector.getInstance(Game.class);
@@ -47,5 +35,17 @@ public class ServerGame extends Game {
     while (true) {
       Thread.sleep(Long.MAX_VALUE);
     }
+  }
+
+  @Override
+  public void start() throws IOException {
+    super.start();
+    serverNetworkHandle.start();
+  }
+
+  @Override
+  public void stop() {
+    super.stop();
+    this.serverNetworkHandle.close();
   }
 }

@@ -26,7 +26,6 @@ public class EntityUserController extends EntityController {
               this.entity.coordinates.getXReal() - 0.1f, this.entity.coordinates.getYReal()));
     }
     if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      System.out.println("right");
       gameController.moveEntity(
           this.entity.uuid,
           new Coordinates(

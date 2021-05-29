@@ -58,7 +58,7 @@ public class Chunk implements Callable<Chunk> {
     return this.chunkMap.get(uuid);
   }
 
-  public List<Entity> getEntityList(){
+  public List<Entity> getEntityList() {
     return new LinkedList<>(this.chunkMap.values());
   }
 

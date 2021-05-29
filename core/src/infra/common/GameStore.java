@@ -31,11 +31,11 @@ public class GameStore {
 
   public Entity getEntity(UUID uuid) {
     ChunkRange chunkRange = this.entityMap.get(uuid);
-    if (chunkRange == null){
+    if (chunkRange == null) {
       return null;
     }
     Chunk chunk = this.chunkClockMap.get(chunkRange);
-    if(chunk == null){
+    if (chunk == null) {
       return null;
     }
     return chunk.getEntity(uuid);

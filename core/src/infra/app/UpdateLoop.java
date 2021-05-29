@@ -17,10 +17,8 @@ public class UpdateLoop extends TimerTask {
   @Inject public Clock clock;
 
   @Inject public GameStore gameStore;
-
-  @Inject ChunkGenerationManager chunkGenerationManager;
-
   public ExecutorService executor;
+  @Inject ChunkGenerationManager chunkGenerationManager;
 
   public UpdateLoop() {
     executor = Executors.newCachedThreadPool();

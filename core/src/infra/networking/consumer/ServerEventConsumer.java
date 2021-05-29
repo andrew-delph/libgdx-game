@@ -9,10 +9,10 @@ import infra.common.GameStore;
 import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntitySerializationConverter;
+import infra.generation.ChunkGenerationManager;
 import infra.networking.NetworkObjects;
 import infra.networking.events.*;
 import infra.networking.server.ServerNetworkHandle;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.UUID;
 
@@ -24,6 +24,7 @@ public class ServerEventConsumer extends NetworkConsumer {
   @Inject ServerNetworkHandle serverNetworkHandle;
   @Inject GameStore gameStore;
   @Inject EventFactory eventFactory;
+  @Inject ChunkGenerationManager chunkGenerationManager;
 
   public void init() {
     super.init();
@@ -43,7 +44,8 @@ public class ServerEventConsumer extends NetworkConsumer {
               serverNetworkHandle.send(
                   realEvent.getUser(),
                   eventFactory
-                      .createCreateEntityOutgoingEvent(entity.toNetworkData(), new ChunkRange(entity.coordinates))
+                      .createCreateEntityOutgoingEvent(
+                          entity.toNetworkData(), new ChunkRange(entity.coordinates))
                       .toNetworkEvent());
             }
           }
@@ -52,8 +54,9 @@ public class ServerEventConsumer extends NetworkConsumer {
         CreateEntityIncomingEvent.type,
         event -> {
           CreateEntityIncomingEvent realEvent = (CreateEntityIncomingEvent) event;
-          gameController.createEntity(
+          Entity entity = gameController.createEntity(
               entitySerializationConverter.createEntity(realEvent.getData()));
+            chunkGenerationManager.registerActiveEntity(entity);
         });
     this.eventService.addListener(
         UpdateEntityIncomingEvent.type,

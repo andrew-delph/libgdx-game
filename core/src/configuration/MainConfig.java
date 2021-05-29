@@ -3,7 +3,6 @@ package configuration;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import infra.app.Game;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkSubscriptionService;
 import infra.common.Clock;
@@ -44,6 +43,5 @@ public abstract class MainConfig extends AbstractModule {
     install(new FactoryModuleBuilder().build(EventFactory.class));
 
     install(new FactoryModuleBuilder().build(ObserverFactory.class));
-
   }
 }

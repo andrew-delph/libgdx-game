@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 import infra.chunk.ChunkFactory;
-import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.render.BaseAssetManager;
 import infra.common.render.BaseCamera;
@@ -43,7 +42,6 @@ public class GameScreen extends ApplicationAdapter {
   @Inject ChunkFactory chunkFactory;
 
   @Inject EntityControllerFactory entityControllerFactory;
-
 
   @Override
   public void create() {
