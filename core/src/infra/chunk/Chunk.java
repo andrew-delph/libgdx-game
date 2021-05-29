@@ -9,6 +9,8 @@ import infra.common.Tick;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -54,6 +56,10 @@ public class Chunk implements Callable<Chunk> {
 
   public Entity getEntity(UUID uuid) {
     return this.chunkMap.get(uuid);
+  }
+
+  public List<Entity> getEntityList(){
+    return new LinkedList<>(this.chunkMap.values());
   }
 
   public void removeEntity(UUID uuid) {
