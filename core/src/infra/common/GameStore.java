@@ -30,7 +30,15 @@ public class GameStore {
   }
 
   public Entity getEntity(UUID uuid) {
-    return this.chunkClockMap.get(this.entityMap.get(uuid)).getEntity(uuid);
+    ChunkRange chunkRange = this.entityMap.get(uuid);
+    if (chunkRange == null){
+      return null;
+    }
+    Chunk chunk = this.chunkClockMap.get(chunkRange);
+    if(chunk == null){
+      return null;
+    }
+    return chunk.getEntity(uuid);
   }
 
   public Chunk getEntityChunk(UUID uuid) {
