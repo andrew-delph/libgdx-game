@@ -2,16 +2,13 @@ package infra.chunk;
 
 import com.google.inject.Inject;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ChunkSubscriptionService {
 
   Map<UUID, List<ChunkRange>> userToChunkList;
-  Map<ChunkRange, List<UUID>> chunkRangeToUser;
+  Map<ChunkRange, Set<UUID>> chunkRangeToUser;
 
   @Inject
   ChunkSubscriptionService() {
@@ -24,14 +21,20 @@ public class ChunkSubscriptionService {
     chunkRangeList.addAll(this.userToChunkList.get(uuid));
     this.userToChunkList.put(uuid, chunkRangeList);
     for (ChunkRange chunkRange : chunkRangeList) {
-      this.chunkRangeToUser.computeIfAbsent(chunkRange, k -> new LinkedList<>());
+      this.chunkRangeToUser.computeIfAbsent(chunkRange, k -> new HashSet<>());
       this.chunkRangeToUser.get(chunkRange).add(uuid);
     }
   }
 
   public List<UUID> getSubscriptions(ChunkRange chunkRange) {
-    this.chunkRangeToUser.computeIfAbsent(chunkRange, k -> new LinkedList<>());
-    return this.chunkRangeToUser.get(chunkRange);
+    this.chunkRangeToUser.computeIfAbsent(chunkRange, k -> new HashSet<>());
+    return new LinkedList<>(this.chunkRangeToUser.get(chunkRange));
+  }
+
+  public void removeUUID(UUID uuid) {
+    for (ChunkRange chunkRange : this.userToChunkList.get(uuid)) {
+      this.chunkRangeToUser.get(chunkRange).remove(uuid);
+    }
   }
 
   public List<ChunkRange> getUserChunkRangeSubscriptions(UUID uuid) {

@@ -5,7 +5,7 @@ import infra.app.UpdateLoop;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
-import infra.entity.Entity;
+import infra.common.render.BaseCamera;
 import infra.generation.ChunkGenerationManager;
 import infra.networking.client.ClientNetworkHandle;
 import infra.networking.events.EventFactory;
@@ -26,25 +26,29 @@ public class ClientUpdateLoop extends UpdateLoop {
 
   @Inject EventFactory eventFactory;
 
+  @Inject BaseCamera baseCamera;
+
   @Override
   public void run() {
     this.clock.tick();
     List<Callable<Chunk>> callableChunkList =
         this.gameStore.getChunkOnClock(this.clock.currentTick);
 
-    Set<ChunkRange> inRangeChunkRangeSet = new HashSet<>();
+    //    Set<ChunkRange> inRangeChunkRangeSet = new HashSet<>();
+    //
+    //    for (Entity entity : chunkGenerationManager.getActiveEntityList()) {
+    //      ChunkRange chunkRange = new ChunkRange(entity.coordinates);
+    //      inRangeChunkRangeSet.add(chunkRange);
+    //      inRangeChunkRangeSet.add(chunkRange.getDown());
+    //      inRangeChunkRangeSet.add(chunkRange.getUp());
+    //      inRangeChunkRangeSet.add(chunkRange.getRight());
+    //      inRangeChunkRangeSet.add(chunkRange.getLeft());
+    //    }
 
-    for (Entity entity : chunkGenerationManager.getActiveEntityList()) {
-      ChunkRange chunkRange = new ChunkRange(entity.coordinates);
-      inRangeChunkRangeSet.add(chunkRange);
-      inRangeChunkRangeSet.add(chunkRange.getDown());
-      inRangeChunkRangeSet.add(chunkRange.getUp());
-      inRangeChunkRangeSet.add(chunkRange.getRight());
-      inRangeChunkRangeSet.add(chunkRange.getLeft());
-    }
+    List<ChunkRange> chunkRangeListOnCamera = baseCamera.getChunkRangeOnScreen();
 
     Set<ChunkRange> subscribeChunkRange = new HashSet<>();
-    for (ChunkRange chunkRange : new LinkedList<>(inRangeChunkRangeSet)) {
+    for (ChunkRange chunkRange : chunkRangeListOnCamera) {
       if (this.gameStore.getChunk(chunkRange) == null) {
         this.gameStore.addChunk(chunkFactory.create(chunkRange));
         subscribeChunkRange.add(chunkRange);

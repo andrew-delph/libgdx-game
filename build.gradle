@@ -24,6 +24,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 }
 
+
 allprojects {
     apply plugin: 'java'
     apply plugin: "eclipse"
@@ -56,6 +57,8 @@ allprojects {
         }
     }
     dependencies {
+        implementation 'junit:junit:4.12'
+
 //        compile 'io.grpc:grpc-all:1.32.1'
         compile 'io.grpc:grpc-netty:1.32.1'
         compile 'io.grpc:grpc-protobuf:1.32.1'
@@ -68,7 +71,6 @@ allprojects {
 
         // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
         implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
-
 
         testImplementation(
                 'org.hamcrest:hamcrest-library:2.1'

@@ -21,7 +21,7 @@ public class Entity {
   public Coordinates coordinates;
   @Inject public Clock clock;
   public int zindex = 1;
-  public int coordinatesScale = 25;
+  public static int coordinatesScale = 25;
   public String textureName = "frog.png";
 
   @Inject BaseAssetManager baseAssetManager;
