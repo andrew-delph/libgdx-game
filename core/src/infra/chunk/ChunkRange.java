@@ -53,8 +53,8 @@ public class ChunkRange {
             .build();
     NetworkObjects.NetworkData y =
         NetworkObjects.NetworkData.newBuilder()
-            .setKey("x")
-            .setValue(String.valueOf(this.bottom_x))
+            .setKey("y")
+            .setValue(String.valueOf(this.bottom_y))
             .build();
     return builder.addChildren(x).addChildren(y).build();
   }

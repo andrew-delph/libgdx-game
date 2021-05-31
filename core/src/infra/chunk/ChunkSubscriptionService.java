@@ -2,7 +2,11 @@ package infra.chunk;
 
 import com.google.inject.Inject;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ChunkSubscriptionService {
 
@@ -11,11 +15,13 @@ public class ChunkSubscriptionService {
 
   @Inject
   ChunkSubscriptionService() {
-    this.userToChunkList = new HashMap<>();
-    this.chunkRangeToUser = new HashMap<>();
+    this.userToChunkList = new ConcurrentHashMap<>();
+    this.chunkRangeToUser = new ConcurrentHashMap<>();
   }
 
   public void registerSubscription(UUID uuid, List<ChunkRange> chunkRangeList) {
+    this.userToChunkList.computeIfAbsent(uuid, k -> new LinkedList<>());
+    chunkRangeList.addAll(this.userToChunkList.get(uuid));
     this.userToChunkList.put(uuid, chunkRangeList);
     for (ChunkRange chunkRange : chunkRangeList) {
       this.chunkRangeToUser.computeIfAbsent(chunkRange, k -> new LinkedList<>());

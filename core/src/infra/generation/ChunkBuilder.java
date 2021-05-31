@@ -2,6 +2,7 @@ package infra.generation;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import infra.app.GameController;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
@@ -22,6 +23,8 @@ public class ChunkBuilder implements Callable<Chunk> {
 
   @Inject BlockGenerator blockGenerator;
 
+  @Inject GameController gameController;
+
   ChunkRange chunkRange;
 
   @Inject
@@ -37,12 +40,15 @@ public class ChunkBuilder implements Callable<Chunk> {
         chunk = this.chunkFactory.create(this.chunkRange);
         this.gameStore.addChunk(chunk);
       } else {
+        System.out.println("get: " + this.chunkRange);
         chunk = this.gameStore.getChunk(this.chunkRange);
       }
+      System.out.println("generate " + this.chunkRange);
       for (int i = chunkRange.bottom_x; i < chunkRange.top_x; i++) {
         for (int j = chunkRange.bottom_y; j < chunkRange.top_y; j++) {
           Entity block = blockGenerator.generate(new Coordinates(i, j));
-          this.gameStore.addEntity(block);
+          //          this.gameStore.addEntity(block);
+          gameController.createEntity(block);
         }
       }
       return chunk;

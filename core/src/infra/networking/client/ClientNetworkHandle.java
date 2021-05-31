@@ -37,7 +37,7 @@ public class ClientNetworkHandle {
     this.send(authenticationEvent);
   }
 
-  public void send(NetworkObjects.NetworkEvent networkEvent) {
+  public synchronized void send(NetworkObjects.NetworkEvent networkEvent) {
     networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
     requestNetworkEventObserver.responseObserver.onNext(networkEvent);
   }

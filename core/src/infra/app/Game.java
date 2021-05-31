@@ -32,7 +32,7 @@ public class Game {
     networkConsumer.init();
   }
 
-  public void start() throws IOException {
+  public void start() throws IOException, InterruptedException {
     timer = new Timer(true);
     timer.scheduleAtFixedRate(updateLoop, 0, 16);
   }

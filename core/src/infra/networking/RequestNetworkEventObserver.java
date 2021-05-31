@@ -12,7 +12,7 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
   @Inject ConnectionStore connectionStore;
 
   @Override
-  public void onNext(NetworkObjects.NetworkEvent networkEvent) {
+  public synchronized void onNext(NetworkObjects.NetworkEvent networkEvent) {
     if (networkEvent.getEvent().equals("authentication")) {
       System.out.println("authentication");
       connectionStore.addConnection(UUID.fromString(networkEvent.getUser()), this);
@@ -22,8 +22,12 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
   }
 
   @Override
-  public void onError(Throwable throwable) {}
+  public void onError(Throwable throwable) {
+    System.out.println("onError: " + throwable);
+  }
 
   @Override
-  public void onCompleted() {}
+  public void onCompleted() {
+    System.out.println("onCompleted");
+  }
 }

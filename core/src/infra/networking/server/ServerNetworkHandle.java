@@ -32,7 +32,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     this.server.shutdown();
   }
 
-  public void send(UUID uuid, NetworkObjects.NetworkEvent networkEvent) {
+  public synchronized void send(UUID uuid, NetworkObjects.NetworkEvent networkEvent) {
     connectionStore.getConnection(uuid).responseObserver.onNext(networkEvent);
   }
 }

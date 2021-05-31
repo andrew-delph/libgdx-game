@@ -38,7 +38,7 @@ public class ServerGame extends Game {
   }
 
   @Override
-  public void start() throws IOException {
+  public void start() throws IOException, InterruptedException {
     super.start();
     serverNetworkHandle.start();
   }

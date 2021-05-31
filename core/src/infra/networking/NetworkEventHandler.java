@@ -24,7 +24,6 @@ public class NetworkEventHandler extends NetworkConsumer {
         eventService.fireEvent(
             eventFactory.createCreateEntityIncomingEvent(networkEvent.getData()));
       } else if (event.equals(UpdateEntityOutgoingEvent.type)) {
-        System.out.println("update");
         eventService.fireEvent(
             eventFactory.createUpdateEntityIncomingEvent(networkEvent.getData()));
       } else if (event.equals(SubscriptionOutgoingEvent.type)) {

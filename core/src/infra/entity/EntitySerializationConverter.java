@@ -22,7 +22,7 @@ public class EntitySerializationConverter {
     } else if (classString.equals(DirtBlock.class.getName())) {
       entity = blockFactory.createDirt();
     } else if (classString.equals(SkyBlock.class.getName())) {
-      entity = blockFactory.createDirt();
+      entity = blockFactory.createSky();
     } else if (classString.equals(StoneBlock.class.getName())) {
       entity = blockFactory.createStone();
     } else {

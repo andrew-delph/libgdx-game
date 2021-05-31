@@ -49,7 +49,7 @@ public class GameScreen extends ApplicationAdapter {
     baseCamera.init();
     try {
       game.start();
-    } catch (IOException e) {
+    } catch (IOException | InterruptedException e) {
       e.printStackTrace();
     }
     batch = new SpriteBatch();
