@@ -1,15 +1,14 @@
 
 
 
-java -jar packr-all.jar \
+java -jar packr-all-4.0.0.jar \
+     --jdk OpenJDK14U-jdk_x64_linux_hotspot_14.0.2_12.tar.gz  \
      --platform mac \
-     --jdk C:\Program Files\Java\jdk-14.0.1 \
      --useZgcIfSupportedOs \
      --executable myapp \
-     --classpath myjar.jar \
-     --mainclass com.my.app.MainClass \
+     --classpath desktop/build/libs/desktop-1.0.jar \
+     --mainclass main.ClientGameMain \
      --vmargs Xmx1G \
-     --resources src/main/resources path/to/other/assets \
      --output out-mac
 
 
