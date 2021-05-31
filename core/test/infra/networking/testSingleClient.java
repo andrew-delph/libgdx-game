@@ -39,7 +39,7 @@ public class testSingleClient {
   Game clientGame, serverGame;
 
   @Before
-  public void setup() throws IOException {
+  public void setup() throws IOException, InterruptedException {
     clientInjector = Guice.createInjector(new ClientConfig());
     serverInjector = Guice.createInjector(new ServerConfig());
 

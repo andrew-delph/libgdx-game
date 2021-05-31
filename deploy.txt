@@ -1,0 +1,18 @@
+
+
+
+java -jar packr-all.jar \
+     --platform mac \
+     --jdk C:\Program Files\Java\jdk-14.0.1 \
+     --useZgcIfSupportedOs \
+     --executable myapp \
+     --classpath myjar.jar \
+     --mainclass com.my.app.MainClass \
+     --vmargs Xmx1G \
+     --resources src/main/resources path/to/other/assets \
+     --output out-mac
+
+
+gradlew desktop:dist
+
+java -jar desktop/build/libs/desktop-1.0.jar
