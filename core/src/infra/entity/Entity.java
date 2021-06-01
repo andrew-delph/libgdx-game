@@ -2,78 +2,87 @@ package infra.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import infra.common.EntityDataSerializable;
-import infra.entitydata.EntityData;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.google.inject.Inject;
+import infra.common.Clock;
+import infra.common.Coordinates;
+import infra.common.render.BaseAssetManager;
+import infra.entity.controllers.EntityController;
+import infra.networking.NetworkObjects;
 
 import java.util.UUID;
 
-public class Entity implements EntityDataSerializable {
-
+public class Entity {
+  public UUID uuid;
+  public EntityController entityController;
+  public Animation animation;
   public Sprite sprite;
-  public int size = 60;
-  UUID id;
-  UUID owner;
+  public Body body;
+  public Coordinates coordinates;
+  @Inject public Clock clock;
+  public int zindex = 1;
+  public static int coordinatesScale = 25;
+  public String textureName = "frog.png";
 
-  protected Entity(UUID id, float x, float y, UUID owner) {
-    this.id = id;
-    this.owner = owner;
+  @Inject BaseAssetManager baseAssetManager;
+
+  @Inject
+  public Entity() {
     this.sprite = new Sprite();
-    this.sprite.setPosition(x, y);
-    this.sprite.setSize(size, size);
+    this.sprite.setPosition(0, 0);
+    this.sprite.setSize(50, 50);
+    this.coordinates = new Coordinates(0, 0);
+    this.uuid = UUID.randomUUID();
+    this.entityController = new EntityController(this);
   }
 
-  protected Entity(UUID id, float x, float y, UUID owner, Texture texture) {
-    this(id, x, y, owner);
-    this.sprite.setTexture(texture);
+  public synchronized void setController(EntityController entityController) {
+    this.entityController = entityController;
   }
 
-  protected Entity(EntityData data) {
-    this.sprite = new Sprite();
-    this.fromEntityData(data);
+  public synchronized void renderSync() {
+    this.sprite = new Sprite((Texture) baseAssetManager.get(this.textureName));
+    this.sprite.setSize(this.coordinatesScale, this.coordinatesScale);
+    this.sprite.setPosition(
+        this.coordinates.getXReal() * coordinatesScale,
+        this.coordinates.getYReal() * coordinatesScale);
   }
 
-  public void moveX(int move) {
-    if (this.sprite != null) {
-      this.sprite.setX(this.sprite.getX() + move);
-    }
+  public synchronized void setZindex(int zindex) {
+    this.zindex = zindex;
   }
 
-  public void moveY(int move) {
-    this.sprite.setY(this.sprite.getY() + move);
+  public synchronized int getUpdateTimeout() {
+    return this.clock.currentTick.time + 1;
   }
 
-  public float getX() {
-    return this.sprite.getX();
-  }
-
-  public float getY() {
-    return this.sprite.getY();
-  }
-
-  public UUID getID() {
-    return this.id;
-  }
-
-  public UUID getOwner() {
-    return this.owner;
-  }
-
-  @Override
-  public EntityData toEntityData() {
-    EntityData data = new EntityData();
-    data.setId(this.id.toString());
-    data.setX(String.valueOf(this.sprite.getX()));
-    data.setY(String.valueOf(this.sprite.getY()));
-    data.setOwner(this.owner.toString());
-    return data;
-  }
-
-  @Override
-  public void fromEntityData(EntityData entityData) {
-    this.sprite.setX(Float.parseFloat(entityData.getX()));
-    this.sprite.setY(Float.parseFloat(entityData.getY()));
-    this.id = UUID.fromString(entityData.getID());
-    this.owner = UUID.fromString(entityData.getOwner());
-    // TODO use switch
+  public NetworkObjects.NetworkData toNetworkData() {
+    NetworkObjects.NetworkData x =
+        NetworkObjects.NetworkData.newBuilder()
+            .setKey("x")
+            .setValue(String.valueOf(this.coordinates.getXReal()))
+            .build();
+    NetworkObjects.NetworkData y =
+        NetworkObjects.NetworkData.newBuilder()
+            .setKey("y")
+            .setValue(String.valueOf(this.coordinates.getYReal()))
+            .build();
+    NetworkObjects.NetworkData coordinates =
+        NetworkObjects.NetworkData.newBuilder()
+            .setKey(Coordinates.class.getName())
+            .addChildren(x)
+            .addChildren(y)
+            .build();
+    NetworkObjects.NetworkData uuid =
+        NetworkObjects.NetworkData.newBuilder()
+            .setKey(UUID.class.getName())
+            .setValue(this.uuid.toString())
+            .build();
+    return NetworkObjects.NetworkData.newBuilder()
+        .setKey("class")
+        .setValue(this.getClass().getName())
+        .addChildren(coordinates)
+        .addChildren(uuid)
+        .build();
   }
 }
