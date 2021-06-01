@@ -11,3 +11,5 @@ java -jar desktop/build/libs/desktop-1.0.jar
 java -cp "desktop/build/libs/desktop-1.0.jar" main.Test
 
 ./gradlew desktop:dist && java -jar desktop/build/libs/desktop-1.0.jar
+
+./ngrok tcp 99
