@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ChunkSubscriptionService {
 
-  Map<UUID, List<ChunkRange>> userToChunkList;
+  Map<UUID, Set<ChunkRange>> userToChunkList;
   Map<ChunkRange, Set<UUID>> chunkRangeToUser;
 
   @Inject
@@ -17,9 +17,9 @@ public class ChunkSubscriptionService {
   }
 
   public void registerSubscription(UUID uuid, List<ChunkRange> chunkRangeList) {
-    this.userToChunkList.computeIfAbsent(uuid, k -> new LinkedList<>());
+    this.userToChunkList.computeIfAbsent(uuid, k -> new HashSet<>());
     chunkRangeList.addAll(this.userToChunkList.get(uuid));
-    this.userToChunkList.put(uuid, chunkRangeList);
+    this.userToChunkList.put(uuid, new HashSet<>(chunkRangeList));
     for (ChunkRange chunkRange : chunkRangeList) {
       this.chunkRangeToUser.computeIfAbsent(chunkRange, k -> new HashSet<>());
       this.chunkRangeToUser.get(chunkRange).add(uuid);
@@ -38,6 +38,6 @@ public class ChunkSubscriptionService {
   }
 
   public List<ChunkRange> getUserChunkRangeSubscriptions(UUID uuid) {
-    return this.userToChunkList.get(uuid);
+    return new LinkedList<>(this.userToChunkList.get(uuid));
   }
 }
