@@ -104,7 +104,13 @@ public class ServerEventConsumer extends NetworkConsumer {
         event -> {
           DisconnectionEvent realEvent = (DisconnectionEvent) event;
           for (UUID uuid : chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
+              Entity entity = this.gameStore.getEntity(uuid);
               this.gameStore.removeEntity(uuid);
+
+              RemoveEntityOutgoingEvent removeEntityOutgoingEvent = eventFactory.createRemoveEntityOutgoingEvent(entity.toNetworkData(), new ChunkRange(entity.coordinates));
+              for (UUID subscriptionUuid : chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
+                  serverNetworkHandle.send(subscriptionUuid, removeEntityOutgoingEvent.toNetworkEvent());
+              }
           }
         });
   }

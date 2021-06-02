@@ -27,5 +27,8 @@ public interface EventFactory {
   RemoveEntityIncomingEvent createRemoveEntityIncomingEvent(
       NetworkObjects.NetworkEvent networkEvent);
 
+  RemoveEntityOutgoingEvent createRemoveEntityOutgoingEvent(
+      NetworkObjects.NetworkData entityData, ChunkRange chunkRange);
+
   DisconnectionEvent createDisconnectionEvent(UUID uuid);
 }

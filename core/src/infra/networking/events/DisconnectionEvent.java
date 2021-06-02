@@ -10,7 +10,7 @@ public class DisconnectionEvent extends Event {
 
     UUID uuid;
 
-    public static String type = "remove_entity_incoming";
+    public static String type = "disconnection_entity_incoming";
 
     @Inject
     public DisconnectionEvent(@Assisted UUID uuid){

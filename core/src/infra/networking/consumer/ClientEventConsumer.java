@@ -7,10 +7,7 @@ import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntitySerializationConverter;
 import infra.networking.client.ClientNetworkHandle;
-import infra.networking.events.CreateEntityIncomingEvent;
-import infra.networking.events.CreateEntityOutgoingEvent;
-import infra.networking.events.UpdateEntityIncomingEvent;
-import infra.networking.events.UpdateEntityOutgoingEvent;
+import infra.networking.events.*;
 
 public class ClientEventConsumer extends NetworkConsumer {
   @Inject EventService eventService;
@@ -58,5 +55,12 @@ public class ClientEventConsumer extends NetworkConsumer {
           UpdateEntityOutgoingEvent realEvent = (UpdateEntityOutgoingEvent) event;
           clientNetworkHandle.send(realEvent.toNetworkEvent());
         });
+      this.eventService.addListener(
+              RemoveEntityIncomingEvent.type,
+              event -> {
+                  RemoveEntityIncomingEvent realEvent = (RemoveEntityIncomingEvent) event;
+                  Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
+                  this.gameStore.removeEntity(entity.uuid);
+              });
   }
 }

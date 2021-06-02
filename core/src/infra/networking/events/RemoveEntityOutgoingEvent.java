@@ -9,7 +9,7 @@ import infra.networking.events.interfaces.SerializeNetworkEvent;
 
 public class RemoveEntityOutgoingEvent extends Event implements SerializeNetworkEvent {
 
-  public static String type = "remove_entity_incoming";
+  public static String type = "remove_entity_outgoing";
   NetworkObjects.NetworkData entityData;
   ChunkRange chunkRange;
 
