@@ -31,49 +31,6 @@ public class ChunkRange {
     this.fromCoordinates(new Coordinates(x, y));
   }
 
-  public static List<ChunkRange> getChunkRangeListTwoPoints(
-      Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates) {
-    ChunkRange bottomLeftChunkRange = new ChunkRange(bottomLeftCoordinates);
-    ChunkRange topRightChunkRange = new ChunkRange(topRightCoordinates);
-    ChunkRange topLeftChunkRange =
-        new ChunkRange(new Coordinates(bottomLeftChunkRange.bottom_x, topRightChunkRange.bottom_y));
-    //    ChunkRange bottomRightChunkRange = new ChunkRange(new
-    // Coordinates(topRightChunkRange.bottom_x,bottomLeftChunkRange.bottom_y));
-
-    List<ChunkRange> chunkRangeList = new LinkedList<>();
-
-    ChunkRange root = bottomLeftChunkRange;
-    ChunkRange current;
-    while (!root.equals(topLeftChunkRange.getUp())) {
-      root = root.getUp();
-      current = root;
-      ChunkRange rowRightChunkRange =
-          new ChunkRange(new Coordinates(topRightChunkRange.bottom_x, current.bottom_y));
-      while (!current.equals(rowRightChunkRange.getRight())) {
-        chunkRangeList.add(current);
-        current = current.getRight();
-      }
-    }
-    return chunkRangeList;
-  }
-
-  public static List<ChunkRange> getChunkRangeListAroundPoint(
-      Coordinates coordinates, int chunkRangeRadius) {
-    Set<ChunkRange> chunkRangeSet = new HashSet<>();
-
-    ChunkRange bottomLeftChunkRange = new ChunkRange(coordinates);
-    ChunkRange topRightChunkRange = new ChunkRange(coordinates);
-
-    for (int i = 0; i < chunkRangeRadius; i++) {
-      bottomLeftChunkRange = bottomLeftChunkRange.getLeft().getDown();
-      topRightChunkRange = topRightChunkRange.getRight().getUp();
-    }
-
-    return ChunkRange.getChunkRangeListTwoPoints(
-        new Coordinates(bottomLeftChunkRange.bottom_x, bottomLeftChunkRange.bottom_y),
-        new Coordinates(topRightChunkRange.bottom_x, topRightChunkRange.bottom_y));
-  }
-
   private void fromCoordinates(Coordinates coordinates) {
     if (coordinates.getX() < 0) {
       this.bottom_x = ((((coordinates.getX() + 1) / size)) * size) - size;
@@ -142,5 +99,43 @@ public class ChunkRange {
 
   public String toString() {
     return this.bottom_x + "," + this.bottom_y + "," + this.top_x + "," + this.top_y;
+  }
+
+  public static List<ChunkRange> getChunkRangeListTwoPoints(Coordinates bottomLeftCoordinates,Coordinates topRightCoordinates){
+    ChunkRange bottomLeftChunkRange = new ChunkRange(bottomLeftCoordinates);
+    ChunkRange topRightChunkRange =  new ChunkRange(topRightCoordinates);
+    ChunkRange topLeftChunkRange = new ChunkRange(new Coordinates(bottomLeftChunkRange.bottom_x,topRightChunkRange.bottom_y));
+//    ChunkRange bottomRightChunkRange = new ChunkRange(new Coordinates(topRightChunkRange.bottom_x,bottomLeftChunkRange.bottom_y));
+
+    List<ChunkRange> chunkRangeList = new LinkedList<>();
+
+    ChunkRange root = bottomLeftChunkRange;
+    ChunkRange current;
+    while (!root.equals(topLeftChunkRange.getUp())){
+      root = root.getUp();
+      current =root;
+      ChunkRange rowRightChunkRange = new ChunkRange(new Coordinates(topRightChunkRange.bottom_x, current.bottom_y));
+      while (!current.equals(rowRightChunkRange.getRight())){
+        chunkRangeList.add(current);
+        current = current.getRight();
+      }
+    }
+    return chunkRangeList;
+  }
+
+  public static List<ChunkRange> getChunkRangeListAroundPoint(Coordinates coordinates, int chunkRangeRadius){
+    Set<ChunkRange> chunkRangeSet = new HashSet<>();
+
+    ChunkRange bottomLeftChunkRange = new ChunkRange(coordinates);
+    ChunkRange topRightChunkRange = new ChunkRange(coordinates);
+
+    for( int i = 0; i < chunkRangeRadius; i++){
+      bottomLeftChunkRange = bottomLeftChunkRange.getLeft().getDown();
+      topRightChunkRange = topRightChunkRange.getRight().getUp();
+    }
+
+    return ChunkRange.getChunkRangeListTwoPoints(
+        new Coordinates(bottomLeftChunkRange.bottom_x, bottomLeftChunkRange.bottom_y),
+        new Coordinates(topRightChunkRange.bottom_x, topRightChunkRange.bottom_y));
   }
 }

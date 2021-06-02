@@ -6,13 +6,9 @@ import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.entity.Entity;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class BaseCamera extends OrthographicCamera {
-  @Inject
-  public BaseCamera() {}
-
   @Override
   public void update() {
     super.update();
@@ -23,28 +19,24 @@ public class BaseCamera extends OrthographicCamera {
     this.update();
   }
 
+  @Inject
+  public BaseCamera() {}
+
   public List<ChunkRange> getChunkRangeOnScreen() {
-    List<ChunkRange> chunkRangeList = new LinkedList<>();
 
     int left_x = (int) ((this.position.x - (this.viewportWidth / 2)) / Entity.coordinatesScale);
+    int right_x = (int) ((this.position.x + (this.viewportWidth / 2)) / Entity.coordinatesScale);
+    int bottom_y = (int) ((this.position.y - (this.viewportHeight / 2)) / Entity.coordinatesScale);
     int top_y = (int) ((this.position.y + (this.viewportHeight / 2)) / Entity.coordinatesScale);
 
-    ChunkRange top_left = new ChunkRange(new Coordinates(left_x, top_y));
+    Coordinates bottomLeftCoordinates = new Coordinates(left_x,bottom_y);
 
-    int x_ChunkRange_scale =
-        (int) Math.ceil(viewportWidth / Entity.coordinatesScale / ChunkRange.size);
-    int y_ChunkRange_scale =
-        (int) Math.ceil(viewportHeight / Entity.coordinatesScale / ChunkRange.size);
+    Coordinates topRightCoordinates = new Coordinates(right_x,top_y);
 
-    ChunkRange root = top_left.getUp();
-    for (int i = 0; i <= y_ChunkRange_scale; i++) {
-      root = root.getDown();
-      chunkRangeList.add(root);
-      for (int j = 1; j < x_ChunkRange_scale; j++) {
-        chunkRangeList.add(chunkRangeList.get(chunkRangeList.size() - 1).getRight());
-      }
-    }
+    ChunkRange bottomLeftChunkRange = new ChunkRange(bottomLeftCoordinates).getLeft().getDown();
 
-    return chunkRangeList;
+    ChunkRange topRightChunkRange = new ChunkRange(topRightCoordinates).getRight().getUp();
+
+    return ChunkRange.getChunkRangeListTwoPoints(new Coordinates(bottomLeftChunkRange.bottom_x,bottomLeftChunkRange.bottom_y), new Coordinates(topRightChunkRange.top_x,topRightChunkRange.top_y));
   }
 }

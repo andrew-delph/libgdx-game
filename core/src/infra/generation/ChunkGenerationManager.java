@@ -3,6 +3,7 @@ package infra.generation;
 import com.google.inject.Inject;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkRange;
+import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.entity.Entity;
 
@@ -56,17 +57,10 @@ public class ChunkGenerationManager {
   }
 
   public List<Callable<Chunk>> generateAround(ChunkRange chunkRangeRoot) {
-    List<ChunkRange> surroundingChunkRangeList = new LinkedList<>();
 
-    surroundingChunkRangeList.add(chunkRangeRoot);
-    surroundingChunkRangeList.add(chunkRangeRoot.getLeft());
-    surroundingChunkRangeList.add(chunkRangeRoot.getRight());
-    surroundingChunkRangeList.add(chunkRangeRoot.getUp());
-    surroundingChunkRangeList.add(chunkRangeRoot.getDown());
-    surroundingChunkRangeList.add(chunkRangeRoot.getLeft().getUp());
-    surroundingChunkRangeList.add(chunkRangeRoot.getLeft().getDown());
-    surroundingChunkRangeList.add(chunkRangeRoot.getRight().getUp());
-    surroundingChunkRangeList.add(chunkRangeRoot.getRight().getDown());
+    List<ChunkRange> surroundingChunkRangeList =
+        ChunkRange.getChunkRangeListAroundPoint(
+            new Coordinates(chunkRangeRoot.bottom_x, chunkRangeRoot.bottom_y), 3);
 
     List<Callable<Chunk>> chunkBuilderList = new LinkedList<>();
 

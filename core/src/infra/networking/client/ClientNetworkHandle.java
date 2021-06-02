@@ -11,6 +11,14 @@ import io.grpc.ManagedChannelBuilder;
 import java.util.UUID;
 
 public class ClientNetworkHandle {
+  public void setHost(String host) {
+    this.host = host;
+  }
+
+  public void setPort(int port) {
+    this.port = port;
+  }
+
   public String host = "localhost";
   public int port = 99;
   public UUID uuid;
@@ -18,18 +26,11 @@ public class ClientNetworkHandle {
   @Inject ObserverFactory observerFactory;
   private ManagedChannel channel;
   private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
+
   @Inject
   public ClientNetworkHandle() {
     this.uuid = UUID.randomUUID();
-    System.out.println("client: " + this.uuid.toString());
-  }
-
-  public void setHost(String host) {
-    this.host = host;
-  }
-
-  public void setPort(int port) {
-    this.port = port;
+    System.out.println("client: "+this.uuid.toString());
   }
 
   public void connect() {

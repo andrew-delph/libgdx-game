@@ -32,7 +32,7 @@ public class ChunkSubscriptionService {
   }
 
   public void removeUUID(UUID uuid) {
-    if (this.userToChunkList.get(uuid) == null) {
+    if(this.userToChunkList.get(uuid) == null){
       return;
     }
     for (ChunkRange chunkRange : this.userToChunkList.get(uuid)) {
