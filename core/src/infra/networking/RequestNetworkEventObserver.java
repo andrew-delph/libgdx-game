@@ -30,14 +30,14 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
 
   @Override
   public void onError(Throwable throwable) {
+    System.out.println("onError: " + throwable);
     connectionStore.removeConnection(this.uuid);
     this.eventService.fireEvent(this.eventFactory.createDisconnectionEvent(this.uuid));
-    System.out.println("onError: " + throwable);
   }
 
   @Override
   public void onCompleted() {
-    connectionStore.removeConnection(this.uuid);
     System.out.println("onCompleted");
+    connectionStore.removeConnection(this.uuid);
   }
 }

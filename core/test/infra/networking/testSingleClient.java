@@ -296,4 +296,35 @@ public class testSingleClient {
     assert serverEntity.coordinates.equals(
         clientGameStore.getEntity(serverEntity.uuid).coordinates);
   }
+
+  @Test
+  public void testClientDisconnectRemoveEntity() throws InterruptedException {
+    GameController clientGameController = clientInjector.getInstance(GameController.class);
+    GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
+    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+
+    EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
+
+    TimeUnit.SECONDS.sleep(1);
+
+    Entity clientEntity = clientGameController.createEntity(clientEntityFactory.createEntity());
+
+    TimeUnit.SECONDS.sleep(1);
+
+    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
+    assert serverGameStore
+            .getEntity(clientEntity.uuid)
+            .coordinates
+            .equals(clientEntity.coordinates);
+
+    this.clientNetworkHandle.close();
+
+    TimeUnit.SECONDS.sleep(1);
+
+    System.out.println(serverGameStore.getEntity(clientEntity.uuid));
+
+    assert serverGameStore.getEntity(clientEntity.uuid) == null;
+  }
 }

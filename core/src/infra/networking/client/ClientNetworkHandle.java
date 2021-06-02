@@ -51,6 +51,7 @@ public class ClientNetworkHandle {
   }
 
   public void close() {
+    this.requestNetworkEventObserver.responseObserver.onCompleted();
     this.channel.shutdown();
   }
 }
