@@ -52,12 +52,12 @@ public class ClientEventConsumer extends NetworkConsumer {
           UpdateEntityOutgoingEvent realEvent = (UpdateEntityOutgoingEvent) event;
           clientNetworkHandle.send(realEvent.toNetworkEvent());
         });
-      this.eventService.addListener(
-              RemoveEntityIncomingEvent.type,
-              event -> {
-                  RemoveEntityIncomingEvent realEvent = (RemoveEntityIncomingEvent) event;
-                  Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
-                  this.gameStore.removeEntity(entity.uuid);
-              });
+    this.eventService.addListener(
+        RemoveEntityIncomingEvent.type,
+        event -> {
+          RemoveEntityIncomingEvent realEvent = (RemoveEntityIncomingEvent) event;
+          Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
+          this.gameStore.removeEntity(entity.uuid);
+        });
   }
 }

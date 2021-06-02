@@ -25,11 +25,11 @@ public class ChunkGenerationManager {
 
   public void registerActiveEntity(Entity entity, UUID uuid) {
     this.activeEntity.add(entity);
-    this.uuidOwnerMap.computeIfAbsent(uuid, k-> new LinkedList<>());
+    this.uuidOwnerMap.computeIfAbsent(uuid, k -> new LinkedList<>());
     this.uuidOwnerMap.get(uuid).add(entity.uuid);
   }
 
-  public List<UUID> getOwnerUuidList(UUID uuid){
+  public List<UUID> getOwnerUuidList(UUID uuid) {
 
     return this.uuidOwnerMap.get(uuid);
   }

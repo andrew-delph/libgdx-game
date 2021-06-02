@@ -11,8 +11,7 @@ public class ConnectionStore {
 
   Map<UUID, RequestNetworkEventObserver> connectionMap;
 
-  @Inject
-  ChunkSubscriptionService chunkSubscriptionService;
+  @Inject ChunkSubscriptionService chunkSubscriptionService;
 
   @Inject
   public ConnectionStore() {
@@ -23,7 +22,7 @@ public class ConnectionStore {
     this.connectionMap.put(uuid, requestNetworkEventObserver);
   }
 
-  public void removeConnection(UUID uuid){
+  public void removeConnection(UUID uuid) {
     this.connectionMap.remove(uuid);
     chunkSubscriptionService.removeUUID(uuid);
   }

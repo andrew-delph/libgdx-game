@@ -36,21 +36,19 @@ public class testChunkRange {
 
     assert chunkRangeList.size() == 4;
 
-
     rightUpRoot = root.getRight().getUp().getRight().getUp();
 
     chunkRangeList =
-            ChunkRange.getChunkRangeListTwoPoints(
-                    new Coordinates(0, 0), new Coordinates(rightUpRoot.bottom_x, rightUpRoot.bottom_y));
+        ChunkRange.getChunkRangeListTwoPoints(
+            new Coordinates(0, 0), new Coordinates(rightUpRoot.bottom_x, rightUpRoot.bottom_y));
 
     assert chunkRangeList.size() == 9;
   }
 
   @Test
-  public void testGetChunkRangeListAroundPoint(){
-    assert ChunkRange.getChunkRangeListAroundPoint(new Coordinates(0,0),1).size() == 9;
+  public void testGetChunkRangeListAroundPoint() {
+    assert ChunkRange.getChunkRangeListAroundPoint(new Coordinates(0, 0), 1).size() == 9;
 
-    assert ChunkRange.getChunkRangeListAroundPoint(new Coordinates(0,0),2).size() == 25;
-
+    assert ChunkRange.getChunkRangeListAroundPoint(new Coordinates(0, 0), 2).size() == 25;
   }
 }

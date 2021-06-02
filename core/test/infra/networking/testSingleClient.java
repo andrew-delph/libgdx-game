@@ -56,14 +56,14 @@ public class testSingleClient {
 
   @After
   public void cleanup() {
-    try{
+    try {
       clientGame.stop();
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       serverGame.stop();
-    } catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -323,9 +323,9 @@ public class testSingleClient {
 
     assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-            .getEntity(clientEntity.uuid)
-            .coordinates
-            .equals(clientEntity.coordinates);
+        .getEntity(clientEntity.uuid)
+        .coordinates
+        .equals(clientEntity.coordinates);
 
     this.clientNetworkHandle.close();
 

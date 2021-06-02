@@ -10,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class BaseCamera extends OrthographicCamera {
+  @Inject
+  public BaseCamera() {}
+
   @Override
   public void update() {
     super.update();
@@ -19,9 +22,6 @@ public class BaseCamera extends OrthographicCamera {
     this.setToOrtho(false, 500, 500);
     this.update();
   }
-
-  @Inject
-  public BaseCamera() {}
 
   public List<ChunkRange> getChunkRangeOnScreen() {
     List<ChunkRange> chunkRangeList = new LinkedList<>();
