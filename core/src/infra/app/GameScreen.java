@@ -55,7 +55,7 @@ public class GameScreen extends ApplicationAdapter {
     batch = new SpriteBatch();
     myEntity = gameController.createEntity(entityFactory.createEntity());
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
-    chunkGenerationManager.registerActiveEntity(myEntity);
+    chunkGenerationManager.registerActiveEntity(myEntity, null);
   }
 
   @Override

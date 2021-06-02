@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 public class ChunkGenerationManager {
   Set<ChunkRange> generatedSet;
   Set<Entity> activeEntity;
+  Map<UUID, List<UUID>> uuidOwnerMap;
 
   @Inject GameStore gameStore;
 
@@ -20,10 +21,17 @@ public class ChunkGenerationManager {
   ChunkGenerationManager() {
     this.generatedSet = new HashSet<>();
     this.activeEntity = new HashSet<>();
+    this.uuidOwnerMap = new HashMap<>();
   }
 
-  public void registerActiveEntity(Entity entity) {
+  public void registerActiveEntity(Entity entity, UUID uuid) {
     this.activeEntity.add(entity);
+    this.uuidOwnerMap.computeIfAbsent(uuid, k-> new LinkedList<>());
+    this.uuidOwnerMap.get(uuid).add(entity.uuid);
+  }
+
+  public List<UUID> getOwnerUuidList(UUID uuid){
+    return this.uuidOwnerMap.get(uuid);
   }
 
   public List<Entity> getActiveEntityList() {

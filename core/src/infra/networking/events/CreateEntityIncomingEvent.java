@@ -9,15 +9,15 @@ public class CreateEntityIncomingEvent extends Event {
 
   public static String type = "create_entity_incoming";
 
-  NetworkObjects.NetworkData entityData;
+  public NetworkObjects.NetworkEvent networkEvent;
 
   @Inject
-  public CreateEntityIncomingEvent(@Assisted NetworkObjects.NetworkData entityData) {
-    this.entityData = entityData;
+  public CreateEntityIncomingEvent(@Assisted NetworkObjects.NetworkEvent networkEvent) {
+    this.networkEvent = networkEvent;
   }
 
   public NetworkObjects.NetworkData getData() {
-    return this.entityData;
+    return this.networkEvent.getData();
   }
 
   @Override

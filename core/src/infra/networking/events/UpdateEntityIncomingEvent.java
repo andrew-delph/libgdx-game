@@ -9,15 +9,15 @@ public class UpdateEntityIncomingEvent extends Event {
 
   public static String type = "update_entity_incoming";
 
-  NetworkObjects.NetworkData entityData;
+  NetworkObjects.NetworkEvent networkEvent;
 
   @Inject
-  UpdateEntityIncomingEvent(@Assisted NetworkObjects.NetworkData entityData) {
-    this.entityData = entityData;
+  UpdateEntityIncomingEvent(@Assisted NetworkObjects.NetworkEvent networkEvent) {
+    this.networkEvent = networkEvent;
   }
 
   public NetworkObjects.NetworkData getData() {
-    return this.entityData;
+    return this.networkEvent.getData();
   }
 
   @Override

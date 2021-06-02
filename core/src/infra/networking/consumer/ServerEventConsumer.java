@@ -11,6 +11,7 @@ import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntitySerializationConverter;
 import infra.generation.ChunkGenerationManager;
+import infra.networking.ConnectionStore;
 import infra.networking.NetworkObjects;
 import infra.networking.events.*;
 import infra.networking.server.ServerNetworkHandle;
@@ -28,6 +29,8 @@ public class ServerEventConsumer extends NetworkConsumer {
   @Inject EventFactory eventFactory;
   @Inject ChunkGenerationManager chunkGenerationManager;
   @Inject ChunkFactory chunkFactory;
+  @Inject
+    ConnectionStore connectionStore;
 
   public void init() {
     super.init();
@@ -67,7 +70,7 @@ public class ServerEventConsumer extends NetworkConsumer {
           Entity entity =
               gameController.createEntity(
                   entitySerializationConverter.createEntity(realEvent.getData()));
-          chunkGenerationManager.registerActiveEntity(entity);
+          chunkGenerationManager.registerActiveEntity(entity, UUID.fromString(realEvent.networkEvent.getUser()));
         });
     this.eventService.addListener(
         UpdateEntityIncomingEvent.type,
@@ -87,13 +90,21 @@ public class ServerEventConsumer extends NetworkConsumer {
             serverNetworkHandle.send(uuid, networkEvent);
           }
         });
+      this.eventService.addListener(
+              UpdateEntityOutgoingEvent.type,
+              event -> {
+                  UpdateEntityOutgoingEvent realEvent = (UpdateEntityOutgoingEvent) event;
+                  NetworkObjects.NetworkEvent networkEvent = realEvent.toNetworkEvent();
+                  for (UUID uuid : chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange())) {
+                      serverNetworkHandle.send(uuid, networkEvent);
+                  }
+              });
     this.eventService.addListener(
-        UpdateEntityOutgoingEvent.type,
+        DisconnectionEvent.type,
         event -> {
-          UpdateEntityOutgoingEvent realEvent = (UpdateEntityOutgoingEvent) event;
-          NetworkObjects.NetworkEvent networkEvent = realEvent.toNetworkEvent();
-          for (UUID uuid : chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange())) {
-            serverNetworkHandle.send(uuid, networkEvent);
+          DisconnectionEvent realEvent = (DisconnectionEvent) event;
+          for (UUID uuid : chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
+              this.gameStore.removeEntity(uuid);
           }
         });
   }

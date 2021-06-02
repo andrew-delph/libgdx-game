@@ -3,10 +3,7 @@ package infra.networking;
 import com.google.inject.Inject;
 import infra.common.events.EventService;
 import infra.networking.consumer.NetworkConsumer;
-import infra.networking.events.CreateEntityOutgoingEvent;
-import infra.networking.events.EventFactory;
-import infra.networking.events.SubscriptionOutgoingEvent;
-import infra.networking.events.UpdateEntityOutgoingEvent;
+import infra.networking.events.*;
 
 public class NetworkEventHandler extends NetworkConsumer {
 
@@ -22,13 +19,15 @@ public class NetworkEventHandler extends NetworkConsumer {
       String event = networkEvent.getEvent();
       if (event.equals(CreateEntityOutgoingEvent.type)) {
         eventService.fireEvent(
-            eventFactory.createCreateEntityIncomingEvent(networkEvent.getData()));
+            eventFactory.createCreateEntityIncomingEvent(networkEvent));
       } else if (event.equals(UpdateEntityOutgoingEvent.type)) {
         eventService.fireEvent(
-            eventFactory.createUpdateEntityIncomingEvent(networkEvent.getData()));
+            eventFactory.createUpdateEntityIncomingEvent(networkEvent));
       } else if (event.equals(SubscriptionOutgoingEvent.type)) {
         System.out.println("sub event");
         eventService.fireEvent(eventFactory.createSubscriptionIncomingEvent(networkEvent));
+      } else if(event.equals(RemoveEntityOutgoingEvent.type)){
+        eventService.fireEvent(eventFactory.createRemoveEntityIncomingEvent(networkEvent));
       }
     } catch (Exception e) {
       e.printStackTrace();

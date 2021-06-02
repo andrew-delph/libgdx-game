@@ -25,6 +25,12 @@ public class GameStore {
     this.entityMap.put(entity.uuid, entityChunkRange);
   }
 
+  public void removeEntity(UUID uuid) {
+    Entity entity = this.getEntity(uuid);
+    this.chunkClockMap.get(new ChunkRange(entity.coordinates)).removeEntity(uuid);
+    this.entityMap.remove(uuid);
+  }
+
   public int getEntityNumber() {
     return this.entityMap.size();
   }
