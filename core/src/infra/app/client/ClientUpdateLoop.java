@@ -34,17 +34,6 @@ public class ClientUpdateLoop extends UpdateLoop {
     List<Callable<Chunk>> callableChunkList =
         this.gameStore.getChunkOnClock(this.clock.currentTick);
 
-    //    Set<ChunkRange> inRangeChunkRangeSet = new HashSet<>();
-    //
-    //    for (Entity entity : chunkGenerationManager.getActiveEntityList()) {
-    //      ChunkRange chunkRange = new ChunkRange(entity.coordinates);
-    //      inRangeChunkRangeSet.add(chunkRange);
-    //      inRangeChunkRangeSet.add(chunkRange.getDown());
-    //      inRangeChunkRangeSet.add(chunkRange.getUp());
-    //      inRangeChunkRangeSet.add(chunkRange.getRight());
-    //      inRangeChunkRangeSet.add(chunkRange.getLeft());
-    //    }
-
     List<ChunkRange> chunkRangeListOnCamera = baseCamera.getChunkRangeOnScreen();
 
     Set<ChunkRange> subscribeChunkRange = new HashSet<>();

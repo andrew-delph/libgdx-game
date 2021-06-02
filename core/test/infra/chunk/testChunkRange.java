@@ -3,6 +3,8 @@ package infra.chunk;
 import infra.common.Coordinates;
 import org.junit.Test;
 
+import java.util.List;
+
 public class testChunkRange {
   @Test
   public void testHashEqual() {
@@ -20,5 +22,27 @@ public class testChunkRange {
     assert chunkRange1.getRight().equals(new ChunkRange(new Coordinates(ChunkRange.size, 0)));
     assert chunkRange1.getDown().equals(new ChunkRange(new Coordinates(0, -ChunkRange.size)));
     assert chunkRange1.getUp().equals(new ChunkRange(new Coordinates(0, ChunkRange.size)));
+  }
+
+  @Test
+  public void getChunkRangeListTwoPoints() {
+
+    ChunkRange root = new ChunkRange(new Coordinates(0, 0));
+    ChunkRange rightUpRoot = root.getRight().getUp();
+
+    List<ChunkRange> chunkRangeList =
+        ChunkRange.getChunkRangeListTwoPoints(
+            new Coordinates(0, 0), new Coordinates(rightUpRoot.bottom_x, rightUpRoot.bottom_y));
+
+    assert chunkRangeList.size() == 4;
+
+
+    rightUpRoot = root.getRight().getUp().getRight().getUp();
+
+    chunkRangeList =
+            ChunkRange.getChunkRangeListTwoPoints(
+                    new Coordinates(0, 0), new Coordinates(rightUpRoot.bottom_x, rightUpRoot.bottom_y));
+
+    assert chunkRangeList.size() == 9;
   }
 }

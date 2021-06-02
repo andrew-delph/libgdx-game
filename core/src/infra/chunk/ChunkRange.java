@@ -3,6 +3,9 @@ package infra.chunk;
 import infra.common.Coordinates;
 import infra.networking.NetworkObjects;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class ChunkRange {
   public static final int size = 5;
   public int bottom_x;
@@ -94,5 +97,27 @@ public class ChunkRange {
 
   public String toString() {
     return this.bottom_x + "," + this.bottom_y + "," + this.top_x + "," + this.top_y;
+  }
+
+  public static List<ChunkRange> getChunkRangeListTwoPoints(Coordinates bottomLeftCoordinates,Coordinates topRightCoordinates){
+    ChunkRange bottomLeftChunkRange = new ChunkRange(bottomLeftCoordinates);
+    ChunkRange topRightChunkRange =  new ChunkRange(topRightCoordinates);
+    ChunkRange topLeftChunkRange = new ChunkRange(new Coordinates(bottomLeftChunkRange.bottom_x,topRightChunkRange.bottom_y));
+//    ChunkRange bottomRightChunkRange = new ChunkRange(new Coordinates(topRightChunkRange.bottom_x,bottomLeftChunkRange.bottom_y));
+
+    List<ChunkRange> chunkRangeList = new LinkedList<>();
+
+    ChunkRange root = bottomLeftChunkRange;
+    ChunkRange current;
+    while (!root.equals(topLeftChunkRange.getUp())){
+      root = root.getUp();
+      current =root;
+      ChunkRange rowRightChunkRange = new ChunkRange(new Coordinates(topRightChunkRange.bottom_x, current.bottom_y));
+      while (!current.equals(rowRightChunkRange.getRight())){
+        chunkRangeList.add(current);
+        current = current.getRight();
+      }
+    }
+    return chunkRangeList;
   }
 }
