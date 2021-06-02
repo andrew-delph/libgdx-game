@@ -3,8 +3,10 @@ package infra.chunk;
 import infra.common.Coordinates;
 import infra.networking.NetworkObjects;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class ChunkRange {
   public static final int size = 5;
@@ -119,5 +121,21 @@ public class ChunkRange {
       }
     }
     return chunkRangeList;
+  }
+
+  public static List<ChunkRange> getChunkRangeListAroundPoint(Coordinates coordinates, int chunkRangeRadius){
+    Set<ChunkRange> chunkRangeSet = new HashSet<>();
+
+    ChunkRange bottomLeftChunkRange = new ChunkRange(coordinates);
+    ChunkRange topRightChunkRange = new ChunkRange(coordinates);
+
+    for( int i = 0; i < chunkRangeRadius; i++){
+      bottomLeftChunkRange = bottomLeftChunkRange.getLeft().getDown();
+      topRightChunkRange = topRightChunkRange.getRight().getUp();
+    }
+
+    return ChunkRange.getChunkRangeListTwoPoints(
+        new Coordinates(bottomLeftChunkRange.bottom_x, bottomLeftChunkRange.bottom_y),
+        new Coordinates(topRightChunkRange.bottom_x, topRightChunkRange.bottom_y));
   }
 }
