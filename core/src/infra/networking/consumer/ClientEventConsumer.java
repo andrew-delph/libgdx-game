@@ -25,15 +25,12 @@ public class ClientEventConsumer extends NetworkConsumer {
     this.eventService.addListener(
         CreateEntityIncomingEvent.type,
         event -> {
-          System.out.println("create entity incoming");
           CreateEntityIncomingEvent realEvent = (CreateEntityIncomingEvent) event;
           Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
           //           TODO remove or update
           if (this.gameStore.getEntity(entity.uuid) != null) {
-            System.out.println(1);
             return;
           } else {
-            System.out.println(2);
           }
           gameController.triggerCreateEntity(entity);
         });

@@ -14,6 +14,14 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Inject ConnectionStore connectionStore;
   private Server server;
 
+  @Inject
+  public ServerNetworkHandle() {
+    this.uuid = UUID.randomUUID();
+    System.out.println("server: "+this.uuid.toString());
+  }
+
+  public UUID uuid;
+
   public void start() throws IOException {
     System.out.println("server start");
     server = ServerBuilder.forPort(99).addService(this).build();
@@ -25,6 +33,9 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
       StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
     RequestNetworkEventObserver requestNetworkEventObserver = observerFactory.create();
     requestNetworkEventObserver.responseObserver = responseObserver;
+    NetworkObjects.NetworkEvent authenticationEvent =
+            NetworkObjects.NetworkEvent.newBuilder().setEvent("authentication").setUser(this.uuid.toString()).build();
+    requestNetworkEventObserver.responseObserver.onNext(authenticationEvent);
     return requestNetworkEventObserver;
   }
 
@@ -33,6 +44,9 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   }
 
   public synchronized void send(UUID uuid, NetworkObjects.NetworkEvent networkEvent) {
+    networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
     connectionStore.getConnection(uuid).responseObserver.onNext(networkEvent);
   }
+
+
 }

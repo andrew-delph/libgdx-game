@@ -24,7 +24,6 @@ public class ConnectionStore {
   }
 
   public void removeConnection(UUID uuid){
-    System.out.println("removing "+uuid);
     this.connectionMap.remove(uuid);
     chunkSubscriptionService.removeUUID(uuid);
   }

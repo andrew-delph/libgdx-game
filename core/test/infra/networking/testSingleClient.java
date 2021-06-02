@@ -56,8 +56,16 @@ public class testSingleClient {
 
   @After
   public void cleanup() {
-    clientGame.stop();
-    serverGame.stop();
+    try{
+      clientGame.stop();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    try {
+      serverGame.stop();
+    } catch (Exception e){
+      e.printStackTrace();
+    }
   }
 
   @Test
@@ -322,8 +330,6 @@ public class testSingleClient {
     this.clientNetworkHandle.close();
 
     TimeUnit.SECONDS.sleep(1);
-
-    System.out.println(serverGameStore.getEntity(clientEntity.uuid));
 
     assert serverGameStore.getEntity(clientEntity.uuid) == null;
   }

@@ -53,9 +53,21 @@ public class testDoubleClient {
 
   @After
   public void cleanup() {
-    client_a_NetworkHandle.close();
-    client_b_NetworkHandle.close();
-    serverNetworkHandle.close();
+    try {
+      client_a_NetworkHandle.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    try {
+      client_b_NetworkHandle.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    try {
+      serverNetworkHandle.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @Test
@@ -160,5 +172,58 @@ public class testDoubleClient {
         .getEntity(clientEntity.uuid)
         .coordinates
         .equals(clientEntity.coordinates);
+  }
+
+  @Test
+  public void testDoubleClientCreateThenDisconnectRemoveOther() throws InterruptedException {
+    GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
+    GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
+    GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory client_a_ChunkFactory = client_a_Injector.getInstance(ChunkFactory.class);
+    client_a_GameStore.addChunk(
+        client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+
+    EntityFactory clientEntityFactory = client_a_Injector.getInstance(EntityFactory.class);
+
+    List<ChunkRange> chunkRangeList = new LinkedList<>();
+    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
+    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
+    for (ChunkRange chunkRange : chunkRangeList) {
+      client_b_GameStore.addChunk(client_a_ChunkFactory.create(chunkRange));
+    }
+
+    EventFactory client_b_EventFactory = client_b_Injector.getInstance(EventFactory.class);
+
+    client_b_NetworkHandle.send(
+        client_b_EventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+
+    //    TimeUnit.SECONDS.sleep(1);
+
+    Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
+
+    TimeUnit.SECONDS.sleep(1);
+
+    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
+    assert serverGameStore
+        .getEntity(clientEntity.uuid)
+        .coordinates
+        .equals(clientEntity.coordinates);
+
+    assert client_b_GameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
+    assert client_b_GameStore
+        .getEntity(clientEntity.uuid)
+        .coordinates
+        .equals(clientEntity.coordinates);
+
+    client_a_NetworkHandle.close();
+
+    TimeUnit.SECONDS.sleep(5);
+
+    assert serverGameStore.getEntity(clientEntity.uuid) == null;
+    assert client_b_GameStore.getEntity(clientEntity.uuid) == null;
+
+
+
   }
 }

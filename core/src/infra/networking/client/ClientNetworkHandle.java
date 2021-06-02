@@ -30,6 +30,7 @@ public class ClientNetworkHandle {
   @Inject
   public ClientNetworkHandle() {
     this.uuid = UUID.randomUUID();
+    System.out.println("client: "+this.uuid.toString());
   }
 
   public void connect() {

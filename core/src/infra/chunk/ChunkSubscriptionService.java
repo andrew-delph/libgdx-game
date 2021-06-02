@@ -32,6 +32,9 @@ public class ChunkSubscriptionService {
   }
 
   public void removeUUID(UUID uuid) {
+    if(this.userToChunkList.get(uuid) == null){
+      return;
+    }
     for (ChunkRange chunkRange : this.userToChunkList.get(uuid)) {
       this.chunkRangeToUser.get(chunkRange).remove(uuid);
     }

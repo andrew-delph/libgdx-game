@@ -15,7 +15,6 @@ public class ChunkGenerationManager {
   Map<UUID, List<UUID>> uuidOwnerMap;
 
   @Inject GameStore gameStore;
-
   @Inject ChunkBuilderFactory chunkBuilderFactory;
 
   ChunkGenerationManager() {
@@ -31,6 +30,7 @@ public class ChunkGenerationManager {
   }
 
   public List<UUID> getOwnerUuidList(UUID uuid){
+
     return this.uuidOwnerMap.get(uuid);
   }
 

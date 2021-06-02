@@ -70,7 +70,9 @@ public class ServerEventConsumer extends NetworkConsumer {
           Entity entity =
               gameController.createEntity(
                   entitySerializationConverter.createEntity(realEvent.getData()));
-          chunkGenerationManager.registerActiveEntity(entity, UUID.fromString(realEvent.networkEvent.getUser()));
+          System.out.println("created: "+entity.uuid);
+          chunkGenerationManager.registerActiveEntity(
+              entity, UUID.fromString(realEvent.networkEvent.getUser()));
         });
     this.eventService.addListener(
         UpdateEntityIncomingEvent.type,
@@ -103,7 +105,8 @@ public class ServerEventConsumer extends NetworkConsumer {
         DisconnectionEvent.type,
         event -> {
           DisconnectionEvent realEvent = (DisconnectionEvent) event;
-          for (UUID uuid : chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
+            connectionStore.removeConnection(realEvent.getUuid());
+            for (UUID uuid : chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
               Entity entity = this.gameStore.getEntity(uuid);
               this.gameStore.removeEntity(uuid);
 
