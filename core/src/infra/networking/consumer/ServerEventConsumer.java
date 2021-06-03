@@ -75,6 +75,7 @@ public class ServerEventConsumer extends NetworkConsumer {
 
           for (UUID uuid :
               chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
+            if (uuid.equals(realEvent.getUser())) continue;
             serverNetworkHandle.send(uuid, realEvent.networkEvent);
           }
         });
@@ -86,6 +87,7 @@ public class ServerEventConsumer extends NetworkConsumer {
 
           for (UUID uuid :
               chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
+            if (uuid.equals(realEvent.getUser())) continue;
             serverNetworkHandle.send(uuid, realEvent.networkEvent);
           }
         });

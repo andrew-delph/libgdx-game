@@ -1,27 +1,26 @@
 package main;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-class Shared{
+class Shared {
   public int count;
-  public Shared(){
-  }
-  public void increase(){
+
+  public Shared() {}
+
+  public void increase() {
     this.count += 1;
   }
 }
 // Task class to be executed (Step 1)
 class Task implements Callable<Object> {
-  private String name;
   Shared shared;
+  private String name;
 
-  public Task(String s,Shared shared) {
+  public Task(String s, Shared shared) {
     name = s;
     this.shared = shared;
   }
@@ -30,29 +29,30 @@ class Task implements Callable<Object> {
   // This Whole process is repeated 5 times
   public Object call() throws Exception {
     this.shared.increase();
-    System.out.println("SHARED!"+this.shared.count);
-//    {
-//      try {
-//        for (int i = 0; i <= 5; i++) {
-//          if (i == 0) {
-//            Date d = new Date();
-//            SimpleDateFormat ft = new SimpleDateFormat("hh:mm:ss");
-//            System.out.println(
-//                "Initialization Time for" + " task name - " + name + " = " + ft.format(d));
-//            // prints the initialization time for every task
-//          } else {
-//            Date d = new Date();
-//            SimpleDateFormat ft = new SimpleDateFormat("hh:mm:ss");
-//            System.out.println("Executing Time for task name - " + name + " = " + ft.format(d));
-//            // prints the execution time for every task
-//          }
-//          Thread.sleep(1000);
-//        }
-//        System.out.println(name + " complete");
-//      } catch (InterruptedException e) {
-//        e.printStackTrace();
-//      }
-//    }
+    System.out.println("SHARED!" + this.shared.count);
+    //    {
+    //      try {
+    //        for (int i = 0; i <= 5; i++) {
+    //          if (i == 0) {
+    //            Date d = new Date();
+    //            SimpleDateFormat ft = new SimpleDateFormat("hh:mm:ss");
+    //            System.out.println(
+    //                "Initialization Time for" + " task name - " + name + " = " + ft.format(d));
+    //            // prints the initialization time for every task
+    //          } else {
+    //            Date d = new Date();
+    //            SimpleDateFormat ft = new SimpleDateFormat("hh:mm:ss");
+    //            System.out.println("Executing Time for task name - " + name + " = " +
+    // ft.format(d));
+    //            // prints the execution time for every task
+    //          }
+    //          Thread.sleep(1000);
+    //        }
+    //        System.out.println(name + " complete");
+    //      } catch (InterruptedException e) {
+    //        e.printStackTrace();
+    //      }
+    //    }
     return null;
   }
 }
@@ -64,11 +64,11 @@ public class ThreadTest {
   public static void main(String[] args) throws InterruptedException {
     Shared shared = new Shared();
     // creates five tasks
-    Task r1 = new Task("task 1",shared);
-    Task r2 = new Task("task 2",shared);
-    Task r3 = new Task("task 3",shared);
-    Task r4 = new Task("task 4",shared);
-    Task r5 = new Task("task 5",shared);
+    Task r1 = new Task("task 1", shared);
+    Task r2 = new Task("task 2", shared);
+    Task r3 = new Task("task 3", shared);
+    Task r4 = new Task("task 4", shared);
+    Task r5 = new Task("task 5", shared);
 
     // creates a thread pool with MAX_T no. of
     // threads as the fixed pool size(Step 2)

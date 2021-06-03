@@ -28,7 +28,7 @@ public class ChunkClockMap {
     return this.map.get(chunkRange);
   }
 
-  public List<ChunkRange> getChunkRangeList(){
+  public List<ChunkRange> getChunkRangeList() {
     return new LinkedList<>(this.map.keySet());
   }
 

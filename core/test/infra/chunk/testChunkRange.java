@@ -51,5 +51,4 @@ public class testChunkRange {
 
     assert ChunkRange.getChunkRangeListAroundPoint(new Coordinates(0, 0), 2).size() == 25;
   }
-
 }

@@ -24,8 +24,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class testSingleClient {
@@ -261,10 +259,10 @@ public class testSingleClient {
     TimeUnit.SECONDS.sleep(1);
 
     Assert.assertEquals(
-            new HashSet<>(clientChunkClockMap.getChunkRangeList()),
-            new HashSet<>(
-                    serverChunkSubscriptionService.getUserChunkRangeSubscriptions(
-                            clientNetworkHandle.uuid)));
+        new HashSet<>(clientChunkClockMap.getChunkRangeList()),
+        new HashSet<>(
+            serverChunkSubscriptionService.getUserChunkRangeSubscriptions(
+                clientNetworkHandle.uuid)));
 
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
 
