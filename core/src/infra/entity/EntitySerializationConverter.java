@@ -53,7 +53,7 @@ public class EntitySerializationConverter {
     return new Coordinates(x, y);
   }
 
-  public void updateEntity(NetworkObjects.NetworkData networkData) {
+  public Entity updateEntity(NetworkObjects.NetworkData networkData) {
     Coordinates coordinates = null;
     UUID uuid = null;
     for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
@@ -66,6 +66,8 @@ public class EntitySerializationConverter {
     if (uuid != null) {
       Entity entity = this.gameStore.getEntity(uuid);
       entity.coordinates = coordinates;
+      return entity;
     }
+    return null;
   }
 }

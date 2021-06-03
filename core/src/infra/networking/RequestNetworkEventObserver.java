@@ -10,19 +10,18 @@ import java.util.UUID;
 public class RequestNetworkEventObserver implements StreamObserver<NetworkObjects.NetworkEvent> {
 
   public StreamObserver<NetworkObjects.NetworkEvent> responseObserver;
+  public UUID uuid;
   @Inject NetworkEventHandler networkEventHandler;
   @Inject ConnectionStore connectionStore;
   @Inject EventService eventService;
-  @Inject
-  EventFactory eventFactory;
-  public UUID uuid;
+  @Inject EventFactory eventFactory;
 
   @Override
   public synchronized void onNext(NetworkObjects.NetworkEvent networkEvent) {
     if (networkEvent.getEvent().equals("authentication")) {
       connectionStore.addConnection(UUID.fromString(networkEvent.getUser()), this);
       this.uuid = UUID.fromString(networkEvent.getUser());
-      System.out.println("authentication: "+this.uuid);
+      System.out.println("authentication: " + this.uuid);
     } else {
       networkEventHandler.handleNetworkEvent(networkEvent);
     }
@@ -30,13 +29,13 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
 
   @Override
   public void onError(Throwable throwable) {
-    System.out.println("onError: " +this.uuid+" " + throwable);
+    System.out.println("onError: " + this.uuid + " " + throwable);
     this.eventService.fireEvent(this.eventFactory.createDisconnectionEvent(this.uuid));
   }
 
   @Override
   public void onCompleted() {
-    System.out.println("onCompleted " +this.uuid);
+    System.out.println("onCompleted " + this.uuid);
     this.eventService.fireEvent(this.eventFactory.createDisconnectionEvent(this.uuid));
   }
 }

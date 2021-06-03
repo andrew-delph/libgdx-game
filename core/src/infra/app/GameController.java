@@ -80,8 +80,9 @@ public class GameController {
     return entity;
   }
 
-  public void triggerCreateEntity(Entity entity) {
+  public Entity triggerCreateEntity(Entity entity) {
     this.gameStore.addEntity(entity);
+    return entity;
   }
 
   public void moveEntity(UUID uuid, Coordinates coordinates) {

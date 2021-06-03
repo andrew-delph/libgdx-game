@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
+  public UUID uuid;
   @Inject ObserverFactory observerFactory;
   @Inject ConnectionStore connectionStore;
   private Server server;
@@ -17,10 +18,8 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Inject
   public ServerNetworkHandle() {
     this.uuid = UUID.randomUUID();
-    System.out.println("server: "+this.uuid.toString());
+    System.out.println("server: " + this.uuid.toString());
   }
-
-  public UUID uuid;
 
   public void start() throws IOException {
     System.out.println("server start");
@@ -34,7 +33,10 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     RequestNetworkEventObserver requestNetworkEventObserver = observerFactory.create();
     requestNetworkEventObserver.responseObserver = responseObserver;
     NetworkObjects.NetworkEvent authenticationEvent =
-            NetworkObjects.NetworkEvent.newBuilder().setEvent("authentication").setUser(this.uuid.toString()).build();
+        NetworkObjects.NetworkEvent.newBuilder()
+            .setEvent("authentication")
+            .setUser(this.uuid.toString())
+            .build();
     requestNetworkEventObserver.responseObserver.onNext(authenticationEvent);
     return requestNetworkEventObserver;
   }
@@ -47,6 +49,4 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
     connectionStore.getConnection(uuid).responseObserver.onNext(networkEvent);
   }
-
-
 }
