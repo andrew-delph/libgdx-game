@@ -18,6 +18,7 @@ public class ClientNetworkHandle {
   @Inject ObserverFactory observerFactory;
   private ManagedChannel channel;
   private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
+
   @Inject
   public ClientNetworkHandle() {
     this.uuid = UUID.randomUUID();

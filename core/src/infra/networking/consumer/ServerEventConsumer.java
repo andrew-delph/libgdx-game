@@ -82,13 +82,12 @@ public class ServerEventConsumer extends NetworkConsumer {
         UpdateEntityIncomingEvent.type,
         event -> {
           UpdateEntityIncomingEvent realEvent = (UpdateEntityIncomingEvent) event;
-          Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
-          gameController.moveEntity(entity.uuid, entity.coordinates);
+          Entity entity = entitySerializationConverter.updateEntity(realEvent.getData());
 
-          //            for (UUID uuid : chunkSubscriptionService.getSubscriptions(new
-          // ChunkRange(entity.coordinates))) {
-          //                serverNetworkHandle.send(uuid, realEvent.networkEvent);
-          //            }
+          for (UUID uuid :
+              chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
+            serverNetworkHandle.send(uuid, realEvent.networkEvent);
+          }
         });
     this.eventService.addListener(
         CreateEntityOutgoingEvent.type,
