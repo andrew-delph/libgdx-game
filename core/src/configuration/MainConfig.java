@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkSubscriptionService;
+import infra.common.ChunkClockMap;
 import infra.common.Clock;
 import infra.common.GameStore;
 import infra.common.events.EventService;
@@ -30,6 +31,7 @@ public abstract class MainConfig extends AbstractModule {
     bind(EventService.class).asEagerSingleton();
     bind(ConnectionStore.class).asEagerSingleton();
     bind(ChunkSubscriptionService.class).asEagerSingleton();
+    bind(ChunkClockMap.class).asEagerSingleton();
 
     install(new FactoryModuleBuilder().build(ChunkFactory.class));
 

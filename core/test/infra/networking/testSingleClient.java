@@ -9,6 +9,7 @@ import infra.app.GameController;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.chunk.ChunkSubscriptionService;
+import infra.common.ChunkClockMap;
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.entity.Entity;
@@ -56,14 +57,14 @@ public class testSingleClient {
 
   @After
   public void cleanup() {
-    try{
+    try {
       clientGame.stop();
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       serverGame.stop();
-    } catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -198,22 +199,15 @@ public class testSingleClient {
   @Test
   public void testClientSubscription() throws IOException, InterruptedException {
 
-    EventFactory clientEventFactory = clientInjector.getInstance(EventFactory.class);
+    ChunkClockMap clientChunkClockMap = clientInjector.getInstance(ChunkClockMap.class);
 
     ChunkSubscriptionService serverChunkSubscriptionService =
         serverInjector.getInstance(ChunkSubscriptionService.class);
 
-    List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
-    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
-
-    clientNetworkHandle.send(
-        clientEventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
-
     TimeUnit.SECONDS.sleep(1);
 
     Assert.assertEquals(
-        new HashSet<>(chunkRangeList),
+        new HashSet<>(clientChunkClockMap.getChunkRangeList()),
         new HashSet<>(
             serverChunkSubscriptionService.getUserChunkRangeSubscriptions(
                 clientNetworkHandle.uuid)));
@@ -224,28 +218,19 @@ public class testSingleClient {
 
     GameController serverGameController = serverInjector.getInstance(GameController.class);
 
-    EventFactory clientEventFactory = clientInjector.getInstance(EventFactory.class);
-    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
-    ChunkFactory serverChunkFactory = serverInjector.getInstance(ChunkFactory.class);
+    ChunkClockMap clientChunkClockMap = clientInjector.getInstance(ChunkClockMap.class);
 
     ChunkSubscriptionService serverChunkSubscriptionService =
         serverInjector.getInstance(ChunkSubscriptionService.class);
 
-    List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
-    serverGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
-
-    clientGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
-
-    clientNetworkHandle.send(
-        clientEventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
-
     TimeUnit.SECONDS.sleep(1);
 
     Assert.assertEquals(
-        chunkRangeList,
-        serverChunkSubscriptionService.getUserChunkRangeSubscriptions(clientNetworkHandle.uuid));
+        new HashSet<>(clientChunkClockMap.getChunkRangeList()),
+        new HashSet<>(
+            serverChunkSubscriptionService.getUserChunkRangeSubscriptions(
+                clientNetworkHandle.uuid)));
 
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
 
@@ -268,23 +253,18 @@ public class testSingleClient {
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     ChunkFactory serverChunkFactory = serverInjector.getInstance(ChunkFactory.class);
 
+    ChunkClockMap clientChunkClockMap = clientInjector.getInstance(ChunkClockMap.class);
+
     ChunkSubscriptionService serverChunkSubscriptionService =
         serverInjector.getInstance(ChunkSubscriptionService.class);
-
-    List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
-    serverGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
-
-    clientGameStore.addChunk(serverChunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
-
-    clientNetworkHandle.send(
-        clientEventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
     TimeUnit.SECONDS.sleep(1);
 
     Assert.assertEquals(
-        chunkRangeList,
-        serverChunkSubscriptionService.getUserChunkRangeSubscriptions(clientNetworkHandle.uuid));
+            new HashSet<>(clientChunkClockMap.getChunkRangeList()),
+            new HashSet<>(
+                    serverChunkSubscriptionService.getUserChunkRangeSubscriptions(
+                            clientNetworkHandle.uuid)));
 
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
 
@@ -323,9 +303,9 @@ public class testSingleClient {
 
     assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-            .getEntity(clientEntity.uuid)
-            .coordinates
-            .equals(clientEntity.coordinates);
+        .getEntity(clientEntity.uuid)
+        .coordinates
+        .equals(clientEntity.coordinates);
 
     this.clientNetworkHandle.close();
 

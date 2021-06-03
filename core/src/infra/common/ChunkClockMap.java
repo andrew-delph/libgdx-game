@@ -1,8 +1,10 @@
 package infra.common;
 
+import com.google.inject.Inject;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkRange;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -13,6 +15,7 @@ public class ChunkClockMap {
 
   Map<ChunkRange, Chunk> map;
 
+  @Inject
   ChunkClockMap() {
     this.map = new ConcurrentHashMap<>();
   }
@@ -23,6 +26,10 @@ public class ChunkClockMap {
 
   Chunk get(ChunkRange chunkRange) {
     return this.map.get(chunkRange);
+  }
+
+  public List<ChunkRange> getChunkRangeList(){
+    return new LinkedList<>(this.map.keySet());
   }
 
   List<Callable<Chunk>> getChunksOnTick(Tick tick) {
