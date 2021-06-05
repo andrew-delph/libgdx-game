@@ -5,8 +5,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.google.inject.Inject;
+import infra.chunk.Chunk;
 import infra.chunk.ChunkFactory;
+import infra.chunk.ChunkRange;
+import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.render.BaseAssetManager;
 import infra.common.render.BaseCamera;
@@ -44,6 +48,7 @@ public class GameScreen extends ApplicationAdapter {
 
   @Inject EntityControllerFactory entityControllerFactory;
 
+  Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
 
   @Override
@@ -59,6 +64,7 @@ public class GameScreen extends ApplicationAdapter {
     myEntity = gameController.createEntity(entityFactory.createEntity());
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     chunkGenerationManager.registerActiveEntity(myEntity, null);
+    debugRenderer = new Box2DDebugRenderer();
   }
 
   @Override
@@ -104,6 +110,9 @@ public class GameScreen extends ApplicationAdapter {
       }
     }
     batch.end();
+    Chunk mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
+    debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
+    debugRenderer.render(mainChunk.world, debugMatrix);
   }
 
   @Override

@@ -19,7 +19,7 @@ public class Chunk implements Callable<Chunk> {
   public Tick updateTick;
   GameStore gameStore;
   Clock clock;
-  World world;
+  public World world;
   Map<UUID, Entity> chunkMap;
   Set<UUID> bodySet;
 
