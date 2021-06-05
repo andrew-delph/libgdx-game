@@ -41,7 +41,7 @@ public class Entity {
     this.entityController = new EntityController(this);
   }
 
-  public BodyDef getBodyDef(){
+  public BodyDef getBodyDef() {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(this.coordinates.getXReal(), this.coordinates.getYReal());
@@ -59,6 +59,8 @@ public class Entity {
         this.coordinates.getXReal() * coordinatesScale,
         this.coordinates.getYReal() * coordinatesScale);
   }
+
+  public void syncPosition() {}
 
   public synchronized void setZindex(int zindex) {
     this.zindex = zindex;
