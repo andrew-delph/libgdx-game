@@ -9,5 +9,7 @@ public class EntityController {
     this.entity = entity;
   }
 
-  public void update() {}
+  public void beforeWorldUpdate() {}
+
+  public void afterWorldUpdate() {}
 }

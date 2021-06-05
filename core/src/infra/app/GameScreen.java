@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 import infra.chunk.ChunkFactory;
+import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.render.BaseAssetManager;
 import infra.common.render.BaseCamera;
@@ -87,8 +88,13 @@ public class GameScreen extends ApplicationAdapter {
     }
     for (Entity entity : renderList) {
       // render entity
-      entity.renderSync();
-      entity.sprite.draw(batch);
+      try{
+        entity.renderSync();
+        entity.sprite.draw(batch);
+      }catch (Exception e){
+        e.printStackTrace();
+      }
+
     }
     batch.end();
   }

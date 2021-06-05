@@ -1,6 +1,5 @@
 package infra.chunk;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -76,7 +75,7 @@ public class Chunk implements Callable<Chunk> {
     int tickTimeout = Integer.MAX_VALUE;
     for (Entity entity : this.chunkMap.values()) {
 
-      entity.entityController.update();
+      entity.entityController.beforeWorldUpdate();
       this.gameStore.syncEntity(entity);
 
       if (!(new ChunkRange(entity.coordinates).equals(this.chunkRange))) {
@@ -90,6 +89,10 @@ public class Chunk implements Callable<Chunk> {
       }
     }
     world.step(1, 6, 2);
+
+    for (Entity entity : this.chunkMap.values()) {
+      entity.entityController.afterWorldUpdate();
+    }
     this.nextTick(1);
   }
 }
