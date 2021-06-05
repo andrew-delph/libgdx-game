@@ -1,7 +1,6 @@
 package infra.chunk;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -9,12 +8,8 @@ import infra.common.Clock;
 import infra.common.GameStore;
 import infra.common.Tick;
 import infra.entity.Entity;
-import infra.entity.EntityFactory;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,8 +21,7 @@ public class Chunk implements Callable<Chunk> {
   Clock clock;
   World world;
   Map<UUID, Entity> chunkMap;
-
-  @Inject EntityFactory entityFactory;
+  Set<UUID> bodySet;
 
   @Inject
   public Chunk(Clock clock, GameStore gameStore, @Assisted ChunkRange chunkRange) {
@@ -36,6 +30,7 @@ public class Chunk implements Callable<Chunk> {
     this.chunkRange = chunkRange;
     this.chunkMap = new ConcurrentHashMap();
     this.nextTick(1);
+    this.bodySet = new HashSet<>();
     world = new World(new Vector2(0, -98f), true);
   }
 
@@ -53,10 +48,12 @@ public class Chunk implements Callable<Chunk> {
     return this;
   }
 
-  public void addEntity(Entity entity) {
+  public synchronized void addEntity(Entity entity) {
     this.chunkMap.put(entity.uuid, entity);
-    Body entityBody = this.world.createBody(entity.getBodyDef());
-    entity.setBody(entityBody);
+    if (!bodySet.contains(entity.uuid)) {
+      entity.addWorld(world);
+      bodySet.add(entity.uuid);
+    }
   }
 
   public Entity getEntity(UUID uuid) {
@@ -71,7 +68,7 @@ public class Chunk implements Callable<Chunk> {
     this.chunkMap.remove(uuid);
   }
 
-  void update() {
+  synchronized void update() {
     int tickTimeout = Integer.MAX_VALUE;
     for (Entity entity : this.chunkMap.values()) {
 

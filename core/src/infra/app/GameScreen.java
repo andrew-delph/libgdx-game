@@ -4,9 +4,9 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.google.inject.Inject;
 import infra.chunk.ChunkFactory;
-import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.render.BaseAssetManager;
 import infra.common.render.BaseCamera;
@@ -44,6 +44,8 @@ public class GameScreen extends ApplicationAdapter {
 
   @Inject EntityControllerFactory entityControllerFactory;
 
+  Matrix4 debugMatrix;
+
   @Override
   public void create() {
     baseAssetManager.init();
@@ -61,6 +63,12 @@ public class GameScreen extends ApplicationAdapter {
 
   @Override
   public void render() {
+
+    debugMatrix =
+        batch
+            .getProjectionMatrix()
+            .cpy()
+            .scale(Entity.coordinatesScale, Entity.coordinatesScale, 0);
 
     baseCamera.position.set(
         myEntity.coordinates.getXReal() * myEntity.coordinatesScale,
@@ -88,13 +96,12 @@ public class GameScreen extends ApplicationAdapter {
     }
     for (Entity entity : renderList) {
       // render entity
-      try{
+      try {
         entity.renderSync();
         entity.sprite.draw(batch);
-      }catch (Exception e){
+      } catch (Exception e) {
         e.printStackTrace();
       }
-
     }
     batch.end();
   }

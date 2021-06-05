@@ -108,11 +108,11 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
           sprite.getScaleX(),
           sprite.getScaleY(),
           sprite.getRotation());
-//    font.draw(
-//        batch,
-//        "Restitution: " + body.getFixtureList().first().getRestitution(),
-//        -Gdx.graphics.getWidth() / 2,
-//        Gdx.graphics.getHeight() / 2);
+    //    font.draw(
+    //        batch,
+    //        "Restitution: " + body.getFixtureList().first().getRestitution(),
+    //        -Gdx.graphics.getWidth() / 2,
+    //        Gdx.graphics.getHeight() / 2);
     batch.end();
     debugRenderer.render(world, debugMatrix);
   }

@@ -2,8 +2,7 @@ package infra.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.*;
 import com.google.inject.Inject;
 import infra.common.Clock;
 import infra.common.Coordinates;
@@ -41,11 +40,20 @@ public class Entity {
     this.entityController = new EntityController(this);
   }
 
-  public BodyDef getBodyDef() {
+  public synchronized void addWorld(World world) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(this.coordinates.getXReal(), this.coordinates.getYReal());
-    return bodyDef;
+
+    body = world.createBody(bodyDef);
+
+    PolygonShape shape = new PolygonShape();
+    shape.setAsBox(sprite.getWidth(), sprite.getHeight());
+    FixtureDef fixtureDef = new FixtureDef();
+    fixtureDef.shape = shape;
+    fixtureDef.density = 0.1f;
+    fixtureDef.restitution = 0.5f;
+    body.createFixture(fixtureDef);
   }
 
   public synchronized void setController(EntityController entityController) {
