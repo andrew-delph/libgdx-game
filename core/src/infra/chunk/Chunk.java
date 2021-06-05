@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import infra.common.Clock;
+import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.Tick;
 import infra.entity.Entity;
@@ -31,7 +32,7 @@ public class Chunk implements Callable<Chunk> {
     this.chunkMap = new ConcurrentHashMap();
     this.nextTick(1);
     this.bodySet = new HashSet<>();
-    world = new World(new Vector2(0, -98f), true);
+    world = new World(new Vector2(0, -1f), true);
   }
 
   void nextTick(int timeout) {
@@ -50,10 +51,18 @@ public class Chunk implements Callable<Chunk> {
 
   public synchronized void addEntity(Entity entity) {
     this.chunkMap.put(entity.uuid, entity);
-    if (!bodySet.contains(entity.uuid)) {
-      entity.addWorld(world);
-      bodySet.add(entity.uuid);
-    }
+    entity.addWorld(world);
+
+//    if (!bodySet.contains(entity.uuid)) {
+//      //    System.out.println(">>>"+entity.uuid+",,,"+entity.coordinates);
+//      if (new ChunkRange(entity.coordinates).equals(new ChunkRange(new Coordinates(0, 0)))) {
+//        System.out.println(">>>" + entity.coordinates);
+//        System.out.println(world);
+//      }
+//      entity.addWorld(world);
+//
+//      bodySet.add(entity.uuid);
+//    }
   }
 
   public Entity getEntity(UUID uuid) {

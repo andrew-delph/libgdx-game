@@ -41,19 +41,42 @@ public class Entity {
   }
 
   public synchronized void addWorld(World world) {
-    BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyDef.BodyType.StaticBody;
-    bodyDef.position.set(this.coordinates.getXReal(), this.coordinates.getYReal());
+    try{
+      System.out.println("add world");
+      BodyDef bodyDef = new BodyDef();
+      System.out.println(1);
+      bodyDef.type = BodyDef.BodyType.StaticBody;
+      System.out.println(2);
+      bodyDef.position.set(this.coordinates.getXReal(), this.coordinates.getYReal());
 
-    body = world.createBody(bodyDef);
+      System.out.println(3);
 
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox(this.coordinatesScale, this.coordinatesScale);
-    FixtureDef fixtureDef = new FixtureDef();
-    fixtureDef.shape = shape;
-    fixtureDef.density = 0.1f;
-    fixtureDef.restitution = 0.5f;
-    body.createFixture(fixtureDef);
+      int before = world.getBodyCount();
+      System.out.println(4);
+      body = world.createBody(bodyDef);
+
+      System.out.println(5);
+
+      System.out.println("difference: "+(world.getBodyCount()-before));
+
+      PolygonShape shape = new PolygonShape();
+
+      System.out.println(6);
+      shape.setAsBox(this.coordinatesScale, this.coordinatesScale);
+      System.out.println(7);
+      FixtureDef fixtureDef = new FixtureDef();
+      fixtureDef.shape = shape;
+      fixtureDef.density = 0.1f;
+      fixtureDef.restitution = 0.5f;
+      System.out.println(8);
+      body.createFixture(fixtureDef);
+      System.out.println(9);
+      System.out.println("done");
+    }catch (Exception e){
+      e.printStackTrace();
+    }finally{
+      System.out.println("olay");
+    }
   }
 
   public synchronized void setController(EntityController entityController) {

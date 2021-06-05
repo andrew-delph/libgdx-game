@@ -60,7 +60,7 @@ public class ChunkGenerationManager {
 
     List<ChunkRange> surroundingChunkRangeList =
         ChunkRange.getChunkRangeListAroundPoint(
-            new Coordinates(chunkRangeRoot.bottom_x, chunkRangeRoot.bottom_y), 3);
+            new Coordinates(chunkRangeRoot.bottom_x, chunkRangeRoot.bottom_y), 1);
 
     List<Callable<Chunk>> chunkBuilderList = new LinkedList<>();
 

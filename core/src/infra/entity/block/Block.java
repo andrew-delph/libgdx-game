@@ -15,10 +15,11 @@ public class Block extends Entity {
   }
 
   public synchronized void addWorld(World world) {
+    System.out.println("addWorld");
     System.out.println(world.getBodyCount());
-    System.out.println(new ChunkRange(this.coordinates)+","+world);
+//    System.out.println(new ChunkRange(this.coordinates)+","+world);
     BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyDef.BodyType.StaticBody;
+    bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(
         this.coordinates.getXReal() * Entity.coordinatesScale,
         this.coordinates.getYReal() * Entity.coordinatesScale);
