@@ -42,13 +42,13 @@ public class Entity {
 
   public synchronized void addWorld(World world) {
     BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyDef.BodyType.DynamicBody;
+    bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(this.coordinates.getXReal(), this.coordinates.getYReal());
 
     body = world.createBody(bodyDef);
 
     PolygonShape shape = new PolygonShape();
-    shape.setAsBox(sprite.getWidth(), sprite.getHeight());
+    shape.setAsBox(this.coordinatesScale, this.coordinatesScale);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
     fixtureDef.density = 0.1f;

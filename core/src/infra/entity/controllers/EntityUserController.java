@@ -46,11 +46,11 @@ public class EntityUserController extends EntityController {
   @Override
   public void afterWorldUpdate() {
     //    System.out.println("here" + this.entity.body.getPosition());
-    System.out.println(
-        "..."
-            + new Coordinates(
-                this.entity.body.getPosition().x / Entity.coordinatesScale,
-                this.entity.body.getPosition().y / Entity.coordinatesScale));
+//    System.out.println(
+//        "..."
+//            + new Coordinates(
+//                this.entity.body.getPosition().x / Entity.coordinatesScale,
+//                this.entity.body.getPosition().y / Entity.coordinatesScale));
 
     gameController.moveEntity(
         this.entity.uuid,

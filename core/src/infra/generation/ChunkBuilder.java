@@ -42,10 +42,9 @@ public class ChunkBuilder implements Callable<Chunk> {
       } else {
         chunk = this.gameStore.getChunk(this.chunkRange);
       }
-      for (int i = chunkRange.bottom_x + 3; i < chunkRange.top_x - 1; i++) {
-        for (int j = chunkRange.bottom_y + 3; j < chunkRange.top_y; j++) {
+      for (int i = chunkRange.bottom_x; i < chunkRange.top_x; i++) {
+        for (int j = chunkRange.bottom_y; j < chunkRange.top_y; j++) {
           Entity block = blockGenerator.generate(new Coordinates(i, j));
-          //          this.gameStore.addEntity(block);
           gameController.createEntity(block);
         }
       }
