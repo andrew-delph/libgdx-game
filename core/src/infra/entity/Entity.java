@@ -3,6 +3,7 @@ package infra.entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.google.inject.Inject;
 import infra.common.Clock;
 import infra.common.Coordinates;
@@ -26,6 +27,10 @@ public class Entity {
 
   @Inject BaseAssetManager baseAssetManager;
 
+  public void setBody(Body body) {
+    this.body = body;
+  }
+
   @Inject
   public Entity() {
     this.sprite = new Sprite();
@@ -34,6 +39,13 @@ public class Entity {
     this.coordinates = new Coordinates(0, 0);
     this.uuid = UUID.randomUUID();
     this.entityController = new EntityController(this);
+  }
+
+  public BodyDef getBodyDef(){
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyDef.BodyType.DynamicBody;
+    bodyDef.position.set(this.coordinates.getXReal(), this.coordinates.getYReal());
+    return bodyDef;
   }
 
   public synchronized void setController(EntityController entityController) {

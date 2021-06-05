@@ -60,6 +60,7 @@ public class GameStore {
   }
 
   public void syncEntity(Entity entity) {
+    this.removeEntity(entity.uuid);
     this.addEntity(entity);
   }
 

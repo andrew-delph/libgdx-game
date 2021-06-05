@@ -1,5 +1,8 @@
 package infra.chunk;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -34,6 +37,7 @@ public class Chunk implements Callable<Chunk> {
     this.chunkRange = chunkRange;
     this.chunkMap = new ConcurrentHashMap();
     this.nextTick(1);
+    world = new World(new Vector2(0, -98f), true);
   }
 
   void nextTick(int timeout) {
@@ -52,6 +56,8 @@ public class Chunk implements Callable<Chunk> {
 
   public void addEntity(Entity entity) {
     this.chunkMap.put(entity.uuid, entity);
+    Body entityBody = this.world.createBody(entity.getBodyDef());
+    entity.setBody(entityBody);
   }
 
   public Entity getEntity(UUID uuid) {
@@ -83,6 +89,7 @@ public class Chunk implements Callable<Chunk> {
         tickTimeout = entityTick;
       }
     }
+    world.step(1, 6, 2);
     this.nextTick(1);
   }
 }
