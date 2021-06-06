@@ -1,7 +1,9 @@
 package infra.chunk;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import infra.common.Clock;
@@ -59,7 +61,6 @@ public class Chunk implements Callable<Chunk> {
         //        System.out.println(world);
       }
       entity.addWorld(world);
-
       bodySet.add(entity.uuid);
     }
   }
@@ -73,7 +74,25 @@ public class Chunk implements Callable<Chunk> {
   }
 
   public void removeEntity(UUID uuid) {
+    Entity entity = this.getEntity(uuid);
     this.chunkMap.remove(uuid);
+    if (bodySet.contains(entity.uuid)) {
+      System.out.println(">>" + entity.body);
+      Array<Body> bodies = new Array<Body>();
+      world.getBodies(bodies);
+
+      System.out.println(world.getBodyCount());
+
+      for (Body body : bodies.iterator()) {
+        System.out.println(body + "," + body.getPosition());
+        if (entity.body.equals(body)) {
+          System.out.println("OMG HERE");
+        }
+      }
+
+      System.out.println();
+      this.world.destroyBody(entity.body);
+    }
   }
 
   synchronized void update() {

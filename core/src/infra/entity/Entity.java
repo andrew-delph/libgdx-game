@@ -47,8 +47,8 @@ public class Entity {
         this.coordinates.getXReal() * coordinatesScale,
         this.coordinates.getYReal() * coordinatesScale);
 
-    int before = world.getBodyCount();
     body = world.createBody(bodyDef);
+    System.out.println("crete body:" + body);
 
     PolygonShape shape = new PolygonShape();
 
@@ -58,6 +58,7 @@ public class Entity {
     fixtureDef.density = 0.1f;
     fixtureDef.restitution = 0.5f;
     body.createFixture(fixtureDef);
+    System.out.println("crete body 2:" + body);
   }
 
   public synchronized void setController(EntityController entityController) {

@@ -14,7 +14,6 @@ public class Block extends Entity {
   }
 
   public void addWorld(World world) {
-
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
@@ -24,7 +23,7 @@ public class Block extends Entity {
     body = world.createBody(bodyDef);
 
     PolygonShape shape = new PolygonShape();
-    shape.setAsBox(Entity.coordinatesScale / 2, Entity.coordinatesScale / 2);
+    shape.setAsBox(Entity.coordinatesScale / 2.0f, Entity.coordinatesScale / 2.0f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
     fixtureDef.density = 0.1f;

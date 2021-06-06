@@ -61,7 +61,7 @@ public class GameStore {
 
   public void syncEntity(Entity entity) {
     //    this.removeEntity(entity.uuid);
-//    this.addEntity(entity);
+    this.addEntity(entity);
   }
 
   public List<Entity> getEntityListInRange(int x1, int y1, int x2, int y2) {

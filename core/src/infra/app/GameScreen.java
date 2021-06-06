@@ -20,7 +20,9 @@ import infra.entity.controllers.EntityControllerFactory;
 import infra.generation.ChunkGenerationManager;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameScreen extends ApplicationAdapter {
 
@@ -88,28 +90,27 @@ public class GameScreen extends ApplicationAdapter {
 
     List<Entity> renderList = game.getEntityListInRange(0, 0, 100, 100);
 
-    //    try {
-    //      renderList =
-    //          renderList.stream()
-    //              .sorted(Comparator.comparingInt(entity -> entity.zindex))
-    //              .collect(Collectors.toList());
-    //    } catch (Exception e) {
-    //      System.out.println(e);
-    //    }
-    //    for (Entity entity : renderList) {
-    //      // render entity
-    //      try {
-    //        entity.renderSync();
-    //        entity.sprite.draw(batch);
-    //      } catch (Exception e) {
-    //        e.printStackTrace();
-    //      }
-    //    }
+    try {
+      renderList =
+          renderList.stream()
+              .sorted(Comparator.comparingInt(entity -> entity.zindex))
+              .collect(Collectors.toList());
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    for (Entity entity : renderList) {
+      // render entity
+      try {
+        entity.renderSync();
+        entity.sprite.draw(batch);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
     batch.end();
     Chunk mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
     debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
     debugRenderer.render(mainChunk.world, debugMatrix);
-    //    System.out.println(mainChunk.world.getBodyCount());
   }
 
   @Override

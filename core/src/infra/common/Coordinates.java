@@ -56,6 +56,6 @@ public class Coordinates {
   }
 
   public String toString() {
-    return this.getX() + "," + this.getY();
+    return this.getXReal() + "," + this.getYReal();
   }
 }
