@@ -9,5 +9,5 @@ public class SkyBlock extends Block {
   }
 
   @Override
-  public synchronized void addWorld(World world) {}
+  public void addWorld(World world) {}
 }

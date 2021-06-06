@@ -51,18 +51,17 @@ public class Chunk implements Callable<Chunk> {
 
   public synchronized void addEntity(Entity entity) {
     this.chunkMap.put(entity.uuid, entity);
-    entity.addWorld(world);
 
-//    if (!bodySet.contains(entity.uuid)) {
-//      //    System.out.println(">>>"+entity.uuid+",,,"+entity.coordinates);
-//      if (new ChunkRange(entity.coordinates).equals(new ChunkRange(new Coordinates(0, 0)))) {
-//        System.out.println(">>>" + entity.coordinates);
-//        System.out.println(world);
-//      }
-//      entity.addWorld(world);
-//
-//      bodySet.add(entity.uuid);
-//    }
+    if (!bodySet.contains(entity.uuid)) {
+      //    System.out.println(">>>"+entity.uuid+",,,"+entity.coordinates);
+      if (new ChunkRange(entity.coordinates).equals(new ChunkRange(new Coordinates(0, 0)))) {
+        //        System.out.println(">>>" + entity.coordinates);
+        //        System.out.println(world);
+      }
+      entity.addWorld(world);
+
+      bodySet.add(entity.uuid);
+    }
   }
 
   public Entity getEntity(UUID uuid) {
