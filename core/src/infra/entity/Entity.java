@@ -41,30 +41,23 @@ public class Entity {
   }
 
   public synchronized void addWorld(World world) {
-    try {
-      System.out.println("add world" + this.coordinates);
-      BodyDef bodyDef = new BodyDef();
-      bodyDef.type = BodyDef.BodyType.DynamicBody;
-      bodyDef.position.set(
-          this.coordinates.getXReal() * coordinatesScale,
-          this.coordinates.getYReal() * coordinatesScale);
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyDef.BodyType.DynamicBody;
+    bodyDef.position.set(
+        this.coordinates.getXReal() * coordinatesScale,
+        this.coordinates.getYReal() * coordinatesScale);
 
-      int before = world.getBodyCount();
-      body = world.createBody(bodyDef);
+    int before = world.getBodyCount();
+    body = world.createBody(bodyDef);
 
-      PolygonShape shape = new PolygonShape();
+    PolygonShape shape = new PolygonShape();
 
-      shape.setAsBox(this.coordinatesScale / 2, this.coordinatesScale / 2);
-      FixtureDef fixtureDef = new FixtureDef();
-      fixtureDef.shape = shape;
-      fixtureDef.density = 0.1f;
-      fixtureDef.restitution = 0.5f;
-      body.createFixture(fixtureDef);
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      System.out.println("olay");
-    }
+    shape.setAsBox(this.coordinatesScale / 2, this.coordinatesScale / 2);
+    FixtureDef fixtureDef = new FixtureDef();
+    fixtureDef.shape = shape;
+    fixtureDef.density = 0.1f;
+    fixtureDef.restitution = 0.5f;
+    body.createFixture(fixtureDef);
   }
 
   public synchronized void setController(EntityController entityController) {
