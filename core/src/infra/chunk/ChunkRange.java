@@ -75,13 +75,13 @@ public class ChunkRange {
   }
 
   private void fromCoordinates(Coordinates coordinates) {
-    if (coordinates.getX() < 0) {
+    if (coordinates.getXReal() < 0) {
       this.bottom_x = ((((coordinates.getX() + 1) / size)) * size) - size;
     } else {
       this.bottom_x = ((coordinates.getX() / size)) * size;
     }
 
-    if (coordinates.getY() < 0) {
+    if (coordinates.getYReal() < 0) {
       this.bottom_y = ((((coordinates.getY() + 1) / size)) * size) - size;
     } else {
       this.bottom_y = ((coordinates.getY() / size)) * size;

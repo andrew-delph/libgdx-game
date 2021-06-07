@@ -20,7 +20,7 @@ public class Entity {
   public EntityController entityController;
   public Animation animation;
   public Sprite sprite;
-  private Body body;
+  public Body body;
 
   public Body getBody() {
 //    System.out.println("getBody");
@@ -35,6 +35,8 @@ public class Entity {
   public Coordinates coordinates;
   @Inject public Clock clock;
   public int zindex = 1;
+  public int width = (int) (coordinatesScale);
+  public int height = (int) (coordinatesScale);
   public String textureName = "frog.png";
 
   @Inject BaseAssetManager baseAssetManager;
@@ -44,7 +46,7 @@ public class Entity {
   public Entity() {
     this.sprite = new Sprite();
     this.sprite.setPosition(0, 0);
-    this.sprite.setSize(50, 50);
+    this.sprite.setSize(width, height);
     this.coordinates = new Coordinates(0, 3);
     this.uuid = UUID.randomUUID();
     this.entityController = new EntityController(this);
@@ -61,12 +63,14 @@ public class Entity {
 
     PolygonShape shape = new PolygonShape();
 
-    shape.setAsBox(coordinatesScale / 2.0f, coordinatesScale / 2f);
+    shape.setAsBox(coordinatesScale / 2f, coordinatesScale / 2f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
     fixtureDef.density = 0.1f;
     fixtureDef.restitution = 0.5f;
     body.createFixture(fixtureDef);
+
+    body.setFixedRotation(true);
   }
 
   public synchronized void setController(EntityController entityController) {
@@ -75,7 +79,7 @@ public class Entity {
 
   public synchronized void renderSync() {
     this.sprite = new Sprite((Texture) baseAssetManager.get(this.textureName));
-    this.sprite.setSize(this.coordinatesScale, this.coordinatesScale);
+    this.sprite.setSize(width, height);
     this.sprite.setPosition(
         this.coordinates.getXReal() * coordinatesScale,
         this.coordinates.getYReal() * coordinatesScale);

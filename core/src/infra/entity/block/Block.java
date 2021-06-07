@@ -1,16 +1,24 @@
 package infra.entity.block;
 
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import infra.entity.Entity;
 
 public class Block extends Entity {
+
   public Block() {
     super();
     this.textureName = "badlogic.jpg";
     this.zindex = 0;
+  }
+
+  @Override
+  public Body getBody() {
+    return this.body;
+  }
+
+  @Override
+  public void setBody(Body body) {
+    this.body = body;
   }
 
   public void addWorld(World world) {

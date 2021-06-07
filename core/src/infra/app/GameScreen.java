@@ -22,6 +22,7 @@ import infra.generation.ChunkGenerationManager;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class GameScreen extends ApplicationAdapter {
@@ -61,8 +62,13 @@ public class GameScreen extends ApplicationAdapter {
       e.printStackTrace();
     }
     batch = new SpriteBatch();
+    try {
+      TimeUnit.SECONDS.sleep(5);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     myEntity = entityFactory.createEntity();
-    myEntity.coordinates = new Coordinates(0, 3);
+    myEntity.coordinates = new Coordinates(1, 3);
     myEntity = gameController.createEntity(myEntity);
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     chunkGenerationManager.registerActiveEntity(myEntity, null);
@@ -107,7 +113,7 @@ public class GameScreen extends ApplicationAdapter {
         e.printStackTrace();
       }
     }
-    System.out.println(new ChunkRange(myEntity.coordinates)+"; "+myEntity.coordinates.getXReal()+"; "+myEntity.coordinates.getX());
+//    System.out.println(new ChunkRange(myEntity.coordinates)+"; "+myEntity.coordinates.getXReal()+"; "+myEntity.coordinates.getX());
     batch.end();
     Chunk mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
     debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);

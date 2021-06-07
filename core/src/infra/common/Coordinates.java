@@ -58,4 +58,5 @@ public class Coordinates {
   public String toString() {
     return this.getXReal() + "," + this.getYReal();
   }
+
 }

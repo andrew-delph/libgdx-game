@@ -62,8 +62,6 @@ public class Chunk implements Callable<Chunk> {
       }
       entity.addWorld(world);
       bodySet.add(entity.uuid);
-    }else{
-      System.out.println("NOT ADDING"+this.chunkRange);
     }
   }
 
@@ -79,8 +77,9 @@ public class Chunk implements Callable<Chunk> {
     Entity entity = this.getEntity(uuid);
     this.chunkMap.remove(uuid);
     if (bodySet.contains(entity.uuid)) {
-      System.out.println("destroy body:"+entity.uuid);
+      System.out.println("destroy body:"+entity.uuid+" ,"+entity.coordinates+" ,"+entity.coordinates.getX()+","+entity.coordinates.getY()+", "+new ChunkRange(entity.coordinates));
       this.world.destroyBody(entity.getBody());
+      bodySet.remove(entity.uuid);
     }
   }
 

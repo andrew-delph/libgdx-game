@@ -51,4 +51,13 @@ public class testChunkRange {
 
     assert ChunkRange.getChunkRangeListAroundPoint(new Coordinates(0, 0), 2).size() == 25;
   }
+
+  @Test
+  public void testGetChunkRangeNegativeFloat() {
+
+    ChunkRange chunkRange = new ChunkRange(new Coordinates(-0.1f,0));
+
+    assert !chunkRange.equals(new ChunkRange(new Coordinates(0,0)));
+
+  }
 }

@@ -61,7 +61,7 @@ public class GameStore {
 
   public void syncEntity(Entity entity) {
     if(!entityMap.get(entity.uuid).equals(new ChunkRange(entity.coordinates))){
-      System.out.println("syncing");
+      System.out.println("syncing "+(new ChunkRange(entity.coordinates))+" "+entity.coordinates+" "+entity.coordinates.getX());
       this.removeEntity(entity.uuid);
       this.addEntity(entity);
     }
