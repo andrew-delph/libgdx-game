@@ -26,8 +26,8 @@ public class GameStore {
   }
 
   public void removeEntity(UUID uuid) {
-    Entity entity = this.getEntity(uuid);
-    this.chunkClockMap.get(new ChunkRange(entity.coordinates)).removeEntity(uuid);
+//    Entity entity = this.getEntity(uuid);
+    this.chunkClockMap.get(this.entityMap.get(uuid)).removeEntity(uuid);
     this.entityMap.remove(uuid);
   }
 
@@ -60,8 +60,11 @@ public class GameStore {
   }
 
   public void syncEntity(Entity entity) {
-    //    this.removeEntity(entity.uuid);
-    this.addEntity(entity);
+    if(!entityMap.get(entity.uuid).equals(new ChunkRange(entity.coordinates))){
+      System.out.println("syncing");
+      this.removeEntity(entity.uuid);
+      this.addEntity(entity);
+    }
   }
 
   public List<Entity> getEntityListInRange(int x1, int y1, int x2, int y2) {

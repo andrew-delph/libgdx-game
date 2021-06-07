@@ -15,16 +15,18 @@ public class EntityUserController extends EntityController {
   @Inject
   public EntityUserController(@Assisted Entity entity) {
     super(entity);
+    System.out.println("aaa"+this.entity.getBody());
   }
 
   @Override
   public void beforeWorldUpdate() {
+//    System.out.println("before"+this.entity.getBody());
     if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-      this.entity.body.setLinearVelocity(-1f, 0f);
+      this.entity.getBody().setLinearVelocity(-1f, 0f);
     }
 
     if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      this.entity.body.setLinearVelocity(1f, 0f);
+      this.entity.getBody().setLinearVelocity(1f, 0f);
     }
 
     if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {}
@@ -44,7 +46,7 @@ public class EntityUserController extends EntityController {
     gameController.moveEntity(
         this.entity.uuid,
         new Coordinates(
-            this.entity.body.getPosition().x / Entity.coordinatesScale,
-            this.entity.body.getPosition().y / Entity.coordinatesScale));
+            this.entity.getBody().getPosition().x / Entity.coordinatesScale,
+            this.entity.getBody().getPosition().y / Entity.coordinatesScale));
   }
 }

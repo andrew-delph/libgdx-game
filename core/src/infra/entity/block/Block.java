@@ -20,7 +20,7 @@ public class Block extends Entity {
         this.coordinates.getXReal() * Entity.coordinatesScale,
         this.coordinates.getYReal() * Entity.coordinatesScale);
 
-    body = world.createBody(bodyDef);
+    this.setBody(world.createBody(bodyDef));
 
     PolygonShape shape = new PolygonShape();
     shape.setAsBox(Entity.coordinatesScale / 2.0f, Entity.coordinatesScale / 2.0f);
@@ -28,6 +28,6 @@ public class Block extends Entity {
     fixtureDef.shape = shape;
     fixtureDef.density = 0.1f;
     fixtureDef.restitution = 0.5f;
-    body.createFixture(fixtureDef);
+    this.getBody().createFixture(fixtureDef);
   }
 }

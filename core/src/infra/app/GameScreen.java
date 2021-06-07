@@ -107,10 +107,20 @@ public class GameScreen extends ApplicationAdapter {
         e.printStackTrace();
       }
     }
+    System.out.println(new ChunkRange(myEntity.coordinates)+"; "+myEntity.coordinates.getXReal()+"; "+myEntity.coordinates.getX());
     batch.end();
     Chunk mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
     debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
     debugRenderer.render(mainChunk.world, debugMatrix);
+    try {
+      mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(-1, 0)));
+      debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
+      debugRenderer.render(mainChunk.world, debugMatrix);
+//      System.out.println("hhdg");
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @Override

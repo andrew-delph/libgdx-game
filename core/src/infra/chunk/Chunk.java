@@ -34,7 +34,7 @@ public class Chunk implements Callable<Chunk> {
     this.chunkMap = new ConcurrentHashMap();
     this.nextTick(1);
     this.bodySet = new HashSet<>();
-    world = new World(new Vector2(0, -1f), true);
+    this.world = new World(new Vector2(0, -1f), true);
   }
 
   void nextTick(int timeout) {
@@ -62,6 +62,8 @@ public class Chunk implements Callable<Chunk> {
       }
       entity.addWorld(world);
       bodySet.add(entity.uuid);
+    }else{
+      System.out.println("NOT ADDING"+this.chunkRange);
     }
   }
 
@@ -77,21 +79,8 @@ public class Chunk implements Callable<Chunk> {
     Entity entity = this.getEntity(uuid);
     this.chunkMap.remove(uuid);
     if (bodySet.contains(entity.uuid)) {
-      System.out.println(">>" + entity.body);
-      Array<Body> bodies = new Array<Body>();
-      world.getBodies(bodies);
-
-      System.out.println(world.getBodyCount());
-
-      for (Body body : bodies.iterator()) {
-        System.out.println(body + "," + body.getPosition());
-        if (entity.body.equals(body)) {
-          System.out.println("OMG HERE");
-        }
-      }
-
-      System.out.println();
-      this.world.destroyBody(entity.body);
+      System.out.println("destroy body:"+entity.uuid);
+      this.world.destroyBody(entity.getBody());
     }
   }
 
@@ -103,7 +92,7 @@ public class Chunk implements Callable<Chunk> {
       this.gameStore.syncEntity(entity);
 
       if (!(new ChunkRange(entity.coordinates).equals(this.chunkRange))) {
-        this.removeEntity(entity.uuid);
+        System.out.println("SKIPPING"+this.chunkRange+","+entity.uuid);
         continue;
       }
 

@@ -1,5 +1,7 @@
 package infra.generation;
 
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import infra.app.GameController;
@@ -51,7 +53,7 @@ public class ChunkBuilder implements Callable<Chunk> {
           gameController.createEntity(block);
         }
       }
-      System.out.println("chunk size:"+chunk.world.getBodyCount()+":"+chunk.getEntityList().size());
+
       return chunk;
     } catch (Exception e) {
       e.printStackTrace();

@@ -3,7 +3,9 @@ package infra.entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
+import infra.chunk.ChunkRange;
 import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.render.BaseAssetManager;
@@ -18,7 +20,18 @@ public class Entity {
   public EntityController entityController;
   public Animation animation;
   public Sprite sprite;
-  public Body body;
+  private Body body;
+
+  public Body getBody() {
+//    System.out.println("getBody");
+    return body;
+  }
+
+  public void setBody(Body body) {
+    System.out.println("setBody"+new ChunkRange(this.coordinates)+","+this.uuid);
+    this.body = body;
+  }
+
   public Coordinates coordinates;
   @Inject public Clock clock;
   public int zindex = 1;
@@ -26,9 +39,6 @@ public class Entity {
 
   @Inject BaseAssetManager baseAssetManager;
 
-  public void setBody(Body body) {
-    this.body = body;
-  }
 
   @Inject
   public Entity() {
@@ -47,18 +57,16 @@ public class Entity {
         this.coordinates.getXReal() * coordinatesScale,
         this.coordinates.getYReal() * coordinatesScale);
 
-    body = world.createBody(bodyDef);
-    System.out.println("crete body:" + body);
+    this.setBody(world.createBody(bodyDef));
 
     PolygonShape shape = new PolygonShape();
 
-    shape.setAsBox(this.coordinatesScale / 2, this.coordinatesScale / 2);
+    shape.setAsBox(coordinatesScale / 2.0f, coordinatesScale / 2f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
     fixtureDef.density = 0.1f;
     fixtureDef.restitution = 0.5f;
     body.createFixture(fixtureDef);
-    System.out.println("crete body 2:" + body);
   }
 
   public synchronized void setController(EntityController entityController) {
