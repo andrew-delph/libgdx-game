@@ -1,9 +1,7 @@
 package infra.chunk;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import infra.common.Clock;
@@ -77,7 +75,17 @@ public class Chunk implements Callable<Chunk> {
     Entity entity = this.getEntity(uuid);
     this.chunkMap.remove(uuid);
     if (bodySet.contains(entity.uuid)) {
-      System.out.println("destroy body:"+entity.uuid+" ,"+entity.coordinates+" ,"+entity.coordinates.getX()+","+entity.coordinates.getY()+", "+new ChunkRange(entity.coordinates));
+      System.out.println(
+          "destroy body:"
+              + entity.uuid
+              + " ,"
+              + entity.coordinates
+              + " ,"
+              + entity.coordinates.getX()
+              + ","
+              + entity.coordinates.getY()
+              + ", "
+              + new ChunkRange(entity.coordinates));
       this.world.destroyBody(entity.getBody());
       bodySet.remove(entity.uuid);
     }
@@ -91,7 +99,7 @@ public class Chunk implements Callable<Chunk> {
       this.gameStore.syncEntity(entity);
 
       if (!(new ChunkRange(entity.coordinates).equals(this.chunkRange))) {
-        System.out.println("SKIPPING"+this.chunkRange+","+entity.uuid);
+        System.out.println("SKIPPING" + this.chunkRange + "," + entity.uuid);
         continue;
       }
 
@@ -106,5 +114,19 @@ public class Chunk implements Callable<Chunk> {
       entity.entityController.afterWorldUpdate();
     }
     this.nextTick(1);
+  }
+
+  public List<Entity> getEntityInRange(
+      Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates) {
+
+    List<Entity> entityList = new LinkedList<>();
+
+    for (Entity entity : this.getEntityList()) {
+      if (Coordinates.inRange(bottomLeftCoordinates, topRightCoordinates, entity.coordinates)) {
+        entityList.add(entity);
+      }
+    }
+
+    return entityList;
   }
 }

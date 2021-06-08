@@ -59,4 +59,11 @@ public class Coordinates {
     return this.getXReal() + "," + this.getYReal();
   }
 
+  public static Boolean inRange(Coordinates bottomLeft, Coordinates topRight, Coordinates target) {
+    if (target.getX() < bottomLeft.getX()) return false;
+    if (target.getX() > topRight.getX()) return false;
+    if (target.getY() < bottomLeft.getY()) return false;
+    if (target.getY() > topRight.getY()) return false;
+    return true;
+  }
 }
