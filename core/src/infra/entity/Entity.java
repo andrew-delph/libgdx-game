@@ -28,7 +28,7 @@ public class Entity {
   }
 
   public void setBody(Body body) {
-    System.out.println("setBody"+new ChunkRange(this.coordinates)+","+this.uuid);
+//    System.out.println("setBody"+new ChunkRange(this.coordinates)+","+this.uuid);
     this.body = body;
   }
 
@@ -43,7 +43,7 @@ public class Entity {
 
 
   @Inject
-  public Entity() {
+  protected Entity() {
     this.sprite = new Sprite();
     this.sprite.setPosition(0, 0);
     this.sprite.setSize(width, height);
@@ -52,14 +52,15 @@ public class Entity {
     this.entityController = new EntityController(this);
   }
 
-  public synchronized void addWorld(World world) {
+  public synchronized Body addWorld(World world) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(
         this.coordinates.getXReal() * coordinatesScale,
         this.coordinates.getYReal() * coordinatesScale);
 
-    this.setBody(world.createBody(bodyDef));
+//    this.setBody(world.createBody(bodyDef));
+    Body theBody = world.createBody(bodyDef);
 
     PolygonShape shape = new PolygonShape();
 
@@ -68,9 +69,11 @@ public class Entity {
     fixtureDef.shape = shape;
     fixtureDef.density = 0.1f;
     fixtureDef.restitution = 0.5f;
-    body.createFixture(fixtureDef);
+    theBody.createFixture(fixtureDef);
 
-    body.setFixedRotation(true);
+    theBody.setFixedRotation(true);
+
+    return theBody;
   }
 
   public synchronized void setController(EntityController entityController) {
@@ -123,5 +126,19 @@ public class Entity {
         .addChildren(coordinates)
         .addChildren(uuid)
         .build();
+  }
+
+  @Override
+  public int hashCode() {
+    return (this.uuid).hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Entity other = (Entity) obj;
+    return this.uuid == other.uuid;
   }
 }

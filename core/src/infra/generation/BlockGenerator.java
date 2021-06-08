@@ -14,11 +14,11 @@ public class BlockGenerator {
 
   public Entity generate(Coordinates coordinates) {
     Entity block;
-    if (coordinates.getY() > 0) {
+    if (coordinates.getY() >= 0) {
       block = gameController.createSkyBlock(coordinates);
     } else if (Math.random() < 0.1) {
       block = gameController.createStoneBlock(coordinates);
-    }else if (Math.random() < 0.3) {
+    }else if (Math.random() < 0.4) {
       block = gameController.createSkyBlock(coordinates);
     } else {
       block = gameController.createDirtBlock(coordinates);

@@ -15,12 +15,10 @@ public class EntityUserController extends EntityController {
   @Inject
   public EntityUserController(@Assisted Entity entity) {
     super(entity);
-    System.out.println("aaa"+this.entity.getBody());
   }
 
   @Override
   public void beforeWorldUpdate() {
-//    System.out.println("before"+this.entity.getBody());
     if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
       this.entity.getBody().setLinearVelocity(-1f, 0f);
     }
@@ -31,7 +29,9 @@ public class EntityUserController extends EntityController {
 
     if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {}
 
-    if (Gdx.input.isKeyPressed(Input.Keys.UP)) {}
+    if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+      this.entity.getBody().setLinearVelocity(0f, 50f);
+    }
   }
 
   @Override

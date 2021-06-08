@@ -1,5 +1,6 @@
 package infra.entity.block;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class SkyBlock extends Block {
@@ -9,5 +10,7 @@ public class SkyBlock extends Block {
   }
 
   @Override
-  public void addWorld(World world) {}
+  public Body addWorld(World world) {
+    return null;
+  }
 }

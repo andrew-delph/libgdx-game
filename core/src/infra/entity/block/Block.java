@@ -21,21 +21,23 @@ public class Block extends Entity {
     this.body = body;
   }
 
-  public void addWorld(World world) {
+  public Body addWorld(World world) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
         this.coordinates.getXReal() * Entity.coordinatesScale,
         this.coordinates.getYReal() * Entity.coordinatesScale);
 
-    this.setBody(world.createBody(bodyDef));
+    //    this.setBody(world.createBody(bodyDef));
+    Body theBody = world.createBody(bodyDef);
 
     PolygonShape shape = new PolygonShape();
-    shape.setAsBox(Entity.coordinatesScale / 2.0f, Entity.coordinatesScale / 2.0f);
+    shape.setAsBox(Entity.coordinatesScale / 2.0f, Entity.coordinatesScale / 2f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
     fixtureDef.density = 0.1f;
     fixtureDef.restitution = 0.5f;
-    this.getBody().createFixture(fixtureDef);
+    theBody.createFixture(fixtureDef);
+    return theBody;
   }
 }

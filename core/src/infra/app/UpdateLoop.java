@@ -33,6 +33,7 @@ public class UpdateLoop extends TimerTask {
     callableChunkList.addAll(this.chunkGenerationManager.generateActiveEntities());
 
     try {
+//      System.out.println("starting update");
       executor.invokeAll(callableChunkList);
     } catch (InterruptedException e) {
       e.printStackTrace();

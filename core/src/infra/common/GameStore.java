@@ -16,11 +16,17 @@ public class GameStore {
   @Inject ChunkClockMap chunkClockMap;
 
   GameStore() {
+    System.out.println("create game store");
     this.entityMap = new ConcurrentHashMap<>();
   }
 
   public void addEntity(Entity entity) {
     ChunkRange entityChunkRange = new ChunkRange(entity.coordinates);
+    if (this.chunkClockMap.get(entityChunkRange) == null){
+      System.out.println("it was null "+entityChunkRange);
+      System.out.println(      this.chunkClockMap.getChunkRangeList()
+      );
+    }
     this.chunkClockMap.get(entityChunkRange).addEntity(entity);
     this.entityMap.put(entity.uuid, entityChunkRange);
   }
@@ -52,6 +58,7 @@ public class GameStore {
   }
 
   public void addChunk(Chunk chunk) {
+    System.out.println("add chunk "+chunk.chunkRange);
     this.chunkClockMap.add(chunk);
   }
 
@@ -61,7 +68,6 @@ public class GameStore {
 
   public void syncEntity(Entity entity) {
     if(!entityMap.get(entity.uuid).equals(new ChunkRange(entity.coordinates))){
-      System.out.println("syncing "+(new ChunkRange(entity.coordinates))+" "+entity.coordinates+" "+entity.coordinates.getX());
       this.removeEntity(entity.uuid);
       this.addEntity(entity);
     }
