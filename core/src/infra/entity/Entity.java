@@ -47,7 +47,7 @@ public class Entity {
     this.sprite = new Sprite();
     this.sprite.setPosition(0, 0);
     this.sprite.setSize(width, height);
-    this.coordinates = new Coordinates(0, 3);
+    this.coordinates = new Coordinates(0, 0);
     this.uuid = UUID.randomUUID();
     this.entityController = new EntityController(this);
   }

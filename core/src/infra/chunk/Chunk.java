@@ -10,6 +10,7 @@ import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.Tick;
 import infra.entity.Entity;
+import infra.entity.block.Block;
 
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -206,5 +207,15 @@ public class Chunk implements Callable<Chunk> {
     }
 
     return entityList;
+  }
+
+  public Block getBlock(Coordinates coordinates){
+    List<Entity> entityList = this.getEntityInRange(coordinates,coordinates);
+    for (Entity entity: entityList){
+      if (entity instanceof Block && Coordinates.inRange(coordinates,coordinates,entity.coordinates)){
+        return (Block) entity;
+      }
+    }
+    return null;
   }
 }
