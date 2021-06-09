@@ -20,11 +20,11 @@ public class EntityUserController extends EntityController {
   @Override
   public void beforeWorldUpdate() {
     if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-      this.entity.getBody().setLinearVelocity(-1f, 0f);
+      this.entity.getBody().setLinearVelocity(-5f, 0f);
     }
 
     if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-      this.entity.getBody().setLinearVelocity(1f, 0f);
+      this.entity.getBody().setLinearVelocity(5f, 0f);
     }
 
     if (Gdx.input.isKeyPressed(Input.Keys.S)) {}
