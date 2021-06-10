@@ -31,4 +31,10 @@ public interface EventFactory {
       NetworkObjects.NetworkData entityData, ChunkRange chunkRange);
 
   DisconnectionEvent createDisconnectionEvent(UUID uuid);
+
+  ReplaceBlockIncomingEvent createReplaceBlockIncomingEvent(
+      NetworkObjects.NetworkEvent networkEvent);
+
+  ReplaceBlockOutgoingEvent createReplaceBlockOutgoingEvent(
+      UUID target, Class replacementBlockType);
 }

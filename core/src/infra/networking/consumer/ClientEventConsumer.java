@@ -3,13 +3,14 @@ package infra.networking.consumer;
 import com.google.inject.Inject;
 import infra.app.GameController;
 import infra.common.GameStore;
+import infra.common.events.EventConsumer;
 import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntitySerializationConverter;
 import infra.networking.client.ClientNetworkHandle;
 import infra.networking.events.*;
 
-public class ClientEventConsumer extends NetworkConsumer {
+public class ClientEventConsumer extends EventConsumer {
   @Inject EventService eventService;
   @Inject GameController gameController;
   @Inject EntitySerializationConverter entitySerializationConverter;

@@ -10,11 +10,11 @@ public class Coordinates {
   }
 
   public int getX() {
-    return (int) this.x;
+    return (int) Math.floor(this.x);
   }
 
   public int getY() {
-    return (int) this.y;
+    return (int) Math.floor(this.y);
   }
 
   public float getXReal() {

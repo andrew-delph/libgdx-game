@@ -7,7 +7,7 @@ import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.entity.Entity;
 import infra.generation.ChunkGenerationManager;
-import infra.networking.consumer.NetworkConsumer;
+import infra.common.events.EventConsumer;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,10 +26,10 @@ public class Game {
       GameStore gameStore,
       ChunkFactory chunkFactory,
       ChunkGenerationManager chunkGenerationManager,
-      NetworkConsumer networkConsumer)
+      EventConsumer eventConsumer)
       throws Exception {
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
-    networkConsumer.init();
+    eventConsumer.init();
   }
 
   public void start() throws IOException, InterruptedException {

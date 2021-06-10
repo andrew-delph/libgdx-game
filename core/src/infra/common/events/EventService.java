@@ -2,10 +2,7 @@ package infra.common.events;
 
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class EventService {
@@ -29,6 +26,23 @@ public class EventService {
       this.eventListeners
           .get(event.getType())
           .forEach(eventConsumer -> eventConsumer.accept(event));
+    }
+  }
+
+  List<Event> postUpdateEventList = new LinkedList<>();
+
+  public void addPostUpdateEvent(Event event) {
+    System.out.println("addPostUpdateEvent");
+    this.postUpdateEventList.add(event);
+  }
+
+  public void firePostUpdateEvents() {
+    List<Event> postUpdateEventListCopy = new LinkedList<>(this.postUpdateEventList);
+    this.postUpdateEventList = new LinkedList<>();
+    for (Event event:postUpdateEventListCopy){
+      this.eventListeners
+              .get(event.getType())
+              .forEach(eventConsumer -> eventConsumer.accept(event));
     }
   }
 }

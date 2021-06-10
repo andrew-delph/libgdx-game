@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import infra.chunk.Chunk;
 import infra.common.Clock;
 import infra.common.GameStore;
+import infra.common.events.EventService;
 import infra.generation.ChunkGenerationManager;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.concurrent.Executors;
 public class UpdateLoop extends TimerTask {
 
   @Inject public Clock clock;
+  @Inject
+  EventService eventService;
 
   @Inject public GameStore gameStore;
   public ExecutorService executor;
@@ -38,5 +41,7 @@ public class UpdateLoop extends TimerTask {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+
+    this.eventService.firePostUpdateEvents();
   }
 }

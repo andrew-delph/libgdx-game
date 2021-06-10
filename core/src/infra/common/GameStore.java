@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkRange;
 import infra.entity.Entity;
+import infra.entity.block.Block;
 
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -25,9 +26,15 @@ public class GameStore {
     this.entityMap.put(entity.uuid, entityChunkRange);
   }
 
-  public void removeEntity(UUID uuid) {
-    this.chunkClockMap.get(this.entityMap.get(uuid)).removeEntity(uuid);
+  public Entity removeEntity(UUID uuid) {
+    System.out.println("this.entityMap.get(uuid) "+ this.entityMap.get(uuid));
+    ChunkRange chunkRange = this.entityMap.get(uuid);
+    if (chunkRange == null) return null;
+    Chunk chunk = this.chunkClockMap.get(chunkRange);
+    if (chunk ==null) return null;
+    Entity entity = chunk.removeEntity(uuid);
     this.entityMap.remove(uuid);
+    return  entity;
   }
 
   public int getEntityNumber() {
@@ -59,7 +66,7 @@ public class GameStore {
   }
 
   public void syncEntity(Entity entity) {
-    if(!entityMap.get(entity.uuid).equals(new ChunkRange(entity.coordinates))){
+    if (!entityMap.get(entity.uuid).equals(new ChunkRange(entity.coordinates))) {
       this.removeEntity(entity.uuid);
       this.addEntity(entity);
     }
@@ -79,5 +86,9 @@ public class GameStore {
 
   public List<Callable<Chunk>> getChunkOnClock(Tick tick) {
     return this.chunkClockMap.getChunksOnTick(tick);
+  }
+
+  public Block getBlock(Coordinates coordinates) {
+    return this.chunkClockMap.get(new ChunkRange(coordinates)).getBlock(coordinates);
   }
 }

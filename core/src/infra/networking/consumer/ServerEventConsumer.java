@@ -7,6 +7,7 @@ import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.chunk.ChunkSubscriptionService;
 import infra.common.GameStore;
+import infra.common.events.EventConsumer;
 import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntitySerializationConverter;
@@ -19,7 +20,7 @@ import infra.networking.server.ServerNetworkHandle;
 import java.util.List;
 import java.util.UUID;
 
-public class ServerEventConsumer extends NetworkConsumer {
+public class ServerEventConsumer extends EventConsumer {
   @Inject EventService eventService;
   @Inject GameController gameController;
   @Inject EntitySerializationConverter entitySerializationConverter;

@@ -46,6 +46,7 @@ public class Chunk implements Callable<Chunk> {
     try {
       this.update();
     } catch (Exception e) {
+      System.out.println("chunk update");
       e.printStackTrace();
     }
     return this;
@@ -55,14 +56,12 @@ public class Chunk implements Callable<Chunk> {
     this.chunkMap.put(entity.uuid, entity);
 
     if (!bodySet.contains(entity.uuid)) {
-      //    System.out.println(">>>"+entity.uuid+",,,"+entity.coordinates);
-      if (new ChunkRange(entity.coordinates).equals(new ChunkRange(new Coordinates(0, 0)))) {
-        //        System.out.println(">>>" + entity.coordinates);
-        //        System.out.println(world);
+      Body bodyToAdd = entity.addWorld(world);
+      if(bodyToAdd != null){
+        entity.setBody(bodyToAdd);
+        bodySet.add(entity.uuid);
       }
-      entity.setBody(entity.addWorld(world));
-      bodySet.add(entity.uuid);
-//      System.out.println("adding."+entity.uuid);
+
     }
   }
 
@@ -74,7 +73,7 @@ public class Chunk implements Callable<Chunk> {
     return new LinkedList<>(this.chunkMap.values());
   }
 
-  public void removeEntity(UUID uuid) {
+  public Entity removeEntity(UUID uuid) {
     Entity entity = this.getEntity(uuid);
     this.chunkMap.remove(uuid);
     if (bodySet.contains(entity.uuid)) {
@@ -88,28 +87,23 @@ public class Chunk implements Callable<Chunk> {
                     + ","
                     + entity.coordinates.getY()
                     + ", "
-                    + new ChunkRange(entity.coordinates));
+                    + new ChunkRange(entity.coordinates)+", "+entity.getBody());
       this.world.destroyBody(entity.getBody());
       bodySet.remove(entity.uuid);
     }
+    return entity;
   }
 
   Map<Entity, Body> neighborEntityBodyMap = new HashMap<>();
 
   synchronized void update() {
-
-//    System.out.println("updating "+this);
-
     Set<Entity> neighborEntitySet = new HashSet<>();
 
-    Boolean verbose = this.chunkRange.equals(new ChunkRange(new Coordinates(0,0)));
-
-//    if (verbose) System.out.println("hi");
+//    Boolean verbose = this.chunkRange.equals(new ChunkRange(new Coordinates(0,0)));
 
     Chunk neighborChunk = null;
 
     // up
-
     neighborChunk = this.gameStore.getChunk(this.chunkRange.getUp());
     if (!(neighborChunk == null)) {
       neighborEntitySet.addAll(
@@ -129,7 +123,6 @@ public class Chunk implements Callable<Chunk> {
     }
 
     // left
-
     neighborChunk = this.gameStore.getChunk(this.chunkRange.getLeft());
     if (!(neighborChunk == null)) {
       neighborEntitySet.addAll(
@@ -150,13 +143,8 @@ public class Chunk implements Callable<Chunk> {
     }
 
     // check the difference
-
-//    neighborBodyMap
-//    Map<Entity,Body> neighborEntityBodyMapCopy = new HashMap<>(neighborEntityBodyMap);
-
     Set<Entity> entityToAddSet = new HashSet<>(neighborEntitySet);
     entityToAddSet.removeAll(neighborEntityBodyMap.keySet());
-
     Set<Entity> entityToRemoveSet = new HashSet<>(neighborEntityBodyMap.keySet());
     entityToRemoveSet.removeAll(neighborEntitySet);
 
@@ -165,7 +153,6 @@ public class Chunk implements Callable<Chunk> {
       if(neighborEntityBodyMap.containsKey(entity)) continue;
       Body bodyToAdd = entity.addWorld(world);
       if (bodyToAdd == null) continue;
-      if (verbose) System.out.println("to add "+entity.uuid+" "+bodyToAdd+ " "+entity.getClass());
       neighborEntityBodyMap.put(entity,bodyToAdd);
     }
 

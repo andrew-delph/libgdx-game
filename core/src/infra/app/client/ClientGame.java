@@ -8,7 +8,7 @@ import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.generation.ChunkGenerationManager;
 import infra.networking.client.ClientNetworkHandle;
-import infra.networking.consumer.NetworkConsumer;
+import infra.common.events.EventConsumer;
 import infra.networking.events.EventFactory;
 
 import java.io.IOException;
@@ -26,9 +26,9 @@ public class ClientGame extends Game {
       GameStore gameStore,
       ChunkFactory chunkFactory,
       ChunkGenerationManager chunkGenerationManager,
-      NetworkConsumer networkConsumer)
+      EventConsumer eventConsumer)
       throws Exception {
-    super(gameStore, chunkFactory, chunkGenerationManager, networkConsumer);
+    super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer);
   }
 
   @Override

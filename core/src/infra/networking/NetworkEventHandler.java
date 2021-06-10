@@ -2,10 +2,10 @@ package infra.networking;
 
 import com.google.inject.Inject;
 import infra.common.events.EventService;
-import infra.networking.consumer.NetworkConsumer;
+import infra.common.events.EventConsumer;
 import infra.networking.events.*;
 
-public class NetworkEventHandler extends NetworkConsumer {
+public class NetworkEventHandler extends EventConsumer {
 
   @Inject EventFactory eventFactory;
   @Inject EventService eventService;
