@@ -43,12 +43,9 @@ public class ServerEventConsumer extends EventConsumer {
               realEvent.getUser(), realEvent.getChunkRangeList());
 
           for (ChunkRange chunkRange : realEvent.getChunkRangeList()) {
-            System.out.println("sub: " + chunkRange);
-
             Chunk chunk = gameStore.getChunk(chunkRange);
 
             if (chunk == null) {
-              System.out.println("does not exist " + chunkRange);
               this.gameStore.addChunk(this.chunkFactory.create(chunkRange));
               chunk = gameStore.getChunk(chunkRange);
             }
@@ -70,7 +67,6 @@ public class ServerEventConsumer extends EventConsumer {
           Entity entity =
               gameController.triggerCreateEntity(
                   entitySerializationConverter.createEntity(realEvent.getData()));
-          System.out.println("created: " + entity.uuid);
           chunkGenerationManager.registerActiveEntity(
               entity, UUID.fromString(realEvent.networkEvent.getUser()));
 
@@ -85,7 +81,6 @@ public class ServerEventConsumer extends EventConsumer {
         event -> {
           UpdateEntityIncomingEvent realEvent = (UpdateEntityIncomingEvent) event;
           Entity entity = entitySerializationConverter.updateEntity(realEvent.getData());
-
           for (UUID uuid :
               chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
             if (uuid.equals(realEvent.getUser())) continue;
@@ -117,9 +112,9 @@ public class ServerEventConsumer extends EventConsumer {
         event -> {
           DisconnectionEvent realEvent = (DisconnectionEvent) event;
           connectionStore.removeConnection(realEvent.getUuid());
-          for (UUID uuid : chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
-            Entity entity = this.gameStore.getEntity(uuid);
-            this.gameStore.removeEntity(uuid);
+          for (UUID ownersEntityUuid : chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
+            Entity entity = this.gameStore.getEntity(ownersEntityUuid);
+            this.eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(ownersEntityUuid));
 
             RemoveEntityOutgoingEvent removeEntityOutgoingEvent =
                 eventFactory.createRemoveEntityOutgoingEvent(
@@ -129,6 +124,28 @@ public class ServerEventConsumer extends EventConsumer {
               serverNetworkHandle.send(
                   subscriptionUuid, removeEntityOutgoingEvent.toNetworkEvent());
             }
+          }
+        });
+    this.eventService.addListener(
+        ReplaceBlockOutgoingEvent.type,
+        event -> {
+          ReplaceBlockOutgoingEvent realEvent = (ReplaceBlockOutgoingEvent) event;
+          this.eventService.queuePostUpdateEvent(event);
+          for (UUID uuid : chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange())) {
+            serverNetworkHandle.send(uuid, realEvent.toNetworkEvent());
+          }
+        });
+    this.eventService.addListener(
+        ReplaceBlockIncomingEvent.type,
+        event -> {
+          ReplaceBlockIncomingEvent realEvent = (ReplaceBlockIncomingEvent) event;
+          Entity placedEntity = this.gameStore.getEntity(realEvent.getTarget());
+          ChunkRange chunkRange = new ChunkRange(placedEntity.coordinates);
+          this.eventService.queuePostUpdateEvent(
+              this.eventFactory.createReplaceBlockEvent(
+                  realEvent.getTarget(), realEvent.getReplacementBlockType()));
+          for (UUID uuid : chunkSubscriptionService.getSubscriptions(chunkRange)) {
+            serverNetworkHandle.send(uuid, realEvent.networkEvent);
           }
         });
   }

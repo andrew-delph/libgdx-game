@@ -108,7 +108,6 @@ public class GameController {
   }
 
   public void dig(Entity entity, Direction direction) {
-    System.out.println("dig");
     Block removeBlock = null;
     if (direction == Direction.LEFT) {
       removeBlock = this.gameStore.getBlock(entity.getCenter().getLeft());
@@ -119,11 +118,19 @@ public class GameController {
     } else if (direction == Direction.DOWN) {
       removeBlock = this.gameStore.getBlock(entity.getCenter().getDown());
     }
-
     if (removeBlock == null) return;
-
     // put this into a post update event
-    this.eventService.addPostUpdateEvent(
-        this.eventFactory.createReplaceBlockOutgoingEvent(removeBlock.uuid, SkyBlock.class));
+    this.eventService.queuePostUpdateEvent(
+        this.eventFactory.createReplaceBlockEvent(removeBlock.uuid, SkyBlock.class.getName()));
+    this.eventService.fireEvent(this.eventFactory.createReplaceBlockOutgoingEvent(removeBlock.uuid,SkyBlock.class.getName(), new ChunkRange(removeBlock.coordinates)));
+  }
+
+  public Entity replaceBlock(UUID target, String replacementBlockType) {
+    Block removeBlock = (Block) this.gameStore.removeEntity(target);
+    if (removeBlock == null) return null;
+    Block newBlock = blockFactory.createSky();
+    newBlock.coordinates = removeBlock.coordinates;
+    this.gameStore.addEntity(newBlock);
+    return newBlock;
   }
 }

@@ -5,6 +5,7 @@ import infra.app.UpdateLoop;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
+import infra.common.events.EventService;
 import infra.common.render.BaseCamera;
 import infra.generation.ChunkGenerationManager;
 import infra.networking.client.ClientNetworkHandle;
@@ -27,6 +28,8 @@ public class ClientUpdateLoop extends UpdateLoop {
   @Inject EventFactory eventFactory;
 
   @Inject BaseCamera baseCamera;
+
+  @Inject EventService eventService;
 
   @Override
   public void run() {
@@ -56,5 +59,7 @@ public class ClientUpdateLoop extends UpdateLoop {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+
+    this.eventService.firePostUpdateEvents();
   }
 }

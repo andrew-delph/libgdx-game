@@ -22,10 +22,13 @@ public class NetworkEventHandler extends EventConsumer {
       } else if (event.equals(UpdateEntityOutgoingEvent.type)) {
         eventService.fireEvent(eventFactory.createUpdateEntityIncomingEvent(networkEvent));
       } else if (event.equals(SubscriptionOutgoingEvent.type)) {
-        System.out.println("sub event");
         eventService.fireEvent(eventFactory.createSubscriptionIncomingEvent(networkEvent));
       } else if (event.equals(RemoveEntityOutgoingEvent.type)) {
+        System.out.println(event);
         eventService.fireEvent(eventFactory.createRemoveEntityIncomingEvent(networkEvent));
+      }else if (event.equals(ReplaceBlockOutgoingEvent.type)) {
+        System.out.println(event);
+        eventService.fireEvent(eventFactory.createReplaceBlockIncomingEvent(networkEvent));
       }
     } catch (Exception e) {
       e.printStackTrace();

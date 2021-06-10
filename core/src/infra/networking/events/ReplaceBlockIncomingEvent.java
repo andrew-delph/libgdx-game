@@ -23,6 +23,10 @@ public class ReplaceBlockIncomingEvent extends Event {
     return replacementBlockType;
   }
 
+  public UUID getUser() {
+    return UUID.fromString(this.networkEvent.getUser());
+  }
+
   @Inject
   public ReplaceBlockIncomingEvent(@Assisted NetworkObjects.NetworkEvent networkEvent) {
     this.networkEvent = networkEvent;

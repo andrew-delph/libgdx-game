@@ -16,6 +16,7 @@ public class GameStore {
 
   @Inject ChunkClockMap chunkClockMap;
 
+  @Inject
   GameStore() {
     this.entityMap = new ConcurrentHashMap<>();
   }

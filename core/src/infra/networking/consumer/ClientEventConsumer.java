@@ -2,6 +2,7 @@ package infra.networking.consumer;
 
 import com.google.inject.Inject;
 import infra.app.GameController;
+import infra.chunk.ChunkRange;
 import infra.common.GameStore;
 import infra.common.events.EventConsumer;
 import infra.common.events.EventService;
@@ -17,6 +18,7 @@ public class ClientEventConsumer extends EventConsumer {
 
   @Inject ClientNetworkHandle clientNetworkHandle;
   @Inject GameStore gameStore;
+  @Inject EventFactory eventFactory;
 
   @Inject
   public ClientEventConsumer() {}
@@ -58,7 +60,26 @@ public class ClientEventConsumer extends EventConsumer {
         event -> {
           RemoveEntityIncomingEvent realEvent = (RemoveEntityIncomingEvent) event;
           Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
-          this.gameStore.removeEntity(entity.uuid);
+          eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
+        });
+
+    this.eventService.addListener(
+        ReplaceBlockOutgoingEvent.type,
+        event -> {
+          ReplaceBlockOutgoingEvent realEvent = (ReplaceBlockOutgoingEvent) event;
+          this.eventService.queuePostUpdateEvent(
+              eventFactory.createReplaceBlockEvent(
+                  realEvent.getTarget(), realEvent.getReplacementBlockType()));
+          this.clientNetworkHandle.send(realEvent.toNetworkEvent());
+        });
+    this.eventService.addListener(
+        ReplaceBlockIncomingEvent.type,
+        event -> {
+          ReplaceBlockIncomingEvent realEvent = (ReplaceBlockIncomingEvent) event;
+          Entity placedEntity = this.gameStore.getEntity(realEvent.getTarget());
+          this.eventService.queuePostUpdateEvent(
+              this.eventFactory.createReplaceBlockEvent(
+                  realEvent.getTarget(), realEvent.getReplacementBlockType()));
         });
   }
 }

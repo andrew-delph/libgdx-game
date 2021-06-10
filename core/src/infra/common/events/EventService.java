@@ -7,17 +7,15 @@ import java.util.function.Consumer;
 
 public class EventService {
 
-  Map<String, List<Consumer<Event>>> eventListeners;
+  Map<String, List<Consumer<Event>>> eventListeners = new HashMap<>();
+  Map<String, List<Consumer<Event>>> eventPostUpdateListeners = new HashMap<>();
+  List<Event> postUpdateEventList = new LinkedList<>();
 
   @Inject
-  public EventService() {
-    this.eventListeners = new HashMap<>();
-  }
+  public EventService() {}
 
   public void addListener(String type, Consumer<Event> eventConsumer) {
-    if (!this.eventListeners.containsKey(type)) {
-      this.eventListeners.put(type, new ArrayList<>());
-    }
+    this.eventListeners.computeIfAbsent(type, k -> new ArrayList<>());
     this.eventListeners.get(type).add(eventConsumer);
   }
 
@@ -29,20 +27,24 @@ public class EventService {
     }
   }
 
-  List<Event> postUpdateEventList = new LinkedList<>();
+  public void addPostUpdateListener(String type, Consumer<Event> eventConsumer) {
+    this.eventPostUpdateListeners.computeIfAbsent(type, k -> new ArrayList<>());
+    this.eventPostUpdateListeners.get(type).add(eventConsumer);
+  }
 
-  public void addPostUpdateEvent(Event event) {
-    System.out.println("addPostUpdateEvent");
+  public void queuePostUpdateEvent(Event event) {
     this.postUpdateEventList.add(event);
   }
 
   public void firePostUpdateEvents() {
     List<Event> postUpdateEventListCopy = new LinkedList<>(this.postUpdateEventList);
     this.postUpdateEventList = new LinkedList<>();
-    for (Event event:postUpdateEventListCopy){
-      this.eventListeners
-              .get(event.getType())
-              .forEach(eventConsumer -> eventConsumer.accept(event));
+    for (Event event : postUpdateEventListCopy) {
+      if (this.eventPostUpdateListeners.get(event.getType()) != null) {
+        this.eventPostUpdateListeners
+                .get(event.getType())
+                .forEach(eventConsumer -> eventConsumer.accept(event));
+      }
     }
   }
 }

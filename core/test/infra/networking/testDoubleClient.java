@@ -9,6 +9,7 @@ import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
+import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.networking.client.ClientNetworkHandle;
@@ -180,6 +181,9 @@ public class testDoubleClient {
     GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
     GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    EventService serverEventService = serverInjector.getInstance(EventService.class);
+    EventService client_b_EventService = client_b_Injector.getInstance(EventService.class);
+
     ChunkFactory client_a_ChunkFactory = client_a_Injector.getInstance(ChunkFactory.class);
     client_a_GameStore.addChunk(
         client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
@@ -218,7 +222,9 @@ public class testDoubleClient {
 
     client_a_NetworkHandle.close();
 
-    TimeUnit.SECONDS.sleep(5);
+    TimeUnit.SECONDS.sleep(1);
+    serverEventService.firePostUpdateEvents();
+    client_b_EventService.firePostUpdateEvents();
 
     assert serverGameStore.getEntity(clientEntity.uuid) == null;
     assert client_b_GameStore.getEntity(clientEntity.uuid) == null;

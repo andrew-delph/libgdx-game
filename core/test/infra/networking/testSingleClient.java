@@ -12,8 +12,13 @@ import infra.chunk.ChunkSubscriptionService;
 import infra.common.ChunkClockMap;
 import infra.common.Coordinates;
 import infra.common.GameStore;
+import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
+import infra.entity.block.Block;
+import infra.entity.block.BlockFactory;
+import infra.entity.block.DirtBlock;
+import infra.entity.block.SkyBlock;
 import infra.networking.client.ClientNetworkHandle;
 import infra.networking.events.EventFactory;
 import infra.networking.server.ServerNetworkHandle;
@@ -213,12 +218,9 @@ public class testSingleClient {
 
   @Test
   public void testSubscriptionServerCreateEntity() throws IOException, InterruptedException {
-
     GameController serverGameController = serverInjector.getInstance(GameController.class);
-
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     ChunkClockMap clientChunkClockMap = clientInjector.getInstance(ChunkClockMap.class);
-
     ChunkSubscriptionService serverChunkSubscriptionService =
         serverInjector.getInstance(ChunkSubscriptionService.class);
 
@@ -231,7 +233,6 @@ public class testSingleClient {
                 clientNetworkHandle.uuid)));
 
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
-
     Entity serverEntity = serverGameController.createEntity(clientEntityFactory.createEntity());
 
     TimeUnit.SECONDS.sleep(1);
@@ -310,5 +311,51 @@ public class testSingleClient {
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore.getEntity(clientEntity.uuid) == null;
+  }
+
+  @Test
+  public void testClientReplaceBlock() throws InterruptedException {
+    GameController clientGameController = clientInjector.getInstance(GameController.class);
+    GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
+    ChunkClockMap clientChunkClockMap = clientInjector.getInstance(ChunkClockMap.class);
+    GameController serverGameController = serverInjector.getInstance(GameController.class);
+    BlockFactory serverBlockFactory = serverInjector.getInstance(BlockFactory.class);
+    EventFactory clientEventFactory = clientInjector.getInstance(EventFactory.class);
+    EventService clientEventService = clientInjector.getInstance(EventService.class);
+
+    serverGameController.createEntity(serverBlockFactory.createDirt());
+    assert  serverGameStore.getBlock(new Coordinates(0,0)).getClass() == DirtBlock.class;
+    TimeUnit.SECONDS.sleep(1);
+    Block clientBlock = serverGameStore.getBlock(new Coordinates(0,0));
+    clientEventService.fireEvent(clientEventFactory.createReplaceBlockOutgoingEvent(clientBlock.uuid, SkyBlock.class.getName(), new ChunkRange(clientBlock.coordinates)));
+    TimeUnit.SECONDS.sleep(1);
+    assert  serverGameStore.getBlock(new Coordinates(0,0)).getClass() == SkyBlock.class;
+  }
+
+  @Test
+  public void testServerReplaceBlock() throws InterruptedException {
+    GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    GameController serverGameController = serverInjector.getInstance(GameController.class);
+    BlockFactory serverBlockFactory = serverInjector.getInstance(BlockFactory.class);
+    EventFactory clientEventFactory = clientInjector.getInstance(EventFactory.class);
+    EventService serverEventService = serverInjector.getInstance(EventService.class);
+    EventService clientEventService = clientInjector.getInstance(EventService.class);
+
+
+    Entity serverEntity = serverGameController.createEntity(serverBlockFactory.createDirt());
+    assert  serverGameStore.getBlock(new Coordinates(0,0)).getClass() == DirtBlock.class;
+    TimeUnit.SECONDS.sleep(1);
+    assert  clientGameStore.getBlock(new Coordinates(0,0)).getClass() == DirtBlock.class;
+;
+    serverEventService.fireEvent(clientEventFactory.createReplaceBlockOutgoingEvent(serverEntity.uuid, SkyBlock.class.getName(), new ChunkRange(serverEntity.coordinates)));
+    TimeUnit.SECONDS.sleep(1);
+
+    clientEventService.firePostUpdateEvents();
+
+    assert  clientGameStore.getBlock(new Coordinates(0,0)).getClass() == SkyBlock.class;
+    System.out.println("done");
   }
 }
