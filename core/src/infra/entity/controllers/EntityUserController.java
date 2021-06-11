@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import infra.app.GameController;
+import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.Direction;
 import infra.entity.Entity;
@@ -18,12 +19,18 @@ public class EntityUserController extends EntityController {
   @Inject GameController gameController;
 
   @Inject
+  Clock clock;
+
+  int lastJump = 0;
+
+  @Inject
   public EntityUserController(@Assisted Entity entity) {
     super(entity);
   }
 
   @Override
   public void beforeWorldUpdate() {
+
     Body body = this.entity.getBody();
     float impulse = body.getMass() * 10;
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
@@ -55,7 +62,9 @@ public class EntityUserController extends EntityController {
         body.applyLinearImpulse(new Vector2(5, 0), body.getWorldCenter(), true);
       }
       if (Gdx.input.isKeyPressed(Input.Keys.S)) {}
-      if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+      if (Gdx.input.isKeyPressed(Input.Keys.W) && clock.currentTick.time - lastJump > 2 && body.getLinearVelocity().y == 0) {
+        lastJump = clock.currentTick.time;
+
         body.applyLinearImpulse(new Vector2(0, impulse), body.getWorldCenter(), true);
       }
     }
