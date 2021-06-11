@@ -19,7 +19,7 @@ public class EventConsumer {
         event -> {
           ReplaceBlockEvent realEvent = (ReplaceBlockEvent) event;
           this.gameController.replaceBlock(
-              realEvent.getTarget(), realEvent.getReplacementBlockType());
+              realEvent.getTarget(), realEvent.getReplacementBlock());
         });
 
     this.eventService.addPostUpdateListener(

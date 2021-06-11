@@ -2,6 +2,7 @@ package infra.common.events;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import infra.entity.block.Block;
 import infra.entity.block.SkyBlock;
 
 import java.util.UUID;
@@ -11,20 +12,20 @@ public class ReplaceBlockEvent extends Event{
     public static String type = "replace_block";
 
     UUID target;
-    String replacementBlockType;
+    Block replacementBlock;
 
     public UUID getTarget() {
         return target;
     }
 
-    public String getReplacementBlockType() {
-        return replacementBlockType;
+    public Block getReplacementBlock() {
+        return replacementBlock;
     }
 
     @Inject
-    public ReplaceBlockEvent(@Assisted UUID target, @Assisted String replacementBlockType) {
+    public ReplaceBlockEvent(@Assisted UUID target, @Assisted Block replacementBlock) {
         this.target = target;
-        this.replacementBlockType = replacementBlockType;
+        this.replacementBlock = replacementBlock;
     }
 
     @Override

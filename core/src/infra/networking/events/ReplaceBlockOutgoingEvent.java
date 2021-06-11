@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import infra.chunk.ChunkRange;
 import infra.common.events.Event;
+import infra.entity.block.Block;
 import infra.networking.NetworkObjects;
 import infra.networking.events.interfaces.SerializeNetworkEvent;
 
@@ -14,14 +15,14 @@ public class ReplaceBlockOutgoingEvent extends Event implements SerializeNetwork
   public static String type = "replace_block_outgoing";
 
   UUID target;
-  String replacementBlockType;
+  Block replacementBlock;
   ChunkRange chunkRange;
 
   @Inject
   public ReplaceBlockOutgoingEvent(
-      @Assisted UUID target, @Assisted String replacementBlockType, @Assisted ChunkRange chunkRange) {
+          @Assisted UUID target, @Assisted Block replacementBlock, @Assisted ChunkRange chunkRange) {
     this.target = target;
-    this.replacementBlockType = replacementBlockType;
+    this.replacementBlock = replacementBlock;
     this.chunkRange = chunkRange;
   }
 
@@ -33,8 +34,8 @@ public class ReplaceBlockOutgoingEvent extends Event implements SerializeNetwork
     return target;
   }
 
-  public String getReplacementBlockType() {
-    return replacementBlockType;
+  public Block getReplacementBlock() {
+    return replacementBlock;
   }
 
   @Override
@@ -51,8 +52,8 @@ public class ReplaceBlockOutgoingEvent extends Event implements SerializeNetwork
             .build();
     NetworkObjects.NetworkData replacementBlockType =
         NetworkObjects.NetworkData.newBuilder()
-            .setKey("replacementBlockType")
-            .setValue(this.replacementBlockType)
+            .setKey("replacementBlockData")
+            .addChildren(this.getReplacementBlock().toNetworkData())
             .build();
     NetworkObjects.NetworkData data =
         NetworkObjects.NetworkData.newBuilder()

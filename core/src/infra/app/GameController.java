@@ -10,7 +10,6 @@ import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.entity.block.Block;
 import infra.entity.block.BlockFactory;
-import infra.entity.block.SkyBlock;
 import infra.networking.events.CreateEntityOutgoingEvent;
 import infra.networking.events.EventFactory;
 
@@ -119,18 +118,21 @@ public class GameController {
       removeBlock = this.gameStore.getBlock(entity.getCenter().getDown());
     }
     if (removeBlock == null) return;
+
+    Block replacementBlock = blockFactory.createSky();
     // put this into a post update event
     this.eventService.queuePostUpdateEvent(
-        this.eventFactory.createReplaceBlockEvent(removeBlock.uuid, SkyBlock.class.getName()));
-    this.eventService.fireEvent(this.eventFactory.createReplaceBlockOutgoingEvent(removeBlock.uuid,SkyBlock.class.getName(), new ChunkRange(removeBlock.coordinates)));
+        this.eventFactory.createReplaceBlockEvent(removeBlock.uuid, replacementBlock));
+    this.eventService.fireEvent(
+        this.eventFactory.createReplaceBlockOutgoingEvent(
+            removeBlock.uuid, replacementBlock, new ChunkRange(removeBlock.coordinates)));
   }
 
-  public Entity replaceBlock(UUID target, String replacementBlockType) {
+  public Entity replaceBlock(UUID target, Block replacementBlock) {
     Block removeBlock = (Block) this.gameStore.removeEntity(target);
     if (removeBlock == null) return null;
-    Block newBlock = blockFactory.createSky();
-    newBlock.coordinates = removeBlock.coordinates;
-    this.gameStore.addEntity(newBlock);
-    return newBlock;
+    replacementBlock.coordinates = removeBlock.coordinates;
+    this.gameStore.addEntity(replacementBlock);
+    return replacementBlock;
   }
 }

@@ -12,15 +12,15 @@ public class ReplaceBlockIncomingEvent extends Event {
   public static String type = "replace_block_incoming";
 
   UUID target;
-  String replacementBlockType;
+  NetworkObjects.NetworkData replacementBlockData;
   public NetworkObjects.NetworkEvent networkEvent;
 
   public UUID getTarget() {
     return target;
   }
 
-  public String getReplacementBlockType() {
-    return replacementBlockType;
+  public NetworkObjects.NetworkData getReplacementBlockData() {
+    return replacementBlockData;
   }
 
   public UUID getUser() {
@@ -35,8 +35,8 @@ public class ReplaceBlockIncomingEvent extends Event {
         case "target":
           this.target = UUID.fromString(networkData.getValue());
           break;
-        case "replacementBlockType":
-          this.replacementBlockType = networkData.getValue();
+        case "replacementBlockData":
+          this.replacementBlockData = networkData.getChildrenList().get(0);
           break;
       }
     }

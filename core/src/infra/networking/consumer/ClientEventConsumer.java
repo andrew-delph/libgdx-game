@@ -8,6 +8,7 @@ import infra.common.events.EventConsumer;
 import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntitySerializationConverter;
+import infra.entity.block.Block;
 import infra.networking.client.ClientNetworkHandle;
 import infra.networking.events.*;
 
@@ -69,17 +70,16 @@ public class ClientEventConsumer extends EventConsumer {
           ReplaceBlockOutgoingEvent realEvent = (ReplaceBlockOutgoingEvent) event;
           this.eventService.queuePostUpdateEvent(
               eventFactory.createReplaceBlockEvent(
-                  realEvent.getTarget(), realEvent.getReplacementBlockType()));
+                  realEvent.getTarget(), realEvent.getReplacementBlock()));
           this.clientNetworkHandle.send(realEvent.toNetworkEvent());
         });
     this.eventService.addListener(
         ReplaceBlockIncomingEvent.type,
         event -> {
           ReplaceBlockIncomingEvent realEvent = (ReplaceBlockIncomingEvent) event;
-          Entity placedEntity = this.gameStore.getEntity(realEvent.getTarget());
           this.eventService.queuePostUpdateEvent(
               this.eventFactory.createReplaceBlockEvent(
-                  realEvent.getTarget(), realEvent.getReplacementBlockType()));
+                  realEvent.getTarget(), (Block)entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
         });
   }
 }

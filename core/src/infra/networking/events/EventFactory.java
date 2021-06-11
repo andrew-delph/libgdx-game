@@ -3,6 +3,7 @@ package infra.networking.events;
 import infra.chunk.ChunkRange;
 import infra.common.events.RemoveEntityEvent;
 import infra.common.events.ReplaceBlockEvent;
+import infra.entity.block.Block;
 import infra.networking.NetworkObjects;
 
 import java.util.List;
@@ -38,9 +39,9 @@ public interface EventFactory {
       NetworkObjects.NetworkEvent networkEvent);
 
   ReplaceBlockOutgoingEvent createReplaceBlockOutgoingEvent(
-      UUID target, String replacementBlockType, ChunkRange chunkRange);
+      UUID target, Block replacementBlock, ChunkRange chunkRange);
 
-  ReplaceBlockEvent createReplaceBlockEvent(UUID target, String replacementBlockType);
+  ReplaceBlockEvent createReplaceBlockEvent(UUID target, Block replacementBlock);
 
   RemoveEntityEvent createRemoveEntityEvent(UUID entityUuid);
 }

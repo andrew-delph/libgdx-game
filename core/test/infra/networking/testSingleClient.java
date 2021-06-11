@@ -329,7 +329,7 @@ public class testSingleClient {
     assert  serverGameStore.getBlock(new Coordinates(0,0)).getClass() == DirtBlock.class;
     TimeUnit.SECONDS.sleep(1);
     Block clientBlock = serverGameStore.getBlock(new Coordinates(0,0));
-    clientEventService.fireEvent(clientEventFactory.createReplaceBlockOutgoingEvent(clientBlock.uuid, SkyBlock.class.getName(), new ChunkRange(clientBlock.coordinates)));
+    clientEventService.fireEvent(clientEventFactory.createReplaceBlockOutgoingEvent(clientBlock.uuid, serverBlockFactory.createSky(), new ChunkRange(clientBlock.coordinates)));
     TimeUnit.SECONDS.sleep(1);
     assert  serverGameStore.getBlock(new Coordinates(0,0)).getClass() == SkyBlock.class;
   }
@@ -350,7 +350,7 @@ public class testSingleClient {
     TimeUnit.SECONDS.sleep(1);
     assert  clientGameStore.getBlock(new Coordinates(0,0)).getClass() == DirtBlock.class;
 ;
-    serverEventService.fireEvent(clientEventFactory.createReplaceBlockOutgoingEvent(serverEntity.uuid, SkyBlock.class.getName(), new ChunkRange(serverEntity.coordinates)));
+    serverEventService.fireEvent(clientEventFactory.createReplaceBlockOutgoingEvent(serverEntity.uuid, serverBlockFactory.createSky(), new ChunkRange(serverEntity.coordinates)));
     TimeUnit.SECONDS.sleep(1);
 
     clientEventService.firePostUpdateEvents();

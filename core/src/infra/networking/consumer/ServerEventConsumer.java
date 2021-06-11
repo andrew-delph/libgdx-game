@@ -11,6 +11,7 @@ import infra.common.events.EventConsumer;
 import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntitySerializationConverter;
+import infra.entity.block.Block;
 import infra.generation.ChunkGenerationManager;
 import infra.networking.ConnectionStore;
 import infra.networking.NetworkObjects;
@@ -143,7 +144,7 @@ public class ServerEventConsumer extends EventConsumer {
           ChunkRange chunkRange = new ChunkRange(placedEntity.coordinates);
           this.eventService.queuePostUpdateEvent(
               this.eventFactory.createReplaceBlockEvent(
-                  realEvent.getTarget(), realEvent.getReplacementBlockType()));
+                  realEvent.getTarget(), (Block) entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
           for (UUID uuid : chunkSubscriptionService.getSubscriptions(chunkRange)) {
             serverNetworkHandle.send(uuid, realEvent.networkEvent);
           }
