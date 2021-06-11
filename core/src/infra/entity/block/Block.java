@@ -35,8 +35,8 @@ public class Block extends Entity {
     shape.setAsBox(Entity.coordinatesScale / 2.0f, Entity.coordinatesScale / 2f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
-    fixtureDef.density = 0.1f;
-    fixtureDef.restitution = 0.5f;
+    fixtureDef.density = 0f;
+    fixtureDef.restitution = 0;
     theBody.createFixture(fixtureDef);
     return theBody;
   }

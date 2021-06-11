@@ -51,9 +51,9 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
     fixtureDef.density = 0.1f;
-    fixtureDef.restitution = 0.5f;
+    fixtureDef.restitution = 3.5f;
     body.createFixture(fixtureDef);
-    body.setGravityScale(1);
+//    body.setGravityScale(1);
     shape.dispose();
     BodyDef bodyDef2 = new BodyDef();
     bodyDef2.type = BodyDef.BodyType.StaticBody;
@@ -86,7 +86,7 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
     camera.update();
     // Step the physics simulation forward at a rate of 60hz
     world.step(1f / 60f, 6, 2);
-    body.applyTorque(torque, true);
+//    body.applyTorque(torque, true);
     sprite.setPosition(
         (body.getPosition().x * PIXELS_TO_METERS) - sprite.getWidth() / 2,
         (body.getPosition().y * PIXELS_TO_METERS) - sprite.getHeight() / 2);
@@ -132,7 +132,7 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
   public boolean keyUp(int keycode) {
     if (keycode == Input.Keys.RIGHT) body.setLinearVelocity(1f, 0f);
     if (keycode == Input.Keys.LEFT) body.setLinearVelocity(-1f, 0f);
-    if (keycode == Input.Keys.UP) body.applyForceToCenter(0f, 10f, true);
+    if (keycode == Input.Keys.UP) body.applyForceToCenter(0f, 50f, false);
     if (keycode == Input.Keys.DOWN) body.applyForceToCenter(0f, -10f, true);
     // On brackets ( [ ] ) apply torque, either clock or counterclockwise
     if (keycode == Input.Keys.RIGHT_BRACKET) torque += 0.1f;

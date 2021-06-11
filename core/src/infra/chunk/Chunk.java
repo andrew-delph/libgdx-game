@@ -34,7 +34,7 @@ public class Chunk implements Callable<Chunk> {
     this.chunkMap = new ConcurrentHashMap();
     this.nextTick(1);
     this.bodySet = new HashSet<>();
-    this.world = new World(new Vector2(0, -1f), true);
+    this.world = new World(new Vector2(0, -0.1f), false);
   }
 
   void nextTick(int timeout) {

@@ -2,6 +2,8 @@ package infra.entity.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import infra.app.GameController;
@@ -22,6 +24,8 @@ public class EntityUserController extends EntityController {
 
   @Override
   public void beforeWorldUpdate() {
+    Body body = this.entity.getBody();
+    float impulse = body.getMass() * 10;
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
         this.gameController.placeBlock(this.entity, Direction.LEFT, SkyBlock.class);
@@ -43,16 +47,16 @@ public class EntityUserController extends EntityController {
       } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
         this.gameController.placeBlock(this.entity, Direction.UP, DirtBlock.class);
       }
-    }else {
+    } else {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-        this.entity.getBody().setLinearVelocity(-5f, 0f);
+        body.applyLinearImpulse(new Vector2(-5, 0), body.getWorldCenter(), true);
       }
       if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-        this.entity.getBody().setLinearVelocity(5f, 0f);
+        body.applyLinearImpulse(new Vector2(5, 0), body.getWorldCenter(), true);
       }
       if (Gdx.input.isKeyPressed(Input.Keys.S)) {}
       if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-        this.entity.getBody().setLinearVelocity(0f, 50f);
+        body.applyLinearImpulse(new Vector2(0, impulse), body.getWorldCenter(), true);
       }
     }
   }
