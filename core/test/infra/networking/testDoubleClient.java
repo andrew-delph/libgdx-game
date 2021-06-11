@@ -100,7 +100,7 @@ public class testDoubleClient {
 
     Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
 
-    TimeUnit.SECONDS.sleep(1);
+    TimeUnit.SECONDS.sleep(3);
 
     assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore

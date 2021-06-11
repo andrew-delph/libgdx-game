@@ -8,6 +8,8 @@ import infra.app.GameController;
 import infra.common.Coordinates;
 import infra.common.Direction;
 import infra.entity.Entity;
+import infra.entity.block.DirtBlock;
+import infra.entity.block.SkyBlock;
 
 public class EntityUserController extends EntityController {
 
@@ -22,15 +24,26 @@ public class EntityUserController extends EntityController {
   public void beforeWorldUpdate() {
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-        this.gameController.dig(this.entity, Direction.LEFT);
+        this.gameController.placeBlock(this.entity, Direction.LEFT, SkyBlock.class);
       } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-        this.gameController.dig(this.entity, Direction.RIGHT);
+        this.gameController.placeBlock(this.entity, Direction.RIGHT, SkyBlock.class);
       } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-        this.gameController.dig(this.entity, Direction.DOWN);
+        this.gameController.placeBlock(this.entity, Direction.DOWN, SkyBlock.class);
       } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-        this.gameController.dig(this.entity, Direction.UP);
+        this.gameController.placeBlock(this.entity, Direction.UP, SkyBlock.class);
       }
-    } else {
+    }
+    if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+      if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        this.gameController.placeBlock(this.entity, Direction.LEFT, DirtBlock.class);
+      } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        this.gameController.placeBlock(this.entity, Direction.RIGHT, DirtBlock.class);
+      } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        this.gameController.placeBlock(this.entity, Direction.DOWN, DirtBlock.class);
+      } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        this.gameController.placeBlock(this.entity, Direction.UP, DirtBlock.class);
+      }
+    }else {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
         this.entity.getBody().setLinearVelocity(-5f, 0f);
       }

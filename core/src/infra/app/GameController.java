@@ -10,6 +10,8 @@ import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.entity.block.Block;
 import infra.entity.block.BlockFactory;
+import infra.entity.block.DirtBlock;
+import infra.entity.block.SkyBlock;
 import infra.networking.events.CreateEntityOutgoingEvent;
 import infra.networking.events.EventFactory;
 
@@ -106,7 +108,7 @@ public class GameController {
     this.gameStore.removeEntity(uuid);
   }
 
-  public void dig(Entity entity, Direction direction) {
+  public void placeBlock(Entity entity, Direction direction, Class blockClass){
     Block removeBlock = null;
     if (direction == Direction.LEFT) {
       removeBlock = this.gameStore.getBlock(entity.getCenter().getLeft());
@@ -119,13 +121,22 @@ public class GameController {
     }
     if (removeBlock == null) return;
 
-    Block replacementBlock = blockFactory.createSky();
+    Block replacementBlock;
+    if (blockClass == SkyBlock.class){
+      replacementBlock = blockFactory.createSky();
+    }
+    else if(blockClass == DirtBlock.class){
+      replacementBlock = blockFactory.createDirt();
+    }
+    else {
+      return;
+    }
     // put this into a post update event
     this.eventService.queuePostUpdateEvent(
-        this.eventFactory.createReplaceBlockEvent(removeBlock.uuid, replacementBlock));
+            this.eventFactory.createReplaceBlockEvent(removeBlock.uuid, replacementBlock));
     this.eventService.fireEvent(
-        this.eventFactory.createReplaceBlockOutgoingEvent(
-            removeBlock.uuid, replacementBlock, new ChunkRange(removeBlock.coordinates)));
+            this.eventFactory.createReplaceBlockOutgoingEvent(
+                    removeBlock.uuid, replacementBlock, new ChunkRange(removeBlock.coordinates)));
   }
 
   public Entity replaceBlock(UUID target, Block replacementBlock) {
