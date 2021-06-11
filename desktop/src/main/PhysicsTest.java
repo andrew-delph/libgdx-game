@@ -45,6 +45,7 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
         (sprite.getX() + sprite.getWidth() / 2) / PIXELS_TO_METERS,
         (sprite.getY() + sprite.getHeight() / 2) / PIXELS_TO_METERS);
     body = world.createBody(bodyDef);
+    System.out.println("mass "+body.getMass());
     PolygonShape shape = new PolygonShape();
     shape.setAsBox(
         sprite.getWidth() / 2 / PIXELS_TO_METERS, sprite.getHeight() / 2 / PIXELS_TO_METERS);

@@ -26,6 +26,9 @@ public class Chunk implements Callable<Chunk> {
   Map<UUID, Entity> chunkMap;
   Set<UUID> bodySet;
 
+  float timeStep = 1/60f;
+  float gravity = 30f;
+
   @Inject
   public Chunk(Clock clock, GameStore gameStore, @Assisted ChunkRange chunkRange) {
     this.gameStore = gameStore;
@@ -34,7 +37,7 @@ public class Chunk implements Callable<Chunk> {
     this.chunkMap = new ConcurrentHashMap();
     this.nextTick(1);
     this.bodySet = new HashSet<>();
-    this.world = new World(new Vector2(0, -0.1f), false);
+    this.world = new World(new Vector2(0, -gravity), false);
   }
 
   void nextTick(int timeout) {
@@ -173,7 +176,7 @@ public class Chunk implements Callable<Chunk> {
         tickTimeout = entityTick;
       }
     }
-    world.step(1, 6, 2);
+    world.step(timeStep, 6, 2);
 
     for (Entity entity : this.chunkMap.values()) {
       entity.entityController.afterWorldUpdate();

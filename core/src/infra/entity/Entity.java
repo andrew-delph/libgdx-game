@@ -67,7 +67,7 @@ public class Entity {
     shape.setAsBox(coordinatesScale / 2f, coordinatesScale / 2f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
-    fixtureDef.density = 0.1f;
+    fixtureDef.density = 1;
     fixtureDef.restitution = 0;
     theBody.createFixture(fixtureDef);
 
