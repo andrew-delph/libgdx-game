@@ -26,8 +26,8 @@ public class Chunk implements Callable<Chunk> {
   Map<UUID, Entity> chunkMap;
   Set<UUID> bodySet;
 
-  float timeStep = 1/60f;
-  float gravity = 30f;
+  float timeStep = 1/5f;
+  float gravity = 1f;
 
   @Inject
   public Chunk(Clock clock, GameStore gameStore, @Assisted ChunkRange chunkRange) {
@@ -49,7 +49,6 @@ public class Chunk implements Callable<Chunk> {
     try {
       this.update();
     } catch (Exception e) {
-      System.out.println("chunk update");
       e.printStackTrace();
     }
     return this;
