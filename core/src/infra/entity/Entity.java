@@ -2,13 +2,13 @@ package infra.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
-import infra.chunk.ChunkRange;
 import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.render.BaseAssetManager;
+import infra.entity.collision.type.GroundSensorEnvironmentBehavior;
 import infra.entity.controllers.EntityController;
 import infra.networking.NetworkObjects;
 
@@ -22,13 +22,31 @@ public class Entity {
   public Sprite sprite;
   public Body body;
 
+  private int groundContact = 0;
+
+  public void increaseGroundContact() {
+    this.groundContact++;
+  }
+
+  public void decreaseGroundContact() {
+    this.groundContact--;
+  }
+
+  public Boolean isOnGround() {
+    if (this.groundContact > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public Body getBody() {
-//    System.out.println("getBody");
+    //    System.out.println("getBody");
     return body;
   }
 
   public void setBody(Body body) {
-//    System.out.println("setBody"+new ChunkRange(this.coordinates)+","+this.uuid);
+    //    System.out.println("setBody"+new ChunkRange(this.coordinates)+","+this.uuid);
     this.body = body;
   }
 
@@ -40,7 +58,6 @@ public class Entity {
   public String textureName = "frog.png";
 
   @Inject BaseAssetManager baseAssetManager;
-
 
   @Inject
   protected Entity() {
@@ -59,7 +76,7 @@ public class Entity {
         this.coordinates.getXReal() * coordinatesScale,
         this.coordinates.getYReal() * coordinatesScale);
 
-//    this.setBody(world.createBody(bodyDef));
+    //    this.setBody(world.createBody(bodyDef));
     Body theBody = world.createBody(bodyDef);
 
     PolygonShape shape = new PolygonShape();
@@ -71,8 +88,15 @@ public class Entity {
     fixtureDef.restitution = 0;
     theBody.createFixture(fixtureDef);
 
-    theBody.setFixedRotation(true);
+    FixtureDef jumpFixtureDef = new FixtureDef();
+    PolygonShape jumpShape = new PolygonShape();
+    jumpShape.setAsBox(coordinatesScale / 2f, 1f, new Vector2(0, -coordinatesScale / 2f), 0);
+    jumpFixtureDef.shape = jumpShape;
+    jumpFixtureDef.isSensor = true;
 
+    Fixture jumpFixture = theBody.createFixture(jumpFixtureDef);
+    jumpFixture.setUserData(new GroundSensorEnvironmentBehavior(this));
+    theBody.setFixedRotation(true);
     return theBody;
   }
 
@@ -142,7 +166,7 @@ public class Entity {
     return this.uuid == other.uuid;
   }
 
-  public Coordinates getCenter(){
-    return new Coordinates(this.coordinates.getXReal()+0.5f,this.coordinates.getYReal()+0.5f);
+  public Coordinates getCenter() {
+    return new Coordinates(this.coordinates.getXReal() + 0.5f, this.coordinates.getYReal() + 0.5f);
   }
 }

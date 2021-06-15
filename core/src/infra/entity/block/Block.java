@@ -2,6 +2,7 @@ package infra.entity.block;
 
 import com.badlogic.gdx.physics.box2d.*;
 import infra.entity.Entity;
+import infra.entity.collision.type.BlockEnvironmentBehavior;
 
 public class Block extends Entity {
 
@@ -37,7 +38,8 @@ public class Block extends Entity {
     fixtureDef.shape = shape;
     fixtureDef.density = 0f;
     fixtureDef.restitution = 0;
-    theBody.createFixture(fixtureDef);
+    Fixture blockFixture = theBody.createFixture(fixtureDef);
+    blockFixture.setUserData(new BlockEnvironmentBehavior(this));
     return theBody;
   }
 }

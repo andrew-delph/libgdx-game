@@ -11,6 +11,7 @@ import infra.common.GameStore;
 import infra.common.Tick;
 import infra.entity.Entity;
 import infra.entity.block.Block;
+import infra.entity.collision.EntityContactListener;
 
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -26,8 +27,10 @@ public class Chunk implements Callable<Chunk> {
   Map<UUID, Entity> chunkMap;
   Set<UUID> bodySet;
 
-  float timeStep = 1/5f;
+  float timeStep = 1 / 5f;
   float gravity = 1f;
+
+  @Inject EntityContactListener entityContactListener;
 
   @Inject
   public Chunk(Clock clock, GameStore gameStore, @Assisted ChunkRange chunkRange) {
@@ -38,6 +41,23 @@ public class Chunk implements Callable<Chunk> {
     this.nextTick(1);
     this.bodySet = new HashSet<>();
     this.world = new World(new Vector2(0, -gravity), false);
+    //    this.world.setContactListener(
+    //        new ContactListener() {
+    //          @Override
+    //          public void beginContact(Contact contact) {
+    //            System.out.println("beginContact");
+    //          }
+    //
+    //          @Override
+    //          public void endContact(Contact contact) {}
+    //
+    //          @Override
+    //          public void preSolve(Contact contact, Manifold oldManifold) {}
+    //
+    //          @Override
+    //          public void postSolve(Contact contact, ContactImpulse impulse) {}
+    //        });
+    this.world.setContactListener(new EntityContactListener());
   }
 
   void nextTick(int timeout) {
@@ -59,11 +79,10 @@ public class Chunk implements Callable<Chunk> {
 
     if (!bodySet.contains(entity.uuid)) {
       Body bodyToAdd = entity.addWorld(world);
-      if(bodyToAdd != null){
+      if (bodyToAdd != null) {
         entity.setBody(bodyToAdd);
         bodySet.add(entity.uuid);
       }
-
     }
   }
 
@@ -79,17 +98,19 @@ public class Chunk implements Callable<Chunk> {
     Entity entity = this.getEntity(uuid);
     this.chunkMap.remove(uuid);
     if (bodySet.contains(entity.uuid)) {
-            System.out.println(
-                "destroy body:"
-                    + entity.uuid
-                    + " ,"
-                    + entity.coordinates
-                    + " ,"
-                    + entity.coordinates.getX()
-                    + ","
-                    + entity.coordinates.getY()
-                    + ", "
-                    + new ChunkRange(entity.coordinates)+", "+entity.getBody());
+      System.out.println(
+          "destroy body:"
+              + entity.uuid
+              + " ,"
+              + entity.coordinates
+              + " ,"
+              + entity.coordinates.getX()
+              + ","
+              + entity.coordinates.getY()
+              + ", "
+              + new ChunkRange(entity.coordinates)
+              + ", "
+              + entity.getBody());
       this.world.destroyBody(entity.getBody());
       bodySet.remove(entity.uuid);
     }
@@ -101,7 +122,7 @@ public class Chunk implements Callable<Chunk> {
   synchronized void update() {
     Set<Entity> neighborEntitySet = new HashSet<>();
 
-//    Boolean verbose = this.chunkRange.equals(new ChunkRange(new Coordinates(0,0)));
+    //    Boolean verbose = this.chunkRange.equals(new ChunkRange(new Coordinates(0,0)));
 
     Chunk neighborChunk = null;
 
@@ -120,7 +141,8 @@ public class Chunk implements Callable<Chunk> {
     if (!(neighborChunk == null)) {
       neighborEntitySet.addAll(
           neighborChunk.getEntityInRange(
-              new Coordinates(neighborChunk.chunkRange.bottom_x, neighborChunk.chunkRange.top_y-2),
+              new Coordinates(
+                  neighborChunk.chunkRange.bottom_x, neighborChunk.chunkRange.top_y - 2),
               new Coordinates(neighborChunk.chunkRange.top_x, neighborChunk.chunkRange.top_y)));
     }
 
@@ -151,15 +173,15 @@ public class Chunk implements Callable<Chunk> {
     entityToRemoveSet.removeAll(neighborEntitySet);
 
     // add temp entity to set
-    for (Entity entity: entityToAddSet){
-      if(neighborEntityBodyMap.containsKey(entity)) continue;
+    for (Entity entity : entityToAddSet) {
+      if (neighborEntityBodyMap.containsKey(entity)) continue;
       Body bodyToAdd = entity.addWorld(world);
       if (bodyToAdd == null) continue;
-      neighborEntityBodyMap.put(entity,bodyToAdd);
+      neighborEntityBodyMap.put(entity, bodyToAdd);
     }
 
     // remove temp entity from set
-    for(Entity entity: entityToRemoveSet){
+    for (Entity entity : entityToRemoveSet) {
       world.destroyBody(neighborEntityBodyMap.get(entity));
       neighborEntityBodyMap.remove(entity);
     }
@@ -181,7 +203,6 @@ public class Chunk implements Callable<Chunk> {
       entity.entityController.afterWorldUpdate();
     }
     this.nextTick(1);
-
   }
 
   public List<Entity> getEntityInRange(
@@ -198,10 +219,11 @@ public class Chunk implements Callable<Chunk> {
     return entityList;
   }
 
-  public Block getBlock(Coordinates coordinates){
-    List<Entity> entityList = this.getEntityInRange(coordinates,coordinates);
-    for (Entity entity: entityList){
-      if (entity instanceof Block && Coordinates.inRange(coordinates,coordinates,entity.coordinates)){
+  public Block getBlock(Coordinates coordinates) {
+    List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
+    for (Entity entity : entityList) {
+      if (entity instanceof Block
+          && Coordinates.inRange(coordinates, coordinates, entity.coordinates)) {
         return (Block) entity;
       }
     }
