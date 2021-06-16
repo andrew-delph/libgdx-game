@@ -31,7 +31,7 @@ public class ChunkGenerationManager {
   }
 
   public List<UUID> getOwnerUuidList(UUID uuid) {
-    this.uuidOwnerMap.computeIfAbsent(uuid, k->new LinkedList<>());
+    this.uuidOwnerMap.computeIfAbsent(uuid, k -> new LinkedList<>());
     return this.uuidOwnerMap.get(uuid);
   }
 

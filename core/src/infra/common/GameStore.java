@@ -32,10 +32,10 @@ public class GameStore {
     ChunkRange chunkRange = this.entityMap.get(uuid);
     if (chunkRange == null) return null;
     Chunk chunk = this.chunkClockMap.get(chunkRange);
-    if (chunk ==null) return null;
+    if (chunk == null) return null;
     Entity entity = chunk.removeEntity(uuid);
     this.entityMap.remove(uuid);
-    return  entity;
+    return entity;
   }
 
   public int getEntityNumber() {

@@ -11,7 +11,7 @@ import infra.common.GameStore;
 import infra.common.Tick;
 import infra.entity.Entity;
 import infra.entity.block.Block;
-import infra.entity.collision.EntityContactListener;
+import infra.entity.collision.EntityContactListenerFactory;
 
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -21,19 +21,26 @@ public class Chunk implements Callable<Chunk> {
 
   public ChunkRange chunkRange;
   public Tick updateTick;
+  public World world;
   GameStore gameStore;
   Clock clock;
-  public World world;
   Map<UUID, Entity> chunkMap;
   Set<UUID> bodySet;
 
   float timeStep = 1 / 5f;
   float gravity = 1f;
 
-  @Inject EntityContactListener entityContactListener;
+  @Inject EntityContactListenerFactory entityContactListenerFactory;
+
+  Map<Entity, Body> neighborEntityBodyMap = new HashMap<>();
 
   @Inject
-  public Chunk(Clock clock, GameStore gameStore, @Assisted ChunkRange chunkRange) {
+  public Chunk(
+      Clock clock,
+      EntityContactListenerFactory entityContactListenerFactory,
+      GameStore gameStore,
+      @Assisted ChunkRange chunkRange) {
+    this.entityContactListenerFactory = entityContactListenerFactory;
     this.gameStore = gameStore;
     this.clock = clock;
     this.chunkRange = chunkRange;
@@ -41,23 +48,7 @@ public class Chunk implements Callable<Chunk> {
     this.nextTick(1);
     this.bodySet = new HashSet<>();
     this.world = new World(new Vector2(0, -gravity), false);
-    //    this.world.setContactListener(
-    //        new ContactListener() {
-    //          @Override
-    //          public void beginContact(Contact contact) {
-    //            System.out.println("beginContact");
-    //          }
-    //
-    //          @Override
-    //          public void endContact(Contact contact) {}
-    //
-    //          @Override
-    //          public void preSolve(Contact contact, Manifold oldManifold) {}
-    //
-    //          @Override
-    //          public void postSolve(Contact contact, ContactImpulse impulse) {}
-    //        });
-    this.world.setContactListener(new EntityContactListener());
+    this.world.setContactListener(entityContactListenerFactory.createEntityContactListener());
   }
 
   void nextTick(int timeout) {
@@ -116,8 +107,6 @@ public class Chunk implements Callable<Chunk> {
     }
     return entity;
   }
-
-  Map<Entity, Body> neighborEntityBodyMap = new HashMap<>();
 
   synchronized void update() {
     Set<Entity> neighborEntitySet = new HashSet<>();

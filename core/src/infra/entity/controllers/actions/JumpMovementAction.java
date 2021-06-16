@@ -1,4 +1,3 @@
 package infra.entity.controllers.actions;
 
-public class JumpMovementAction {
-}
+public class JumpMovementAction {}

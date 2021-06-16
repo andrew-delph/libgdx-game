@@ -18,8 +18,7 @@ public class EntityUserController extends EntityController {
 
   @Inject GameController gameController;
 
-  @Inject
-  Clock clock;
+  @Inject Clock clock;
 
   int lastJump = 0;
 
@@ -55,21 +54,21 @@ public class EntityUserController extends EntityController {
         this.gameController.placeBlock(this.entity, Direction.UP, DirtBlock.class);
       }
     } else if (body.getLinearVelocity().y == 0) {
-      if (Gdx.input.isKeyPressed(Input.Keys.W) && clock.currentTick.time - lastJump > 5) {
+      if (Gdx.input.isKeyPressed(Input.Keys.W) && this.entity.isOnGround()) {
         lastJump = clock.currentTick.time;
-        body.setLinearVelocity(new Vector2(0,9));
-//        body.applyLinearImpulse(new Vector2(body.getLinearVelocity().x, impulse), body.getWorldCenter(), true);
+        body.setLinearVelocity(new Vector2(0, 9));
+        //        body.applyLinearImpulse(new Vector2(body.getLinearVelocity().x, impulse),
+        // body.getWorldCenter(), true);
       }
 
       if (Gdx.input.isKeyPressed(Input.Keys.S)) {}
     }
     if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-      body.setLinearVelocity(new Vector2(-5,body.getLinearVelocity().y));
-
+      body.setLinearVelocity(new Vector2(-5, body.getLinearVelocity().y));
     }
     if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//      body.applyForceToCenter(new Vector2(impulse, 0), true);
-      body.setLinearVelocity(new Vector2(5,body.getLinearVelocity().y));
+      //      body.applyForceToCenter(new Vector2(impulse, 0), true);
+      body.setLinearVelocity(new Vector2(5, body.getLinearVelocity().y));
     }
   }
 

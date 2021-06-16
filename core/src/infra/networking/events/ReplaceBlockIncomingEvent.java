@@ -10,22 +10,9 @@ import java.util.UUID;
 public class ReplaceBlockIncomingEvent extends Event {
 
   public static String type = "replace_block_incoming";
-
+  public NetworkObjects.NetworkEvent networkEvent;
   UUID target;
   NetworkObjects.NetworkData replacementBlockData;
-  public NetworkObjects.NetworkEvent networkEvent;
-
-  public UUID getTarget() {
-    return target;
-  }
-
-  public NetworkObjects.NetworkData getReplacementBlockData() {
-    return replacementBlockData;
-  }
-
-  public UUID getUser() {
-    return UUID.fromString(this.networkEvent.getUser());
-  }
 
   @Inject
   public ReplaceBlockIncomingEvent(@Assisted NetworkObjects.NetworkEvent networkEvent) {
@@ -40,6 +27,18 @@ public class ReplaceBlockIncomingEvent extends Event {
           break;
       }
     }
+  }
+
+  public UUID getTarget() {
+    return target;
+  }
+
+  public NetworkObjects.NetworkData getReplacementBlockData() {
+    return replacementBlockData;
+  }
+
+  public UUID getUser() {
+    return UUID.fromString(this.networkEvent.getUser());
   }
 
   @Override

@@ -7,19 +7,30 @@ public class EntityContactListener implements ContactListener {
 
   @Inject CollisionService collisionService;
 
+  @Inject
   public EntityContactListener() {
-    System.out.println("create EntityContactListener");
   }
 
   public void beginContact(Contact contact) {
     Fixture fixtureA = contact.getFixtureA();
     Fixture fixtureB = contact.getFixtureB();
-    System.out.println(
-        "beginContact  between " + fixtureA.getUserData() + " and " + fixtureB.getUserData());
+    Object objectA = fixtureA.getUserData();
+    Object objectB = fixtureB.getUserData();
+    if (objectA == null || objectB == null) return;
+    this.collisionService.handleBeginCollision(
+        new CollisionPair(objectA.getClass(), objectB.getClass()), objectA, objectB);
   }
 
   @Override
-  public void endContact(Contact contact) {}
+  public void endContact(Contact contact) {
+    Fixture fixtureA = contact.getFixtureA();
+    Fixture fixtureB = contact.getFixtureB();
+    Object objectA = fixtureA.getUserData();
+    Object objectB = fixtureB.getUserData();
+    if (objectA == null || objectB == null) return;
+    this.collisionService.handleEndCollision(
+        new CollisionPair(objectA.getClass(), objectB.getClass()), objectA, objectB);
+  }
 
   @Override
   public void preSolve(Contact contact, Manifold oldManifold) {}

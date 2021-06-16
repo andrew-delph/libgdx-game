@@ -42,8 +42,8 @@ public class EventService {
     for (Event event : postUpdateEventListCopy) {
       if (this.eventPostUpdateListeners.get(event.getType()) != null) {
         this.eventPostUpdateListeners
-                .get(event.getType())
-                .forEach(eventConsumer -> eventConsumer.accept(event));
+            .get(event.getType())
+            .forEach(eventConsumer -> eventConsumer.accept(event));
       }
     }
   }

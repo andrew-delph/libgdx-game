@@ -8,7 +8,6 @@ import com.google.inject.Inject;
 import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.render.BaseAssetManager;
-import infra.entity.collision.type.GroundSensorEnvironmentBehavior;
 import infra.entity.controllers.EntityController;
 import infra.networking.NetworkObjects;
 
@@ -21,8 +20,24 @@ public class Entity {
   public Animation animation;
   public Sprite sprite;
   public Body body;
-
+  public Coordinates coordinates;
+  @Inject public Clock clock;
+  public int zindex = 1;
+  public int width = (int) (coordinatesScale);
+  public int height = (int) (coordinatesScale);
+  public String textureName = "frog.png";
+  @Inject BaseAssetManager baseAssetManager;
   private int groundContact = 0;
+
+  @Inject
+  protected Entity() {
+    this.sprite = new Sprite();
+    this.sprite.setPosition(0, 0);
+    this.sprite.setSize(width, height);
+    this.coordinates = new Coordinates(0, 0);
+    this.uuid = UUID.randomUUID();
+    this.entityController = new EntityController(this);
+  }
 
   public void increaseGroundContact() {
     this.groundContact++;
@@ -48,25 +63,6 @@ public class Entity {
   public void setBody(Body body) {
     //    System.out.println("setBody"+new ChunkRange(this.coordinates)+","+this.uuid);
     this.body = body;
-  }
-
-  public Coordinates coordinates;
-  @Inject public Clock clock;
-  public int zindex = 1;
-  public int width = (int) (coordinatesScale);
-  public int height = (int) (coordinatesScale);
-  public String textureName = "frog.png";
-
-  @Inject BaseAssetManager baseAssetManager;
-
-  @Inject
-  protected Entity() {
-    this.sprite = new Sprite();
-    this.sprite.setPosition(0, 0);
-    this.sprite.setSize(width, height);
-    this.coordinates = new Coordinates(0, 0);
-    this.uuid = UUID.randomUUID();
-    this.entityController = new EntityController(this);
   }
 
   public synchronized Body addWorld(World world) {
@@ -95,7 +91,7 @@ public class Entity {
     jumpFixtureDef.isSensor = true;
 
     Fixture jumpFixture = theBody.createFixture(jumpFixtureDef);
-    jumpFixture.setUserData(new GroundSensorEnvironmentBehavior(this));
+    jumpFixture.setUserData(this);
     theBody.setFixedRotation(true);
     return theBody;
   }

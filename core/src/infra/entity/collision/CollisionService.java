@@ -1,10 +1,10 @@
 package infra.entity.collision;
 
 import com.google.inject.Inject;
-import infra.entity.Entity;
-import infra.entity.block.Block;
+import infra.common.Clock;
+import infra.entity.EntityFactory;
 import infra.entity.collision.contact.ContactWrapper;
-import infra.entity.collision.contact.EntityGroundContact;
+import infra.entity.collision.contact.ContactWrapperFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,15 +12,15 @@ import java.util.Map;
 public class CollisionService {
   Map<CollisionPair, ContactWrapper> collisionPairContactWrapperMap;
 
+  @Inject ContactWrapperFactory contactWrapperFactory;
+
   @Inject
-  CollisionService() {
+  public CollisionService() {
     this.collisionPairContactWrapperMap = new HashMap<>();
-    this.init();
   }
 
-  void init() {
-    this.addCollisionConsumer(
-        new CollisionPair(Entity.class, Block.class), new EntityGroundContact());
+  public void init() {
+    contactWrapperFactory.createEntityGroundContact().init();
   }
 
   public void addCollisionConsumer(CollisionPair collisionPair, ContactWrapper contactWrapper) {

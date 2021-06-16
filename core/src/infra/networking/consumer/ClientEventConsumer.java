@@ -2,7 +2,6 @@ package infra.networking.consumer;
 
 import com.google.inject.Inject;
 import infra.app.GameController;
-import infra.chunk.ChunkRange;
 import infra.common.GameStore;
 import infra.common.events.EventConsumer;
 import infra.common.events.EventService;
@@ -79,7 +78,10 @@ public class ClientEventConsumer extends EventConsumer {
           ReplaceBlockIncomingEvent realEvent = (ReplaceBlockIncomingEvent) event;
           this.eventService.queuePostUpdateEvent(
               this.eventFactory.createReplaceBlockEvent(
-                  realEvent.getTarget(), (Block)entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
+                  realEvent.getTarget(),
+                  (Block)
+                      entitySerializationConverter.createEntity(
+                          realEvent.getReplacementBlockData())));
         });
   }
 }

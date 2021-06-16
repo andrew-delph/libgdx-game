@@ -13,6 +13,9 @@ import infra.common.render.BaseAssetManager;
 import infra.entity.EntityFactory;
 import infra.entity.block.BlockFactory;
 import infra.entity.collision.CollisionService;
+import infra.entity.collision.EntityContactListenerFactory;
+import infra.entity.collision.contact.ContactWrapperFactory;
+import infra.entity.collision.contact.EntityGroundContact;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.generation.BlockGenerator;
 import infra.generation.ChunkBuilderFactory;
@@ -33,7 +36,7 @@ public abstract class MainConfig extends AbstractModule {
     bind(ConnectionStore.class).asEagerSingleton();
     bind(ChunkSubscriptionService.class).asEagerSingleton();
     bind(ChunkClockMap.class).asEagerSingleton();
-    //    bind(EntityContactListener.class).asEagerSingleton();
+
     bind(CollisionService.class).asEagerSingleton();
 
     install(new FactoryModuleBuilder().build(ChunkFactory.class));
@@ -48,5 +51,11 @@ public abstract class MainConfig extends AbstractModule {
     install(new FactoryModuleBuilder().build(EventFactory.class));
 
     install(new FactoryModuleBuilder().build(ObserverFactory.class));
+
+    install(new FactoryModuleBuilder().build(ContactWrapperFactory.class));
+
+    install(new FactoryModuleBuilder().build(EntityContactListenerFactory.class));
+
+
   }
 }
