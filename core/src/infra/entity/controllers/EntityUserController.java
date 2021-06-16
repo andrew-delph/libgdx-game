@@ -13,6 +13,8 @@ import infra.common.Direction;
 import infra.entity.Entity;
 import infra.entity.block.DirtBlock;
 import infra.entity.block.SkyBlock;
+import infra.entity.controllers.actions.HorizontalMovementAction;
+import infra.entity.controllers.actions.JumpMovementAction;
 
 public class EntityUserController extends EntityController {
 
@@ -25,6 +27,9 @@ public class EntityUserController extends EntityController {
   @Inject
   public EntityUserController(@Assisted Entity entity) {
     super(entity);
+    this.registerAction("left", new HorizontalMovementAction(-5));
+    this.registerAction("right", new HorizontalMovementAction(5));
+    this.registerAction("jump", new JumpMovementAction());
   }
 
   @Override
@@ -56,19 +61,16 @@ public class EntityUserController extends EntityController {
     } else if (body.getLinearVelocity().y == 0) {
       if (Gdx.input.isKeyPressed(Input.Keys.W) && this.entity.isOnGround()) {
         lastJump = clock.currentTick.time;
-        body.setLinearVelocity(new Vector2(0, 9));
-        //        body.applyLinearImpulse(new Vector2(body.getLinearVelocity().x, impulse),
-        // body.getWorldCenter(), true);
+        this.applyAction("jump", body);
       }
 
       if (Gdx.input.isKeyPressed(Input.Keys.S)) {}
     }
     if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-      body.setLinearVelocity(new Vector2(-5, body.getLinearVelocity().y));
+      this.applyAction("left", body);
     }
     if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-      //      body.applyForceToCenter(new Vector2(impulse, 0), true);
-      body.setLinearVelocity(new Vector2(5, body.getLinearVelocity().y));
+      this.applyAction("right", body);
     }
   }
 

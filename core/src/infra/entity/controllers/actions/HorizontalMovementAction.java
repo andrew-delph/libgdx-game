@@ -7,7 +7,7 @@ public class HorizontalMovementAction implements EntityAction {
 
   int magnitude;
 
-  HorizontalMovementAction(int magnitude) {
+  public HorizontalMovementAction(int magnitude) {
     this.magnitude = magnitude;
   }
 
