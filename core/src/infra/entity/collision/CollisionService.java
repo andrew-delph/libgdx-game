@@ -1,8 +1,6 @@
 package infra.entity.collision;
 
 import com.google.inject.Inject;
-import infra.common.Clock;
-import infra.entity.EntityFactory;
 import infra.entity.collision.contact.ContactWrapper;
 import infra.entity.collision.contact.ContactWrapperFactory;
 

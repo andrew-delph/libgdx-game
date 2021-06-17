@@ -8,8 +8,7 @@ public class EntityContactListener implements ContactListener {
   @Inject CollisionService collisionService;
 
   @Inject
-  public EntityContactListener() {
-  }
+  public EntityContactListener() {}
 
   public void beginContact(Contact contact) {
     Fixture fixtureA = contact.getFixtureA();

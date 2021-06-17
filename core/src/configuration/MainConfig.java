@@ -15,7 +15,6 @@ import infra.entity.block.BlockFactory;
 import infra.entity.collision.CollisionService;
 import infra.entity.collision.EntityContactListenerFactory;
 import infra.entity.collision.contact.ContactWrapperFactory;
-import infra.entity.collision.contact.EntityGroundContact;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.generation.BlockGenerator;
 import infra.generation.ChunkBuilderFactory;
@@ -55,7 +54,5 @@ public abstract class MainConfig extends AbstractModule {
     install(new FactoryModuleBuilder().build(ContactWrapperFactory.class));
 
     install(new FactoryModuleBuilder().build(EntityContactListenerFactory.class));
-
-
   }
 }

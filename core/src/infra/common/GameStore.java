@@ -94,4 +94,14 @@ public class GameStore {
   public Block getBlock(Coordinates coordinates) {
     return this.chunkClockMap.get(new ChunkRange(coordinates)).getBlock(coordinates);
   }
+
+  public List<Block> getBlockInRange(
+      Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates) {
+    List<Block> blockList = new LinkedList<>();
+    for (Coordinates coordinates :
+        Coordinates.getInRangeList(bottomLeftCoordinates, topRightCoordinates)) {
+      blockList.add(this.getBlock(coordinates));
+    }
+    return blockList;
+  }
 }

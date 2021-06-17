@@ -24,10 +24,11 @@ public class ClientGame extends Game {
 
   @Inject
   public ClientGame(
-          GameStore gameStore,
-          ChunkFactory chunkFactory,
-          ChunkGenerationManager chunkGenerationManager,
-          EventConsumer eventConsumer, CollisionService collisionService)
+      GameStore gameStore,
+      ChunkFactory chunkFactory,
+      ChunkGenerationManager chunkGenerationManager,
+      EventConsumer eventConsumer,
+      CollisionService collisionService)
       throws Exception {
     super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer, collisionService);
   }

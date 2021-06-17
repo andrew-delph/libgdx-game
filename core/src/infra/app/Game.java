@@ -24,10 +24,11 @@ public class Game {
 
   @Inject
   public Game(
-          GameStore gameStore,
-          ChunkFactory chunkFactory,
-          ChunkGenerationManager chunkGenerationManager,
-          EventConsumer eventConsumer, CollisionService collisionService)
+      GameStore gameStore,
+      ChunkFactory chunkFactory,
+      ChunkGenerationManager chunkGenerationManager,
+      EventConsumer eventConsumer,
+      CollisionService collisionService)
       throws Exception {
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
     eventConsumer.init();

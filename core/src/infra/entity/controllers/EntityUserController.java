@@ -2,7 +2,6 @@ package infra.entity.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -13,8 +12,6 @@ import infra.common.Direction;
 import infra.entity.Entity;
 import infra.entity.block.DirtBlock;
 import infra.entity.block.SkyBlock;
-import infra.entity.controllers.actions.HorizontalMovementAction;
-import infra.entity.controllers.actions.JumpMovementAction;
 
 public class EntityUserController extends EntityController {
 
@@ -27,9 +24,6 @@ public class EntityUserController extends EntityController {
   @Inject
   public EntityUserController(@Assisted Entity entity) {
     super(entity);
-    this.registerAction("left", new HorizontalMovementAction(-5));
-    this.registerAction("right", new HorizontalMovementAction(5));
-    this.registerAction("jump", new JumpMovementAction());
   }
 
   @Override

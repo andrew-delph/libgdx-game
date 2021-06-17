@@ -20,10 +20,11 @@ public class ServerGame extends Game {
 
   @Inject
   public ServerGame(
-          GameStore gameStore,
-          ChunkFactory chunkFactory,
-          ChunkGenerationManager chunkGenerationManager,
-          EventConsumer eventConsumer, CollisionService collisionService)
+      GameStore gameStore,
+      ChunkFactory chunkFactory,
+      ChunkGenerationManager chunkGenerationManager,
+      EventConsumer eventConsumer,
+      CollisionService collisionService)
       throws Exception {
     super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer, collisionService);
   }

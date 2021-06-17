@@ -1,5 +1,11 @@
 package infra.common;
 
+import com.badlogic.gdx.math.Vector2;
+import infra.entity.Entity;
+
+import java.util.LinkedList;
+import java.util.List;
+
 public class Coordinates {
   float x;
   float y;
@@ -9,12 +15,37 @@ public class Coordinates {
     this.y = y;
   }
 
-  public static Boolean inRange(Coordinates bottomLeft, Coordinates topRight, Coordinates target) {
+  public Coordinates(Vector2 vector2) {
+    this.x = vector2.x / Entity.coordinatesScale;
+    this.y = vector2.y / Entity.coordinatesScale;
+  }
+
+  public static Boolean isInRange(
+      Coordinates bottomLeft, Coordinates topRight, Coordinates target) {
     if (target.getX() < bottomLeft.getX()) return false;
     if (target.getX() > topRight.getX()) return false;
     if (target.getY() < bottomLeft.getY()) return false;
     if (target.getY() > topRight.getY()) return false;
     return true;
+  }
+
+  public static List<Coordinates> getInRangeList(Coordinates bottomLeft, Coordinates topRight) {
+    List<Coordinates> coordinatesList = new LinkedList<>();
+
+    Coordinates topLeftCoordinates = new Coordinates(bottomLeft.getXReal(), topRight.getYReal());
+
+    Coordinates root = bottomLeft;
+    Coordinates current;
+    while (!root.equals(topLeftCoordinates.getUp())) {
+      root = root.getUp();
+      current = root;
+      Coordinates rowRightCoordinates = new Coordinates(topRight.getXReal(), current.getYReal());
+      while (!current.equals(rowRightCoordinates.getRight())) {
+        coordinatesList.add(current);
+        current = current.getRight();
+      }
+    }
+    return coordinatesList;
   }
 
   public int getX() {

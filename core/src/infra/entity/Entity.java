@@ -93,6 +93,7 @@ public class Entity {
     Fixture jumpFixture = theBody.createFixture(jumpFixtureDef);
     jumpFixture.setUserData(this);
     theBody.setFixedRotation(true);
+
     return theBody;
   }
 

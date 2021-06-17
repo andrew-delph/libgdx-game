@@ -200,7 +200,7 @@ public class Chunk implements Callable<Chunk> {
     List<Entity> entityList = new LinkedList<>();
 
     for (Entity entity : this.getEntityList()) {
-      if (Coordinates.inRange(bottomLeftCoordinates, topRightCoordinates, entity.coordinates)) {
+      if (Coordinates.isInRange(bottomLeftCoordinates, topRightCoordinates, entity.coordinates)) {
         entityList.add(entity);
       }
     }
@@ -212,7 +212,7 @@ public class Chunk implements Callable<Chunk> {
     List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
     for (Entity entity : entityList) {
       if (entity instanceof Block
-          && Coordinates.inRange(coordinates, coordinates, entity.coordinates)) {
+          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
         return (Block) entity;
       }
     }
