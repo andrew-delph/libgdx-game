@@ -22,4 +22,12 @@ public class CollisionPair {
     CollisionPair other = (CollisionPair) obj;
     return target == other.target && source == other.source;
   }
+
+  @Override
+  public String toString() {
+    return "CollisionPair{" +
+            "source=" + source +
+            ", target=" + target +
+            '}';
+  }
 }

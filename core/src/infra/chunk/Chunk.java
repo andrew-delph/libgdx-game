@@ -163,7 +163,7 @@ public class Chunk implements Callable<Chunk> {
 
     // add temp entity to set
     for (Entity entity : entityToAddSet) {
-      if (neighborEntityBodyMap.containsKey(entity)) continue;
+      if (neighborEntityBodyMap.containsKey(entity) || !(entity instanceof Block)) continue;
       Body bodyToAdd = entity.addWorld(world);
       if (bodyToAdd == null) continue;
       neighborEntityBodyMap.put(entity, bodyToAdd);

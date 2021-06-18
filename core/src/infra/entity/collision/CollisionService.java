@@ -27,7 +27,9 @@ public class CollisionService {
 
   public void handleBeginCollision(CollisionPair collisionPair, Object source, Object target) {
     ContactWrapper contactWrapper = this.collisionPairContactWrapperMap.get(collisionPair);
-    if (contactWrapper == null) return;
+    if (contactWrapper == null) {
+      return;
+    }
     contactWrapper.beginContact(source, target);
   }
 

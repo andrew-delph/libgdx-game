@@ -49,8 +49,10 @@ public class EntityUserController extends EntityController {
         this.gameController.placeBlock(this.entity, Direction.UP, DirtBlock.class);
       }
     }
-    if (Gdx.input.isKeyPressed(Input.Keys.W) && this.getAction("jump").isValid(body)) {
-      this.applyAction("jump", body);
+    if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+      if(this.getAction("jump").isValid(body)){
+        this.applyAction("jump", body);
+      }
     }
 
     if (Gdx.input.isKeyPressed(Input.Keys.S)) {

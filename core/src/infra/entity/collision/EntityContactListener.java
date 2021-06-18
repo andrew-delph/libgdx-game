@@ -5,10 +5,12 @@ import com.google.inject.Inject;
 
 public class EntityContactListener implements ContactListener {
 
-  @Inject CollisionService collisionService;
+  CollisionService collisionService;
 
   @Inject
-  public EntityContactListener() {}
+  public EntityContactListener(CollisionService collisionService) {
+    this.collisionService = collisionService;
+  }
 
   public void beginContact(Contact contact) {
     Fixture fixtureA = contact.getFixtureA();
@@ -18,6 +20,8 @@ public class EntityContactListener implements ContactListener {
     if (objectA == null || objectB == null) return;
     this.collisionService.handleBeginCollision(
         new CollisionPair(objectA.getClass(), objectB.getClass()), objectA, objectB);
+    this.collisionService.handleBeginCollision(
+        new CollisionPair(objectB.getClass(), objectA.getClass()), objectB, objectA);
   }
 
   @Override
@@ -29,6 +33,9 @@ public class EntityContactListener implements ContactListener {
     if (objectA == null || objectB == null) return;
     this.collisionService.handleEndCollision(
         new CollisionPair(objectA.getClass(), objectB.getClass()), objectA, objectB);
+
+    this.collisionService.handleEndCollision(
+        new CollisionPair(objectB.getClass(), objectA.getClass()), objectB, objectA);
   }
 
   @Override
