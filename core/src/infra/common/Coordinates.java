@@ -97,4 +97,9 @@ public class Coordinates {
   public String toString() {
     return this.getXReal() + "," + this.getYReal();
   }
+
+  public Vector2 toVector2() {
+    return new Vector2(
+        this.getXReal() * Entity.coordinatesScale, this.getYReal() * Entity.coordinatesScale);
+  }
 }

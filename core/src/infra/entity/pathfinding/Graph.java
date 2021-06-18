@@ -15,11 +15,12 @@ public class Graph {
   public void registerVertex(Vertex vertex) {
     if (graphMap.get(vertex) != null) return;
     this.graphMap.put(vertex, new HashSet<>());
+    //    System.out.println(vertex.position);
   }
 
   public void registerEdge(Edge edge) {
     if (!this.graphMap.containsKey(edge.from)) return;
-    this.graphMap.computeIfAbsent(edge.from, k-> new HashSet<>());
+    this.graphMap.computeIfAbsent(edge.from, k -> new HashSet<>());
     this.graphMap.get(edge.from).add(edge);
   }
 

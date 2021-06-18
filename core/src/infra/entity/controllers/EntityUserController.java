@@ -58,7 +58,9 @@ public class EntityUserController extends EntityController {
         this.applyAction("jump", body);
       }
 
-      if (Gdx.input.isKeyPressed(Input.Keys.S)) {}
+      if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        this.applyAction("stop", body);
+      }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.A)) {
       this.applyAction("left", body);

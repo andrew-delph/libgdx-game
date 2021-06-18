@@ -1,15 +1,19 @@
 package infra.entity.pathfinding;
 
+import infra.common.Coordinates;
+
 public class PathNode {
 
   int heuristic = Integer.MAX_VALUE;
 
   PathNode previous;
+  Vertex target;
 
-  Edge edge;
+  public Edge edge;
 
-  PathNode(Edge edge) {
+  PathNode(Edge edge, Vertex target) {
     this.edge = edge;
+    this.target = target;
   }
 
   public PathNode getPrevious() {
@@ -20,8 +24,19 @@ public class PathNode {
     this.previous = previous;
   }
 
-  public int getHeuristic() {
-    // return edge.to distance position
-    return heuristic;
+  public double getHeuristic() {
+    Coordinates a = edge.to.position;
+    Coordinates b = this.target.position;
+
+    double distance =
+        Math.sqrt(
+            Math.pow(a.getXReal() - b.getXReal(), 2) + Math.pow(a.getYReal() - b.getYReal(), 2));
+
+    //    System.out.println("a " + a + " b " + b + " distance " + distance);
+    //    System.out.println(
+    //        Math.sqrt(
+    //            Math.pow(a.getXReal() - b.getXReal(), 2) + Math.pow(a.getYReal() - b.getYReal(),
+    // 2)));
+    return distance;
   }
 }

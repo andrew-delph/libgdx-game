@@ -11,7 +11,6 @@ import infra.entity.Entity;
 import infra.entity.block.Block;
 import infra.entity.controllers.actions.EntityAction;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +28,6 @@ public class Vertex {
   Vector2 velocity;
   Body body;
   Boolean explored = false;
-
-  List<Vertex> children = new LinkedList<>();
 
   @Inject
   public Vertex(
@@ -52,6 +49,8 @@ public class Vertex {
     }
 
     this.body = this.entity.addWorld(this.world);
+    this.body.setTransform(this.position.toVector2(), 0);
+    this.body.setLinearVelocity(this.velocity);
   }
 
   public Boolean isExplored() {
@@ -64,6 +63,7 @@ public class Vertex {
         this.entity.entityController.getEntityActionEntrySet()) {
       String actionKey = entry.getKey();
       if (actionKey.equals("jump")) continue;
+      //      if (actionKey.equals("left")) continue;
       EntityAction action = entry.getValue();
       this.setupWorld();
       action.apply(this.body);

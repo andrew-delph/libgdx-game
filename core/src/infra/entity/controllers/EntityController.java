@@ -5,6 +5,7 @@ import infra.entity.Entity;
 import infra.entity.controllers.actions.EntityAction;
 import infra.entity.controllers.actions.HorizontalMovementAction;
 import infra.entity.controllers.actions.JumpMovementAction;
+import infra.entity.controllers.actions.StopMovementAction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class EntityController {
     this.registerAction("left", new HorizontalMovementAction(-5));
     this.registerAction("right", new HorizontalMovementAction(5));
     this.registerAction("jump", new JumpMovementAction());
+    this.registerAction("stop", new StopMovementAction());
   }
 
   public void registerAction(String type, EntityAction action) {
