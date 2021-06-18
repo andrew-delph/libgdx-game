@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
+  final float PIXELS_TO_METERS = 100f;
   SpriteBatch batch;
   Sprite sprite;
   Texture img;
@@ -30,24 +31,29 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
   BitmapFont font;
   float torque = 0.0f;
   boolean drawSprite = true;
-  final float PIXELS_TO_METERS = 100f;
+  private float elapsed = 0;
+
+  public static void main(String[] args) {
+    LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+    new LwjglApplication(new PhysicsTest(), config);
+  }
 
   @Override
   public void create() {
     batch = new SpriteBatch();
     img = new Texture("badlogic.jpg");
     sprite = new Sprite(img);
-    sprite.setPosition(-sprite.getWidth()/2,-sprite.getHeight()/2);
-    world = new World(new Vector2(0, -1f),true);
+    sprite.setPosition(-sprite.getWidth() / 2, -sprite.getHeight() / 2);
+    world = new World(new Vector2(0, -1f), true);
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.DynamicBody;
-    bodyDef.position.set((sprite.getX() + sprite.getWidth()/2) /
-                    PIXELS_TO_METERS,
-            (sprite.getY() + sprite.getHeight()/2) / PIXELS_TO_METERS);
+    bodyDef.position.set(
+        (sprite.getX() + sprite.getWidth() / 2) / PIXELS_TO_METERS,
+        (sprite.getY() + sprite.getHeight() / 2) / PIXELS_TO_METERS);
     body = world.createBody(bodyDef);
     PolygonShape shape = new PolygonShape();
-    shape.setAsBox(sprite.getWidth()/2 / PIXELS_TO_METERS, sprite.getHeight()
-            /2 / PIXELS_TO_METERS);
+    shape.setAsBox(
+        sprite.getWidth() / 2 / PIXELS_TO_METERS, sprite.getHeight() / 2 / PIXELS_TO_METERS);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
     fixtureDef.density = 0.1f;
@@ -56,14 +62,14 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
     shape.dispose();
     BodyDef bodyDef2 = new BodyDef();
     bodyDef2.type = BodyDef.BodyType.StaticBody;
-    float w = Gdx.graphics.getWidth()/PIXELS_TO_METERS;
+    float w = Gdx.graphics.getWidth() / PIXELS_TO_METERS;
 
-    float h = Gdx.graphics.getHeight()/PIXELS_TO_METERS- 50/PIXELS_TO_METERS;
+    float h = Gdx.graphics.getHeight() / PIXELS_TO_METERS - 50 / PIXELS_TO_METERS;
 
-    bodyDef2.position.set(0,0);
+    bodyDef2.position.set(0, 0);
     FixtureDef fixtureDef2 = new FixtureDef();
     EdgeShape edgeShape = new EdgeShape();
-    edgeShape.set(-w/2,-h/2,w/2,-h/2);
+    edgeShape.set(-w / 2, -h / 2, w / 2, -h / 2);
     fixtureDef2.shape = edgeShape;
     bodyEdgeScreen = world.createBody(bodyDef2);
     bodyEdgeScreen.createFixture(fixtureDef2);
@@ -72,38 +78,41 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
     debugRenderer = new Box2DDebugRenderer();
     font = new BitmapFont();
     font.setColor(Color.BLACK);
-    camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.
-            getHeight());
+    camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
   }
-
-  private float elapsed = 0;
 
   @Override
   public void render() {
     camera.update();
     // Step the physics simulation forward at a rate of 60hz
-    world.step(1f/60f, 6, 2);
-    body.applyTorque(torque,true);
-    sprite.setPosition((body.getPosition().x * PIXELS_TO_METERS) - sprite.
-                    getWidth()/2 ,
-            (body.getPosition().y * PIXELS_TO_METERS) -sprite.getHeight()/2 )
-    ;
-    sprite.setRotation((float)Math.toDegrees(body.getAngle()));
+    world.step(1f / 60f, 6, 2);
+    body.applyTorque(torque, true);
+    sprite.setPosition(
+        (body.getPosition().x * PIXELS_TO_METERS) - sprite.getWidth() / 2,
+        (body.getPosition().y * PIXELS_TO_METERS) - sprite.getHeight() / 2);
+    sprite.setRotation((float) Math.toDegrees(body.getAngle()));
     Gdx.gl.glClearColor(1, 1, 1, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     batch.setProjectionMatrix(camera.combined);
-    debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS,
-            PIXELS_TO_METERS, 0);
+    debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
     batch.begin();
-    if(drawSprite)
-      batch.draw(sprite, sprite.getX(), sprite.getY(),sprite.getOriginX(),
-              sprite.getOriginY(),
-              sprite.getWidth(),sprite.getHeight(),sprite.getScaleX(),sprite.
-                      getScaleY(),sprite.getRotation());
-    font.draw(batch,
-            "Restitution: " + body.getFixtureList().first().getRestitution(),
-            -Gdx.graphics.getWidth()/2,
-            Gdx.graphics.getHeight()/2 );
+    if (drawSprite)
+      batch.draw(
+          sprite,
+          sprite.getX(),
+          sprite.getY(),
+          sprite.getOriginX(),
+          sprite.getOriginY(),
+          sprite.getWidth(),
+          sprite.getHeight(),
+          sprite.getScaleX(),
+          sprite.getScaleY(),
+          sprite.getRotation());
+    font.draw(
+        batch,
+        "Restitution: " + body.getFixtureList().first().getRestitution(),
+        -Gdx.graphics.getWidth() / 2,
+        Gdx.graphics.getHeight() / 2);
     batch.end();
     debugRenderer.render(world, debugMatrix);
   }
@@ -121,38 +130,34 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
 
   @Override
   public boolean keyUp(int keycode) {
-    if(keycode == Input.Keys.RIGHT)
-      body.setLinearVelocity(1f, 0f);
-    if(keycode == Input.Keys.LEFT)
-      body.setLinearVelocity(-1f,0f);
-    if(keycode == Input.Keys.UP)
-      body.applyForceToCenter(0f,70f,true);
-    if(keycode == Input.Keys.DOWN)
-      body.applyForceToCenter(0f, -10f, true);
+    if (keycode == Input.Keys.RIGHT) body.setLinearVelocity(1f, 0f);
+    if (keycode == Input.Keys.LEFT) body.setLinearVelocity(-1f, 0f);
+    if (keycode == Input.Keys.UP) body.applyForceToCenter(0f, 70f, true);
+    if (keycode == Input.Keys.DOWN) body.applyForceToCenter(0f, -10f, true);
     // On brackets ( [ ] ) apply torque, either clock or counterclockwise
-    if(keycode == Input.Keys.RIGHT_BRACKET)
-      torque += 0.1f;
-    if(keycode == Input.Keys.LEFT_BRACKET)
-      torque -= 0.1f;
+    if (keycode == Input.Keys.RIGHT_BRACKET) torque += 0.1f;
+    if (keycode == Input.Keys.LEFT_BRACKET) torque -= 0.1f;
     // Remove the torque using backslash /
-    if(keycode == Input.Keys.BACKSLASH)
-      torque = 0.0f;
+    if (keycode == Input.Keys.BACKSLASH) torque = 0.0f;
     // If user hits spacebar, reset everything back to normal
-    if(keycode == Input.Keys.SPACE|| keycode == Input.Keys.NUM_2) {
+    if (keycode == Input.Keys.SPACE || keycode == Input.Keys.NUM_2) {
       body.setLinearVelocity(0f, 0f);
       body.setAngularVelocity(0f);
       torque = 0f;
-      sprite.setPosition(0f,0f);
-      body.setTransform(0f,0f,0f);
+      sprite.setPosition(0f, 0f);
+      body.setTransform(0f, 0f, 0f);
     }
-    if(keycode == Input.Keys.COMMA) {
-      body.getFixtureList().first().setRestitution(body.getFixtureList().first().getRestitution()-0.1f);
+    if (keycode == Input.Keys.COMMA) {
+      body.getFixtureList()
+          .first()
+          .setRestitution(body.getFixtureList().first().getRestitution() - 0.1f);
     }
-    if(keycode == Input.Keys.PERIOD) {
-      body.getFixtureList().first().setRestitution(body.getFixtureList().first().getRestitution()+0.1f);
+    if (keycode == Input.Keys.PERIOD) {
+      body.getFixtureList()
+          .first()
+          .setRestitution(body.getFixtureList().first().getRestitution() + 0.1f);
     }
-    if(keycode == Input.Keys.ESCAPE || keycode == Input.Keys.NUM_1)
-      drawSprite = !drawSprite;
+    if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.NUM_1) drawSprite = !drawSprite;
     return true;
   }
 
@@ -160,6 +165,7 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
   public boolean keyTyped(char character) {
     return false;
   }
+
   // On touch we apply force from the direction of the users touch.
   // This could result in the object "spinning"
   @Override
@@ -187,10 +193,5 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
   @Override
   public boolean scrolled(float amountX, float amountY) {
     return false;
-  }
-
-  public static void main(String[] args) {
-    LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-    new LwjglApplication(new PhysicsTest(), config);
   }
 }

@@ -25,9 +25,6 @@ public class CollisionPair {
 
   @Override
   public String toString() {
-    return "CollisionPair{" +
-            "source=" + source +
-            ", target=" + target +
-            '}';
+    return "CollisionPair{" + "source=" + source + ", target=" + target + '}';
   }
 }

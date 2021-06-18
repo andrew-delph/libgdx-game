@@ -4,12 +4,10 @@ import infra.common.Coordinates;
 
 public class PathNode {
 
+  public Edge edge;
   int heuristic = Integer.MAX_VALUE;
-
   PathNode previous;
   Vertex target;
-
-  public Edge edge;
 
   PathNode(Edge edge, Vertex target) {
     this.edge = edge;

@@ -33,12 +33,7 @@ public class EntityGroundContact implements ContactWrapper {
     }
   }
 
-  public int getGroundCount(Body body) {
-    return this.groundContactCounter.get(body);
-  }
-
   public Boolean isOnGround(Body body) {
-    //    System.out.println(this.groundContactCounter.get(body)+" "+body);
     if (this.groundContactCounter.get(body) == null) {
       return false;
     } else return this.groundContactCounter.get(body) > 0;

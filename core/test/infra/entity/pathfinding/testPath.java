@@ -11,6 +11,7 @@ import infra.common.GameStore;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.entity.block.BlockFactory;
+import infra.entity.controllers.EntityControllerFactory;
 import infra.generation.ChunkBuilderFactory;
 import org.junit.Test;
 
@@ -26,6 +27,7 @@ public class testPath {
     ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
     PathFactory pathFactory = injector.getInstance(PathFactory.class);
     VertexFactory vertexFactory = injector.getInstance(VertexFactory.class);
+    EntityControllerFactory entityControllerFactory = injector.getInstance(EntityControllerFactory.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
 
@@ -42,6 +44,7 @@ public class testPath {
 
     Graph graph = injector.getInstance(Graph.class);
     Entity entity = entityFactory.createEntity();
+    entity.setController(entityControllerFactory.createEntityController(entity));
     entity.coordinates = new Coordinates(0, 1);
 
     graph.registerVertex(

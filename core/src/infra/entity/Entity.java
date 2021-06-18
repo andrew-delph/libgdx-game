@@ -29,9 +29,8 @@ public class Entity {
   public int height = (int) (coordinatesScale);
   public String textureName = "frog.png";
   @Inject BaseAssetManager baseAssetManager;
-  private int groundContact = 0;
-
   @Inject EntityControllerFactory entityControllerFactory;
+  private int groundContact = 0;
 
   @Inject
   protected Entity() {
