@@ -2,7 +2,7 @@ package infra.entity.collision;
 
 import com.google.inject.Inject;
 import infra.entity.collision.contact.ContactWrapper;
-import infra.entity.collision.contact.ContactWrapperFactory;
+import infra.entity.collision.contact.EntityGroundContact;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
 public class CollisionService {
   Map<CollisionPair, ContactWrapper> collisionPairContactWrapperMap;
 
-  @Inject ContactWrapperFactory contactWrapperFactory;
+  @Inject EntityGroundContact entityGroundContact;
 
   @Inject
   public CollisionService() {
@@ -18,7 +18,7 @@ public class CollisionService {
   }
 
   public void init() {
-    contactWrapperFactory.createEntityGroundContact().init();
+    entityGroundContact.init();
   }
 
   public void addCollisionConsumer(CollisionPair collisionPair, ContactWrapper contactWrapper) {

@@ -2,6 +2,7 @@ package infra.entity.block;
 
 import com.badlogic.gdx.physics.box2d.*;
 import infra.entity.Entity;
+import infra.entity.collision.contact.GroundPoint;
 
 public class Block extends Entity {
 
@@ -38,7 +39,7 @@ public class Block extends Entity {
     fixtureDef.density = 0f;
     fixtureDef.restitution = 0;
     Fixture blockFixture = theBody.createFixture(fixtureDef);
-    blockFixture.setUserData(this);
+    blockFixture.setUserData(new GroundPoint());
     return theBody;
   }
 }

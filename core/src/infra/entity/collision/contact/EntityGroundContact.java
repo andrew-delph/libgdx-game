@@ -1,34 +1,47 @@
 package infra.entity.collision.contact;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
-import infra.entity.Entity;
-import infra.entity.block.Block;
-import infra.entity.block.DirtBlock;
-import infra.entity.block.StoneBlock;
 import infra.entity.collision.CollisionPair;
 import infra.entity.collision.CollisionService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EntityGroundContact implements ContactWrapper {
 
   @Inject CollisionService collisionService;
 
+  Map<Body, Integer> groundContactCounter = new HashMap<>();
+
   @Inject
   public EntityGroundContact() {}
 
-  public void beginContact(Object source, Object target) {
-    Entity entitySource = (Entity) source;
-    entitySource.increaseGroundContact();
+  public synchronized void beginContact(Object source, Object target) {
+    GroundSensorPoint groundSensorPoint = (GroundSensorPoint) source;
+    this.groundContactCounter.putIfAbsent(groundSensorPoint.getBody(), 0);
+    int groundCount = this.groundContactCounter.get(groundSensorPoint.getBody());
+    this.groundContactCounter.put(groundSensorPoint.getBody(), groundCount + 1);
   }
 
-  public void endContact(Object source, Object target) {
-    Entity entitySource = (Entity) source;
-    entitySource.decreaseGroundContact();
+  public synchronized void endContact(Object source, Object target) {
+    GroundSensorPoint groundSensorPoint = (GroundSensorPoint) source;
+    this.groundContactCounter.putIfAbsent(groundSensorPoint.getBody(), 0);
+    int groundCount = this.groundContactCounter.get(groundSensorPoint.getBody());
+    if (groundCount > 0) {
+      this.groundContactCounter.put(groundSensorPoint.getBody(), groundCount - 1);
+    }
+  }
+
+  public Boolean isOnGround(Body body) {
+    if (this.groundContactCounter.get(body) == null) {
+      return false;
+    } else return this.groundContactCounter.get(body) > 0;
   }
 
   @Override
   public void init() {
-    collisionService.addCollisionConsumer(new CollisionPair(Entity.class, Block.class), this);
-    collisionService.addCollisionConsumer(new CollisionPair(Entity.class, DirtBlock.class), this);
-    collisionService.addCollisionConsumer(new CollisionPair(Entity.class, StoneBlock.class), this);
+    collisionService.addCollisionConsumer(
+        new CollisionPair(GroundSensorPoint.class, GroundPoint.class), this);
   }
 }

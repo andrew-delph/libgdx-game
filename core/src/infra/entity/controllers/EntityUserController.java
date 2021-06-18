@@ -6,24 +6,20 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import infra.app.GameController;
-import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.Direction;
 import infra.entity.Entity;
 import infra.entity.block.DirtBlock;
 import infra.entity.block.SkyBlock;
+import infra.entity.controllers.actions.EntityActionFactory;
 
 public class EntityUserController extends EntityController {
 
   @Inject GameController gameController;
 
-  @Inject Clock clock;
-
-  int lastJump = 0;
-
   @Inject
-  public EntityUserController(@Assisted Entity entity) {
-    super(entity);
+  public EntityUserController(EntityActionFactory entityActionFactory, @Assisted Entity entity) {
+    super(entityActionFactory, entity);
   }
 
   @Override
@@ -52,15 +48,13 @@ public class EntityUserController extends EntityController {
       } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
         this.gameController.placeBlock(this.entity, Direction.UP, DirtBlock.class);
       }
-    } else if (body.getLinearVelocity().y == 0) {
-      if (Gdx.input.isKeyPressed(Input.Keys.W) && this.entity.isOnGround()) {
-        lastJump = clock.currentTick.time;
-        this.applyAction("jump", body);
-      }
+    }
+    if (Gdx.input.isKeyPressed(Input.Keys.W) && this.getAction("jump").isValid(body)) {
+      this.applyAction("jump", body);
+    }
 
-      if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-        this.applyAction("stop", body);
-      }
+    if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+      this.applyAction("stop", body);
     }
     if (Gdx.input.isKeyPressed(Input.Keys.A)) {
       this.applyAction("left", body);

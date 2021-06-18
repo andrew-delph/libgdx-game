@@ -178,7 +178,7 @@ public class Chunk implements Callable<Chunk> {
     int tickTimeout = Integer.MAX_VALUE;
     for (Entity entity : this.chunkMap.values()) {
 
-      entity.entityController.beforeWorldUpdate();
+      if (entity.entityController != null) entity.entityController.beforeWorldUpdate();
       this.gameStore.syncEntity(entity);
 
       int entityTick = entity.getUpdateTimeout();
@@ -189,7 +189,7 @@ public class Chunk implements Callable<Chunk> {
     world.step(timeStep, 6, 2);
 
     for (Entity entity : this.chunkMap.values()) {
-      entity.entityController.afterWorldUpdate();
+      if (entity.entityController != null) entity.entityController.afterWorldUpdate();
     }
     this.nextTick(1);
   }

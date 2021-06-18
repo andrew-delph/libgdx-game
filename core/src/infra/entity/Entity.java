@@ -8,7 +8,9 @@ import com.google.inject.Inject;
 import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.render.BaseAssetManager;
+import infra.entity.collision.contact.GroundSensorPoint;
 import infra.entity.controllers.EntityController;
+import infra.entity.controllers.EntityControllerFactory;
 import infra.networking.NetworkObjects;
 
 import java.util.UUID;
@@ -29,6 +31,8 @@ public class Entity {
   @Inject BaseAssetManager baseAssetManager;
   private int groundContact = 0;
 
+  @Inject EntityControllerFactory entityControllerFactory;
+
   @Inject
   protected Entity() {
     this.sprite = new Sprite();
@@ -36,7 +40,6 @@ public class Entity {
     this.sprite.setSize(width, height);
     this.coordinates = new Coordinates(0, 0);
     this.uuid = UUID.randomUUID();
-    this.entityController = new EntityController(this);
   }
 
   public void increaseGroundContact() {
@@ -75,6 +78,8 @@ public class Entity {
     //    this.setBody(world.createBody(bodyDef));
     Body theBody = world.createBody(bodyDef);
 
+    theBody.setUserData(this);
+
     PolygonShape shape = new PolygonShape();
 
     shape.setAsBox(coordinatesScale / 2f, coordinatesScale / 2f);
@@ -91,7 +96,7 @@ public class Entity {
     jumpFixtureDef.isSensor = true;
 
     Fixture jumpFixture = theBody.createFixture(jumpFixtureDef);
-    jumpFixture.setUserData(this);
+    jumpFixture.setUserData(new GroundSensorPoint(theBody));
     theBody.setFixedRotation(true);
 
     return theBody;

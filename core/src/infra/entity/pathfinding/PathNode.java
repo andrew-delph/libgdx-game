@@ -32,11 +32,6 @@ public class PathNode {
         Math.sqrt(
             Math.pow(a.getXReal() - b.getXReal(), 2) + Math.pow(a.getYReal() - b.getYReal(), 2));
 
-    //    System.out.println("a " + a + " b " + b + " distance " + distance);
-    //    System.out.println(
-    //        Math.sqrt(
-    //            Math.pow(a.getXReal() - b.getXReal(), 2) + Math.pow(a.getYReal() - b.getYReal(),
-    // 2)));
     return distance;
   }
 }

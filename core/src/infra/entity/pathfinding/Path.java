@@ -33,11 +33,8 @@ public class Path {
           unvisitedPathNodeSet.stream()
               .min(Comparator.comparingDouble(PathNode::getHeuristic))
               .get();
-      //      System.out.println(current.edge.from.position);
       unvisitedPathNodeSet.remove(current);
       visitedPathNodeSet.add(current);
-      //      System.out.println(vistedPathNodeSet.size() + ", " + unvisitedPathNodeSet.size());
-      //      System.out.println(current.edge.from.position);
       if (!current.edge.to.isExplored()) {
         current.edge.to.exploreEdges();
       }
@@ -47,7 +44,6 @@ public class Path {
         discoveredPathNode.setPrevious(current);
 
         if (discoveredPathNode.getHeuristic() < 0.5) {
-          System.out.println("found the target");
           finalPathNode = discoveredPathNode;
           return;
         }

@@ -4,4 +4,6 @@ import infra.entity.Entity;
 
 public interface EntityControllerFactory {
   EntityUserController createEntityUserController(Entity entity);
+
+  EntityController createEntityController(Entity entity);
 }

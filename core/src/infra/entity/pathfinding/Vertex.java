@@ -63,7 +63,7 @@ public class Vertex {
         this.entity.entityController.getEntityActionEntrySet()) {
       String actionKey = entry.getKey();
       if (actionKey.equals("jump")) continue;
-      //      if (actionKey.equals("left")) continue;
+
       EntityAction action = entry.getValue();
       this.setupWorld();
       action.apply(this.body);
