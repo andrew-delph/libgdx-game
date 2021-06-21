@@ -62,20 +62,19 @@ public class Vertex {
     for (Map.Entry<String, EntityAction> entry :
         this.entity.entityController.getEntityActionEntrySet()) {
       String actionKey = entry.getKey();
-//      if (actionKey.equals("stop")) {
-//        if(this.velocity.x == 0) continue;
-//      };
-//      if (actionKey.equals("jump")) {
-//        if(this.velocity.y != 0) continue;
-////        System.out.println(actionKey);
-//      };
-//      if (actionKey.equals("left") || actionKey.equals("right")) {
-//        if(this.velocity.y > 0) continue;
-//      }
-//
-//      if (!(actionKey.equals("jump")||actionKey.equals("stop"))){
-//        continue;
-//      }
+      if (actionKey.equals("stop")) {
+        //        if (this.velocity.x > 4) continue;
+      }
+      ;
+      if (actionKey.equals("jump")) {
+        //        if (this.velocity.y != 0) continue;
+        //        else System.out.println("jumping");
+      }
+      if (actionKey.equals("left") || actionKey.equals("right")) {
+        //        continue;
+        if (this.velocity.y > 0) continue;
+        //        System.out.println(this.velocity.y);
+      }
 
       EntityAction action = entry.getValue();
       this.setupWorld();
@@ -91,20 +90,24 @@ public class Vertex {
       if (!newEdge.from.position.equals(newEdge.to.position)) graph.registerEdge(newEdge);
       else System.out.println("position no move");
 
-//      world.dispose();
-//      Runtime.getRuntime().gc();
+      world.dispose();
+      Runtime.getRuntime().gc();
     }
   }
 
   @Override
   public int hashCode() {
+    float scale = 100f;
+    //    System.out.println(
+    //        ":"
+    //            + (Math.round(this.position.getXReal() * scale) / scale)
+    //            + "  ... "
+    //            + (Math.round(this.position.getYReal() * scale) / scale));
     return (this.entity.hashCode()
             + ","
-            + this.position.hashCode()
+            + (Math.round(this.position.getXReal() * scale) / scale)
             + ","
-            + this.velocity.x
-            + ","
-            + this.velocity.y)
+            + (Math.round(this.position.getYReal() * scale) / scale))
         .hashCode();
   }
 
@@ -114,9 +117,8 @@ public class Vertex {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     Vertex other = (Vertex) obj;
-    return this.entity.equals(other.entity)
-        && this.position.equals(other.position)
-        && this.velocity.x == other.velocity.x
-        && this.velocity.y == other.velocity.y;
+    return this.entity.equals(other.entity) && this.hashCode() == other.hashCode();
+    //        && this.velocity.x == other.velocity.x
+    //        && this.velocity.y == other.velocity.y;
   }
 }

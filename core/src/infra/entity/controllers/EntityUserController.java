@@ -26,6 +26,9 @@ public class EntityUserController extends EntityController {
   public void beforeWorldUpdate() {
 
     Body body = this.entity.getBody();
+
+    System.out.println(body.getLinearVelocity());
+
     float impulse = body.getMass() * 10;
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {

@@ -33,18 +33,40 @@ public class Path {
           unvisitedPathNodeSet.stream()
               .min(Comparator.comparingDouble(PathNode::getHeuristic))
               .get();
-      if(current.edge.from.position.getYReal()>=1.5){
-        System.out.println(current.edge.actionKey+ " "+current.edge.from.position+ " "+current.edge.to.position);
+      //      if (current.edge.from.position.getYReal() >= 1.5) {
+      //        System.out.println(
+      //            current.edge.actionKey
+      //                + " "
+      //                + current.edge.from.position
+      //                + " "
+      //                + current.edge.to.position);
+      //      }
 
-      }
+      //      if (current.edge.actionKey != null && current.edge.actionKey.equals("jump")) {
+      //        System.out.println(current.edge.actionKey + " ; " + current.edge.to.velocity);
+      //      }
+      //      System.out.println(current.edge.to.position);
+      //      if (current.edge.from.velocity.y > 0) {
+      //        System.out.println(">>>>> " + current.edge.to.velocity);
+      //      } else {
+      //        System.out.println(current.edge.from.position + " ; " +
+      // current.edge.from.velocity.y);
+      //      }
+
+      System.out.println(
+          current.edge.actionKey
+              + " ; "
+              + current.edge.to.position
+              + " ; "
+              + current.getHeuristic());
       unvisitedPathNodeSet.remove(current);
       visitedPathNodeSet.add(current);
       if (!current.edge.to.isExplored()) {
         current.edge.to.exploreEdges();
       }
       for (Edge edge : this.graph.getEdges(current.edge.to)) {
-//        System.out.println("unvisted "+unvisitedPathNodeSet.size());
-//        System.out.println("visted " + visitedPathNodeSet.size());
+        //        System.out.println("unvisted "+unvisitedPathNodeSet.size());
+        //        System.out.println("visted " + visitedPathNodeSet.size());
         PathNode discoveredPathNode = new PathNode(edge, this.target);
 
         discoveredPathNode.setPrevious(current);

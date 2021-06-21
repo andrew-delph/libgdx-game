@@ -5,15 +5,21 @@ import com.google.inject.Inject;
 import java.util.*;
 
 public class Graph {
-  Map<Vertex, Set<Edge>> graphMap = new HashMap<>();
+  Map<Vertex, Set<Edge>> graphMap;
 
   @Inject
   Graph() {
     System.out.println("create graph");
+    graphMap = new HashMap<>();
   }
 
   public void registerVertex(Vertex vertex) {
-    if (graphMap.get(vertex) != null) return;
+    if (graphMap.get(vertex) != null) {
+      //      System.out.println("already has");
+      return;
+    } else {
+      //      System.out.println("adding " + vertex.hashCode());
+    }
     this.graphMap.put(vertex, new HashSet<>());
   }
 

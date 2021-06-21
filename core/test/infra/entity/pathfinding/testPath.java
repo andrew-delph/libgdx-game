@@ -42,11 +42,14 @@ public class testPath {
     //    System.out.println(gameStore.getBlock(new Coordinates(3,1)).getClass());
     //    System.out.println(gameStore.getBlock(new Coordinates(3,0)).getClass());
 
-    Coordinates removeCords = new Coordinates(2, 1);
-    Block removeBlock = gameStore.getBlock(removeCords);
+    Coordinates start = new Coordinates(0, 1);
+    Coordinates end = new Coordinates(5, 1);
+    Coordinates block = new Coordinates(3, 1);
+
+    Block removeBlock = gameStore.getBlock(block);
     gameStore.removeEntity(removeBlock.uuid);
     Block newBlock = blockFactory.createDirt();
-    newBlock.coordinates = removeCords;
+    newBlock.coordinates = block;
     gameStore.addEntity(newBlock);
 
     //    System.out.println(gameStore.getBlock(new Coordinates(3,1)).getClass());
@@ -54,16 +57,14 @@ public class testPath {
     Graph graph = injector.getInstance(Graph.class);
     Entity entity = entityFactory.createEntity();
     entity.setController(entityControllerFactory.createEntityController(entity));
-    entity.coordinates = new Coordinates(2, 2);
+    entity.coordinates = start;
 
-    Vertex startVertex =
-        vertexFactory.createVertex(entity, entity.coordinates, new Vector2(0, 0));
+    Vertex startVertex = vertexFactory.createVertex(entity, entity.coordinates, new Vector2(0, 0));
     graph.registerVertex(startVertex);
 
     Path path =
         pathFactory.createPath(
-                startVertex,
-            vertexFactory.createVertex(entity, new Coordinates(0, 1), new Vector2(0, 0)));
+            startVertex, vertexFactory.createVertex(entity, end, new Vector2(0, 0)));
 
     path.search();
 
