@@ -38,7 +38,7 @@ public class Vertex {
   }
 
   public void setupWorld() {
-    this.world = new World(new Vector2(0, -1), false);
+    this.world = new World(new Vector2(0, -1f), false);
 
     List<Block> blockList =
         this.gameStore.getBlockInRange(
@@ -62,18 +62,37 @@ public class Vertex {
     for (Map.Entry<String, EntityAction> entry :
         this.entity.entityController.getEntityActionEntrySet()) {
       String actionKey = entry.getKey();
-      if (actionKey.equals("jump")) continue;
+//      if (actionKey.equals("stop")) {
+//        if(this.velocity.x == 0) continue;
+//      };
+//      if (actionKey.equals("jump")) {
+//        if(this.velocity.y != 0) continue;
+////        System.out.println(actionKey);
+//      };
+//      if (actionKey.equals("left") || actionKey.equals("right")) {
+//        if(this.velocity.y > 0) continue;
+//      }
+//
+//      if (!(actionKey.equals("jump")||actionKey.equals("stop"))){
+//        continue;
+//      }
 
       EntityAction action = entry.getValue();
       this.setupWorld();
       action.apply(this.body);
-      world.step(1, 6, 2);
+      world.step(1 / 5f, 6, 2);
+
       Vertex newVertex =
           vertexFactory.createVertex(
               this.entity, new Coordinates(this.body.getPosition()), this.body.getLinearVelocity());
       graph.registerVertex(newVertex);
       Edge newEdge = new Edge(this, newVertex, actionKey);
-      graph.registerEdge(newEdge);
+
+      if (!newEdge.from.position.equals(newEdge.to.position)) graph.registerEdge(newEdge);
+      else System.out.println("position no move");
+
+//      world.dispose();
+//      Runtime.getRuntime().gc();
     }
   }
 

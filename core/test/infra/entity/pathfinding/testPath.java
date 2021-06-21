@@ -10,6 +10,7 @@ import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
+import infra.entity.block.Block;
 import infra.entity.block.BlockFactory;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.generation.ChunkBuilderFactory;
@@ -27,7 +28,8 @@ public class testPath {
     ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
     PathFactory pathFactory = injector.getInstance(PathFactory.class);
     VertexFactory vertexFactory = injector.getInstance(VertexFactory.class);
-    EntityControllerFactory entityControllerFactory = injector.getInstance(EntityControllerFactory.class);
+    EntityControllerFactory entityControllerFactory =
+        injector.getInstance(EntityControllerFactory.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
 
@@ -37,24 +39,36 @@ public class testPath {
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, 0))).call();
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, -1))).call();
 
-    // create a wall
-    //    Block removeBlock = gameStore.getBlock(new Coordinates(-1,1));
-    //    gameStore.removeEntity(removeBlock.uuid);
-    //    Block
+    //    System.out.println(gameStore.getBlock(new Coordinates(3,1)).getClass());
+    //    System.out.println(gameStore.getBlock(new Coordinates(3,0)).getClass());
+
+    Coordinates removeCords = new Coordinates(2, 1);
+    Block removeBlock = gameStore.getBlock(removeCords);
+    gameStore.removeEntity(removeBlock.uuid);
+    Block newBlock = blockFactory.createDirt();
+    newBlock.coordinates = removeCords;
+    gameStore.addEntity(newBlock);
+
+    //    System.out.println(gameStore.getBlock(new Coordinates(3,1)).getClass());
 
     Graph graph = injector.getInstance(Graph.class);
     Entity entity = entityFactory.createEntity();
     entity.setController(entityControllerFactory.createEntityController(entity));
-    entity.coordinates = new Coordinates(0, 1);
+    entity.coordinates = new Coordinates(2, 2);
 
-    graph.registerVertex(
-        vertexFactory.createVertex(entity, new Coordinates(0, 1), new Vector2(0, 0)));
+    Vertex startVertex =
+        vertexFactory.createVertex(entity, entity.coordinates, new Vector2(0, 0));
+    graph.registerVertex(startVertex);
 
     Path path =
         pathFactory.createPath(
-            vertexFactory.createVertex(entity, new Coordinates(0, 1), new Vector2(0, 0)),
-            vertexFactory.createVertex(entity, new Coordinates(3, 1), new Vector2(0, 0)));
+                startVertex,
+            vertexFactory.createVertex(entity, new Coordinates(0, 1), new Vector2(0, 0)));
 
     path.search();
+
+    for (Edge edge : path.getPathEdgeList()) {
+      System.out.println(edge.actionKey);
+    }
   }
 }

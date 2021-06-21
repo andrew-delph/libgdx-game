@@ -33,17 +33,24 @@ public class Path {
           unvisitedPathNodeSet.stream()
               .min(Comparator.comparingDouble(PathNode::getHeuristic))
               .get();
+      if(current.edge.from.position.getYReal()>=1.5){
+        System.out.println(current.edge.actionKey+ " "+current.edge.from.position+ " "+current.edge.to.position);
+
+      }
       unvisitedPathNodeSet.remove(current);
       visitedPathNodeSet.add(current);
       if (!current.edge.to.isExplored()) {
         current.edge.to.exploreEdges();
       }
       for (Edge edge : this.graph.getEdges(current.edge.to)) {
+//        System.out.println("unvisted "+unvisitedPathNodeSet.size());
+//        System.out.println("visted " + visitedPathNodeSet.size());
         PathNode discoveredPathNode = new PathNode(edge, this.target);
 
         discoveredPathNode.setPrevious(current);
 
         if (discoveredPathNode.getHeuristic() < 0.5) {
+          System.out.println("found");
           finalPathNode = discoveredPathNode;
           return;
         }
@@ -59,7 +66,8 @@ public class Path {
     List<Edge> edgeList = new LinkedList<>();
     PathNode current = finalPathNode;
     while (current.getPrevious() != null) {
-      edgeList.add(current.getPrevious().edge);
+      current = current.getPrevious();
+      edgeList.add(current.edge);
     }
     return edgeList;
   }

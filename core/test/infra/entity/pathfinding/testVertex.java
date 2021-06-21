@@ -35,7 +35,8 @@ public class testVertex {
     Graph graph = injector.getInstance(Graph.class);
     VertexFactory vertexFactory = injector.getInstance(VertexFactory.class);
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
-    EntityControllerFactory entityControllerFactory = injector.getInstance(EntityControllerFactory.class);
+    EntityControllerFactory entityControllerFactory =
+        injector.getInstance(EntityControllerFactory.class);
 
     Entity entity = entityFactory.createEntity();
     entity.setController(entityControllerFactory.createEntityController(entity));
@@ -56,15 +57,16 @@ public class testVertex {
     assert graph.getEdges(vertex).size() > 0;
 
     Vertex current = null;
+    System.out.println(vertex.position + " start");
     for (Edge edge : graph.getEdges(vertex)) {
       current = edge.to;
-      System.out.println(edge.to.position);
+      System.out.println(edge.to.position + " " + edge.actionKey);
       edge.to.exploreEdges();
     }
 
-    for (Edge edge : graph.getEdges(current)) {
-      System.out.println(edge.to.position);
-      //      edge.to.exploreEdges();
-    }
+    //    for (Edge edge : graph.getEdges(current)) {
+    //      System.out.println(edge.to.position);
+    //      //      edge.to.exploreEdges();
+    //    }
   }
 }
