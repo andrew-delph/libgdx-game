@@ -70,11 +70,11 @@ public class Vertex {
         //        if (this.velocity.y != 0) continue;
         //        else System.out.println("jumping");
       }
-//      if (actionKey.equals("left") || actionKey.equals("right")) {
-//        //        continue;
-//        if (this.velocity.y > 0) continue;
-//        //        System.out.println(this.velocity.y);
-//      }
+      //      if (actionKey.equals("left") || actionKey.equals("right")) {
+      //        //        continue;
+      //        if (this.velocity.y > 0) continue;
+      //        //        System.out.println(this.velocity.y);
+      //      }
 
       EntityAction action = entry.getValue();
       this.setupWorld();
@@ -112,8 +112,9 @@ public class Vertex {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     Vertex other = (Vertex) obj;
-    return this.entity.equals(other.entity) && this.hashCode() == other.hashCode()
-            && this.velocity.x == other.velocity.x
-            && this.velocity.y == other.velocity.y;
+    return this.entity.equals(other.entity)
+        && this.hashCode() == other.hashCode()
+        && this.velocity.x == other.velocity.x
+        && this.velocity.y == other.velocity.y;
   }
 }

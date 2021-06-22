@@ -81,7 +81,7 @@ public class Coordinates {
   }
 
   public synchronized Coordinates getMiddle() {
-    return new Coordinates(this.getX() + 0.5f, this.getY()+0.5f);
+    return new Coordinates(this.getX() + 0.5f, this.getY() + 0.5f);
   }
 
   @Override
