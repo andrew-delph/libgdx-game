@@ -55,9 +55,8 @@ public class testChunkRange {
   @Test
   public void testGetChunkRangeNegativeFloat() {
 
-    ChunkRange chunkRange = new ChunkRange(new Coordinates(-0.1f,0));
+    ChunkRange chunkRange = new ChunkRange(new Coordinates(-0.1f, 0));
 
-    assert !chunkRange.equals(new ChunkRange(new Coordinates(0,0)));
-
+    assert !chunkRange.equals(new ChunkRange(new Coordinates(0, 0)));
   }
 }

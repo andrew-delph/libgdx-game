@@ -43,7 +43,7 @@ public class EntityUserController extends EntityController {
       } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
         this.gameController.placeBlock(this.entity, Direction.UP, DirtBlock.class);
       }
-    }else {
+    } else {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
         this.entity.getBody().setLinearVelocity(-5f, 0f);
       }

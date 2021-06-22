@@ -326,12 +326,16 @@ public class testSingleClient {
     EventService clientEventService = clientInjector.getInstance(EventService.class);
 
     serverGameController.createEntity(serverBlockFactory.createDirt());
-    assert  serverGameStore.getBlock(new Coordinates(0,0)).getClass() == DirtBlock.class;
+    assert serverGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
     TimeUnit.SECONDS.sleep(1);
-    Block clientBlock = serverGameStore.getBlock(new Coordinates(0,0));
-    clientEventService.fireEvent(clientEventFactory.createReplaceBlockOutgoingEvent(clientBlock.uuid, serverBlockFactory.createSky(), new ChunkRange(clientBlock.coordinates)));
+    Block clientBlock = serverGameStore.getBlock(new Coordinates(0, 0));
+    clientEventService.fireEvent(
+        clientEventFactory.createReplaceBlockOutgoingEvent(
+            clientBlock.uuid,
+            serverBlockFactory.createSky(),
+            new ChunkRange(clientBlock.coordinates)));
     TimeUnit.SECONDS.sleep(1);
-    assert  serverGameStore.getBlock(new Coordinates(0,0)).getClass() == SkyBlock.class;
+    assert serverGameStore.getBlock(new Coordinates(0, 0)).getClass() == SkyBlock.class;
   }
 
   @Test
@@ -344,18 +348,21 @@ public class testSingleClient {
     EventService serverEventService = serverInjector.getInstance(EventService.class);
     EventService clientEventService = clientInjector.getInstance(EventService.class);
 
-
     Entity serverEntity = serverGameController.createEntity(serverBlockFactory.createDirt());
-    assert  serverGameStore.getBlock(new Coordinates(0,0)).getClass() == DirtBlock.class;
+    assert serverGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
     TimeUnit.SECONDS.sleep(1);
-    assert  clientGameStore.getBlock(new Coordinates(0,0)).getClass() == DirtBlock.class;
-;
-    serverEventService.fireEvent(clientEventFactory.createReplaceBlockOutgoingEvent(serverEntity.uuid, serverBlockFactory.createSky(), new ChunkRange(serverEntity.coordinates)));
+    assert clientGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
+    ;
+    serverEventService.fireEvent(
+        clientEventFactory.createReplaceBlockOutgoingEvent(
+            serverEntity.uuid,
+            serverBlockFactory.createSky(),
+            new ChunkRange(serverEntity.coordinates)));
     TimeUnit.SECONDS.sleep(1);
 
     clientEventService.firePostUpdateEvents();
 
-    assert  clientGameStore.getBlock(new Coordinates(0,0)).getClass() == SkyBlock.class;
+    assert clientGameStore.getBlock(new Coordinates(0, 0)).getClass() == SkyBlock.class;
     System.out.println("done");
   }
 }

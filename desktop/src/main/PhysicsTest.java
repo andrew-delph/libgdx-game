@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
+  final float PIXELS_TO_METERS = 100f;
   SpriteBatch batch;
   Sprite sprite;
   Texture img;
@@ -30,7 +31,12 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
   BitmapFont font;
   float torque = 0.0f;
   boolean drawSprite = true;
-  final float PIXELS_TO_METERS = 100f;
+  private float elapsed = 0;
+
+  public static void main(String[] args) {
+    LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+    new LwjglApplication(new PhysicsTest(), config);
+  }
 
   @Override
   public void create() {
@@ -78,8 +84,6 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
     font.setColor(Color.BLACK);
     camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
   }
-
-  private float elapsed = 0;
 
   @Override
   public void render() {
@@ -165,6 +169,7 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
   public boolean keyTyped(char character) {
     return false;
   }
+
   // On touch we apply force from the direction of the users touch.
   // This could result in the object "spinning"
   @Override
@@ -192,10 +197,5 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
   @Override
   public boolean scrolled(float amountX, float amountY) {
     return false;
-  }
-
-  public static void main(String[] args) {
-    LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-    new LwjglApplication(new PhysicsTest(), config);
   }
 }

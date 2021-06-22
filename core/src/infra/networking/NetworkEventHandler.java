@@ -1,8 +1,8 @@
 package infra.networking;
 
 import com.google.inject.Inject;
-import infra.common.events.EventService;
 import infra.common.events.EventConsumer;
+import infra.common.events.EventService;
 import infra.networking.events.*;
 
 public class NetworkEventHandler extends EventConsumer {
@@ -26,7 +26,7 @@ public class NetworkEventHandler extends EventConsumer {
       } else if (event.equals(RemoveEntityOutgoingEvent.type)) {
         System.out.println(event);
         eventService.fireEvent(eventFactory.createRemoveEntityIncomingEvent(networkEvent));
-      }else if (event.equals(ReplaceBlockOutgoingEvent.type)) {
+      } else if (event.equals(ReplaceBlockOutgoingEvent.type)) {
         System.out.println(event);
         eventService.fireEvent(eventFactory.createReplaceBlockIncomingEvent(networkEvent));
       }

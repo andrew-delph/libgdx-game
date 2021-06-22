@@ -3,9 +3,7 @@ package infra.entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
-import infra.chunk.ChunkRange;
 import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.render.BaseAssetManager;
@@ -21,27 +19,13 @@ public class Entity {
   public Animation animation;
   public Sprite sprite;
   public Body body;
-
-  public Body getBody() {
-//    System.out.println("getBody");
-    return body;
-  }
-
-  public void setBody(Body body) {
-//    System.out.println("setBody"+new ChunkRange(this.coordinates)+","+this.uuid);
-    this.body = body;
-  }
-
   public Coordinates coordinates;
   @Inject public Clock clock;
   public int zindex = 1;
   public int width = (int) (coordinatesScale);
   public int height = (int) (coordinatesScale);
   public String textureName = "frog.png";
-
   @Inject BaseAssetManager baseAssetManager;
-
-
   @Inject
   protected Entity() {
     this.sprite = new Sprite();
@@ -52,6 +36,16 @@ public class Entity {
     this.entityController = new EntityController(this);
   }
 
+  public Body getBody() {
+    //    System.out.println("getBody");
+    return body;
+  }
+
+  public void setBody(Body body) {
+    //    System.out.println("setBody"+new ChunkRange(this.coordinates)+","+this.uuid);
+    this.body = body;
+  }
+
   public synchronized Body addWorld(World world) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -59,7 +53,7 @@ public class Entity {
         this.coordinates.getXReal() * coordinatesScale,
         this.coordinates.getYReal() * coordinatesScale);
 
-//    this.setBody(world.createBody(bodyDef));
+    //    this.setBody(world.createBody(bodyDef));
     Body theBody = world.createBody(bodyDef);
 
     PolygonShape shape = new PolygonShape();
@@ -142,7 +136,7 @@ public class Entity {
     return this.uuid == other.uuid;
   }
 
-  public Coordinates getCenter(){
-    return new Coordinates(this.coordinates.getXReal()+0.5f,this.coordinates.getYReal()+0.5f);
+  public Coordinates getCenter() {
+    return new Coordinates(this.coordinates.getXReal() + 0.5f, this.coordinates.getYReal() + 0.5f);
   }
 }

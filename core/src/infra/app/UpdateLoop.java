@@ -16,11 +16,9 @@ import java.util.concurrent.Executors;
 public class UpdateLoop extends TimerTask {
 
   @Inject public Clock clock;
-  @Inject
-  EventService eventService;
-
   @Inject public GameStore gameStore;
   public ExecutorService executor;
+  @Inject EventService eventService;
   @Inject ChunkGenerationManager chunkGenerationManager;
 
   public UpdateLoop() {
@@ -36,7 +34,7 @@ public class UpdateLoop extends TimerTask {
     callableChunkList.addAll(this.chunkGenerationManager.generateActiveEntities());
 
     try {
-//      System.out.println("starting update");
+      //      System.out.println("starting update");
       executor.invokeAll(callableChunkList);
     } catch (InterruptedException e) {
       e.printStackTrace();

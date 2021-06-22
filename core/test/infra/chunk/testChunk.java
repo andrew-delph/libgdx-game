@@ -16,16 +16,16 @@ public class testChunk {
   public void testGetBlock() {
     Injector injector = Guice.createInjector(new ClientConfig());
     ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
-    Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(0,0)));
-      EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
-      BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
+    Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
+    EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
+    BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
     Entity entity = entityFactory.createEntity();
-    assert entity.coordinates.equals(new Coordinates(0,0));
+    assert entity.coordinates.equals(new Coordinates(0, 0));
     chunk.addEntity(entity);
     assert chunk.getBlock(new Coordinates(0, 0)) == null;
     Block dirtBlock = blockFactory.createDirt();
-    assert dirtBlock.coordinates.equals(new Coordinates(0,0));
+    assert dirtBlock.coordinates.equals(new Coordinates(0, 0));
     chunk.addEntity(dirtBlock);
-    assert chunk.getBlock(new Coordinates(0,0)).equals(dirtBlock);
+    assert chunk.getBlock(new Coordinates(0, 0)).equals(dirtBlock);
   }
 }

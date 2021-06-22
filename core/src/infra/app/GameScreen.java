@@ -53,8 +53,7 @@ public class GameScreen extends ApplicationAdapter {
   Matrix4 debugMatrix;
 
   @Inject
-  public GameScreen() {
-  }
+  public GameScreen() {}
 
   @Override
   public void create() {
@@ -76,7 +75,7 @@ public class GameScreen extends ApplicationAdapter {
     myEntity = entityFactory.createEntity();
     myEntity.coordinates = new Coordinates(1, 3);
     myEntity = gameController.createEntity(myEntity);
-    System.out.println("my entity "+myEntity.uuid);
+    System.out.println("my entity " + myEntity.uuid);
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     chunkGenerationManager.registerActiveEntity(myEntity, null);
     debugRenderer = new Box2DDebugRenderer();
@@ -120,28 +119,29 @@ public class GameScreen extends ApplicationAdapter {
         e.printStackTrace();
       }
     }
-//    System.out.println(new ChunkRange(myEntity.coordinates)+"; "+myEntity.coordinates.getXReal()+"; "+myEntity.coordinates.getX());
+    //    System.out.println(new ChunkRange(myEntity.coordinates)+";
+    // "+myEntity.coordinates.getXReal()+"; "+myEntity.coordinates.getX());
     batch.end();
     Chunk mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
     debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
     debugRenderer.render(mainChunk.world, debugMatrix);
-//    try {
-//      mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(-1, 0)));
-//      debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
-//      debugRenderer.render(mainChunk.world, debugMatrix);
-//
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
-//
-//    try {
-//      mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(0, -1)));
-//      debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
-//      debugRenderer.render(mainChunk.world, debugMatrix);
-//
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
+    //    try {
+    //      mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(-1, 0)));
+    //      debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
+    //      debugRenderer.render(mainChunk.world, debugMatrix);
+    //
+    //    } catch (Exception e) {
+    //      e.printStackTrace();
+    //    }
+    //
+    //    try {
+    //      mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(0, -1)));
+    //      debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
+    //      debugRenderer.render(mainChunk.world, debugMatrix);
+    //
+    //    } catch (Exception e) {
+    //      e.printStackTrace();
+    //    }
   }
 
   @Override

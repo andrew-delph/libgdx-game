@@ -6,9 +6,9 @@ import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
+import infra.common.events.EventConsumer;
 import infra.generation.ChunkGenerationManager;
 import infra.networking.client.ClientNetworkHandle;
-import infra.common.events.EventConsumer;
 import infra.networking.events.EventFactory;
 
 import java.io.IOException;

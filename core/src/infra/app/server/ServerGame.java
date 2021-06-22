@@ -7,8 +7,8 @@ import configuration.ServerConfig;
 import infra.app.Game;
 import infra.chunk.ChunkFactory;
 import infra.common.GameStore;
-import infra.generation.ChunkGenerationManager;
 import infra.common.events.EventConsumer;
+import infra.generation.ChunkGenerationManager;
 import infra.networking.server.ServerNetworkHandle;
 
 import java.io.IOException;
