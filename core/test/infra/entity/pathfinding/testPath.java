@@ -35,6 +35,7 @@ public class testPath {
 
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 0))).call();
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(5, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0,5))).call();
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, -1))).call();
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, 0))).call();
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, -1))).call();
@@ -43,8 +44,8 @@ public class testPath {
     //    System.out.println(gameStore.getBlock(new Coordinates(3,0)).getClass());
 
     Coordinates start = new Coordinates(0, 1);
-    Coordinates end = new Coordinates(5, 1);
-    Coordinates block = new Coordinates(3, 1);
+    Coordinates end = new Coordinates(3, 1);
+    Coordinates block = new Coordinates(2, 1);
 
     Block removeBlock = gameStore.getBlock(block);
     gameStore.removeEntity(removeBlock.uuid);
@@ -69,7 +70,7 @@ public class testPath {
     path.search();
 
     for (Edge edge : path.getPathEdgeList()) {
-      System.out.println(edge.actionKey);
+      System.out.println(edge.actionKey+", "+edge.to.position);
     }
   }
 }

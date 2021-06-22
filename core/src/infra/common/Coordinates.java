@@ -80,6 +80,10 @@ public class Coordinates {
     return new Coordinates(this.getX() + 1, this.getY());
   }
 
+  public synchronized Coordinates getMiddle() {
+    return new Coordinates(this.getX() + 0.5f, this.getY()+0.5f);
+  }
+
   @Override
   public int hashCode() {
     return (this.x + "," + this.y).hashCode();
