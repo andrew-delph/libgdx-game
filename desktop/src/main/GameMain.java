@@ -11,11 +11,8 @@ public class GameMain {
   public static void main(String[] arg) {
 
     Injector injector = Guice.createInjector(new SoloConfig());
-
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
-
     LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-
     config.height = 500;
     config.width = 500;
 
