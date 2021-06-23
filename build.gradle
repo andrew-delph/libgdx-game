@@ -56,6 +56,11 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+
+        implementation group: 'com.google.inject', name: 'guice', version: '4.0'
+        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
+//        // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
+        implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
     }
 }
 
@@ -100,15 +105,15 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
 
+        implementation 'junit:junit:4.12'
+
         implementation 'io.grpc:grpc-netty:1.32.1'
         implementation 'io.grpc:grpc-okhttp:1.32.1'
         implementation 'io.grpc:grpc-protobuf:1.32.1'
         implementation 'io.grpc:grpc-stub:1.32.1'
 
-        implementation 'junit:junit:4.12'
-
         implementation group: 'com.google.inject', name: 'guice', version: '4.0'
-        implementation group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
+        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
 //        // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
         implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
 
