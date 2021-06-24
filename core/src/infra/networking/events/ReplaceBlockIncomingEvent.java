@@ -1,11 +1,11 @@
 package infra.networking.events;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-import infra.common.events.Event;
-import infra.networking.NetworkObjects;
 
 import java.util.UUID;
+
+import infra.common.events.Event;
+import infra.networking.NetworkObjects;
 
 public class ReplaceBlockIncomingEvent extends Event {
 
@@ -15,7 +15,7 @@ public class ReplaceBlockIncomingEvent extends Event {
   NetworkObjects.NetworkData replacementBlockData;
 
   @Inject
-  public ReplaceBlockIncomingEvent(@Assisted NetworkObjects.NetworkEvent networkEvent) {
+  public ReplaceBlockIncomingEvent(NetworkObjects.NetworkEvent networkEvent) {
     this.networkEvent = networkEvent;
     for (NetworkObjects.NetworkData networkData : networkEvent.getData().getChildrenList()) {
       switch (networkData.getKey()) {

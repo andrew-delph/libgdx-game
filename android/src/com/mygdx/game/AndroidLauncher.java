@@ -24,11 +24,11 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import configuration.SoloConfig;
+import configuration.TestConfig;
 import infra.app.GameScreen;
 
 public class AndroidLauncher extends AndroidApplication {
@@ -36,23 +36,48 @@ public class AndroidLauncher extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Injector injector = Guice.createInjector(new AbstractModule() {
-			@Override
-			protected void configure() {
+//		Injector injector = Guice.createInjector(new AbstractModule() {
+//			@Override
+//			protected void configure() {
+//
+//			}
+//		});
+//		initialize(new PhysicsTest(), new AndroidApplicationConfiguration());
 
-			}
-		});
+//		Channel channel = ManagedChannelBuilder.forAddress("4.tcp.ngrok.io", 15442).usePlaintext().build();
+//		NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub = NetworkObjectServiceGrpc.newStub(channel);
+//		StreamObserver<NetworkObjects.NetworkEvent> sender = asyncStub.networkObjectStream(new StreamObserver<NetworkObjects.NetworkEvent>(){
+//			@Override
+//			public void onNext(NetworkObjects.NetworkEvent value) {
+//				System.out.println(value.getEvent());
+//			}
+//			@Override
+//			public void onError(Throwable t) {
+//				System.out.println("error");
+//				t.printStackTrace();
+//			}
+//			@Override
+//			public void onCompleted() {
+//				System.out.println("complete");
+//			}
+//		});
+//		NetworkObjects.NetworkEvent authenticationEvent =
+//				NetworkObjects.NetworkEvent.newBuilder().setEvent("andoid").build();
+//		sender.onNext(authenticationEvent);
+//		try {
+//			TimeUnit.SECONDS.sleep(3);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 
-		initialize(new PhysicsTest(), new AndroidApplicationConfiguration());
+		Injector injector = Guice.createInjector(new SoloConfig());
+		GameScreen gameScreen = injector.getInstance(GameScreen.class);
+		initialize(gameScreen, new AndroidApplicationConfiguration());
 
-
+//		Injector injector = Guice.createInjector(new SoloConfig());
+//
 //		GameScreen gameScreen = injector.getInstance(GameScreen.class);
-//
-//
 //		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-//
-////		config.height = 500;
-////		config.width = 500;
 //		initialize(gameScreen, config);
 	}
 }

@@ -1,6 +1,23 @@
 package infra.entity;
 
-public interface EntityFactory {
+import com.google.inject.Inject;
 
-  public Entity createEntity();
+import infra.common.Clock;
+import infra.common.render.BaseAssetManager;
+
+public class EntityFactory {
+
+  @Inject
+  Clock clock;
+  @Inject
+  BaseAssetManager baseAssetManager;
+
+  @Inject
+  EntityFactory(){
+
+  }
+
+  public Entity createEntity(){
+    return new Entity(clock, baseAssetManager);
+  };
 }

@@ -1,7 +1,6 @@
 package infra.common.events;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import java.util.UUID;
 
@@ -12,7 +11,7 @@ public class RemoveEntityEvent extends Event {
   UUID entityUUID;
 
   @Inject
-  public RemoveEntityEvent(@Assisted UUID entityUUID) {
+  public RemoveEntityEvent(UUID entityUUID) {
     this.entityUUID = entityUUID;
   }
 

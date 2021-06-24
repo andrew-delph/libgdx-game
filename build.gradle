@@ -57,10 +57,12 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 
-        implementation group: 'com.google.inject', name: 'guice', version: '4.0'
-        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
+//        implementation group: 'com.google.inject', name: 'guice', version: '4.0'
+//        implementation "com.google.inject:guice:4.0-no_aop"
+        implementation 'com.google.inject:guice:4.0:no_aop'
+//        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
 //        // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
-        implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
+//        implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
     }
 }
 
@@ -73,11 +75,20 @@ project(":android") {
         implementation project(":core")
 
         implementation 'androidx.multidex:multidex:2.0.1'
-        implementation group: 'com.google.inject', name: 'guice', version: '4.0-no_aop'
 
-        implementation group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
+//        implementation "com.google.inject:guice:4.0"
+//        implementation files('libs/guice-4.2.2-no_aop.jar')
+        implementation 'com.google.inject:guice:4.0:no_aop'
+
+
+//        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
 //        // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
-        implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
+//        implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
+
+        implementation 'io.grpc:grpc-netty:1.32.1'
+        implementation 'io.grpc:grpc-okhttp:1.32.1'
+        implementation 'io.grpc:grpc-protobuf:1.32.1'
+        implementation 'io.grpc:grpc-stub:1.32.1'
 
         api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
@@ -111,15 +122,19 @@ project(":core") {
         implementation 'io.grpc:grpc-okhttp:1.32.1'
         implementation 'io.grpc:grpc-protobuf:1.32.1'
         implementation 'io.grpc:grpc-stub:1.32.1'
+        implementation 'org.apache.tomcat:annotations-api:6.0.53'
 
-        implementation group: 'com.google.inject', name: 'guice', version: '4.0'
-        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
+
+        implementation 'com.google.inject:guice:4.0:no_aop'
+//        implementation group: 'com.google.inject', name: 'guice', version: '4.0'
+//        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
 //        // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
-        implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
+//        implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
 
         testImplementation(
                 'org.hamcrest:hamcrest-library:2.1'
         )
+
     }
 
     sourceSets {
