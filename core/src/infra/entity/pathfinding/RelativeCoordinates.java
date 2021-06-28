@@ -12,6 +12,6 @@ public class RelativeCoordinates {
     }
 
     Coordinates applyRelativeCoordinates(Coordinates coordinates){
-        return new Coordinates(coordinates.getXReal()+this.relativeX,coordinates.getYReal()+coordinates.getYReal());
+        return new Coordinates(coordinates.getXReal()+this.relativeX,coordinates.getYReal()+this.relativeY);
     }
 }

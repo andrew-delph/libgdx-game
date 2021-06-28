@@ -36,6 +36,28 @@ public class testBlockStructure {
     }
 
     @Test
+    public void testRelativeBlockRegisterAbove(){
+        Injector injector = Guice.createInjector(new SoloConfig());
+
+        GameStore gameStore = injector.getInstance(GameStore.class);
+        BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
+        BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
+
+        ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
+
+        gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0,0))));
+
+        Block block = blockFactory.createSky();
+        block.coordinates = new Coordinates(0,3);
+        gameStore.addEntity(block);
+
+        BlockStructure blockStructure = blockStructureFactory.createBlockStructure();
+        blockStructure.registerRelativeBlock(new RelativeCoordinates(0,3), EmptyBlock.class);
+
+        assert blockStructure.verifyBlockStructure(new Coordinates(0,0));
+    }
+
+    @Test
     public void testRelativeBlockRegisterNegative(){
         Injector injector = Guice.createInjector(new SoloConfig());
 
