@@ -85,7 +85,7 @@ public class testEntitySerialization {
 
   @Test
   public void testBlockWrite() {
-    Entity block = blockFactory.create();
+    Entity block = blockFactory.createDirt();
     UUID uuid = block.uuid;
     gameStore.addChunk(chunkFactory.create(new ChunkRange(block.coordinates)));
     networkEventHandler.handleNetworkEvent(

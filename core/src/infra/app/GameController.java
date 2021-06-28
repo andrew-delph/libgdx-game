@@ -40,17 +40,6 @@ public class GameController {
     return entity;
   }
 
-  public Entity createBlock(Coordinates coordinates) {
-    Entity entity = blockFactory.create();
-    entity.coordinates = coordinates;
-    this.gameStore.addEntity(entity);
-    CreateEntityOutgoingEvent createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(coordinates));
-    this.eventService.fireEvent(createEntityOutgoingEvent);
-    return entity;
-  }
-
   public Entity createSkyBlock(Coordinates coordinates) {
     Entity entity = blockFactory.createSky();
     entity.coordinates = coordinates;

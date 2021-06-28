@@ -17,9 +17,7 @@ public class EntitySerializationConverter {
   public Entity createEntity(NetworkObjects.NetworkData networkData) {
     String classString = networkData.getValue();
     Entity entity;
-    if (classString == Block.class.getName()) {
-      entity = blockFactory.create();
-    } else if (classString.equals(DirtBlock.class.getName())) {
+    if (classString.equals(DirtBlock.class.getName())) {
       entity = blockFactory.createDirt();
     } else if (classString.equals(SkyBlock.class.getName())) {
       entity = blockFactory.createSky();

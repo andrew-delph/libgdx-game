@@ -1,3 +1,4 @@
 package infra.entity.pathfinding;
 
-public class PathEventService {}
+public class TemplatePath {
+}

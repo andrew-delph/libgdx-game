@@ -1,6 +1,6 @@
 package infra.entity.block;
 
-public class DirtBlock extends Block {
+public class DirtBlock extends SolidBlock {
   public DirtBlock() {
     super();
     this.textureName = "dirtblock.jpg";

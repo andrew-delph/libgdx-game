@@ -4,7 +4,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import infra.entity.Entity;
 import infra.entity.collision.contact.GroundPoint;
 
-public class Block extends Entity {
+public abstract class Block extends Entity {
 
   public Block() {
     super();
