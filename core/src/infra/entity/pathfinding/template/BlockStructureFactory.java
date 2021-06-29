@@ -1,13 +1,14 @@
-package infra.entity.pathfinding;
+package infra.entity.pathfinding.template;
 
 import com.google.inject.Inject;
 import infra.common.GameStore;
 
 public class BlockStructureFactory {
+
     @Inject
     GameStore gameStore;
 
-    BlockStructure createBlockStructure(){
+    public BlockStructure createBlockStructure(){
         return new BlockStructure(this.gameStore);
     }
 }

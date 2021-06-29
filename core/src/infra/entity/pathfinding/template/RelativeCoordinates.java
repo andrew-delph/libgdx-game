@@ -1,4 +1,4 @@
-package infra.entity.pathfinding;
+package infra.entity.pathfinding.template;
 
 import infra.common.Coordinates;
 
@@ -11,7 +11,7 @@ public class RelativeCoordinates {
         this.relativeY = relativeY;
     }
 
-    Coordinates applyRelativeCoordinates(Coordinates coordinates){
+    public Coordinates applyRelativeCoordinates(Coordinates coordinates){
         return new Coordinates(coordinates.getXReal()+this.relativeX,coordinates.getYReal()+this.relativeY);
     }
 }

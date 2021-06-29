@@ -4,14 +4,14 @@ import infra.common.Coordinates;
 
 public class PathNode {
 
-  public final Edge edge;
+  public final ActionEdge actionEdge;
   public final Vertex target;
 
   int heuristic = Integer.MAX_VALUE;
   PathNode previous;
 
-  PathNode(Edge edge, Vertex target) {
-    this.edge = edge;
+  PathNode(ActionEdge actionEdge, Vertex target) {
+    this.actionEdge = actionEdge;
     this.target = target;
   }
 
@@ -24,7 +24,7 @@ public class PathNode {
   }
 
   public double getHeuristic() {
-    Coordinates a = edge.to.position;
+    Coordinates a = actionEdge.to.position;
     Coordinates b = this.target.position.getMiddle();
     Coordinates up = b.getUp();
 
@@ -48,7 +48,7 @@ public class PathNode {
 
   @Override
   public int hashCode() {
-    return (this.edge.hashCode() + "," + this.target.hashCode()).hashCode();
+    return (this.actionEdge.hashCode() + "," + this.target.hashCode()).hashCode();
   }
 
   @Override
@@ -57,6 +57,6 @@ public class PathNode {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     PathNode other = (PathNode) obj;
-    return this.edge.equals(other.edge) && this.target.equals(other.target);
+    return this.actionEdge.equals(other.actionEdge) && this.target.equals(other.target);
   }
 }

@@ -57,6 +57,24 @@ public class Vertex {
     return this.explored;
   }
 
+  public ActionEdge generateEdge(String actionKey){
+    this.setupWorld();
+    this.entity.entityController.applyAction(actionKey,this.body);
+    world.step(1 / 5f, 6, 2);
+
+    Vertex newVertex =
+            vertexFactory.createVertex(
+                    this.entity, new Coordinates(this.body.getPosition()), this.body.getLinearVelocity());
+    graph.registerVertex(newVertex);
+    ActionEdge newActionEdge = new ActionEdge(this, newVertex, actionKey);
+
+    if (!newActionEdge.from.position.equals(newActionEdge.to.position)) graph.registerEdge(newActionEdge);
+    else System.out.println("position no move");
+
+    world.dispose();
+    return newActionEdge;
+  }
+
   public void exploreEdges() {
     this.explored = true;
     for (Map.Entry<String, EntityAction> entry :
@@ -76,22 +94,7 @@ public class Vertex {
       //        //        System.out.println(this.velocity.y);
       //      }
 
-      EntityAction action = entry.getValue();
-      this.setupWorld();
-      action.apply(this.body);
-      world.step(1 / 5f, 6, 2);
-
-      Vertex newVertex =
-          vertexFactory.createVertex(
-              this.entity, new Coordinates(this.body.getPosition()), this.body.getLinearVelocity());
-      graph.registerVertex(newVertex);
-      Edge newEdge = new Edge(this, newVertex, actionKey);
-
-      if (!newEdge.from.position.equals(newEdge.to.position)) graph.registerEdge(newEdge);
-      else System.out.println("position no move");
-
-      world.dispose();
-      Runtime.getRuntime().gc();
+      this.generateEdge(actionKey);
     }
   }
 

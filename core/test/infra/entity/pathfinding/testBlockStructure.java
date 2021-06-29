@@ -8,6 +8,9 @@ import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.entity.block.*;
+import infra.entity.pathfinding.template.BlockStructure;
+import infra.entity.pathfinding.template.BlockStructureFactory;
+import infra.entity.pathfinding.template.RelativeCoordinates;
 import org.junit.Test;
 
 public class testBlockStructure {

@@ -5,11 +5,10 @@ import com.google.inject.Inject;
 import java.util.*;
 
 public class Graph {
-  Map<Vertex, Set<Edge>> graphMap;
+  Map<Vertex, Set<ActionEdge>> graphMap;
 
   @Inject
   Graph() {
-    System.out.println("create graph");
     graphMap = new HashMap<>();
   }
 
@@ -23,15 +22,15 @@ public class Graph {
     this.graphMap.put(vertex, new HashSet<>());
   }
 
-  public void registerEdge(Edge edge) {
-    if (!this.graphMap.containsKey(edge.from)) {
+  public void registerEdge(ActionEdge actionEdge) {
+    if (!this.graphMap.containsKey(actionEdge.from)) {
       return;
     }
-    this.graphMap.computeIfAbsent(edge.from, k -> new HashSet<>());
-    this.graphMap.get(edge.from).add(edge);
+    this.graphMap.computeIfAbsent(actionEdge.from, k -> new HashSet<>());
+    this.graphMap.get(actionEdge.from).add(actionEdge);
   }
 
-  public List<Edge> getEdges(Vertex vertex) {
+  public List<ActionEdge> getEdges(Vertex vertex) {
     return new LinkedList<>(this.graphMap.get(vertex));
   }
 }

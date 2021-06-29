@@ -1,11 +1,11 @@
 package infra.entity.pathfinding;
 
-public class Edge {
+public class ActionEdge {
   public final Vertex from;
   public final Vertex to;
   public final String actionKey;
 
-  Edge(Vertex from, Vertex to, String actionKey) {
+  ActionEdge(Vertex from, Vertex to, String actionKey) {
     this.from = from;
     this.to = to;
     this.actionKey = actionKey;
@@ -21,7 +21,7 @@ public class Edge {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    Edge other = (Edge) obj;
+    ActionEdge other = (ActionEdge) obj;
     return this.from.equals(other.from)
         && this.to.equals(other.to)
         && this.actionKey.equals(other.actionKey);

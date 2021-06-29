@@ -10,6 +10,7 @@ import infra.common.Clock;
 import infra.common.GameStore;
 import infra.common.events.EventService;
 import infra.common.render.BaseAssetManager;
+import infra.entity.EntityBodyBuilder;
 import infra.entity.EntityFactory;
 import infra.entity.block.BlockFactory;
 import infra.entity.collision.CollisionService;
@@ -17,7 +18,7 @@ import infra.entity.collision.EntityContactListenerFactory;
 import infra.entity.collision.contact.EntityGroundContact;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.entity.controllers.actions.EntityActionFactory;
-import infra.entity.pathfinding.BlockStructureFactory;
+import infra.entity.pathfinding.template.BlockStructureFactory;
 import infra.entity.pathfinding.Graph;
 import infra.entity.pathfinding.PathFactory;
 import infra.entity.pathfinding.VertexFactory;
@@ -46,6 +47,8 @@ public abstract class MainConfig extends AbstractModule {
     bind(CollisionService.class).asEagerSingleton();
 
     bind(BlockStructureFactory.class).asEagerSingleton();
+
+    bind(EntityBodyBuilder.class).asEagerSingleton();
 
     install(new FactoryModuleBuilder().build(ChunkFactory.class));
 

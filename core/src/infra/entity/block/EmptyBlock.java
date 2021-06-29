@@ -6,6 +6,6 @@ import com.badlogic.gdx.physics.box2d.World;
 public abstract class EmptyBlock extends Block{
     @Override
     public Body addWorld(World world) {
-        return null;
+        return entityBodyBuilder.createEmptyBlockBody();
     }
 }

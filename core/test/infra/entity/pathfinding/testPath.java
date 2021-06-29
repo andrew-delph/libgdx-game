@@ -69,8 +69,8 @@ public class testPath {
 
     path.search();
 
-    for (Edge edge : path.getPathEdgeList()) {
-      System.out.println(edge.actionKey + ", " + edge.to.position);
+    for (ActionEdge actionEdge : path.getPathEdgeList()) {
+      System.out.println(actionEdge.actionKey + ", " + actionEdge.to.position);
     }
   }
 }

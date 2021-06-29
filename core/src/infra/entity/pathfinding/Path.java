@@ -10,8 +10,6 @@ public class Path {
   Vertex source;
   Vertex target;
 
-  List<Vertex> visted = new LinkedList<>();
-
   Set<PathNode> unvisitedPathNodeSet = new HashSet<>();
   Set<PathNode> visitedPathNodeSet = new HashSet<>();
 
@@ -24,7 +22,7 @@ public class Path {
     this.source = source;
     this.target = target;
     this.unvisitedPathNodeSet.add(
-        new PathNode(new Edge(this.source, this.source, null), this.target));
+        new PathNode(new ActionEdge(this.source, this.source, null), this.target));
   }
 
   public void search() {
@@ -54,20 +52,20 @@ public class Path {
       //      }
 
       System.out.println(
-          current.edge.actionKey
+          current.actionEdge.actionKey
               + " ; "
-              + current.edge.to.position
+              + current.actionEdge.to.position
               + " ; "
               + current.getHeuristic());
       unvisitedPathNodeSet.remove(current);
       visitedPathNodeSet.add(current);
-      if (!current.edge.to.isExplored()) {
-        current.edge.to.exploreEdges();
+      if (!current.actionEdge.to.isExplored()) {
+        current.actionEdge.to.exploreEdges();
       }
-      for (Edge edge : this.graph.getEdges(current.edge.to)) {
+      for (ActionEdge actionEdge : this.graph.getEdges(current.actionEdge.to)) {
         //        System.out.println("unvisted "+unvisitedPathNodeSet.size());
         //        System.out.println("visted " + visitedPathNodeSet.size());
-        PathNode discoveredPathNode = new PathNode(edge, this.target);
+        PathNode discoveredPathNode = new PathNode(actionEdge, this.target);
 
         discoveredPathNode.setPrevious(current);
 
@@ -84,13 +82,13 @@ public class Path {
     }
   }
 
-  public List<Edge> getPathEdgeList() {
-    List<Edge> edgeList = new LinkedList<>();
+  public List<ActionEdge> getPathEdgeList() {
+    List<ActionEdge> actionEdgeList = new LinkedList<>();
     PathNode current = finalPathNode;
     while (current.getPrevious() != null) {
       current = current.getPrevious();
-      edgeList.add(current.edge);
+      actionEdgeList.add(current.actionEdge);
     }
-    return edgeList;
+    return actionEdgeList;
   }
 }

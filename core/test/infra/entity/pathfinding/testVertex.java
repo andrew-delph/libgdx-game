@@ -58,10 +58,10 @@ public class testVertex {
 
     Vertex current = null;
     System.out.println(vertex.position + " start");
-    for (Edge edge : graph.getEdges(vertex)) {
-      current = edge.to;
-      System.out.println(edge.to.position + " " + edge.actionKey);
-      edge.to.exploreEdges();
+    for (ActionEdge actionEdge : graph.getEdges(vertex)) {
+      current = actionEdge.to;
+      System.out.println(actionEdge.to.position + " " + actionEdge.actionKey);
+      actionEdge.to.exploreEdges();
     }
 
     //    for (Edge edge : graph.getEdges(current)) {

@@ -30,6 +30,7 @@ public class Entity {
   public String textureName = "frog.png";
   @Inject BaseAssetManager baseAssetManager;
   @Inject EntityControllerFactory entityControllerFactory;
+  @Inject protected EntityBodyBuilder entityBodyBuilder;
   private int groundContact = 0;
 
   @Inject
@@ -68,37 +69,7 @@ public class Entity {
   }
 
   public synchronized Body addWorld(World world) {
-    BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyDef.BodyType.DynamicBody;
-    bodyDef.position.set(
-        this.coordinates.getXReal() * coordinatesScale,
-        this.coordinates.getYReal() * coordinatesScale);
-
-    //    this.setBody(world.createBody(bodyDef));
-    Body theBody = world.createBody(bodyDef);
-
-    theBody.setUserData(this);
-
-    PolygonShape shape = new PolygonShape();
-
-    shape.setAsBox(coordinatesScale / 2f, coordinatesScale / 2f);
-    FixtureDef fixtureDef = new FixtureDef();
-    fixtureDef.shape = shape;
-    fixtureDef.density = 1f;
-    fixtureDef.restitution = 0;
-    theBody.createFixture(fixtureDef);
-
-    FixtureDef jumpFixtureDef = new FixtureDef();
-    PolygonShape jumpShape = new PolygonShape();
-    jumpShape.setAsBox(coordinatesScale / 2f, 1f, new Vector2(0, -coordinatesScale / 2f), 0);
-    jumpFixtureDef.shape = jumpShape;
-    jumpFixtureDef.isSensor = true;
-
-    Fixture jumpFixture = theBody.createFixture(jumpFixtureDef);
-    jumpFixture.setUserData(new GroundSensorPoint(theBody));
-    theBody.setFixedRotation(true);
-
-    return theBody;
+    return entityBodyBuilder.createEntityBody(world, this.coordinates);
   }
 
   public synchronized void setController(EntityController entityController) {

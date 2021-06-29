@@ -1,4 +1,3 @@
 package infra.entity.pathfinding;
 
-public class TemplatePath {
-}
+public class GreedyEdge {}

@@ -22,24 +22,5 @@ public abstract class Block extends Entity {
     this.body = body;
   }
 
-  public Body addWorld(World world) {
-    BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyDef.BodyType.StaticBody;
-    bodyDef.position.set(
-        this.coordinates.getXReal() * Entity.coordinatesScale,
-        this.coordinates.getYReal() * Entity.coordinatesScale);
-
-    //    this.setBody(world.createBody(bodyDef));
-    Body theBody = world.createBody(bodyDef);
-
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox(Entity.coordinatesScale / 2.0f, Entity.coordinatesScale / 2f);
-    FixtureDef fixtureDef = new FixtureDef();
-    fixtureDef.shape = shape;
-    fixtureDef.density = 0f;
-    fixtureDef.restitution = 0;
-    Fixture blockFixture = theBody.createFixture(fixtureDef);
-    blockFixture.setUserData(new GroundPoint());
-    return theBody;
-  }
+  public abstract Body addWorld(World world);
 }
