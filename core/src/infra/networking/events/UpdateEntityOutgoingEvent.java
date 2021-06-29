@@ -1,7 +1,5 @@
 package infra.networking.events;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import infra.chunk.ChunkRange;
 import infra.common.events.Event;
 import infra.networking.NetworkObjects;
@@ -12,9 +10,8 @@ public class UpdateEntityOutgoingEvent extends Event implements SerializeNetwork
   NetworkObjects.NetworkData entityData;
   ChunkRange chunkRange;
 
-  @Inject
   public UpdateEntityOutgoingEvent(
-      @Assisted NetworkObjects.NetworkData entityData, @Assisted ChunkRange chunkRange) {
+      NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
     this.chunkRange = chunkRange;
     this.entityData = entityData;
   }

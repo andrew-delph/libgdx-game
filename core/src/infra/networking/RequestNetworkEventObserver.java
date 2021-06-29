@@ -1,20 +1,26 @@
 package infra.networking;
 
-import com.google.inject.Inject;
+import java.util.UUID;
+
 import infra.common.events.EventService;
 import infra.networking.events.EventFactory;
 import io.grpc.stub.StreamObserver;
-
-import java.util.UUID;
 
 public class RequestNetworkEventObserver implements StreamObserver<NetworkObjects.NetworkEvent> {
 
   public StreamObserver<NetworkObjects.NetworkEvent> responseObserver;
   public UUID uuid;
-  @Inject NetworkEventHandler networkEventHandler;
-  @Inject ConnectionStore connectionStore;
-  @Inject EventService eventService;
-  @Inject EventFactory eventFactory;
+  NetworkEventHandler networkEventHandler;
+  ConnectionStore connectionStore;
+  EventService eventService;
+  EventFactory eventFactory;
+
+  public RequestNetworkEventObserver(NetworkEventHandler networkEventHandler, ConnectionStore connectionStore, EventService eventService, EventFactory eventFactory) {
+    this.networkEventHandler = networkEventHandler;
+    this.connectionStore = connectionStore;
+    this.eventService = eventService;
+    this.eventFactory = eventFactory;
+  }
 
   @Override
   public synchronized void onNext(NetworkObjects.NetworkEvent networkEvent) {

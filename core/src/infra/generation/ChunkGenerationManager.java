@@ -18,6 +18,7 @@ public class ChunkGenerationManager {
   @Inject GameStore gameStore;
   @Inject ChunkBuilderFactory chunkBuilderFactory;
 
+  @Inject
   ChunkGenerationManager() {
     this.generatedSet = new HashSet<>();
     this.activeEntity = new HashSet<>();

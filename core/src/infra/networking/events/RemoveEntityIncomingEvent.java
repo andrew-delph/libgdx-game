@@ -1,7 +1,7 @@
 package infra.networking.events;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+
 import infra.common.events.Event;
 import infra.networking.NetworkObjects;
 
@@ -12,7 +12,7 @@ public class RemoveEntityIncomingEvent extends Event {
   public NetworkObjects.NetworkEvent networkEvent;
 
   @Inject
-  RemoveEntityIncomingEvent(@Assisted NetworkObjects.NetworkEvent networkEvent) {
+  RemoveEntityIncomingEvent(NetworkObjects.NetworkEvent networkEvent) {
     this.networkEvent = networkEvent;
   }
 

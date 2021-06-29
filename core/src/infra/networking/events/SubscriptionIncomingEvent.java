@@ -1,14 +1,14 @@
 package infra.networking.events;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-import infra.chunk.ChunkRange;
-import infra.common.events.Event;
-import infra.networking.NetworkObjects;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+
+import infra.chunk.ChunkRange;
+import infra.common.events.Event;
+import infra.networking.NetworkObjects;
 
 public class SubscriptionIncomingEvent extends Event {
 
@@ -17,7 +17,7 @@ public class SubscriptionIncomingEvent extends Event {
   UUID uuid;
 
   @Inject
-  public SubscriptionIncomingEvent(@Assisted NetworkObjects.NetworkEvent networkEvent) {
+  public SubscriptionIncomingEvent(NetworkObjects.NetworkEvent networkEvent) {
     NetworkObjects.NetworkData data = networkEvent.getData();
     this.uuid = UUID.fromString(networkEvent.getUser());
     this.chunkRangeList = new LinkedList<>();

@@ -4,17 +4,23 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
+
 import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.Tick;
 import infra.entity.Entity;
 import infra.entity.block.Block;
-
-import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Chunk implements Callable<Chunk> {
 
@@ -28,7 +34,7 @@ public class Chunk implements Callable<Chunk> {
   Map<Entity, Body> neighborEntityBodyMap = new HashMap<>();
 
   @Inject
-  public Chunk(Clock clock, GameStore gameStore, @Assisted ChunkRange chunkRange) {
+  public Chunk(Clock clock, GameStore gameStore,  ChunkRange chunkRange) {
     this.gameStore = gameStore;
     this.clock = clock;
     this.chunkRange = chunkRange;

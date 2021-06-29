@@ -1,7 +1,7 @@
 package infra.networking.events;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+
 import infra.chunk.ChunkRange;
 import infra.common.events.Event;
 import infra.networking.NetworkObjects;
@@ -15,7 +15,7 @@ public class RemoveEntityOutgoingEvent extends Event implements SerializeNetwork
 
   @Inject
   RemoveEntityOutgoingEvent(
-      @Assisted NetworkObjects.NetworkData entityData, @Assisted ChunkRange chunkRange) {
+      NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
     this.entityData = entityData;
     this.chunkRange = chunkRange;
   }

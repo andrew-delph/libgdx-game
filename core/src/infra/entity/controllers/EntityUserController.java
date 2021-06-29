@@ -2,8 +2,7 @@ package infra.entity.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+
 import infra.app.GameController;
 import infra.common.Coordinates;
 import infra.common.Direction;
@@ -13,15 +12,13 @@ import infra.entity.block.SkyBlock;
 
 public class EntityUserController extends EntityController {
 
-  @Inject GameController gameController;
-
-  @Inject
-  public EntityUserController(@Assisted Entity entity) {
-    super(entity);
+  public EntityUserController(GameController gameController, Entity entity) {
+    super(gameController, entity);
   }
 
   @Override
   public void beforeWorldUpdate() {
+    this.entity.getBody().setLinearVelocity(-5f, 0f);
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
         this.gameController.placeBlock(this.entity, Direction.LEFT, SkyBlock.class);

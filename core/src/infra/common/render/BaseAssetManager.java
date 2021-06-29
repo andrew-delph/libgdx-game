@@ -2,10 +2,12 @@ package infra.common.render;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.google.inject.Inject;
 
 public class BaseAssetManager extends AssetManager {
   Boolean loaded = false;
 
+  @Inject
   public BaseAssetManager() {}
 
   public void init() {

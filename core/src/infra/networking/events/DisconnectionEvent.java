@@ -1,10 +1,10 @@
 package infra.networking.events;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-import infra.common.events.Event;
 
 import java.util.UUID;
+
+import infra.common.events.Event;
 
 public class DisconnectionEvent extends Event {
 
@@ -12,7 +12,7 @@ public class DisconnectionEvent extends Event {
   UUID uuid;
 
   @Inject
-  public DisconnectionEvent(@Assisted UUID uuid) {
+  public DisconnectionEvent(UUID uuid) {
     this.uuid = uuid;
   }
 

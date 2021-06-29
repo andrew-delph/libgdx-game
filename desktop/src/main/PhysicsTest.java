@@ -16,6 +16,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
   final float PIXELS_TO_METERS = 100f;

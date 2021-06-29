@@ -2,7 +2,7 @@ package configuration;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
+
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkSubscriptionService;
 import infra.common.ChunkClockMap;
@@ -31,19 +31,20 @@ public abstract class MainConfig extends AbstractModule {
     bind(EventService.class).asEagerSingleton();
     bind(ConnectionStore.class).asEagerSingleton();
     bind(ChunkSubscriptionService.class).asEagerSingleton();
+
     bind(ChunkClockMap.class).asEagerSingleton();
+//
+    bind(ChunkFactory.class).asEagerSingleton();
+//
+    bind(EntityFactory.class).asEagerSingleton();
+    bind(BlockFactory.class).asEagerSingleton();
 
-    install(new FactoryModuleBuilder().build(ChunkFactory.class));
+    bind(ChunkBuilderFactory.class).asEagerSingleton();
 
-    install(new FactoryModuleBuilder().build(EntityFactory.class));
-
-    install(new FactoryModuleBuilder().build(ChunkBuilderFactory.class));
-
-    install(new FactoryModuleBuilder().build(BlockFactory.class));
-    install(new FactoryModuleBuilder().build(EntityControllerFactory.class));
-
-    install(new FactoryModuleBuilder().build(EventFactory.class));
-
-    install(new FactoryModuleBuilder().build(ObserverFactory.class));
+    bind(EntityControllerFactory.class).asEagerSingleton();
+//
+    bind(EventFactory.class).asEagerSingleton();
+//
+    bind(ObserverFactory.class).asEagerSingleton();
   }
 }
