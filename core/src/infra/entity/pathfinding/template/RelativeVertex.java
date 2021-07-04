@@ -12,7 +12,7 @@ import infra.entity.block.SolidBlock;
 import java.util.Map;
 
 public class RelativeVertex {
-  RelativeCoordinates relativeCoordinates;
+  public RelativeCoordinates relativeCoordinates;
   Vector2 velocity;
   BlockStructure blockStructure;
 
@@ -27,4 +27,10 @@ public class RelativeVertex {
     this.velocity = velocity;
   }
 
+  @Override
+  public String toString() {
+    return "RelativeVertex{" +
+            "relativeCoordinates=" + relativeCoordinates +
+            '}';
+  }
 }

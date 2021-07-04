@@ -10,4 +10,12 @@ public class RelativeActionEdge {
     this.to = to;
     this.actionKey = actionKey;
   }
+
+  public RelativeVertex getFrom() {
+    return from;
+  }
+
+  public RelativeVertex getTo() {
+    return to;
+  }
 }

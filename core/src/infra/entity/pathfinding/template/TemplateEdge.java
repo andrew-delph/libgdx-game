@@ -5,8 +5,12 @@ import java.util.List;
 
 public class TemplateEdge {
   BlockStructure blockStructure;
+  RelativeVertex from;
+  RelativeVertex to;
 
-  public TemplateEdge(BlockStructure blockStructure) {
+  public TemplateEdge(BlockStructure blockStructure, RelativeVertex from, RelativeVertex to) {
+    this.from = from;
+    this.to = to;
     this.blockStructure = blockStructure;
   }
 
