@@ -13,6 +13,11 @@ public class RelativeCoordinates {
     this.relativeY = relativeY;
   }
 
+  public RelativeCoordinates(Vector2 vector2) {
+    this.relativeX = vector2.x / Entity.coordinatesScale;
+    this.relativeY = vector2.y / Entity.coordinatesScale;
+  }
+
   public float getRelativeX() {
     return relativeX;
   }
@@ -21,9 +26,8 @@ public class RelativeCoordinates {
     return relativeY;
   }
 
-  public RelativeCoordinates(Vector2 vector2) {
-    this.relativeX = vector2.x / Entity.coordinatesScale;
-    this.relativeY = vector2.y / Entity.coordinatesScale;
+  public RelativeCoordinates round() {
+    return new RelativeCoordinates((int) this.relativeX, (int) this.relativeY);
   }
 
   public Coordinates applyRelativeCoordinates(Coordinates coordinates) {
@@ -47,15 +51,43 @@ public class RelativeCoordinates {
     return new RelativeCoordinates(this.getRelativeX() + 1, this.getRelativeY());
   }
 
-  public boolean equalBase(RelativeCoordinates other){
-    return (int) this.relativeX == (int) other.relativeX && (int)this.relativeY == (int)this.relativeY;
+  public boolean equalBase(RelativeCoordinates other) {
+    return (int) this.relativeX == (int) other.relativeX
+        && (int) this.relativeY == (int) other.relativeY;
+  }
+
+  public RelativeCoordinates add(RelativeCoordinates other) {
+    return new RelativeCoordinates(
+        this.relativeX + other.relativeX, this.relativeY + other.relativeY);
+  }
+
+  public RelativeCoordinates sub(RelativeCoordinates other) {
+    return new RelativeCoordinates(
+        this.relativeX - other.relativeX, this.relativeY - other.relativeY);
+  }
+
+  @Override
+  public int hashCode() {
+    return (this.getRelativeX() + "," + this.getRelativeY()).hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    RelativeCoordinates other = (RelativeCoordinates) obj;
+    return this.getRelativeX() == other.getRelativeX()
+        && this.getRelativeY() == other.getRelativeY();
   }
 
   @Override
   public String toString() {
-    return "RelativeCoordinates{" +
-            "relativeX=" + relativeX +
-            ", relativeY=" + relativeY +
-            '}';
+    return "RelativeCoordinates{" + "relativeX=" + relativeX + ", relativeY=" + relativeY + '}';
+  }
+
+  public Vector2 toVector2() {
+    return new Vector2(
+        this.relativeX * Entity.coordinatesScale, this.relativeY * Entity.coordinatesScale);
   }
 }

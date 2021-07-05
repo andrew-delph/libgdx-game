@@ -1,8 +1,8 @@
 package infra.entity.block;
 
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 import infra.entity.Entity;
-import infra.entity.collision.contact.GroundPoint;
 
 public abstract class Block extends Entity {
 

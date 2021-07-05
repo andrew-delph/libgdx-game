@@ -48,6 +48,6 @@ public class BlockStructure {
   }
 
   public Set<Map.Entry<RelativeCoordinates, Class<? extends Block>>> getRelativeBlockMapEntrySet() {
-      return this.relativeBlockMap.entrySet();
+    return this.relativeBlockMap.entrySet();
   }
 }

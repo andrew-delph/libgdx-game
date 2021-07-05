@@ -5,10 +5,9 @@ import infra.common.GameStore;
 
 public class BlockStructureFactory {
 
-    @Inject
-    GameStore gameStore;
+  @Inject GameStore gameStore;
 
-    public BlockStructure createBlockStructure(){
-        return new BlockStructure(this.gameStore);
-    }
+  public BlockStructure createBlockStructure() {
+    return new BlockStructure(this.gameStore);
+  }
 }

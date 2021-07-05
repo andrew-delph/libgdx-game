@@ -27,10 +27,19 @@ public class testTemplateEdgeGenerator {
                 new Vector2(0, 0)));
 
     templateEdgeGenerator.applyAction("jump");
-    for (int i = 0; i < 15; i++) {
-      templateEdgeGenerator.applyAction("jump");
+    for (int i = 0; i < 100; i++) {
+      templateEdgeGenerator.applyAction("right");
     }
 
     System.out.println(edgeStore.getEdgeList().size());
+
+    for (AbstractEdge edge : edgeStore.getEdgeList()) {
+      System.out.println(edge);
+      System.out.println(edge.blockStructure.getRelativeBlockMapEntrySet().size());
+      //      for(Map.Entry<RelativeCoordinates, Class<? extends Block>> entry:
+      // edge.blockStructure.getRelativeBlockMapEntrySet()){
+      //        System.out.println(entry.getKey());
+      //      }
+    }
   }
 }

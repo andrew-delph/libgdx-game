@@ -7,80 +7,83 @@ import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
-import infra.entity.block.*;
+import infra.entity.block.Block;
+import infra.entity.block.BlockFactory;
+import infra.entity.block.EmptyBlock;
+import infra.entity.block.SolidBlock;
 import infra.entity.pathfinding.template.BlockStructure;
 import infra.entity.pathfinding.template.BlockStructureFactory;
 import infra.entity.pathfinding.template.RelativeCoordinates;
 import org.junit.Test;
 
 public class testBlockStructure {
-    @Test
-    public void testRelativeBlockRegister(){
-        Injector injector = Guice.createInjector(new SoloConfig());
+  @Test
+  public void testRelativeBlockRegister() {
+    Injector injector = Guice.createInjector(new SoloConfig());
 
-        GameStore gameStore = injector.getInstance(GameStore.class);
-        BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
-        BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
+    GameStore gameStore = injector.getInstance(GameStore.class);
+    BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
+    BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
 
-        ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
+    ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
 
-        gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0,0))));
+    gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-        Block block = blockFactory.createSky();
-        block.coordinates = new Coordinates(0,0);
-        gameStore.addEntity(block);
+    Block block = blockFactory.createSky();
+    block.coordinates = new Coordinates(0, 0);
+    gameStore.addEntity(block);
 
-        assert gameStore.getBlock(new Coordinates(0,0)) != null;
+    assert gameStore.getBlock(new Coordinates(0, 0)) != null;
 
-        BlockStructure blockStructure = blockStructureFactory.createBlockStructure();
-        blockStructure.registerRelativeBlock(new RelativeCoordinates(0,0), EmptyBlock.class);
+    BlockStructure blockStructure = blockStructureFactory.createBlockStructure();
+    blockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
 
-        assert blockStructure.verifyBlockStructure(new Coordinates(0,0));
-    }
+    assert blockStructure.verifyBlockStructure(new Coordinates(0, 0));
+  }
 
-    @Test
-    public void testRelativeBlockRegisterAbove(){
-        Injector injector = Guice.createInjector(new SoloConfig());
+  @Test
+  public void testRelativeBlockRegisterAbove() {
+    Injector injector = Guice.createInjector(new SoloConfig());
 
-        GameStore gameStore = injector.getInstance(GameStore.class);
-        BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
-        BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
+    GameStore gameStore = injector.getInstance(GameStore.class);
+    BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
+    BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
 
-        ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
+    ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
 
-        gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0,0))));
+    gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-        Block block = blockFactory.createSky();
-        block.coordinates = new Coordinates(0,3);
-        gameStore.addEntity(block);
+    Block block = blockFactory.createSky();
+    block.coordinates = new Coordinates(0, 3);
+    gameStore.addEntity(block);
 
-        BlockStructure blockStructure = blockStructureFactory.createBlockStructure();
-        blockStructure.registerRelativeBlock(new RelativeCoordinates(0,3), EmptyBlock.class);
+    BlockStructure blockStructure = blockStructureFactory.createBlockStructure();
+    blockStructure.registerRelativeBlock(new RelativeCoordinates(0, 3), EmptyBlock.class);
 
-        assert blockStructure.verifyBlockStructure(new Coordinates(0,0));
-    }
+    assert blockStructure.verifyBlockStructure(new Coordinates(0, 0));
+  }
 
-    @Test
-    public void testRelativeBlockRegisterNegative(){
-        Injector injector = Guice.createInjector(new SoloConfig());
+  @Test
+  public void testRelativeBlockRegisterNegative() {
+    Injector injector = Guice.createInjector(new SoloConfig());
 
-        GameStore gameStore = injector.getInstance(GameStore.class);
-        BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
-        BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
+    GameStore gameStore = injector.getInstance(GameStore.class);
+    BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
+    BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
 
-        ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
+    ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
 
-        gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0,0))));
+    gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-        Block block = blockFactory.createSky();
-        block.coordinates = new Coordinates(0,0);
-        gameStore.addEntity(block);
+    Block block = blockFactory.createSky();
+    block.coordinates = new Coordinates(0, 0);
+    gameStore.addEntity(block);
 
-        assert gameStore.getBlock(new Coordinates(0,0)) != null;
+    assert gameStore.getBlock(new Coordinates(0, 0)) != null;
 
-        BlockStructure blockStructure = blockStructureFactory.createBlockStructure();
-        blockStructure.registerRelativeBlock(new RelativeCoordinates(0,0), SolidBlock.class);
+    BlockStructure blockStructure = blockStructureFactory.createBlockStructure();
+    blockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
 
-        assert !blockStructure.verifyBlockStructure(new Coordinates(0,0));
-    }
+    assert !blockStructure.verifyBlockStructure(new Coordinates(0, 0));
+  }
 }

@@ -3,7 +3,10 @@ package infra.entity;
 import com.google.inject.Inject;
 import infra.common.Coordinates;
 import infra.common.GameStore;
-import infra.entity.block.*;
+import infra.entity.block.BlockFactory;
+import infra.entity.block.DirtBlock;
+import infra.entity.block.SkyBlock;
+import infra.entity.block.StoneBlock;
 import infra.networking.NetworkObjects;
 
 import java.util.UUID;

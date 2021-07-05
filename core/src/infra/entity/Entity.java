@@ -2,13 +2,12 @@ package infra.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.render.BaseAssetManager;
-import infra.entity.collision.contact.GroundSensorPoint;
 import infra.entity.controllers.EntityController;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.networking.NetworkObjects;
@@ -28,9 +27,9 @@ public class Entity {
   public int width = (int) (coordinatesScale);
   public int height = (int) (coordinatesScale);
   public String textureName = "frog.png";
+  @Inject protected EntityBodyBuilder entityBodyBuilder;
   @Inject BaseAssetManager baseAssetManager;
   @Inject EntityControllerFactory entityControllerFactory;
-  @Inject protected EntityBodyBuilder entityBodyBuilder;
   private int groundContact = 0;
 
   @Inject

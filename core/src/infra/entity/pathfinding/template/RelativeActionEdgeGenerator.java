@@ -22,8 +22,7 @@ public class RelativeActionEdgeGenerator {
   @Inject BlockStructureFactory blockStructureFactory;
   @Inject EntityBodyBuilder entityBodyBuilder;
 
-  @Inject
-  EntityActionFactory entityActionFactory;
+  @Inject EntityActionFactory entityActionFactory;
 
   @Inject
   RelativeActionEdgeGenerator() {}
@@ -32,12 +31,16 @@ public class RelativeActionEdgeGenerator {
       BlockStructure rootBlockStructure, RelativeVertex fromRelativeVertex, String actionKey) {
     this.setupWorld(rootBlockStructure, fromRelativeVertex);
 
-    EntityAction entityAction =null;
+    EntityAction entityAction = null;
 
-    if (actionKey.equals("left")) entityAction = entityActionFactory.createHorizontalMovementAction(-5);
-    else if (actionKey.equals("right")) entityAction = entityActionFactory.createHorizontalMovementAction(5);
-    else if (actionKey.equals("jump")) entityAction = entityActionFactory.createJumpMovementAction();
-    else if (actionKey.equals("stop")) entityAction = entityActionFactory.createStopMovementAction();
+    if (actionKey.equals("left"))
+      entityAction = entityActionFactory.createHorizontalMovementAction(-5);
+    else if (actionKey.equals("right"))
+      entityAction = entityActionFactory.createHorizontalMovementAction(5);
+    else if (actionKey.equals("jump"))
+      entityAction = entityActionFactory.createJumpMovementAction();
+    else if (actionKey.equals("stop"))
+      entityAction = entityActionFactory.createStopMovementAction();
     else return null;
 
     entityAction.apply(this.body);
@@ -48,19 +51,23 @@ public class RelativeActionEdgeGenerator {
 
     RelativeCoordinates newRelativeCoordinates = new RelativeCoordinates(this.body.getPosition());
 
-
     // set empty bottom left
-    newBlockStructure.registerRelativeBlock(newRelativeCoordinates, EmptyBlock.class);
+    newBlockStructure.registerRelativeBlock(newRelativeCoordinates.round(), EmptyBlock.class);
     // set empty bottom right
-    newBlockStructure.registerRelativeBlock(newRelativeCoordinates.getRight(), EmptyBlock.class);
+    newBlockStructure.registerRelativeBlock(
+        newRelativeCoordinates.getRight().round(), EmptyBlock.class);
     // set empty top left
-    newBlockStructure.registerRelativeBlock(newRelativeCoordinates.getUp(), EmptyBlock.class);
+    newBlockStructure.registerRelativeBlock(
+        newRelativeCoordinates.getUp().round(), EmptyBlock.class);
     // set empty top right
-    newBlockStructure.registerRelativeBlock(newRelativeCoordinates.getUp().getRight(), EmptyBlock.class);
+    newBlockStructure.registerRelativeBlock(
+        newRelativeCoordinates.getUp().getRight().round(), EmptyBlock.class);
 
-    RelativeVertex toRelativeVertex = new RelativeVertex(newBlockStructure,newRelativeCoordinates,this.body.getLinearVelocity());
+    RelativeVertex toRelativeVertex =
+        new RelativeVertex(
+            newBlockStructure, newRelativeCoordinates, this.body.getLinearVelocity());
 
-    return new RelativeActionEdge(fromRelativeVertex,toRelativeVertex, actionKey);
+    return new RelativeActionEdge(fromRelativeVertex, toRelativeVertex, actionKey);
   }
 
   private void setupWorld(BlockStructure blockStructure, RelativeVertex relativeVertex) {

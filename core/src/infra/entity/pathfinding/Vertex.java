@@ -57,18 +57,19 @@ public class Vertex {
     return this.explored;
   }
 
-  public ActionEdge generateEdge(String actionKey){
+  public ActionEdge generateEdge(String actionKey) {
     this.setupWorld();
-    this.entity.entityController.applyAction(actionKey,this.body);
+    this.entity.entityController.applyAction(actionKey, this.body);
     world.step(1 / 5f, 6, 2);
 
     Vertex newVertex =
-            vertexFactory.createVertex(
-                    this.entity, new Coordinates(this.body.getPosition()), this.body.getLinearVelocity());
+        vertexFactory.createVertex(
+            this.entity, new Coordinates(this.body.getPosition()), this.body.getLinearVelocity());
     graph.registerVertex(newVertex);
     ActionEdge newActionEdge = new ActionEdge(this, newVertex, actionKey);
 
-    if (!newActionEdge.from.position.equals(newActionEdge.to.position)) graph.registerEdge(newActionEdge);
+    if (!newActionEdge.from.position.equals(newActionEdge.to.position))
+      graph.registerEdge(newActionEdge);
     else System.out.println("position no move");
 
     world.dispose();
