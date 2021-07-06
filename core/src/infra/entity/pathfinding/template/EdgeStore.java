@@ -21,4 +21,6 @@ public class EdgeStore {
   public List<AbstractEdge> getEdgeList() {
     return new LinkedList<>(this.edges);
   }
+
+
 }

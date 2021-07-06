@@ -32,7 +32,6 @@ public class testPath {
         injector.getInstance(EntityControllerFactory.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 0))).call();
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(5, 0))).call();
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 5))).call();
