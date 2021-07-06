@@ -16,7 +16,7 @@ public class TemplateEdge extends AbstractEdge {
       RelativeVertex from,
       RelativeVertex to,
       List<RelativeActionEdge> actionEdgeList) {
-    super(blockStructure, to, from);
+    super(blockStructure, from, to);
     this.actionEdgeList = actionEdgeList;
   }
 

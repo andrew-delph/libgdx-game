@@ -16,7 +16,7 @@ public class EdgeRegistration {
 
   public void edgeRegistration() {
     this.greedyRegisterEdges();
-    this.templateEdgeRegistration();
+        this.templateEdgeRegistration();
   }
 
   public void templateEdgeRegistration() {
@@ -74,8 +74,8 @@ public class EdgeRegistration {
     GreedyEdge centerGreedyEdge =
         new GreedyEdge(moveCenterBlockStructure, moveCenterFrom, moveCenterTo);
 
-    this.edgeStore.add(moveLeftGreedyEdge);
     this.edgeStore.add(moveRightGreedyEdge);
+    this.edgeStore.add(moveLeftGreedyEdge);
     this.edgeStore.add(centerGreedyEdge);
   }
 }

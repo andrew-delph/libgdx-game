@@ -27,31 +27,39 @@ public class RelativePath {
     for (AbstractEdge edge : this.edgeStore.getEdgeList()) {
       if (edge.isAvailable(source)) {
         unvisitedPathNodeSet.add(new RelativePathNode(edge, source, target));
-      }
-      else {
+      } else {
         throw new Exception("no edges avail.");
       }
     }
     while (unvisitedPathNodeSet.size() > 0) {
       RelativePathNode current =
-              unvisitedPathNodeSet.stream()
-                      .min(Comparator.comparingDouble(RelativePathNode::getHeuristic))
-                      .get();
+          unvisitedPathNodeSet.stream()
+              .min(Comparator.comparingDouble(RelativePathNode::getHeuristic))
+              .get();
+//      System.out.println(
+//          "here "
+//              + current.currentPosition
+//              + " , "
+//              + current.edge.applyTransition(current.currentPosition));
+//      System.out.println(current.getHeuristic());
+
+      if (current.getHeuristic() < 0.9) {
+        System.out.println("found " + current.getHeuristic());
+        finalPathNode = current;
+        return;
+      }
+
       this.unvisitedPathNodeSet.remove(current);
       this.visitedPathNodeSet.add(current);
 
       for (AbstractEdge edge : this.edgeStore.getEdgeList()) {
-        if (edge.isAvailable(current.target)) {
-          RelativePathNode newNode = new RelativePathNode(edge, edge.applyTransition(current.currentPosition), target);
+        if (edge.isAvailable(current.getEndPosition())) {
+          RelativePathNode newNode =
+              new RelativePathNode(edge, current.getEndPosition(), target);
 
           newNode.setPrevious(current);
+//          System.out.println(edge.applyTransition(current.currentPosition).equals(newNode.currentPosition)+",,"+edge.applyTransition(current.currentPosition)+" , "+newNode.currentPosition);
           unvisitedPathNodeSet.add(newNode);
-
-          if (newNode.getHeuristic() < 0.5) {
-            System.out.println("found "+newNode.getHeuristic());
-            finalPathNode = newNode;
-            return;
-          }
         }
       }
     }
@@ -61,11 +69,11 @@ public class RelativePath {
   public List<RelativePathNode> getPathEdgeList() {
     List<RelativePathNode> edgeList = new LinkedList<>();
     RelativePathNode current = finalPathNode;
-    edgeList.add(current);
-    while (current.getPrevious() != null) {
-      current = current.getPrevious();
+    while (current != null) {
       edgeList.add(current);
+      current = current.getPrevious();
     }
+    Collections.reverse(edgeList);
     return edgeList;
   }
 }

@@ -19,16 +19,16 @@ public abstract class AbstractEdge {
 
   public abstract void follow(Body body, Entity entity);
 
-  public boolean isAvailable(Body body){
+  public boolean isAvailable(Body body) {
     Coordinates bodyCoordinates = new Coordinates(body.getPosition());
     return this.blockStructure.verifyBlockStructure(bodyCoordinates);
   }
 
-  public boolean isAvailable(Coordinates coordinates){
+  public boolean isAvailable(Coordinates coordinates) {
     return this.blockStructure.verifyBlockStructure(coordinates);
   }
 
-  public Coordinates applyTransition(Coordinates sourceCoordinates){
+  public Coordinates applyTransition(Coordinates sourceCoordinates) {
     return this.to.relativeCoordinates.applyRelativeCoordinates(sourceCoordinates);
   }
 
@@ -42,6 +42,6 @@ public abstract class AbstractEdge {
 
   @Override
   public String toString() {
-    return "TemplateEdge{" + "from=" + from + ", to=" + to + '}';
+    return this.getClass() + "{" + "from=" + from + ", to=" + to + '}';
   }
 }

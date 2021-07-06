@@ -11,8 +11,7 @@ public class RelativePathNode {
   int heuristic = Integer.MAX_VALUE;
   RelativePathNode previous;
 
-  public RelativePathNode(
-      AbstractEdge edge, Coordinates currentPosition, Coordinates target) {
+  public RelativePathNode(AbstractEdge edge, Coordinates currentPosition, Coordinates target) {
     this.currentPosition = currentPosition;
     this.edge = edge;
     this.target = target;
@@ -23,21 +22,33 @@ public class RelativePathNode {
   }
 
   public void setPrevious(RelativePathNode previous) {
+    System.out.println(">>>>>>"+previous.getEndPosition().equals(this.currentPosition));
     this.previous = previous;
+  }
+
+  public Coordinates getEndPosition(){
+    return this.edge.applyTransition(this.currentPosition);
   }
 
   public double getHeuristic() {
     return Math.sqrt(
-        Math.pow(this.target.getXReal() - this.currentPosition.getXReal(), 2)
-            + Math.pow(this.target.getYReal() - this.currentPosition.getYReal(), 2));
+        Math.pow(
+                this.target.getXReal() - this.edge.applyTransition(this.getEndPosition()).getXReal(),
+                2)
+            + Math.pow(
+                this.target.getYReal() - this.edge.applyTransition(this.getEndPosition()).getYReal(),
+                2));
   }
 
   @Override
   public String toString() {
-    return "RelativePathNode{" +
-            "startingPosition=" + currentPosition +
-            " ,endingPosition=" + this.edge.applyTransition(currentPosition) +
-            ", target=" + target +
-            '}';
+    return "RelativePathNode{"
+        + "startingPosition="
+        + currentPosition
+        + " ,endingPosition="
+        + this.edge.applyTransition(currentPosition)
+        + ", target="
+        + target
+        + '}';
   }
 }

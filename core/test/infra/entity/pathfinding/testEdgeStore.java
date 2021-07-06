@@ -9,8 +9,8 @@ import infra.common.GameStore;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.entity.pathfinding.template.AbstractEdge;
-import infra.entity.pathfinding.template.EdgeStore;
 import infra.entity.pathfinding.template.EdgeRegistration;
+import infra.entity.pathfinding.template.EdgeStore;
 import infra.generation.ChunkBuilderFactory;
 import org.junit.Test;
 
@@ -35,18 +35,17 @@ public class testEdgeStore {
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, -1))).call();
 
     Entity entity = entityFactory.createEntity();
-    entity.coordinates = new Coordinates(0.5f,1);
+    entity.coordinates = new Coordinates(0.5f, 1);
     gameStore.addEntity(entity);
 
     System.out.println(entity.getBody());
 
-    EdgeRegistration edgeRegistration =
-        injector.getInstance(EdgeRegistration.class);
-    edgeRegistration.edgeRegistration();
+    EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
+    edgeRegistration.templateEdgeRegistration();
 
     for (AbstractEdge edge : edgeStore.getEdgeList()) {
-      System.out.println(edge.isAvailable(entity.getBody()));
-//      System.out.println(edge);
+      //      System.out.println(edge.isAvailable(entity.getBody()));
+      System.out.println(edge);
     }
   }
 }
