@@ -36,11 +36,7 @@ public class RelativePath {
           unvisitedPathNodeSet.stream()
               .min(Comparator.comparingDouble(RelativePathNode::getHeuristic))
               .get();
-//      System.out.println(
-//          "here "
-//              + current.currentPosition
-//              + " , "
-//              + current.edge.applyTransition(current.currentPosition));
+      System.out.println("here " + current);
 //      System.out.println(current.getHeuristic());
 
       if (current.getHeuristic() < 0.9) {
@@ -56,6 +52,8 @@ public class RelativePath {
         if (edge.isAvailable(current.getEndPosition())) {
           RelativePathNode newNode =
               new RelativePathNode(edge, current.getEndPosition(), target);
+
+          if(this.visitedPathNodeSet.contains(newNode) || this.unvisitedPathNodeSet.contains(newNode)) continue;
 
           newNode.setPrevious(current);
 //          System.out.println(edge.applyTransition(current.currentPosition).equals(newNode.currentPosition)+",,"+edge.applyTransition(current.currentPosition)+" , "+newNode.currentPosition);

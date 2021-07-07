@@ -26,4 +26,18 @@ public class RelativeVertex {
   public String toString() {
     return "RelativeVertex{" + "relativeCoordinates=" + relativeCoordinates + '}';
   }
+
+  @Override
+  public int hashCode() {
+    return (this.relativeCoordinates.hashCode() + ",").hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    RelativeVertex other = (RelativeVertex) obj;
+    return this.relativeCoordinates.equals(other.relativeCoordinates);
+  }
 }

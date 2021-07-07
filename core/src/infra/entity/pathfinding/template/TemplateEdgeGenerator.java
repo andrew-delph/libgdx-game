@@ -43,7 +43,7 @@ public class TemplateEdgeGenerator {
 
     RelativeActionEdge newActionEdge =
         this.relativeActionEdgeGenerator.generateRelativeActionEdge(
-            currentRelativeVertex.blockStructure, currentRelativeVertex, actionKey);
+            currentRelativeVertex.blockStructure.copy(), currentRelativeVertex, actionKey);
 
     this.relativeActionEdgeList.add(newActionEdge);
 

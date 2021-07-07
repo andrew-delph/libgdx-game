@@ -22,7 +22,6 @@ public class RelativePathNode {
   }
 
   public void setPrevious(RelativePathNode previous) {
-    System.out.println(">>>>>>"+previous.getEndPosition().equals(this.currentPosition));
     this.previous = previous;
   }
 
@@ -50,5 +49,19 @@ public class RelativePathNode {
         + ", target="
         + target
         + '}';
+  }
+
+  @Override
+  public int hashCode() {
+    return (this.currentPosition.hashCode() + "," + this.edge.hashCode()).hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    RelativePathNode other = (RelativePathNode) obj;
+    return this.currentPosition.equals(other.currentPosition) && this.edge.equals(other.edge);
   }
 }

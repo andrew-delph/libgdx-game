@@ -31,7 +31,7 @@ public class RelativeActionEdgeGenerator {
       BlockStructure rootBlockStructure, RelativeVertex fromRelativeVertex, String actionKey) {
     this.setupWorld(rootBlockStructure, fromRelativeVertex);
 
-    EntityAction entityAction = null;
+    EntityAction entityAction;
 
     if (actionKey.equals("left"))
       entityAction = entityActionFactory.createHorizontalMovementAction(-5);
@@ -54,14 +54,14 @@ public class RelativeActionEdgeGenerator {
     // set empty bottom left
     newBlockStructure.registerRelativeBlock(newRelativeCoordinates.round(), EmptyBlock.class);
     // set empty bottom right
-    newBlockStructure.registerRelativeBlock(
-        newRelativeCoordinates.getRight().round(), EmptyBlock.class);
-    // set empty top left
-    newBlockStructure.registerRelativeBlock(
-        newRelativeCoordinates.getUp().round(), EmptyBlock.class);
-    // set empty top right
-    newBlockStructure.registerRelativeBlock(
-        newRelativeCoordinates.getUp().getRight().round(), EmptyBlock.class);
+//    newBlockStructure.registerRelativeBlock(
+//        newRelativeCoordinates.getRight().round(), EmptyBlock.class);
+//    // set empty top left
+//    newBlockStructure.registerRelativeBlock(
+//        newRelativeCoordinates.getUp().round(), EmptyBlock.class);
+//    // set empty top right
+//    newBlockStructure.registerRelativeBlock(
+//        newRelativeCoordinates.getUp().getRight().round(), EmptyBlock.class);
 
     RelativeVertex toRelativeVertex =
         new RelativeVertex(

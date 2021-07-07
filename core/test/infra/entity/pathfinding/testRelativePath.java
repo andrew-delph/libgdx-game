@@ -6,6 +6,8 @@ import configuration.SoloConfig;
 import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
+import infra.entity.block.Block;
+import infra.entity.block.BlockFactory;
 import infra.entity.pathfinding.template.EdgeRegistration;
 import infra.entity.pathfinding.template.RelativePath;
 import infra.entity.pathfinding.template.RelativePathFactory;
@@ -32,11 +34,25 @@ public class testRelativePath {
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(-6, 0))).call();
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, -1))).call();
 
-    System.out.println(gameStore.getBlock(new Coordinates(0,1)).getClass());
+    System.out.println(gameStore.getBlock(new Coordinates(2, 1)).getClass());
 
     EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
     edgeRegistration.edgeRegistration();
 
+    BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
+
+    Coordinates replacementCoordinates = new Coordinates(4,1);
+
+    Block removeBlock = gameStore.getBlock(replacementCoordinates);
+
+    Block replacementBlock = blockFactory.createDirt();
+    replacementBlock.coordinates = removeBlock.coordinates;
+
+    gameStore.removeEntity(removeBlock.uuid);
+    gameStore.addEntity(replacementBlock);
+
+    System.out.println(gameStore.getBlock(replacementCoordinates).getClass());
+//
     RelativePath relativePath =
         relativePathFactory.create(new Coordinates(0, 1), new Coordinates(6, 1));
 
@@ -45,16 +61,22 @@ public class testRelativePath {
     for (RelativePathNode pathNode : relativePath.getPathEdgeList()) {
       System.out.println(pathNode);
       System.out.println(pathNode.edge);
-      System.out.println(pathNode.currentPosition+" , "+pathNode.edge.applyTransition(pathNode.currentPosition));
+      System.out.println(
+          pathNode.currentPosition
+              + " , "
+              + pathNode.edge.applyTransition(pathNode.currentPosition));
       System.out.println(pathNode.getPrevious());
 
-      if(pathNode.getPrevious() != null){
+      if (pathNode.getPrevious() != null) {
         RelativePathNode previous = pathNode.getPrevious();
-        System.out.println(previous.edge.applyTransition(previous.currentPosition).equals(pathNode.currentPosition));
+        System.out.println(
+            previous
+                .edge
+                .applyTransition(previous.currentPosition)
+                .equals(pathNode.currentPosition));
       }
 
       System.out.println();
-
     }
     System.out.println("2");
   }

@@ -4,8 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.SoloConfig;
+import infra.entity.block.Block;
 import infra.entity.pathfinding.template.*;
 import org.junit.Test;
+
+import java.util.Map;
 
 public class testTemplateEdgeGenerator {
   @Test
@@ -36,10 +39,11 @@ public class testTemplateEdgeGenerator {
     for (AbstractEdge edge : edgeStore.getEdgeList()) {
       System.out.println(edge);
       System.out.println(edge.blockStructure.getRelativeBlockMapEntrySet().size());
-      //      for(Map.Entry<RelativeCoordinates, Class<? extends Block>> entry:
-      // edge.blockStructure.getRelativeBlockMapEntrySet()){
-      //        System.out.println(entry.getKey());
-      //      }
+      for (Map.Entry<RelativeCoordinates, Class<? extends Block>> entry :
+          edge.blockStructure.getRelativeBlockMapEntrySet()) {
+        System.out.println(entry.getKey()+" , "+entry.getValue());
+      }
+      System.out.println();
     }
   }
 }

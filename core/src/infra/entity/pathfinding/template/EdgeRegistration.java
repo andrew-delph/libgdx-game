@@ -63,19 +63,34 @@ public class EdgeRegistration {
         new GreedyEdge(moveRightBlockStructure, moveRightFrom, moveRightTo);
 
     BlockStructure moveCenterBlockStructure = blockStructureFactory.createBlockStructure();
-    moveRightBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
-    moveRightBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
+    moveCenterBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
+    moveCenterBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
     RelativeVertex moveCenterFrom =
         new RelativeVertex(
-            moveRightBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+                moveCenterBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeVertex moveCenterTo =
         new RelativeVertex(
-            moveRightBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+                moveCenterBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     GreedyEdge centerGreedyEdge =
         new GreedyEdge(moveCenterBlockStructure, moveCenterFrom, moveCenterTo);
+
+    BlockStructure moveDownBlockStructure = blockStructureFactory.createBlockStructure();
+    moveDownBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
+    moveDownBlockStructure.registerRelativeBlock(new RelativeCoordinates(-1, 0), EmptyBlock.class);
+    RelativeVertex moveDownFrom =
+            new RelativeVertex(
+                    moveDownBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+    RelativeVertex moveDownTo =
+            new RelativeVertex(
+                    moveDownBlockStructure, new RelativeCoordinates(0, -1), new Vector2(0, 0));
+    GreedyEdge moveDownGreedyEdge =
+            new GreedyEdge(moveDownBlockStructure, moveDownFrom, moveDownTo);
+
+
 
     this.edgeStore.add(moveRightGreedyEdge);
     this.edgeStore.add(moveLeftGreedyEdge);
     this.edgeStore.add(centerGreedyEdge);
+    this.edgeStore.add(moveDownGreedyEdge);
   }
 }
