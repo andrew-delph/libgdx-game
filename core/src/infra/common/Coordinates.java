@@ -48,6 +48,10 @@ public class Coordinates {
     return coordinatesList;
   }
 
+  public Coordinates getBase(){
+    return new Coordinates(this.getX(), this.getY());
+  }
+
   public int getX() {
     return (int) Math.floor(this.x);
   }

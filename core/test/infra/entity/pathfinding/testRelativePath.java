@@ -42,19 +42,23 @@ public class testRelativePath {
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
 
     Coordinates replacementCoordinates = new Coordinates(4,1);
-
     Block removeBlock = gameStore.getBlock(replacementCoordinates);
-
     Block replacementBlock = blockFactory.createDirt();
     replacementBlock.coordinates = removeBlock.coordinates;
-
-    gameStore.removeEntity(removeBlock.uuid);
+    gameStore.removeEntity(replacementBlock.uuid);
     gameStore.addEntity(replacementBlock);
+
+    Coordinates replacementCoordinates2 = new Coordinates(6,1);
+    Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
+    Block replacementBlock2 = blockFactory.createDirt();
+    replacementBlock2.coordinates = removeBlock2.coordinates;
+    gameStore.removeEntity(replacementBlock2.uuid);
+    gameStore.addEntity(replacementBlock2);
 
     System.out.println(gameStore.getBlock(replacementCoordinates).getClass());
 //
     RelativePath relativePath =
-        relativePathFactory.create(new Coordinates(0, 1), new Coordinates(6, 1));
+        relativePathFactory.create(new Coordinates(0, 1), new Coordinates(9, 1));
 
     relativePath.search();
     System.out.println("1");

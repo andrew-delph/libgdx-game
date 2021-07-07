@@ -1,6 +1,7 @@
 package infra.entity.pathfinding.template;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import infra.common.Coordinates;
 import infra.entity.Entity;
 
 import java.util.List;
@@ -10,6 +11,14 @@ public class TemplateEdge extends AbstractEdge {
   List<RelativeActionEdge> actionEdgeList;
 
   int currentStep = 0;
+
+  @Override
+  public boolean isAvailable(Coordinates coordinates) {
+    if (!coordinates.equals(coordinates.getBase())){
+      return false;
+    }
+    return super.isAvailable(coordinates);
+  }
 
   public TemplateEdge(
       BlockStructure blockStructure,

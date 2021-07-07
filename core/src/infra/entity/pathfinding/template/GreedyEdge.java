@@ -2,6 +2,7 @@ package infra.entity.pathfinding.template;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import infra.common.Coordinates;
 import infra.entity.Entity;
 
 public class GreedyEdge extends AbstractEdge {
@@ -10,6 +11,11 @@ public class GreedyEdge extends AbstractEdge {
   public GreedyEdge(BlockStructure blockStructure, RelativeVertex from, RelativeVertex to) {
     super(blockStructure, from, to);
     this.currentRelativeCoordinates = from.relativeCoordinates;
+  }
+
+  @Override
+  public Coordinates applyTransition(Coordinates sourceCoordinates) {
+    return super.applyTransition(sourceCoordinates).getBase();
   }
 
   @Override
