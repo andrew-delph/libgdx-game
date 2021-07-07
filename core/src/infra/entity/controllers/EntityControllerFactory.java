@@ -6,4 +6,6 @@ public interface EntityControllerFactory {
   EntityUserController createEntityUserController(Entity entity);
 
   EntityController createEntityController(Entity entity);
+
+  EntityPathController createEntityPathController(Entity entity);
 }

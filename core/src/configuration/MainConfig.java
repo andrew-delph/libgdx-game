@@ -21,9 +21,7 @@ import infra.entity.controllers.actions.EntityActionFactory;
 import infra.entity.pathfinding.Graph;
 import infra.entity.pathfinding.PathFactory;
 import infra.entity.pathfinding.VertexFactory;
-import infra.entity.pathfinding.template.BlockStructureFactory;
-import infra.entity.pathfinding.template.EdgeStore;
-import infra.entity.pathfinding.template.TemplateEdgeGeneratorFactory;
+import infra.entity.pathfinding.template.*;
 import infra.generation.BlockGenerator;
 import infra.generation.ChunkBuilderFactory;
 import infra.generation.ChunkGenerationManager;
@@ -45,12 +43,11 @@ public abstract class MainConfig extends AbstractModule {
     bind(ChunkClockMap.class).asEagerSingleton();
     bind(Graph.class).asEagerSingleton();
     bind(EntityGroundContact.class).asEagerSingleton();
-
     bind(CollisionService.class).asEagerSingleton();
-
     bind(BlockStructureFactory.class).asEagerSingleton();
-
     bind(EntityBodyBuilder.class).asEagerSingleton();
+    bind(RelativePathFactory.class).asEagerSingleton();
+    bind(PathGuiderFactory.class).asEagerSingleton();
 
     bind(EdgeStore.class).asEagerSingleton();
     bind(TemplateEdgeGeneratorFactory.class).asEagerSingleton();

@@ -16,7 +16,9 @@ import infra.common.render.BaseAssetManager;
 import infra.common.render.BaseCamera;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
+import infra.entity.controllers.EntityController;
 import infra.entity.controllers.EntityControllerFactory;
+import infra.entity.pathfinding.template.EdgeRegistration;
 import infra.generation.ChunkGenerationManager;
 
 import java.io.IOException;
@@ -48,6 +50,9 @@ public class GameScreen extends ApplicationAdapter {
 
   @Inject EntityControllerFactory entityControllerFactory;
 
+  @Inject
+  EdgeRegistration edgeRegistration;
+
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
 
@@ -72,12 +77,19 @@ public class GameScreen extends ApplicationAdapter {
     //    }
 
     myEntity = entityFactory.createEntity();
-    myEntity.coordinates = new Coordinates(1, 1);
+    myEntity.coordinates = new Coordinates(1, 0);
     myEntity = gameController.createEntity(myEntity);
     System.out.println("my entity " + myEntity.uuid);
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     chunkGenerationManager.registerActiveEntity(myEntity, null);
     debugRenderer = new Box2DDebugRenderer();
+
+    edgeRegistration.edgeRegistration();
+
+    Entity pathEntity = entityFactory.createEntity();
+    pathEntity.coordinates = new Coordinates(0,1);
+    gameController.createEntity(pathEntity);
+    pathEntity.setController(entityControllerFactory.createEntityPathController(pathEntity));
   }
 
   @Override

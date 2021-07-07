@@ -38,13 +38,13 @@ public class TemplateEdge extends AbstractEdge {
   }
 
   @Override
-  public void follow(Body body, Entity entity) {
+  public void follow(Entity entity) {
     RelativeActionEdge currentEdge = this.actionEdgeList.get(currentStep);
     currentStep++;
 
     String actionKey = currentEdge.actionKey;
 
-    entity.entityController.applyAction(actionKey, body);
+    entity.entityController.applyAction(actionKey, entity.getBody());
 
     if (currentStep == this.actionEdgeList.size()) this.finish();
   }

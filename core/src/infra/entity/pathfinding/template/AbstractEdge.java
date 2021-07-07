@@ -17,7 +17,7 @@ public abstract class AbstractEdge {
     this.to = to;
   }
 
-  public abstract void follow(Body body, Entity entity);
+  public abstract void follow(Entity entity);
 
   public boolean isAvailable(Body body) {
     Coordinates bodyCoordinates = new Coordinates(body.getPosition());

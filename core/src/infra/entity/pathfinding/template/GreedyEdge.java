@@ -19,14 +19,14 @@ public class GreedyEdge extends AbstractEdge {
   }
 
   @Override
-  public void follow(Body body, Entity entity) {
+  public void follow(Entity entity) {
     String actionKey;
 
     // if difference is too little, just set.
     RelativeCoordinates difference = currentRelativeCoordinates.sub(this.to.relativeCoordinates);
     if (Math.abs(difference.relativeX) < 0.2) {
-      Vector2 setBodyPosition = body.getPosition().cpy().add(difference.toVector2());
-      body.setTransform(setBodyPosition, 0);
+      Vector2 setBodyPosition = entity.getBody().getPosition().cpy().add(difference.toVector2());
+      entity.getBody().setTransform(setBodyPosition, 0);
       this.finish();
       return;
     }
@@ -37,9 +37,9 @@ public class GreedyEdge extends AbstractEdge {
       actionKey = "left";
     }
 
-    Vector2 startingPosition = body.getPosition().cpy();
-    entity.entityController.applyAction(actionKey, body);
-    Vector2 endingPosition = body.getPosition().cpy();
+    Vector2 startingPosition = entity.getBody().getPosition().cpy();
+    entity.entityController.applyAction(actionKey, entity.getBody());
+    Vector2 endingPosition = entity.getBody().getPosition().cpy();
 
     Vector2 differencePosition = endingPosition.sub(startingPosition);
 

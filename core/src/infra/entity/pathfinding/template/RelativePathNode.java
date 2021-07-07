@@ -5,14 +5,14 @@ import infra.common.Coordinates;
 public class RelativePathNode {
 
   public final AbstractEdge edge;
-  public final Coordinates currentPosition;
+  public final Coordinates startPosition;
   public final Coordinates target;
 
   int heuristic = Integer.MAX_VALUE;
   RelativePathNode previous;
 
-  public RelativePathNode(AbstractEdge edge, Coordinates currentPosition, Coordinates target) {
-    this.currentPosition = currentPosition;
+  public RelativePathNode(AbstractEdge edge, Coordinates startPosition, Coordinates target) {
+    this.startPosition = startPosition;
     this.edge = edge;
     this.target = target;
   }
@@ -26,7 +26,7 @@ public class RelativePathNode {
   }
 
   public Coordinates getEndPosition(){
-    return this.edge.applyTransition(this.currentPosition);
+    return this.edge.applyTransition(this.startPosition);
   }
 
   public double getHeuristic() {
@@ -39,13 +39,17 @@ public class RelativePathNode {
                 2));
   }
 
+  public boolean finished(){
+    return this.edge.isFinished();
+  }
+
   @Override
   public String toString() {
     return "RelativePathNode{"
         + "startingPosition="
-        + currentPosition
+        + startPosition
         + " ,endingPosition="
-        + this.edge.applyTransition(currentPosition)
+        + this.edge.applyTransition(startPosition)
         + ", target="
         + target
         + '}';
@@ -53,7 +57,7 @@ public class RelativePathNode {
 
   @Override
   public int hashCode() {
-    return (this.currentPosition.hashCode() + "," + this.edge.hashCode()).hashCode();
+    return (this.startPosition.hashCode() + "," + this.edge.hashCode()).hashCode();
   }
 
   @Override
@@ -62,6 +66,6 @@ public class RelativePathNode {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     RelativePathNode other = (RelativePathNode) obj;
-    return this.currentPosition.equals(other.currentPosition) && this.edge.equals(other.edge);
+    return this.startPosition.equals(other.startPosition) && this.edge.equals(other.edge);
   }
 }
