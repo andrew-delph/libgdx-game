@@ -27,8 +27,6 @@ public class RelativePath {
     for (AbstractEdge edge : this.edgeStore.getEdgeList()) {
       if (edge.isAvailable(source)) {
         unvisitedPathNodeSet.add(new RelativePathNode(edge, source, target));
-      } else {
-        throw new Exception("no edges avail.");
       }
     }
     while (unvisitedPathNodeSet.size() > 0) {
@@ -36,8 +34,6 @@ public class RelativePath {
           unvisitedPathNodeSet.stream()
               .min(Comparator.comparingDouble(RelativePathNode::getHeuristic))
               .get();
-      System.out.println("here " + current);
-//      System.out.println(current.getHeuristic());
 
       if (current.getHeuristic() < 0.9) {
         System.out.println("found " + current.getHeuristic());
