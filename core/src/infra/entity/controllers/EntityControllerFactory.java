@@ -1,5 +1,6 @@
 package infra.entity.controllers;
 
+import com.google.inject.assistedinject.Assisted;
 import infra.entity.Entity;
 
 public interface EntityControllerFactory {
@@ -7,5 +8,5 @@ public interface EntityControllerFactory {
 
   EntityController createEntityController(Entity entity);
 
-  EntityPathController createEntityPathController(Entity entity);
+  EntityPathController createEntityPathController(@Assisted("source")Entity entity,@Assisted("target") Entity target);
 }

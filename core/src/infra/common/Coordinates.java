@@ -88,6 +88,16 @@ public class Coordinates {
     return new Coordinates(this.getX() + 0.5f, this.getY() + 0.5f);
   }
 
+  public double calcDistance(Coordinates other){
+    return Math.sqrt(
+            Math.pow(
+                    this.getXReal() - other.getXReal(),
+                    2)
+                    + Math.pow(
+                    this.getYReal() - other.getYReal(),
+                    2));
+  }
+
   @Override
   public int hashCode() {
     return (this.x + "," + this.y).hashCode();

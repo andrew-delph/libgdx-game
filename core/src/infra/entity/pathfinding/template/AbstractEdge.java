@@ -1,6 +1,5 @@
 package infra.entity.pathfinding.template;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import infra.common.Coordinates;
 import infra.entity.Entity;
 
@@ -17,12 +16,8 @@ public abstract class AbstractEdge {
     this.to = to;
   }
 
-  public abstract void follow(Entity entity);
+  public abstract void follow(Entity entity, RelativePathNode relativePathNode);
 
-  public boolean isAvailable(Body body) {
-    Coordinates bodyCoordinates = new Coordinates(body.getPosition());
-    return this.blockStructure.verifyBlockStructure(bodyCoordinates);
-  }
 
   public boolean isAvailable(Coordinates coordinates) {
     return this.blockStructure.verifyBlockStructure(coordinates);
@@ -32,6 +27,9 @@ public abstract class AbstractEdge {
     return this.to.relativeCoordinates.applyRelativeCoordinates(sourceCoordinates);
   }
 
+  public void start() {
+    this.finished = false;
+  }
   public void finish() {
     this.finished = true;
   }

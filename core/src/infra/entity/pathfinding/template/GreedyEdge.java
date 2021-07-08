@@ -1,7 +1,6 @@
 package infra.entity.pathfinding.template;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import infra.common.Coordinates;
 import infra.entity.Entity;
 
@@ -19,31 +18,22 @@ public class GreedyEdge extends AbstractEdge {
   }
 
   @Override
-  public void follow(Entity entity) {
+  public void follow(Entity entity, RelativePathNode relativePathNode) {
     String actionKey;
 
-    // if difference is too little, just set.
-    RelativeCoordinates difference = currentRelativeCoordinates.sub(this.to.relativeCoordinates);
-    if (Math.abs(difference.relativeX) < 0.2) {
-      Vector2 setBodyPosition = entity.getBody().getPosition().cpy().add(difference.toVector2());
+    if (relativePathNode.target.calcDistance(entity.coordinates) < 0.2) {
+      Vector2 setBodyPosition = relativePathNode.target.toVector2();
       entity.getBody().setTransform(setBodyPosition, 0);
       this.finish();
       return;
     }
 
-    if (currentRelativeCoordinates.relativeX < to.relativeCoordinates.relativeX) {
+    if (relativePathNode.target.getXReal() > entity.coordinates.getXReal()) {
       actionKey = "right";
     } else {
       actionKey = "left";
     }
 
-    Vector2 startingPosition = entity.getBody().getPosition().cpy();
     entity.entityController.applyAction(actionKey, entity.getBody());
-    Vector2 endingPosition = entity.getBody().getPosition().cpy();
-
-    Vector2 differencePosition = endingPosition.sub(startingPosition);
-
-    currentRelativeCoordinates =
-        currentRelativeCoordinates.add(new RelativeCoordinates(differencePosition));
   }
 }

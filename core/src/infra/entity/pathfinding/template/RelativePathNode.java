@@ -39,6 +39,9 @@ public class RelativePathNode {
                 2));
   }
 
+  public void start(){
+    this.edge.start();
+  }
   public boolean finished(){
     return this.edge.isFinished();
   }

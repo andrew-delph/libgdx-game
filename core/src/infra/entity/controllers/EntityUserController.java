@@ -20,6 +20,8 @@ public class EntityUserController extends EntityController {
   @Inject
   public EntityUserController(EntityActionFactory entityActionFactory, @Assisted Entity entity) {
     super(entityActionFactory, entity);
+    this.registerAction("left", entityActionFactory.createHorizontalMovementAction(-7));
+    this.registerAction("right", entityActionFactory.createHorizontalMovementAction(7));
   }
 
   @Override
@@ -27,7 +29,7 @@ public class EntityUserController extends EntityController {
 
     Body body = this.entity.getBody();
 
-    System.out.println(body.getLinearVelocity());
+//    System.out.println(body.getLinearVelocity());
 
     float impulse = body.getMass() * 10;
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {

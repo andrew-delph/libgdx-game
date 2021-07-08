@@ -29,6 +29,12 @@ public class TemplateEdge extends AbstractEdge {
     this.actionEdgeList = actionEdgeList;
   }
 
+  @Override
+  public void finish() {
+    super.finish();
+    this.currentStep = 0;
+  }
+
   public void registerActionEdge(RelativeActionEdge actionEdge) {
     this.actionEdgeList.add(actionEdge);
   }
@@ -38,13 +44,15 @@ public class TemplateEdge extends AbstractEdge {
   }
 
   @Override
-  public void follow(Entity entity) {
+  public void follow(Entity entity, RelativePathNode relativePathNode) {
     RelativeActionEdge currentEdge = this.actionEdgeList.get(currentStep);
     currentStep++;
 
     String actionKey = currentEdge.actionKey;
 
     entity.entityController.applyAction(actionKey, entity.getBody());
+
+//    System.out.println(currentStep+" , "+this.actionEdgeList.size());
 
     if (currentStep == this.actionEdgeList.size()) this.finish();
   }
