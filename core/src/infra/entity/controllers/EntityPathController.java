@@ -32,6 +32,7 @@ public class EntityPathController extends EntityController {
     }
     if (!this.pathGuider.hasPath()) {
       try {
+        this.gameController.moveEntity(this.entity.uuid,new Coordinates(0,1));
         this.pathGuider.findPath(this.entity.coordinates, target.coordinates);
       } catch (Exception e) {
         e.printStackTrace();
@@ -39,7 +40,7 @@ public class EntityPathController extends EntityController {
     }
 
     if (this.pathGuider.hasPath()) {
-      if(this.pathGuider.currentPathNode!=null) System.out.println("follow "+this.pathGuider.currentPathNode.edge);
+      if(this.pathGuider.currentPathNode!=null) System.out.println("follow "+this.pathGuider.currentPathNode.startPosition+ " , "+this.pathGuider.currentPathNode.target);
       this.pathGuider.followPath();
     }
     else {

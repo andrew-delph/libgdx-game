@@ -21,7 +21,7 @@ public class GreedyEdge extends AbstractEdge {
   public void follow(Entity entity, RelativePathNode relativePathNode) {
     String actionKey;
 
-    if (relativePathNode.target.calcDistance(entity.coordinates) < 0.2) {
+    if (relativePathNode.target.calcDistance(entity.coordinates) < 0.4) {
       Vector2 setBodyPosition = relativePathNode.target.toVector2();
       entity.getBody().setTransform(setBodyPosition, 0);
       this.finish();
