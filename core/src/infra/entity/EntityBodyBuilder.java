@@ -28,7 +28,9 @@ public class EntityBodyBuilder {
     shape.setAsBox(
         Entity.staticWidth / 2.0001f,
         Entity.staticHeight / 2.001f,
-        new Vector2(0, -(Entity.coordinatesScale * 0.4f) / 2f),
+        new Vector2(
+            -(Entity.coordinatesScale - Entity.staticWidth) / 2f,
+            -(Entity.coordinatesScale - Entity.staticHeight) / 2f),
         0);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
