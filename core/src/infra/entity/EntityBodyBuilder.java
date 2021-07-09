@@ -30,7 +30,12 @@ public class EntityBodyBuilder {
     fixtureDef.shape = shape;
     fixtureDef.density = 1f;
     fixtureDef.restitution = 0;
-    theBody.createFixture(fixtureDef);
+    Fixture bodyFixture = theBody.createFixture(fixtureDef);
+
+    Filter filter = new Filter();
+    filter.categoryBits = 1;
+    filter.maskBits = 2;
+    bodyFixture.setFilterData(filter);
 
     FixtureDef jumpFixtureDef = new FixtureDef();
     PolygonShape jumpShape = new PolygonShape();
@@ -61,6 +66,12 @@ public class EntityBodyBuilder {
     fixtureDef.density = 0f;
     fixtureDef.restitution = 0;
     Fixture blockFixture = theBody.createFixture(fixtureDef);
+
+    Filter filter = new Filter();
+    filter.categoryBits = 2;
+    filter.maskBits = 1;
+    blockFixture.setFilterData(filter);
+
     blockFixture.setUserData(new GroundPoint());
     return theBody;
   }

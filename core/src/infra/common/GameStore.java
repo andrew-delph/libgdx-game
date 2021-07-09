@@ -92,7 +92,7 @@ public class GameStore {
   }
 
   public Block getBlock(Coordinates coordinates) {
-    return this.chunkClockMap.get(new ChunkRange(coordinates)).getBlock(coordinates.getBase());
+    return this.chunkClockMap.get(new ChunkRange(coordinates)).getBlock(coordinates);
   }
 
   public List<Block> getBlockInRange(
