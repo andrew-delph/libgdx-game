@@ -2,6 +2,7 @@ package infra.app;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
@@ -12,14 +13,15 @@ import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
+import infra.common.events.EventService;
 import infra.common.render.BaseAssetManager;
 import infra.common.render.BaseCamera;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
-import infra.entity.controllers.EntityController;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.entity.pathfinding.template.EdgeRegistration;
 import infra.generation.ChunkGenerationManager;
+import infra.networking.events.EventFactory;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -50,11 +52,14 @@ public class GameScreen extends ApplicationAdapter {
 
   @Inject EntityControllerFactory entityControllerFactory;
 
-  @Inject
-  EdgeRegistration edgeRegistration;
+  @Inject EdgeRegistration edgeRegistration;
+  @Inject EventService eventService;
+  @Inject EventFactory eventFactory;
 
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
+
+  Entity pathEntity;
 
   @Inject
   public GameScreen() {}
@@ -85,15 +90,22 @@ public class GameScreen extends ApplicationAdapter {
     debugRenderer = new Box2DDebugRenderer();
 
     edgeRegistration.edgeRegistration();
-
-    Entity pathEntity = entityFactory.createEntity();
-    pathEntity.coordinates = new Coordinates(0,1);
-    gameController.createEntity(pathEntity);
-    pathEntity.setController(entityControllerFactory.createEntityPathController(pathEntity, myEntity));
   }
 
   @Override
   public void render() {
+    if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+      System.out.println("hiiii");
+      if (pathEntity != null) {
+        eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(pathEntity.uuid));
+        pathEntity = null;
+      }
+      this.pathEntity = entityFactory.createEntity();
+      pathEntity.coordinates = new Coordinates(0, 1);
+      gameController.createEntity(pathEntity);
+      pathEntity.setController(
+          entityControllerFactory.createEntityPathController(pathEntity, myEntity));
+    }
 
     debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
 

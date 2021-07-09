@@ -110,6 +110,8 @@ public class GameController {
     }
     if (removeBlock == null) return;
 
+    System.out.println("REMOVE= " + removeBlock.coordinates);
+
     Block replacementBlock;
     if (blockClass == SkyBlock.class) {
       replacementBlock = blockFactory.createSky();

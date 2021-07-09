@@ -4,46 +4,62 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import infra.app.GameController;
 import infra.common.Coordinates;
+import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.controllers.actions.EntityActionFactory;
 import infra.entity.pathfinding.template.PathGuider;
 import infra.entity.pathfinding.template.PathGuiderFactory;
+import infra.networking.events.EventFactory;
 
 public class EntityPathController extends EntityController {
 
   @Inject GameController gameController;
 
   @Inject PathGuiderFactory pathGuiderFactory;
+
+  @Inject EventService eventService;
+  @Inject EventFactory eventFactory;
+
   PathGuider pathGuider;
   Entity target;
 
   @Inject
-  EntityPathController(EntityActionFactory entityActionFactory, @Assisted("source") Entity entity, @Assisted("target") Entity target) {
+  EntityPathController(
+      EntityActionFactory entityActionFactory,
+      @Assisted("source") Entity entity,
+      @Assisted("target") Entity target) {
     super(entityActionFactory, entity);
     this.target = target;
   }
-
 
   @Override
   public void beforeWorldUpdate() {
 
     if (this.pathGuider == null) {
       this.pathGuider = pathGuiderFactory.createPathGuider(entity);
-    }
-    if (!this.pathGuider.hasPath()) {
       try {
-        this.gameController.moveEntity(this.entity.uuid,new Coordinates(0,1));
         this.pathGuider.findPath(this.entity.coordinates, target.coordinates);
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
+    if (!this.pathGuider.hasPath()) {
+      eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
+
+      //      try {
+      //        this.gameController.moveEntity(this.entity.uuid, new Coordinates(0, 1));
+      //        this.pathGuider.findPath(this.entity.coordinates, target.coordinates);
+      //      } catch (Exception e) {
+      //        e.printStackTrace();
+      //      }
+    }
 
     if (this.pathGuider.hasPath()) {
-      if(this.pathGuider.currentPathNode!=null) System.out.println("follow "+this.pathGuider.currentPathNode.startPosition+ " , "+this.pathGuider.currentPathNode.target);
+      //      if(this.pathGuider.currentPathNode!=null) System.out.println("follow
+      // "+this.pathGuider.currentPathNode.startPosition+ " ,
+      // "+this.pathGuider.currentPathNode.target);
       this.pathGuider.followPath();
-    }
-    else {
+    } else {
       System.out.println("NO path");
     }
   }

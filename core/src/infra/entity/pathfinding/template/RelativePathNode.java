@@ -25,24 +25,28 @@ public class RelativePathNode {
     this.previous = previous;
   }
 
-  public Coordinates getEndPosition(){
+  public Coordinates getEndPosition() {
     return this.edge.applyTransition(this.startPosition);
   }
 
   public double getHeuristic() {
     return Math.sqrt(
         Math.pow(
-                this.target.getXReal() - this.edge.applyTransition(this.getEndPosition()).getXReal(),
+                this.target.getXReal()
+                    - this.edge.applyTransition(this.getEndPosition()).getXReal(),
                 2)
             + Math.pow(
-                this.target.getYReal() - this.edge.applyTransition(this.getEndPosition()).getYReal(),
+                this.target.getYReal()
+                    - this.edge.applyTransition(this.getEndPosition()).getYReal(),
                 2));
   }
 
-  public void start(){
+  public void start() {
+    System.out.println("start= " + this);
     this.edge.start();
   }
-  public boolean finished(){
+
+  public boolean finished() {
     return this.edge.isFinished();
   }
 

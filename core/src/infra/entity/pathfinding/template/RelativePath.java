@@ -46,13 +46,14 @@ public class RelativePath {
 
       for (AbstractEdge edge : this.edgeStore.getEdgeList()) {
         if (edge.isAvailable(current.getEndPosition())) {
-          RelativePathNode newNode =
-              new RelativePathNode(edge, current.getEndPosition(), target);
+          RelativePathNode newNode = new RelativePathNode(edge, current.getEndPosition(), target);
 
-          if(this.visitedPathNodeSet.contains(newNode) || this.unvisitedPathNodeSet.contains(newNode)) continue;
+          if (this.visitedPathNodeSet.contains(newNode)
+              || this.unvisitedPathNodeSet.contains(newNode)) continue;
 
           newNode.setPrevious(current);
-//          System.out.println(edge.applyTransition(current.currentPosition).equals(newNode.currentPosition)+",,"+edge.applyTransition(current.currentPosition)+" , "+newNode.currentPosition);
+          //
+          // System.out.println(edge.applyTransition(current.currentPosition).equals(newNode.currentPosition)+",,"+edge.applyTransition(current.currentPosition)+" , "+newNode.currentPosition);
           unvisitedPathNodeSet.add(newNode);
         }
       }

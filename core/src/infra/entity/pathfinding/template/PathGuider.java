@@ -25,10 +25,15 @@ public class PathGuider {
   boolean hasPath = false;
 
   public void findPath(Coordinates start, Coordinates end) throws Exception {
-    System.out.println("FIND "+end+" , "+start);
+    System.out.println("FIND " + end + " , " + start);
     this.currentPath = relativePathFactory.create(start, end);
     this.currentPath.search();
     this.pathNodeQueue = new LinkedList<>(this.currentPath.getPathEdgeList());
+    System.out.println();
+    for (RelativePathNode node : this.pathNodeQueue) {
+      System.out.println(node);
+    }
+    System.out.println();
     this.hasPath = true;
   }
 
@@ -43,12 +48,10 @@ public class PathGuider {
       if (this.currentPathNode == null) {
         this.hasPath = false;
         return;
-      }
-      else {
+      } else {
         this.currentPathNode.start();
       }
     }
-
 
     this.currentPathNode.edge.follow(this.entity, this.currentPathNode);
   }
