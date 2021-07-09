@@ -82,7 +82,7 @@ public class GameScreen extends ApplicationAdapter {
     //    }
 
     myEntity = entityFactory.createEntity();
-    myEntity.coordinates = new Coordinates(3, 1);
+    myEntity.coordinates = new Coordinates(0, 1);
     myEntity = gameController.createEntity(myEntity);
     System.out.println("my entity " + myEntity.uuid);
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
@@ -104,6 +104,7 @@ public class GameScreen extends ApplicationAdapter {
       }
     }
 
+    //    System.out.println(myEntity.coordinates);
     debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
 
     baseCamera.position.set(

@@ -52,16 +52,16 @@ public class RelativeActionEdgeGenerator {
     RelativeCoordinates newRelativeCoordinates = new RelativeCoordinates(this.body.getPosition());
 
     // set empty bottom left
-    newBlockStructure.registerRelativeBlock(newRelativeCoordinates.round(), EmptyBlock.class);
+    newBlockStructure.registerRelativeBlock(newRelativeCoordinates, EmptyBlock.class);
     // set empty bottom right
-//    newBlockStructure.registerRelativeBlock(
-//        newRelativeCoordinates.getRight().round(), EmptyBlock.class);
-//    // set empty top left
-//    newBlockStructure.registerRelativeBlock(
-//        newRelativeCoordinates.getUp().round(), EmptyBlock.class);
-//    // set empty top right
-//    newBlockStructure.registerRelativeBlock(
-//        newRelativeCoordinates.getUp().getRight().round(), EmptyBlock.class);
+    //    newBlockStructure.registerRelativeBlock(
+    //        newRelativeCoordinates.getRight().round(), EmptyBlock.class);
+    //    // set empty top left
+    //    newBlockStructure.registerRelativeBlock(
+    //        newRelativeCoordinates.getUp().round(), EmptyBlock.class);
+    //    // set empty top right
+    //    newBlockStructure.registerRelativeBlock(
+    //        newRelativeCoordinates.getUp().getRight().round(), EmptyBlock.class);
 
     RelativeVertex toRelativeVertex =
         new RelativeVertex(

@@ -24,8 +24,27 @@ public class Entity {
   public Coordinates coordinates;
   @Inject public Clock clock;
   public int zindex = 1;
-  public int width = (int) (coordinatesScale);
-  public int height = (int) (coordinatesScale);
+  private int width;
+  private int height;
+  public static int staticHeight = (int) (Entity.coordinatesScale * 0.5);
+  public static int staticWidth = (int) (Entity.coordinatesScale * 0.5);
+
+  public int getWidth() {
+    return width;
+  }
+
+  public void setWidth(int width) {
+    this.width = width;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
+  public void setHeight(int height) {
+    this.height = height;
+  }
+
   public String textureName = "frog.png";
   @Inject protected EntityBodyBuilder entityBodyBuilder;
   @Inject BaseAssetManager baseAssetManager;
@@ -34,6 +53,8 @@ public class Entity {
 
   @Inject
   protected Entity() {
+    this.setHeight(Entity.staticHeight);
+    this.setWidth(Entity.staticWidth);
     this.sprite = new Sprite();
     this.sprite.setPosition(0, 0);
     this.sprite.setSize(width, height);
@@ -58,12 +79,10 @@ public class Entity {
   }
 
   public Body getBody() {
-    //    System.out.println("getBody");
     return body;
   }
 
   public void setBody(Body body) {
-    //    System.out.println("setBody"+new ChunkRange(this.coordinates)+","+this.uuid);
     this.body = body;
   }
 
@@ -77,7 +96,7 @@ public class Entity {
 
   public synchronized void renderSync() {
     this.sprite = new Sprite((Texture) baseAssetManager.get(this.textureName));
-    this.sprite.setSize(width, height);
+    this.sprite.setSize(this.getWidth(), this.getHeight());
     this.sprite.setPosition(
         this.coordinates.getXReal() * coordinatesScale,
         this.coordinates.getYReal() * coordinatesScale);

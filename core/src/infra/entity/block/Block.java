@@ -6,10 +6,16 @@ import infra.entity.Entity;
 
 public abstract class Block extends Entity {
 
+  public static int staticHeight = (int) (Entity.coordinatesScale);
+  public static int staticWidth = (int) (Entity.coordinatesScale);
+
   public Block() {
     super();
     this.textureName = "badlogic.jpg";
     this.zindex = 0;
+    this.setHeight(Block.staticHeight);
+    this.setWidth(Block.staticWidth);
+    ;
   }
 
   @Override

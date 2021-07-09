@@ -29,7 +29,7 @@ public class EntityUserController extends EntityController {
 
     Body body = this.entity.getBody();
 
-//    System.out.println(body.getLinearVelocity());
+    //    System.out.println(body.getLinearVelocity());
 
     float impulse = body.getMass() * 10;
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
@@ -73,6 +73,7 @@ public class EntityUserController extends EntityController {
 
   @Override
   public void afterWorldUpdate() {
+    System.out.println(this.entity.getBody().getPosition().y);
     gameController.moveEntity(
         this.entity.uuid,
         new Coordinates(
