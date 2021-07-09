@@ -25,7 +25,7 @@ public class EntityBodyBuilder {
 
     PolygonShape shape = new PolygonShape();
 
-    shape.setAsBox(Entity.coordinatesScale / 2.1f, Entity.coordinatesScale / 2.1f);
+    shape.setAsBox(0.2f, 0.3f); // Entity.coordinatesScale / 2.1f
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
     fixtureDef.density = 1f;

@@ -53,6 +53,10 @@ public class PathGuider {
         System.out.println("target = " + this.currentPathNode.getEndPosition());
         System.out.println("edge = " + this.currentPathNode.edge.getClass());
         System.out.println("vertex pos = " + new Coordinates(this.entity.getBody().getPosition()));
+        System.out.println();
+        //        this.entity.getBody().setTransform(this.currentPathNode.startPosition.toVector2(),
+        // 0);
+        //        this.entity.coordinates = this.currentPathNode.startPosition;
         this.currentPathNode.start();
       }
     }
