@@ -95,16 +95,13 @@ public class GameScreen extends ApplicationAdapter {
   @Override
   public void render() {
     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-      System.out.println("hiiii");
-      if (pathEntity != null) {
-        eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(pathEntity.uuid));
-        pathEntity = null;
+      if (pathEntity == null) {
+        this.pathEntity = entityFactory.createEntity();
+        pathEntity.coordinates = new Coordinates(0, 1);
+        gameController.createEntity(pathEntity);
+        pathEntity.setController(
+            entityControllerFactory.createEntityPathController(pathEntity, myEntity));
       }
-      this.pathEntity = entityFactory.createEntity();
-      pathEntity.coordinates = new Coordinates(0, 1);
-      gameController.createEntity(pathEntity);
-      pathEntity.setController(
-          entityControllerFactory.createEntityPathController(pathEntity, myEntity));
     }
 
     debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);

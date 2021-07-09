@@ -18,7 +18,6 @@ public abstract class AbstractEdge {
 
   public abstract void follow(Entity entity, RelativePathNode relativePathNode);
 
-
   public boolean isAvailable(Coordinates coordinates) {
     return this.blockStructure.verifyBlockStructure(coordinates);
   }
@@ -30,6 +29,7 @@ public abstract class AbstractEdge {
   public void start() {
     this.finished = false;
   }
+
   public void finish() {
     this.finished = true;
   }

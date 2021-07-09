@@ -43,12 +43,16 @@ public class PathGuider {
 
   public void followPath() {
     if (this.currentPathNode == null || this.currentPathNode.finished()) {
-      System.out.println("NEW");
       this.currentPathNode = this.pathNodeQueue.poll();
       if (this.currentPathNode == null) {
         this.hasPath = false;
         return;
       } else {
+        System.out.println("startPosition = " + this.currentPathNode.startPosition);
+        System.out.println("currentPosition = " + this.entity.coordinates);
+        System.out.println("target = " + this.currentPathNode.getEndPosition());
+        System.out.println("edge = " + this.currentPathNode.edge.getClass());
+        System.out.println("vertex pos = " + new Coordinates(this.entity.getBody().getPosition()));
         this.currentPathNode.start();
       }
     }

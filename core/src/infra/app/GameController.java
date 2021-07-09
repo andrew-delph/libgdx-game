@@ -108,6 +108,7 @@ public class GameController {
     } else if (direction == Direction.DOWN) {
       removeBlock = this.gameStore.getBlock(entity.getCenter().getDown());
     }
+    System.out.println(">>>" + removeBlock);
     if (removeBlock == null) return;
 
     System.out.println("REMOVE= " + removeBlock.coordinates);

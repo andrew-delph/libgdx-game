@@ -21,14 +21,14 @@ public class GreedyEdge extends AbstractEdge {
   public void follow(Entity entity, RelativePathNode relativePathNode) {
     String actionKey;
 
-    if (relativePathNode.target.calcDistance(entity.coordinates) < 0.4) {
-      Vector2 setBodyPosition = relativePathNode.target.toVector2();
+    if (relativePathNode.getEndPosition().calcDistance(entity.coordinates) < 0.4) {
+      Vector2 setBodyPosition = relativePathNode.getEndPosition().toVector2();
       entity.getBody().setTransform(setBodyPosition, 0);
       this.finish();
       return;
     }
-
-    if (relativePathNode.target.getXReal() > entity.coordinates.getXReal()) {
+    //    System.out.println(entity.coordinates + " ... " + relativePathNode.target);
+    if (relativePathNode.getEndPosition().getXReal() > entity.coordinates.getXReal()) {
       actionKey = "right";
     } else {
       actionKey = "left";
