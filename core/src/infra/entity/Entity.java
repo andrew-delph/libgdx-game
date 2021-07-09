@@ -26,8 +26,8 @@ public class Entity {
   public int zindex = 1;
   private int width;
   private int height;
-  public static int staticHeight = (int) (Entity.coordinatesScale * 0.5);
-  public static int staticWidth = (int) (Entity.coordinatesScale * 0.5);
+  public static int staticHeight = (int) (Entity.coordinatesScale * 0.6f);
+  public static int staticWidth = (int) (Entity.coordinatesScale * 0.8);
 
   public int getWidth() {
     return width;

@@ -82,7 +82,7 @@ public class GameScreen extends ApplicationAdapter {
     //    }
 
     myEntity = entityFactory.createEntity();
-    myEntity.coordinates = new Coordinates(0, 1);
+    myEntity.coordinates = new Coordinates(0, 2);
     myEntity = gameController.createEntity(myEntity);
     System.out.println("my entity " + myEntity.uuid);
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));

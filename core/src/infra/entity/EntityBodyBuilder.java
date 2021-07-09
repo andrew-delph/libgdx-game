@@ -27,8 +27,8 @@ public class EntityBodyBuilder {
     //    shape.setAsBox(0.2f, 0.3f); // Entity.coordinatesScale / 2.1f
     shape.setAsBox(
         Entity.staticWidth / 2.0001f,
-        Entity.staticWidth / 2.001f,
-        new Vector2(-Entity.staticWidth / 2.0001f, -Entity.staticWidth / 2.001f),
+        Entity.staticHeight / 2.001f,
+        new Vector2(0, -(Entity.coordinatesScale * 0.4f) / 2f),
         0);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
@@ -43,8 +43,7 @@ public class EntityBodyBuilder {
 
     FixtureDef jumpFixtureDef = new FixtureDef();
     PolygonShape jumpShape = new PolygonShape();
-    jumpShape.setAsBox(
-        Entity.staticWidth / 2f, 20f, new Vector2(0, -Entity.coordinatesScale / 2f), 0);
+    jumpShape.setAsBox(Entity.staticWidth / 2f, 1f, new Vector2(0, -Entity.staticHeight), 0);
     jumpFixtureDef.shape = jumpShape;
     jumpFixtureDef.isSensor = true;
 
