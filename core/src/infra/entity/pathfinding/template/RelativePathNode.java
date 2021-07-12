@@ -30,15 +30,16 @@ public class RelativePathNode {
   }
 
   public double getHeuristic() {
-    return Math.sqrt(
-        Math.pow(
-                this.target.getXReal()
-                    - this.edge.applyTransition(this.getEndPosition()).getXReal(),
-                2)
-            + Math.pow(
-                this.target.getYReal()
-                    - this.edge.applyTransition(this.getEndPosition()).getYReal(),
-                2));
+    return this.target.calcDistance(this.getEndPosition());
+    //    return Math.sqrt(
+    //        Math.pow(
+    //                this.target.getXReal()
+    //                    - this.edge.applyTransition(this.getEndPosition()).getXReal(),
+    //                2)
+    //            + Math.pow(
+    //                this.target.getYReal()
+    //                    - this.edge.applyTransition(this.getEndPosition()).getYReal(),
+    //                2));
   }
 
   public void start() {

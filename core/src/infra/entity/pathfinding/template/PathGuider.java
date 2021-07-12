@@ -22,7 +22,7 @@ public class PathGuider {
   }
 
   public void findPath(Coordinates start, Coordinates end) throws Exception {
-    System.out.println("FIND " + end + " , " + start);
+    System.out.println("FIND " + start + " , " + end);
     this.currentPath = relativePathFactory.create(start, end);
     this.currentPath.search();
     this.pathNodeQueue = new LinkedList<>(this.currentPath.getPathEdgeList());

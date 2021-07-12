@@ -8,14 +8,14 @@ import java.util.*;
 public class RelativePath {
 
   Coordinates source;
-  Coordinates target;
+  public Coordinates target;
 
   @Inject EdgeStore edgeStore;
 
   Set<RelativePathNode> unvisitedPathNodeSet = new HashSet<>();
   Set<RelativePathNode> visitedPathNodeSet = new HashSet<>();
 
-  RelativePathNode finalPathNode = null;
+  public RelativePathNode finalPathNode = null;
 
   public RelativePath(EdgeStore edgeStore, Coordinates source, Coordinates target) {
     this.source = source;
@@ -52,8 +52,6 @@ public class RelativePath {
               || this.unvisitedPathNodeSet.contains(newNode)) continue;
 
           newNode.setPrevious(current);
-          //
-          // System.out.println(edge.applyTransition(current.currentPosition).equals(newNode.currentPosition)+",,"+edge.applyTransition(current.currentPosition)+" , "+newNode.currentPosition);
           unvisitedPathNodeSet.add(newNode);
         }
       }

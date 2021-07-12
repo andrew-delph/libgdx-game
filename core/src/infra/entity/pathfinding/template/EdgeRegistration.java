@@ -35,7 +35,8 @@ public class EdgeRegistration {
     moveLeftBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
     moveLeftBlockStructure.registerRelativeBlock(new RelativeCoordinates(-1, 0), EmptyBlock.class);
     moveLeftBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
-    moveLeftBlockStructure.registerRelativeBlock(new RelativeCoordinates(-1, -1), SolidBlock.class);
+    //    moveLeftBlockStructure.registerRelativeBlock(new RelativeCoordinates(-1, -1),
+    // SolidBlock.class);
     RelativeVertex moveLeftFrom =
         new RelativeVertex(
             moveLeftBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
@@ -49,7 +50,8 @@ public class EdgeRegistration {
     moveRightBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
     moveRightBlockStructure.registerRelativeBlock(new RelativeCoordinates(1, 0), EmptyBlock.class);
     moveRightBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
-    moveRightBlockStructure.registerRelativeBlock(new RelativeCoordinates(1, -1), SolidBlock.class);
+    //    moveRightBlockStructure.registerRelativeBlock(new RelativeCoordinates(1, -1),
+    // SolidBlock.class);
     RelativeVertex moveRightFrom =
         new RelativeVertex(
             moveRightBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
@@ -74,7 +76,7 @@ public class EdgeRegistration {
 
     BlockStructure moveDownBlockStructure = blockStructureFactory.createBlockStructure();
     moveDownBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
-    moveDownBlockStructure.registerRelativeBlock(new RelativeCoordinates(-1, 0), EmptyBlock.class);
+    moveDownBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), EmptyBlock.class);
     RelativeVertex moveDownFrom =
         new RelativeVertex(
             moveDownBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
