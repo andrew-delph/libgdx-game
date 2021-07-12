@@ -20,6 +20,10 @@ public class TemplateEdge extends AbstractEdge {
     this.actionEdgeList = actionEdgeList;
   }
 
+  public List<RelativeActionEdge> getActionEdgeList() {
+    return actionEdgeList;
+  }
+
   @Override
   public boolean isAvailable(Coordinates coordinates) {
     if (!coordinates.equals(coordinates.getBase())) {

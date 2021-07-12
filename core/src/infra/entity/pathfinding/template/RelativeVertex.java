@@ -38,6 +38,7 @@ public class RelativeVertex {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     RelativeVertex other = (RelativeVertex) obj;
-    return this.relativeCoordinates.equals(other.relativeCoordinates);
+    return this.relativeCoordinates.equals(other.relativeCoordinates)
+        && this.velocity.equals(other.velocity);
   }
 }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import infra.app.GameController;
-import infra.common.Coordinates;
 import infra.common.Direction;
 import infra.entity.Entity;
 import infra.entity.block.DirtBlock;
@@ -28,8 +27,6 @@ public class EntityUserController extends EntityController {
   public void beforeWorldUpdate() {
 
     Body body = this.entity.getBody();
-
-    //    System.out.println(body.getLinearVelocity());
 
     float impulse = body.getMass() * 10;
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
@@ -69,15 +66,5 @@ public class EntityUserController extends EntityController {
     if (Gdx.input.isKeyPressed(Input.Keys.D)) {
       this.applyAction("right", body);
     }
-  }
-
-  @Override
-  public void afterWorldUpdate() {
-    //    System.out.println(this.entity.getBody().getPosition().x);
-    gameController.moveEntity(
-        this.entity.uuid,
-        new Coordinates(
-            this.entity.getBody().getPosition().x / Entity.coordinatesScale,
-            this.entity.getBody().getPosition().y / Entity.coordinatesScale));
   }
 }

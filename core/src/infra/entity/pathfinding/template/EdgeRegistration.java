@@ -27,10 +27,7 @@ public class EdgeRegistration {
                 blockStructureFactory.createBlockStructure(),
                 new RelativeCoordinates(0, 0),
                 new Vector2(0, 0)));
-    templateEdgeGenerator.applyAction("jump");
-    for (int i = 0; i < 100; i++) {
-      templateEdgeGenerator.applyAction("right");
-    }
+    templateEdgeGenerator.generate();
   }
 
   public void greedyRegisterEdges() {

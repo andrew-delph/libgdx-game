@@ -21,8 +21,7 @@ public class testRelativeActionEdgeGenerator {
     blockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
     blockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
 
-    RelativeActionEdge relativeActionEdge;
-    relativeActionEdge =
+    RelativeActionEdge leftRelativeActionEdge =
         generator.generateRelativeActionEdge(
             blockStructure,
             new RelativeVertex(blockStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
@@ -30,10 +29,10 @@ public class testRelativeActionEdgeGenerator {
     //
     //    System.out.println(relativeActionEdge.getFrom());
     //    System.out.println(relativeActionEdge.getTo());
-    assert relativeActionEdge.getFrom().relativeCoordinates.getRelativeX()
-        < relativeActionEdge.getTo().relativeCoordinates.getRelativeX();
+    assert leftRelativeActionEdge.getFrom().relativeCoordinates.getRelativeX()
+        < leftRelativeActionEdge.getTo().relativeCoordinates.getRelativeX();
 
-    relativeActionEdge =
+    RelativeActionEdge rightRelativeActionEdge =
         generator.generateRelativeActionEdge(
             blockStructure,
             new RelativeVertex(blockStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
@@ -42,10 +41,10 @@ public class testRelativeActionEdgeGenerator {
     //    System.out.println(relativeActionEdge.getFrom());
     //    System.out.println(relativeActionEdge.getTo());
 
-    assert relativeActionEdge.getFrom().relativeCoordinates.getRelativeX()
-        > relativeActionEdge.getTo().relativeCoordinates.getRelativeX();
+    assert rightRelativeActionEdge.getFrom().relativeCoordinates.getRelativeX()
+        > rightRelativeActionEdge.getTo().relativeCoordinates.getRelativeX();
 
-    relativeActionEdge =
+    RelativeActionEdge stopRelativeActionEdge =
         generator.generateRelativeActionEdge(
             blockStructure,
             new RelativeVertex(blockStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
@@ -54,7 +53,9 @@ public class testRelativeActionEdgeGenerator {
     //    System.out.println(relativeActionEdge.getFrom());
     //    System.out.println(relativeActionEdge.getTo());
 
-    assert relativeActionEdge.getFrom().relativeCoordinates.getRelativeX()
-        == relativeActionEdge.getTo().relativeCoordinates.getRelativeX();
+    assert stopRelativeActionEdge.getFrom().relativeCoordinates.getRelativeX()
+        == stopRelativeActionEdge.getTo().relativeCoordinates.getRelativeX();
+
+    assert !leftRelativeActionEdge.equals(rightRelativeActionEdge);
   }
 }

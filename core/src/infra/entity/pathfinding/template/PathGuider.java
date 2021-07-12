@@ -26,11 +26,6 @@ public class PathGuider {
     this.currentPath = relativePathFactory.create(start, end);
     this.currentPath.search();
     this.pathNodeQueue = new LinkedList<>(this.currentPath.getPathEdgeList());
-    System.out.println();
-    for (RelativePathNode node : this.pathNodeQueue) {
-      System.out.println(node);
-    }
-    System.out.println();
     this.hasPath = true;
   }
 
@@ -45,19 +40,13 @@ public class PathGuider {
         this.hasPath = false;
         return;
       } else {
-        System.out.println("startPosition = " + this.currentPathNode.startPosition);
-        System.out.println("currentPosition = " + this.entity.coordinates);
-        System.out.println("target = " + this.currentPathNode.getEndPosition());
-        System.out.println("edge = " + this.currentPathNode.edge.getClass());
-        System.out.println("vertex pos = " + new Coordinates(this.entity.getBody().getPosition()));
-        System.out.println();
-        //        this.entity.getBody().setTransform(this.currentPathNode.startPosition.toVector2(),
-        // 0);
-        //        this.entity.coordinates = this.currentPathNode.startPosition;
+        this.entity.getBody().setTransform(this.currentPathNode.startPosition.toVector2(), 0);
+        this.entity.getBody().setLinearVelocity(this.currentPathNode.edge.from.velocity);
+        this.entity.coordinates = this.currentPathNode.startPosition;
         this.currentPathNode.start();
       }
     }
-
+    //    System.out.println(this.currentPathNode + " , " + this.currentPathNode.edge.getClass());
     this.currentPathNode.edge.follow(this.entity, this.currentPathNode);
   }
 }

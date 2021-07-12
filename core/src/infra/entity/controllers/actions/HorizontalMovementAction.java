@@ -16,6 +16,7 @@ public class HorizontalMovementAction implements EntityAction {
 
   @Override
   public void apply(Body body) {
+    System.out.println(this.magnitude);
     body.setLinearVelocity(new Vector2(this.magnitude, body.getLinearVelocity().y));
   }
 

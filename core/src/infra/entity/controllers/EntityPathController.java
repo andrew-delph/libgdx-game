@@ -24,6 +24,8 @@ public class EntityPathController extends EntityController {
 
   PathGuider pathGuider;
   Entity target;
+  boolean moved = true;
+  Coordinates beforeUpdateCoordinates = null;
 
   @Inject
   EntityPathController(
@@ -35,7 +37,16 @@ public class EntityPathController extends EntityController {
   }
 
   @Override
+  public void afterWorldUpdate() {
+    super.afterWorldUpdate();
+    if (this.beforeUpdateCoordinates.equals(this.entity.coordinates)) {
+      moved = false;
+    } else moved = true;
+  }
+
+  @Override
   public void beforeWorldUpdate() {
+    this.beforeUpdateCoordinates = this.entity.coordinates;
 
     if (this.pathGuider == null) {
       this.pathGuider = pathGuiderFactory.createPathGuider(entity);
@@ -60,14 +71,5 @@ public class EntityPathController extends EntityController {
     } else {
       System.out.println("NO path");
     }
-  }
-
-  @Override
-  public void afterWorldUpdate() {
-    gameController.moveEntity(
-        this.entity.uuid,
-        new Coordinates(
-            this.entity.getBody().getPosition().x / Entity.coordinatesScale,
-            this.entity.getBody().getPosition().y / Entity.coordinatesScale));
   }
 }

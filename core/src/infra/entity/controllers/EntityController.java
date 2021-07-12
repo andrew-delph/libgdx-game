@@ -3,6 +3,8 @@ package infra.entity.controllers;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import infra.app.GameController;
+import infra.common.Coordinates;
 import infra.entity.Entity;
 import infra.entity.controllers.actions.EntityAction;
 import infra.entity.controllers.actions.EntityActionFactory;
@@ -15,6 +17,7 @@ public class EntityController {
   Entity entity;
 
   Map<String, EntityAction> actionMap;
+  @Inject GameController gameController;
 
   @Inject
   EntityController(EntityActionFactory entityActionFactory, @Assisted Entity entity) {
@@ -45,5 +48,12 @@ public class EntityController {
 
   public void beforeWorldUpdate() {}
 
-  public void afterWorldUpdate() {}
+  public void afterWorldUpdate() {
+    gameController.moveEntity(
+        this.entity.uuid,
+        new Coordinates(
+            this.entity.getBody().getPosition().x / Entity.coordinatesScale,
+            this.entity.getBody().getPosition().y / Entity.coordinatesScale));
+    this.entity.getBody().setLinearVelocity(0, this.entity.getBody().getLinearVelocity().y);
+  }
 }

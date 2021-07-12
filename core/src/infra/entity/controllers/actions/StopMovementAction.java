@@ -11,11 +11,7 @@ public class StopMovementAction implements EntityAction {
 
   @Override
   public void apply(Body body) {
-    if (body.getLinearVelocity().y > 0) {
-      body.setLinearVelocity(new Vector2(0, 0));
-    } else {
-      body.setLinearVelocity(new Vector2(0, body.getLinearVelocity().y));
-    }
+    body.setLinearVelocity(new Vector2(0, body.getLinearVelocity().y));
   }
 
   @Override

@@ -10,17 +10,34 @@ public class testAbstractEdge {
   @Test
   public void testAbstractEdgeEqual() {
     GreedyEdge greedyEdge1 =
-            new GreedyEdge(
-                    null,
-                    new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
-                    new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()));
+        new GreedyEdge(
+            null,
+            new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
+            new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()));
 
     GreedyEdge greedyEdge2 =
-            new GreedyEdge(
-                    null,
-                    new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
-                    new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()));
+        new GreedyEdge(
+            null,
+            new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
+            new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()));
 
     assert greedyEdge1.equals(greedyEdge2);
+  }
+
+  @Test
+  public void testAbstractEdgeNotEqual() {
+    GreedyEdge greedyEdge1 =
+        new GreedyEdge(
+            null,
+            new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
+            new RelativeVertex(null, new RelativeCoordinates(1f, 0), new Vector2()));
+
+    GreedyEdge greedyEdge2 =
+        new GreedyEdge(
+            null,
+            new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
+            new RelativeVertex(null, new RelativeCoordinates(1.1f, 0), new Vector2()));
+
+    assert !greedyEdge1.equals(greedyEdge2);
   }
 }

@@ -7,6 +7,15 @@ public abstract class AbstractEdge {
 
   public BlockStructure blockStructure;
   RelativeVertex from;
+
+  public RelativeVertex getFrom() {
+    return from;
+  }
+
+  public RelativeVertex getTo() {
+    return to;
+  }
+
   RelativeVertex to;
   boolean finished = false;
 
@@ -19,7 +28,11 @@ public abstract class AbstractEdge {
   public abstract void follow(Entity entity, RelativePathNode relativePathNode);
 
   public boolean isAvailable(Coordinates coordinates) {
-    return this.blockStructure.verifyBlockStructure(coordinates);
+    try {
+      return this.blockStructure.verifyBlockStructure(coordinates);
+    } catch (Exception e) {
+      return false;
+    }
   }
 
   public Coordinates applyTransition(Coordinates sourceCoordinates) {

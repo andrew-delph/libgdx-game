@@ -71,6 +71,9 @@ public class RelativeActionEdgeGenerator {
         new RelativeVertex(
             newBlockStructure, newRelativeCoordinates, this.body.getLinearVelocity());
 
+    this.world.dispose();
+    System.gc();
+
     return new RelativeActionEdge(fromRelativeVertex, toRelativeVertex, actionKey);
   }
 
