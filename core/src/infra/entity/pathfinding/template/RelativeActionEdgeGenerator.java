@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import infra.common.Coordinates;
+import infra.entity.Entity;
 import infra.entity.EntityBodyBuilder;
 import infra.entity.block.Block;
 import infra.entity.block.EmptyBlock;
@@ -49,19 +50,22 @@ public class RelativeActionEdgeGenerator {
 
     BlockStructure newBlockStructure = rootBlockStructure.copy();
 
-    RelativeCoordinates newRelativeCoordinates = new RelativeCoordinates(this.body.getPosition());
+    Vector2 rootPosition = this.body.getPosition();
+
+    RelativeCoordinates newRelativeCoordinates = new RelativeCoordinates(rootPosition);
 
     // set empty bottom left
     newBlockStructure.registerRelativeBlock(newRelativeCoordinates, EmptyBlock.class);
     // set empty bottom right
-    //    newBlockStructure.registerRelativeBlock(
-    //        newRelativeCoordinates.getRight().round(), EmptyBlock.class);
-    //    // set empty top left
-    //    newBlockStructure.registerRelativeBlock(
-    //        newRelativeCoordinates.getUp().round(), EmptyBlock.class);
-    //    // set empty top right
-    //    newBlockStructure.registerRelativeBlock(
-    //        newRelativeCoordinates.getUp().getRight().round(), EmptyBlock.class);
+    newBlockStructure.registerRelativeBlock(
+        new RelativeCoordinates(rootPosition.cpy().add(Entity.staticWidth, 0)), EmptyBlock.class);
+    // set empty top left
+    newBlockStructure.registerRelativeBlock(
+        new RelativeCoordinates(rootPosition.cpy().add(0, Entity.staticHeight)), EmptyBlock.class);
+    // set empty top right
+    newBlockStructure.registerRelativeBlock(
+        new RelativeCoordinates(rootPosition.cpy().add(Entity.staticWidth, Entity.staticHeight)),
+        EmptyBlock.class);
 
     RelativeVertex toRelativeVertex =
         new RelativeVertex(

@@ -36,7 +36,7 @@ public class BlockStructure {
       Class<? extends Block> blockClass = entry.getValue();
       Block retrievedBlock =
           this.gameStore.getBlock(
-              currentRelativeCoordinates.applyRelativeCoordinates(coordinates.getBase()));
+              currentRelativeCoordinates.applyRelativeCoordinates(coordinates));
 
       if (!blockClass.isInstance(retrievedBlock)) {
         return false;
