@@ -6,6 +6,7 @@ import infra.app.GameController;
 import infra.common.Coordinates;
 import infra.common.events.EventService;
 import infra.entity.Entity;
+import infra.entity.EntityFactory;
 import infra.entity.controllers.actions.EntityActionFactory;
 import infra.entity.pathfinding.template.PathGuider;
 import infra.entity.pathfinding.template.PathGuiderFactory;
@@ -19,6 +20,7 @@ public class EntityPathController extends EntityController {
 
   @Inject EventService eventService;
   @Inject EventFactory eventFactory;
+  @Inject EntityFactory entityFactory;
 
   PathGuider pathGuider;
   Entity target;
@@ -45,19 +47,15 @@ public class EntityPathController extends EntityController {
     }
     if (!this.pathGuider.hasPath()) {
       eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
-
-      //      try {
-      //        this.gameController.moveEntity(this.entity.uuid, new Coordinates(0, 1));
-      //        this.pathGuider.findPath(this.entity.coordinates, target.coordinates);
-      //      } catch (Exception e) {
-      //        e.printStackTrace();
-      //      }
+      this.entity = this.entityFactory.createEntity();
+      this.entity.coordinates = new Coordinates(0, 1);
+      this.entity.setController(this);
+      this.gameController.createEntity(this.entity);
+      this.pathGuider = null;
+      return;
     }
 
     if (this.pathGuider.hasPath()) {
-      //      if(this.pathGuider.currentPathNode!=null) System.out.println("follow
-      // "+this.pathGuider.currentPathNode.startPosition+ " ,
-      // "+this.pathGuider.currentPathNode.target);
       this.pathGuider.followPath();
     } else {
       System.out.println("NO path");

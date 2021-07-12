@@ -16,6 +16,8 @@ import java.util.UUID;
 
 public class Entity {
   public static int coordinatesScale = 25;
+  public static int staticHeight = (int) (Entity.coordinatesScale * 0.8);
+  public static int staticWidth = (int) (Entity.coordinatesScale * 0.8);
   public UUID uuid;
   public EntityController entityController;
   public Animation animation;
@@ -24,10 +26,23 @@ public class Entity {
   public Coordinates coordinates;
   @Inject public Clock clock;
   public int zindex = 1;
+  public String textureName = "frog.png";
+  @Inject protected EntityBodyBuilder entityBodyBuilder;
+  @Inject BaseAssetManager baseAssetManager;
+  @Inject EntityControllerFactory entityControllerFactory;
   private int width;
   private int height;
-  public static int staticHeight = (int) (Entity.coordinatesScale * 0.8);
-  public static int staticWidth = (int) (Entity.coordinatesScale * 0.8);
+  private int groundContact = 0;
+  @Inject
+  protected Entity() {
+    this.setHeight(Entity.staticHeight);
+    this.setWidth(Entity.staticWidth);
+    this.sprite = new Sprite();
+    this.sprite.setPosition(0, 0);
+    this.sprite.setSize(width, height);
+    this.coordinates = new Coordinates(0, 0);
+    this.uuid = UUID.randomUUID();
+  }
 
   public int getWidth() {
     return width;
@@ -45,23 +60,6 @@ public class Entity {
     this.height = height;
   }
 
-  public String textureName = "frog.png";
-  @Inject protected EntityBodyBuilder entityBodyBuilder;
-  @Inject BaseAssetManager baseAssetManager;
-  @Inject EntityControllerFactory entityControllerFactory;
-  private int groundContact = 0;
-
-  @Inject
-  protected Entity() {
-    this.setHeight(Entity.staticHeight);
-    this.setWidth(Entity.staticWidth);
-    this.sprite = new Sprite();
-    this.sprite.setPosition(0, 0);
-    this.sprite.setSize(width, height);
-    this.coordinates = new Coordinates(0, 0);
-    this.uuid = UUID.randomUUID();
-  }
-
   public void increaseGroundContact() {
     this.groundContact++;
   }
@@ -71,11 +69,7 @@ public class Entity {
   }
 
   public Boolean isOnGround() {
-    if (this.groundContact > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.groundContact > 0;
   }
 
   public Body getBody() {

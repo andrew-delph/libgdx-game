@@ -35,8 +35,7 @@ public class BlockStructure {
       RelativeCoordinates currentRelativeCoordinates = entry.getKey();
       Class<? extends Block> blockClass = entry.getValue();
       Block retrievedBlock =
-          this.gameStore.getBlock(
-              currentRelativeCoordinates.applyRelativeCoordinates(coordinates));
+          this.gameStore.getBlock(currentRelativeCoordinates.applyRelativeCoordinates(coordinates));
 
       if (!blockClass.isInstance(retrievedBlock)) {
         return false;

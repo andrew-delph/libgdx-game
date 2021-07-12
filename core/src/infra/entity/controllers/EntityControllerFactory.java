@@ -8,5 +8,6 @@ public interface EntityControllerFactory {
 
   EntityController createEntityController(Entity entity);
 
-  EntityPathController createEntityPathController(@Assisted("source")Entity entity,@Assisted("target") Entity target);
+  EntityPathController createEntityPathController(
+      @Assisted("source") Entity entity, @Assisted("target") Entity target);
 }

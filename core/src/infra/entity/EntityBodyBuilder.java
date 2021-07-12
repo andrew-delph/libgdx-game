@@ -45,7 +45,7 @@ public class EntityBodyBuilder {
 
     FixtureDef jumpFixtureDef = new FixtureDef();
     PolygonShape jumpShape = new PolygonShape();
-    jumpShape.setAsBox(Entity.staticWidth / 2f, 3f, new Vector2(0, -Entity.staticHeight/2f), 0);
+    jumpShape.setAsBox(Entity.staticWidth / 2f, 3f, new Vector2(0, -Entity.staticHeight / 2f), 0);
     jumpFixtureDef.shape = jumpShape;
     jumpFixtureDef.isSensor = true;
 

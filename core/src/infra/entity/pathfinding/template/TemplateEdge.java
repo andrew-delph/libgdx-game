@@ -11,14 +11,6 @@ public class TemplateEdge extends AbstractEdge {
 
   int currentStep = 0;
 
-  @Override
-  public boolean isAvailable(Coordinates coordinates) {
-    if (!coordinates.equals(coordinates.getBase())) {
-      return false;
-    }
-    return super.isAvailable(coordinates);
-  }
-
   public TemplateEdge(
       BlockStructure blockStructure,
       RelativeVertex from,
@@ -26,6 +18,14 @@ public class TemplateEdge extends AbstractEdge {
       List<RelativeActionEdge> actionEdgeList) {
     super(blockStructure, from, to);
     this.actionEdgeList = actionEdgeList;
+  }
+
+  @Override
+  public boolean isAvailable(Coordinates coordinates) {
+    if (!coordinates.equals(coordinates.getBase())) {
+      return false;
+    }
+    return super.isAvailable(coordinates);
   }
 
   @Override

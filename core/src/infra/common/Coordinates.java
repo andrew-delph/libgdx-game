@@ -25,8 +25,7 @@ public class Coordinates {
     if (target.getX() < bottomLeft.getX()) return false;
     if (target.getX() > topRight.getX()) return false;
     if (target.getY() < bottomLeft.getY()) return false;
-    if (target.getY() > topRight.getY()) return false;
-    return true;
+    return target.getY() <= topRight.getY();
   }
 
   public static List<Coordinates> getInRangeList(Coordinates bottomLeft, Coordinates topRight) {
@@ -48,7 +47,7 @@ public class Coordinates {
     return coordinatesList;
   }
 
-  public Coordinates getBase(){
+  public Coordinates getBase() {
     return new Coordinates(this.getX(), this.getY());
   }
 
@@ -88,14 +87,10 @@ public class Coordinates {
     return new Coordinates(this.getX() + 0.5f, this.getY() + 0.5f);
   }
 
-  public double calcDistance(Coordinates other){
+  public double calcDistance(Coordinates other) {
     return Math.sqrt(
-            Math.pow(
-                    this.getXReal() - other.getXReal(),
-                    2)
-                    + Math.pow(
-                    this.getYReal() - other.getYReal(),
-                    2));
+        Math.pow(this.getXReal() - other.getXReal(), 2)
+            + Math.pow(this.getYReal() - other.getYReal(), 2));
   }
 
   @Override

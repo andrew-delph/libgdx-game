@@ -84,7 +84,6 @@ public class Vertex {
       if (actionKey.equals("stop")) {
         //        if (this.velocity.x > 4) continue;
       }
-      ;
       if (actionKey.equals("jump")) {
         //        if (this.velocity.y != 0) continue;
         //        else System.out.println("jumping");

@@ -4,7 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class GroundSensorPoint {
 
-  private Body body;
+  private final Body body;
 
   public GroundSensorPoint(Body body) {
     this.body = body;

@@ -7,9 +7,7 @@ public class PathGuiderFactory {
   @Inject RelativePathFactory relativePathFactory;
 
   @Inject
-  PathGuiderFactory(){
-
-  }
+  PathGuiderFactory() {}
 
   public PathGuider createPathGuider(Entity entity) {
     return new PathGuider(relativePathFactory, entity);

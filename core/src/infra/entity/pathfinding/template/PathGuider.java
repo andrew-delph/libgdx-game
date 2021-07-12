@@ -9,20 +9,17 @@ import java.util.Queue;
 
 public class PathGuider {
 
+  public RelativePathNode currentPathNode;
   @Inject RelativePathFactory relativePathFactory;
-
   Entity entity;
+  RelativePath currentPath;
+  Queue<RelativePathNode> pathNodeQueue;
+  boolean hasPath = false;
 
   public PathGuider(RelativePathFactory relativePathFactory, Entity entity) {
     this.relativePathFactory = relativePathFactory;
     this.entity = entity;
   }
-
-  RelativePath currentPath;
-  Queue<RelativePathNode> pathNodeQueue;
-  public RelativePathNode currentPathNode;
-
-  boolean hasPath = false;
 
   public void findPath(Coordinates start, Coordinates end) throws Exception {
     System.out.println("FIND " + end + " , " + start);
