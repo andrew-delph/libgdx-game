@@ -28,6 +28,10 @@ public class GreedyEdge extends AbstractEdge {
       return;
     }
     //    System.out.println(entity.coordinates + " ... " + relativePathNode.target);
+    if (relativePathNode.getEndPosition().getYReal() + 0.2 < entity.coordinates.getYReal()) {
+      return;
+    }
+
     if (relativePathNode.getEndPosition().getXReal() > entity.coordinates.getXReal()) {
       actionKey = "right";
     } else if (relativePathNode.getEndPosition().getXReal() < entity.coordinates.getXReal()) {

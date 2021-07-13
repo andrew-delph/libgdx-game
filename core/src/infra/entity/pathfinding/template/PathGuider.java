@@ -46,7 +46,7 @@ public class PathGuider {
         this.currentPathNode.start();
       }
     }
-    //    System.out.println(this.currentPathNode + " , " + this.currentPathNode.edge.getClass());
+    System.out.println(this.currentPathNode + " , " + this.currentPathNode.edge.getClass());
     this.currentPathNode.edge.follow(this.entity, this.currentPathNode);
   }
 }
