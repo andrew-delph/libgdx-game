@@ -1,10 +1,9 @@
 package infra.common.events;
 
 import com.google.inject.Inject;
+import infra.entity.block.Block;
 
 import java.util.UUID;
-
-import infra.entity.block.Block;
 
 public class ReplaceBlockEvent extends Event {
 
@@ -14,6 +13,7 @@ public class ReplaceBlockEvent extends Event {
   Block replacementBlock;
 
   @Inject
+
   public ReplaceBlockEvent(UUID target, Block replacementBlock) {
     this.target = target;
     this.replacementBlock = replacementBlock;

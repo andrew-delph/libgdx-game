@@ -46,9 +46,6 @@ public class ChunkBuilder implements Callable<Chunk> {
       for (int i = chunkRange.bottom_x; i < chunkRange.top_x; i++) {
         for (int j = chunkRange.bottom_y; j < chunkRange.top_y; j++) {
           Entity block = blockGenerator.generate(new Coordinates(i, j));
-          if (new ChunkRange(block.coordinates).equals(new ChunkRange(new Coordinates(0, 0)))) {
-            //            System.out.println(block.coordinates);
-          }
           gameController.createEntity(block);
         }
       }

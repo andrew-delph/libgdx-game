@@ -12,7 +12,11 @@ import infra.common.events.EventService;
 import infra.common.render.BaseAssetManager;
 import infra.entity.EntityFactory;
 import infra.entity.block.BlockFactory;
+import infra.entity.collision.EntityContactListenerFactory;
+import infra.entity.collision.contact.EntityGroundContact;
 import infra.entity.controllers.EntityControllerFactory;
+import infra.entity.controllers.actions.EntityActionFactory;
+import infra.entity.pathfinding.template.EdgeStore;
 import infra.generation.BlockGenerator;
 import infra.generation.ChunkBuilderFactory;
 import infra.generation.ChunkGenerationManager;
@@ -32,6 +36,7 @@ public abstract class MainConfig extends AbstractModule {
     bind(ConnectionStore.class).asEagerSingleton();
     bind(ChunkSubscriptionService.class).asEagerSingleton();
 
+
     bind(ChunkClockMap.class).asEagerSingleton();
 //
     bind(ChunkFactory.class).asEagerSingleton();
@@ -42,6 +47,12 @@ public abstract class MainConfig extends AbstractModule {
     bind(ChunkBuilderFactory.class).asEagerSingleton();
 
     bind(EntityControllerFactory.class).asEagerSingleton();
+
+    bind(EntityActionFactory.class).asEagerSingleton();
+    bind(EntityContactListenerFactory.class).asEagerSingleton();
+    bind(EntityGroundContact.class).asEagerSingleton();
+    bind(EdgeStore.class).asEagerSingleton();
+
 //
     bind(EventFactory.class).asEagerSingleton();
 //

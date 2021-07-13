@@ -3,21 +3,27 @@ package infra.entity.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import infra.app.GameController;
-import infra.common.Coordinates;
 import infra.common.Direction;
 import infra.entity.Entity;
 import infra.entity.block.DirtBlock;
 import infra.entity.block.SkyBlock;
+import infra.entity.controllers.actions.EntityActionFactory;
 
 public class EntityUserController extends EntityController {
 
-  public EntityUserController(GameController gameController, Entity entity) {
-    super(gameController, entity);
+
+  public EntityUserController(GameController gameController,EntityActionFactory entityActionFactory, Entity entity) {
+    super(gameController,entityActionFactory, entity);
   }
 
   @Override
   public void beforeWorldUpdate() {
+
+    Body body = this.entity.getBody();
+
+    float impulse = body.getMass() * 10;
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
         this.gameController.placeBlock(this.entity, Direction.LEFT, SkyBlock.class);
@@ -39,26 +45,22 @@ public class EntityUserController extends EntityController {
       } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
         this.gameController.placeBlock(this.entity, Direction.UP, DirtBlock.class);
       }
-    } else {
-      if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-        this.entity.getBody().setLinearVelocity(-5f, 0f);
-      }
-      if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-        this.entity.getBody().setLinearVelocity(5f, 0f);
-      }
-      if (Gdx.input.isKeyPressed(Input.Keys.S)) {}
-      if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-        this.entity.getBody().setLinearVelocity(0f, 50f);
+    }
+    if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+      if (this.getAction("jump").isValid(body)) {
+        this.applyAction("jump", body);
+
       }
     }
-  }
 
-  @Override
-  public void afterWorldUpdate() {
-    gameController.moveEntity(
-        this.entity.uuid,
-        new Coordinates(
-            this.entity.getBody().getPosition().x / Entity.coordinatesScale,
-            this.entity.getBody().getPosition().y / Entity.coordinatesScale));
+    if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+      this.applyAction("stop", body);
+    }
+    if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+      this.applyAction("left", body);
+    }
+    if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+      this.applyAction("right", body);
+    }
   }
 }

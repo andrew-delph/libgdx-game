@@ -21,6 +21,7 @@ import infra.common.GameStore;
 import infra.common.Tick;
 import infra.entity.Entity;
 import infra.entity.block.Block;
+import infra.entity.collision.EntityContactListenerFactory;
 
 public class Chunk implements Callable<Chunk> {
 
@@ -29,19 +30,25 @@ public class Chunk implements Callable<Chunk> {
   public World world;
   GameStore gameStore;
   Clock clock;
-  Map<UUID, Entity> chunkMap;
+  ConcurrentHashMap<UUID, Entity> chunkMap;
   Set<UUID> bodySet;
   Map<Entity, Body> neighborEntityBodyMap = new HashMap<>();
 
+  float timeStep = 1 / 5f;
+  float gravity = 1f;
+
+
+
   @Inject
-  public Chunk(Clock clock, GameStore gameStore,  ChunkRange chunkRange) {
+  public Chunk(Clock clock, GameStore gameStore,EntityContactListenerFactory entityContactListenerFactory,  ChunkRange chunkRange) {
     this.gameStore = gameStore;
     this.clock = clock;
     this.chunkRange = chunkRange;
-    this.chunkMap = new ConcurrentHashMap();
+    this.chunkMap = new ConcurrentHashMap<>();
     this.nextTick(1);
     this.bodySet = new HashSet<>();
-    this.world = new World(new Vector2(0, -1f), true);
+    this.world = new World(new Vector2(0, -gravity), false);
+    this.world.setContactListener(entityContactListenerFactory.createEntityContactListener());
   }
 
   void nextTick(int timeout) {
@@ -53,7 +60,6 @@ public class Chunk implements Callable<Chunk> {
     try {
       this.update();
     } catch (Exception e) {
-      System.out.println("chunk update");
       e.printStackTrace();
     }
     return this;
@@ -76,7 +82,7 @@ public class Chunk implements Callable<Chunk> {
   }
 
   public List<Entity> getEntityList() {
-    return new LinkedList<>(this.chunkMap.values());
+    return new LinkedList<Entity>(this.chunkMap.values());
   }
 
   public Entity removeEntity(UUID uuid) {
@@ -157,7 +163,8 @@ public class Chunk implements Callable<Chunk> {
 
     // add temp entity to set
     for (Entity entity : entityToAddSet) {
-      if (neighborEntityBodyMap.containsKey(entity)) continue;
+      if (neighborEntityBodyMap.containsKey(entity) || !(entity instanceof Block)) continue;
+
       Body bodyToAdd = entity.addWorld(world);
       if (bodyToAdd == null) continue;
       neighborEntityBodyMap.put(entity, bodyToAdd);
@@ -172,7 +179,7 @@ public class Chunk implements Callable<Chunk> {
     int tickTimeout = Integer.MAX_VALUE;
     for (Entity entity : this.chunkMap.values()) {
 
-      entity.entityController.beforeWorldUpdate();
+      if (entity.entityController != null) entity.entityController.beforeWorldUpdate();
       this.gameStore.syncEntity(entity);
 
       int entityTick = entity.getUpdateTimeout();
@@ -180,10 +187,10 @@ public class Chunk implements Callable<Chunk> {
         tickTimeout = entityTick;
       }
     }
-    world.step(1, 6, 2);
+    world.step(timeStep, 6, 2);
 
     for (Entity entity : this.chunkMap.values()) {
-      entity.entityController.afterWorldUpdate();
+      if (entity.entityController != null) entity.entityController.afterWorldUpdate();
     }
     this.nextTick(1);
   }
@@ -194,7 +201,7 @@ public class Chunk implements Callable<Chunk> {
     List<Entity> entityList = new LinkedList<>();
 
     for (Entity entity : this.getEntityList()) {
-      if (Coordinates.inRange(bottomLeftCoordinates, topRightCoordinates, entity.coordinates)) {
+      if (Coordinates.isInRange(bottomLeftCoordinates, topRightCoordinates, entity.coordinates)) {
         entityList.add(entity);
       }
     }
@@ -206,7 +213,8 @@ public class Chunk implements Callable<Chunk> {
     List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
     for (Entity entity : entityList) {
       if (entity instanceof Block
-          && Coordinates.inRange(coordinates, coordinates, entity.coordinates)) {
+          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+
         return (Block) entity;
       }
     }

@@ -7,6 +7,8 @@ import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.events.EventConsumer;
+
+import infra.entity.collision.CollisionService;
 import infra.generation.ChunkGenerationManager;
 import infra.networking.client.ClientNetworkHandle;
 import infra.networking.events.EventFactory;
@@ -26,9 +28,10 @@ public class ClientGame extends Game {
       GameStore gameStore,
       ChunkFactory chunkFactory,
       ChunkGenerationManager chunkGenerationManager,
-      EventConsumer eventConsumer)
+      EventConsumer eventConsumer,
+      CollisionService collisionService)
       throws Exception {
-    super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer);
+    super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer, collisionService);
   }
 
   @Override

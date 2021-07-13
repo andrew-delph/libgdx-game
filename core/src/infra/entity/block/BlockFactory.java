@@ -1,32 +1,33 @@
 package infra.entity.block;
 
+
 import com.google.inject.Inject;
 
 import infra.common.Clock;
 import infra.common.render.BaseAssetManager;
+import infra.entity.EntityBodyBuilder;
 
 public class BlockFactory {
   @Inject
   Clock clock;
   @Inject
   BaseAssetManager baseAssetManager;
+  @Inject
+  EntityBodyBuilder entityBodyBuilder;
 
   BlockFactory(){
 
   }
-  public Block create(){
-    return new Block(clock, baseAssetManager);
-  };
 
   public DirtBlock createDirt(){
-    return new DirtBlock(clock, baseAssetManager);
+    return new DirtBlock(clock, baseAssetManager, entityBodyBuilder);
   };
 
   public StoneBlock createStone(){
-    return new StoneBlock(clock, baseAssetManager);
+    return new StoneBlock(clock, baseAssetManager, entityBodyBuilder);
   };
 
   public SkyBlock createSky(){
-    return new SkyBlock(clock, baseAssetManager);
+    return new SkyBlock(clock, baseAssetManager, entityBodyBuilder);
   };
 }

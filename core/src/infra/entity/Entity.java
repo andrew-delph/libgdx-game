@@ -3,6 +3,8 @@ package infra.entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
+import com.google.inject.Inject;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -14,10 +16,13 @@ import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.render.BaseAssetManager;
 import infra.entity.controllers.EntityController;
+import infra.entity.controllers.EntityControllerFactory;
 import infra.networking.NetworkObjects;
 
 public class Entity {
   public static int coordinatesScale = 25;
+  public static int staticHeight = (int) (Entity.coordinatesScale * 0.8);
+  public static int staticWidth = (int) (Entity.coordinatesScale * 0.8);
   public UUID uuid;
   public EntityController entityController;
   public Animation animation;
@@ -25,56 +30,55 @@ public class Entity {
   public Body body;
   public Coordinates coordinates;
   public int zindex = 1;
-  public int width = (int) (coordinatesScale);
-  public int height = (int) (coordinatesScale);
   public String textureName = "frog.png";
+  private int width;
+  private int height;
+  public EntityBodyBuilder entityBodyBuilder;
+
 
   Clock clock;
   BaseAssetManager baseAssetManager;
 
-  public Entity(Clock clock, BaseAssetManager baseAssetManager) {
+  public Entity(Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
+    this.setHeight(Entity.staticHeight);
+    this.setWidth(Entity.staticWidth);
     this.clock = clock;
     this.baseAssetManager = baseAssetManager;
+    this.entityBodyBuilder =entityBodyBuilder;
     this.sprite = new Sprite();
     this.sprite.setPosition(0, 0);
     this.sprite.setSize(width, height);
     this.coordinates = new Coordinates(0, 0);
     this.uuid = UUID.randomUUID();
-    this.entityController = new EntityController(null,this);
   }
 
+  public int getWidth() {
+    return width;
+  }
+
+  public void setWidth(int width) {
+    this.width = width;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
+  public void setHeight(int height) {
+    this.height = height;
+  }
+
+
   public Body getBody() {
-    //    System.out.println("getBody");
     return body;
   }
 
   public void setBody(Body body) {
-    //    System.out.println("setBody"+new ChunkRange(this.coordinates)+","+this.uuid);
     this.body = body;
   }
 
   public synchronized Body addWorld(World world) {
-    BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyDef.BodyType.DynamicBody;
-    bodyDef.position.set(
-        this.coordinates.getXReal() * coordinatesScale,
-        this.coordinates.getYReal() * coordinatesScale);
-
-    //    this.setBody(world.createBody(bodyDef));
-    Body theBody = world.createBody(bodyDef);
-
-    PolygonShape shape = new PolygonShape();
-
-    shape.setAsBox(coordinatesScale / 2f, coordinatesScale / 2f);
-    FixtureDef fixtureDef = new FixtureDef();
-    fixtureDef.shape = shape;
-    fixtureDef.density = 0.1f;
-    fixtureDef.restitution = 0.5f;
-    theBody.createFixture(fixtureDef);
-
-    theBody.setFixedRotation(true);
-
-    return theBody;
+    return entityBodyBuilder.createEntityBody(world, this.coordinates);
   }
 
   public synchronized void setController(EntityController entityController) {
@@ -83,7 +87,7 @@ public class Entity {
 
   public synchronized void renderSync() {
     this.sprite = new Sprite((Texture) baseAssetManager.get(this.textureName));
-    this.sprite.setSize(width, height);
+    this.sprite.setSize(this.getWidth(), this.getHeight());
     this.sprite.setPosition(
         this.coordinates.getXReal() * coordinatesScale,
         this.coordinates.getYReal() * coordinatesScale);

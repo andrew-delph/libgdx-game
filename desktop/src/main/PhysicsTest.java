@@ -61,23 +61,19 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
     fixtureDef.density = 0.1f;
     fixtureDef.restitution = 0.5f;
     body.createFixture(fixtureDef);
-    body.setGravityScale(1);
     shape.dispose();
     BodyDef bodyDef2 = new BodyDef();
     bodyDef2.type = BodyDef.BodyType.StaticBody;
     float w = Gdx.graphics.getWidth() / PIXELS_TO_METERS;
-    // Set the height to just 50 pixels above the bottom of the screen so we can see the edge in the
-    // debug renderer
+
     float h = Gdx.graphics.getHeight() / PIXELS_TO_METERS - 50 / PIXELS_TO_METERS;
-    // bodyDef2.position.set(0,
-    //                h-10/PIXELS_TO_METERS);
+
     bodyDef2.position.set(0, 0);
     FixtureDef fixtureDef2 = new FixtureDef();
     EdgeShape edgeShape = new EdgeShape();
     edgeShape.set(-w / 2, -h / 2, w / 2, -h / 2);
     fixtureDef2.shape = edgeShape;
     bodyEdgeScreen = world.createBody(bodyDef2);
-    bodyEdgeScreen.setActive(true);
     bodyEdgeScreen.createFixture(fixtureDef2);
     edgeShape.dispose();
     Gdx.input.setInputProcessor(this);
@@ -114,11 +110,11 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
           sprite.getScaleX(),
           sprite.getScaleY(),
           sprite.getRotation());
-    //    font.draw(
-    //        batch,
-    //        "Restitution: " + body.getFixtureList().first().getRestitution(),
-    //        -Gdx.graphics.getWidth() / 2,
-    //        Gdx.graphics.getHeight() / 2);
+    font.draw(
+        batch,
+        "Restitution: " + body.getFixtureList().first().getRestitution(),
+        -Gdx.graphics.getWidth() / 2,
+        Gdx.graphics.getHeight() / 2);
     batch.end();
     debugRenderer.render(world, debugMatrix);
   }
@@ -138,7 +134,7 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
   public boolean keyUp(int keycode) {
     if (keycode == Input.Keys.RIGHT) body.setLinearVelocity(1f, 0f);
     if (keycode == Input.Keys.LEFT) body.setLinearVelocity(-1f, 0f);
-    if (keycode == Input.Keys.UP) body.applyForceToCenter(0f, 10f, true);
+    if (keycode == Input.Keys.UP) body.applyForceToCenter(0f, 70f, true);
     if (keycode == Input.Keys.DOWN) body.applyForceToCenter(0f, -10f, true);
     // On brackets ( [ ] ) apply torque, either clock or counterclockwise
     if (keycode == Input.Keys.RIGHT_BRACKET) torque += 0.1f;

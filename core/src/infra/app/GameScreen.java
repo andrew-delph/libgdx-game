@@ -2,6 +2,7 @@ package infra.app;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
@@ -12,17 +13,19 @@ import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
+import infra.common.events.EventService;
 import infra.common.render.BaseAssetManager;
 import infra.common.render.BaseCamera;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.entity.controllers.EntityControllerFactory;
+import infra.entity.pathfinding.template.EdgeRegistration;
 import infra.generation.ChunkGenerationManager;
+import infra.networking.events.EventFactory;
 
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class GameScreen extends ApplicationAdapter {
@@ -49,8 +52,14 @@ public class GameScreen extends ApplicationAdapter {
 
   @Inject EntityControllerFactory entityControllerFactory;
 
+  @Inject EdgeRegistration edgeRegistration;
+  @Inject EventService eventService;
+  @Inject EventFactory eventFactory;
+
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
+
+  Entity pathEntity;
 
   @Inject
   public GameScreen() {}
@@ -66,29 +75,37 @@ public class GameScreen extends ApplicationAdapter {
     }
     batch = new SpriteBatch();
 
-    try {
-      TimeUnit.SECONDS.sleep(5);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
     myEntity = entityFactory.createEntity();
-    myEntity.coordinates = new Coordinates(1, 3);
+    myEntity.coordinates = new Coordinates(0, 2);
     myEntity = gameController.createEntity(myEntity);
     System.out.println("my entity " + myEntity.uuid);
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     chunkGenerationManager.registerActiveEntity(myEntity, null);
     debugRenderer = new Box2DDebugRenderer();
+
+    System.out.println("Start");
+    edgeRegistration.greedyRegisterEdges();
+    System.out.println("Donne");
   }
 
   @Override
   public void render() {
+    if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+      if (pathEntity == null) {
+        this.pathEntity = entityFactory.createEntity();
+        pathEntity.coordinates = new Coordinates(0, 1);
+        gameController.createEntity(pathEntity);
+        pathEntity.setController(
+            entityControllerFactory.createEntityPathController(pathEntity, myEntity));
+      }
+    }
 
+    //    System.out.println(myEntity.coordinates);
     debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
 
     baseCamera.position.set(
-        myEntity.coordinates.getXReal() * myEntity.coordinatesScale,
-        myEntity.coordinates.getYReal() * myEntity.coordinatesScale,
+        myEntity.coordinates.getXReal() * Entity.coordinatesScale,
+        myEntity.coordinates.getYReal() * Entity.coordinatesScale,
         0);
     baseCamera.update();
 
@@ -122,9 +139,11 @@ public class GameScreen extends ApplicationAdapter {
     //    System.out.println(new ChunkRange(myEntity.coordinates)+";
     // "+myEntity.coordinates.getXReal()+"; "+myEntity.coordinates.getX());
     batch.end();
-    Chunk mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
-    debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
-    debugRenderer.render(mainChunk.world, debugMatrix);
+        Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
+        debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
+        debugRenderer.render(mainChunk.world, debugMatrix);
+
+
     //    try {
     //      mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(-1, 0)));
     //      debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);

@@ -1,5 +1,6 @@
 package infra.common;
 
+import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkRange;
@@ -28,7 +29,6 @@ public class GameStore {
   }
 
   public Entity removeEntity(UUID uuid) {
-    System.out.println("this.entityMap.get(uuid) " + this.entityMap.get(uuid));
     ChunkRange chunkRange = this.entityMap.get(uuid);
     if (chunkRange == null) return null;
     Chunk chunk = this.chunkClockMap.get(chunkRange);
@@ -68,8 +68,10 @@ public class GameStore {
 
   public void syncEntity(Entity entity) {
     if (!entityMap.get(entity.uuid).equals(new ChunkRange(entity.coordinates))) {
+      Vector2 velocity = entity.getBody().getLinearVelocity();
       this.removeEntity(entity.uuid);
       this.addEntity(entity);
+      entity.getBody().setLinearVelocity(velocity);
     }
   }
 
@@ -90,6 +92,16 @@ public class GameStore {
   }
 
   public Block getBlock(Coordinates coordinates) {
-    return this.chunkClockMap.get(new ChunkRange(coordinates)).getBlock(coordinates);
+    return this.chunkClockMap.get(new ChunkRange(coordinates)).getBlock(coordinates.getBase());
+  }
+
+  public List<Block> getBlockInRange(
+      Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates) {
+    List<Block> blockList = new LinkedList<>();
+    for (Coordinates coordinates :
+        Coordinates.getInRangeList(bottomLeftCoordinates, topRightCoordinates)) {
+      blockList.add(this.getBlock(coordinates));
+    }
+    return blockList;
   }
 }

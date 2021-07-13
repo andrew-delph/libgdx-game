@@ -156,7 +156,7 @@ public class testSingleClient {
 
     TimeUnit.SECONDS.sleep(1);
 
-    Entity clientEntity = clientGameController.createBlock(new Coordinates(0, 0));
+    Entity clientEntity = clientGameController.createDirtBlock(new Coordinates(0, 0));
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -178,7 +178,7 @@ public class testSingleClient {
 
     TimeUnit.SECONDS.sleep(1);
 
-    Entity clientEntity = clientGameController.createBlock(new Coordinates(0, 0));
+    Entity clientEntity = clientGameController.createDirtBlock(new Coordinates(0, 0));
 
     TimeUnit.SECONDS.sleep(1);
 

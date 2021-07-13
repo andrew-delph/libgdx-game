@@ -20,6 +20,7 @@ public class ReplaceBlockOutgoingEvent extends Event implements SerializeNetwork
 
   @Inject
   public ReplaceBlockOutgoingEvent(
+
       UUID target, Block replacementBlock, ChunkRange chunkRange) {
     this.target = target;
     this.replacementBlock = replacementBlock;

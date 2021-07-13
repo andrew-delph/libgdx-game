@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 
 import infra.common.Clock;
 import infra.common.GameStore;
+import infra.entity.collision.EntityContactListenerFactory;
 
 public class ChunkFactory {
 
@@ -14,10 +15,13 @@ public class ChunkFactory {
   GameStore gameStore;
 
   @Inject
+  EntityContactListenerFactory entityContactListenerFactory;
+
+  @Inject
   ChunkFactory(){
 
   }
   public Chunk create(ChunkRange chunkRange){
-      return new Chunk(clock, gameStore, chunkRange);
+      return new Chunk(clock, gameStore,entityContactListenerFactory, chunkRange);
   };
 }
