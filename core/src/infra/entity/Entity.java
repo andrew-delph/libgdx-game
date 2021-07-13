@@ -5,14 +5,19 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+
+import java.util.UUID;
+
 import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.render.BaseAssetManager;
 import infra.entity.controllers.EntityController;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.networking.NetworkObjects;
-
-import java.util.UUID;
 
 public class Entity {
   public static int coordinatesScale = 25;
@@ -24,19 +29,22 @@ public class Entity {
   public Sprite sprite;
   public Body body;
   public Coordinates coordinates;
-  @Inject public Clock clock;
   public int zindex = 1;
   public String textureName = "frog.png";
-  @Inject protected EntityBodyBuilder entityBodyBuilder;
-  @Inject BaseAssetManager baseAssetManager;
-  @Inject EntityControllerFactory entityControllerFactory;
   private int width;
   private int height;
-  private int groundContact = 0;
-  @Inject
-  protected Entity() {
+  public EntityBodyBuilder entityBodyBuilder;
+
+
+  Clock clock;
+  BaseAssetManager baseAssetManager;
+
+  public Entity(Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
     this.setHeight(Entity.staticHeight);
     this.setWidth(Entity.staticWidth);
+    this.clock = clock;
+    this.baseAssetManager = baseAssetManager;
+    this.entityBodyBuilder =entityBodyBuilder;
     this.sprite = new Sprite();
     this.sprite.setPosition(0, 0);
     this.sprite.setSize(width, height);
@@ -60,17 +68,6 @@ public class Entity {
     this.height = height;
   }
 
-  public void increaseGroundContact() {
-    this.groundContact++;
-  }
-
-  public void decreaseGroundContact() {
-    this.groundContact--;
-  }
-
-  public Boolean isOnGround() {
-    return this.groundContact > 0;
-  }
 
   public Body getBody() {
     return body;

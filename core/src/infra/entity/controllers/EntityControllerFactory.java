@@ -1,13 +1,38 @@
 package infra.entity.controllers;
 
-import com.google.inject.assistedinject.Assisted;
+
+import com.google.inject.Inject;
+
+import infra.app.GameController;
+import infra.common.events.EventService;
 import infra.entity.Entity;
+import infra.entity.EntityFactory;
+import infra.entity.controllers.actions.EntityActionFactory;
+import infra.entity.pathfinding.template.PathGuiderFactory;
+import infra.networking.events.EventFactory;
 
-public interface EntityControllerFactory {
-  EntityUserController createEntityUserController(Entity entity);
+public class EntityControllerFactory {
+  @Inject
+  GameController gameController;
+  @Inject
+  EntityActionFactory entityActionFactory;
+  @Inject
+  PathGuiderFactory pathGuiderFactory;
+  @Inject
+  EventService eventService;
+  @Inject
+  EntityFactory entityFactory;
+  @Inject
+  EventFactory eventFactory;
+  @Inject
+  public EntityControllerFactory(){
 
-  EntityController createEntityController(Entity entity);
+  }
+  public EntityUserController createEntityUserController(Entity entity){
+    return new EntityUserController(gameController,entityActionFactory, entity);
+  };
 
-  EntityPathController createEntityPathController(
-      @Assisted("source") Entity entity, @Assisted("target") Entity target);
+  public EntityPathController createEntityPathController(Entity source, Entity target){
+    return new EntityPathController(gameController, entityActionFactory,pathGuiderFactory,eventService,eventFactory,entityFactory, source, target);
+  }
 }

@@ -1,7 +1,6 @@
 package infra.common.events;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import infra.common.Coordinates;
 
 public class CoordinatesEvent extends Event {
@@ -11,7 +10,7 @@ public class CoordinatesEvent extends Event {
   Coordinates coordinates;
 
   @Inject
-  public CoordinatesEvent(@Assisted Coordinates coordinates) {
+  public CoordinatesEvent(Coordinates coordinates) {
     this.coordinates = coordinates;
   }
 

@@ -143,6 +143,7 @@ public class GameScreen extends ApplicationAdapter {
         debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
         debugRenderer.render(mainChunk.world, debugMatrix);
 
+
     //    try {
     //      mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(-1, 0)));
     //      debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);

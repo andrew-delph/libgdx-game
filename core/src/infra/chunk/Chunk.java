@@ -4,7 +4,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
+
 import infra.common.Clock;
 import infra.common.Coordinates;
 import infra.common.GameStore;
@@ -13,10 +23,6 @@ import infra.entity.Entity;
 import infra.entity.block.Block;
 import infra.entity.collision.EntityContactListenerFactory;
 
-import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
-
 public class Chunk implements Callable<Chunk> {
 
   public ChunkRange chunkRange;
@@ -24,27 +30,21 @@ public class Chunk implements Callable<Chunk> {
   public World world;
   GameStore gameStore;
   Clock clock;
-  Map<UUID, Entity> chunkMap;
+  ConcurrentHashMap<UUID, Entity> chunkMap;
   Set<UUID> bodySet;
+  Map<Entity, Body> neighborEntityBodyMap = new HashMap<>();
 
   float timeStep = 1 / 5f;
   float gravity = 1f;
 
-  @Inject EntityContactListenerFactory entityContactListenerFactory;
 
-  Map<Entity, Body> neighborEntityBodyMap = new HashMap<>();
 
   @Inject
-  public Chunk(
-      Clock clock,
-      EntityContactListenerFactory entityContactListenerFactory,
-      GameStore gameStore,
-      @Assisted ChunkRange chunkRange) {
-    this.entityContactListenerFactory = entityContactListenerFactory;
+  public Chunk(Clock clock, GameStore gameStore,EntityContactListenerFactory entityContactListenerFactory,  ChunkRange chunkRange) {
     this.gameStore = gameStore;
     this.clock = clock;
     this.chunkRange = chunkRange;
-    this.chunkMap = new ConcurrentHashMap();
+    this.chunkMap = new ConcurrentHashMap<>();
     this.nextTick(1);
     this.bodySet = new HashSet<>();
     this.world = new World(new Vector2(0, -gravity), false);
@@ -82,7 +82,7 @@ public class Chunk implements Callable<Chunk> {
   }
 
   public List<Entity> getEntityList() {
-    return new LinkedList<>(this.chunkMap.values());
+    return new LinkedList<Entity>(this.chunkMap.values());
   }
 
   public Entity removeEntity(UUID uuid) {
@@ -164,6 +164,7 @@ public class Chunk implements Callable<Chunk> {
     // add temp entity to set
     for (Entity entity : entityToAddSet) {
       if (neighborEntityBodyMap.containsKey(entity) || !(entity instanceof Block)) continue;
+
       Body bodyToAdd = entity.addWorld(world);
       if (bodyToAdd == null) continue;
       neighborEntityBodyMap.put(entity, bodyToAdd);
@@ -213,6 +214,7 @@ public class Chunk implements Callable<Chunk> {
     for (Entity entity : entityList) {
       if (entity instanceof Block
           && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+
         return (Block) entity;
       }
     }

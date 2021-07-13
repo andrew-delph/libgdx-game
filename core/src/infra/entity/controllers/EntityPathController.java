@@ -1,7 +1,6 @@
 package infra.entity.controllers;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import infra.app.GameController;
 import infra.common.Coordinates;
 import infra.common.events.EventService;
@@ -14,26 +13,33 @@ import infra.networking.events.EventFactory;
 
 public class EntityPathController extends EntityController {
 
-  @Inject GameController gameController;
 
-  @Inject PathGuiderFactory pathGuiderFactory;
+  PathGuiderFactory pathGuiderFactory;
 
-  @Inject EventService eventService;
-  @Inject EventFactory eventFactory;
-  @Inject EntityFactory entityFactory;
+  EventService eventService;
+  EventFactory eventFactory;
+  EntityFactory entityFactory;
 
   PathGuider pathGuider;
   Entity target;
   boolean moved = true;
   Coordinates beforeUpdateCoordinates = null;
 
-  @Inject
   EntityPathController(
+          GameController gameController,
       EntityActionFactory entityActionFactory,
-      @Assisted("source") Entity entity,
-      @Assisted("target") Entity target) {
-    super(entityActionFactory, entity);
+          PathGuiderFactory pathGuiderFactory,
+      EventService eventService,
+          EventFactory eventFactory,
+          EntityFactory entityFactory,
+      Entity entity,
+      Entity target) {
+    super(gameController,entityActionFactory, entity);
+    this.pathGuiderFactory = pathGuiderFactory;
+    this.eventService =eventService;
     this.target = target;
+    this.eventFactory = eventFactory;
+    this.entityFactory = entityFactory;
   }
 
   @Override

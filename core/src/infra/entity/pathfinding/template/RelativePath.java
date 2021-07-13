@@ -27,6 +27,7 @@ public class RelativePath {
     for (AbstractEdge edge : this.edgeStore.getEdgeList()) {
       if (edge.isAvailable(source)) {
         unvisitedPathNodeSet.add(new RelativePathNode(edge, source, target));
+        System.out.println("edge worked");
       }
     }
     while (unvisitedPathNodeSet.size() > 0) {

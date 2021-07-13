@@ -2,9 +2,9 @@ package infra.entity.controllers;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import infra.app.GameController;
 import infra.common.Coordinates;
+import infra.app.GameController;
 import infra.entity.Entity;
 import infra.entity.controllers.actions.EntityAction;
 import infra.entity.controllers.actions.EntityActionFactory;
@@ -14,13 +14,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class EntityController {
+  GameController gameController;
   Entity entity;
-
   Map<String, EntityAction> actionMap;
-  @Inject GameController gameController;
 
-  @Inject
-  EntityController(EntityActionFactory entityActionFactory, @Assisted Entity entity) {
+
+  public EntityController(GameController gameController,EntityActionFactory entityActionFactory, Entity entity) {
+    this.gameController =gameController;
     this.entity = entity;
     this.actionMap = new HashMap<>();
 

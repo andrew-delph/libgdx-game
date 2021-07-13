@@ -28,5 +28,6 @@ public class testCoordinates {
     Coordinates c1 = new Coordinates(0,1);
     Coordinates c2 = new Coordinates(0,2);
     assert c1.calcDistance(c2) == 1;
+
   }
 }

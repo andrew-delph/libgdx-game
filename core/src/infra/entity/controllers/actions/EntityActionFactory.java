@@ -1,9 +1,23 @@
 package infra.entity.controllers.actions;
 
-public interface EntityActionFactory {
-  HorizontalMovementAction createHorizontalMovementAction(int magnitude);
+import com.google.inject.Inject;
+import infra.entity.collision.contact.EntityGroundContact;
 
-  JumpMovementAction createJumpMovementAction();
+public class EntityActionFactory {
+  @Inject
+  EntityGroundContact entityGroundContact;
+  @Inject EntityActionFactory(){
 
-  StopMovementAction createStopMovementAction();
+  }
+  public HorizontalMovementAction createHorizontalMovementAction(int magnitude){
+    return new HorizontalMovementAction(magnitude);
+  }
+
+  public JumpMovementAction createJumpMovementAction(){
+    return new JumpMovementAction(entityGroundContact);
+  }
+
+  public StopMovementAction createStopMovementAction(){
+    return new StopMovementAction();
+  }
 }

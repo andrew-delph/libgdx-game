@@ -1,47 +1,82 @@
 package infra.networking.events;
 
+import com.google.inject.Inject;
+
+import java.util.List;
+import java.util.UUID;
+
 import infra.chunk.ChunkRange;
 import infra.common.events.RemoveEntityEvent;
 import infra.common.events.ReplaceBlockEvent;
 import infra.entity.block.Block;
 import infra.networking.NetworkObjects;
 
-import java.util.List;
-import java.util.UUID;
+public class EventFactory {
 
-public interface EventFactory {
-  CreateEntityOutgoingEvent createCreateEntityOutgoingEvent(
-      NetworkObjects.NetworkData entityData, ChunkRange chunkRange);
+  @Inject
+  EventFactory(){
 
-  CreateEntityIncomingEvent createCreateEntityIncomingEvent(
-      NetworkObjects.NetworkEvent networkEvent);
+  }
 
-  UpdateEntityOutgoingEvent createUpdateEntityOutgoingEvent(
-      NetworkObjects.NetworkData entityData, ChunkRange chunkRange);
 
-  UpdateEntityIncomingEvent createUpdateEntityIncomingEvent(
-      NetworkObjects.NetworkEvent networkEvent);
+  public CreateEntityOutgoingEvent createCreateEntityOutgoingEvent(
+      NetworkObjects.NetworkData entityData, ChunkRange chunkRange){
+    return new CreateEntityOutgoingEvent(entityData,chunkRange);
+  };
 
-  SubscriptionOutgoingEvent createSubscriptionOutgoingEvent(List<ChunkRange> chunkRangeList);
+  public CreateEntityIncomingEvent createCreateEntityIncomingEvent(
+      NetworkObjects.NetworkEvent networkEvent){
+    return new CreateEntityIncomingEvent(networkEvent);
+  };
 
-  SubscriptionIncomingEvent createSubscriptionIncomingEvent(
-      NetworkObjects.NetworkEvent networkEvent);
+  public UpdateEntityOutgoingEvent createUpdateEntityOutgoingEvent(
+      NetworkObjects.NetworkData entityData, ChunkRange chunkRange){
+    return new UpdateEntityOutgoingEvent(entityData, chunkRange);
+  };
 
-  RemoveEntityIncomingEvent createRemoveEntityIncomingEvent(
-      NetworkObjects.NetworkEvent networkEvent);
+  public UpdateEntityIncomingEvent createUpdateEntityIncomingEvent(
+      NetworkObjects.NetworkEvent networkEvent){
+    return new UpdateEntityIncomingEvent(networkEvent);
+  };
 
-  RemoveEntityOutgoingEvent createRemoveEntityOutgoingEvent(
-      NetworkObjects.NetworkData entityData, ChunkRange chunkRange);
+  public SubscriptionOutgoingEvent createSubscriptionOutgoingEvent(List<ChunkRange> chunkRangeList){
+    return new SubscriptionOutgoingEvent(chunkRangeList);
+  };
 
-  DisconnectionEvent createDisconnectionEvent(UUID uuid);
+  public SubscriptionIncomingEvent createSubscriptionIncomingEvent(
+      NetworkObjects.NetworkEvent networkEvent){
+    return new SubscriptionIncomingEvent(networkEvent);
+  };
 
-  ReplaceBlockIncomingEvent createReplaceBlockIncomingEvent(
-      NetworkObjects.NetworkEvent networkEvent);
+  public RemoveEntityIncomingEvent createRemoveEntityIncomingEvent(
+      NetworkObjects.NetworkEvent networkEvent){
+    return new RemoveEntityIncomingEvent(networkEvent);
+  };
 
-  ReplaceBlockOutgoingEvent createReplaceBlockOutgoingEvent(
-      UUID target, Block replacementBlock, ChunkRange chunkRange);
+  public RemoveEntityOutgoingEvent createRemoveEntityOutgoingEvent(
+      NetworkObjects.NetworkData entityData, ChunkRange chunkRange){
+    return new RemoveEntityOutgoingEvent(entityData,chunkRange);
+  };
 
-  ReplaceBlockEvent createReplaceBlockEvent(UUID target, Block replacementBlock);
+  public DisconnectionEvent createDisconnectionEvent(UUID uuid){
+    return new DisconnectionEvent(uuid);
+  };
 
-  RemoveEntityEvent createRemoveEntityEvent(UUID entityUuid);
+  public ReplaceBlockIncomingEvent createReplaceBlockIncomingEvent(
+      NetworkObjects.NetworkEvent networkEvent){
+    return new ReplaceBlockIncomingEvent(networkEvent);
+  };
+
+  public ReplaceBlockOutgoingEvent createReplaceBlockOutgoingEvent(
+      UUID target, Block replacementBlock, ChunkRange chunkRange){
+    return new ReplaceBlockOutgoingEvent(target,replacementBlock,chunkRange);
+  };
+
+  public ReplaceBlockEvent createReplaceBlockEvent(UUID target, Block replacementBlock){
+    return new ReplaceBlockEvent(target,replacementBlock);
+  };
+
+  public RemoveEntityEvent createRemoveEntityEvent(UUID entityUuid){
+    return new RemoveEntityEvent(entityUuid);
+  };
 }

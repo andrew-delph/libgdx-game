@@ -2,9 +2,8 @@ package infra.entity.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+
 import com.badlogic.gdx.physics.box2d.Body;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import infra.app.GameController;
 import infra.common.Direction;
 import infra.entity.Entity;
@@ -14,13 +13,9 @@ import infra.entity.controllers.actions.EntityActionFactory;
 
 public class EntityUserController extends EntityController {
 
-  @Inject GameController gameController;
 
-  @Inject
-  public EntityUserController(EntityActionFactory entityActionFactory, @Assisted Entity entity) {
-    super(entityActionFactory, entity);
-    this.registerAction("left", entityActionFactory.createHorizontalMovementAction(-7));
-    this.registerAction("right", entityActionFactory.createHorizontalMovementAction(7));
+  public EntityUserController(GameController gameController,EntityActionFactory entityActionFactory, Entity entity) {
+    super(gameController,entityActionFactory, entity);
   }
 
   @Override
@@ -54,6 +49,7 @@ public class EntityUserController extends EntityController {
     if (Gdx.input.isKeyPressed(Input.Keys.W)) {
       if (this.getAction("jump").isValid(body)) {
         this.applyAction("jump", body);
+
       }
     }
 

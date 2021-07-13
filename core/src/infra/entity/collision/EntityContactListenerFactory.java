@@ -1,5 +1,13 @@
 package infra.entity.collision;
 
-public interface EntityContactListenerFactory {
-  EntityContactListener createEntityContactListener();
+import com.google.inject.Inject;
+
+public class EntityContactListenerFactory {
+  @Inject CollisionService collisionService;
+  @Inject EntityContactListenerFactory(){
+
+  }
+  public EntityContactListener createEntityContactListener(){
+    return new EntityContactListener(collisionService);
+  }
 }

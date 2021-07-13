@@ -7,10 +7,11 @@ import infra.entity.collision.contact.EntityGroundContact;
 
 public class JumpMovementAction implements EntityAction {
 
-  @Inject EntityGroundContact entityGroundContact;
+  EntityGroundContact entityGroundContact;
 
-  @Inject
-  JumpMovementAction() {}
+  JumpMovementAction(EntityGroundContact entityGroundContact) {
+    this.entityGroundContact = entityGroundContact;
+  }
 
   @Override
   public void apply(Body body) {
