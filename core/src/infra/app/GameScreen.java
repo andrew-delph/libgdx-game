@@ -75,12 +75,6 @@ public class GameScreen extends ApplicationAdapter {
     }
     batch = new SpriteBatch();
 
-    //    try {
-    //      TimeUnit.SECONDS.sleep(5);
-    //    } catch (InterruptedException e) {
-    //      e.printStackTrace();
-    //    }
-
     myEntity = entityFactory.createEntity();
     myEntity.coordinates = new Coordinates(0, 2);
     myEntity = gameController.createEntity(myEntity);
