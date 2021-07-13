@@ -28,9 +28,7 @@ public class EntityGroundContact implements ContactWrapper {
     GroundSensorPoint groundSensorPoint = (GroundSensorPoint) source;
     this.groundContactCounter.putIfAbsent(groundSensorPoint.getBody(), 0);
     int groundCount = this.groundContactCounter.get(groundSensorPoint.getBody());
-    if (groundCount > 0) {
-      this.groundContactCounter.put(groundSensorPoint.getBody(), groundCount - 1);
-    }
+    this.groundContactCounter.put(groundSensorPoint.getBody(), groundCount - 1);
   }
 
   public Boolean isOnGround(Body body) {

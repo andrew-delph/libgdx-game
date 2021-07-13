@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.google.inject.Inject;
+import infra.chunk.Chunk;
 import infra.chunk.ChunkFactory;
+import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.common.events.EventService;
@@ -88,7 +90,7 @@ public class GameScreen extends ApplicationAdapter {
     debugRenderer = new Box2DDebugRenderer();
 
     System.out.println("Start");
-    edgeRegistration.edgeRegistration();
+    edgeRegistration.greedyRegisterEdges();
     System.out.println("Donne");
   }
 
@@ -143,9 +145,9 @@ public class GameScreen extends ApplicationAdapter {
     //    System.out.println(new ChunkRange(myEntity.coordinates)+";
     // "+myEntity.coordinates.getXReal()+"; "+myEntity.coordinates.getX());
     batch.end();
-    //    Chunk mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
-    //    debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
-    //    debugRenderer.render(mainChunk.world, debugMatrix);
+        Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
+        debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
+        debugRenderer.render(mainChunk.world, debugMatrix);
 
     //    try {
     //      mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(-1, 0)));
