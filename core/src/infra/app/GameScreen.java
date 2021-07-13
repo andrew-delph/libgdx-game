@@ -19,6 +19,7 @@ import infra.common.render.BaseCamera;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.entity.controllers.EntityControllerFactory;
+import infra.entity.misc.Ladder;
 import infra.entity.pathfinding.template.EdgeRegistration;
 import infra.generation.ChunkGenerationManager;
 import infra.networking.events.EventFactory;
@@ -74,6 +75,7 @@ public class GameScreen extends ApplicationAdapter {
       e.printStackTrace();
     }
     batch = new SpriteBatch();
+    batch.enableBlending();
 
     myEntity = entityFactory.createEntity();
     myEntity.coordinates = new Coordinates(0, 2);
@@ -82,6 +84,18 @@ public class GameScreen extends ApplicationAdapter {
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     chunkGenerationManager.registerActiveEntity(myEntity, null);
     debugRenderer = new Box2DDebugRenderer();
+
+    Ladder myLadder = entityFactory.createLadder();
+    myLadder.coordinates = new Coordinates(1, 1);
+    gameStore.addEntity(myLadder);
+
+    myLadder = entityFactory.createLadder();
+    myLadder.coordinates = new Coordinates(1, 2);
+    gameStore.addEntity(myLadder);
+
+    myLadder = entityFactory.createLadder();
+    myLadder.coordinates = new Coordinates(1, 3);
+    gameStore.addEntity(myLadder);
 
     System.out.println("Start");
     edgeRegistration.greedyRegisterEdges();
@@ -139,10 +153,9 @@ public class GameScreen extends ApplicationAdapter {
     //    System.out.println(new ChunkRange(myEntity.coordinates)+";
     // "+myEntity.coordinates.getXReal()+"; "+myEntity.coordinates.getX());
     batch.end();
-        Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
-        debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
-        debugRenderer.render(mainChunk.world, debugMatrix);
-
+    Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
+    debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
+    debugRenderer.render(mainChunk.world, debugMatrix);
 
     //    try {
     //      mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(-1, 0)));

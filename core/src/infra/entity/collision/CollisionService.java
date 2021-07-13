@@ -1,8 +1,7 @@
 package infra.entity.collision;
 
 import com.google.inject.Inject;
-import infra.entity.collision.contact.ContactWrapper;
-import infra.entity.collision.contact.EntityGroundContact;
+import infra.entity.collision.ground.EntityGroundContact;
 
 import java.util.HashMap;
 import java.util.Map;

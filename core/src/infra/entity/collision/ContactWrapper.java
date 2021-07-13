@@ -1,4 +1,4 @@
-package infra.entity.collision.contact;
+package infra.entity.collision;
 
 public interface ContactWrapper {
   void beginContact(Object source, Object target);

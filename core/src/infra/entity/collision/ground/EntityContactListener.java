@@ -1,7 +1,9 @@
-package infra.entity.collision;
+package infra.entity.collision.ground;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.google.inject.Inject;
+import infra.entity.collision.CollisionPair;
+import infra.entity.collision.CollisionService;
 
 public class EntityContactListener implements ContactListener {
 

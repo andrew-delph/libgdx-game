@@ -2,8 +2,7 @@ package infra.entity.controllers.actions;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.google.inject.Inject;
-import infra.entity.collision.contact.EntityGroundContact;
+import infra.entity.collision.ground.EntityGroundContact;
 
 public class JumpMovementAction implements EntityAction {
 

@@ -5,8 +5,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.google.inject.Inject;
 import infra.common.Coordinates;
 import infra.entity.block.Block;
-import infra.entity.collision.contact.GroundPoint;
-import infra.entity.collision.contact.GroundSensorPoint;
+import infra.entity.collision.ground.GroundPoint;
+import infra.entity.collision.ground.GroundSensorPoint;
 
 public class EntityBodyBuilder {
 
@@ -45,7 +45,11 @@ public class EntityBodyBuilder {
 
     FixtureDef jumpFixtureDef = new FixtureDef();
     PolygonShape jumpShape = new PolygonShape();
-    jumpShape.setAsBox(Entity.staticWidth / 2f, 5f, new Vector2(-Entity.staticWidth / 8f, -Entity.staticHeight / 2f-3f), 0);
+    jumpShape.setAsBox(
+        Entity.staticWidth / 2f,
+        5f,
+        new Vector2(-Entity.staticWidth / 8f, -Entity.staticHeight / 2f - 3f),
+        0);
     jumpFixtureDef.shape = jumpShape;
     jumpFixtureDef.isSensor = true;
 
@@ -83,5 +87,32 @@ public class EntityBodyBuilder {
 
   public Body createEmptyBlockBody() {
     return null;
+  }
+
+  public Body createEmptyLadderBody(World world, Coordinates coordinates) {
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyDef.BodyType.StaticBody;
+    bodyDef.position.set(
+        coordinates.getXReal() * Entity.coordinatesScale,
+        coordinates.getYReal() * Entity.coordinatesScale);
+
+    Body theBody = world.createBody(bodyDef);
+
+    PolygonShape shape = new PolygonShape();
+    shape.setAsBox(Block.staticWidth / 2.0f, Block.staticHeight / 2f);
+    FixtureDef fixtureDef = new FixtureDef();
+    fixtureDef.shape = shape;
+    fixtureDef.density = 0f;
+    fixtureDef.restitution = 0;
+    fixtureDef.isSensor = true;
+    Fixture blockFixture = theBody.createFixture(fixtureDef);
+
+    Filter filter = new Filter();
+    filter.categoryBits = 2;
+    filter.maskBits = 1;
+    blockFixture.setFilterData(filter);
+
+    blockFixture.setUserData(new GroundPoint());
+    return theBody;
   }
 }

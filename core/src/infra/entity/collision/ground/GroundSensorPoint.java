@@ -1,4 +1,4 @@
-package infra.entity.collision.contact;
+package infra.entity.collision.ground;
 
 import com.badlogic.gdx.physics.box2d.Body;
 

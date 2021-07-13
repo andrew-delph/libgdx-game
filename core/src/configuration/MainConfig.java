@@ -2,7 +2,6 @@ package configuration;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkSubscriptionService;
 import infra.common.ChunkClockMap;
@@ -12,8 +11,8 @@ import infra.common.events.EventService;
 import infra.common.render.BaseAssetManager;
 import infra.entity.EntityFactory;
 import infra.entity.block.BlockFactory;
-import infra.entity.collision.EntityContactListenerFactory;
-import infra.entity.collision.contact.EntityGroundContact;
+import infra.entity.collision.ground.EntityContactListenerFactory;
+import infra.entity.collision.ground.EntityGroundContact;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.entity.controllers.actions.EntityActionFactory;
 import infra.entity.pathfinding.template.EdgeStore;
@@ -36,11 +35,10 @@ public abstract class MainConfig extends AbstractModule {
     bind(ConnectionStore.class).asEagerSingleton();
     bind(ChunkSubscriptionService.class).asEagerSingleton();
 
-
     bind(ChunkClockMap.class).asEagerSingleton();
-//
+    //
     bind(ChunkFactory.class).asEagerSingleton();
-//
+    //
     bind(EntityFactory.class).asEagerSingleton();
     bind(BlockFactory.class).asEagerSingleton();
 
@@ -53,9 +51,9 @@ public abstract class MainConfig extends AbstractModule {
     bind(EntityGroundContact.class).asEagerSingleton();
     bind(EdgeStore.class).asEagerSingleton();
 
-//
+    //
     bind(EventFactory.class).asEagerSingleton();
-//
+    //
     bind(ObserverFactory.class).asEagerSingleton();
   }
 }

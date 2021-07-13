@@ -110,7 +110,7 @@ public class GameController {
     }
     if (removeBlock == null) return;
 
-    if(removeBlock.getClass() == blockClass) return;
+    if (removeBlock.getClass() == blockClass) return;
 
     Block replacementBlock;
     if (blockClass == SkyBlock.class) {
@@ -127,6 +127,8 @@ public class GameController {
         this.eventFactory.createReplaceBlockOutgoingEvent(
             removeBlock.uuid, replacementBlock, new ChunkRange(removeBlock.coordinates)));
   }
+
+  public void placeLadder(Coordinates coordinates) {}
 
   public Entity replaceBlock(UUID target, Block replacementBlock) {
     Block removeBlock = (Block) this.gameStore.removeEntity(target);
