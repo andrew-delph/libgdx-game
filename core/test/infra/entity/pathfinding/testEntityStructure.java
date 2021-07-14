@@ -36,10 +36,10 @@ public class testEntityStructure {
 
     assert gameStore.getBlock(new Coordinates(0, 0)) != null;
 
-    EntityStructure entityStructure = entityStructureFactory.createBlockStructure();
-    entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
+    EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
+    entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
 
-    assert entityStructure.verifyBlockStructure(new Coordinates(0, 0));
+    assert entityStructure.verifyEntityStructure(new Coordinates(0, 0));
   }
 
   @Test
@@ -59,10 +59,10 @@ public class testEntityStructure {
     block.coordinates = new Coordinates(0, 3);
     gameStore.addEntity(block);
 
-    EntityStructure entityStructure = entityStructureFactory.createBlockStructure();
-    entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 3), EmptyBlock.class);
+    EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
+    entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 3), EmptyBlock.class);
 
-    assert entityStructure.verifyBlockStructure(new Coordinates(0, 0));
+    assert entityStructure.verifyEntityStructure(new Coordinates(0, 0));
   }
 
   @Test
@@ -84,9 +84,9 @@ public class testEntityStructure {
 
     assert gameStore.getBlock(new Coordinates(0, 0)) != null;
 
-    EntityStructure entityStructure = entityStructureFactory.createBlockStructure();
-    entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
+    EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
+    entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), SolidBlock.class);
 
-    assert !entityStructure.verifyBlockStructure(new Coordinates(0, 0));
+    assert !entityStructure.verifyEntityStructure(new Coordinates(0, 0));
   }
 }

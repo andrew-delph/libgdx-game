@@ -18,9 +18,9 @@ public class testRelativeActionEdgeGenerator {
     EntityStructureFactory entityStructureFactory =
         injector.getInstance(EntityStructureFactory.class);
 
-    EntityStructure entityStructure = entityStructureFactory.createBlockStructure();
-    entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
-    entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
+    EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
+    entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), SolidBlock.class);
+    entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), SolidBlock.class);
 
     RelativeActionEdge leftRelativeActionEdge =
         generator.generateRelativeActionEdge(

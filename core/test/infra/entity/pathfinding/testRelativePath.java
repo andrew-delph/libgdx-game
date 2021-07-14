@@ -74,7 +74,7 @@ public class testRelativePath {
               + ">>>"
               + gameStore.getBlock(pathNode.edge.applyTransition(pathNode.startPosition)));
       System.out.println(
-          "..." + pathNode.edge.entityStructure.verifyBlockStructure(pathNode.startPosition));
+          "..." + pathNode.edge.entityStructure.verifyEntityStructure(pathNode.startPosition));
     }
     System.out.println("2");
   }

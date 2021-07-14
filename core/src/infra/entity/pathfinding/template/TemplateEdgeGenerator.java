@@ -37,9 +37,9 @@ public class TemplateEdgeGenerator {
   public void generateTrunk() {
 
     // create root
-    EntityStructure rootEntityStructure = this.entityStructureFactory.createBlockStructure();
-    rootEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
-    rootEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
+    EntityStructure rootEntityStructure = this.entityStructureFactory.createEntityStructure();
+    rootEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, -1), SolidBlock.class);
+    rootEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
     RelativeActionEdge jumpActionEdge =
         this.relativeActionEdgeGenerator.generateRelativeActionEdge(
             rootEntityStructure, this.rootRelativeVertex, "jump");

@@ -28,7 +28,7 @@ public abstract class AbstractEdge {
 
   public boolean isAvailable(Coordinates coordinates) {
     try {
-      return this.entityStructure.verifyBlockStructure(coordinates);
+      return this.entityStructure.verifyEntityStructure(coordinates);
     } catch (Exception e) {
       return false;
     }

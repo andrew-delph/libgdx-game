@@ -24,7 +24,7 @@ public class testTemplateEdgeGenerator {
     TemplateEdgeGenerator templateEdgeGenerator =
         templateEdgeGeneratorFactory.create(
             new RelativeVertex(
-                entityStructureFactory.createBlockStructure(),
+                entityStructureFactory.createEntityStructure(),
                 new RelativeCoordinates(0, 0),
                 new Vector2(0, 0)));
 

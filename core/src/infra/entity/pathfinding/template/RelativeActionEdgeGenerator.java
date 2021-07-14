@@ -54,15 +54,15 @@ public class RelativeActionEdgeGenerator {
     RelativeCoordinates newRelativeCoordinates = new RelativeCoordinates(rootPosition);
 
     // set empty bottom left
-    newEntityStructure.registerRelativeBlock(newRelativeCoordinates, EmptyBlock.class);
+    newEntityStructure.registerRelativeEntity(newRelativeCoordinates, EmptyBlock.class);
     // set empty bottom right
-    newEntityStructure.registerRelativeBlock(
+    newEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(rootPosition.cpy().add(Entity.staticWidth, 0)), EmptyBlock.class);
     // set empty top left
-    newEntityStructure.registerRelativeBlock(
+    newEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(rootPosition.cpy().add(0, Entity.staticHeight)), EmptyBlock.class);
     // set empty top right
-    newEntityStructure.registerRelativeBlock(
+    newEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(rootPosition.cpy().add(Entity.staticWidth, Entity.staticHeight)),
         EmptyBlock.class);
 
@@ -80,7 +80,7 @@ public class RelativeActionEdgeGenerator {
     this.world = new World(new Vector2(0, -1f), false);
 
     for (Map.Entry<RelativeCoordinates, Class<? extends Entity>> relativeBlockMapEntry :
-        entityStructure.getRelativeBlockMapEntrySet()) {
+        entityStructure.getRelativeEntityMapEntrySet()) {
       Class<? extends Entity> entityClass = relativeBlockMapEntry.getValue();
       RelativeCoordinates blockRelativeCoordinates = relativeBlockMapEntry.getKey();
       if (entityClass.isInstance(SolidBlock.class)) {
