@@ -109,4 +109,11 @@ public class GameStore {
     }
     return blockList;
   }
+
+  public List<Entity> getEntityListBaseCoordinates(Coordinates coordinates) {
+    coordinates = coordinates.getBase();
+    return this.chunkClockMap
+        .get(new ChunkRange(coordinates))
+        .getEntityListBaseCoordinates(coordinates);
+  }
 }

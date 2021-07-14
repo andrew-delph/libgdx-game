@@ -228,4 +228,9 @@ public class Chunk implements Callable<Chunk> {
     }
     return null;
   }
+
+  public List<Entity> getEntityListBaseCoordinates(Coordinates coordinates) {
+    coordinates = coordinates.getBase();
+    return this.getEntityInRange(coordinates, coordinates);
+  }
 }
