@@ -1,4 +1,4 @@
-package infra.common.render;
+package infra.app.render;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.google.inject.Inject;

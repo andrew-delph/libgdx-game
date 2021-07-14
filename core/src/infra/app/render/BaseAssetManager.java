@@ -1,4 +1,4 @@
-package infra.common.render;
+package infra.app.render;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,6 +16,7 @@ public class BaseAssetManager extends AssetManager {
     this.load("dirtblock.jpg", Texture.class);
     this.load("stone.png", Texture.class);
     this.load("sky.png", Texture.class);
+    this.load("dirty.png", Texture.class);
     this.load("ladder.png", Texture.class);
     this.update();
     this.finishLoading();

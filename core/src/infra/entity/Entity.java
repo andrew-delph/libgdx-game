@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import infra.common.Clock;
 import infra.common.Coordinates;
-import infra.common.render.BaseAssetManager;
+import infra.app.render.BaseAssetManager;
 import infra.entity.controllers.EntityController;
 import infra.networking.NetworkObjects;
 

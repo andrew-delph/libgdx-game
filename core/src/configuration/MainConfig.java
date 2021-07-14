@@ -8,7 +8,7 @@ import infra.common.ChunkClockMap;
 import infra.common.Clock;
 import infra.common.GameStore;
 import infra.common.events.EventService;
-import infra.common.render.BaseAssetManager;
+import infra.app.render.BaseAssetManager;
 import infra.entity.EntityFactory;
 import infra.entity.block.BlockFactory;
 import infra.entity.collision.EntityContactListenerFactory;

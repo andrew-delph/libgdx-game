@@ -6,7 +6,7 @@ import infra.chunk.Chunk;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.common.events.EventService;
-import infra.common.render.BaseCamera;
+import infra.app.render.BaseCamera;
 import infra.generation.ChunkGenerationManager;
 import infra.networking.client.ClientNetworkHandle;
 import infra.networking.events.EventFactory;
