@@ -5,8 +5,10 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.google.inject.Inject;
 import infra.common.Coordinates;
 import infra.entity.block.Block;
+import infra.entity.collision.EntityPoint;
 import infra.entity.collision.ground.GroundPoint;
 import infra.entity.collision.ground.GroundSensorPoint;
+import infra.entity.collision.ladder.LadderPoint;
 
 public class EntityBodyBuilder {
 
@@ -42,6 +44,8 @@ public class EntityBodyBuilder {
     filter.categoryBits = 1;
     filter.maskBits = 2;
     bodyFixture.setFilterData(filter);
+
+    bodyFixture.setUserData(new EntityPoint(theBody));
 
     FixtureDef jumpFixtureDef = new FixtureDef();
     PolygonShape jumpShape = new PolygonShape();
@@ -112,7 +116,7 @@ public class EntityBodyBuilder {
     filter.maskBits = 1;
     blockFixture.setFilterData(filter);
 
-    blockFixture.setUserData(new GroundPoint());
+    blockFixture.setUserData(new LadderPoint());
     return theBody;
   }
 }

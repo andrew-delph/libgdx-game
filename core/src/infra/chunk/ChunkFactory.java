@@ -3,7 +3,7 @@ package infra.chunk;
 import com.google.inject.Inject;
 import infra.common.Clock;
 import infra.common.GameStore;
-import infra.entity.collision.ground.EntityContactListenerFactory;
+import infra.entity.collision.EntityContactListenerFactory;
 
 public class ChunkFactory {
 

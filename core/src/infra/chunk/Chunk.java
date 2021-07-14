@@ -10,7 +10,7 @@ import infra.common.GameStore;
 import infra.common.Tick;
 import infra.entity.Entity;
 import infra.entity.block.Block;
-import infra.entity.collision.ground.EntityContactListenerFactory;
+import infra.entity.collision.EntityContactListenerFactory;
 
 import java.util.*;
 import java.util.concurrent.Callable;

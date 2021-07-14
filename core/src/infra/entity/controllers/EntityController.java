@@ -1,10 +1,8 @@
 package infra.entity.controllers;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.google.inject.Inject;
 import infra.app.GameController;
 import infra.common.Coordinates;
-import infra.app.GameController;
 import infra.entity.Entity;
 import infra.entity.controllers.actions.EntityAction;
 import infra.entity.controllers.actions.EntityActionFactory;
@@ -18,9 +16,9 @@ public class EntityController {
   Entity entity;
   Map<String, EntityAction> actionMap;
 
-
-  public EntityController(GameController gameController,EntityActionFactory entityActionFactory, Entity entity) {
-    this.gameController =gameController;
+  public EntityController(
+      GameController gameController, EntityActionFactory entityActionFactory, Entity entity) {
+    this.gameController = gameController;
     this.entity = entity;
     this.actionMap = new HashMap<>();
 
@@ -28,6 +26,8 @@ public class EntityController {
     this.registerAction("right", entityActionFactory.createHorizontalMovementAction(5));
     this.registerAction("jump", entityActionFactory.createJumpMovementAction());
     this.registerAction("stop", entityActionFactory.createStopMovementAction());
+    this.registerAction("climbUp", entityActionFactory.createClimbUpMovementAction());
+    this.registerAction("climbDown", entityActionFactory.createClimbDownMovementAction());
   }
 
   public void registerAction(String type, EntityAction action) {
@@ -49,11 +49,16 @@ public class EntityController {
   public void beforeWorldUpdate() {}
 
   public void afterWorldUpdate() {
+
     gameController.moveEntity(
         this.entity.uuid,
         new Coordinates(
             this.entity.getBody().getPosition().x / Entity.coordinatesScale,
             this.entity.getBody().getPosition().y / Entity.coordinatesScale));
-    this.entity.getBody().setLinearVelocity(0, this.entity.getBody().getLinearVelocity().y);
+    if (this.getAction("climbUp").isValid(this.entity.getBody())) {
+      this.entity.getBody().setLinearVelocity(0, 0);
+    } else {
+      this.entity.getBody().setLinearVelocity(0, this.entity.getBody().getLinearVelocity().y);
+    }
   }
 }

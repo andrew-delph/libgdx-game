@@ -1,7 +1,6 @@
-package infra.entity.collision.ground;
+package infra.entity.collision;
 
 import com.google.inject.Inject;
-import infra.entity.collision.CollisionService;
 
 public class EntityContactListenerFactory {
   @Inject CollisionService collisionService;

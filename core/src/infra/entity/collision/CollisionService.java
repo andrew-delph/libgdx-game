@@ -2,6 +2,7 @@ package infra.entity.collision;
 
 import com.google.inject.Inject;
 import infra.entity.collision.ground.EntityGroundContact;
+import infra.entity.collision.ladder.EntityLadderContact;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +12,8 @@ public class CollisionService {
 
   @Inject EntityGroundContact entityGroundContact;
 
+  @Inject EntityLadderContact entityLadderContact;
+
   @Inject
   public CollisionService() {
     this.collisionPairContactWrapperMap = new HashMap<>();
@@ -18,6 +21,7 @@ public class CollisionService {
 
   public void init() {
     entityGroundContact.init();
+    entityLadderContact.init();
   }
 
   public void addCollisionConsumer(CollisionPair collisionPair, ContactWrapper contactWrapper) {

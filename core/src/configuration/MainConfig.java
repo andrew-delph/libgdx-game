@@ -11,8 +11,9 @@ import infra.common.events.EventService;
 import infra.common.render.BaseAssetManager;
 import infra.entity.EntityFactory;
 import infra.entity.block.BlockFactory;
-import infra.entity.collision.ground.EntityContactListenerFactory;
+import infra.entity.collision.EntityContactListenerFactory;
 import infra.entity.collision.ground.EntityGroundContact;
+import infra.entity.collision.ladder.EntityLadderContact;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.entity.controllers.actions.EntityActionFactory;
 import infra.entity.pathfinding.template.EdgeStore;
@@ -55,5 +56,6 @@ public abstract class MainConfig extends AbstractModule {
     bind(EventFactory.class).asEagerSingleton();
     //
     bind(ObserverFactory.class).asEagerSingleton();
+    bind(EntityLadderContact.class).asEagerSingleton();
   }
 }
