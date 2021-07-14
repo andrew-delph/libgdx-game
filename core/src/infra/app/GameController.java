@@ -8,11 +8,7 @@ import infra.common.GameStore;
 import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
-import infra.entity.block.Block;
-import infra.entity.block.BlockFactory;
-import infra.entity.block.DirtBlock;
-import infra.entity.block.SkyBlock;
-import infra.entity.misc.Ladder;
+import infra.entity.block.*;
 import infra.networking.events.CreateEntityOutgoingEvent;
 import infra.networking.events.EventFactory;
 
@@ -74,15 +70,15 @@ public class GameController {
     return entity;
   }
 
-  public Entity createLadder(Coordinates coordinates){
+  public void createLadder(Coordinates coordinates) {
+    if (SolidBlock.class.isInstance(this.gameStore.getBlock(coordinates))) return;
     Entity entity = entityFactory.createLadder();
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-            eventFactory.createCreateEntityOutgoingEvent(
-                    entity.toNetworkData(), new ChunkRange(coordinates));
+        eventFactory.createCreateEntityOutgoingEvent(
+            entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
-    return entity;
   }
 
   public Entity triggerCreateEntity(Entity entity) {
