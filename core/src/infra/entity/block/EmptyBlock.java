@@ -7,7 +7,8 @@ import infra.common.render.BaseAssetManager;
 import infra.entity.EntityBodyBuilder;
 
 public abstract class EmptyBlock extends Block {
-  public EmptyBlock(Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
+  public EmptyBlock(
+      Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
     super(clock, baseAssetManager, entityBodyBuilder);
   }
 

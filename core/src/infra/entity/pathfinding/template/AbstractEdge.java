@@ -7,15 +7,6 @@ public abstract class AbstractEdge {
 
   public BlockStructure blockStructure;
   RelativeVertex from;
-
-  public RelativeVertex getFrom() {
-    return from;
-  }
-
-  public RelativeVertex getTo() {
-    return to;
-  }
-
   RelativeVertex to;
   boolean finished = false;
 
@@ -23,6 +14,14 @@ public abstract class AbstractEdge {
     this.blockStructure = blockStructure;
     this.from = from;
     this.to = to;
+  }
+
+  public RelativeVertex getFrom() {
+    return from;
+  }
+
+  public RelativeVertex getTo() {
+    return to;
   }
 
   public abstract void follow(Entity entity, RelativePathNode relativePathNode);

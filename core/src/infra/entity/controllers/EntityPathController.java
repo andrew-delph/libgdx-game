@@ -1,6 +1,5 @@
 package infra.entity.controllers;
 
-import com.google.inject.Inject;
 import infra.app.GameController;
 import infra.common.Coordinates;
 import infra.common.events.EventService;
@@ -12,7 +11,6 @@ import infra.entity.pathfinding.template.PathGuiderFactory;
 import infra.networking.events.EventFactory;
 
 public class EntityPathController extends EntityController {
-
 
   PathGuiderFactory pathGuiderFactory;
 
@@ -26,17 +24,17 @@ public class EntityPathController extends EntityController {
   Coordinates beforeUpdateCoordinates = null;
 
   EntityPathController(
-          GameController gameController,
+      GameController gameController,
       EntityActionFactory entityActionFactory,
-          PathGuiderFactory pathGuiderFactory,
+      PathGuiderFactory pathGuiderFactory,
       EventService eventService,
-          EventFactory eventFactory,
-          EntityFactory entityFactory,
+      EventFactory eventFactory,
+      EntityFactory entityFactory,
       Entity entity,
       Entity target) {
-    super(gameController,entityActionFactory, entity);
+    super(gameController, entityActionFactory, entity);
     this.pathGuiderFactory = pathGuiderFactory;
-    this.eventService =eventService;
+    this.eventService = eventService;
     this.target = target;
     this.eventFactory = eventFactory;
     this.entityFactory = entityFactory;

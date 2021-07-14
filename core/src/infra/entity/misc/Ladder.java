@@ -8,11 +8,6 @@ import infra.entity.Entity;
 import infra.entity.EntityBodyBuilder;
 
 public class Ladder extends Entity {
-  @Override
-  public synchronized Body addWorld(World world) {
-    return this.entityBodyBuilder.createEmptyLadderBody(world, this.coordinates);
-  }
-
   public Ladder(
       Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
     super(clock, baseAssetManager, entityBodyBuilder);
@@ -20,5 +15,10 @@ public class Ladder extends Entity {
     this.textureName = "ladder.png";
     this.setWidth(Entity.coordinatesScale);
     this.setHeight(Entity.coordinatesScale);
+  }
+
+  @Override
+  public synchronized Body addWorld(World world) {
+    return this.entityBodyBuilder.createEmptyLadderBody(world, this.coordinates);
   }
 }

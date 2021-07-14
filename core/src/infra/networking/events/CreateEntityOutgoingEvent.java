@@ -11,8 +11,7 @@ public class CreateEntityOutgoingEvent extends Event implements SerializeNetwork
   NetworkObjects.NetworkData entityData;
   ChunkRange chunkRange;
 
-  CreateEntityOutgoingEvent(
-      NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
+  CreateEntityOutgoingEvent(NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
     this.chunkRange = chunkRange;
     this.entityData = entityData;
   }

@@ -1,7 +1,6 @@
 package infra.networking.events;
 
 import com.google.inject.Inject;
-
 import infra.common.events.Event;
 import infra.networking.NetworkObjects;
 

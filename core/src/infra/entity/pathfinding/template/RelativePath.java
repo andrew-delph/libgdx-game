@@ -7,15 +7,12 @@ import java.util.*;
 
 public class RelativePath {
 
-  Coordinates source;
   public Coordinates target;
-
+  public RelativePathNode finalPathNode = null;
+  Coordinates source;
   @Inject EdgeStore edgeStore;
-
   Set<RelativePathNode> unvisitedPathNodeSet = new HashSet<>();
   Set<RelativePathNode> visitedPathNodeSet = new HashSet<>();
-
-  public RelativePathNode finalPathNode = null;
 
   public RelativePath(EdgeStore edgeStore, Coordinates source, Coordinates target) {
     this.source = source;

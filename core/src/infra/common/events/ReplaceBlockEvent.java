@@ -13,7 +13,6 @@ public class ReplaceBlockEvent extends Event {
   Block replacementBlock;
 
   @Inject
-
   public ReplaceBlockEvent(UUID target, Block replacementBlock) {
     this.target = target;
     this.replacementBlock = replacementBlock;

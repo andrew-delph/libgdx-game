@@ -3,12 +3,10 @@ package configuration;
 import com.google.inject.Inject;
 
 public class TestImport {
-    @Inject
-    TestImport(){
+  @Inject
+  TestImport() {}
 
-    }
-
-    public void print(){
-        System.out.println("hello");
-    }
+  public void print() {
+    System.out.println("hello");
+  }
 }

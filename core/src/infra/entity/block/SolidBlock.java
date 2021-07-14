@@ -7,7 +7,8 @@ import infra.common.render.BaseAssetManager;
 import infra.entity.EntityBodyBuilder;
 
 public abstract class SolidBlock extends Block {
-  public SolidBlock(Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
+  public SolidBlock(
+      Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
     super(clock, baseAssetManager, entityBodyBuilder);
   }
 

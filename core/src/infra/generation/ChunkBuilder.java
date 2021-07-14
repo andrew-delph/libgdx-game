@@ -1,9 +1,6 @@
 package infra.generation;
 
 import com.google.inject.Inject;
-
-import java.util.concurrent.Callable;
-
 import infra.app.GameController;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkFactory;
@@ -11,6 +8,8 @@ import infra.chunk.ChunkRange;
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.entity.Entity;
+
+import java.util.concurrent.Callable;
 
 public class ChunkBuilder implements Callable<Chunk> {
 
@@ -25,7 +24,12 @@ public class ChunkBuilder implements Callable<Chunk> {
   ChunkRange chunkRange;
 
   @Inject
-  ChunkBuilder(ChunkFactory chunkFactory, GameStore gameStore,BlockGenerator blockGenerator,GameController gameController, ChunkRange chunkRange) {
+  ChunkBuilder(
+      ChunkFactory chunkFactory,
+      GameStore gameStore,
+      BlockGenerator blockGenerator,
+      GameController gameController,
+      ChunkRange chunkRange) {
     this.chunkFactory = chunkFactory;
     this.gameStore = gameStore;
     this.blockGenerator = blockGenerator;

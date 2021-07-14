@@ -1,14 +1,13 @@
 package infra.networking.events;
 
 import com.google.inject.Inject;
-
-import java.util.List;
-import java.util.UUID;
-
 import infra.chunk.ChunkRange;
 import infra.common.events.Event;
 import infra.networking.NetworkObjects;
 import infra.networking.events.interfaces.SerializeNetworkEvent;
+
+import java.util.List;
+import java.util.UUID;
 
 public class SubscriptionOutgoingEvent extends Event implements SerializeNetworkEvent {
   public static String type = "subscription_outgoing_event";

@@ -1,11 +1,10 @@
 package infra.networking.events;
 
 import com.google.inject.Inject;
-
-import java.util.UUID;
-
 import infra.common.events.Event;
 import infra.networking.NetworkObjects;
+
+import java.util.UUID;
 
 public class UpdateEntityIncomingEvent extends Event {
 

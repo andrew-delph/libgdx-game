@@ -1,14 +1,13 @@
 package infra.networking.events;
 
 import com.google.inject.Inject;
+import infra.chunk.ChunkRange;
+import infra.common.events.Event;
+import infra.networking.NetworkObjects;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-
-import infra.chunk.ChunkRange;
-import infra.common.events.Event;
-import infra.networking.NetworkObjects;
 
 public class SubscriptionIncomingEvent extends Event {
 

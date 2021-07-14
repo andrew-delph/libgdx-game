@@ -1,14 +1,13 @@
 package infra.networking.events;
 
 import com.google.inject.Inject;
-
-import java.util.UUID;
-
 import infra.chunk.ChunkRange;
 import infra.common.events.Event;
 import infra.entity.block.Block;
 import infra.networking.NetworkObjects;
 import infra.networking.events.interfaces.SerializeNetworkEvent;
+
+import java.util.UUID;
 
 public class ReplaceBlockOutgoingEvent extends Event implements SerializeNetworkEvent {
 
@@ -19,9 +18,7 @@ public class ReplaceBlockOutgoingEvent extends Event implements SerializeNetwork
   ChunkRange chunkRange;
 
   @Inject
-  public ReplaceBlockOutgoingEvent(
-
-      UUID target, Block replacementBlock, ChunkRange chunkRange) {
+  public ReplaceBlockOutgoingEvent(UUID target, Block replacementBlock, ChunkRange chunkRange) {
     this.target = target;
     this.replacementBlock = replacementBlock;
     this.chunkRange = chunkRange;

@@ -49,7 +49,6 @@ public class Coordinates {
 
   public Coordinates getBase() {
     return new Coordinates(this.getX(), this.getY());
-
   }
 
   public int getX() {
@@ -116,5 +115,4 @@ public class Coordinates {
     return new Vector2(
         this.getXReal() * Entity.coordinatesScale, this.getYReal() * Entity.coordinatesScale);
   }
-
 }

@@ -5,11 +5,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import infra.entity.collision.ladder.EntityLadderContact;
 
 public class ClimbUpMovementAction implements EntityAction {
+  EntityLadderContact entityLadderContact;
+
   public ClimbUpMovementAction(EntityLadderContact entityLadderContact) {
     this.entityLadderContact = entityLadderContact;
   }
-
-  EntityLadderContact entityLadderContact;
 
   @Override
   public void apply(Body body) {
