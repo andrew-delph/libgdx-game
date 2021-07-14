@@ -45,6 +45,17 @@ public class EntityUserController extends EntityController {
         this.gameController.placeBlock(this.entity, Direction.UP, DirtBlock.class);
       }
     }
+    if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+      if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        this.gameController.createLadder(this.entity.coordinates.getMiddle().getLeft().getBase());
+      } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        this.gameController.createLadder(this.entity.coordinates.getMiddle().getRight().getBase());
+      } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        this.gameController.createLadder(this.entity.coordinates.getMiddle().getDown().getBase());
+      } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        this.gameController.createLadder(this.entity.coordinates.getMiddle().getUp().getBase());
+      }
+    }
     if (Gdx.input.isKeyPressed(Input.Keys.W)) {
       if (this.getAction("climbUp").isValid(body)) {
         this.applyAction("climbUp", body);

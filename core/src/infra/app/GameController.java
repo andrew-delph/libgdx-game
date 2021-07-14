@@ -12,6 +12,7 @@ import infra.entity.block.Block;
 import infra.entity.block.BlockFactory;
 import infra.entity.block.DirtBlock;
 import infra.entity.block.SkyBlock;
+import infra.entity.misc.Ladder;
 import infra.networking.events.CreateEntityOutgoingEvent;
 import infra.networking.events.EventFactory;
 
@@ -69,6 +70,17 @@ public class GameController {
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
         eventFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(coordinates));
+    this.eventService.fireEvent(createEntityOutgoingEvent);
+    return entity;
+  }
+
+  public Entity createLadder(Coordinates coordinates){
+    Entity entity = entityFactory.createLadder();
+    entity.coordinates = coordinates;
+    this.gameStore.addEntity(entity);
+    CreateEntityOutgoingEvent createEntityOutgoingEvent =
+            eventFactory.createCreateEntityOutgoingEvent(
+                    entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
