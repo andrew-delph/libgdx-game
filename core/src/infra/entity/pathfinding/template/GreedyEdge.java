@@ -7,8 +7,8 @@ import infra.entity.Entity;
 public class GreedyEdge extends AbstractEdge {
   RelativeCoordinates currentRelativeCoordinates;
 
-  public GreedyEdge(BlockStructure blockStructure, RelativeVertex from, RelativeVertex to) {
-    super(blockStructure, from, to);
+  public GreedyEdge(EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {
+    super(entityStructure, from, to);
     this.currentRelativeCoordinates = from.relativeCoordinates;
   }
 

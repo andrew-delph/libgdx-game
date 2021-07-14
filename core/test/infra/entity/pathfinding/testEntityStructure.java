@@ -11,12 +11,12 @@ import infra.entity.block.Block;
 import infra.entity.block.BlockFactory;
 import infra.entity.block.EmptyBlock;
 import infra.entity.block.SolidBlock;
-import infra.entity.pathfinding.template.BlockStructure;
 import infra.entity.pathfinding.template.BlockStructureFactory;
+import infra.entity.pathfinding.template.EntityStructure;
 import infra.entity.pathfinding.template.RelativeCoordinates;
 import org.junit.Test;
 
-public class testBlockStructure {
+public class testEntityStructure {
   @Test
   public void testRelativeBlockRegister() {
     Injector injector = Guice.createInjector(new SoloConfig());
@@ -35,10 +35,10 @@ public class testBlockStructure {
 
     assert gameStore.getBlock(new Coordinates(0, 0)) != null;
 
-    BlockStructure blockStructure = blockStructureFactory.createBlockStructure();
-    blockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
+    EntityStructure entityStructure = blockStructureFactory.createBlockStructure();
+    entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
 
-    assert blockStructure.verifyBlockStructure(new Coordinates(0, 0));
+    assert entityStructure.verifyBlockStructure(new Coordinates(0, 0));
   }
 
   @Test
@@ -57,10 +57,10 @@ public class testBlockStructure {
     block.coordinates = new Coordinates(0, 3);
     gameStore.addEntity(block);
 
-    BlockStructure blockStructure = blockStructureFactory.createBlockStructure();
-    blockStructure.registerRelativeBlock(new RelativeCoordinates(0, 3), EmptyBlock.class);
+    EntityStructure entityStructure = blockStructureFactory.createBlockStructure();
+    entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 3), EmptyBlock.class);
 
-    assert blockStructure.verifyBlockStructure(new Coordinates(0, 0));
+    assert entityStructure.verifyBlockStructure(new Coordinates(0, 0));
   }
 
   @Test
@@ -81,9 +81,9 @@ public class testBlockStructure {
 
     assert gameStore.getBlock(new Coordinates(0, 0)) != null;
 
-    BlockStructure blockStructure = blockStructureFactory.createBlockStructure();
-    blockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
+    EntityStructure entityStructure = blockStructureFactory.createBlockStructure();
+    entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
 
-    assert !blockStructure.verifyBlockStructure(new Coordinates(0, 0));
+    assert !entityStructure.verifyBlockStructure(new Coordinates(0, 0));
   }
 }

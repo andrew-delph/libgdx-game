@@ -12,11 +12,11 @@ public class TemplateEdge extends AbstractEdge {
   int currentStep = 0;
 
   public TemplateEdge(
-      BlockStructure blockStructure,
+      EntityStructure entityStructure,
       RelativeVertex from,
       RelativeVertex to,
       List<RelativeActionEdge> actionEdgeList) {
-    super(blockStructure, from, to);
+    super(entityStructure, from, to);
     this.actionEdgeList = actionEdgeList;
   }
 

@@ -7,7 +7,7 @@ public class BlockStructureFactory {
 
   @Inject GameStore gameStore;
 
-  public BlockStructure createBlockStructure() {
-    return new BlockStructure(this.gameStore);
+  public EntityStructure createBlockStructure() {
+    return new EntityStructure(this.gameStore);
   }
 }

@@ -17,14 +17,14 @@ public class testRelativeActionEdgeGenerator {
 
     BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
 
-    BlockStructure blockStructure = blockStructureFactory.createBlockStructure();
-    blockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
-    blockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
+    EntityStructure entityStructure = blockStructureFactory.createBlockStructure();
+    entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
+    entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
 
     RelativeActionEdge leftRelativeActionEdge =
         generator.generateRelativeActionEdge(
-            blockStructure,
-            new RelativeVertex(blockStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
+            entityStructure,
+            new RelativeVertex(entityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
             "right");
     //
     //    System.out.println(relativeActionEdge.getFrom());
@@ -34,8 +34,8 @@ public class testRelativeActionEdgeGenerator {
 
     RelativeActionEdge rightRelativeActionEdge =
         generator.generateRelativeActionEdge(
-            blockStructure,
-            new RelativeVertex(blockStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
+            entityStructure,
+            new RelativeVertex(entityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
             "left");
 
     //    System.out.println(relativeActionEdge.getFrom());
@@ -46,8 +46,8 @@ public class testRelativeActionEdgeGenerator {
 
     RelativeActionEdge stopRelativeActionEdge =
         generator.generateRelativeActionEdge(
-            blockStructure,
-            new RelativeVertex(blockStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
+            entityStructure,
+            new RelativeVertex(entityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
             "stop");
 
     //    System.out.println(relativeActionEdge.getFrom());

@@ -29,8 +29,8 @@ public class RelativeActionEdgeGenerator {
   RelativeActionEdgeGenerator() {}
 
   public RelativeActionEdge generateRelativeActionEdge(
-      BlockStructure rootBlockStructure, RelativeVertex fromRelativeVertex, String actionKey) {
-    this.setupWorld(rootBlockStructure, fromRelativeVertex);
+      EntityStructure rootEntityStructure, RelativeVertex fromRelativeVertex, String actionKey) {
+    this.setupWorld(rootEntityStructure, fromRelativeVertex);
 
     EntityAction entityAction;
 
@@ -48,28 +48,28 @@ public class RelativeActionEdgeGenerator {
 
     this.world.step(1 / 5f, 6, 2);
 
-    BlockStructure newBlockStructure = rootBlockStructure.copy();
+    EntityStructure newEntityStructure = rootEntityStructure.copy();
 
     Vector2 rootPosition = this.body.getPosition();
 
     RelativeCoordinates newRelativeCoordinates = new RelativeCoordinates(rootPosition);
 
     // set empty bottom left
-    newBlockStructure.registerRelativeBlock(newRelativeCoordinates, EmptyBlock.class);
+    newEntityStructure.registerRelativeBlock(newRelativeCoordinates, EmptyBlock.class);
     // set empty bottom right
-    newBlockStructure.registerRelativeBlock(
+    newEntityStructure.registerRelativeBlock(
         new RelativeCoordinates(rootPosition.cpy().add(Entity.staticWidth, 0)), EmptyBlock.class);
     // set empty top left
-    newBlockStructure.registerRelativeBlock(
+    newEntityStructure.registerRelativeBlock(
         new RelativeCoordinates(rootPosition.cpy().add(0, Entity.staticHeight)), EmptyBlock.class);
     // set empty top right
-    newBlockStructure.registerRelativeBlock(
+    newEntityStructure.registerRelativeBlock(
         new RelativeCoordinates(rootPosition.cpy().add(Entity.staticWidth, Entity.staticHeight)),
         EmptyBlock.class);
 
     RelativeVertex toRelativeVertex =
         new RelativeVertex(
-            newBlockStructure, newRelativeCoordinates, this.body.getLinearVelocity());
+            newEntityStructure, newRelativeCoordinates, this.body.getLinearVelocity());
 
     this.world.dispose();
     System.gc();
@@ -77,11 +77,11 @@ public class RelativeActionEdgeGenerator {
     return new RelativeActionEdge(fromRelativeVertex, toRelativeVertex, actionKey);
   }
 
-  private void setupWorld(BlockStructure blockStructure, RelativeVertex relativeVertex) {
+  private void setupWorld(EntityStructure entityStructure, RelativeVertex relativeVertex) {
     this.world = new World(new Vector2(0, -1f), false);
 
     for (Map.Entry<RelativeCoordinates, Class<? extends Block>> relativeBlockMapEntry :
-        blockStructure.getRelativeBlockMapEntrySet()) {
+        entityStructure.getRelativeBlockMapEntrySet()) {
       Class<? extends Block> blockClass = relativeBlockMapEntry.getValue();
       RelativeCoordinates blockRelativeCoordinates = relativeBlockMapEntry.getKey();
       if (blockClass.isInstance(SolidBlock.class)) {

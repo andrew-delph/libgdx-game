@@ -8,17 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class BlockStructure {
+public class EntityStructure {
   Map<RelativeCoordinates, Class<? extends Block>> relativeBlockMap;
 
   GameStore gameStore;
 
-  public BlockStructure(GameStore gameStore) {
+  public EntityStructure(GameStore gameStore) {
     this.gameStore = gameStore;
     this.relativeBlockMap = new HashMap<>();
   }
 
-  public BlockStructure(
+  public EntityStructure(
       GameStore gameStore, Map<RelativeCoordinates, Class<? extends Block>> relativeBlockMap) {
     this.gameStore = gameStore;
     this.relativeBlockMap = relativeBlockMap;
@@ -44,8 +44,8 @@ public class BlockStructure {
     return true;
   }
 
-  public BlockStructure copy() {
-    return new BlockStructure(this.gameStore, new HashMap<>(this.relativeBlockMap));
+  public EntityStructure copy() {
+    return new EntityStructure(this.gameStore, new HashMap<>(this.relativeBlockMap));
   }
 
   public Set<Map.Entry<RelativeCoordinates, Class<? extends Block>>> getRelativeBlockMapEntrySet() {

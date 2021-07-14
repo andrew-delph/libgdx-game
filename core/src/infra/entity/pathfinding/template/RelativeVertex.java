@@ -9,15 +9,15 @@ import infra.entity.EntityBodyBuilder;
 public class RelativeVertex {
   public RelativeCoordinates relativeCoordinates;
   Vector2 velocity;
-  BlockStructure blockStructure;
+  EntityStructure entityStructure;
 
   @Inject EntityBodyBuilder entityBodyBuilder;
   World world;
   Body body;
 
   public RelativeVertex(
-      BlockStructure blockStructure, RelativeCoordinates relativeCoordinates, Vector2 velocity) {
-    this.blockStructure = blockStructure;
+      EntityStructure entityStructure, RelativeCoordinates relativeCoordinates, Vector2 velocity) {
+    this.entityStructure = entityStructure;
     this.relativeCoordinates = relativeCoordinates;
     this.velocity = velocity;
   }

@@ -5,13 +5,13 @@ import infra.entity.Entity;
 
 public abstract class AbstractEdge {
 
-  public BlockStructure blockStructure;
+  public EntityStructure entityStructure;
   RelativeVertex from;
   RelativeVertex to;
   boolean finished = false;
 
-  public AbstractEdge(BlockStructure blockStructure, RelativeVertex from, RelativeVertex to) {
-    this.blockStructure = blockStructure;
+  public AbstractEdge(EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {
+    this.entityStructure = entityStructure;
     this.from = from;
     this.to = to;
   }
@@ -28,7 +28,7 @@ public abstract class AbstractEdge {
 
   public boolean isAvailable(Coordinates coordinates) {
     try {
-      return this.blockStructure.verifyBlockStructure(coordinates);
+      return this.entityStructure.verifyBlockStructure(coordinates);
     } catch (Exception e) {
       return false;
     }

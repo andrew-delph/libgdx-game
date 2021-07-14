@@ -31,60 +31,62 @@ public class EdgeRegistration {
   }
 
   public void greedyRegisterEdges() {
-    BlockStructure moveLeftBlockStructure = blockStructureFactory.createBlockStructure();
-    moveLeftBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
-    moveLeftBlockStructure.registerRelativeBlock(new RelativeCoordinates(-1, 0), EmptyBlock.class);
-    moveLeftBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
-    //    moveLeftBlockStructure.registerRelativeBlock(new RelativeCoordinates(-1, -1),
+    EntityStructure moveLeftEntityStructure = blockStructureFactory.createBlockStructure();
+    moveLeftEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
+    moveLeftEntityStructure.registerRelativeBlock(new RelativeCoordinates(-1, 0), EmptyBlock.class);
+    moveLeftEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
+    //    moveLeftEntityStructure.registerRelativeBlock(new RelativeCoordinates(-1, -1),
     // SolidBlock.class);
     RelativeVertex moveLeftFrom =
         new RelativeVertex(
-            moveLeftBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+            moveLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeVertex moveLeftTo =
         new RelativeVertex(
-            moveLeftBlockStructure, new RelativeCoordinates(-1, 0), new Vector2(0, 0));
+            moveLeftEntityStructure, new RelativeCoordinates(-1, 0), new Vector2(0, 0));
     GreedyEdge moveLeftGreedyEdge =
-        new GreedyEdge(moveLeftBlockStructure, moveLeftFrom, moveLeftTo);
+        new GreedyEdge(moveLeftEntityStructure, moveLeftFrom, moveLeftTo);
 
-    BlockStructure moveRightBlockStructure = blockStructureFactory.createBlockStructure();
-    moveRightBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
-    moveRightBlockStructure.registerRelativeBlock(new RelativeCoordinates(1, 0), EmptyBlock.class);
-    moveRightBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
-    //    moveRightBlockStructure.registerRelativeBlock(new RelativeCoordinates(1, -1),
+    EntityStructure moveRightEntityStructure = blockStructureFactory.createBlockStructure();
+    moveRightEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
+    moveRightEntityStructure.registerRelativeBlock(new RelativeCoordinates(1, 0), EmptyBlock.class);
+    moveRightEntityStructure.registerRelativeBlock(
+        new RelativeCoordinates(0, -1), SolidBlock.class);
+    //    moveRightEntityStructure.registerRelativeBlock(new RelativeCoordinates(1, -1),
     // SolidBlock.class);
     RelativeVertex moveRightFrom =
         new RelativeVertex(
-            moveRightBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+            moveRightEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeVertex moveRightTo =
         new RelativeVertex(
-            moveRightBlockStructure, new RelativeCoordinates(1, 0), new Vector2(0, 0));
+            moveRightEntityStructure, new RelativeCoordinates(1, 0), new Vector2(0, 0));
     GreedyEdge moveRightGreedyEdge =
-        new GreedyEdge(moveRightBlockStructure, moveRightFrom, moveRightTo);
+        new GreedyEdge(moveRightEntityStructure, moveRightFrom, moveRightTo);
 
-    BlockStructure moveCenterBlockStructure = blockStructureFactory.createBlockStructure();
-    moveCenterBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
-    moveCenterBlockStructure.registerRelativeBlock(
+    EntityStructure moveCenterEntityStructure = blockStructureFactory.createBlockStructure();
+    moveCenterEntityStructure.registerRelativeBlock(
+        new RelativeCoordinates(0, 0), EmptyBlock.class);
+    moveCenterEntityStructure.registerRelativeBlock(
         new RelativeCoordinates(0, -1), SolidBlock.class);
     RelativeVertex moveCenterFrom =
         new RelativeVertex(
-            moveCenterBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+            moveCenterEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeVertex moveCenterTo =
         new RelativeVertex(
-            moveCenterBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+            moveCenterEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     GreedyEdge centerGreedyEdge =
-        new GreedyEdge(moveCenterBlockStructure, moveCenterFrom, moveCenterTo);
+        new GreedyEdge(moveCenterEntityStructure, moveCenterFrom, moveCenterTo);
 
-    BlockStructure moveDownBlockStructure = blockStructureFactory.createBlockStructure();
-    moveDownBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
-    moveDownBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), EmptyBlock.class);
+    EntityStructure moveDownEntityStructure = blockStructureFactory.createBlockStructure();
+    moveDownEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
+    moveDownEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), EmptyBlock.class);
     RelativeVertex moveDownFrom =
         new RelativeVertex(
-            moveDownBlockStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+            moveDownEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeVertex moveDownTo =
         new RelativeVertex(
-            moveDownBlockStructure, new RelativeCoordinates(0, -1), new Vector2(0, 0));
+            moveDownEntityStructure, new RelativeCoordinates(0, -1), new Vector2(0, 0));
     GreedyEdge moveDownGreedyEdge =
-        new GreedyEdge(moveDownBlockStructure, moveDownFrom, moveDownTo);
+        new GreedyEdge(moveDownEntityStructure, moveDownFrom, moveDownTo);
 
     this.edgeStore.add(moveRightGreedyEdge);
     this.edgeStore.add(moveLeftGreedyEdge);

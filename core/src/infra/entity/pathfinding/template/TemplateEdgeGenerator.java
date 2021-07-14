@@ -7,7 +7,7 @@ import infra.entity.block.SolidBlock;
 import java.util.*;
 
 public class TemplateEdgeGenerator {
-  BlockStructure blockStructure;
+  EntityStructure entityStructure;
 
   @Inject RelativeActionEdgeGenerator relativeActionEdgeGenerator;
   @Inject BlockStructureFactory blockStructureFactory;
@@ -37,15 +37,15 @@ public class TemplateEdgeGenerator {
   public void generateTrunk() {
 
     // create root
-    BlockStructure rootBlockStructure = this.blockStructureFactory.createBlockStructure();
-    rootBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
-    rootBlockStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
+    EntityStructure rootEntityStructure = this.blockStructureFactory.createBlockStructure();
+    rootEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
+    rootEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
     RelativeActionEdge jumpActionEdge =
         this.relativeActionEdgeGenerator.generateRelativeActionEdge(
-            rootBlockStructure, this.rootRelativeVertex, "jump");
+            rootEntityStructure, this.rootRelativeVertex, "jump");
     TemplateEdge rootTemplateEdge =
         new TemplateEdge(
-            rootBlockStructure,
+            rootEntityStructure,
             jumpActionEdge.getFrom(),
             jumpActionEdge.getTo(),
             Collections.singletonList(jumpActionEdge));
@@ -91,14 +91,14 @@ public class TemplateEdgeGenerator {
 
     RelativeActionEdge newActionEdge =
         this.relativeActionEdgeGenerator.generateRelativeActionEdge(
-            currentRelativeVertex.blockStructure.copy(), currentRelativeVertex, actionKey);
+            currentRelativeVertex.entityStructure.copy(), currentRelativeVertex, actionKey);
 
     List<RelativeActionEdge> newActionEdgeList = new LinkedList<>(last.getActionEdgeList());
     newActionEdgeList.add(newActionEdge);
 
     TemplateEdge newTemplateEdge =
         new TemplateEdge(
-            newActionEdge.getTo().blockStructure,
+            newActionEdge.getTo().entityStructure,
             this.rootRelativeVertex,
             newActionEdge.to,
             newActionEdgeList);
