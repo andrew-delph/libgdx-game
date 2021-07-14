@@ -1,8 +1,8 @@
 package infra.entity.block;
 
 import com.google.inject.Inject;
-import infra.common.Clock;
 import infra.app.render.BaseAssetManager;
+import infra.common.Clock;
 import infra.entity.EntityBodyBuilder;
 
 public class BlockFactory {

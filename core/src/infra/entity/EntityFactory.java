@@ -1,8 +1,8 @@
 package infra.entity;
 
 import com.google.inject.Inject;
-import infra.common.Clock;
 import infra.app.render.BaseAssetManager;
+import infra.common.Clock;
 import infra.entity.misc.Ladder;
 
 public class EntityFactory {

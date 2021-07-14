@@ -1,7 +1,7 @@
 package infra.entity.block;
 
-import infra.common.Clock;
 import infra.app.render.BaseAssetManager;
+import infra.common.Clock;
 import infra.entity.EntityBodyBuilder;
 
 public class SkyBlock extends EmptyBlock {
@@ -13,7 +13,7 @@ public class SkyBlock extends EmptyBlock {
 
   @Override
   public synchronized void renderSync() {
-    if(this.coordinates.getY()<0){
+    if (this.coordinates.getY() < 0) {
       this.textureName = "dirty.png";
     }
     super.renderSync();

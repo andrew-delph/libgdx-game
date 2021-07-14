@@ -9,6 +9,7 @@ import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.entity.block.*;
+import infra.entity.misc.Ladder;
 import infra.networking.events.CreateEntityOutgoingEvent;
 import infra.networking.events.EventFactory;
 
@@ -70,17 +71,6 @@ public class GameController {
     return entity;
   }
 
-  public void createLadder(Coordinates coordinates) {
-    if (SolidBlock.class.isInstance(this.gameStore.getBlock(coordinates))) return;
-    Entity entity = entityFactory.createLadder();
-    entity.coordinates = coordinates;
-    this.gameStore.addEntity(entity);
-    CreateEntityOutgoingEvent createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(coordinates));
-    this.eventService.fireEvent(createEntityOutgoingEvent);
-  }
-
   public Entity triggerCreateEntity(Entity entity) {
     this.gameStore.addEntity(entity);
     return entity;
@@ -128,6 +118,11 @@ public class GameController {
     } else {
       return;
     }
+
+    Ladder removeLadder = this.gameStore.getLadder(removeBlock.coordinates);
+    if (removeLadder != null) {
+      this.gameStore.removeEntity(removeLadder.uuid);
+    }
     // put this into a post update event
     this.eventService.queuePostUpdateEvent(
         this.eventFactory.createReplaceBlockEvent(removeBlock.uuid, replacementBlock));
@@ -136,7 +131,17 @@ public class GameController {
             removeBlock.uuid, replacementBlock, new ChunkRange(removeBlock.coordinates)));
   }
 
-  public void placeLadder(Coordinates coordinates) {}
+  public void placeLadder(Coordinates coordinates) {
+    if (this.gameStore.getBlock(coordinates) instanceof SolidBlock) return;
+    if (this.gameStore.getLadder(coordinates) != null) return;
+    Entity entity = entityFactory.createLadder();
+    entity.coordinates = coordinates;
+    this.gameStore.addEntity(entity);
+    CreateEntityOutgoingEvent createEntityOutgoingEvent =
+        eventFactory.createCreateEntityOutgoingEvent(
+            entity.toNetworkData(), new ChunkRange(coordinates));
+    this.eventService.fireEvent(createEntityOutgoingEvent);
+  }
 
   public Entity replaceBlock(UUID target, Block replacementBlock) {
     Block removeBlock = (Block) this.gameStore.removeEntity(target);

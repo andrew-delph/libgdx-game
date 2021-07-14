@@ -2,13 +2,13 @@ package configuration;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import infra.app.render.BaseAssetManager;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkSubscriptionService;
 import infra.common.ChunkClockMap;
 import infra.common.Clock;
 import infra.common.GameStore;
 import infra.common.events.EventService;
-import infra.app.render.BaseAssetManager;
 import infra.entity.EntityFactory;
 import infra.entity.block.BlockFactory;
 import infra.entity.collision.EntityContactListenerFactory;

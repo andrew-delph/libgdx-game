@@ -1,7 +1,7 @@
 package infra.entity.block;
 
-import infra.common.Clock;
 import infra.app.render.BaseAssetManager;
+import infra.common.Clock;
 import infra.entity.EntityBodyBuilder;
 
 public class StoneBlock extends SolidBlock {

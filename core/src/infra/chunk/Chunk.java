@@ -11,6 +11,7 @@ import infra.common.Tick;
 import infra.entity.Entity;
 import infra.entity.block.Block;
 import infra.entity.collision.EntityContactListenerFactory;
+import infra.entity.misc.Ladder;
 
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -211,6 +212,18 @@ public class Chunk implements Callable<Chunk> {
           && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
 
         return (Block) entity;
+      }
+    }
+    return null;
+  }
+
+  public Ladder getLadder(Coordinates coordinates) {
+    List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
+    for (Entity entity : entityList) {
+      if (entity instanceof Ladder
+          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+
+        return (Ladder) entity;
       }
     }
     return null;

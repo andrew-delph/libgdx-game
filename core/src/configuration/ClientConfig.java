@@ -6,8 +6,8 @@ import infra.app.UpdateLoop;
 import infra.app.client.ClientGame;
 import infra.app.client.ClientGameScreen;
 import infra.app.client.ClientUpdateLoop;
-import infra.common.events.EventConsumer;
 import infra.app.render.BaseCamera;
+import infra.common.events.EventConsumer;
 import infra.networking.client.ClientNetworkHandle;
 import infra.networking.consumer.ClientEventConsumer;
 

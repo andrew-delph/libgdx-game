@@ -2,11 +2,11 @@ package infra.app.client;
 
 import com.google.inject.Inject;
 import infra.app.UpdateLoop;
+import infra.app.render.BaseCamera;
 import infra.chunk.Chunk;
 import infra.chunk.ChunkFactory;
 import infra.chunk.ChunkRange;
 import infra.common.events.EventService;
-import infra.app.render.BaseCamera;
 import infra.generation.ChunkGenerationManager;
 import infra.networking.client.ClientNetworkHandle;
 import infra.networking.events.EventFactory;

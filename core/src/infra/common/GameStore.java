@@ -6,6 +6,7 @@ import infra.chunk.Chunk;
 import infra.chunk.ChunkRange;
 import infra.entity.Entity;
 import infra.entity.block.Block;
+import infra.entity.misc.Ladder;
 
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -93,6 +94,10 @@ public class GameStore {
 
   public Block getBlock(Coordinates coordinates) {
     return this.chunkClockMap.get(new ChunkRange(coordinates)).getBlock(coordinates.getBase());
+  }
+
+  public Ladder getLadder(Coordinates coordinates) {
+    return this.chunkClockMap.get(new ChunkRange(coordinates)).getLadder(coordinates.getBase());
   }
 
   public List<Block> getBlockInRange(
