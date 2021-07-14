@@ -7,7 +7,6 @@ import com.google.inject.Inject;
 import infra.common.Coordinates;
 import infra.entity.Entity;
 import infra.entity.EntityBodyBuilder;
-import infra.entity.block.Block;
 import infra.entity.block.EmptyBlock;
 import infra.entity.block.SolidBlock;
 import infra.entity.controllers.actions.EntityAction;
@@ -80,11 +79,11 @@ public class RelativeActionEdgeGenerator {
   private void setupWorld(EntityStructure entityStructure, RelativeVertex relativeVertex) {
     this.world = new World(new Vector2(0, -1f), false);
 
-    for (Map.Entry<RelativeCoordinates, Class<? extends Block>> relativeBlockMapEntry :
+    for (Map.Entry<RelativeCoordinates, Class<? extends Entity>> relativeBlockMapEntry :
         entityStructure.getRelativeBlockMapEntrySet()) {
-      Class<? extends Block> blockClass = relativeBlockMapEntry.getValue();
+      Class<? extends Entity> entityClass = relativeBlockMapEntry.getValue();
       RelativeCoordinates blockRelativeCoordinates = relativeBlockMapEntry.getKey();
-      if (blockClass.isInstance(SolidBlock.class)) {
+      if (entityClass.isInstance(SolidBlock.class)) {
         entityBodyBuilder.createSolidBlockBody(
             this.world, blockRelativeCoordinates.applyRelativeCoordinates(new Coordinates(0, 0)));
       }

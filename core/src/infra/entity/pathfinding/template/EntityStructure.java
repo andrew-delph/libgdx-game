@@ -2,14 +2,15 @@ package infra.entity.pathfinding.template;
 
 import infra.common.Coordinates;
 import infra.common.GameStore;
-import infra.entity.block.Block;
+import infra.entity.Entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class EntityStructure {
-  Map<RelativeCoordinates, Class<? extends Block>> relativeBlockMap;
+  Map<RelativeCoordinates, Class<? extends Entity>> relativeBlockMap;
 
   GameStore gameStore;
 
@@ -19,27 +20,32 @@ public class EntityStructure {
   }
 
   public EntityStructure(
-      GameStore gameStore, Map<RelativeCoordinates, Class<? extends Block>> relativeBlockMap) {
+      GameStore gameStore, Map<RelativeCoordinates, Class<? extends Entity>> relativeBlockMap) {
     this.gameStore = gameStore;
     this.relativeBlockMap = relativeBlockMap;
   }
 
   public void registerRelativeBlock(
-      RelativeCoordinates relativeCoordinates, Class<? extends Block> blockClass) {
+      RelativeCoordinates relativeCoordinates, Class<? extends Entity> blockClass) {
     this.relativeBlockMap.put(relativeCoordinates, blockClass);
   }
 
   public Boolean verifyBlockStructure(Coordinates coordinates) {
-    for (Map.Entry<RelativeCoordinates, Class<? extends Block>> entry :
+    for (Map.Entry<RelativeCoordinates, Class<? extends Entity>> entry :
         this.relativeBlockMap.entrySet()) {
       RelativeCoordinates currentRelativeCoordinates = entry.getKey();
-      Class<? extends Block> blockClass = entry.getValue();
-      Block retrievedBlock =
-          this.gameStore.getBlock(currentRelativeCoordinates.applyRelativeCoordinates(coordinates));
+      Class<? extends Entity> blockClass = entry.getValue();
 
-      if (!blockClass.isInstance(retrievedBlock)) {
-        return false;
+      List<Entity> entityList =
+          this.gameStore.getEntityListBaseCoordinates(
+              currentRelativeCoordinates.applyRelativeCoordinates(coordinates));
+
+      for (Entity retrievedEntity : entityList) {
+        if (blockClass.isInstance(retrievedEntity)) {
+          break;
+        }
       }
+      return false;
     }
     return true;
   }
@@ -48,7 +54,8 @@ public class EntityStructure {
     return new EntityStructure(this.gameStore, new HashMap<>(this.relativeBlockMap));
   }
 
-  public Set<Map.Entry<RelativeCoordinates, Class<? extends Block>>> getRelativeBlockMapEntrySet() {
+  public Set<Map.Entry<RelativeCoordinates, Class<? extends Entity>>>
+      getRelativeBlockMapEntrySet() {
     return this.relativeBlockMap.entrySet();
   }
 }
