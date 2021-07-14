@@ -1,6 +1,7 @@
 package infra.entity.pathfinding.template;
 
 import com.google.inject.Inject;
+import infra.entity.pathfinding.template.edge.AbstractEdge;
 
 import java.util.HashSet;
 import java.util.LinkedList;

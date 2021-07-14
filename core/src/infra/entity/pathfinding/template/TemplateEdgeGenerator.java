@@ -3,6 +3,7 @@ package infra.entity.pathfinding.template;
 import com.google.inject.Inject;
 import infra.entity.block.EmptyBlock;
 import infra.entity.block.SolidBlock;
+import infra.entity.pathfinding.template.edge.TemplateEdge;
 
 import java.util.*;
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 import infra.entity.block.EmptyBlock;
 import infra.entity.block.SolidBlock;
+import infra.entity.pathfinding.template.edge.HorizontalGreedyEdge;
 
 public class EdgeRegistration {
 
@@ -45,8 +46,8 @@ public class EdgeRegistration {
     RelativeVertex moveLeftTo =
         new RelativeVertex(
             moveLeftEntityStructure, new RelativeCoordinates(-1, 0), new Vector2(0, 0));
-    GreedyEdge moveLeftGreedyEdge =
-        new GreedyEdge(moveLeftEntityStructure, moveLeftFrom, moveLeftTo);
+    HorizontalGreedyEdge moveLeftHorizontalGreedyEdge =
+        new HorizontalGreedyEdge(moveLeftEntityStructure, moveLeftFrom, moveLeftTo);
 
     EntityStructure moveRightEntityStructure = entityStructureFactory.createEntityStructure();
     moveRightEntityStructure.registerRelativeEntity(
@@ -63,8 +64,8 @@ public class EdgeRegistration {
     RelativeVertex moveRightTo =
         new RelativeVertex(
             moveRightEntityStructure, new RelativeCoordinates(1, 0), new Vector2(0, 0));
-    GreedyEdge moveRightGreedyEdge =
-        new GreedyEdge(moveRightEntityStructure, moveRightFrom, moveRightTo);
+    HorizontalGreedyEdge moveRightHorizontalGreedyEdge =
+        new HorizontalGreedyEdge(moveRightEntityStructure, moveRightFrom, moveRightTo);
 
     EntityStructure moveCenterEntityStructure = entityStructureFactory.createEntityStructure();
     moveCenterEntityStructure.registerRelativeEntity(
@@ -77,8 +78,8 @@ public class EdgeRegistration {
     RelativeVertex moveCenterTo =
         new RelativeVertex(
             moveCenterEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
-    GreedyEdge centerGreedyEdge =
-        new GreedyEdge(moveCenterEntityStructure, moveCenterFrom, moveCenterTo);
+    HorizontalGreedyEdge centerHorizontalGreedyEdge =
+        new HorizontalGreedyEdge(moveCenterEntityStructure, moveCenterFrom, moveCenterTo);
 
     EntityStructure moveDownEntityStructure = entityStructureFactory.createEntityStructure();
     moveDownEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
@@ -90,12 +91,12 @@ public class EdgeRegistration {
     RelativeVertex moveDownTo =
         new RelativeVertex(
             moveDownEntityStructure, new RelativeCoordinates(0, -1), new Vector2(0, 0));
-    GreedyEdge moveDownGreedyEdge =
-        new GreedyEdge(moveDownEntityStructure, moveDownFrom, moveDownTo);
+    HorizontalGreedyEdge moveDownHorizontalGreedyEdge =
+        new HorizontalGreedyEdge(moveDownEntityStructure, moveDownFrom, moveDownTo);
 
-    this.edgeStore.add(moveRightGreedyEdge);
-    this.edgeStore.add(moveLeftGreedyEdge);
-    this.edgeStore.add(centerGreedyEdge);
-    this.edgeStore.add(moveDownGreedyEdge);
+    this.edgeStore.add(moveRightHorizontalGreedyEdge);
+    this.edgeStore.add(moveLeftHorizontalGreedyEdge);
+    this.edgeStore.add(centerHorizontalGreedyEdge);
+    this.edgeStore.add(moveDownHorizontalGreedyEdge);
   }
 }

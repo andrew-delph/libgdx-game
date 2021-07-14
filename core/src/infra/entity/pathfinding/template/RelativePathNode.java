@@ -1,6 +1,7 @@
 package infra.entity.pathfinding.template;
 
 import infra.common.Coordinates;
+import infra.entity.pathfinding.template.edge.AbstractEdge;
 
 public class RelativePathNode {
 

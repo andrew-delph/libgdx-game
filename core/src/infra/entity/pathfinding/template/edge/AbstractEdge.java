@@ -1,13 +1,16 @@
-package infra.entity.pathfinding.template;
+package infra.entity.pathfinding.template.edge;
 
 import infra.common.Coordinates;
 import infra.entity.Entity;
+import infra.entity.pathfinding.template.EntityStructure;
+import infra.entity.pathfinding.template.RelativePathNode;
+import infra.entity.pathfinding.template.RelativeVertex;
 
 public abstract class AbstractEdge {
 
   public EntityStructure entityStructure;
-  RelativeVertex from;
-  RelativeVertex to;
+  public RelativeVertex from;
+  public RelativeVertex to;
   boolean finished = false;
 
   public AbstractEdge(EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {

@@ -1,13 +1,18 @@
-package infra.entity.pathfinding.template;
+package infra.entity.pathfinding.template.edge;
 
 import com.badlogic.gdx.math.Vector2;
 import infra.common.Coordinates;
 import infra.entity.Entity;
+import infra.entity.pathfinding.template.EntityStructure;
+import infra.entity.pathfinding.template.RelativeCoordinates;
+import infra.entity.pathfinding.template.RelativePathNode;
+import infra.entity.pathfinding.template.RelativeVertex;
 
-public class GreedyEdge extends AbstractEdge {
+public class HorizontalGreedyEdge extends AbstractEdge {
   RelativeCoordinates currentRelativeCoordinates;
 
-  public GreedyEdge(EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {
+  public HorizontalGreedyEdge(
+      EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {
     super(entityStructure, from, to);
     this.currentRelativeCoordinates = from.relativeCoordinates;
   }

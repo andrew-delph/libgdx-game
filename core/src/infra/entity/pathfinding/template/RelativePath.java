@@ -2,6 +2,7 @@ package infra.entity.pathfinding.template;
 
 import com.google.inject.Inject;
 import infra.common.Coordinates;
+import infra.entity.pathfinding.template.edge.AbstractEdge;
 
 import java.util.*;
 

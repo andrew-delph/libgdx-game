@@ -1,7 +1,11 @@
-package infra.entity.pathfinding.template;
+package infra.entity.pathfinding.template.edge;
 
 import infra.common.Coordinates;
 import infra.entity.Entity;
+import infra.entity.pathfinding.template.EntityStructure;
+import infra.entity.pathfinding.template.RelativeActionEdge;
+import infra.entity.pathfinding.template.RelativePathNode;
+import infra.entity.pathfinding.template.RelativeVertex;
 
 import java.util.List;
 

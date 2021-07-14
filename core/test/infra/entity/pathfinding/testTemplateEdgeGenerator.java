@@ -6,6 +6,7 @@ import com.google.inject.Injector;
 import configuration.SoloConfig;
 import infra.common.Coordinates;
 import infra.entity.pathfinding.template.*;
+import infra.entity.pathfinding.template.edge.AbstractEdge;
 import org.junit.Test;
 
 public class testTemplateEdgeGenerator {
