@@ -18,12 +18,13 @@ public class testTemplateEdgeGenerator {
 
     EdgeStore edgeStore = injector.getInstance(EdgeStore.class);
 
-    BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
+    EntityStructureFactory entityStructureFactory =
+        injector.getInstance(EntityStructureFactory.class);
 
     TemplateEdgeGenerator templateEdgeGenerator =
         templateEdgeGeneratorFactory.create(
             new RelativeVertex(
-                blockStructureFactory.createBlockStructure(),
+                entityStructureFactory.createBlockStructure(),
                 new RelativeCoordinates(0, 0),
                 new Vector2(0, 0)));
 

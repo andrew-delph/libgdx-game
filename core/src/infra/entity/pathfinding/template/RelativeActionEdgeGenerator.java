@@ -20,7 +20,7 @@ public class RelativeActionEdgeGenerator {
   World world;
   Body body;
 
-  @Inject BlockStructureFactory blockStructureFactory;
+  @Inject EntityStructureFactory entityStructureFactory;
   @Inject EntityBodyBuilder entityBodyBuilder;
 
   @Inject EntityActionFactory entityActionFactory;

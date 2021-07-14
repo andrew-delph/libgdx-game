@@ -10,7 +10,7 @@ public class TemplateEdgeGenerator {
   EntityStructure entityStructure;
 
   @Inject RelativeActionEdgeGenerator relativeActionEdgeGenerator;
-  @Inject BlockStructureFactory blockStructureFactory;
+  @Inject EntityStructureFactory entityStructureFactory;
 
   @Inject EdgeStore edgeStore;
 
@@ -20,11 +20,11 @@ public class TemplateEdgeGenerator {
 
   TemplateEdgeGenerator(
       RelativeActionEdgeGenerator relativeActionEdgeGenerator,
-      BlockStructureFactory blockStructureFactory,
+      EntityStructureFactory entityStructureFactory,
       EdgeStore edgeStore,
       RelativeVertex rootRelativeVertex) {
     this.relativeActionEdgeGenerator = relativeActionEdgeGenerator;
-    this.blockStructureFactory = blockStructureFactory;
+    this.entityStructureFactory = entityStructureFactory;
     this.edgeStore = edgeStore;
     this.rootRelativeVertex = rootRelativeVertex;
   }
@@ -37,7 +37,7 @@ public class TemplateEdgeGenerator {
   public void generateTrunk() {
 
     // create root
-    EntityStructure rootEntityStructure = this.blockStructureFactory.createBlockStructure();
+    EntityStructure rootEntityStructure = this.entityStructureFactory.createBlockStructure();
     rootEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
     rootEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
     RelativeActionEdge jumpActionEdge =

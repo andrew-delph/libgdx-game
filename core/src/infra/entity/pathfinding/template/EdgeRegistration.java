@@ -8,7 +8,7 @@ import infra.entity.block.SolidBlock;
 public class EdgeRegistration {
 
   @Inject EdgeStore edgeStore;
-  @Inject BlockStructureFactory blockStructureFactory;
+  @Inject EntityStructureFactory entityStructureFactory;
   @Inject TemplateEdgeGeneratorFactory templateEdgeGeneratorFactory;
 
   @Inject
@@ -24,14 +24,14 @@ public class EdgeRegistration {
     TemplateEdgeGenerator templateEdgeGenerator =
         templateEdgeGeneratorFactory.create(
             new RelativeVertex(
-                blockStructureFactory.createBlockStructure(),
+                entityStructureFactory.createBlockStructure(),
                 new RelativeCoordinates(0, 0),
                 new Vector2(0, 0)));
     templateEdgeGenerator.generate();
   }
 
   public void greedyRegisterEdges() {
-    EntityStructure moveLeftEntityStructure = blockStructureFactory.createBlockStructure();
+    EntityStructure moveLeftEntityStructure = entityStructureFactory.createBlockStructure();
     moveLeftEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
     moveLeftEntityStructure.registerRelativeBlock(new RelativeCoordinates(-1, 0), EmptyBlock.class);
     moveLeftEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), SolidBlock.class);
@@ -46,7 +46,7 @@ public class EdgeRegistration {
     GreedyEdge moveLeftGreedyEdge =
         new GreedyEdge(moveLeftEntityStructure, moveLeftFrom, moveLeftTo);
 
-    EntityStructure moveRightEntityStructure = blockStructureFactory.createBlockStructure();
+    EntityStructure moveRightEntityStructure = entityStructureFactory.createBlockStructure();
     moveRightEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
     moveRightEntityStructure.registerRelativeBlock(new RelativeCoordinates(1, 0), EmptyBlock.class);
     moveRightEntityStructure.registerRelativeBlock(
@@ -62,7 +62,7 @@ public class EdgeRegistration {
     GreedyEdge moveRightGreedyEdge =
         new GreedyEdge(moveRightEntityStructure, moveRightFrom, moveRightTo);
 
-    EntityStructure moveCenterEntityStructure = blockStructureFactory.createBlockStructure();
+    EntityStructure moveCenterEntityStructure = entityStructureFactory.createBlockStructure();
     moveCenterEntityStructure.registerRelativeBlock(
         new RelativeCoordinates(0, 0), EmptyBlock.class);
     moveCenterEntityStructure.registerRelativeBlock(
@@ -76,7 +76,7 @@ public class EdgeRegistration {
     GreedyEdge centerGreedyEdge =
         new GreedyEdge(moveCenterEntityStructure, moveCenterFrom, moveCenterTo);
 
-    EntityStructure moveDownEntityStructure = blockStructureFactory.createBlockStructure();
+    EntityStructure moveDownEntityStructure = entityStructureFactory.createBlockStructure();
     moveDownEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
     moveDownEntityStructure.registerRelativeBlock(new RelativeCoordinates(0, -1), EmptyBlock.class);
     RelativeVertex moveDownFrom =

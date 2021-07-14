@@ -11,8 +11,8 @@ import infra.entity.block.Block;
 import infra.entity.block.BlockFactory;
 import infra.entity.block.EmptyBlock;
 import infra.entity.block.SolidBlock;
-import infra.entity.pathfinding.template.BlockStructureFactory;
 import infra.entity.pathfinding.template.EntityStructure;
+import infra.entity.pathfinding.template.EntityStructureFactory;
 import infra.entity.pathfinding.template.RelativeCoordinates;
 import org.junit.Test;
 
@@ -23,7 +23,8 @@ public class testEntityStructure {
 
     GameStore gameStore = injector.getInstance(GameStore.class);
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
-    BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
+    EntityStructureFactory entityStructureFactory =
+        injector.getInstance(EntityStructureFactory.class);
 
     ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
 
@@ -35,7 +36,7 @@ public class testEntityStructure {
 
     assert gameStore.getBlock(new Coordinates(0, 0)) != null;
 
-    EntityStructure entityStructure = blockStructureFactory.createBlockStructure();
+    EntityStructure entityStructure = entityStructureFactory.createBlockStructure();
     entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), EmptyBlock.class);
 
     assert entityStructure.verifyBlockStructure(new Coordinates(0, 0));
@@ -47,7 +48,8 @@ public class testEntityStructure {
 
     GameStore gameStore = injector.getInstance(GameStore.class);
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
-    BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
+    EntityStructureFactory entityStructureFactory =
+        injector.getInstance(EntityStructureFactory.class);
 
     ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
 
@@ -57,7 +59,7 @@ public class testEntityStructure {
     block.coordinates = new Coordinates(0, 3);
     gameStore.addEntity(block);
 
-    EntityStructure entityStructure = blockStructureFactory.createBlockStructure();
+    EntityStructure entityStructure = entityStructureFactory.createBlockStructure();
     entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 3), EmptyBlock.class);
 
     assert entityStructure.verifyBlockStructure(new Coordinates(0, 0));
@@ -69,7 +71,8 @@ public class testEntityStructure {
 
     GameStore gameStore = injector.getInstance(GameStore.class);
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
-    BlockStructureFactory blockStructureFactory = injector.getInstance(BlockStructureFactory.class);
+    EntityStructureFactory entityStructureFactory =
+        injector.getInstance(EntityStructureFactory.class);
 
     ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
 
@@ -81,7 +84,7 @@ public class testEntityStructure {
 
     assert gameStore.getBlock(new Coordinates(0, 0)) != null;
 
-    EntityStructure entityStructure = blockStructureFactory.createBlockStructure();
+    EntityStructure entityStructure = entityStructureFactory.createBlockStructure();
     entityStructure.registerRelativeBlock(new RelativeCoordinates(0, 0), SolidBlock.class);
 
     assert !entityStructure.verifyBlockStructure(new Coordinates(0, 0));

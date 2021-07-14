@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 public class TemplateEdgeGeneratorFactory {
 
   @Inject RelativeActionEdgeGenerator relativeActionEdgeGenerator;
-  @Inject BlockStructureFactory blockStructureFactory;
+  @Inject EntityStructureFactory entityStructureFactory;
 
   @Inject EdgeStore edgeStore;
 
@@ -14,6 +14,6 @@ public class TemplateEdgeGeneratorFactory {
 
   public TemplateEdgeGenerator create(RelativeVertex rootRelativeVertex) {
     return new TemplateEdgeGenerator(
-        relativeActionEdgeGenerator, blockStructureFactory, edgeStore, rootRelativeVertex);
+        relativeActionEdgeGenerator, entityStructureFactory, edgeStore, rootRelativeVertex);
   }
 }
