@@ -98,8 +98,7 @@ public class GameScreen extends ApplicationAdapter {
     gameStore.addEntity(myLadder);
 
     System.out.println("Start");
-    edgeRegistration.horizontalGreedyRegisterEdges();
-    edgeRegistration.ladderGreedyRegisterEdges();
+    edgeRegistration.edgeRegistration();
     System.out.println("Donne");
   }
 

@@ -41,6 +41,9 @@ public class LadderGreedyEdge extends HorizontalGreedyEdge {
       actionKey = "climbDown";
     } else return;
 
+    //    if (entity.entityController.getAction(actionKey).isValid(entity.getBody())) {
+    //
+    //    }
     entity.entityController.applyAction(actionKey, entity.getBody());
   }
 }
