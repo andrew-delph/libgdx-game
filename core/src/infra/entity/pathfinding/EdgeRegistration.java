@@ -25,7 +25,7 @@ public class EdgeRegistration {
   EdgeRegistration() {}
 
   public void edgeRegistration() {
-    //    this.templateEdgeRegistration();
+    this.templateEdgeRegistration();
     this.horizontalGreedyRegisterEdges();
     this.ladderGreedyRegisterEdges();
     this.digGreedyRegisterEdges();

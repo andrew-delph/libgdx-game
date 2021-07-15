@@ -47,7 +47,7 @@ public class RelativePath {
         if (edge.isAvailable(current.pathGameStoreOverride, current.getEndPosition())) {
           RelativePathNode newNode =
               new RelativePathNode(
-                  edge, current.getEndPosition(), target, current.pathGameStoreOverride,current.getCost()+edge.getCost());
+                  edge, current.getEndPosition(), target, current.pathGameStoreOverride,current.getCostFromStart()+edge.getCost());
 
           if (this.visitedPathNodeSet.contains(newNode)
               || this.unvisitedPathNodeSet.contains(newNode)) continue;

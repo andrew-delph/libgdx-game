@@ -39,7 +39,7 @@ public class RelativePathNode {
   }
 
   public double getHeuristicCost() {
-    return this.target.calcDistance(this.getEndPosition());
+    return this.target.calcDistance(this.getEndPosition())*6;
   }
 
   public double getCostFromStart() {

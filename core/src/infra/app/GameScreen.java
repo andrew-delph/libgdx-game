@@ -85,18 +85,6 @@ public class GameScreen extends ApplicationAdapter {
     chunkGenerationManager.registerActiveEntity(myEntity, null);
     debugRenderer = new Box2DDebugRenderer();
 
-    Ladder myLadder = entityFactory.createLadder();
-    myLadder.coordinates = new Coordinates(1, 1);
-    gameStore.addEntity(myLadder);
-
-    myLadder = entityFactory.createLadder();
-    myLadder.coordinates = new Coordinates(1, 2);
-    gameStore.addEntity(myLadder);
-
-    myLadder = entityFactory.createLadder();
-    myLadder.coordinates = new Coordinates(1, 3);
-    gameStore.addEntity(myLadder);
-
     System.out.println("Start");
     edgeRegistration.edgeRegistration();
     System.out.println("Donne");
@@ -106,6 +94,7 @@ public class GameScreen extends ApplicationAdapter {
   public void render() {
     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
       if (pathEntity == null) {
+
         this.pathEntity = entityFactory.createEntity();
         pathEntity.coordinates = new Coordinates(0, 1);
         gameController.createEntity(pathEntity);

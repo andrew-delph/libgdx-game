@@ -79,6 +79,6 @@ public abstract class AbstractEdge {
       PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {}
 
   public double getCost() {
-    return 0;
+    return 1;
   }
 }
