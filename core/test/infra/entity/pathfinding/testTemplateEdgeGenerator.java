@@ -5,8 +5,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.SoloConfig;
 import infra.common.Coordinates;
-import infra.entity.pathfinding.template.*;
-import infra.entity.pathfinding.template.edge.AbstractEdge;
+import infra.entity.pathfinding.edge.AbstractEdge;
 import org.junit.Test;
 
 public class testTemplateEdgeGenerator {
@@ -34,7 +33,7 @@ public class testTemplateEdgeGenerator {
     System.out.println(edgeStore.getEdgeList().size());
 
     for (AbstractEdge edge : edgeStore.getEdgeList()) {
-      if (edge.isAvailable(new Coordinates(0, 0))
+      if (edge.isAvailable(new PathGameStoreOverride(), new Coordinates(0, 0))
           && edge.getTo().relativeCoordinates.getRelativeY() < 0) {
         Coordinates to =
             edge.getTo().relativeCoordinates.applyRelativeCoordinates(new Coordinates(0, 0));

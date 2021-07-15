@@ -6,8 +6,8 @@ import infra.common.events.EventService;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.entity.controllers.actions.EntityActionFactory;
-import infra.entity.pathfinding.template.PathGuider;
-import infra.entity.pathfinding.template.PathGuiderFactory;
+import infra.entity.pathfinding.PathGuider;
+import infra.entity.pathfinding.PathGuiderFactory;
 import infra.networking.events.EventFactory;
 
 public class EntityPathController extends EntityController {

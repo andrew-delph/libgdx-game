@@ -1,13 +1,10 @@
-package infra.entity.pathfinding.template;
+package infra.entity.pathfinding;
 
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.entity.Entity;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class EntityStructure {
   Map<RelativeCoordinates, Class<? extends Entity>> relativeEntityMap;
@@ -30,20 +27,30 @@ public class EntityStructure {
     this.relativeEntityMap.put(relativeCoordinates, entityClass);
   }
 
-  public Boolean verifyEntityStructure(Coordinates coordinates) {
+  public Boolean verifyEntityStructure(
+      PathGameStoreOverride pathGameStoreOverride, Coordinates coordinates) {
     for (Map.Entry<RelativeCoordinates, Class<? extends Entity>> entry :
         this.relativeEntityMap.entrySet()) {
       RelativeCoordinates currentRelativeCoordinates = entry.getKey();
       Class<? extends Entity> entityClass = entry.getValue();
 
-      List<Entity> entityList =
-          this.gameStore.getEntityListBaseCoordinates(
+      List<Class<? extends Entity>> classList =
+          pathGameStoreOverride.getEntityListBaseCoordinates(
               currentRelativeCoordinates.applyRelativeCoordinates(coordinates));
 
+      if (classList == null) {
+        List<Entity> entityList =
+            this.gameStore.getEntityListBaseCoordinates(
+                currentRelativeCoordinates.applyRelativeCoordinates(coordinates));
+        classList = new LinkedList<>();
+        for (Entity e : entityList) {
+          classList.add(e.getClass());
+        }
+      }
+
       boolean found = false;
-      for (Entity retrievedEntity : entityList) {
-        System.out.println("heeeeere" + retrievedEntity.getClass() + "  ,  " + entityClass);
-        if (entityClass.isInstance(retrievedEntity)) {
+      for (Class retrievedEntity : classList) {
+        if (entityClass.isAssignableFrom(retrievedEntity)) {
           found = true;
           break;
         }

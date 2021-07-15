@@ -5,7 +5,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.SoloConfig;
 import infra.entity.block.SolidBlock;
-import infra.entity.pathfinding.template.*;
 import org.junit.Test;
 
 public class testRelativeActionEdgeGenerator {

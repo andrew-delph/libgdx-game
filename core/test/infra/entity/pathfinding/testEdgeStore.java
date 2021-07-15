@@ -8,9 +8,7 @@ import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.entity.Entity;
 import infra.entity.EntityFactory;
-import infra.entity.pathfinding.template.EdgeRegistration;
-import infra.entity.pathfinding.template.EdgeStore;
-import infra.entity.pathfinding.template.edge.AbstractEdge;
+import infra.entity.pathfinding.edge.AbstractEdge;
 import infra.generation.ChunkBuilderFactory;
 import org.junit.Test;
 

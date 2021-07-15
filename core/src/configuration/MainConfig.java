@@ -16,7 +16,7 @@ import infra.entity.collision.ground.EntityGroundContact;
 import infra.entity.collision.ladder.EntityLadderContact;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.entity.controllers.actions.EntityActionFactory;
-import infra.entity.pathfinding.template.EdgeStore;
+import infra.entity.pathfinding.EdgeStore;
 import infra.generation.BlockGenerator;
 import infra.generation.ChunkBuilderFactory;
 import infra.generation.ChunkGenerationManager;

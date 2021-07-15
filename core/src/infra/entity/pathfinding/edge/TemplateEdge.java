@@ -1,11 +1,8 @@
-package infra.entity.pathfinding.template.edge;
+package infra.entity.pathfinding.edge;
 
 import infra.common.Coordinates;
 import infra.entity.Entity;
-import infra.entity.pathfinding.template.EntityStructure;
-import infra.entity.pathfinding.template.RelativeActionEdge;
-import infra.entity.pathfinding.template.RelativePathNode;
-import infra.entity.pathfinding.template.RelativeVertex;
+import infra.entity.pathfinding.*;
 
 import java.util.List;
 
@@ -29,11 +26,11 @@ public class TemplateEdge extends AbstractEdge {
   }
 
   @Override
-  public boolean isAvailable(Coordinates coordinates) {
+  public boolean isAvailable(PathGameStoreOverride pathGameStoreOverride, Coordinates coordinates) {
     if (!coordinates.equals(coordinates.getBase())) {
       return false;
     }
-    return super.isAvailable(coordinates);
+    return super.isAvailable(pathGameStoreOverride, coordinates);
   }
 
   @Override

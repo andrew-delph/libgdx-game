@@ -1,9 +1,9 @@
-package infra.entity.pathfinding.template;
+package infra.entity.pathfinding;
 
 import com.google.inject.Inject;
 import infra.entity.block.EmptyBlock;
 import infra.entity.block.SolidBlock;
-import infra.entity.pathfinding.template.edge.TemplateEdge;
+import infra.entity.pathfinding.edge.TemplateEdge;
 
 import java.util.*;
 

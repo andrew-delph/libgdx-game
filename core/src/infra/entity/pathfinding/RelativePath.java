@@ -1,8 +1,8 @@
-package infra.entity.pathfinding.template;
+package infra.entity.pathfinding;
 
 import com.google.inject.Inject;
 import infra.common.Coordinates;
-import infra.entity.pathfinding.template.edge.AbstractEdge;
+import infra.entity.pathfinding.edge.AbstractEdge;
 
 import java.util.*;
 
@@ -23,8 +23,9 @@ public class RelativePath {
 
   public void search() throws Exception {
     for (AbstractEdge edge : this.edgeStore.getEdgeList()) {
-      if (edge.isAvailable(source)) {
-        unvisitedPathNodeSet.add(new RelativePathNode(edge, source, target));
+      if (edge.isAvailable(new PathGameStoreOverride(), source)) {
+        unvisitedPathNodeSet.add(
+            new RelativePathNode(edge, source, target, new PathGameStoreOverride()));
         System.out.println("edge worked");
       }
     }
@@ -44,8 +45,10 @@ public class RelativePath {
       this.visitedPathNodeSet.add(current);
 
       for (AbstractEdge edge : this.edgeStore.getEdgeList()) {
-        if (edge.isAvailable(current.getEndPosition())) {
-          RelativePathNode newNode = new RelativePathNode(edge, current.getEndPosition(), target);
+        if (edge.isAvailable(current.pathGameStoreOverride, current.getEndPosition())) {
+          RelativePathNode newNode =
+              new RelativePathNode(
+                  edge, current.getEndPosition(), target, current.pathGameStoreOverride);
 
           if (this.visitedPathNodeSet.contains(newNode)
               || this.unvisitedPathNodeSet.contains(newNode)) continue;

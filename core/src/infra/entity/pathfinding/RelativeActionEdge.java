@@ -1,4 +1,4 @@
-package infra.entity.pathfinding.template;
+package infra.entity.pathfinding;
 
 public class RelativeActionEdge {
   RelativeVertex from;

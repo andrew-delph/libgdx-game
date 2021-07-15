@@ -20,7 +20,7 @@ import infra.entity.Entity;
 import infra.entity.EntityFactory;
 import infra.entity.controllers.EntityControllerFactory;
 import infra.entity.misc.Ladder;
-import infra.entity.pathfinding.template.EdgeRegistration;
+import infra.entity.pathfinding.EdgeRegistration;
 import infra.generation.ChunkGenerationManager;
 import infra.networking.events.EventFactory;
 
@@ -98,7 +98,8 @@ public class GameScreen extends ApplicationAdapter {
     gameStore.addEntity(myLadder);
 
     System.out.println("Start");
-    edgeRegistration.greedyRegisterEdges();
+    edgeRegistration.horizontalGreedyRegisterEdges();
+    edgeRegistration.ladderGreedyRegisterEdges();
     System.out.println("Donne");
   }
 

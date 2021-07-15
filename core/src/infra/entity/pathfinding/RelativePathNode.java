@@ -1,21 +1,28 @@
-package infra.entity.pathfinding.template;
+package infra.entity.pathfinding;
 
 import infra.common.Coordinates;
-import infra.entity.pathfinding.template.edge.AbstractEdge;
+import infra.entity.pathfinding.edge.AbstractEdge;
 
 public class RelativePathNode {
 
   public final AbstractEdge edge;
   public final Coordinates startPosition;
   public final Coordinates target;
+  public PathGameStoreOverride pathGameStoreOverride;
 
   int heuristic = Integer.MAX_VALUE;
   RelativePathNode previous;
 
-  public RelativePathNode(AbstractEdge edge, Coordinates startPosition, Coordinates target) {
+  public RelativePathNode(
+      AbstractEdge edge,
+      Coordinates startPosition,
+      Coordinates target,
+      PathGameStoreOverride pathGameStoreOverride) {
     this.startPosition = startPosition;
     this.edge = edge;
     this.target = target;
+    this.pathGameStoreOverride = new PathGameStoreOverride(pathGameStoreOverride);
+    this.edge.appendPathGameStoreOverride(this.pathGameStoreOverride, this.startPosition);
   }
 
   public RelativePathNode getPrevious() {
@@ -32,15 +39,6 @@ public class RelativePathNode {
 
   public double getHeuristic() {
     return this.target.calcDistance(this.getEndPosition());
-    //    return Math.sqrt(
-    //        Math.pow(
-    //                this.target.getXReal()
-    //                    - this.edge.applyTransition(this.getEndPosition()).getXReal(),
-    //                2)
-    //            + Math.pow(
-    //                this.target.getYReal()
-    //                    - this.edge.applyTransition(this.getEndPosition()).getYReal(),
-    //                2));
   }
 
   public void start() {

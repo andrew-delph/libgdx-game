@@ -1,9 +1,7 @@
 package infra.entity.pathfinding;
 
 import com.badlogic.gdx.math.Vector2;
-import infra.entity.pathfinding.template.RelativeCoordinates;
-import infra.entity.pathfinding.template.RelativeVertex;
-import infra.entity.pathfinding.template.edge.HorizontalGreedyEdge;
+import infra.entity.pathfinding.edge.HorizontalGreedyEdge;
 import org.junit.Test;
 
 public class testAbstractEdge {

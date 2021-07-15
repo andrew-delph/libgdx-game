@@ -1,10 +1,11 @@
-package infra.entity.pathfinding.template.edge;
+package infra.entity.pathfinding.edge;
 
 import infra.common.Coordinates;
 import infra.entity.Entity;
-import infra.entity.pathfinding.template.EntityStructure;
-import infra.entity.pathfinding.template.RelativePathNode;
-import infra.entity.pathfinding.template.RelativeVertex;
+import infra.entity.pathfinding.EntityStructure;
+import infra.entity.pathfinding.PathGameStoreOverride;
+import infra.entity.pathfinding.RelativePathNode;
+import infra.entity.pathfinding.RelativeVertex;
 
 public abstract class AbstractEdge {
 
@@ -29,9 +30,9 @@ public abstract class AbstractEdge {
 
   public abstract void follow(Entity entity, RelativePathNode relativePathNode);
 
-  public boolean isAvailable(Coordinates coordinates) {
+  public boolean isAvailable(PathGameStoreOverride pathGameStoreOverride, Coordinates coordinates) {
     try {
-      return this.entityStructure.verifyEntityStructure(coordinates);
+      return this.entityStructure.verifyEntityStructure(pathGameStoreOverride, coordinates);
     } catch (Exception e) {
       return false;
     }
@@ -71,4 +72,7 @@ public abstract class AbstractEdge {
     AbstractEdge other = (AbstractEdge) obj;
     return this.to.equals(other.to) && this.from.equals(other.from);
   }
+
+  public void appendPathGameStoreOverride(
+      PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {}
 }

@@ -1,7 +1,6 @@
 package infra.entity.pathfinding;
 
 import infra.common.Coordinates;
-import infra.entity.pathfinding.template.RelativeCoordinates;
 import org.junit.Test;
 
 public class testRelativeCoordinates {
