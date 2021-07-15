@@ -32,10 +32,7 @@ public class HorizontalGreedyEdge extends AbstractEdge {
       this.finish();
       return;
     }
-    //    System.out.println(entity.coordinates + " ... " + relativePathNode.target);
-    if (relativePathNode.getEndPosition().getYReal() + 0.2 < entity.coordinates.getYReal()) {
-      return;
-    }
+
 
     if (relativePathNode.getEndPosition().getXReal() + 0.1 > entity.coordinates.getXReal()) {
       actionKey = "right";

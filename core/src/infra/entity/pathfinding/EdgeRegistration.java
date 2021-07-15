@@ -99,10 +99,42 @@ public class EdgeRegistration {
     HorizontalGreedyEdge moveDownHorizontalGreedyEdge =
         new HorizontalGreedyEdge(moveDownEntityStructure, moveDownFrom, moveDownTo);
 
+    EntityStructure moveLadderRightEntityStructure = entityStructureFactory.createEntityStructure();
+    moveLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, 0), Ladder.class);
+    moveLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(1, 0), EmptyBlock.class);
+    RelativeVertex moveLadderRightFrom =
+        new RelativeVertex(
+            moveLadderRightEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+    RelativeVertex moveLadderRightTo =
+        new RelativeVertex(
+            moveLadderRightEntityStructure, new RelativeCoordinates(1, 0), new Vector2(0, 0));
+    HorizontalGreedyEdge moveLadderRightHorizontalGreedyEdge =
+        new HorizontalGreedyEdge(
+            moveLadderRightEntityStructure, moveLadderRightFrom, moveLadderRightTo);
+
+    EntityStructure moveLadderLeftEntityStructure = entityStructureFactory.createEntityStructure();
+    moveLadderLeftEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, 0), Ladder.class);
+    moveLadderLeftEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(-1, 0), EmptyBlock.class);
+    RelativeVertex moveLadderLeftFrom =
+        new RelativeVertex(
+            moveLadderLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+    RelativeVertex moveLadderLeftTo =
+        new RelativeVertex(
+            moveLadderLeftEntityStructure, new RelativeCoordinates(-1, 0), new Vector2(0, 0));
+    HorizontalGreedyEdge moveLadderLeftHorizontalGreedyEdge =
+        new HorizontalGreedyEdge(
+            moveLadderLeftEntityStructure, moveLadderLeftFrom, moveLadderLeftTo);
+
     this.edgeStore.add(moveRightHorizontalGreedyEdge);
     this.edgeStore.add(moveLeftHorizontalGreedyEdge);
     this.edgeStore.add(centerHorizontalGreedyEdge);
     this.edgeStore.add(moveDownHorizontalGreedyEdge);
+    this.edgeStore.add(moveLadderRightHorizontalGreedyEdge);
+    this.edgeStore.add(moveLadderLeftHorizontalGreedyEdge);
   }
 
   public void ladderGreedyRegisterEdges() {

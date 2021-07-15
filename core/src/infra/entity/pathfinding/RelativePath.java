@@ -26,7 +26,6 @@ public class RelativePath {
       if (edge.isAvailable(new PathGameStoreOverride(), source)) {
         unvisitedPathNodeSet.add(
             new RelativePathNode(edge, source, target, new PathGameStoreOverride()));
-        System.out.println("edge worked");
       }
     }
     while (unvisitedPathNodeSet.size() > 0) {

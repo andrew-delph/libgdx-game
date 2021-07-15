@@ -1,21 +1,28 @@
 package infra.entity.pathfinding;
 
 import com.badlogic.gdx.math.Vector2;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import configuration.SoloConfig;
+import infra.common.GameStore;
 import infra.entity.pathfinding.edge.HorizontalGreedyEdge;
 import org.junit.Test;
 
 public class testAbstractEdge {
   @Test
   public void testAbstractEdgeEqual() {
+    Injector injector = Guice.createInjector(new SoloConfig());
+
+    EntityStructure entityStructure = new EntityStructure(injector.getInstance(GameStore.class));
     HorizontalGreedyEdge horizontalGreedyEdge1 =
         new HorizontalGreedyEdge(
-            null,
+                entityStructure,
             new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
             new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()));
 
     HorizontalGreedyEdge horizontalGreedyEdge2 =
         new HorizontalGreedyEdge(
-            null,
+                entityStructure,
             new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
             new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()));
 

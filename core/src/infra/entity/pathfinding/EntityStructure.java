@@ -3,6 +3,7 @@ package infra.entity.pathfinding;
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.entity.Entity;
+import infra.entity.pathfinding.edge.AbstractEdge;
 
 import java.util.*;
 
@@ -10,16 +11,18 @@ public class EntityStructure {
   Map<RelativeCoordinates, Class<? extends Entity>> relativeEntityMap;
 
   GameStore gameStore;
+  static int hashCount = 0;
+  final int myHashCount;
 
   public EntityStructure(GameStore gameStore) {
-    this.gameStore = gameStore;
-    this.relativeEntityMap = new HashMap<>();
+    this(gameStore,new HashMap<>());
   }
 
   public EntityStructure(
       GameStore gameStore, Map<RelativeCoordinates, Class<? extends Entity>> relativeEntityMap) {
     this.gameStore = gameStore;
     this.relativeEntityMap = relativeEntityMap;
+    myHashCount = hashCount++;
   }
 
   public void registerRelativeEntity(
@@ -67,5 +70,19 @@ public class EntityStructure {
   public Set<Map.Entry<RelativeCoordinates, Class<? extends Entity>>>
       getRelativeEntityMapEntrySet() {
     return this.relativeEntityMap.entrySet();
+  }
+
+  @Override
+  public int hashCode() {
+    return this.myHashCount;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    EntityStructure other = (EntityStructure) obj;
+    return this.myHashCount == other.myHashCount;
   }
 }

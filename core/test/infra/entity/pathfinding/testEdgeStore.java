@@ -46,4 +46,16 @@ public class testEdgeStore {
       System.out.println(edge);
     }
   }
+
+  @Test
+  public void testEdgeStoreCount() throws Exception {
+    Injector injector = Guice.createInjector(new SoloConfig());
+
+    EdgeStore edgeStore = injector.getInstance(EdgeStore.class);
+
+    EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
+    edgeRegistration.horizontalGreedyRegisterEdges();
+
+    System.out.println(edgeStore.getEdgeList().size());
+  }
 }

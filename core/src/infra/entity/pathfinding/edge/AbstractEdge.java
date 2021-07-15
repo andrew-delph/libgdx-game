@@ -14,6 +14,7 @@ public abstract class AbstractEdge {
   public RelativeVertex to;
   boolean finished = false;
 
+
   public AbstractEdge(EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {
     this.entityStructure = entityStructure;
     this.from = from;
@@ -70,7 +71,7 @@ public abstract class AbstractEdge {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     AbstractEdge other = (AbstractEdge) obj;
-    return this.to.equals(other.to) && this.from.equals(other.from);
+    return this.to.equals(other.to) && this.from.equals(other.from) && this.entityStructure.equals(other.entityStructure);
   }
 
   public void appendPathGameStoreOverride(
