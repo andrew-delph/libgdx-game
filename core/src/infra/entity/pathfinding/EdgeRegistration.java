@@ -110,6 +110,8 @@ public class EdgeRegistration {
     EntityStructure startLadderEntityStructure = entityStructureFactory.createEntityStructure();
     startLadderEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(0, 0), EmptyBlock.class);
+    startLadderEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, -1), SolidBlock.class);
     RelativeVertex startLadderFrom =
         new RelativeVertex(
             startLadderEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
