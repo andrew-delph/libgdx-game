@@ -73,6 +73,6 @@ public class RelativePathNode {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     RelativePathNode other = (RelativePathNode) obj;
-    return this.startPosition.equals(other.startPosition) && this.edge.equals(other.edge);
+    return this.startPosition.equals(other.startPosition) && this.edge.equals(other.edge) && this.edge.getClass() == other.edge.getClass();
   }
 }
