@@ -12,14 +12,6 @@ import infra.entity.pathfinding.RelativeVertex;
 public class LadderGreedyEdge extends HorizontalGreedyEdge {
   GameController gameController;
 
-  @Override
-  public void appendPathGameStoreOverride(
-      PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {
-
-    pathGameStoreOverride.registerEntityTypeOverride(
-        Ladder.class, this.applyTransition(sourceCoordinates));
-  }
-
   public LadderGreedyEdge(
       GameController gameController,
       EntityStructure entityStructure,
@@ -27,6 +19,19 @@ public class LadderGreedyEdge extends HorizontalGreedyEdge {
       RelativeVertex to) {
     super(entityStructure, from, to);
     this.gameController = gameController;
+  }
+
+  @Override
+  public double getCost() {
+    return 2;
+  }
+
+  @Override
+  public void appendPathGameStoreOverride(
+      PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {
+
+    pathGameStoreOverride.registerEntityTypeOverride(
+        Ladder.class, this.applyTransition(sourceCoordinates));
   }
 
   @Override

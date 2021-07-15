@@ -43,9 +43,7 @@ public class EntityPathController extends EntityController {
   @Override
   public void afterWorldUpdate() {
     super.afterWorldUpdate();
-    if (this.beforeUpdateCoordinates.equals(this.entity.coordinates)) {
-      moved = false;
-    } else moved = true;
+      moved = !this.beforeUpdateCoordinates.equals(this.entity.coordinates);
   }
 
   @Override

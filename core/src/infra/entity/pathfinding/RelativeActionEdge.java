@@ -1,9 +1,9 @@
 package infra.entity.pathfinding;
 
 public class RelativeActionEdge {
+  public final String actionKey;
   RelativeVertex from;
   RelativeVertex to;
-  public final String actionKey;
 
   public RelativeActionEdge(RelativeVertex from, RelativeVertex to, String actionKey) {
     this.from = from;

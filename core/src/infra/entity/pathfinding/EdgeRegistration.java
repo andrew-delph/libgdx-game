@@ -25,7 +25,7 @@ public class EdgeRegistration {
   EdgeRegistration() {}
 
   public void edgeRegistration() {
-//    this.templateEdgeRegistration();
+    //    this.templateEdgeRegistration();
     this.horizontalGreedyRegisterEdges();
     this.ladderGreedyRegisterEdges();
     this.digGreedyRegisterEdges();
@@ -199,49 +199,48 @@ public class EdgeRegistration {
     digLeftEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
     digLeftEntityStructure.registerRelativeEntity(new RelativeCoordinates(-1, 0), SolidBlock.class);
     RelativeVertex digLeftPosition =
-            new RelativeVertex(
-                    digLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+        new RelativeVertex(
+            digLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeCoordinates digLeftPlace = new RelativeCoordinates(-1, 0);
     DigGreedyEdge digLeftHorizontalGreedyEdge =
-            new DigGreedyEdge(
-                    this.gameController,
-                    this.gameStore,
-                    this.blockFactory,
-                    digLeftEntityStructure,
-                    digLeftPosition,
-                    digLeftPlace);
+        new DigGreedyEdge(
+            this.gameController,
+            this.gameStore,
+            this.blockFactory,
+            digLeftEntityStructure,
+            digLeftPosition,
+            digLeftPlace);
 
     EntityStructure digDownEntityStructure = entityStructureFactory.createEntityStructure();
     digDownEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
     digDownEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, -1), SolidBlock.class);
     RelativeVertex digDownPosition =
-            new RelativeVertex(
-                    digDownEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+        new RelativeVertex(
+            digDownEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeCoordinates digDownPlace = new RelativeCoordinates(0, -1);
     DigGreedyEdge digDownHorizontalGreedyEdge =
-            new DigGreedyEdge(
-                    this.gameController,
-                    this.gameStore,
-                    this.blockFactory,
-                    digDownEntityStructure,
-                    digDownPosition,
-                    digDownPlace);
+        new DigGreedyEdge(
+            this.gameController,
+            this.gameStore,
+            this.blockFactory,
+            digDownEntityStructure,
+            digDownPosition,
+            digDownPlace);
 
     EntityStructure digUpEntityStructure = entityStructureFactory.createEntityStructure();
     digUpEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
     digUpEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 1), SolidBlock.class);
     RelativeVertex digUpPosition =
-            new RelativeVertex(
-                    digUpEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+        new RelativeVertex(digUpEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeCoordinates digUpPlace = new RelativeCoordinates(0, 1);
     DigGreedyEdge digUpHorizontalGreedyEdge =
-            new DigGreedyEdge(
-                    this.gameController,
-                    this.gameStore,
-                    this.blockFactory,
-                    digUpEntityStructure,
-                    digUpPosition,
-                    digUpPlace);
+        new DigGreedyEdge(
+            this.gameController,
+            this.gameStore,
+            this.blockFactory,
+            digUpEntityStructure,
+            digUpPosition,
+            digUpPlace);
 
     this.edgeStore.add(digRightHorizontalGreedyEdge);
     this.edgeStore.add(digLeftHorizontalGreedyEdge);

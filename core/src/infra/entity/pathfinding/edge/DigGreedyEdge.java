@@ -6,7 +6,6 @@ import infra.common.GameStore;
 import infra.entity.Entity;
 import infra.entity.block.BlockFactory;
 import infra.entity.block.SkyBlock;
-import infra.entity.misc.Ladder;
 import infra.entity.pathfinding.*;
 
 public class DigGreedyEdge extends HorizontalGreedyEdge {
@@ -27,6 +26,11 @@ public class DigGreedyEdge extends HorizontalGreedyEdge {
     this.gameStore = gameStore;
     this.blockFactory = blockFactory;
     this.digPosition = digPosition;
+  }
+
+  @Override
+  public double getCost() {
+    return 3;
   }
 
   @Override

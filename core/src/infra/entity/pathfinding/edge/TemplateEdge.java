@@ -21,6 +21,11 @@ public class TemplateEdge extends AbstractEdge {
     this.actionEdgeList = actionEdgeList;
   }
 
+  @Override
+  public double getCost() {
+    return 1;
+  }
+
   public List<RelativeActionEdge> getActionEdgeList() {
     return actionEdgeList;
   }

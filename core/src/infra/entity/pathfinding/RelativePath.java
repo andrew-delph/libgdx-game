@@ -25,17 +25,17 @@ public class RelativePath {
     for (AbstractEdge edge : this.edgeStore.getEdgeList()) {
       if (edge.isAvailable(new PathGameStoreOverride(), source)) {
         unvisitedPathNodeSet.add(
-            new RelativePathNode(edge, source, target, new PathGameStoreOverride()));
+            new RelativePathNode(edge, source, target, new PathGameStoreOverride(),edge.getCost()));
       }
     }
     while (unvisitedPathNodeSet.size() > 0) {
       RelativePathNode current =
           unvisitedPathNodeSet.stream()
-              .min(Comparator.comparingDouble(RelativePathNode::getHeuristic))
+              .min(Comparator.comparingDouble(RelativePathNode::getCost))
               .get();
 
-      if (current.getHeuristic() < 0.9) {
-        System.out.println("found " + current.getHeuristic());
+      if (current.getHeuristicCost() < 0.9) {
+        System.out.println("found " + current.getHeuristicCost());
         finalPathNode = current;
         return;
       }
@@ -47,7 +47,7 @@ public class RelativePath {
         if (edge.isAvailable(current.pathGameStoreOverride, current.getEndPosition())) {
           RelativePathNode newNode =
               new RelativePathNode(
-                  edge, current.getEndPosition(), target, current.pathGameStoreOverride);
+                  edge, current.getEndPosition(), target, current.pathGameStoreOverride,current.getCost()+edge.getCost());
 
           if (this.visitedPathNodeSet.contains(newNode)
               || this.unvisitedPathNodeSet.contains(newNode)) continue;

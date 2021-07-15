@@ -3,19 +3,17 @@ package infra.entity.pathfinding;
 import infra.common.Coordinates;
 import infra.common.GameStore;
 import infra.entity.Entity;
-import infra.entity.pathfinding.edge.AbstractEdge;
 
 import java.util.*;
 
 public class EntityStructure {
-  Map<RelativeCoordinates, Class<? extends Entity>> relativeEntityMap;
-
-  GameStore gameStore;
   static int hashCount = 0;
   final int myHashCount;
+  Map<RelativeCoordinates, Class<? extends Entity>> relativeEntityMap;
+  GameStore gameStore;
 
   public EntityStructure(GameStore gameStore) {
-    this(gameStore,new HashMap<>());
+    this(gameStore, new HashMap<>());
   }
 
   public EntityStructure(

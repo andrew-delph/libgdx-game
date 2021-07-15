@@ -15,15 +15,12 @@ public class BlockFactory {
   public DirtBlock createDirt() {
     return new DirtBlock(clock, baseAssetManager, entityBodyBuilder);
   }
-  ;
 
-  public StoneBlock createStone() {
+    public StoneBlock createStone() {
     return new StoneBlock(clock, baseAssetManager, entityBodyBuilder);
   }
-  ;
 
-  public SkyBlock createSky() {
+    public SkyBlock createSky() {
     return new SkyBlock(clock, baseAssetManager, entityBodyBuilder);
   }
-  ;
 }

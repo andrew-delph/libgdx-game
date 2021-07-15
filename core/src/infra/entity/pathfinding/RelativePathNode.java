@@ -10,19 +10,20 @@ public class RelativePathNode {
   public final Coordinates target;
   public PathGameStoreOverride pathGameStoreOverride;
 
-  int heuristic = Integer.MAX_VALUE;
+  double cost;
   RelativePathNode previous;
 
   public RelativePathNode(
       AbstractEdge edge,
       Coordinates startPosition,
       Coordinates target,
-      PathGameStoreOverride pathGameStoreOverride) {
+      PathGameStoreOverride pathGameStoreOverride, double cost) {
     this.startPosition = startPosition;
     this.edge = edge;
     this.target = target;
     this.pathGameStoreOverride = new PathGameStoreOverride(pathGameStoreOverride);
     this.edge.appendPathGameStoreOverride(this.pathGameStoreOverride, this.startPosition);
+    this.cost =cost;
   }
 
   public RelativePathNode getPrevious() {
@@ -37,8 +38,16 @@ public class RelativePathNode {
     return this.edge.applyTransition(this.startPosition);
   }
 
-  public double getHeuristic() {
+  public double getHeuristicCost() {
     return this.target.calcDistance(this.getEndPosition());
+  }
+
+  public double getCostFromStart() {
+    return this.cost;
+  }
+
+  public double getCost() {
+    return this.getHeuristicCost() + this.getCostFromStart();
   }
 
   public void start() {
@@ -73,6 +82,8 @@ public class RelativePathNode {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     RelativePathNode other = (RelativePathNode) obj;
-    return this.startPosition.equals(other.startPosition) && this.edge.equals(other.edge) && this.edge.getClass() == other.edge.getClass();
+    return this.startPosition.equals(other.startPosition)
+        && this.edge.equals(other.edge)
+        && this.edge.getClass() == other.edge.getClass();
   }
 }
