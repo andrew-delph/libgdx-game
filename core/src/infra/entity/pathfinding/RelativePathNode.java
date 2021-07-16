@@ -17,13 +17,14 @@ public class RelativePathNode {
       AbstractEdge edge,
       Coordinates startPosition,
       Coordinates target,
-      PathGameStoreOverride pathGameStoreOverride, double cost) {
+      PathGameStoreOverride pathGameStoreOverride,
+      double cost) {
     this.startPosition = startPosition;
     this.edge = edge;
     this.target = target;
     this.pathGameStoreOverride = new PathGameStoreOverride(pathGameStoreOverride);
     this.edge.appendPathGameStoreOverride(this.pathGameStoreOverride, this.startPosition);
-    this.cost =cost;
+    this.cost = cost;
   }
 
   public RelativePathNode getPrevious() {
@@ -39,7 +40,7 @@ public class RelativePathNode {
   }
 
   public double getHeuristicCost() {
-    return this.target.calcDistance(this.getEndPosition())*6;
+    return this.target.calcDistance(this.getEndPosition());
   }
 
   public double getCostFromStart() {
