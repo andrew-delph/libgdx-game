@@ -20,7 +20,6 @@ public class EntityPathController extends EntityController {
 
   PathGuider pathGuider;
   Entity target;
-  boolean moved = true;
   Coordinates beforeUpdateCoordinates = null;
 
   EntityPathController(
@@ -43,7 +42,6 @@ public class EntityPathController extends EntityController {
   @Override
   public void afterWorldUpdate() {
     super.afterWorldUpdate();
-      moved = !this.beforeUpdateCoordinates.equals(this.entity.coordinates);
   }
 
   @Override
@@ -52,19 +50,22 @@ public class EntityPathController extends EntityController {
 
     if (this.pathGuider == null) {
       this.pathGuider = pathGuiderFactory.createPathGuider(entity);
-      try {
-        this.pathGuider.findPath(this.entity.coordinates, target.coordinates);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
     }
     if (!this.pathGuider.hasPath()) {
-      eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
-      this.entity = this.entityFactory.createEntity();
-      this.entity.coordinates = new Coordinates(0, 1);
-      this.entity.setController(this);
-      this.gameController.createEntity(this.entity);
-      this.pathGuider = null;
+      if (entity.coordinates.getBase().equals(target.coordinates.getBase())) {
+        eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
+        this.entity = this.entityFactory.createEntity();
+        this.entity.coordinates = new Coordinates(0, 1);
+        this.entity.setController(this);
+        this.gameController.createEntity(this.entity);
+        this.pathGuider = null;
+      } else {
+        try {
+          this.pathGuider.findPath(entity.coordinates, target.coordinates);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
       return;
     }
 

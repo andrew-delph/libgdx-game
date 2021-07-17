@@ -23,10 +23,22 @@ public class HorizontalGreedyEdge extends AbstractEdge {
   }
 
   @Override
-  public void follow(Entity entity, RelativePathNode relativePathNode) {
+  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
     String actionKey;
 
-    if (relativePathNode.getEndPosition().calcDistance(entity.coordinates) < 0.1) {
+    if (!entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase())
+        && !entity.coordinates.getBase().equals(relativePathNode.getEndPosition().getBase())) {
+      System.out.println("NOT ON TRACK");
+      System.out.println(entity.coordinates);
+      System.out.println(relativePathNode.startPosition.getBase());
+      System.out.println(relativePathNode.getEndPosition().getBase());
+      System.out.println(relativePathNode.startPosition);
+      System.out.println(relativePathNode.getEndPosition());
+      System.out.println();
+      throw new Exception("not on track");
+    }
+
+    if (relativePathNode.getEndPosition().calcDistance(entity.coordinates) < 0.3) {
       Vector2 setBodyPosition = relativePathNode.getEndPosition().toVector2();
       entity.getBody().setTransform(setBodyPosition, 0);
       this.finish();

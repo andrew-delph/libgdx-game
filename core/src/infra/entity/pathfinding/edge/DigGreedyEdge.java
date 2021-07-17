@@ -34,7 +34,7 @@ public class DigGreedyEdge extends HorizontalGreedyEdge {
   }
 
   @Override
-  public void follow(Entity entity, RelativePathNode relativePathNode) {
+  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
     this.gameController.replaceBlock(
         this.gameStore.getBlock(
                 this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))

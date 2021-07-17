@@ -35,7 +35,7 @@ public class LadderGreedyEdge extends HorizontalGreedyEdge {
   }
 
   @Override
-  public void follow(Entity entity, RelativePathNode relativePathNode) {
+  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
     this.gameController.placeLadder(relativePathNode.getEndPosition());
     super.follow(entity, relativePathNode);
 

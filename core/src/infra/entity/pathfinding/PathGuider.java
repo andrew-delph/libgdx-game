@@ -41,12 +41,16 @@ public class PathGuider {
         return;
       } else {
         this.entity.getBody().setTransform(this.currentPathNode.startPosition.toVector2(), 0);
-        this.entity.getBody().setLinearVelocity(this.currentPathNode.edge.from.velocity);
+        //        this.entity.getBody().setLinearVelocity(this.currentPathNode.edge.from.velocity);
         this.entity.coordinates = this.currentPathNode.startPosition;
         this.currentPathNode.start();
       }
     }
     System.out.println(this.currentPathNode + " , " + this.currentPathNode.edge.getClass());
-    this.currentPathNode.edge.follow(this.entity, this.currentPathNode);
+    try {
+      this.currentPathNode.edge.follow(this.entity, this.currentPathNode);
+    } catch (Exception e) {
+      this.hasPath = false;
+    }
   }
 }

@@ -28,7 +28,7 @@ public abstract class AbstractEdge {
     return to;
   }
 
-  public abstract void follow(Entity entity, RelativePathNode relativePathNode);
+  public abstract void follow(Entity entity, RelativePathNode relativePathNode) throws Exception;
 
   public boolean isAvailable(PathGameStoreOverride pathGameStoreOverride, Coordinates coordinates) {
     try {
