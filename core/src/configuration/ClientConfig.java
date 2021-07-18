@@ -1,15 +1,15 @@
 package configuration;
 
-import infra.app.Game;
-import infra.app.GameScreen;
-import infra.app.UpdateLoop;
-import infra.app.client.ClientGame;
-import infra.app.client.ClientGameScreen;
-import infra.app.client.ClientUpdateLoop;
-import infra.app.render.BaseCamera;
-import infra.common.events.EventConsumer;
-import infra.networking.client.ClientNetworkHandle;
-import infra.networking.consumer.ClientEventConsumer;
+import app.Game;
+import app.GameScreen;
+import app.UpdateLoop;
+import app.client.ClientGame;
+import app.client.ClientGameScreen;
+import app.client.ClientUpdateLoop;
+import app.render.BaseCamera;
+import common.events.EventConsumer;
+import networking.client.ClientNetworkHandle;
+import networking.consumer.ClientEventConsumer;
 
 public class ClientConfig extends MainConfig {
   @Override

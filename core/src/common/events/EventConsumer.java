@@ -1,0 +1,31 @@
+package common.events;
+
+import com.google.inject.Inject;
+import app.GameController;
+import common.GameStore;
+
+public class EventConsumer {
+
+  @Inject EventService eventService;
+  @Inject GameController gameController;
+  @Inject GameStore gameStore;
+
+  @Inject
+  public EventConsumer() {}
+
+  public void init() {
+    this.eventService.addPostUpdateListener(
+        ReplaceBlockEvent.type,
+        event -> {
+          ReplaceBlockEvent realEvent = (ReplaceBlockEvent) event;
+          this.gameController.replaceBlock(realEvent.getTarget(), realEvent.getReplacementBlock());
+        });
+
+    this.eventService.addPostUpdateListener(
+        RemoveEntityEvent.type,
+        event -> {
+          RemoveEntityEvent realEvent = (RemoveEntityEvent) event;
+          this.gameStore.removeEntity(realEvent.getEntityUUID());
+        });
+  }
+}
