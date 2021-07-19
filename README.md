@@ -1,5 +1,11 @@
-WIP game project.
+# WIP game project.
 
-controller
+## controllers:
 
-move: a,s,w,d dig: space bar and move place dirt: shift and move spawn enemy: f
+move: a,s,w,d
+
+dig: space bar and move
+
+place dirt: shift and move
+
+spawn enemy: f
