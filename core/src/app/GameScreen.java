@@ -1,5 +1,10 @@
 package app;
 
+import app.render.BaseAssetManager;
+import app.render.BaseCamera;
+import chunk.Chunk;
+import chunk.ChunkFactory;
+import chunk.ChunkRange;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,11 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.google.inject.Inject;
-import app.render.BaseAssetManager;
-import app.render.BaseCamera;
-import chunk.Chunk;
-import chunk.ChunkFactory;
-import chunk.ChunkRange;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
@@ -92,14 +92,14 @@ public class GameScreen extends ApplicationAdapter {
   @Override
   public void render() {
     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-      if (pathEntity == null) {
+      //      if (pathEntity == null) {
 
-        this.pathEntity = entityFactory.createEntity();
-        pathEntity.coordinates = new Coordinates(0, 1);
-        gameController.createEntity(pathEntity);
-        pathEntity.setController(
-            entityControllerFactory.createEntityPathController(pathEntity, myEntity));
-      }
+      this.pathEntity = entityFactory.createEntity();
+      pathEntity.coordinates = new Coordinates(0, 1);
+      gameController.createEntity(pathEntity);
+      pathEntity.setController(
+          entityControllerFactory.createEntityPathController(pathEntity, myEntity));
+      //      }
     }
 
     //    System.out.println(myEntity.coordinates);

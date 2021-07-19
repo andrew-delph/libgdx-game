@@ -53,10 +53,10 @@ public class EntityPathController extends EntityController {
     if (!this.pathGuider.hasPath()) {
       if (entity.coordinates.getBase().equals(target.coordinates.getBase())) {
         eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
-        this.entity = this.entityFactory.createEntity();
-        this.entity.coordinates = new Coordinates(0, 1);
-        this.entity.setController(this);
-        this.gameController.createEntity(this.entity);
+        //        this.entity = this.entityFactory.createEntity();
+        //        this.entity.coordinates = new Coordinates(0, 1);
+        //        this.entity.setController(this);
+        //        this.gameController.createEntity(this.entity);
         this.pathGuider = null;
       } else {
         try {
