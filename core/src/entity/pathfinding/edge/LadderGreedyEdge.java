@@ -35,6 +35,19 @@ public class LadderGreedyEdge extends HorizontalGreedyEdge {
   }
 
   @Override
+  public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
+    return new LadderEdgeStepper(this.gameController);
+  }
+}
+
+class LadderEdgeStepper extends HorizontalEdgeStepper {
+  public LadderEdgeStepper(GameController gameController) {
+    this.gameController = gameController;
+  }
+
+  GameController gameController;
+
+  @Override
   public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
     this.gameController.placeLadder(relativePathNode.getEndPosition());
     super.follow(entity, relativePathNode);
@@ -46,9 +59,6 @@ public class LadderGreedyEdge extends HorizontalGreedyEdge {
       actionKey = "climbDown";
     } else return;
 
-    //    if (entity.entityController.getAction(actionKey).isValid(entity.getBody())) {
-    //
-    //    }
     entity.entityController.applyAction(actionKey, entity.getBody());
   }
 }

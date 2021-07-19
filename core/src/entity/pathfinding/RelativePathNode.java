@@ -1,7 +1,6 @@
 package entity.pathfinding;
 
 import common.Coordinates;
-import entity.Entity;
 import entity.pathfinding.edge.AbstractEdge;
 
 public class RelativePathNode {
@@ -56,12 +55,6 @@ public class RelativePathNode {
     System.out.println("start= " + this);
     this.edge.start();
   }
-
-  public boolean finished() {
-    return this.edge.isFinished();
-  }
-
-  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {}
 
   @Override
   public String toString() {

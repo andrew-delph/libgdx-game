@@ -53,17 +53,26 @@ public class TemplateEdge extends AbstractEdge {
   }
 
   @Override
-  public void follow(Entity entity, RelativePathNode relativePathNode) {
+  public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
+    return new TemplateEdgeStepper(this.actionEdgeList);
+  }
+}
 
+class TemplateEdgeStepper extends EdgeStepper {
+
+  List<RelativeActionEdge> actionEdgeList;
+  int currentStep = 0;
+
+  public TemplateEdgeStepper(List<RelativeActionEdge> actionEdgeList) {
+    this.actionEdgeList = actionEdgeList;
+  }
+
+  @Override
+  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
     RelativeActionEdge currentEdge = this.actionEdgeList.get(currentStep);
     currentStep++;
-
     String actionKey = currentEdge.actionKey;
-
     entity.entityController.applyAction(actionKey, entity.getBody());
-
-    //    System.out.println(currentStep+" , "+this.actionEdgeList.size());
-
     if (currentStep == this.actionEdgeList.size()) this.finish();
   }
 }

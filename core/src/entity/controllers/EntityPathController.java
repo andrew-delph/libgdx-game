@@ -47,7 +47,6 @@ public class EntityPathController extends EntityController {
   @Override
   public void beforeWorldUpdate() {
     this.beforeUpdateCoordinates = this.entity.coordinates;
-
     if (this.pathGuider == null) {
       this.pathGuider = pathGuiderFactory.createPathGuider(entity);
     }

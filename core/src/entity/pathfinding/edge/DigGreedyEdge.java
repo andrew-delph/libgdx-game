@@ -33,14 +33,9 @@ public class DigGreedyEdge extends HorizontalGreedyEdge {
     return 3;
   }
 
-  @Override
-  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
-    this.gameController.replaceBlock(
-        this.gameStore.getBlock(
-                this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))
-            .uuid,
-        blockFactory.createSky());
-    super.follow(entity, relativePathNode);
+  public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
+    return new DigEdgeStepper(
+        this.gameController, this.gameStore, this.blockFactory, this.digPosition);
   }
 
   @Override
@@ -49,5 +44,33 @@ public class DigGreedyEdge extends HorizontalGreedyEdge {
 
     pathGameStoreOverride.registerEntityTypeOverride(
         SkyBlock.class, this.digPosition.applyRelativeCoordinates(sourceCoordinates));
+  }
+}
+
+class DigEdgeStepper extends HorizontalEdgeStepper {
+  public DigEdgeStepper(
+      GameController gameController,
+      GameStore gameStore,
+      BlockFactory blockFactory,
+      RelativeCoordinates digPosition) {
+    this.gameController = gameController;
+    this.gameStore = gameStore;
+    this.blockFactory = blockFactory;
+    this.digPosition = digPosition;
+  }
+
+  GameController gameController;
+  GameStore gameStore;
+  BlockFactory blockFactory;
+  RelativeCoordinates digPosition;
+
+  @Override
+  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
+    this.gameController.replaceBlock(
+        this.gameStore.getBlock(
+                this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))
+            .uuid,
+        blockFactory.createSky());
+    super.follow(entity, relativePathNode);
   }
 }

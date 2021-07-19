@@ -23,6 +23,14 @@ public class HorizontalGreedyEdge extends AbstractEdge {
   }
 
   @Override
+  public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
+    return new HorizontalEdgeStepper();
+  }
+}
+
+class HorizontalEdgeStepper extends EdgeStepper {
+
+  @Override
   public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
     String actionKey;
 
