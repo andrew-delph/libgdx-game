@@ -92,19 +92,15 @@ public class GameScreen extends ApplicationAdapter {
   @Override
   public void render() {
     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-      //      if (pathEntity == null) {
 
       this.pathEntity = entityFactory.createEntity();
       pathEntity.coordinates = new Coordinates(0, 1);
       gameController.createEntity(pathEntity);
       pathEntity.setController(
           entityControllerFactory.createEntityPathController(pathEntity, myEntity));
-      //      }
     }
 
-    //    System.out.println(myEntity.coordinates);
     debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
-
     baseCamera.position.set(
         myEntity.coordinates.getXReal() * Entity.coordinatesScale,
         myEntity.coordinates.getYReal() * Entity.coordinatesScale,

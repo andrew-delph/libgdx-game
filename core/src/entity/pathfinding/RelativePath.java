@@ -5,8 +5,12 @@ import common.Coordinates;
 import entity.pathfinding.edge.AbstractEdge;
 
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-public class RelativePath {
+public class RelativePath implements Callable<Void> {
 
   public Coordinates target;
   public RelativePathNode finalPathNode = null;
@@ -15,17 +19,29 @@ public class RelativePath {
   Set<RelativePathNode> unvisitedPathNodeSet = new HashSet<>();
   Set<RelativePathNode> visitedPathNodeSet = new HashSet<>();
 
+  static ExecutorService executor = Executors.newFixedThreadPool(4);
+  Future future;
+
   public RelativePath(EdgeStore edgeStore, Coordinates source, Coordinates target) {
     this.source = source;
     this.target = target;
     this.edgeStore = edgeStore;
   }
 
+  public void backgroundSearch() {
+    future = executor.submit(this);
+  }
+
+  public boolean isSearching() {
+    return this.future != null && !this.future.isDone();
+  }
+
   public void search() throws Exception {
     for (AbstractEdge edge : this.edgeStore.getEdgeList()) {
       if (edge.isAvailable(new PathGameStoreOverride(), source)) {
         unvisitedPathNodeSet.add(
-            new RelativePathNode(edge, source, target, new PathGameStoreOverride(),edge.getCost()));
+            new RelativePathNode(
+                edge, source, target, new PathGameStoreOverride(), edge.getCost()));
       }
     }
     while (unvisitedPathNodeSet.size() > 0) {
@@ -47,7 +63,11 @@ public class RelativePath {
         if (edge.isAvailable(current.pathGameStoreOverride, current.getEndPosition())) {
           RelativePathNode newNode =
               new RelativePathNode(
-                  edge, current.getEndPosition(), target, current.pathGameStoreOverride,current.getCostFromStart()+edge.getCost());
+                  edge,
+                  current.getEndPosition(),
+                  target,
+                  current.pathGameStoreOverride,
+                  current.getCostFromStart() + edge.getCost());
 
           if (this.visitedPathNodeSet.contains(newNode)
               || this.unvisitedPathNodeSet.contains(newNode)) continue;
@@ -69,5 +89,11 @@ public class RelativePath {
     }
     Collections.reverse(edgeList);
     return edgeList;
+  }
+
+  @Override
+  public Void call() throws Exception {
+    this.search();
+    return null;
   }
 }

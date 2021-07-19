@@ -16,7 +16,6 @@ public class PathGuider {
   RelativePath currentPath;
   EdgeStepper currentEdgeStepper;
   Queue<RelativePathNode> pathNodeQueue;
-  boolean hasPath = false;
 
   public PathGuider(RelativePathFactory relativePathFactory, Entity entity) {
     this.relativePathFactory = relativePathFactory;
@@ -25,21 +24,28 @@ public class PathGuider {
 
   public void findPath(Coordinates start, Coordinates end) throws Exception {
     System.out.println("FIND " + start + " , " + end);
+    this.pathNodeQueue = null;
     this.currentPath = relativePathFactory.create(start, end);
-    this.currentPath.search();
-    this.pathNodeQueue = new LinkedList<>(this.currentPath.getPathEdgeList());
-    this.hasPath = true;
+    this.currentPath.backgroundSearch();
   }
 
-  public boolean hasPath() {
-    return this.hasPath;
-  }
+  public void followPath(Coordinates coordinates) throws Exception {
+    if (this.currentPath != null && this.currentPath.isSearching()) {
+      System.out.println("searchign!");
+      return;
+    } else if (this.currentPath == null) {
+      this.findPath(entity.coordinates, coordinates);
+      return;
+    }
+    if (!this.currentPath.isSearching() && this.pathNodeQueue == null) {
+      this.pathNodeQueue = new LinkedList<>(this.currentPath.getPathEdgeList());
+    }
 
-  public void followPath() {
     if (this.currentPathNode == null || this.currentEdgeStepper.isFinished()) {
       this.currentPathNode = this.pathNodeQueue.poll();
       if (this.currentPathNode == null) {
-        this.hasPath = false;
+        this.findPath(entity.coordinates, coordinates);
+        System.out.println("find!");
         return;
       } else {
         this.currentEdgeStepper = currentPathNode.edge.getEdgeStepper(entity, currentPathNode);
@@ -49,11 +55,11 @@ public class PathGuider {
         this.currentPathNode.start();
       }
     }
-    System.out.println(this.currentPathNode + " , " + this.currentPathNode.edge.getClass());
+
     try {
       this.currentEdgeStepper.follow(this.entity, this.currentPathNode);
     } catch (Exception e) {
-      this.hasPath = false;
+      System.out.println("follow error!");
     }
   }
 }
