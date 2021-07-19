@@ -51,6 +51,10 @@ public class EntityPathController extends EntityController {
       this.pathGuider = pathGuiderFactory.createPathGuider(entity);
     }
 
+    if (this.entity.coordinates.getBase().equals(target.coordinates.getBase())) {
+      eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
+      return;
+    }
     try {
       this.pathGuider.followPath(target.coordinates);
     } catch (Exception e) {
