@@ -13,6 +13,14 @@ public class RelativePath {
   Coordinates source;
   @Inject EdgeStore edgeStore;
   Set<RelativePathNode> unvisitedPathNodeSet = new HashSet<>();
+
+  PriorityQueue<RelativePathNode> unvisitedPathNodeQueue = new PriorityQueue<>((t1, t2) -> {
+    double diff = t2.getCost() - t1.getCost();
+    if(diff<0) return 1;
+    else if(diff>0) return -1;
+    return 0;
+  });
+
   Set<RelativePathNode> visitedPathNodeSet = new HashSet<>();
 
   public RelativePath(EdgeStore edgeStore, Coordinates source, Coordinates target) {
@@ -25,14 +33,13 @@ public class RelativePath {
     for (AbstractEdge edge : this.edgeStore.getEdgeList()) {
       if (edge.isAvailable(new PathGameStoreOverride(), source)) {
         unvisitedPathNodeSet.add(
-            new RelativePathNode(edge, source, target, new PathGameStoreOverride(),edge.getCost()));
+                new RelativePathNode(edge, source, target, new PathGameStoreOverride(),edge.getCost()));
+        unvisitedPathNodeQueue.add(
+                new RelativePathNode(edge, source, target, new PathGameStoreOverride(),edge.getCost()));
       }
     }
-    while (unvisitedPathNodeSet.size() > 0) {
-      RelativePathNode current =
-          unvisitedPathNodeSet.stream()
-              .min(Comparator.comparingDouble(RelativePathNode::getCost))
-              .get();
+    while (unvisitedPathNodeQueue.size() > 0) {
+      RelativePathNode current = unvisitedPathNodeQueue.remove();
 
       if (current.getHeuristicCost() < 0.9) {
         System.out.println("found " + current.getHeuristicCost());
@@ -54,6 +61,7 @@ public class RelativePath {
 
           newNode.setPrevious(current);
           unvisitedPathNodeSet.add(newNode);
+          unvisitedPathNodeQueue.add(newNode);
         }
       }
     }
