@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "infra.networking";
+option java_package = "networking";
 option java_outer_classname = "NetworkObjects";
 
 message NetworkEvent{

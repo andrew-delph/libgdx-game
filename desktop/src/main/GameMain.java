@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.SoloConfig;
-import infra.app.GameScreen;
+import app.GameScreen;
 
 public class GameMain {
   public static void main(String[] arg) {

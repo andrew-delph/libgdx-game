@@ -1,6 +1,6 @@
 package configuration;
 
-import infra.app.Game;
+import app.Game;
 
 public class SoloConfig extends MainConfig {
   @Override

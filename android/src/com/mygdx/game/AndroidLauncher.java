@@ -29,7 +29,7 @@ import com.google.inject.Injector;
 
 import configuration.SoloConfig;
 import configuration.TestConfig;
-import infra.app.GameScreen;
+import app.GameScreen;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

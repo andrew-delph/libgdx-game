@@ -1,10 +1,10 @@
 package configuration;
 
-import infra.app.Game;
-import infra.app.server.ServerGame;
-import infra.common.events.EventConsumer;
-import infra.networking.consumer.ServerEventConsumer;
-import infra.networking.server.ServerNetworkHandle;
+import app.Game;
+import app.server.ServerGame;
+import common.events.EventConsumer;
+import networking.consumer.ServerEventConsumer;
+import networking.server.ServerNetworkHandle;
 
 public class ServerConfig extends MainConfig {
   @Override

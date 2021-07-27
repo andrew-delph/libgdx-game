@@ -2,27 +2,27 @@ package configuration;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-import infra.app.render.BaseAssetManager;
-import infra.chunk.ChunkFactory;
-import infra.chunk.ChunkSubscriptionService;
-import infra.common.ChunkClockMap;
-import infra.common.Clock;
-import infra.common.GameStore;
-import infra.common.events.EventService;
-import infra.entity.EntityFactory;
-import infra.entity.block.BlockFactory;
-import infra.entity.collision.EntityContactListenerFactory;
-import infra.entity.collision.ground.EntityGroundContact;
-import infra.entity.collision.ladder.EntityLadderContact;
-import infra.entity.controllers.EntityControllerFactory;
-import infra.entity.controllers.actions.EntityActionFactory;
-import infra.entity.pathfinding.EdgeStore;
-import infra.generation.BlockGenerator;
-import infra.generation.ChunkBuilderFactory;
-import infra.generation.ChunkGenerationManager;
-import infra.networking.ConnectionStore;
-import infra.networking.ObserverFactory;
-import infra.networking.events.EventFactory;
+import app.render.BaseAssetManager;
+import chunk.ChunkFactory;
+import chunk.ChunkSubscriptionService;
+import common.ChunkClockMap;
+import common.Clock;
+import common.GameStore;
+import common.events.EventService;
+import entity.EntityFactory;
+import entity.block.BlockFactory;
+import entity.collision.EntityContactListenerFactory;
+import entity.collision.ground.EntityGroundContact;
+import entity.collision.ladder.EntityLadderContact;
+import entity.controllers.EntityControllerFactory;
+import entity.controllers.actions.EntityActionFactory;
+import entity.pathfinding.EdgeStore;
+import generation.BlockGenerator;
+import generation.ChunkBuilderFactory;
+import generation.ChunkGenerationManager;
+import networking.ConnectionStore;
+import networking.ObserverFactory;
+import networking.events.EventFactory;
 
 public abstract class MainConfig extends AbstractModule {
   @Override
