@@ -365,4 +365,51 @@ public class testSingleClient {
     assert clientGameStore.getBlock(new Coordinates(0, 0)).getClass() == SkyBlock.class;
     System.out.println("done");
   }
+
+  @Test
+  public void testClientCreateLadder() throws IOException, InterruptedException {
+
+    GameController clientGameController = clientInjector.getInstance(GameController.class);
+    GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
+    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+
+    TimeUnit.SECONDS.sleep(1);
+
+    Entity clientEntity = clientGameController.createLadder(new Coordinates(0, 0));
+
+    TimeUnit.SECONDS.sleep(1);
+
+    assert clientGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
+    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
+    assert serverGameStore
+            .getEntity(clientEntity.uuid)
+            .coordinates
+            .equals(clientEntity.coordinates);
+  }
+
+  @Test
+  public void testServerCreateLadder() throws IOException, InterruptedException {
+
+    GameController clientGameController = clientInjector.getInstance(GameController.class);
+    GameController serverGameController = serverInjector.getInstance(GameController.class);
+    GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
+    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+
+    TimeUnit.SECONDS.sleep(1);
+
+    Entity serverEntity = serverGameController.createLadder(new Coordinates(0, 0));
+
+    TimeUnit.SECONDS.sleep(1);
+
+    assert clientGameStore.getEntity(serverEntity.uuid).uuid.equals(serverEntity.uuid);
+    assert serverGameStore.getEntity(serverEntity.uuid).uuid.equals(serverEntity.uuid);
+    assert clientGameStore
+            .getEntity(serverEntity.uuid)
+            .coordinates
+            .equals(serverEntity.coordinates);
+  }
 }

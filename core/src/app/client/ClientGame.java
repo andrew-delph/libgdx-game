@@ -42,11 +42,6 @@ public class ClientGame extends Game {
   @Override
   public void start() throws IOException, InterruptedException {
     this.clientNetworkHandle.connect();
-    List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
-    this.clientNetworkHandle.send(
-        eventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
-
     super.start();
   }
 }

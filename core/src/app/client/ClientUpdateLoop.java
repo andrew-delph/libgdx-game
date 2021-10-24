@@ -43,9 +43,10 @@ public class ClientUpdateLoop extends UpdateLoop {
     for (ChunkRange chunkRange : chunkRangeListOnCamera) {
       if (this.gameStore.getChunk(chunkRange) == null) {
         this.gameStore.addChunk(chunkFactory.create(chunkRange));
-        subscribeChunkRange.add(chunkRange);
       }
+      subscribeChunkRange.add(chunkRange);
     }
+
 
     if (subscribeChunkRange.size() > 0) {
       this.clientNetworkHandle.send(

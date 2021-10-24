@@ -49,7 +49,7 @@ class LadderEdgeStepper extends HorizontalEdgeStepper {
 
   @Override
   public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
-    this.gameController.placeLadder(relativePathNode.getEndPosition());
+    this.gameController.createLadder(relativePathNode.getEndPosition());
     super.follow(entity, relativePathNode);
 
     String actionKey;

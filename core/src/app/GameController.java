@@ -131,16 +131,17 @@ public class GameController {
             removeBlock.uuid, replacementBlock, new ChunkRange(removeBlock.coordinates)));
   }
 
-  public void placeLadder(Coordinates coordinates) {
-    if (this.gameStore.getBlock(coordinates) instanceof SolidBlock) return;
-    if (this.gameStore.getLadder(coordinates) != null) return;
+  public Entity createLadder(Coordinates coordinates) {
+    if (this.gameStore.getBlock(coordinates) instanceof SolidBlock) return null;
+    if (this.gameStore.getLadder(coordinates) != null) return null;
     Entity entity = entityFactory.createLadder();
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(coordinates));
+            eventFactory.createCreateEntityOutgoingEvent(
+                    entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
+    return entity;
   }
 
   public Entity replaceBlock(UUID target, Block replacementBlock) {

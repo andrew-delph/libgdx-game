@@ -229,4 +229,48 @@ public class testDoubleClient {
     assert serverGameStore.getEntity(clientEntity.uuid) == null;
     assert client_b_GameStore.getEntity(clientEntity.uuid) == null;
   }
+
+  @Test
+  public void testDoubleClientCreateLadder() throws InterruptedException {
+
+    GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
+    GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
+    GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory client_a_ChunkFactory = client_a_Injector.getInstance(ChunkFactory.class);
+    client_a_GameStore.addChunk(
+            client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+
+    EntityFactory clientEntityFactory = client_a_Injector.getInstance(EntityFactory.class);
+
+    List<ChunkRange> chunkRangeList = new LinkedList<>();
+    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
+    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
+    for (ChunkRange chunkRange : chunkRangeList) {
+      client_b_GameStore.addChunk(client_a_ChunkFactory.create(chunkRange));
+    }
+
+    EventFactory client_b_EventFactory = client_b_Injector.getInstance(EventFactory.class);
+
+    client_b_NetworkHandle.send(
+            client_b_EventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+
+    TimeUnit.SECONDS.sleep(1);
+
+    Entity clientLadder = client_a_GameController.createLadder(new Coordinates(0,0));
+
+    TimeUnit.SECONDS.sleep(3);
+
+    assert serverGameStore.getEntity(clientLadder.uuid).uuid.equals(clientLadder.uuid);
+    assert serverGameStore
+            .getEntity(clientLadder.uuid)
+            .coordinates
+            .equals(clientLadder.coordinates);
+
+    assert client_b_GameStore.getEntity(clientLadder.uuid).uuid.equals(clientLadder.uuid);
+    assert client_b_GameStore
+            .getEntity(clientLadder.uuid)
+            .coordinates
+            .equals(clientLadder.coordinates);
+  }
 }

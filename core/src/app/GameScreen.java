@@ -75,6 +75,7 @@ public class GameScreen extends ApplicationAdapter {
     }
     batch = new SpriteBatch();
     batch.enableBlending();
+//    edgeRegistration.edgeRegistration();
 
     myEntity = entityFactory.createEntity();
     myEntity.coordinates = new Coordinates(0, 2);
@@ -84,9 +85,6 @@ public class GameScreen extends ApplicationAdapter {
     chunkGenerationManager.registerActiveEntity(myEntity, null);
     debugRenderer = new Box2DDebugRenderer();
 
-    System.out.println("Start");
-    edgeRegistration.edgeRegistration();
-    System.out.println("Donne");
   }
 
   @Override
