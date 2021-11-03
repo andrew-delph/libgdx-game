@@ -96,7 +96,7 @@ public class testDoubleClient {
     client_b_NetworkHandle.send(
         client_b_EventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
-    //    TimeUnit.SECONDS.sleep(1);
+    TimeUnit.SECONDS.sleep(1);
 
     Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
 

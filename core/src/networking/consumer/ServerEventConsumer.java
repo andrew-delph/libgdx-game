@@ -40,6 +40,8 @@ public class ServerEventConsumer extends EventConsumer {
         event -> {
           SubscriptionIncomingEvent realEvent = (SubscriptionIncomingEvent) event;
 
+//          List<ChunkRange>  chunkSubscriptionService.getUserChunkRangeSubscriptions(realEvent.getUser());
+
           chunkSubscriptionService.registerSubscription(
               realEvent.getUser(), realEvent.getChunkRangeList());
 

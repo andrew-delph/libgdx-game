@@ -352,7 +352,7 @@ public class testSingleClient {
     assert serverGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
     TimeUnit.SECONDS.sleep(1);
     assert clientGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
-    ;
+
     serverEventService.fireEvent(
         clientEventFactory.createReplaceBlockOutgoingEvent(
             serverEntity.uuid,
@@ -361,6 +361,7 @@ public class testSingleClient {
     TimeUnit.SECONDS.sleep(1);
 
     clientEventService.firePostUpdateEvents();
+    TimeUnit.SECONDS.sleep(1);
 
     assert clientGameStore.getBlock(new Coordinates(0, 0)).getClass() == SkyBlock.class;
     System.out.println("done");
