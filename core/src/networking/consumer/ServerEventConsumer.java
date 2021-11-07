@@ -20,6 +20,8 @@ import networking.server.ServerNetworkHandle;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ServerEventConsumer extends EventConsumer {
   @Inject EventService eventService;
@@ -40,12 +42,17 @@ public class ServerEventConsumer extends EventConsumer {
         event -> {
           SubscriptionIncomingEvent realEvent = (SubscriptionIncomingEvent) event;
 
-//          List<ChunkRange>  chunkSubscriptionService.getUserChunkRangeSubscriptions(realEvent.getUser());
+          List<ChunkRange> userChunkRangeList =  chunkSubscriptionService.getUserChunkRangeSubscriptions(realEvent.getUser());
+
+          Predicate<ChunkRange> doesNotContain = (userChunkRangeList::contains);
+          doesNotContain = doesNotContain.negate();
+
+          List<ChunkRange> newChunkRangeList = realEvent.getChunkRangeList().stream().distinct().filter(doesNotContain).collect(Collectors.toList());
 
           chunkSubscriptionService.registerSubscription(
               realEvent.getUser(), realEvent.getChunkRangeList());
 
-          for (ChunkRange chunkRange : realEvent.getChunkRangeList()) {
+          for (ChunkRange chunkRange : newChunkRangeList) {
             Chunk chunk = gameStore.getChunk(chunkRange);
 
             if (chunk == null) {
