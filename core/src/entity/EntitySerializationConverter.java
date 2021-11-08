@@ -7,6 +7,7 @@ import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.block.StoneBlock;
+import entity.misc.Ladder;
 import networking.NetworkObjects;
 
 import java.util.UUID;
@@ -26,8 +27,13 @@ public class EntitySerializationConverter {
       entity = blockFactory.createSky();
     } else if (classString.equals(StoneBlock.class.getName())) {
       entity = blockFactory.createStone();
-    } else {
+    } else if (classString.equals(Ladder.class.getName())) {
+      entity = entityFactory.createLadder();
+    } else if (classString.equals(Entity.class.getName())) {
       entity = entityFactory.createEntity();
+    }
+    else{
+      return null;
     }
     for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
       if (networkDataChild.getKey().equals(Coordinates.class.getName())) {
