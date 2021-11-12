@@ -28,13 +28,10 @@ public class GameController {
 
   public Entity createEntity(Entity entity) {
     this.gameStore.addEntity(entity);
-
     CreateEntityOutgoingEvent createEntityOutgoingEvent =
         eventFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(entity.coordinates));
-
     this.eventService.fireEvent(createEntityOutgoingEvent);
-
     return entity;
   }
 

@@ -75,7 +75,7 @@ public class GameScreen extends ApplicationAdapter {
     }
     batch = new SpriteBatch();
     batch.enableBlending();
-//    edgeRegistration.edgeRegistration();
+    //    edgeRegistration.edgeRegistration();
 
     myEntity = entityFactory.createEntity();
     myEntity.coordinates = new Coordinates(0, 2);
@@ -84,18 +84,15 @@ public class GameScreen extends ApplicationAdapter {
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     chunkGenerationManager.registerActiveEntity(myEntity, null);
     debugRenderer = new Box2DDebugRenderer();
-
   }
 
   @Override
   public void render() {
     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-
       this.pathEntity = entityFactory.createEntity();
       pathEntity.coordinates = new Coordinates(0, 1);
       gameController.createEntity(pathEntity);
-      pathEntity.setController(
-          entityControllerFactory.createEntityPathController(pathEntity, myEntity));
+      pathEntity.setController(entityControllerFactory.createEntityPathController(pathEntity, myEntity));
     }
 
     debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
