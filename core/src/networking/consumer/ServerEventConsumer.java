@@ -70,28 +70,30 @@ public class ServerEventConsumer extends EventConsumer {
             }
           }
         };
+
+      Consumer<Event> disconnectEvent =
+              event -> {
+                  DisconnectionEvent realEvent = (DisconnectionEvent) event;
+                  connectionStore.removeConnection(realEvent.getUuid());
+                  for (UUID ownersEntityUuid :
+                          chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
+                      Entity entity = this.gameStore.getEntity(ownersEntityUuid);
+                      this.eventService.queuePostUpdateEvent(
+                              eventFactory.createRemoveEntityEvent(ownersEntityUuid));
+
+                      RemoveEntityOutgoingEvent removeEntityOutgoingEvent =
+                              eventFactory.createRemoveEntityOutgoingEvent(
+                                      entity.toNetworkData(), new ChunkRange(entity.coordinates));
+                      for (UUID subscriptionUuid :
+                              chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
+                          serverNetworkHandle.send(
+                                  subscriptionUuid, removeEntityOutgoingEvent.toNetworkEvent());
+                      }
+                  }
+              };
+
+
     this.eventService.addListener(SubscriptionIncomingEvent.type, subscriptionIncoming);
-
-    Consumer<Event> disconnectEvent =
-        event -> {
-          DisconnectionEvent realEvent = (DisconnectionEvent) event;
-          connectionStore.removeConnection(realEvent.getUuid());
-          for (UUID ownersEntityUuid :
-              chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
-            Entity entity = this.gameStore.getEntity(ownersEntityUuid);
-            this.eventService.queuePostUpdateEvent(
-                eventFactory.createRemoveEntityEvent(ownersEntityUuid));
-
-            RemoveEntityOutgoingEvent removeEntityOutgoingEvent =
-                eventFactory.createRemoveEntityOutgoingEvent(
-                    entity.toNetworkData(), new ChunkRange(entity.coordinates));
-            for (UUID subscriptionUuid :
-                chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
-              serverNetworkHandle.send(
-                  subscriptionUuid, removeEntityOutgoingEvent.toNetworkEvent());
-            }
-          }
-        };
     this.eventService.addListener(DisconnectionEvent.type, disconnectEvent);
 
     Consumer<Event> createEntityIncoming =
