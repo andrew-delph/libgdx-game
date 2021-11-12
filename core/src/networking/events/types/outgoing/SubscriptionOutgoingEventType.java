@@ -1,21 +1,21 @@
-package networking.events;
+package networking.events.types.outgoing;
 
 import com.google.inject.Inject;
 import chunk.ChunkRange;
-import common.events.Event;
+import common.events.EventType;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
 
 import java.util.List;
 import java.util.UUID;
 
-public class SubscriptionOutgoingEvent extends Event implements SerializeNetworkEvent {
+public class SubscriptionOutgoingEventType extends EventType implements SerializeNetworkEvent {
   public static String type = "subscription_outgoing_event";
   List<ChunkRange> chunkRangeList;
   NetworkObjects.NetworkEvent networkEvent;
 
   @Inject
-  public SubscriptionOutgoingEvent(List<ChunkRange> chunkRangeList) {
+  public SubscriptionOutgoingEventType(List<ChunkRange> chunkRangeList) {
     this.chunkRangeList = chunkRangeList;
   }
 

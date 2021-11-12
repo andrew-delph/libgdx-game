@@ -1,9 +1,9 @@
-package networking.consumer;
+package networking.events.consumer;
 
 import app.GameController;
 import com.google.inject.Inject;
 import common.GameStore;
-import common.events.Event;
+import common.events.EventType;
 import common.events.EventConsumer;
 import common.events.EventService;
 import entity.Entity;
@@ -11,6 +11,13 @@ import entity.EntitySerializationConverter;
 import entity.block.Block;
 import networking.client.ClientNetworkHandle;
 import networking.events.*;
+import networking.events.types.incoming.CreateEntityIncomingEventType;
+import networking.events.types.incoming.RemoveEntityIncomingEventType;
+import networking.events.types.incoming.ReplaceBlockIncomingEventType;
+import networking.events.types.incoming.UpdateEntityIncomingEventType;
+import networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
+import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 
 import java.util.function.Consumer;
 
@@ -28,9 +35,9 @@ public class ClientEventConsumer extends EventConsumer {
 
   public void init() {
     super.init();
-    Consumer<Event> createEntityIncoming =
+    Consumer<EventType> createEntityIncoming =
         event -> {
-          CreateEntityIncomingEvent realEvent = (CreateEntityIncomingEvent) event;
+          CreateEntityIncomingEventType realEvent = (CreateEntityIncomingEventType) event;
           Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
           //           TODO remove or update
           if (this.gameStore.getEntity(entity.uuid) != null) {
@@ -39,22 +46,22 @@ public class ClientEventConsumer extends EventConsumer {
           gameController.triggerCreateEntity(entity);
         };
 
-    Consumer<Event> updateEntityIncoming =
+    Consumer<EventType> updateEntityIncoming =
         event -> {
-          UpdateEntityIncomingEvent realEvent = (UpdateEntityIncomingEvent) event;
+          UpdateEntityIncomingEventType realEvent = (UpdateEntityIncomingEventType) event;
           entitySerializationConverter.updateEntity(realEvent.getData());
         };
 
-    Consumer<Event> removeEntityIncoming =
+    Consumer<EventType> removeEntityIncoming =
         event -> {
-          RemoveEntityIncomingEvent realEvent = (RemoveEntityIncomingEvent) event;
+          RemoveEntityIncomingEventType realEvent = (RemoveEntityIncomingEventType) event;
           Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
           eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
         };
 
-    Consumer<Event> replaceBlockIncoming =
+    Consumer<EventType> replaceBlockIncoming =
         event -> {
-          ReplaceBlockIncomingEvent realEvent = (ReplaceBlockIncomingEvent) event;
+          ReplaceBlockIncomingEventType realEvent = (ReplaceBlockIncomingEventType) event;
           this.eventService.queuePostUpdateEvent(
               this.eventFactory.createReplaceBlockEvent(
                   realEvent.getTarget(),
@@ -63,34 +70,34 @@ public class ClientEventConsumer extends EventConsumer {
                           realEvent.getReplacementBlockData())));
         };
 
-    this.eventService.addListener(CreateEntityIncomingEvent.type, createEntityIncoming);
-    this.eventService.addListener(UpdateEntityIncomingEvent.type, updateEntityIncoming);
-    this.eventService.addListener(RemoveEntityIncomingEvent.type, removeEntityIncoming);
-    this.eventService.addListener(ReplaceBlockIncomingEvent.type, replaceBlockIncoming);
+    this.eventService.addListener(CreateEntityIncomingEventType.type, createEntityIncoming);
+    this.eventService.addListener(UpdateEntityIncomingEventType.type, updateEntityIncoming);
+    this.eventService.addListener(RemoveEntityIncomingEventType.type, removeEntityIncoming);
+    this.eventService.addListener(ReplaceBlockIncomingEventType.type, replaceBlockIncoming);
 
-    Consumer<Event> createEntityOutgoing =
+    Consumer<EventType> createEntityOutgoing =
         event -> {
-          CreateEntityOutgoingEvent realEvent = (CreateEntityOutgoingEvent) event;
+          CreateEntityOutgoingEventType realEvent = (CreateEntityOutgoingEventType) event;
           clientNetworkHandle.send(realEvent.toNetworkEvent());
         };
 
-    Consumer<Event> updateEntityOutgoing =
+    Consumer<EventType> updateEntityOutgoing =
         event -> {
-          UpdateEntityOutgoingEvent realEvent = (UpdateEntityOutgoingEvent) event;
+          UpdateEntityOutgoingEventType realEvent = (UpdateEntityOutgoingEventType) event;
           clientNetworkHandle.send(realEvent.toNetworkEvent());
         };
 
-    Consumer<Event> replaceBlockOutgoing =
+    Consumer<EventType> replaceBlockOutgoing =
         event -> {
-          ReplaceBlockOutgoingEvent realEvent = (ReplaceBlockOutgoingEvent) event;
+          ReplaceBlockOutgoingEventType realEvent = (ReplaceBlockOutgoingEventType) event;
           this.eventService.queuePostUpdateEvent(
               eventFactory.createReplaceBlockEvent(
                   realEvent.getTarget(), realEvent.getReplacementBlock()));
           this.clientNetworkHandle.send(realEvent.toNetworkEvent());
         };
 
-    this.eventService.addListener(CreateEntityOutgoingEvent.type, createEntityOutgoing);
-    this.eventService.addListener(UpdateEntityOutgoingEvent.type, updateEntityOutgoing);
-    this.eventService.addListener(ReplaceBlockOutgoingEvent.type, replaceBlockOutgoing);
+    this.eventService.addListener(CreateEntityOutgoingEventType.type, createEntityOutgoing);
+    this.eventService.addListener(UpdateEntityOutgoingEventType.type, updateEntityOutgoing);
+    this.eventService.addListener(ReplaceBlockOutgoingEventType.type, replaceBlockOutgoing);
   }
 }

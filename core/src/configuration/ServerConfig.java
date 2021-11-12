@@ -3,7 +3,7 @@ package configuration;
 import app.Game;
 import app.server.ServerGame;
 import common.events.EventConsumer;
-import networking.consumer.ServerEventConsumer;
+import networking.events.consumer.ServerEventConsumer;
 import networking.server.ServerNetworkHandle;
 
 public class ServerConfig extends MainConfig {

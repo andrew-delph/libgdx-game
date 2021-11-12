@@ -6,8 +6,8 @@ import configuration.ClientConfig;
 import chunk.ChunkRange;
 import common.Coordinates;
 import networking.events.EventFactory;
-import networking.events.SubscriptionIncomingEvent;
-import networking.events.SubscriptionOutgoingEvent;
+import networking.events.types.incoming.SubscriptionIncomingEventType;
+import networking.events.types.outgoing.SubscriptionOutgoingEventType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,12 +33,12 @@ public class testSubscriptionSerialization {
     List<ChunkRange> chunkRangeList = new LinkedList<>();
     chunkRangeList.add(new ChunkRange(new Coordinates(0, 1)));
     chunkRangeList.add(new ChunkRange(new Coordinates(-2, 1)));
-    SubscriptionOutgoingEvent subscriptionOutgoingEvent =
-        new SubscriptionOutgoingEvent(chunkRangeList);
+    SubscriptionOutgoingEventType subscriptionOutgoingEvent =
+        new SubscriptionOutgoingEventType(chunkRangeList);
     UUID uuid = UUID.randomUUID();
 
-    SubscriptionIncomingEvent subscriptionIncomingEvent =
-        new SubscriptionIncomingEvent(
+    SubscriptionIncomingEventType subscriptionIncomingEvent =
+        new SubscriptionIncomingEventType(
             subscriptionOutgoingEvent.toNetworkEvent().toBuilder()
                 .setUser(uuid.toString())
                 .build());

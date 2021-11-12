@@ -1,26 +1,26 @@
-package networking.events;
+package networking.events.types.outgoing;
 
-import com.google.inject.Inject;
 import chunk.ChunkRange;
-import common.events.Event;
+import common.events.EventType;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
 
-public class RemoveEntityOutgoingEvent extends Event implements SerializeNetworkEvent {
-
-  public static String type = "remove_entity_outgoing";
+public class UpdateEntityOutgoingEventType extends EventType implements SerializeNetworkEvent {
+  public static String type = "update_entity_outgoing";
   NetworkObjects.NetworkData entityData;
   ChunkRange chunkRange;
 
-  @Inject
-  RemoveEntityOutgoingEvent(NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
-    this.entityData = entityData;
+  public UpdateEntityOutgoingEventType(NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
     this.chunkRange = chunkRange;
+    this.entityData = entityData;
   }
 
-  @Override
   public String getType() {
     return type;
+  }
+
+  public ChunkRange getChunkRange() {
+    return this.chunkRange;
   }
 
   @Override

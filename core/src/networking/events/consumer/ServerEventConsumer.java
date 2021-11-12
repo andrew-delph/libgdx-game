@@ -1,4 +1,4 @@
-package networking.consumer;
+package networking.events.consumer;
 
 import app.GameController;
 import chunk.Chunk;
@@ -7,7 +7,7 @@ import chunk.ChunkRange;
 import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.GameStore;
-import common.events.Event;
+import common.events.EventType;
 import common.events.EventConsumer;
 import common.events.EventService;
 import entity.Entity;
@@ -17,6 +17,11 @@ import generation.ChunkGenerationManager;
 import networking.ConnectionStore;
 import networking.NetworkObjects;
 import networking.events.*;
+import networking.events.types.incoming.*;
+import networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
+import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
+import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 
 import java.util.List;
@@ -40,9 +45,9 @@ public class ServerEventConsumer extends EventConsumer {
   public void init() {
     super.init();
 
-    Consumer<Event> subscriptionIncoming =
+    Consumer<EventType> subscriptionIncoming =
         event -> {
-          SubscriptionIncomingEvent realEvent = (SubscriptionIncomingEvent) event;
+          SubscriptionIncomingEventType realEvent = (SubscriptionIncomingEventType) event;
           List<ChunkRange> userChunkRangeList =
               chunkSubscriptionService.getUserChunkRangeSubscriptions(realEvent.getUser());
           Predicate<ChunkRange> doesNotContain = (userChunkRangeList::contains);
@@ -71,9 +76,9 @@ public class ServerEventConsumer extends EventConsumer {
           }
         };
 
-      Consumer<Event> disconnectEvent =
+      Consumer<EventType> disconnectEvent =
               event -> {
-                  DisconnectionEvent realEvent = (DisconnectionEvent) event;
+                  DisconnectionIncomingEventType realEvent = (DisconnectionIncomingEventType) event;
                   connectionStore.removeConnection(realEvent.getUuid());
                   for (UUID ownersEntityUuid :
                           chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
@@ -81,7 +86,7 @@ public class ServerEventConsumer extends EventConsumer {
                       this.eventService.queuePostUpdateEvent(
                               eventFactory.createRemoveEntityEvent(ownersEntityUuid));
 
-                      RemoveEntityOutgoingEvent removeEntityOutgoingEvent =
+                      RemoveEntityOutgoingEventType removeEntityOutgoingEvent =
                               eventFactory.createRemoveEntityOutgoingEvent(
                                       entity.toNetworkData(), new ChunkRange(entity.coordinates));
                       for (UUID subscriptionUuid :
@@ -93,12 +98,12 @@ public class ServerEventConsumer extends EventConsumer {
               };
 
 
-    this.eventService.addListener(SubscriptionIncomingEvent.type, subscriptionIncoming);
-    this.eventService.addListener(DisconnectionEvent.type, disconnectEvent);
+    this.eventService.addListener(SubscriptionIncomingEventType.type, subscriptionIncoming);
+    this.eventService.addListener(DisconnectionIncomingEventType.type, disconnectEvent);
 
-    Consumer<Event> createEntityIncoming =
+    Consumer<EventType> createEntityIncoming =
         event -> {
-          CreateEntityIncomingEvent realEvent = (CreateEntityIncomingEvent) event;
+          CreateEntityIncomingEventType realEvent = (CreateEntityIncomingEventType) event;
           Entity entity =
               gameController.triggerCreateEntity(
                   entitySerializationConverter.createEntity(realEvent.getData()));
@@ -112,9 +117,9 @@ public class ServerEventConsumer extends EventConsumer {
           }
         };
 
-    Consumer<Event> updateEntityIncoming =
+    Consumer<EventType> updateEntityIncoming =
         event -> {
-          UpdateEntityIncomingEvent realEvent = (UpdateEntityIncomingEvent) event;
+          UpdateEntityIncomingEventType realEvent = (UpdateEntityIncomingEventType) event;
           Entity entity = entitySerializationConverter.updateEntity(realEvent.getData());
           for (UUID uuid :
               chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
@@ -123,9 +128,9 @@ public class ServerEventConsumer extends EventConsumer {
           }
         };
 
-    Consumer<Event> replaceBlockIncoming =
+    Consumer<EventType> replaceBlockIncoming =
         event -> {
-          ReplaceBlockIncomingEvent realEvent = (ReplaceBlockIncomingEvent) event;
+          ReplaceBlockIncomingEventType realEvent = (ReplaceBlockIncomingEventType) event;
           Entity placedEntity = this.gameStore.getEntity(realEvent.getTarget());
           ChunkRange chunkRange = new ChunkRange(placedEntity.coordinates);
           this.eventService.queuePostUpdateEvent(
@@ -139,13 +144,13 @@ public class ServerEventConsumer extends EventConsumer {
           }
         };
 
-    this.eventService.addListener(CreateEntityIncomingEvent.type, createEntityIncoming);
-    this.eventService.addListener(UpdateEntityIncomingEvent.type, updateEntityIncoming);
-    this.eventService.addListener(ReplaceBlockIncomingEvent.type, replaceBlockIncoming);
+    this.eventService.addListener(CreateEntityIncomingEventType.type, createEntityIncoming);
+    this.eventService.addListener(UpdateEntityIncomingEventType.type, updateEntityIncoming);
+    this.eventService.addListener(ReplaceBlockIncomingEventType.type, replaceBlockIncoming);
 
-    Consumer<Event> createEntityOutgoing =
+    Consumer<EventType> createEntityOutgoing =
         event -> {
-          CreateEntityOutgoingEvent realEvent = (CreateEntityOutgoingEvent) event;
+          CreateEntityOutgoingEventType realEvent = (CreateEntityOutgoingEventType) event;
           NetworkObjects.NetworkEvent networkEvent = realEvent.toNetworkEvent();
           List<UUID> uuidList =
               chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange());
@@ -154,26 +159,26 @@ public class ServerEventConsumer extends EventConsumer {
           }
         };
 
-    Consumer<Event> updateEntityOutgoing =
+    Consumer<EventType> updateEntityOutgoing =
         event -> {
-          UpdateEntityOutgoingEvent realEvent = (UpdateEntityOutgoingEvent) event;
+          UpdateEntityOutgoingEventType realEvent = (UpdateEntityOutgoingEventType) event;
           NetworkObjects.NetworkEvent networkEvent = realEvent.toNetworkEvent();
           for (UUID uuid : chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange())) {
             serverNetworkHandle.send(uuid, networkEvent);
           }
         };
 
-    Consumer<Event> replaceBlockOutgoing =
+    Consumer<EventType> replaceBlockOutgoing =
         event -> {
-          ReplaceBlockOutgoingEvent realEvent = (ReplaceBlockOutgoingEvent) event;
+          ReplaceBlockOutgoingEventType realEvent = (ReplaceBlockOutgoingEventType) event;
           this.eventService.queuePostUpdateEvent(event);
           for (UUID uuid : chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange())) {
             serverNetworkHandle.send(uuid, realEvent.toNetworkEvent());
           }
         };
 
-    this.eventService.addListener(CreateEntityOutgoingEvent.type, createEntityOutgoing);
-    this.eventService.addListener(UpdateEntityOutgoingEvent.type, updateEntityOutgoing);
-    this.eventService.addListener(ReplaceBlockOutgoingEvent.type, replaceBlockOutgoing);
+    this.eventService.addListener(CreateEntityOutgoingEventType.type, createEntityOutgoing);
+    this.eventService.addListener(UpdateEntityOutgoingEventType.type, updateEntityOutgoing);
+    this.eventService.addListener(ReplaceBlockOutgoingEventType.type, replaceBlockOutgoing);
   }
 }

@@ -4,14 +4,14 @@ import com.google.inject.Inject;
 
 import java.util.UUID;
 
-public class RemoveEntityEvent extends Event {
+public class RemoveEntityEventType extends EventType {
 
   public static String type = "remove_entity";
 
   UUID entityUUID;
 
   @Inject
-  public RemoveEntityEvent(UUID entityUUID) {
+  public RemoveEntityEventType(UUID entityUUID) {
     this.entityUUID = entityUUID;
   }
 

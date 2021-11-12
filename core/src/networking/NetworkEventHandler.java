@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import common.events.EventConsumer;
 import common.events.EventService;
 import networking.events.*;
+import networking.events.types.outgoing.*;
 
 public class NetworkEventHandler extends EventConsumer {
 
@@ -17,16 +18,16 @@ public class NetworkEventHandler extends EventConsumer {
   public void handleNetworkEvent(NetworkObjects.NetworkEvent networkEvent) {
     try {
       String event = networkEvent.getEvent();
-      if (event.equals(CreateEntityOutgoingEvent.type)) {
+      if (event.equals(CreateEntityOutgoingEventType.type)) {
         eventService.fireEvent(eventFactory.createCreateEntityIncomingEvent(networkEvent));
-      } else if (event.equals(UpdateEntityOutgoingEvent.type)) {
+      } else if (event.equals(UpdateEntityOutgoingEventType.type)) {
         eventService.fireEvent(eventFactory.createUpdateEntityIncomingEvent(networkEvent));
-      } else if (event.equals(SubscriptionOutgoingEvent.type)) {
+      } else if (event.equals(SubscriptionOutgoingEventType.type)) {
         eventService.fireEvent(eventFactory.createSubscriptionIncomingEvent(networkEvent));
-      } else if (event.equals(RemoveEntityOutgoingEvent.type)) {
+      } else if (event.equals(RemoveEntityOutgoingEventType.type)) {
         System.out.println(event);
         eventService.fireEvent(eventFactory.createRemoveEntityIncomingEvent(networkEvent));
-      } else if (event.equals(ReplaceBlockOutgoingEvent.type)) {
+      } else if (event.equals(ReplaceBlockOutgoingEventType.type)) {
         System.out.println(event);
         eventService.fireEvent(eventFactory.createReplaceBlockIncomingEvent(networkEvent));
       }

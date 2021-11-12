@@ -1,17 +1,17 @@
-package networking.events;
+package networking.events.types.incoming;
 
 import com.google.inject.Inject;
-import common.events.Event;
+import common.events.EventType;
 import networking.NetworkObjects;
 
-public class RemoveEntityIncomingEvent extends Event {
+public class RemoveEntityIncomingEventType extends EventType {
 
   public static String type = "remove_entity_incoming";
 
   public NetworkObjects.NetworkEvent networkEvent;
 
   @Inject
-  RemoveEntityIncomingEvent(NetworkObjects.NetworkEvent networkEvent) {
+  public RemoveEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
     this.networkEvent = networkEvent;
   }
 

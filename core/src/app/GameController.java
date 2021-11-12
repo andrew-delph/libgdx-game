@@ -10,7 +10,7 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.block.*;
 import entity.misc.Ladder;
-import networking.events.CreateEntityOutgoingEvent;
+import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.events.EventFactory;
 
 import java.util.UUID;
@@ -28,7 +28,7 @@ public class GameController {
 
   public Entity createEntity(Entity entity) {
     this.gameStore.addEntity(entity);
-    CreateEntityOutgoingEvent createEntityOutgoingEvent =
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
         eventFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(entity.coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
@@ -39,7 +39,7 @@ public class GameController {
     Entity entity = blockFactory.createSky();
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
-    CreateEntityOutgoingEvent createEntityOutgoingEvent =
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
         eventFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
@@ -50,7 +50,7 @@ public class GameController {
     Entity entity = blockFactory.createDirt();
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
-    CreateEntityOutgoingEvent createEntityOutgoingEvent =
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
         eventFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
@@ -61,7 +61,7 @@ public class GameController {
     Entity entity = blockFactory.createStone();
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
-    CreateEntityOutgoingEvent createEntityOutgoingEvent =
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
         eventFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
@@ -134,7 +134,7 @@ public class GameController {
     Entity entity = entityFactory.createLadder();
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
-    CreateEntityOutgoingEvent createEntityOutgoingEvent =
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
             eventFactory.createCreateEntityOutgoingEvent(
                     entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);

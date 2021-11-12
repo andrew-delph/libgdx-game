@@ -5,7 +5,7 @@ import entity.block.Block;
 
 import java.util.UUID;
 
-public class ReplaceBlockEvent extends Event {
+public class ReplaceBlockEventType extends EventType {
 
   public static String type = "replace_block";
 
@@ -13,7 +13,7 @@ public class ReplaceBlockEvent extends Event {
   Block replacementBlock;
 
   @Inject
-  public ReplaceBlockEvent(UUID target, Block replacementBlock) {
+  public ReplaceBlockEventType(UUID target, Block replacementBlock) {
     this.target = target;
     this.replacementBlock = replacementBlock;
   }

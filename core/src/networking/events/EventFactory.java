@@ -2,10 +2,12 @@ package networking.events;
 
 import com.google.inject.Inject;
 import chunk.ChunkRange;
-import common.events.RemoveEntityEvent;
-import common.events.ReplaceBlockEvent;
+import common.events.RemoveEntityEventType;
+import common.events.ReplaceBlockEventType;
 import entity.block.Block;
 import networking.NetworkObjects;
+import networking.events.types.incoming.*;
+import networking.events.types.outgoing.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,78 +17,78 @@ public class EventFactory {
   @Inject
   EventFactory() {}
 
-  public CreateEntityOutgoingEvent createCreateEntityOutgoingEvent(
+  public CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
       NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
-    return new CreateEntityOutgoingEvent(entityData, chunkRange);
+    return new CreateEntityOutgoingEventType(entityData, chunkRange);
   }
   ;
 
-  public CreateEntityIncomingEvent createCreateEntityIncomingEvent(
+  public CreateEntityIncomingEventType createCreateEntityIncomingEvent(
       NetworkObjects.NetworkEvent networkEvent) {
-    return new CreateEntityIncomingEvent(networkEvent);
+    return new CreateEntityIncomingEventType(networkEvent);
   }
   ;
 
-  public UpdateEntityOutgoingEvent createUpdateEntityOutgoingEvent(
+  public UpdateEntityOutgoingEventType createUpdateEntityOutgoingEvent(
       NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
-    return new UpdateEntityOutgoingEvent(entityData, chunkRange);
+    return new UpdateEntityOutgoingEventType(entityData, chunkRange);
   }
   ;
 
-  public UpdateEntityIncomingEvent createUpdateEntityIncomingEvent(
+  public UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
       NetworkObjects.NetworkEvent networkEvent) {
-    return new UpdateEntityIncomingEvent(networkEvent);
+    return new UpdateEntityIncomingEventType(networkEvent);
   }
   ;
 
-  public SubscriptionOutgoingEvent createSubscriptionOutgoingEvent(
+  public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(
       List<ChunkRange> chunkRangeList) {
-    return new SubscriptionOutgoingEvent(chunkRangeList);
+    return new SubscriptionOutgoingEventType(chunkRangeList);
   }
   ;
 
-  public SubscriptionIncomingEvent createSubscriptionIncomingEvent(
+  public SubscriptionIncomingEventType createSubscriptionIncomingEvent(
       NetworkObjects.NetworkEvent networkEvent) {
-    return new SubscriptionIncomingEvent(networkEvent);
+    return new SubscriptionIncomingEventType(networkEvent);
   }
   ;
 
-  public RemoveEntityIncomingEvent createRemoveEntityIncomingEvent(
+  public RemoveEntityIncomingEventType createRemoveEntityIncomingEvent(
       NetworkObjects.NetworkEvent networkEvent) {
-    return new RemoveEntityIncomingEvent(networkEvent);
+    return new RemoveEntityIncomingEventType(networkEvent);
   }
   ;
 
-  public RemoveEntityOutgoingEvent createRemoveEntityOutgoingEvent(
+  public RemoveEntityOutgoingEventType createRemoveEntityOutgoingEvent(
       NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
-    return new RemoveEntityOutgoingEvent(entityData, chunkRange);
+    return new RemoveEntityOutgoingEventType(entityData, chunkRange);
   }
   ;
 
-  public DisconnectionEvent createDisconnectionEvent(UUID uuid) {
-    return new DisconnectionEvent(uuid);
+  public DisconnectionIncomingEventType createDisconnectionEvent(UUID uuid) {
+    return new DisconnectionIncomingEventType(uuid);
   }
   ;
 
-  public ReplaceBlockIncomingEvent createReplaceBlockIncomingEvent(
+  public ReplaceBlockIncomingEventType createReplaceBlockIncomingEvent(
       NetworkObjects.NetworkEvent networkEvent) {
-    return new ReplaceBlockIncomingEvent(networkEvent);
+    return new ReplaceBlockIncomingEventType(networkEvent);
   }
   ;
 
-  public ReplaceBlockOutgoingEvent createReplaceBlockOutgoingEvent(
+  public ReplaceBlockOutgoingEventType createReplaceBlockOutgoingEvent(
       UUID target, Block replacementBlock, ChunkRange chunkRange) {
-    return new ReplaceBlockOutgoingEvent(target, replacementBlock, chunkRange);
+    return new ReplaceBlockOutgoingEventType(target, replacementBlock, chunkRange);
   }
   ;
 
-  public ReplaceBlockEvent createReplaceBlockEvent(UUID target, Block replacementBlock) {
-    return new ReplaceBlockEvent(target, replacementBlock);
+  public ReplaceBlockEventType createReplaceBlockEvent(UUID target, Block replacementBlock) {
+    return new ReplaceBlockEventType(target, replacementBlock);
   }
   ;
 
-  public RemoveEntityEvent createRemoveEntityEvent(UUID entityUuid) {
-    return new RemoveEntityEvent(entityUuid);
+  public RemoveEntityEventType createRemoveEntityEvent(UUID entityUuid) {
+    return new RemoveEntityEventType(entityUuid);
   }
   ;
 }

@@ -1,12 +1,12 @@
-package networking.events;
+package networking.events.types.incoming;
 
 import com.google.inject.Inject;
-import common.events.Event;
+import common.events.EventType;
 import networking.NetworkObjects;
 
 import java.util.UUID;
 
-public class ReplaceBlockIncomingEvent extends Event {
+public class ReplaceBlockIncomingEventType extends EventType {
 
   public static String type = "replace_block_incoming";
   public NetworkObjects.NetworkEvent networkEvent;
@@ -14,7 +14,7 @@ public class ReplaceBlockIncomingEvent extends Event {
   NetworkObjects.NetworkData replacementBlockData;
 
   @Inject
-  public ReplaceBlockIncomingEvent(NetworkObjects.NetworkEvent networkEvent) {
+  public ReplaceBlockIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
     this.networkEvent = networkEvent;
     for (NetworkObjects.NetworkData networkData : networkEvent.getData().getChildrenList()) {
       switch (networkData.getKey()) {

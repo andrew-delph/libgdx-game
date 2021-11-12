@@ -1,19 +1,19 @@
-package networking.events;
+package networking.events.types.incoming;
 
 import com.google.inject.Inject;
-import common.events.Event;
+import common.events.EventType;
 import networking.NetworkObjects;
 
 import java.util.UUID;
 
-public class UpdateEntityIncomingEvent extends Event {
+public class UpdateEntityIncomingEventType extends EventType {
 
   public static String type = "update_entity_incoming";
 
   public NetworkObjects.NetworkEvent networkEvent;
 
   @Inject
-  UpdateEntityIncomingEvent(NetworkObjects.NetworkEvent networkEvent) {
+  public UpdateEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
     this.networkEvent = networkEvent;
   }
 

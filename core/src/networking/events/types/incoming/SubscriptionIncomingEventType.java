@@ -1,22 +1,22 @@
-package networking.events;
+package networking.events.types.incoming;
 
 import com.google.inject.Inject;
 import chunk.ChunkRange;
-import common.events.Event;
+import common.events.EventType;
 import networking.NetworkObjects;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class SubscriptionIncomingEvent extends Event {
+public class SubscriptionIncomingEventType extends EventType {
 
   public static String type = "subscription_incoming_event";
   List<ChunkRange> chunkRangeList;
   UUID uuid;
 
   @Inject
-  public SubscriptionIncomingEvent(NetworkObjects.NetworkEvent networkEvent) {
+  public SubscriptionIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
     NetworkObjects.NetworkData data = networkEvent.getData();
     this.uuid = UUID.fromString(networkEvent.getUser());
     this.chunkRangeList = new LinkedList<>();

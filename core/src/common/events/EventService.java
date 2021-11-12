@@ -7,43 +7,43 @@ import java.util.function.Consumer;
 
 public class EventService {
 
-  Map<String, List<Consumer<Event>>> eventListeners = new HashMap<>();
-  Map<String, List<Consumer<Event>>> eventPostUpdateListeners = new HashMap<>();
-  List<Event> postUpdateEventList = new LinkedList<>();
+  Map<String, List<Consumer<EventType>>> eventListeners = new HashMap<>();
+  Map<String, List<Consumer<EventType>>> eventPostUpdateListeners = new HashMap<>();
+  List<EventType> postUpdateEventTypeList = new LinkedList<>();
 
   @Inject
   public EventService() {}
 
-  public void addListener(String type, Consumer<Event> eventConsumer) {
+  public void addListener(String type, Consumer<EventType> eventConsumer) {
     this.eventListeners.computeIfAbsent(type, k -> new ArrayList<>());
     this.eventListeners.get(type).add(eventConsumer);
   }
 
-  public void fireEvent(Event event) {
-    if (this.eventListeners.get(event.getType()) != null) {
+  public void fireEvent(EventType eventType) {
+    if (this.eventListeners.get(eventType.getType()) != null) {
       this.eventListeners
-          .get(event.getType())
-          .forEach(eventConsumer -> eventConsumer.accept(event));
+          .get(eventType.getType())
+          .forEach(eventConsumer -> eventConsumer.accept(eventType));
     }
   }
 
-  public void addPostUpdateListener(String type, Consumer<Event> eventConsumer) {
+  public void addPostUpdateListener(String type, Consumer<EventType> eventConsumer) {
     this.eventPostUpdateListeners.computeIfAbsent(type, k -> new ArrayList<>());
     this.eventPostUpdateListeners.get(type).add(eventConsumer);
   }
 
-  public void queuePostUpdateEvent(Event event) {
-    this.postUpdateEventList.add(event);
+  public void queuePostUpdateEvent(EventType eventType) {
+    this.postUpdateEventTypeList.add(eventType);
   }
 
   public void firePostUpdateEvents() {
-    List<Event> postUpdateEventListCopy = new LinkedList<>(this.postUpdateEventList);
-    this.postUpdateEventList = new LinkedList<>();
-    for (Event event : postUpdateEventListCopy) {
-      if (this.eventPostUpdateListeners.get(event.getType()) != null) {
+    List<EventType> postUpdateEventTypeListCopy = new LinkedList<>(this.postUpdateEventTypeList);
+    this.postUpdateEventTypeList = new LinkedList<>();
+    for (EventType eventType : postUpdateEventTypeListCopy) {
+      if (this.eventPostUpdateListeners.get(eventType.getType()) != null) {
         this.eventPostUpdateListeners
-            .get(event.getType())
-            .forEach(eventConsumer -> eventConsumer.accept(event));
+            .get(eventType.getType())
+            .forEach(eventConsumer -> eventConsumer.accept(eventType));
       }
     }
   }

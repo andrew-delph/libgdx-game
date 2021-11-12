@@ -1,17 +1,17 @@
-package networking.events;
+package networking.events.types.outgoing;
 
 import chunk.ChunkRange;
-import common.events.Event;
+import common.events.EventType;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
 
-public class CreateEntityOutgoingEvent extends Event implements SerializeNetworkEvent {
+public class CreateEntityOutgoingEventType extends EventType implements SerializeNetworkEvent {
 
   public static String type = "create_entity_outgoing";
   NetworkObjects.NetworkData entityData;
   ChunkRange chunkRange;
 
-  CreateEntityOutgoingEvent(NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
+  public CreateEntityOutgoingEventType(NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
     this.chunkRange = chunkRange;
     this.entityData = entityData;
   }

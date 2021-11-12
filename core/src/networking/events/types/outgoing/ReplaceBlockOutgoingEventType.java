@@ -1,15 +1,15 @@
-package networking.events;
+package networking.events.types.outgoing;
 
 import com.google.inject.Inject;
 import chunk.ChunkRange;
-import common.events.Event;
+import common.events.EventType;
 import entity.block.Block;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
 
 import java.util.UUID;
 
-public class ReplaceBlockOutgoingEvent extends Event implements SerializeNetworkEvent {
+public class ReplaceBlockOutgoingEventType extends EventType implements SerializeNetworkEvent {
 
   public static String type = "replace_block_outgoing";
 
@@ -18,7 +18,7 @@ public class ReplaceBlockOutgoingEvent extends Event implements SerializeNetwork
   ChunkRange chunkRange;
 
   @Inject
-  public ReplaceBlockOutgoingEvent(UUID target, Block replacementBlock, ChunkRange chunkRange) {
+  public ReplaceBlockOutgoingEventType(UUID target, Block replacementBlock, ChunkRange chunkRange) {
     this.target = target;
     this.replacementBlock = replacementBlock;
     this.chunkRange = chunkRange;

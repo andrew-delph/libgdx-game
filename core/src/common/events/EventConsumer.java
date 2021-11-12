@@ -15,16 +15,16 @@ public class EventConsumer {
 
   public void init() {
     this.eventService.addPostUpdateListener(
-        ReplaceBlockEvent.type,
+        ReplaceBlockEventType.type,
         event -> {
-          ReplaceBlockEvent realEvent = (ReplaceBlockEvent) event;
+          ReplaceBlockEventType realEvent = (ReplaceBlockEventType) event;
           this.gameController.replaceBlock(realEvent.getTarget(), realEvent.getReplacementBlock());
         });
 
     this.eventService.addPostUpdateListener(
-        RemoveEntityEvent.type,
+        RemoveEntityEventType.type,
         event -> {
-          RemoveEntityEvent realEvent = (RemoveEntityEvent) event;
+          RemoveEntityEventType realEvent = (RemoveEntityEventType) event;
           this.gameStore.removeEntity(realEvent.getEntityUUID());
         });
   }
