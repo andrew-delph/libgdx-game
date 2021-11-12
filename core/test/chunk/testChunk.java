@@ -2,8 +2,8 @@ package chunk;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configuration.ClientConfig;
 import common.Coordinates;
+import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.Block;

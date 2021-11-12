@@ -1,10 +1,10 @@
 package networking.client;
 
-import networking.NetworkObjectServiceGrpc;
-import networking.NetworkObjects;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import networking.NetworkObjectServiceGrpc;
+import networking.NetworkObjects;
 
 import java.util.concurrent.TimeUnit;
 

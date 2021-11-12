@@ -1,11 +1,11 @@
 package common;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import configuration.ClientConfig;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import configuration.ClientConfig;
 import org.junit.Before;
 import org.junit.Test;
 

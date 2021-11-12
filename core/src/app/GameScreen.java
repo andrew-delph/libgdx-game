@@ -92,7 +92,8 @@ public class GameScreen extends ApplicationAdapter {
       this.pathEntity = entityFactory.createEntity();
       pathEntity.coordinates = new Coordinates(0, 1);
       gameController.createEntity(pathEntity);
-      pathEntity.setController(entityControllerFactory.createEntityPathController(pathEntity, myEntity));
+      pathEntity.setController(
+          entityControllerFactory.createEntityPathController(pathEntity, myEntity));
     }
 
     debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);

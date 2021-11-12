@@ -1,11 +1,11 @@
 package entity.pathfinding;
 
+import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configuration.SoloConfig;
-import chunk.ChunkRange;
 import common.Coordinates;
 import common.GameStore;
+import configuration.SoloConfig;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import generation.ChunkBuilderFactory;
@@ -293,7 +293,7 @@ public class testRelativePath {
     }
 
     RelativePath relativePath =
-            relativePathFactory.create(new Coordinates(0, 1), new Coordinates(2, 5));
+        relativePathFactory.create(new Coordinates(0, 1), new Coordinates(2, 5));
 
     System.out.println("^^^^^^^^^^^^^^");
     System.out.println(gameStore.getBlock(new Coordinates(2, 5)).getClass());
@@ -347,8 +347,7 @@ public class testRelativePath {
     }
 
     RelativePath relativePath =
-            relativePathFactory.create(new Coordinates(0, 1), new Coordinates(5, 1));
-
+        relativePathFactory.create(new Coordinates(0, 1), new Coordinates(5, 1));
 
     relativePath.search();
 

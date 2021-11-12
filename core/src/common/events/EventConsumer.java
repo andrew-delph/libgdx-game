@@ -1,7 +1,7 @@
 package common.events;
 
-import com.google.inject.Inject;
 import app.GameController;
+import com.google.inject.Inject;
 import common.GameStore;
 
 public class EventConsumer {

@@ -12,22 +12,21 @@ import java.util.concurrent.Future;
 
 public class RelativePath implements Callable<Void> {
 
+  static ExecutorService executor = Executors.newFixedThreadPool(4);
   public Coordinates target;
   public RelativePathNode finalPathNode = null;
   Coordinates source;
   @Inject EdgeStore edgeStore;
   Set<RelativePathNode> unvisitedPathNodeSet = new HashSet<>();
-
-  PriorityQueue<RelativePathNode> unvisitedPathNodeQueue = new PriorityQueue<>((t1, t2) -> {
-    double diff = t2.getCost() - t1.getCost();
-    if(diff<0) return 1;
-    else if(diff>0) return -1;
-    return 0;
-  });
-
+  PriorityQueue<RelativePathNode> unvisitedPathNodeQueue =
+      new PriorityQueue<>(
+          (t1, t2) -> {
+            double diff = t2.getCost() - t1.getCost();
+            if (diff < 0) return 1;
+            else if (diff > 0) return -1;
+            return 0;
+          });
   Set<RelativePathNode> visitedPathNodeSet = new HashSet<>();
-
-  static ExecutorService executor = Executors.newFixedThreadPool(4);
   Future future;
 
   public RelativePath(EdgeStore edgeStore, Coordinates source, Coordinates target) {
@@ -48,10 +47,11 @@ public class RelativePath implements Callable<Void> {
     for (AbstractEdge edge : this.edgeStore.getEdgeList()) {
       if (edge.isAvailable(new PathGameStoreOverride(), source)) {
         unvisitedPathNodeSet.add(
-                new RelativePathNode(edge, source, target, new PathGameStoreOverride(),edge.getCost()));
+            new RelativePathNode(
+                edge, source, target, new PathGameStoreOverride(), edge.getCost()));
         unvisitedPathNodeQueue.add(
-                new RelativePathNode(edge, source, target, new PathGameStoreOverride(),edge.getCost()));
-
+            new RelativePathNode(
+                edge, source, target, new PathGameStoreOverride(), edge.getCost()));
       }
     }
     while (unvisitedPathNodeQueue.size() > 0) {

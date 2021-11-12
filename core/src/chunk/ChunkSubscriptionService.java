@@ -41,7 +41,7 @@ public class ChunkSubscriptionService {
   }
 
   public List<ChunkRange> getUserChunkRangeSubscriptions(UUID uuid) {
-    Set<ChunkRange> userChunkRangeSet =  this.userToChunkList.get(uuid);
+    Set<ChunkRange> userChunkRangeSet = this.userToChunkList.get(uuid);
     if (userChunkRangeSet == null) return new LinkedList<>();
     return new LinkedList<>(userChunkRangeSet);
   }

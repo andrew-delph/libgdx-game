@@ -1,10 +1,10 @@
 package networking.server;
 
-import networking.NetworkObjectServiceGrpc;
-import networking.NetworkObjects;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+import networking.NetworkObjectServiceGrpc;
+import networking.NetworkObjects;
 
 import java.io.IOException;
 

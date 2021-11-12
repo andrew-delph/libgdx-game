@@ -1,7 +1,7 @@
 package entity;
 
-import com.google.inject.Inject;
 import app.render.BaseAssetManager;
+import com.google.inject.Inject;
 import common.Clock;
 import entity.misc.Ladder;
 

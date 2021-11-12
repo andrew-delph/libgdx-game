@@ -1,7 +1,7 @@
 package app;
 
-import com.google.inject.Inject;
 import chunk.Chunk;
+import com.google.inject.Inject;
 import common.Clock;
 import common.GameStore;
 import common.events.EventService;

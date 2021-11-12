@@ -3,7 +3,7 @@ package networking;
 import com.google.inject.Inject;
 import common.events.EventConsumer;
 import common.events.EventService;
-import networking.events.*;
+import networking.events.EventFactory;
 import networking.events.types.outgoing.*;
 
 public class NetworkEventHandler extends EventConsumer {

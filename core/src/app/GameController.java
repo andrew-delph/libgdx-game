@@ -1,7 +1,7 @@
 package app;
 
-import com.google.inject.Inject;
 import chunk.ChunkRange;
+import com.google.inject.Inject;
 import common.Coordinates;
 import common.Direction;
 import common.GameStore;
@@ -10,8 +10,8 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.block.*;
 import entity.misc.Ladder;
-import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.events.EventFactory;
+import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 
 import java.util.UUID;
 
@@ -135,8 +135,8 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
-            eventFactory.createCreateEntityOutgoingEvent(
-                    entity.toNetworkData(), new ChunkRange(coordinates));
+        eventFactory.createCreateEntityOutgoingEvent(
+            entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }

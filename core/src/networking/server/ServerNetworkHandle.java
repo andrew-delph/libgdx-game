@@ -1,10 +1,10 @@
 package networking.server;
 
 import com.google.inject.Inject;
-import networking.*;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+import networking.*;
 
 import java.io.IOException;
 import java.util.UUID;

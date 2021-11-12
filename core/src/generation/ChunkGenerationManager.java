@@ -1,8 +1,8 @@
 package generation;
 
-import com.google.inject.Inject;
 import chunk.Chunk;
 import chunk.ChunkRange;
+import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
 import entity.Entity;

@@ -1,14 +1,14 @@
 package networking;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import configuration.ClientConfig;
-import configuration.ServerConfig;
 import app.GameController;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
+import configuration.ClientConfig;
+import configuration.ServerConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import networking.client.ClientNetworkHandle;

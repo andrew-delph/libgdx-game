@@ -1,7 +1,7 @@
 package networking.events.types.outgoing;
 
-import com.google.inject.Inject;
 import chunk.ChunkRange;
+import com.google.inject.Inject;
 import common.events.EventType;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
@@ -13,7 +13,8 @@ public class RemoveEntityOutgoingEventType extends EventType implements Serializ
   ChunkRange chunkRange;
 
   @Inject
-  public RemoveEntityOutgoingEventType(NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
+  public RemoveEntityOutgoingEventType(
+      NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
     this.entityData = entityData;
     this.chunkRange = chunkRange;
   }

@@ -1,9 +1,9 @@
 package entity.controllers;
 
+import app.GameController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
-import app.GameController;
 import common.Direction;
 import entity.Entity;
 import entity.block.DirtBlock;

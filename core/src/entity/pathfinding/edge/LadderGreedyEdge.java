@@ -41,11 +41,11 @@ public class LadderGreedyEdge extends HorizontalGreedyEdge {
 }
 
 class LadderEdgeStepper extends HorizontalEdgeStepper {
+  GameController gameController;
+
   public LadderEdgeStepper(GameController gameController) {
     this.gameController = gameController;
   }
-
-  GameController gameController;
 
   @Override
   public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {

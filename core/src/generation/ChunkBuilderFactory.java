@@ -1,9 +1,9 @@
 package generation;
 
-import com.google.inject.Inject;
 import app.GameController;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import com.google.inject.Inject;
 import common.GameStore;
 
 public class ChunkBuilderFactory {

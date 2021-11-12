@@ -1,10 +1,10 @@
 package configuration;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
 import app.render.BaseAssetManager;
 import chunk.ChunkFactory;
 import chunk.ChunkSubscriptionService;
+import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import common.ChunkClockMap;
 import common.Clock;
 import common.GameStore;

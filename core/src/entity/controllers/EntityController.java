@@ -1,7 +1,7 @@
 package entity.controllers;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import app.GameController;
+import com.badlogic.gdx.physics.box2d.Body;
 import common.Coordinates;
 import entity.Entity;
 import entity.controllers.actions.EntityAction;

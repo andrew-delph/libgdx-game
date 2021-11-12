@@ -1,12 +1,12 @@
 package entity.pathfinding;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import configuration.SoloConfig;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
+import configuration.SoloConfig;
 import entity.EntityFactory;
 import entity.block.Block;
 import entity.block.BlockFactory;

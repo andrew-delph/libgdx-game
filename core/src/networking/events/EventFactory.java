@@ -1,7 +1,7 @@
 package networking.events;
 
-import com.google.inject.Inject;
 import chunk.ChunkRange;
+import com.google.inject.Inject;
 import common.events.RemoveEntityEventType;
 import common.events.ReplaceBlockEventType;
 import entity.block.Block;

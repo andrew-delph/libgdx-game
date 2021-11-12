@@ -1,10 +1,8 @@
 package app.client;
 
-import com.google.inject.Inject;
 import app.Game;
 import chunk.ChunkFactory;
-import chunk.ChunkRange;
-import common.Coordinates;
+import com.google.inject.Inject;
 import common.GameStore;
 import common.events.EventConsumer;
 import entity.collision.CollisionService;
@@ -13,8 +11,6 @@ import networking.client.ClientNetworkHandle;
 import networking.events.EventFactory;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ClientGame extends Game {
 

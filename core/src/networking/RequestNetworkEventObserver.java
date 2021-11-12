@@ -1,8 +1,8 @@
 package networking;
 
 import common.events.EventService;
-import networking.events.EventFactory;
 import io.grpc.stub.StreamObserver;
+import networking.events.EventFactory;
 
 import java.util.UUID;
 

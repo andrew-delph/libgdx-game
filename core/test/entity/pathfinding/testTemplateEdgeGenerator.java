@@ -3,8 +3,8 @@ package entity.pathfinding;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configuration.SoloConfig;
 import common.Coordinates;
+import configuration.SoloConfig;
 import entity.pathfinding.edge.AbstractEdge;
 import org.junit.Test;
 

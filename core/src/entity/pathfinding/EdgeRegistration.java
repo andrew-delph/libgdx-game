@@ -1,8 +1,8 @@
 package entity.pathfinding;
 
+import app.GameController;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
-import app.GameController;
 import common.GameStore;
 import entity.block.BlockFactory;
 import entity.block.EmptyBlock;

@@ -1,13 +1,13 @@
 package app.server;
 
+import app.Game;
+import chunk.ChunkFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import configuration.ServerConfig;
-import app.Game;
-import chunk.ChunkFactory;
 import common.GameStore;
 import common.events.EventConsumer;
+import configuration.ServerConfig;
 import entity.collision.CollisionService;
 import generation.ChunkGenerationManager;
 import networking.server.ServerNetworkHandle;

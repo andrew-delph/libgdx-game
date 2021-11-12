@@ -1,12 +1,12 @@
 package networking.client;
 
 import com.google.inject.Inject;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
 import networking.ObserverFactory;
 import networking.RequestNetworkEventObserver;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 
 import java.util.UUID;
 

@@ -1,18 +1,18 @@
 package networking;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import configuration.ClientConfig;
-import configuration.ServerConfig;
 import app.Game;
 import app.GameController;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import chunk.ChunkSubscriptionService;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import common.ChunkClockMap;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
+import configuration.ClientConfig;
+import configuration.ServerConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.Block;
@@ -385,9 +385,9 @@ public class testSingleClient {
     assert clientGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-            .getEntity(clientEntity.uuid)
-            .coordinates
-            .equals(clientEntity.coordinates);
+        .getEntity(clientEntity.uuid)
+        .coordinates
+        .equals(clientEntity.coordinates);
   }
 
   @Test
@@ -409,8 +409,8 @@ public class testSingleClient {
     assert clientGameStore.getEntity(serverEntity.uuid).uuid.equals(serverEntity.uuid);
     assert serverGameStore.getEntity(serverEntity.uuid).uuid.equals(serverEntity.uuid);
     assert clientGameStore
-            .getEntity(serverEntity.uuid)
-            .coordinates
-            .equals(serverEntity.coordinates);
+        .getEntity(serverEntity.uuid)
+        .coordinates
+        .equals(serverEntity.coordinates);
   }
 }

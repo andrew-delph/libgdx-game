@@ -7,16 +7,16 @@ import chunk.ChunkRange;
 import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.GameStore;
-import common.events.EventType;
 import common.events.EventConsumer;
 import common.events.EventService;
+import common.events.EventType;
 import entity.Entity;
 import entity.EntitySerializationConverter;
 import entity.block.Block;
 import generation.ChunkGenerationManager;
 import networking.ConnectionStore;
 import networking.NetworkObjects;
-import networking.events.*;
+import networking.events.EventFactory;
 import networking.events.types.incoming.*;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
@@ -76,27 +76,26 @@ public class ServerEventConsumer extends EventConsumer {
           }
         };
 
-      Consumer<EventType> disconnectEvent =
-              event -> {
-                  DisconnectionIncomingEventType realEvent = (DisconnectionIncomingEventType) event;
-                  connectionStore.removeConnection(realEvent.getUuid());
-                  for (UUID ownersEntityUuid :
-                          chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
-                      Entity entity = this.gameStore.getEntity(ownersEntityUuid);
-                      this.eventService.queuePostUpdateEvent(
-                              eventFactory.createRemoveEntityEvent(ownersEntityUuid));
+    Consumer<EventType> disconnectEvent =
+        event -> {
+          DisconnectionIncomingEventType realEvent = (DisconnectionIncomingEventType) event;
+          connectionStore.removeConnection(realEvent.getUuid());
+          for (UUID ownersEntityUuid :
+              chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
+            Entity entity = this.gameStore.getEntity(ownersEntityUuid);
+            this.eventService.queuePostUpdateEvent(
+                eventFactory.createRemoveEntityEvent(ownersEntityUuid));
 
-                      RemoveEntityOutgoingEventType removeEntityOutgoingEvent =
-                              eventFactory.createRemoveEntityOutgoingEvent(
-                                      entity.toNetworkData(), new ChunkRange(entity.coordinates));
-                      for (UUID subscriptionUuid :
-                              chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
-                          serverNetworkHandle.send(
-                                  subscriptionUuid, removeEntityOutgoingEvent.toNetworkEvent());
-                      }
-                  }
-              };
-
+            RemoveEntityOutgoingEventType removeEntityOutgoingEvent =
+                eventFactory.createRemoveEntityOutgoingEvent(
+                    entity.toNetworkData(), new ChunkRange(entity.coordinates));
+            for (UUID subscriptionUuid :
+                chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
+              serverNetworkHandle.send(
+                  subscriptionUuid, removeEntityOutgoingEvent.toNetworkEvent());
+            }
+          }
+        };
 
     this.eventService.addListener(SubscriptionIncomingEventType.type, subscriptionIncoming);
     this.eventService.addListener(DisconnectionIncomingEventType.type, disconnectEvent);

@@ -1,10 +1,10 @@
 package infra.serialization;
 
+import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configuration.ClientConfig;
-import chunk.ChunkRange;
 import common.Coordinates;
+import configuration.ClientConfig;
 import networking.events.EventFactory;
 import networking.events.types.incoming.SubscriptionIncomingEventType;
 import networking.events.types.outgoing.SubscriptionOutgoingEventType;

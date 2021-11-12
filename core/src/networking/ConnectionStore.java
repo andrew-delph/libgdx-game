@@ -1,7 +1,7 @@
 package networking;
 
-import com.google.inject.Inject;
 import chunk.ChunkSubscriptionService;
+import com.google.inject.Inject;
 
 import java.util.HashMap;
 import java.util.Map;

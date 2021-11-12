@@ -1,11 +1,11 @@
 package entity.pathfinding;
 
+import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configuration.SoloConfig;
-import chunk.ChunkRange;
 import common.Coordinates;
 import common.GameStore;
+import configuration.SoloConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.pathfinding.edge.AbstractEdge;

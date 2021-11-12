@@ -1,15 +1,15 @@
 package networking;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import configuration.ClientConfig;
-import configuration.ServerConfig;
 import app.GameController;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
+import configuration.ClientConfig;
+import configuration.ServerConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import networking.client.ClientNetworkHandle;
@@ -239,7 +239,7 @@ public class testDoubleClient {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory client_a_ChunkFactory = client_a_Injector.getInstance(ChunkFactory.class);
     client_a_GameStore.addChunk(
-            client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+        client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
 
     EntityFactory clientEntityFactory = client_a_Injector.getInstance(EntityFactory.class);
 
@@ -253,24 +253,24 @@ public class testDoubleClient {
     EventFactory client_b_EventFactory = client_b_Injector.getInstance(EventFactory.class);
 
     client_b_NetworkHandle.send(
-            client_b_EventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+        client_b_EventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
     TimeUnit.SECONDS.sleep(1);
 
-    Entity clientLadder = client_a_GameController.createLadder(new Coordinates(0,0));
+    Entity clientLadder = client_a_GameController.createLadder(new Coordinates(0, 0));
 
     TimeUnit.SECONDS.sleep(3);
 
     assert serverGameStore.getEntity(clientLadder.uuid).uuid.equals(clientLadder.uuid);
     assert serverGameStore
-            .getEntity(clientLadder.uuid)
-            .coordinates
-            .equals(clientLadder.coordinates);
+        .getEntity(clientLadder.uuid)
+        .coordinates
+        .equals(clientLadder.coordinates);
 
     assert client_b_GameStore.getEntity(clientLadder.uuid).uuid.equals(clientLadder.uuid);
     assert client_b_GameStore
-            .getEntity(clientLadder.uuid)
-            .coordinates
-            .equals(clientLadder.coordinates);
+        .getEntity(clientLadder.uuid)
+        .coordinates
+        .equals(clientLadder.coordinates);
   }
 }

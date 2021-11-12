@@ -1,8 +1,8 @@
 package app.render;
 
+import chunk.ChunkRange;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.google.inject.Inject;
-import chunk.ChunkRange;
 import common.Coordinates;
 import entity.Entity;
 

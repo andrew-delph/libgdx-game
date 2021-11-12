@@ -1,8 +1,8 @@
 package common;
 
-import com.google.inject.Inject;
 import chunk.Chunk;
 import chunk.ChunkRange;
+import com.google.inject.Inject;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,7 +1,7 @@
 package entity.controllers;
 
-import com.google.inject.Inject;
 import app.GameController;
+import com.google.inject.Inject;
 import common.events.EventService;
 import entity.Entity;
 import entity.EntityFactory;
@@ -24,7 +24,7 @@ public class EntityControllerFactory {
     return new EntityUserController(gameController, entityActionFactory, entity);
   }
 
-    public EntityPathController createEntityPathController(Entity source, Entity target) {
+  public EntityPathController createEntityPathController(Entity source, Entity target) {
     return new EntityPathController(
         gameController,
         entityActionFactory,

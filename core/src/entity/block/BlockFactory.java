@@ -1,7 +1,7 @@
 package entity.block;
 
-import com.google.inject.Inject;
 import app.render.BaseAssetManager;
+import com.google.inject.Inject;
 import common.Clock;
 import entity.EntityBodyBuilder;
 
@@ -16,11 +16,11 @@ public class BlockFactory {
     return new DirtBlock(clock, baseAssetManager, entityBodyBuilder);
   }
 
-    public StoneBlock createStone() {
+  public StoneBlock createStone() {
     return new StoneBlock(clock, baseAssetManager, entityBodyBuilder);
   }
 
-    public SkyBlock createSky() {
+  public SkyBlock createSky() {
     return new SkyBlock(clock, baseAssetManager, entityBodyBuilder);
   }
 }

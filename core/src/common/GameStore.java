@@ -1,9 +1,9 @@
 package common;
 
-import com.badlogic.gdx.math.Vector2;
-import com.google.inject.Inject;
 import chunk.Chunk;
 import chunk.ChunkRange;
+import com.badlogic.gdx.math.Vector2;
+import com.google.inject.Inject;
 import entity.Entity;
 import entity.block.Block;
 import entity.misc.Ladder;

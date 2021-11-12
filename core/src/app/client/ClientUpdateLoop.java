@@ -1,11 +1,11 @@
 package app.client;
 
-import com.google.inject.Inject;
 import app.UpdateLoop;
 import app.render.BaseCamera;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import com.google.inject.Inject;
 import common.events.EventService;
 import generation.ChunkGenerationManager;
 import networking.client.ClientNetworkHandle;
@@ -46,7 +46,6 @@ public class ClientUpdateLoop extends UpdateLoop {
       }
       subscribeChunkRange.add(chunkRange);
     }
-
 
     if (subscribeChunkRange.size() > 0) {
       this.clientNetworkHandle.send(

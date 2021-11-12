@@ -10,7 +10,8 @@ public class UpdateEntityOutgoingEventType extends EventType implements Serializ
   NetworkObjects.NetworkData entityData;
   ChunkRange chunkRange;
 
-  public UpdateEntityOutgoingEventType(NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
+  public UpdateEntityOutgoingEventType(
+      NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
     this.chunkRange = chunkRange;
     this.entityData = entityData;
   }

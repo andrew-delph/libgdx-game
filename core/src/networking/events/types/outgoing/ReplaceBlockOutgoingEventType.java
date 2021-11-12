@@ -1,7 +1,7 @@
 package networking.events.types.outgoing;
 
-import com.google.inject.Inject;
 import chunk.ChunkRange;
+import com.google.inject.Inject;
 import common.events.EventType;
 import entity.block.Block;
 import networking.NetworkObjects;

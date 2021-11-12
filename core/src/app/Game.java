@@ -1,8 +1,8 @@
 package app;
 
-import com.google.inject.Inject;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;

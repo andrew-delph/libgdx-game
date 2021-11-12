@@ -31,8 +31,7 @@ public class EntitySerializationConverter {
       entity = entityFactory.createLadder();
     } else if (classString.equals(Entity.class.getName())) {
       entity = entityFactory.createEntity();
-    }
-    else{
+    } else {
       return null;
     }
     for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {

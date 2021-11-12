@@ -1,13 +1,13 @@
 package infra.serialization;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import configuration.ClientConfig;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
+import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.EntitySerializationConverter;

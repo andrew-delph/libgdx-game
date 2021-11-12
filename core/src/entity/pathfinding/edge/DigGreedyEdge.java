@@ -48,6 +48,10 @@ public class DigGreedyEdge extends HorizontalGreedyEdge {
 }
 
 class DigEdgeStepper extends HorizontalEdgeStepper {
+  GameController gameController;
+  GameStore gameStore;
+  BlockFactory blockFactory;
+  RelativeCoordinates digPosition;
   public DigEdgeStepper(
       GameController gameController,
       GameStore gameStore,
@@ -58,11 +62,6 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
     this.blockFactory = blockFactory;
     this.digPosition = digPosition;
   }
-
-  GameController gameController;
-  GameStore gameStore;
-  BlockFactory blockFactory;
-  RelativeCoordinates digPosition;
 
   @Override
   public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {

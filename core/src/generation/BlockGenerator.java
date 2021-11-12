@@ -1,7 +1,7 @@
 package generation;
 
-import com.google.inject.Inject;
 import app.GameController;
+import com.google.inject.Inject;
 import common.Coordinates;
 import entity.Entity;
 

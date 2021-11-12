@@ -1,10 +1,10 @@
 package entity;
 
+import app.render.BaseAssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import app.render.BaseAssetManager;
 import common.Clock;
 import common.Coordinates;
 import entity.controllers.EntityController;
