@@ -14,12 +14,13 @@ import java.util.function.Consumer;
 
 public class UpdateEntityIncomingServerConsumer implements Consumer<EventType> {
 
-  EntitySerializationConverter entitySerializationConverter;
+  @Inject EntitySerializationConverter entitySerializationConverter;
   @Inject ChunkSubscriptionService chunkSubscriptionService;
   @Inject ServerNetworkHandle serverNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {
+    System.out.println("SERVER INCOMING UPDATE");
     UpdateEntityIncomingEventType realEvent = (UpdateEntityIncomingEventType) eventType;
     Entity entity = entitySerializationConverter.updateEntity(realEvent.getData());
     for (UUID uuid :
