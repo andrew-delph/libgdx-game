@@ -9,7 +9,7 @@ import app.client.ClientUpdateLoop;
 import app.render.BaseCamera;
 import common.events.EventConsumer;
 import networking.client.ClientNetworkHandle;
-import networking.events.consumer.ClientEventConsumer;
+import networking.events.consumer.client.ClientEventConsumer;
 
 public class ClientConfig extends MainConfig {
   @Override

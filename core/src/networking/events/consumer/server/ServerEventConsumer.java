@@ -1,4 +1,4 @@
-package networking.events.consumer;
+package networking.events.consumer.server;
 
 import app.GameController;
 import chunk.Chunk;
@@ -17,6 +17,7 @@ import generation.ChunkGenerationManager;
 import networking.ConnectionStore;
 import networking.NetworkObjects;
 import networking.events.EventFactory;
+import networking.events.consumer.client.incoming.CreateEntityIncomingConsumerClient;
 import networking.events.types.incoming.*;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
@@ -41,6 +42,9 @@ public class ServerEventConsumer extends EventConsumer {
   @Inject ChunkGenerationManager chunkGenerationManager;
   @Inject ChunkFactory chunkFactory;
   @Inject ConnectionStore connectionStore;
+
+    @Inject
+    CreateEntityIncomingConsumerClient createEntityIncomingConsumer;
 
   public void init() {
     super.init();
