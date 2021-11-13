@@ -20,7 +20,6 @@ public class UpdateEntityIncomingServerConsumer implements Consumer<EventType> {
 
   @Override
   public void accept(EventType eventType) {
-    System.out.println("SERVER INCOMING UPDATE");
     UpdateEntityIncomingEventType realEvent = (UpdateEntityIncomingEventType) eventType;
     Entity entity = entitySerializationConverter.updateEntity(realEvent.getData());
     for (UUID uuid :
