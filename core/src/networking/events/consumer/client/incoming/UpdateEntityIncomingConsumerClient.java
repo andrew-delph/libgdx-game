@@ -9,12 +9,11 @@ import java.util.function.Consumer;
 
 public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
 
-    @Inject
-    EntitySerializationConverter entitySerializationConverter;
+  @Inject EntitySerializationConverter entitySerializationConverter;
 
-    @Override
-    public void accept(EventType eventType) {
-        UpdateEntityIncomingEventType realEvent = (UpdateEntityIncomingEventType) eventType;
-        entitySerializationConverter.updateEntity(realEvent.getData());
-    }
+  @Override
+  public void accept(EventType eventType) {
+    UpdateEntityIncomingEventType realEvent = (UpdateEntityIncomingEventType) eventType;
+    entitySerializationConverter.updateEntity(realEvent.getData());
+  }
 }

@@ -52,6 +52,7 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
   GameStore gameStore;
   BlockFactory blockFactory;
   RelativeCoordinates digPosition;
+
   public DigEdgeStepper(
       GameController gameController,
       GameStore gameStore,

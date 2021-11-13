@@ -12,18 +12,14 @@ import java.util.function.Consumer;
 
 public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
 
-    @Inject
-    EventService eventService;
-    @Inject
-    EntitySerializationConverter entitySerializationConverter;
-    @Inject
-    EventFactory eventFactory;
+  @Inject EventService eventService;
+  @Inject EntitySerializationConverter entitySerializationConverter;
+  @Inject EventFactory eventFactory;
 
-
-    @Override
-    public void accept(EventType eventType) {
-        RemoveEntityIncomingEventType realEvent = (RemoveEntityIncomingEventType) eventType;
-        Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
-        eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
-    }
+  @Override
+  public void accept(EventType eventType) {
+    RemoveEntityIncomingEventType realEvent = (RemoveEntityIncomingEventType) eventType;
+    Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
+    eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
+  }
 }
