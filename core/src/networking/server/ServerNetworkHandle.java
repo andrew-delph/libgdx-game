@@ -5,6 +5,7 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 import networking.*;
+import io.grpc.protobuf.services.ProtoReflectionService;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -23,7 +24,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
   public void start() throws IOException {
     System.out.println("server start");
-    server = ServerBuilder.forPort(99).addService(this).build();
+    server = ServerBuilder.forPort(99).addService(this).addService(ProtoReflectionService.newInstance()).build();
     server.start();
   }
 
@@ -39,6 +40,21 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
             .build();
     requestNetworkEventObserver.responseObserver.onNext(authenticationEvent);
     return requestNetworkEventObserver;
+  }
+
+
+  @Override
+  public void getChunk(NetworkObjects.NetworkEvent request, StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
+    System.out.println(1111);
+    responseObserver.onNext(request);
+    responseObserver.onCompleted();
+  }
+
+  @Override
+  public void getEntity(NetworkObjects.NetworkEvent request, StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
+    System.out.println(2222);
+    responseObserver.onNext(request);
+    responseObserver.onCompleted();
   }
 
   public void close() {

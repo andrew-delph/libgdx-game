@@ -9,7 +9,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.0.2'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.16'
     }
 }
@@ -18,6 +18,7 @@ plugins {
     id "com.google.protobuf" version "0.8.14"
     id "java"
 }
+
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
@@ -90,6 +91,7 @@ project(":android") {
         implementation 'io.grpc:grpc-okhttp:1.32.1'
         implementation 'io.grpc:grpc-protobuf:1.32.1'
         implementation 'io.grpc:grpc-stub:1.32.1'
+        implementation "io.grpc:grpc-services:1.32.1"
 
         api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
@@ -124,6 +126,7 @@ project(":core") {
         implementation 'io.grpc:grpc-okhttp:1.32.1'
         implementation 'io.grpc:grpc-protobuf:1.32.1'
         implementation 'io.grpc:grpc-stub:1.32.1'
+        implementation "io.grpc:grpc-services:1.32.1"
         implementation 'org.apache.tomcat:annotations-api:6.0.53'
 
 

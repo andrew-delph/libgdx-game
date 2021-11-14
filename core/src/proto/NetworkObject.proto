@@ -18,4 +18,6 @@ message NetworkData{
 
 service NetworkObjectService{
   rpc networkObjectStream(stream NetworkEvent) returns (stream NetworkEvent) {};
+  rpc getChunk(NetworkEvent) returns (NetworkEvent){};
+  rpc getEntity(NetworkEvent) returns (NetworkEvent){};
 }
