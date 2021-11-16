@@ -409,13 +409,13 @@ public class testSingleClient {
     assert clientGameStore.getEntity(serverEntity.uuid).uuid.equals(serverEntity.uuid);
     assert serverGameStore.getEntity(serverEntity.uuid).uuid.equals(serverEntity.uuid);
     assert clientGameStore
-            .getEntity(serverEntity.uuid)
-            .coordinates
-            .equals(serverEntity.coordinates);
+        .getEntity(serverEntity.uuid)
+        .coordinates
+        .equals(serverEntity.coordinates);
   }
 
-//  @Test
-//  public void testServerGetEntity() throws IOException, InterruptedException {
-//    clientNetworkHandle.
-//  }
+  //  @Test
+  //  public void testServerGetEntity() throws IOException, InterruptedException {
+  //    clientNetworkHandle.
+  //  }
 }

@@ -7,7 +7,6 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
@@ -75,7 +74,7 @@ public class GameScreen extends ApplicationAdapter {
     }
     batch = new SpriteBatch();
     batch.enableBlending();
-    //    edgeRegistration.edgeRegistration();
+    edgeRegistration.edgeRegistration();
 
     myEntity = entityFactory.createEntity();
     myEntity.coordinates = new Coordinates(0, 2);

@@ -9,7 +9,8 @@ import java.util.function.Consumer;
 public class EventService {
 
   Map<String, List<Consumer<common.events.types.EventType>>> eventListeners = new HashMap<>();
-  Map<String, List<Consumer<common.events.types.EventType>>> eventPostUpdateListeners = new HashMap<>();
+  Map<String, List<Consumer<common.events.types.EventType>>> eventPostUpdateListeners =
+      new HashMap<>();
   List<common.events.types.EventType> postUpdateEventTypeList = new LinkedList<>();
 
   @Inject
@@ -28,7 +29,8 @@ public class EventService {
     }
   }
 
-  public void addPostUpdateListener(String type, Consumer<common.events.types.EventType> eventConsumer) {
+  public void addPostUpdateListener(
+      String type, Consumer<common.events.types.EventType> eventConsumer) {
     this.eventPostUpdateListeners.computeIfAbsent(type, k -> new ArrayList<>());
     this.eventPostUpdateListeners.get(type).add(eventConsumer);
   }
@@ -38,7 +40,8 @@ public class EventService {
   }
 
   public void firePostUpdateEvents() {
-    List<common.events.types.EventType> postUpdateEventTypeListCopy = new LinkedList<>(this.postUpdateEventTypeList);
+    List<common.events.types.EventType> postUpdateEventTypeListCopy =
+        new LinkedList<>(this.postUpdateEventTypeList);
     this.postUpdateEventTypeList = new LinkedList<>();
     for (EventType eventType : postUpdateEventTypeListCopy) {
       if (this.eventPostUpdateListeners.get(eventType.getType()) != null) {

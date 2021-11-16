@@ -21,10 +21,14 @@ public class EntityController {
   Map<String, EntityAction> actionMap;
 
   public EntityController(
-      GameController gameController, EntityActionFactory entityActionFactory, EventService eventService, EventFactory eventFactory, Entity entity) {
+      GameController gameController,
+      EntityActionFactory entityActionFactory,
+      EventService eventService,
+      EventFactory eventFactory,
+      Entity entity) {
     this.gameController = gameController;
     this.eventService = eventService;
-    this.eventFactory =eventFactory;
+    this.eventFactory = eventFactory;
     this.entity = entity;
     this.actionMap = new HashMap<>();
 

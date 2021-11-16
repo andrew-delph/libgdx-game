@@ -16,8 +16,12 @@ import networking.events.EventFactory;
 public class EntityUserController extends EntityController {
 
   public EntityUserController(
-          GameController gameController, EntityActionFactory entityActionFactory, EventService eventService, EventFactory eventFactory, Entity entity) {
-    super(gameController, entityActionFactory,eventService, eventFactory, entity);
+      GameController gameController,
+      EntityActionFactory entityActionFactory,
+      EventService eventService,
+      EventFactory eventFactory,
+      Entity entity) {
+    super(gameController, entityActionFactory, eventService, eventFactory, entity);
   }
 
   @Override
@@ -61,9 +65,9 @@ public class EntityUserController extends EntityController {
     }
 
     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-      this.eventService.queuePostUpdateEvent(this.eventFactory.createAIEntityEventType(new Coordinates(0,0)));
+      this.eventService.queuePostUpdateEvent(
+          this.eventFactory.createAIEntityEventType(new Coordinates(0, 0)));
     }
-
 
     if (Gdx.input.isKeyPressed(Input.Keys.W)) {
       if (this.getAction("climbUp").isValid(body)) {

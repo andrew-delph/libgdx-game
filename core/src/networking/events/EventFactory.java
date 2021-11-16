@@ -93,7 +93,7 @@ public class EventFactory {
     return new RemoveEntityEventType(entityUuid);
   }
 
-  public CreateAIEntityEventType createAIEntityEventType(Coordinates coordinates){
+  public CreateAIEntityEventType createAIEntityEventType(Coordinates coordinates) {
     return new CreateAIEntityEventType(coordinates);
   }
 }
