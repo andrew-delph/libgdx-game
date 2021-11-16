@@ -6,7 +6,7 @@ import chunk.ChunkRange;
 import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.GameStore;
-import common.events.EventType;
+import common.events.types.EventType;
 import entity.Entity;
 import networking.events.EventFactory;
 import networking.events.types.incoming.SubscriptionIncomingEventType;

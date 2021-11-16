@@ -1,4 +1,4 @@
-package common.events;
+package common.events.types;
 
 public abstract class EventType {
 

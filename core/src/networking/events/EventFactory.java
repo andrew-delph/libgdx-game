@@ -2,8 +2,10 @@ package networking.events;
 
 import chunk.ChunkRange;
 import com.google.inject.Inject;
-import common.events.RemoveEntityEventType;
-import common.events.ReplaceBlockEventType;
+import common.Coordinates;
+import common.events.types.CreateAIEntityEventType;
+import common.events.types.RemoveEntityEventType;
+import common.events.types.ReplaceBlockEventType;
 import entity.block.Block;
 import networking.NetworkObjects;
 import networking.events.types.incoming.*;
@@ -90,5 +92,8 @@ public class EventFactory {
   public RemoveEntityEventType createRemoveEntityEvent(UUID entityUuid) {
     return new RemoveEntityEventType(entityUuid);
   }
-  ;
+
+  public CreateAIEntityEventType createAIEntityEventType(Coordinates coordinates){
+    return new CreateAIEntityEventType(coordinates);
+  }
 }

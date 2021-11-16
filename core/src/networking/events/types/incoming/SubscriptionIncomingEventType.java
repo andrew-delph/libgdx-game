@@ -2,7 +2,7 @@ package networking.events.types.incoming;
 
 import chunk.ChunkRange;
 import com.google.inject.Inject;
-import common.events.EventType;
+import common.events.types.EventType;
 import networking.NetworkObjects;
 
 import java.util.LinkedList;

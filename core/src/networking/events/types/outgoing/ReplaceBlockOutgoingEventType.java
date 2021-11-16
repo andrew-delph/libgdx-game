@@ -2,7 +2,7 @@ package networking.events.types.outgoing;
 
 import chunk.ChunkRange;
 import com.google.inject.Inject;
-import common.events.EventType;
+import common.events.types.EventType;
 import entity.block.Block;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;

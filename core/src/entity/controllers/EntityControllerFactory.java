@@ -21,7 +21,8 @@ public class EntityControllerFactory {
   public EntityControllerFactory() {}
 
   public EntityUserController createEntityUserController(Entity entity) {
-    return new EntityUserController(gameController, entityActionFactory, entity);
+    return new EntityUserController(
+        gameController, entityActionFactory, eventService, eventFactory, entity);
   }
 
   public EntityPathController createEntityPathController(Entity source, Entity target) {

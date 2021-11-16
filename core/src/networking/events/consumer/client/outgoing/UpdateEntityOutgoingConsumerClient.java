@@ -1,7 +1,7 @@
 package networking.events.consumer.client.outgoing;
 
 import com.google.inject.Inject;
-import common.events.EventType;
+import common.events.types.EventType;
 import networking.client.ClientNetworkHandle;
 import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 
