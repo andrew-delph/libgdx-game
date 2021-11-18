@@ -1,8 +1,10 @@
 package common.events.types;
 
 import common.Coordinates;
+import networking.NetworkObjects;
+import networking.events.interfaces.SerializeNetworkEvent;
 
-public class CreateAIEntityEventType extends EventType {
+public class CreateAIEntityEventType extends EventType implements SerializeNetworkEvent {
 
   public static String type = "create_ai";
 
@@ -15,5 +17,10 @@ public class CreateAIEntityEventType extends EventType {
   @Override
   public String getType() {
     return type;
+  }
+
+  @Override
+  public NetworkObjects.NetworkEvent toNetworkEvent() {
+    return NetworkObjects.NetworkEvent.newBuilder().setData(this.coordinates.toNetworkData()).setEvent(type).build();
   }
 }

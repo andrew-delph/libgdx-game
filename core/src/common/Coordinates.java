@@ -2,11 +2,13 @@ package common;
 
 import com.badlogic.gdx.math.Vector2;
 import entity.Entity;
+import networking.NetworkObjects;
+import networking.events.interfaces.SerializeNetworkData;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class Coordinates {
+public class Coordinates implements SerializeNetworkData {
   float x;
   float y;
 
@@ -114,5 +116,24 @@ public class Coordinates {
   public Vector2 toVector2() {
     return new Vector2(
         this.getXReal() * Entity.coordinatesScale, this.getYReal() * Entity.coordinatesScale);
+  }
+
+  @Override
+  public NetworkObjects.NetworkData toNetworkData() {
+    NetworkObjects.NetworkData x =
+            NetworkObjects.NetworkData.newBuilder()
+                    .setKey("x")
+                    .setValue(String.valueOf(this.getXReal()))
+                    .build();
+    NetworkObjects.NetworkData y =
+            NetworkObjects.NetworkData.newBuilder()
+                    .setKey("y")
+                    .setValue(String.valueOf(this.getYReal()))
+                    .build();
+    return NetworkObjects.NetworkData.newBuilder()
+            .setKey(Coordinates.class.getName())
+            .addChildren(x)
+            .addChildren(y)
+            .build();
   }
 }

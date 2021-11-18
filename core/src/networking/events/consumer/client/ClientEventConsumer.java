@@ -3,10 +3,12 @@ package networking.events.consumer.client;
 import com.google.inject.Inject;
 import common.events.EventConsumer;
 import common.events.EventService;
+import common.events.types.CreateAIEntityEventType;
 import networking.events.consumer.client.incoming.CreateEntityIncomingConsumerClient;
 import networking.events.consumer.client.incoming.RemoveEntityIncomingConsumerClient;
 import networking.events.consumer.client.incoming.ReplaceBlockIncomingConsumerClient;
 import networking.events.consumer.client.incoming.UpdateEntityIncomingConsumerClient;
+import networking.events.consumer.client.outgoing.CreateAIEntityConsumerClient;
 import networking.events.consumer.client.outgoing.CreateEntityOutgoingConsumerClient;
 import networking.events.consumer.client.outgoing.ReplaceBlockOutgoingConsumerClient;
 import networking.events.consumer.client.outgoing.UpdateEntityOutgoingConsumerClient;
@@ -29,6 +31,7 @@ public class ClientEventConsumer extends EventConsumer {
   @Inject CreateEntityOutgoingConsumerClient createEntityOutgoingConsumer;
   @Inject UpdateEntityOutgoingConsumerClient updateEntityOutgoingConsumer;
   @Inject ReplaceBlockOutgoingConsumerClient replaceBlockOutgoingConsumer;
+  @Inject CreateAIEntityConsumerClient createAIEntityConsumerClient;
 
   @Inject
   protected ClientEventConsumer() {}
@@ -42,5 +45,7 @@ public class ClientEventConsumer extends EventConsumer {
     this.eventService.addListener(CreateEntityOutgoingEventType.type, createEntityOutgoingConsumer);
     this.eventService.addListener(UpdateEntityOutgoingEventType.type, updateEntityOutgoingConsumer);
     this.eventService.addListener(ReplaceBlockOutgoingEventType.type, replaceBlockOutgoingConsumer);
+    this.eventService.addPostUpdateListener(
+        CreateAIEntityEventType.type, createAIEntityConsumerClient);
   }
 }
