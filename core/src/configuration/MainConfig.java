@@ -11,6 +11,7 @@ import common.GameStore;
 import common.events.EventService;
 import entity.EntityFactory;
 import entity.block.BlockFactory;
+import entity.collision.CollisionService;
 import entity.collision.EntityContactListenerFactory;
 import entity.collision.ground.EntityGroundContact;
 import entity.collision.ladder.EntityLadderContact;
@@ -57,5 +58,6 @@ public abstract class MainConfig extends AbstractModule {
     //
     bind(ObserverFactory.class).asEagerSingleton();
     bind(EntityLadderContact.class).asEagerSingleton();
+    bind(CollisionService.class).asEagerSingleton();
   }
 }
