@@ -26,7 +26,6 @@ public class SoloEventConsumer extends EventConsumer {
     this.eventService.addPostUpdateListener(
         CreateAIEntityEventType.type,
         eventType -> {
-          System.out.println("hi");
           CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
 
           Entity aiEntity = entityFactory.createEntity();

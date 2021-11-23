@@ -9,6 +9,7 @@ import common.GameStore;
 import common.events.EventConsumer;
 import configuration.ServerConfig;
 import entity.collision.CollisionService;
+import entity.pathfinding.EdgeRegistration;
 import generation.ChunkGenerationManager;
 import networking.server.ServerNetworkHandle;
 
@@ -17,6 +18,9 @@ import java.io.IOException;
 public class ServerGame extends Game {
 
   @Inject ServerNetworkHandle serverNetworkHandle;
+
+  @Inject
+  EdgeRegistration edgeRegistration;
 
   @Inject
   public ServerGame(
@@ -41,6 +45,7 @@ public class ServerGame extends Game {
 
   @Override
   public void start() throws IOException, InterruptedException {
+    edgeRegistration.edgeRegistration();
     super.start();
     serverNetworkHandle.start();
   }
