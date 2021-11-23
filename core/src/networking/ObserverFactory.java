@@ -17,5 +17,4 @@ public class ObserverFactory {
     return new RequestNetworkEventObserver(
         networkEventHandler, connectionStore, eventService, eventFactory);
   }
-  ;
 }

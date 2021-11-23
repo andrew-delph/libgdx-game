@@ -65,7 +65,7 @@ public class EntityUserController extends EntityController {
     }
 
     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-      this.eventService.queuePostUpdateEvent(
+      this.eventService.queuePostUpdateEvent(s
           this.eventFactory.createAIEntityEventType(new Coordinates(0, 0)));
     }
 

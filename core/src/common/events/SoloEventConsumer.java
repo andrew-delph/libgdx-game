@@ -31,7 +31,6 @@ public class SoloEventConsumer extends EventConsumer {
 
           Entity aiEntity = entityFactory.createEntity();
 
-          entityFactory.createEntity();
           aiEntity.coordinates = new Coordinates(0, 1);
           gameController.createEntity(aiEntity);
 

@@ -74,7 +74,7 @@ public class GameScreen extends ApplicationAdapter {
     }
     batch = new SpriteBatch();
     batch.enableBlending();
-    edgeRegistration.edgeRegistration();
+//    edgeRegistration.edgeRegistration();
 
     myEntity = entityFactory.createEntity();
     myEntity.coordinates = new Coordinates(0, 2);

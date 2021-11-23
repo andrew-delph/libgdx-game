@@ -10,6 +10,10 @@ public class CreateAIEntityEventType extends EventType implements SerializeNetwo
 
   Coordinates coordinates;
 
+  public Coordinates getCoordinates() {
+    return coordinates;
+  }
+
   public CreateAIEntityEventType(Coordinates coordinates) {
     this.coordinates = coordinates;
   }
