@@ -45,7 +45,7 @@ public class ServerGame extends Game {
 
   @Override
   public void start() throws IOException, InterruptedException {
-    edgeRegistration.edgeRegistration();
+//    edgeRegistration.edgeRegistration();
     super.start();
     serverNetworkHandle.start();
   }
