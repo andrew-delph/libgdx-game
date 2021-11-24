@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.EventType;
 import entity.Entity;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 import networking.events.types.incoming.SubscriptionIncomingEventType;
 import networking.server.ServerNetworkHandle;
 
@@ -22,7 +22,8 @@ public class SubscriptionIncomingConsumerServer implements Consumer<EventType> {
   @Inject ChunkSubscriptionService chunkSubscriptionService;
   @Inject ServerNetworkHandle serverNetworkHandle;
   @Inject GameStore gameStore;
-  @Inject EventFactory eventFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
   @Inject ChunkFactory chunkFactory;
 
   @Override
@@ -48,7 +49,7 @@ public class SubscriptionIncomingConsumerServer implements Consumer<EventType> {
       for (Entity entity : chunk.getEntityList()) {
         serverNetworkHandle.send(
             realEvent.getUser(),
-            eventFactory
+            eventTypeFactory
                 .createCreateEntityOutgoingEvent(
                     entity.toNetworkData(), new ChunkRange(entity.coordinates))
                 .toNetworkEvent());

@@ -9,10 +9,11 @@ import common.Clock;
 import common.Coordinates;
 import entity.controllers.EntityController;
 import networking.NetworkObjects;
+import networking.events.interfaces.SerializeNetworkData;
 
 import java.util.UUID;
 
-public class Entity {
+public class Entity implements SerializeNetworkData {
   public static int coordinatesScale = 25;
   public static int staticHeight = (int) (Entity.coordinatesScale * 0.8);
   public static int staticWidth = (int) (Entity.coordinatesScale * 0.8);

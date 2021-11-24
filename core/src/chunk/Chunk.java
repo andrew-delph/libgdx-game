@@ -12,12 +12,14 @@ import entity.Entity;
 import entity.block.Block;
 import entity.collision.EntityContactListenerFactory;
 import entity.misc.Ladder;
+import networking.NetworkObjects;
+import networking.events.interfaces.SerializeNetworkData;
 
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Chunk implements Callable<Chunk> {
+public class Chunk implements Callable<Chunk> , SerializeNetworkData {
 
   public ChunkRange chunkRange;
   public Tick updateTick;
@@ -232,5 +234,14 @@ public class Chunk implements Callable<Chunk> {
   public List<Entity> getEntityListBaseCoordinates(Coordinates coordinates) {
     coordinates = coordinates.getBase();
     return this.getEntityInRange(coordinates, coordinates);
+  }
+
+  @Override
+  public NetworkObjects.NetworkData toNetworkData() {
+    NetworkObjects.NetworkData.Builder networkDataBuilder = NetworkObjects.NetworkData.newBuilder();
+    for (Entity entity : this.getEntityList()) {
+      networkDataBuilder.addChildren(entity.toNetworkData());
+    }
+    return networkDataBuilder.build();
   }
 }

@@ -9,7 +9,7 @@ import common.events.types.EventType;
 import entity.Entity;
 import entity.EntitySerializationConverter;
 import entity.block.Block;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import networking.server.ServerNetworkHandle;
 
@@ -23,7 +23,8 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
   @Inject ChunkSubscriptionService chunkSubscriptionService;
   @Inject ServerNetworkHandle serverNetworkHandle;
   @Inject GameStore gameStore;
-  @Inject EventFactory eventFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
 
   @Override
   public void accept(EventType eventType) {
@@ -31,7 +32,7 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
     Entity placedEntity = this.gameStore.getEntity(realEvent.getTarget());
     ChunkRange chunkRange = new ChunkRange(placedEntity.coordinates);
     this.eventService.queuePostUpdateEvent(
-        this.eventFactory.createReplaceBlockEvent(
+        this.eventTypeFactory.createReplaceBlockEvent(
             realEvent.getTarget(),
             (Block)
                 entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));

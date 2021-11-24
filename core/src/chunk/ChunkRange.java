@@ -2,13 +2,14 @@ package chunk;
 
 import common.Coordinates;
 import networking.NetworkObjects;
+import networking.events.interfaces.SerializeNetworkData;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class ChunkRange {
+public class ChunkRange implements SerializeNetworkData {
   public static final int size = 5;
   public int bottom_x;
   public int bottom_y;

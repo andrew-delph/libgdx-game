@@ -9,7 +9,7 @@ import common.events.types.EventType;
 import entity.Entity;
 import generation.ChunkGenerationManager;
 import networking.ConnectionStore;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 import networking.events.types.incoming.DisconnectionIncomingEventType;
 import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
@@ -23,7 +23,8 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
   @Inject ChunkSubscriptionService chunkSubscriptionService;
   @Inject ServerNetworkHandle serverNetworkHandle;
   @Inject GameStore gameStore;
-  @Inject EventFactory eventFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
   @Inject ChunkGenerationManager chunkGenerationManager;
   @Inject ConnectionStore connectionStore;
 
@@ -34,10 +35,10 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
     for (UUID ownersEntityUuid : chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
       Entity entity = this.gameStore.getEntity(ownersEntityUuid);
       this.eventService.queuePostUpdateEvent(
-          eventFactory.createRemoveEntityEvent(ownersEntityUuid));
+          eventTypeFactory.createRemoveEntityEvent(ownersEntityUuid));
 
       RemoveEntityOutgoingEventType removeEntityOutgoingEvent =
-          eventFactory.createRemoveEntityOutgoingEvent(
+          eventTypeFactory.createRemoveEntityOutgoingEvent(
               entity.toNetworkData(), new ChunkRange(entity.coordinates));
       for (UUID subscriptionUuid :
           chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {

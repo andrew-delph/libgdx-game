@@ -7,7 +7,7 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.actions.EntityActionFactory;
 import entity.pathfinding.PathGuiderFactory;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 
 public class EntityControllerFactory {
   @Inject GameController gameController;
@@ -15,14 +15,15 @@ public class EntityControllerFactory {
   @Inject PathGuiderFactory pathGuiderFactory;
   @Inject EventService eventService;
   @Inject EntityFactory entityFactory;
-  @Inject EventFactory eventFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
 
   @Inject
   public EntityControllerFactory() {}
 
   public EntityUserController createEntityUserController(Entity entity) {
     return new EntityUserController(
-        gameController, entityActionFactory, eventService, eventFactory, entity);
+        gameController, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 
   public EntityPathController createEntityPathController(Entity source, Entity target) {
@@ -31,7 +32,7 @@ public class EntityControllerFactory {
         entityActionFactory,
         pathGuiderFactory,
         eventService,
-        eventFactory,
+            eventTypeFactory,
         entityFactory,
         source,
         target);

@@ -10,7 +10,7 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.block.*;
 import entity.misc.Ladder;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 
 import java.util.UUID;
@@ -22,14 +22,15 @@ public class GameController {
 
   @Inject EventService eventService;
 
-  @Inject EventFactory eventFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
 
   @Inject BlockFactory blockFactory;
 
   public Entity createEntity(Entity entity) {
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(
+        eventTypeFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(entity.coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
@@ -40,7 +41,7 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(
+        eventTypeFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
@@ -51,7 +52,7 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(
+        eventTypeFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
@@ -62,7 +63,7 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(
+        eventTypeFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
@@ -77,14 +78,14 @@ public class GameController {
     Entity entity = this.gameStore.getEntity(uuid);
     entity.coordinates = coordinates;
     this.eventService.fireEvent(
-        eventFactory.createUpdateEntityOutgoingEvent(
+        eventTypeFactory.createUpdateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(coordinates)));
   }
 
   public void triggerMoveEntity(Entity entity, Coordinates coordinates) {
     entity.coordinates = coordinates;
     this.eventService.fireEvent(
-        eventFactory.createUpdateEntityOutgoingEvent(
+        eventTypeFactory.createUpdateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(coordinates)));
   }
 
@@ -122,9 +123,9 @@ public class GameController {
     }
     // put this into a post update event
     this.eventService.queuePostUpdateEvent(
-        this.eventFactory.createReplaceBlockEvent(removeBlock.uuid, replacementBlock));
+        this.eventTypeFactory.createReplaceBlockEvent(removeBlock.uuid, replacementBlock));
     this.eventService.fireEvent(
-        this.eventFactory.createReplaceBlockOutgoingEvent(
+        this.eventTypeFactory.createReplaceBlockOutgoingEvent(
             removeBlock.uuid, replacementBlock, new ChunkRange(removeBlock.coordinates)));
   }
 
@@ -135,7 +136,7 @@ public class GameController {
     entity.coordinates = coordinates;
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
-        eventFactory.createCreateEntityOutgoingEvent(
+        eventTypeFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
@@ -151,6 +152,6 @@ public class GameController {
 
   public void createAI(){
     this.eventService.queuePostUpdateEvent(
-            this.eventFactory.createAIEntityEventType(new Coordinates(0, 0)));
+            this.eventTypeFactory.createAIEntityEventType(new Coordinates(0, 0)));
   }
 }

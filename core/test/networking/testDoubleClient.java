@@ -13,7 +13,7 @@ import configuration.BaseServerConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import networking.client.ClientNetworkHandle;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Before;
@@ -91,10 +91,10 @@ public class testDoubleClient {
       client_b_GameStore.addChunk(client_a_ChunkFactory.create(chunkRange));
     }
 
-    EventFactory client_b_EventFactory = client_b_Injector.getInstance(EventFactory.class);
+    EventTypeFactory client_b_EventTypeFactory = client_b_Injector.getInstance(EventTypeFactory.class);
 
     client_b_NetworkHandle.send(
-        client_b_EventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+        client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -135,10 +135,10 @@ public class testDoubleClient {
       client_b_GameStore.addChunk(client_a_ChunkFactory.create(chunkRange));
     }
 
-    EventFactory client_b_EventFactory = client_b_Injector.getInstance(EventFactory.class);
+    EventTypeFactory client_b_EventTypeFactory = client_b_Injector.getInstance(EventTypeFactory.class);
 
     client_b_NetworkHandle.send(
-        client_b_EventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+        client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
     Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
 
@@ -197,10 +197,10 @@ public class testDoubleClient {
       client_b_GameStore.addChunk(client_a_ChunkFactory.create(chunkRange));
     }
 
-    EventFactory client_b_EventFactory = client_b_Injector.getInstance(EventFactory.class);
+    EventTypeFactory client_b_EventTypeFactory = client_b_Injector.getInstance(EventTypeFactory.class);
 
     client_b_NetworkHandle.send(
-        client_b_EventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+        client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
     //    TimeUnit.SECONDS.sleep(1);
 
@@ -250,10 +250,10 @@ public class testDoubleClient {
       client_b_GameStore.addChunk(client_a_ChunkFactory.create(chunkRange));
     }
 
-    EventFactory client_b_EventFactory = client_b_Injector.getInstance(EventFactory.class);
+    EventTypeFactory client_b_EventTypeFactory = client_b_Injector.getInstance(EventTypeFactory.class);
 
     client_b_NetworkHandle.send(
-        client_b_EventFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+        client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
     TimeUnit.SECONDS.sleep(1);
 

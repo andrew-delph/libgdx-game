@@ -5,7 +5,7 @@ import common.events.EventService;
 import common.events.types.EventType;
 import entity.Entity;
 import entity.EntitySerializationConverter;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 import networking.events.types.incoming.RemoveEntityIncomingEventType;
 
 import java.util.function.Consumer;
@@ -14,12 +14,13 @@ public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
 
   @Inject EventService eventService;
   @Inject EntitySerializationConverter entitySerializationConverter;
-  @Inject EventFactory eventFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
 
   @Override
   public void accept(EventType eventType) {
     RemoveEntityIncomingEventType realEvent = (RemoveEntityIncomingEventType) eventType;
     Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
-    eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
+    eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(entity.uuid));
   }
 }

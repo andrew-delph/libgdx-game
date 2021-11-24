@@ -23,7 +23,7 @@ import generation.ChunkBuilderFactory;
 import generation.ChunkGenerationManager;
 import networking.ConnectionStore;
 import networking.ObserverFactory;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 
 public abstract class MainConfig extends AbstractModule {
   @Override
@@ -54,7 +54,7 @@ public abstract class MainConfig extends AbstractModule {
     bind(EdgeStore.class).asEagerSingleton();
 
     //
-    bind(EventFactory.class).asEagerSingleton();
+    bind(EventTypeFactory.class).asEagerSingleton();
     //
     bind(ObserverFactory.class).asEagerSingleton();
     bind(EntityLadderContact.class).asEagerSingleton();

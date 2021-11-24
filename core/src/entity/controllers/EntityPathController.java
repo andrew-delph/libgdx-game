@@ -8,14 +8,14 @@ import entity.EntityFactory;
 import entity.controllers.actions.EntityActionFactory;
 import entity.pathfinding.PathGuider;
 import entity.pathfinding.PathGuiderFactory;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 
 public class EntityPathController extends EntityController {
 
   PathGuiderFactory pathGuiderFactory;
 
   EventService eventService;
-  EventFactory eventFactory;
+  EventTypeFactory eventTypeFactory;
   EntityFactory entityFactory;
 
   PathGuider pathGuider;
@@ -27,15 +27,15 @@ public class EntityPathController extends EntityController {
       EntityActionFactory entityActionFactory,
       PathGuiderFactory pathGuiderFactory,
       EventService eventService,
-      EventFactory eventFactory,
+      EventTypeFactory eventTypeFactory,
       EntityFactory entityFactory,
       Entity entity,
       Entity target) {
-    super(gameController, entityActionFactory, eventService, eventFactory, entity);
+    super(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
     this.pathGuiderFactory = pathGuiderFactory;
     this.eventService = eventService;
     this.target = target;
-    this.eventFactory = eventFactory;
+    this.eventTypeFactory = eventTypeFactory;
     this.entityFactory = entityFactory;
   }
 
@@ -52,7 +52,7 @@ public class EntityPathController extends EntityController {
     }
 
     if (this.entity.coordinates.getBase().equals(target.coordinates.getBase())) {
-      eventService.queuePostUpdateEvent(eventFactory.createRemoveEntityEvent(entity.uuid));
+      eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(entity.uuid));
       return;
     }
     try {

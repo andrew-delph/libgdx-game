@@ -14,7 +14,7 @@ import entity.EntitySerializationConverter;
 import entity.block.BlockFactory;
 import networking.NetworkEventHandler;
 import networking.NetworkObjects;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class testEntitySerialization {
   ChunkFactory chunkFactory;
 
   EventService eventService;
-  EventFactory eventFactory;
+  EventTypeFactory eventTypeFactory;
   NetworkEventHandler networkEventHandler;
 
   @Before
@@ -44,7 +44,7 @@ public class testEntitySerialization {
     gameStore = injector.getInstance(GameStore.class);
     chunkFactory = injector.getInstance(ChunkFactory.class);
     eventService = injector.getInstance(EventService.class);
-    eventFactory = injector.getInstance(EventFactory.class);
+    eventTypeFactory = injector.getInstance(EventTypeFactory.class);
     blockFactory = injector.getInstance(BlockFactory.class);
     networkEventHandler = injector.getInstance(NetworkEventHandler.class);
   }
@@ -76,7 +76,7 @@ public class testEntitySerialization {
     UUID uuid = entityWrite.uuid;
     gameStore.addChunk(chunkFactory.create(new ChunkRange(entityWrite.coordinates)));
     networkEventHandler.handleNetworkEvent(
-        eventFactory
+        eventTypeFactory
             .createCreateEntityOutgoingEvent(
                 entityWrite.toNetworkData(), new ChunkRange(entityWrite.coordinates))
             .toNetworkEvent());
@@ -89,7 +89,7 @@ public class testEntitySerialization {
     UUID uuid = block.uuid;
     gameStore.addChunk(chunkFactory.create(new ChunkRange(block.coordinates)));
     networkEventHandler.handleNetworkEvent(
-        eventFactory
+        eventTypeFactory
             .createCreateEntityOutgoingEvent(
                 block.toNetworkData(), new ChunkRange(block.coordinates))
             .toNetworkEvent());

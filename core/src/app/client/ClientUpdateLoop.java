@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 import common.events.EventService;
 import generation.ChunkGenerationManager;
 import networking.client.ClientNetworkHandle;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -25,7 +25,8 @@ public class ClientUpdateLoop extends UpdateLoop {
 
   @Inject ClientNetworkHandle clientNetworkHandle;
 
-  @Inject EventFactory eventFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
 
   @Inject BaseCamera baseCamera;
 
@@ -49,7 +50,7 @@ public class ClientUpdateLoop extends UpdateLoop {
 
     if (subscribeChunkRange.size() > 0) {
       this.clientNetworkHandle.send(
-          eventFactory
+          eventTypeFactory
               .createSubscriptionOutgoingEvent(new LinkedList<>(subscribeChunkRange))
               .toNetworkEvent());
     }
