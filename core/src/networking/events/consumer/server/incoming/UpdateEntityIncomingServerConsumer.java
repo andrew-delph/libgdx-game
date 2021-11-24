@@ -3,7 +3,7 @@ package networking.events.consumer.server.incoming;
 import chunk.ChunkRange;
 import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
-import common.events.EventType;
+import common.events.types.EventType;
 import entity.Entity;
 import entity.EntitySerializationConverter;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;

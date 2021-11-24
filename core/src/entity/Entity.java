@@ -95,22 +95,22 @@ public class Entity {
   }
 
   public NetworkObjects.NetworkData toNetworkData() {
-    NetworkObjects.NetworkData x =
-        NetworkObjects.NetworkData.newBuilder()
-            .setKey("x")
-            .setValue(String.valueOf(this.coordinates.getXReal()))
-            .build();
-    NetworkObjects.NetworkData y =
-        NetworkObjects.NetworkData.newBuilder()
-            .setKey("y")
-            .setValue(String.valueOf(this.coordinates.getYReal()))
-            .build();
-    NetworkObjects.NetworkData coordinates =
-        NetworkObjects.NetworkData.newBuilder()
-            .setKey(Coordinates.class.getName())
-            .addChildren(x)
-            .addChildren(y)
-            .build();
+//    NetworkObjects.NetworkData x =
+//        NetworkObjects.NetworkData.newBuilder()
+//            .setKey("x")
+//            .setValue(String.valueOf(this.coordinates.getXReal()))
+//            .build();
+//    NetworkObjects.NetworkData y =
+//        NetworkObjects.NetworkData.newBuilder()
+//            .setKey("y")
+//            .setValue(String.valueOf(this.coordinates.getYReal()))
+//            .build();
+//    NetworkObjects.NetworkData coordinates =
+//        NetworkObjects.NetworkData.newBuilder()
+//            .setKey(Coordinates.class.getName())
+//            .addChildren(x)
+//            .addChildren(y)
+//            .build();
     NetworkObjects.NetworkData uuid =
         NetworkObjects.NetworkData.newBuilder()
             .setKey(UUID.class.getName())
@@ -119,7 +119,7 @@ public class Entity {
     return NetworkObjects.NetworkData.newBuilder()
         .setKey("class")
         .setValue(this.getClass().getName())
-        .addChildren(coordinates)
+        .addChildren(this.coordinates.toNetworkData())
         .addChildren(uuid)
         .build();
   }

@@ -4,6 +4,7 @@ import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.events.EventConsumer;
 import common.events.EventService;
+import common.events.types.CreateAIEntityEventType;
 import networking.events.consumer.server.incoming.*;
 import networking.events.consumer.server.outgoing.CreateEntityOutgoingConsumerServer;
 import networking.events.consumer.server.outgoing.ReplaceBlockOutgoingConsumerServer;
@@ -27,6 +28,7 @@ public class ServerEventConsumer extends EventConsumer {
   @Inject CreateEntityOutgoingConsumerServer createEntityOutgoingConsumerServer;
   @Inject UpdateEntityOutgoingConsumerServer updateEntityOutgoingConsumerServer;
   @Inject ReplaceBlockOutgoingConsumerServer replaceBlockOutgoingConsumerServer;
+  @Inject CreateAIEntityConsumerServer createAIEntityConsumerServer;
 
   public void init() {
     super.init();
@@ -46,5 +48,7 @@ public class ServerEventConsumer extends EventConsumer {
         UpdateEntityOutgoingEventType.type, updateEntityOutgoingConsumerServer);
     this.eventService.addListener(
         ReplaceBlockOutgoingEventType.type, replaceBlockOutgoingConsumerServer);
+    this.eventService.addPostUpdateListener(
+        CreateAIEntityEventType.type, createAIEntityConsumerServer);
   }
 }

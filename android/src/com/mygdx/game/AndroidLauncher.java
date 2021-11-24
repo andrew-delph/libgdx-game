@@ -28,7 +28,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import configuration.SoloConfig;
-import configuration.TestConfig;
 import app.GameScreen;
 
 public class AndroidLauncher extends AndroidApplication {

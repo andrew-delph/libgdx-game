@@ -12,7 +12,7 @@ import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
 import configuration.ClientConfig;
-import configuration.ServerConfig;
+import configuration.BaseServerConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.Block;
@@ -46,7 +46,7 @@ public class testSingleClient {
   @Before
   public void setup() throws IOException, InterruptedException {
     clientInjector = Guice.createInjector(new ClientConfig());
-    serverInjector = Guice.createInjector(new ServerConfig());
+    serverInjector = Guice.createInjector(new BaseServerConfig());
 
     clientNetworkHandle = clientInjector.getInstance(ClientNetworkHandle.class);
     serverNetworkHandle = serverInjector.getInstance(ServerNetworkHandle.class);
@@ -412,5 +412,27 @@ public class testSingleClient {
         .getEntity(serverEntity.uuid)
         .coordinates
         .equals(serverEntity.coordinates);
+  }
+
+  //  @Test
+  //  public void testServerGetEntity() throws IOException, InterruptedException {
+  //    clientNetworkHandle.
+  //  }
+
+  @Test
+  public void testClientCreateAIEntity() throws IOException, InterruptedException {
+
+    GameController clientGameController = clientInjector.getInstance(GameController.class);
+    GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
+    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+
+    TimeUnit.SECONDS.sleep(1);
+
+    clientGameController.createAI();
+
+    TimeUnit.SECONDS.sleep(1);
+
   }
 }

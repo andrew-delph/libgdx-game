@@ -1,8 +1,10 @@
 package networking;
 
 import com.google.inject.Inject;
+import common.Coordinates;
 import common.events.EventConsumer;
 import common.events.EventService;
+import common.events.types.CreateAIEntityEventType;
 import networking.events.EventFactory;
 import networking.events.types.outgoing.*;
 
@@ -30,6 +32,9 @@ public class NetworkEventHandler extends EventConsumer {
       } else if (event.equals(ReplaceBlockOutgoingEventType.type)) {
         System.out.println(event);
         eventService.fireEvent(eventFactory.createReplaceBlockIncomingEvent(networkEvent));
+      } else if (event.equals(CreateAIEntityEventType.type)) {
+        System.out.println(event);
+        eventService.queuePostUpdateEvent(eventFactory.createAIEntityEventType(new Coordinates(0,0)));
       }
     } catch (Exception e) {
       e.printStackTrace();

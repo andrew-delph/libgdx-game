@@ -3,9 +3,11 @@ package entity.controllers;
 import app.GameController;
 import com.badlogic.gdx.physics.box2d.Body;
 import common.Coordinates;
+import common.events.EventService;
 import entity.Entity;
 import entity.controllers.actions.EntityAction;
 import entity.controllers.actions.EntityActionFactory;
+import networking.events.EventFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,12 +15,20 @@ import java.util.Set;
 
 public class EntityController {
   GameController gameController;
+  EventService eventService;
+  EventFactory eventFactory;
   Entity entity;
   Map<String, EntityAction> actionMap;
 
   public EntityController(
-      GameController gameController, EntityActionFactory entityActionFactory, Entity entity) {
+      GameController gameController,
+      EntityActionFactory entityActionFactory,
+      EventService eventService,
+      EventFactory eventFactory,
+      Entity entity) {
     this.gameController = gameController;
+    this.eventService = eventService;
+    this.eventFactory = eventFactory;
     this.entity = entity;
     this.actionMap = new HashMap<>();
 

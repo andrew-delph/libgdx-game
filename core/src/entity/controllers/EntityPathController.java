@@ -31,7 +31,7 @@ public class EntityPathController extends EntityController {
       EntityFactory entityFactory,
       Entity entity,
       Entity target) {
-    super(gameController, entityActionFactory, entity);
+    super(gameController, entityActionFactory, eventService, eventFactory, entity);
     this.pathGuiderFactory = pathGuiderFactory;
     this.eventService = eventService;
     this.target = target;

@@ -1,19 +1,19 @@
 package networking.events.consumer.client.outgoing;
 
 import com.google.inject.Inject;
+import common.events.types.CreateAIEntityEventType;
 import common.events.types.EventType;
 import networking.client.ClientNetworkHandle;
-import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 
 import java.util.function.Consumer;
 
-public class UpdateEntityOutgoingConsumerClient implements Consumer<EventType> {
+public class CreateAIEntityConsumerClient implements Consumer<EventType> {
 
   @Inject ClientNetworkHandle clientNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {
-    UpdateEntityOutgoingEventType realEvent = (UpdateEntityOutgoingEventType) eventType;
+    CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
     clientNetworkHandle.send(realEvent.toNetworkEvent());
   }
 }

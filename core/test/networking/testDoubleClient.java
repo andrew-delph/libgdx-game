@@ -9,7 +9,7 @@ import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
 import configuration.ClientConfig;
-import configuration.ServerConfig;
+import configuration.BaseServerConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import networking.client.ClientNetworkHandle;
@@ -40,7 +40,7 @@ public class testDoubleClient {
   public void setup() throws IOException {
     client_a_Injector = Guice.createInjector(new ClientConfig());
     client_b_Injector = Guice.createInjector(new ClientConfig());
-    serverInjector = Guice.createInjector(new ServerConfig());
+    serverInjector = Guice.createInjector(new BaseServerConfig());
 
     client_a_NetworkHandle = client_a_Injector.getInstance(ClientNetworkHandle.class);
     client_b_NetworkHandle = client_b_Injector.getInstance(ClientNetworkHandle.class);

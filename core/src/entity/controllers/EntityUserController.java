@@ -4,17 +4,24 @@ import app.GameController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
+import common.Coordinates;
 import common.Direction;
+import common.events.EventService;
 import entity.Entity;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.controllers.actions.EntityActionFactory;
+import networking.events.EventFactory;
 
 public class EntityUserController extends EntityController {
 
   public EntityUserController(
-      GameController gameController, EntityActionFactory entityActionFactory, Entity entity) {
-    super(gameController, entityActionFactory, entity);
+      GameController gameController,
+      EntityActionFactory entityActionFactory,
+      EventService eventService,
+      EventFactory eventFactory,
+      Entity entity) {
+    super(gameController, entityActionFactory, eventService, eventFactory, entity);
   }
 
   @Override
@@ -56,6 +63,12 @@ public class EntityUserController extends EntityController {
         this.gameController.createLadder(this.entity.coordinates.getMiddle().getUp().getBase());
       }
     }
+
+    if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+      this.eventService.queuePostUpdateEvent(
+          this.eventFactory.createAIEntityEventType(new Coordinates(0, 0)));
+    }
+
     if (Gdx.input.isKeyPressed(Input.Keys.W)) {
       if (this.getAction("climbUp").isValid(body)) {
         this.applyAction("climbUp", body);

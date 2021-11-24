@@ -1,7 +1,7 @@
 package networking.events.consumer.client.incoming;
 
 import com.google.inject.Inject;
-import common.events.EventType;
+import common.events.types.EventType;
 import entity.EntitySerializationConverter;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
 

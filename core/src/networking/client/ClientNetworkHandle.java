@@ -36,9 +36,12 @@ public class ClientNetworkHandle {
   public void connect() {
     this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
     this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
+    NetworkObjectServiceGrpc.newBlockingStub(channel);
     requestNetworkEventObserver = observerFactory.create();
     requestNetworkEventObserver.responseObserver =
         this.asyncStub.networkObjectStream(requestNetworkEventObserver);
+
+    asyncStub.getChunk(null, null);
 
     NetworkObjects.NetworkEvent authenticationEvent =
         NetworkObjects.NetworkEvent.newBuilder().setEvent("authentication").build();

@@ -1,4 +1,4 @@
-package common.events;
+package common.events.types;
 
 import com.google.inject.Inject;
 

@@ -3,6 +3,8 @@ package common.events;
 import app.GameController;
 import com.google.inject.Inject;
 import common.GameStore;
+import common.events.types.RemoveEntityEventType;
+import common.events.types.ReplaceBlockEventType;
 
 public class EventConsumer {
 
@@ -15,16 +17,16 @@ public class EventConsumer {
 
   public void init() {
     this.eventService.addPostUpdateListener(
-        ReplaceBlockEventType.type,
+        common.events.types.ReplaceBlockEventType.type,
         event -> {
-          ReplaceBlockEventType realEvent = (ReplaceBlockEventType) event;
+          common.events.types.ReplaceBlockEventType realEvent = (ReplaceBlockEventType) event;
           this.gameController.replaceBlock(realEvent.getTarget(), realEvent.getReplacementBlock());
         });
 
     this.eventService.addPostUpdateListener(
-        RemoveEntityEventType.type,
+        common.events.types.RemoveEntityEventType.type,
         event -> {
-          RemoveEntityEventType realEvent = (RemoveEntityEventType) event;
+          common.events.types.RemoveEntityEventType realEvent = (RemoveEntityEventType) event;
           this.gameStore.removeEntity(realEvent.getEntityUUID());
         });
   }

@@ -148,4 +148,9 @@ public class GameController {
     this.gameStore.addEntity(replacementBlock);
     return replacementBlock;
   }
+
+  public void createAI(){
+    this.eventService.queuePostUpdateEvent(
+            this.eventFactory.createAIEntityEventType(new Coordinates(0, 0)));
+  }
 }

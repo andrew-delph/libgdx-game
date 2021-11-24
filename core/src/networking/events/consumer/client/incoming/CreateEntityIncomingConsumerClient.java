@@ -3,7 +3,7 @@ package networking.events.consumer.client.incoming;
 import app.GameController;
 import com.google.inject.Inject;
 import common.GameStore;
-import common.events.EventType;
+import common.events.types.EventType;
 import entity.Entity;
 import entity.EntitySerializationConverter;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
