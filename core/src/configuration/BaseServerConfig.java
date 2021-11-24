@@ -3,10 +3,12 @@ package configuration;
 import app.Game;
 import app.server.ServerGame;
 import common.events.EventConsumer;
+import entity.pathfinding.EdgeRegistration;
+import entity.pathfinding.EdgeRegistrationBase;
 import networking.events.consumer.server.ServerEventConsumer;
 import networking.server.ServerNetworkHandle;
 
-public class ServerConfig extends MainConfig {
+public class BaseServerConfig extends MainConfig {
   @Override
   protected void configure() {
     super.configure();

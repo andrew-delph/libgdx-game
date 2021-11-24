@@ -12,7 +12,7 @@ import entity.pathfinding.edge.DigGreedyEdge;
 import entity.pathfinding.edge.HorizontalGreedyEdge;
 import entity.pathfinding.edge.LadderGreedyEdge;
 
-public class EdgeRegistration {
+public class EdgeRegistration extends EdgeRegistrationBase {
 
   @Inject EdgeStore edgeStore;
   @Inject EntityStructureFactory entityStructureFactory;
@@ -31,6 +31,7 @@ public class EdgeRegistration {
     this.digGreedyRegisterEdges();
   }
 
+  @Override
   public void templateEdgeRegistration() {
 
     TemplateEdgeGenerator templateEdgeGenerator =
@@ -42,6 +43,7 @@ public class EdgeRegistration {
     templateEdgeGenerator.generate();
   }
 
+  @Override
   public void horizontalGreedyRegisterEdges() {
     EntityStructure moveLeftEntityStructure = entityStructureFactory.createEntityStructure();
     moveLeftEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
@@ -143,6 +145,7 @@ public class EdgeRegistration {
     this.edgeStore.add(moveLadderLeftHorizontalGreedyEdge);
   }
 
+  @Override
   public void ladderGreedyRegisterEdges() {
 
     EntityStructure startLadderEntityStructure = entityStructureFactory.createEntityStructure();
@@ -177,6 +180,7 @@ public class EdgeRegistration {
     this.edgeStore.add(climbLadderGreedyEdge);
   }
 
+  @Override
   public void digGreedyRegisterEdges() {
 
     EntityStructure digRightEntityStructure = entityStructureFactory.createEntityStructure();

@@ -12,7 +12,7 @@ import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
 import configuration.ClientConfig;
-import configuration.ServerConfig;
+import configuration.BaseServerConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.Block;
@@ -46,7 +46,7 @@ public class testSingleClient {
   @Before
   public void setup() throws IOException, InterruptedException {
     clientInjector = Guice.createInjector(new ClientConfig());
-    serverInjector = Guice.createInjector(new ServerConfig());
+    serverInjector = Guice.createInjector(new BaseServerConfig());
 
     clientNetworkHandle = clientInjector.getInstance(ClientNetworkHandle.class);
     serverNetworkHandle = serverInjector.getInstance(ServerNetworkHandle.class);

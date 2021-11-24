@@ -7,9 +7,9 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import common.GameStore;
 import common.events.EventConsumer;
-import configuration.ServerConfig;
+import configuration.BaseServerConfig;
 import entity.collision.CollisionService;
-import entity.pathfinding.EdgeRegistration;
+import entity.pathfinding.EdgeRegistrationBase;
 import generation.ChunkGenerationManager;
 import networking.server.ServerNetworkHandle;
 
@@ -20,7 +20,7 @@ public class ServerGame extends Game {
   @Inject ServerNetworkHandle serverNetworkHandle;
 
   @Inject
-  EdgeRegistration edgeRegistration;
+  EdgeRegistrationBase edgeRegistration;
 
   @Inject
   public ServerGame(
@@ -34,7 +34,7 @@ public class ServerGame extends Game {
   }
 
   public static void main(String[] args) throws InterruptedException, IOException {
-    Injector injector = Guice.createInjector(new ServerConfig());
+    Injector injector = Guice.createInjector(new BaseServerConfig());
     Game game = injector.getInstance(Game.class);
     game.start();
 
@@ -45,7 +45,7 @@ public class ServerGame extends Game {
 
   @Override
   public void start() throws IOException, InterruptedException {
-//    edgeRegistration.edgeRegistration();
+    edgeRegistration.edgeRegistration();
     super.start();
     serverNetworkHandle.start();
   }
