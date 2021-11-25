@@ -1,11 +1,18 @@
 package networking.server;
 
+import chunk.Chunk;
+import chunk.ChunkFactory;
+import chunk.ChunkRange;
 import com.google.inject.Inject;
+import common.GameStore;
+import entity.Entity;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
 import io.grpc.stub.StreamObserver;
 import networking.*;
+import networking.events.EventTypeFactory;
+import networking.events.types.outgoing.GetChunkOutgoingEventType;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -14,6 +21,12 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   public UUID uuid;
   @Inject ObserverFactory observerFactory;
   @Inject ConnectionStore connectionStore;
+  @Inject
+  GameStore gameStore;
+  @Inject
+  ChunkFactory chunkFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
   private Server server;
 
   @Inject
@@ -51,7 +64,15 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
       NetworkObjects.NetworkEvent request,
       StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
     System.out.println(1111);
-    responseObserver.onNext(request);
+
+    GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
+
+    Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
+    if (chunk == null) {
+      return;
+    }
+
+    responseObserver.onNext(realEvent.toNetworkEvent());
     responseObserver.onCompleted();
   }
 

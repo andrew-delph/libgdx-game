@@ -14,10 +14,10 @@ import networking.events.types.outgoing.*;
 import java.util.List;
 import java.util.UUID;
 
-public class EventFactory {
+public class EventTypeFactory {
 
   @Inject
-  EventFactory() {}
+  EventTypeFactory() {}
 
   public CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
       NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
@@ -95,5 +95,9 @@ public class EventFactory {
 
   public CreateAIEntityEventType createAIEntityEventType(Coordinates coordinates) {
     return new CreateAIEntityEventType(coordinates);
+  }
+
+  public GetChunkOutgoingEventType createGetChunkOutgoingEventType(NetworkObjects.NetworkEvent networkEvent){
+    return new GetChunkOutgoingEventType(new ChunkRange(new Coordinates(0,0)));
   }
 }

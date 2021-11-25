@@ -11,7 +11,7 @@ import entity.Entity;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.controllers.actions.EntityActionFactory;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 
 public class EntityUserController extends EntityController {
 
@@ -19,9 +19,9 @@ public class EntityUserController extends EntityController {
       GameController gameController,
       EntityActionFactory entityActionFactory,
       EventService eventService,
-      EventFactory eventFactory,
+      EventTypeFactory eventTypeFactory,
       Entity entity) {
-    super(gameController, entityActionFactory, eventService, eventFactory, entity);
+    super(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 
   @Override
@@ -66,7 +66,7 @@ public class EntityUserController extends EntityController {
 
     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
       this.eventService.queuePostUpdateEvent(
-          this.eventFactory.createAIEntityEventType(new Coordinates(0, 0)));
+          this.eventTypeFactory.createAIEntityEventType(new Coordinates(0, 0)));
     }
 
     if (Gdx.input.isKeyPressed(Input.Keys.W)) {

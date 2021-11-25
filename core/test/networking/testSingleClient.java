@@ -20,7 +20,7 @@ import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import networking.client.ClientNetworkHandle;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Assert;
@@ -247,7 +247,7 @@ public class testSingleClient {
 
     GameController serverGameController = serverInjector.getInstance(GameController.class);
 
-    EventFactory clientEventFactory = clientInjector.getInstance(EventFactory.class);
+    EventTypeFactory clientEventTypeFactory = clientInjector.getInstance(EventTypeFactory.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     ChunkFactory serverChunkFactory = serverInjector.getInstance(ChunkFactory.class);
@@ -322,7 +322,7 @@ public class testSingleClient {
     ChunkClockMap clientChunkClockMap = clientInjector.getInstance(ChunkClockMap.class);
     GameController serverGameController = serverInjector.getInstance(GameController.class);
     BlockFactory serverBlockFactory = serverInjector.getInstance(BlockFactory.class);
-    EventFactory clientEventFactory = clientInjector.getInstance(EventFactory.class);
+    EventTypeFactory clientEventTypeFactory = clientInjector.getInstance(EventTypeFactory.class);
     EventService clientEventService = clientInjector.getInstance(EventService.class);
 
     serverGameController.createEntity(serverBlockFactory.createDirt());
@@ -330,7 +330,7 @@ public class testSingleClient {
     TimeUnit.SECONDS.sleep(1);
     Block clientBlock = serverGameStore.getBlock(new Coordinates(0, 0));
     clientEventService.fireEvent(
-        clientEventFactory.createReplaceBlockOutgoingEvent(
+        clientEventTypeFactory.createReplaceBlockOutgoingEvent(
             clientBlock.uuid,
             serverBlockFactory.createSky(),
             new ChunkRange(clientBlock.coordinates)));
@@ -344,7 +344,7 @@ public class testSingleClient {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     GameController serverGameController = serverInjector.getInstance(GameController.class);
     BlockFactory serverBlockFactory = serverInjector.getInstance(BlockFactory.class);
-    EventFactory clientEventFactory = clientInjector.getInstance(EventFactory.class);
+    EventTypeFactory clientEventTypeFactory = clientInjector.getInstance(EventTypeFactory.class);
     EventService serverEventService = serverInjector.getInstance(EventService.class);
     EventService clientEventService = clientInjector.getInstance(EventService.class);
 
@@ -354,7 +354,7 @@ public class testSingleClient {
     assert clientGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
 
     serverEventService.fireEvent(
-        clientEventFactory.createReplaceBlockOutgoingEvent(
+        clientEventTypeFactory.createReplaceBlockOutgoingEvent(
             serverEntity.uuid,
             serverBlockFactory.createSky(),
             new ChunkRange(serverEntity.coordinates)));

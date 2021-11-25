@@ -2,7 +2,7 @@ package networking;
 
 import common.events.EventService;
 import io.grpc.stub.StreamObserver;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 
 import java.util.UUID;
 
@@ -13,17 +13,17 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
   NetworkEventHandler networkEventHandler;
   ConnectionStore connectionStore;
   EventService eventService;
-  EventFactory eventFactory;
+  EventTypeFactory eventTypeFactory;
 
   public RequestNetworkEventObserver(
       NetworkEventHandler networkEventHandler,
       ConnectionStore connectionStore,
       EventService eventService,
-      EventFactory eventFactory) {
+      EventTypeFactory eventTypeFactory) {
     this.networkEventHandler = networkEventHandler;
     this.connectionStore = connectionStore;
     this.eventService = eventService;
-    this.eventFactory = eventFactory;
+    this.eventTypeFactory = eventTypeFactory;
   }
 
   @Override
@@ -40,12 +40,12 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
   @Override
   public void onError(Throwable throwable) {
     System.out.println("onError: " + this.uuid + " " + throwable);
-    this.eventService.fireEvent(this.eventFactory.createDisconnectionEvent(this.uuid));
+    this.eventService.fireEvent(this.eventTypeFactory.createDisconnectionEvent(this.uuid));
   }
 
   @Override
   public void onCompleted() {
     System.out.println("onCompleted " + this.uuid);
-    this.eventService.fireEvent(this.eventFactory.createDisconnectionEvent(this.uuid));
+    this.eventService.fireEvent(this.eventTypeFactory.createDisconnectionEvent(this.uuid));
   }
 }

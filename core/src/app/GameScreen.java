@@ -20,7 +20,7 @@ import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
 import entity.pathfinding.EdgeRegistration;
 import generation.ChunkGenerationManager;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -53,7 +53,8 @@ public class GameScreen extends ApplicationAdapter {
 
   @Inject EdgeRegistration edgeRegistration;
   @Inject EventService eventService;
-  @Inject EventFactory eventFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
 
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;

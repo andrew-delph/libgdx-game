@@ -8,7 +8,7 @@ import common.events.EventConsumer;
 import entity.collision.CollisionService;
 import generation.ChunkGenerationManager;
 import networking.client.ClientNetworkHandle;
-import networking.events.EventFactory;
+import networking.events.EventTypeFactory;
 
 import java.io.IOException;
 
@@ -16,7 +16,8 @@ public class ClientGame extends Game {
 
   @Inject ClientNetworkHandle clientNetworkHandle;
 
-  @Inject EventFactory eventFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
 
   @Inject
   public ClientGame(
