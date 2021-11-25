@@ -4,6 +4,7 @@ import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
+import common.Coordinates;
 import common.GameStore;
 import entity.Entity;
 import io.grpc.Server;
@@ -67,12 +68,16 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
     GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
 
-    Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
+//    Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
+    Chunk chunk = gameStore.getChunk(new ChunkRange(new Coordinates(0,0)));
     if (chunk == null) {
       return;
     }
 
-    responseObserver.onNext(realEvent.toNetworkEvent());
+    responseObserver.onNext(NetworkObjects.NetworkEvent.newBuilder()
+            .setData(chunk.toNetworkData())
+            .setEvent("type")
+            .build());
     responseObserver.onCompleted();
   }
 
