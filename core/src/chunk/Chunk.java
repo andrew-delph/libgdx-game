@@ -75,6 +75,12 @@ public class Chunk implements Callable<Chunk> , SerializeNetworkData {
     }
   }
 
+  public void addAllEntity(List<Entity> entityList){
+    for(Entity entity: entityList){
+      this.addEntity(entity);
+    }
+  }
+
   public Entity getEntity(UUID uuid) {
     return this.chunkMap.get(uuid);
   }
@@ -242,6 +248,7 @@ public class Chunk implements Callable<Chunk> , SerializeNetworkData {
     for (Entity entity : this.getEntityList()) {
       networkDataBuilder.addChildren(entity.toNetworkData());
     }
+    networkDataBuilder.addChildren(this.chunkRange.toNetworkData());
     return networkDataBuilder.build();
   }
 }

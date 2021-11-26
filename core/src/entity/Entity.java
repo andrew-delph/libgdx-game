@@ -96,22 +96,6 @@ public class Entity implements SerializeNetworkData {
   }
 
   public NetworkObjects.NetworkData toNetworkData() {
-//    NetworkObjects.NetworkData x =
-//        NetworkObjects.NetworkData.newBuilder()
-//            .setKey("x")
-//            .setValue(String.valueOf(this.coordinates.getXReal()))
-//            .build();
-//    NetworkObjects.NetworkData y =
-//        NetworkObjects.NetworkData.newBuilder()
-//            .setKey("y")
-//            .setValue(String.valueOf(this.coordinates.getYReal()))
-//            .build();
-//    NetworkObjects.NetworkData coordinates =
-//        NetworkObjects.NetworkData.newBuilder()
-//            .setKey(Coordinates.class.getName())
-//            .addChildren(x)
-//            .addChildren(y)
-//            .build();
     NetworkObjects.NetworkData uuid =
         NetworkObjects.NetworkData.newBuilder()
             .setKey(UUID.class.getName())

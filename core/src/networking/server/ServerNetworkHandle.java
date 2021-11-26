@@ -6,7 +6,6 @@ import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
-import entity.Entity;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
@@ -22,12 +21,9 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   public UUID uuid;
   @Inject ObserverFactory observerFactory;
   @Inject ConnectionStore connectionStore;
-  @Inject
-  GameStore gameStore;
-  @Inject
-  ChunkFactory chunkFactory;
-  @Inject
-  EventTypeFactory eventTypeFactory;
+  @Inject GameStore gameStore;
+  @Inject ChunkFactory chunkFactory;
+  @Inject EventTypeFactory eventTypeFactory;
   private Server server;
 
   @Inject
@@ -68,15 +64,16 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
     GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
 
-//    Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
-    Chunk chunk = gameStore.getChunk(new ChunkRange(new Coordinates(0,0)));
+    //    Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
+    Chunk chunk = gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
     if (chunk == null) {
       return;
     }
 
-    responseObserver.onNext(NetworkObjects.NetworkEvent.newBuilder()
+    responseObserver.onNext(
+        NetworkObjects.NetworkEvent.newBuilder()
             .setData(chunk.toNetworkData())
-            .setEvent("type")
+            .setEvent("get_chunk")
             .build());
     responseObserver.onCompleted();
   }

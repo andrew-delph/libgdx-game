@@ -435,4 +435,23 @@ public class testSingleClient {
     TimeUnit.SECONDS.sleep(1);
 
   }
+
+  @Test
+  public void testGetChunk() throws IOException, InterruptedException {
+
+    GameController clientGameController = clientInjector.getInstance(GameController.class);
+    GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
+
+//    clientNetworkHandle
+    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+
+    TimeUnit.SECONDS.sleep(1);
+
+    clientGameController.createAI();
+
+    TimeUnit.SECONDS.sleep(1);
+
+  }
 }

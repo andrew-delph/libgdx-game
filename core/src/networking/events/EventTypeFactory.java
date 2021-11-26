@@ -100,4 +100,8 @@ public class EventTypeFactory {
   public GetChunkOutgoingEventType createGetChunkOutgoingEventType(NetworkObjects.NetworkEvent networkEvent){
     return new GetChunkOutgoingEventType(new ChunkRange(new Coordinates(0,0)));
   }
+
+  public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange){
+    return new GetChunkOutgoingEventType(chunkRange);
+  }
 }
