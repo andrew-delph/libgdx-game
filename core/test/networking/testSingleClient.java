@@ -444,7 +444,6 @@ public class testSingleClient {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
 
-//    clientNetworkHandle
     clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
 
     TimeUnit.SECONDS.sleep(1);

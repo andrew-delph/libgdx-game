@@ -94,7 +94,7 @@ public class ChunkRange implements SerializeNetworkData {
 
   public NetworkObjects.NetworkData toNetworkData() {
     NetworkObjects.NetworkData.Builder builder =
-        NetworkObjects.NetworkData.newBuilder().setKey(this.getClass().getName());
+        NetworkObjects.NetworkData.newBuilder().setValue(this.getClass().getName());
     NetworkObjects.NetworkData x =
         NetworkObjects.NetworkData.newBuilder()
             .setKey("x")

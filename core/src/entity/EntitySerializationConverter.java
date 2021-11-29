@@ -39,6 +39,7 @@ public class EntitySerializationConverter {
       }
     }
     Chunk chunkToCreate = chunkFactory.create(chunkRange);
+    chunkToCreate.chunkRange = chunkRange;
     chunkToCreate.addAllEntity(entityList);
     return chunkToCreate;
   }
