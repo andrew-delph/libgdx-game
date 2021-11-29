@@ -98,20 +98,5 @@ public class testEntitySerialization {
     assert gameStore.getEntity(uuid).getClass().getName().equals(block.getClass().getName());
   }
 
-  @Test
-  public void testChunkSerialization() {
-    Injector injector = Guice.createInjector(new ClientConfig());
-    ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
-    Chunk chunk1 = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
-    EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
-    for (int i = 0; i < 10; i++){
-      Entity entity = entityFactory.createEntity();
-      chunk1.addEntity(entity);
-    }
-
-    Chunk chunk2 = entitySerializationConverter.createChunk(chunk1.toNetworkData());
-
-    assert chunk1.equals(chunk2);
-  }
 }
