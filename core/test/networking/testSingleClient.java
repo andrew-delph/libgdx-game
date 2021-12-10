@@ -2,6 +2,7 @@ package networking;
 
 import app.Game;
 import app.GameController;
+import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import chunk.ChunkSubscriptionService;
@@ -438,20 +439,16 @@ public class testSingleClient {
 
   @Test
   public void testGetChunk() throws IOException, InterruptedException {
-
-    GameController clientGameController = clientInjector.getInstance(GameController.class);
-    GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
-    ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
+    Chunk serverChunk = serverGameStore.getChunk(new ChunkRange(new Coordinates(0,0)));
+    EntityFactory serverEntityFactory = serverInjector.getInstance(EntityFactory.class);
 
+    Entity serverEntity = serverEntityFactory.createEntity();
+    serverGameStore.addEntity(serverEntity);
 
-    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+    Chunk clientChunk = clientNetworkHandle.getChunk(new ChunkRange(new Coordinates(0,0)));
 
-    TimeUnit.SECONDS.sleep(1);
-
-    clientGameController.createAI();
-
-    TimeUnit.SECONDS.sleep(1);
-
+    assert clientChunk.equals(serverChunk);
+    assert clientChunk.getEntity(serverEntity.uuid) != null;
   }
 }
