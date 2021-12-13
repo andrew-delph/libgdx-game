@@ -435,18 +435,25 @@ public class testSingleClient {
 
     TimeUnit.SECONDS.sleep(1);
 
+    assert false; // not finished
+
   }
 
   @Test
   public void testGetChunk() throws IOException, InterruptedException {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
-    Chunk serverChunk = serverGameStore.getChunk(new ChunkRange(new Coordinates(0,0)));
+    ChunkFactory chunkFactory = serverInjector.getInstance(ChunkFactory.class);
+    ChunkRange chunkRange = new ChunkRange(new Coordinates(-1,0));
+    serverGameStore.addChunk(chunkFactory.create(chunkRange));
+    Chunk serverChunk = serverGameStore.getChunk(chunkRange);
     EntityFactory serverEntityFactory = serverInjector.getInstance(EntityFactory.class);
+    BlockFactory blockFactory = serverInjector.getInstance(BlockFactory.class);
 
     Entity serverEntity = serverEntityFactory.createEntity();
     serverGameStore.addEntity(serverEntity);
+    serverGameStore.addEntity(blockFactory.createDirt());
 
-    Chunk clientChunk = clientNetworkHandle.getChunk(new ChunkRange(new Coordinates(0,0)));
+    Chunk clientChunk = clientNetworkHandle.getChunk(chunkRange);
 
     assert clientChunk.equals(serverChunk);
     assert clientChunk.getEntity(serverEntity.uuid) != null;

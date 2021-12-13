@@ -33,4 +33,16 @@ public class testChunkSerialization {
 
         assert chunk1.equals(chunk2);
     }
+
+    @Test
+    public void testChunkSerializationChunkRange() {
+
+        entitySerializationConverter = injector.getInstance(EntitySerializationConverter.class);
+
+        ChunkRange chunkRange = new ChunkRange(new Coordinates(0,0));
+        assert chunkRange.equals(entitySerializationConverter.createChunkRange(chunkRange.toNetworkData()));
+
+        ChunkRange chunkRange2 = new ChunkRange(new Coordinates(-1,0));
+        assert chunkRange2.equals(entitySerializationConverter.createChunkRange(chunkRange2.toNetworkData()));
+    }
 }
