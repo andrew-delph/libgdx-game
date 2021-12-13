@@ -6,6 +6,7 @@ import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceBlockEventType;
+import entity.EntitySerializationConverter;
 import entity.block.Block;
 import networking.NetworkObjects;
 import networking.events.types.incoming.*;
@@ -15,6 +16,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class EventTypeFactory {
+
+  @Inject
+  EntitySerializationConverter entitySerializationConverter;
 
   @Inject
   EventTypeFactory() {}
@@ -98,7 +102,7 @@ public class EventTypeFactory {
   }
 
   public GetChunkOutgoingEventType createGetChunkOutgoingEventType(NetworkObjects.NetworkEvent networkEvent){
-    return new GetChunkOutgoingEventType(new ChunkRange(new Coordinates(0,0)));
+    return new GetChunkOutgoingEventType(entitySerializationConverter.createChunkRange(networkEvent.getData()));
   }
 
   public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange){

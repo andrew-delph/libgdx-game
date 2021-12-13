@@ -443,13 +443,15 @@ public class testSingleClient {
   public void testGetChunk() throws IOException, InterruptedException {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory chunkFactory = serverInjector.getInstance(ChunkFactory.class);
-    ChunkRange chunkRange = new ChunkRange(new Coordinates(-1,0));
+    Coordinates coordinates = new Coordinates(-1,0);
+    ChunkRange chunkRange = new ChunkRange(coordinates);
     serverGameStore.addChunk(chunkFactory.create(chunkRange));
     Chunk serverChunk = serverGameStore.getChunk(chunkRange);
     EntityFactory serverEntityFactory = serverInjector.getInstance(EntityFactory.class);
     BlockFactory blockFactory = serverInjector.getInstance(BlockFactory.class);
 
     Entity serverEntity = serverEntityFactory.createEntity();
+    serverEntity.coordinates = coordinates;
     serverGameStore.addEntity(serverEntity);
     serverGameStore.addEntity(blockFactory.createDirt());
 

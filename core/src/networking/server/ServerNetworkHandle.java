@@ -6,6 +6,7 @@ import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
+import entity.EntitySerializationConverter;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
@@ -65,7 +66,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
 
     //    Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
-    Chunk chunk = gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
+    Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
     if (chunk == null) {
       return;
     }
