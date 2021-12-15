@@ -61,14 +61,13 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   public void getChunk(
       NetworkObjects.NetworkEvent request,
       StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
-    System.out.println(1111);
 
     GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
 
     //    Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
     Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
     if (chunk == null) {
-      return;
+      chunk = this.chunkFactory.create(realEvent.getChunkRange());
     }
 
     responseObserver.onNext(

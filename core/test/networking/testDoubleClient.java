@@ -140,6 +140,8 @@ public class testDoubleClient {
     client_b_NetworkHandle.send(
         client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
+    TimeUnit.SECONDS.sleep(1);
+
     Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
 
     TimeUnit.SECONDS.sleep(1);
@@ -202,7 +204,7 @@ public class testDoubleClient {
     client_b_NetworkHandle.send(
         client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
-    //    TimeUnit.SECONDS.sleep(1);
+    TimeUnit.SECONDS.sleep(1);
 
     Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
 

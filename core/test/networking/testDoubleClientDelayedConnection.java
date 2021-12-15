@@ -75,9 +75,7 @@ public class testDoubleClientDelayedConnection {
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();
     chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
-    for (ChunkRange chunkRange : chunkRangeList) {
-      client_b_GameStore.addChunk(client_a_ChunkFactory.create(chunkRange));
-    }
+
 
     EventTypeFactory client_b_EventTypeFactory = client_b_Injector.getInstance(EventTypeFactory.class);
 
@@ -93,8 +91,12 @@ public class testDoubleClientDelayedConnection {
 
     client_b_NetworkHandle.connect();
 
-    client_b_NetworkHandle.send(
-        client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+    for (ChunkRange chunkRange : chunkRangeList) {
+      client_b_GameStore.addChunk(client_b_NetworkHandle.getChunk(chunkRange));
+    }
+
+//    client_b_NetworkHandle.send(
+//        client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
     TimeUnit.SECONDS.sleep(1);
 

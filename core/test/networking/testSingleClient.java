@@ -348,7 +348,7 @@ public class testSingleClient {
     EventTypeFactory clientEventTypeFactory = clientInjector.getInstance(EventTypeFactory.class);
     EventService serverEventService = serverInjector.getInstance(EventService.class);
     EventService clientEventService = clientInjector.getInstance(EventService.class);
-
+    TimeUnit.SECONDS.sleep(1);
     Entity serverEntity = serverGameController.createEntity(serverBlockFactory.createDirt());
     assert serverGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
     TimeUnit.SECONDS.sleep(1);
