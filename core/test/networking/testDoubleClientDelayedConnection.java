@@ -71,6 +71,8 @@ public class testDoubleClientDelayedConnection {
     client_a_GameStore.addChunk(
         client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
 
+    serverGameStore.addChunk(client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+
     EntityFactory clientEntityFactory = client_a_Injector.getInstance(EntityFactory.class);
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();

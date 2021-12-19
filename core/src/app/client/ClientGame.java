@@ -43,4 +43,9 @@ public class ClientGame extends Game {
     this.clientNetworkHandle.connect();
     super.start();
   }
+
+  @Override
+  public void init() {
+    this.gameStore.addChunk(this.clientNetworkHandle.getChunk(new ChunkRange(new Coordinates(0, 0))));
+  }
 }

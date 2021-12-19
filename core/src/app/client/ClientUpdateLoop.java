@@ -43,7 +43,6 @@ public class ClientUpdateLoop extends UpdateLoop {
     Set<ChunkRange> subscribeChunkRange = new HashSet<>();
     for (ChunkRange chunkRange : chunkRangeListOnCamera) {
       if (this.gameStore.getChunk(chunkRange) == null) {
-//        this.gameStore.addChunk(chunkFactory.create(chunkRange));
           this.gameStore.addChunk(this.clientNetworkHandle.getChunk(chunkRange));
       }
       subscribeChunkRange.add(chunkRange);

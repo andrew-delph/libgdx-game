@@ -55,8 +55,9 @@ public class testSingleClient {
     clientGame = clientInjector.getInstance(Game.class);
     serverGame = serverInjector.getInstance(Game.class);
 
-    clientGame.start();
+
     serverGame.start();
+    clientGame.start();
   }
 
   @After
@@ -78,7 +79,6 @@ public class testSingleClient {
 
     ConnectionStore connectionStore = serverInjector.getInstance(ConnectionStore.class);
 
-    assert connectionStore.size() == 0;
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -326,6 +326,8 @@ public class testSingleClient {
     EventTypeFactory clientEventTypeFactory = clientInjector.getInstance(EventTypeFactory.class);
     EventService clientEventService = clientInjector.getInstance(EventService.class);
 
+    serverGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(0,0))));
+
     serverGameController.createEntity(serverBlockFactory.createDirt());
     assert serverGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
     TimeUnit.SECONDS.sleep(1);
@@ -453,7 +455,6 @@ public class testSingleClient {
     Entity serverEntity = serverEntityFactory.createEntity();
     serverEntity.coordinates = coordinates;
     serverGameStore.addEntity(serverEntity);
-    serverGameStore.addEntity(blockFactory.createDirt());
 
     Chunk clientChunk = clientNetworkHandle.getChunk(chunkRange);
 
