@@ -22,7 +22,7 @@ plugins {
 }
 
 def protobufVersion = '3.0.0'
-def grpcVersion = '1.32.1';
+def grpcVersion = '1.32.1'
 
 
 dependencies {

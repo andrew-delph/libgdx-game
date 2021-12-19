@@ -18,7 +18,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class SubscriptionIncomingConsumerServer implements Consumer<EventType> {
-  ;
   @Inject ChunkSubscriptionService chunkSubscriptionService;
   @Inject ServerNetworkHandle serverNetworkHandle;
   @Inject GameStore gameStore;

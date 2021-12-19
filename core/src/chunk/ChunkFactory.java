@@ -19,5 +19,4 @@ public class ChunkFactory {
   public Chunk create(ChunkRange chunkRange) {
     return new Chunk(clock, gameStore, entityContactListenerFactory, chunkRange);
   }
-  ;
 }

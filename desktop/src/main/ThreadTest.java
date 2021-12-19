@@ -18,7 +18,7 @@ class Shared {
 // Task class to be executed (Step 1)
 class Task implements Callable<Object> {
   Shared shared;
-  private String name;
+  private final String name;
 
   public Task(String s, Shared shared) {
     name = s;

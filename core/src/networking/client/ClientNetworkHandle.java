@@ -32,7 +32,7 @@ public class ClientNetworkHandle {
   @Inject
   public ClientNetworkHandle() {
     this.uuid = UUID.randomUUID();
-    System.out.println("client: " + this.uuid.toString());
+    System.out.println("client: " + this.uuid);
   }
 
   public void setHost(String host) {

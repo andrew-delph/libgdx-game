@@ -18,5 +18,4 @@ public class ChunkBuilderFactory {
   public ChunkBuilder create(ChunkRange chunkRange) {
     return new ChunkBuilder(chunkFactory, gameStore, blockGenerator, gameController, chunkRange);
   }
-  ;
 }

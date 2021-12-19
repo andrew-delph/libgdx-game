@@ -33,7 +33,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Inject
   public ServerNetworkHandle() {
     this.uuid = UUID.randomUUID();
-    System.out.println("server: " + this.uuid.toString());
+    System.out.println("server: " + this.uuid);
   }
 
   public void start() throws IOException {

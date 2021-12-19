@@ -33,7 +33,7 @@ public class PhysicsTest extends ApplicationAdapter implements InputProcessor {
   BitmapFont font;
   float torque = 0.0f;
   boolean drawSprite = true;
-  private float elapsed = 0;
+  private final float elapsed = 0;
 
   public static void main(String[] args) {
     LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
