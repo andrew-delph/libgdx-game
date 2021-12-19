@@ -9,39 +9,39 @@ import networking.NetworkObjects;
 import java.util.concurrent.TimeUnit;
 
 public class BasicClient {
-  public static void main(String[] args) throws InterruptedException {
-    Channel channel = ManagedChannelBuilder.forAddress("localhost", 99).usePlaintext().build();
-    NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub =
-        NetworkObjectServiceGrpc.newStub(channel);
+    public static void main(String[] args) throws InterruptedException {
+        Channel channel = ManagedChannelBuilder.forAddress("localhost", 99).usePlaintext().build();
+        NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub =
+                NetworkObjectServiceGrpc.newStub(channel);
 
-    StreamObserver<NetworkObjects.NetworkEvent> sender =
-        asyncStub.networkObjectStream(
-            new StreamObserver<NetworkObjects.NetworkEvent>() {
+        StreamObserver<NetworkObjects.NetworkEvent> sender =
+                asyncStub.networkObjectStream(
+                        new StreamObserver<NetworkObjects.NetworkEvent>() {
 
-              @Override
-              public void onNext(NetworkObjects.NetworkEvent value) {
-                System.out.println(value.getEvent());
-              }
+                            @Override
+                            public void onNext(NetworkObjects.NetworkEvent value) {
+                                System.out.println(value.getEvent());
+                            }
 
-              @Override
-              public void onError(Throwable t) {
-                System.out.println("error");
-                t.printStackTrace();
-              }
+                            @Override
+                            public void onError(Throwable t) {
+                                System.out.println("error");
+                                t.printStackTrace();
+                            }
 
-              @Override
-              public void onCompleted() {
-                System.out.println("complete");
-              }
-            });
+                            @Override
+                            public void onCompleted() {
+                                System.out.println("complete");
+                            }
+                        });
 
-    NetworkObjects.NetworkEvent authenticationEvent =
-        NetworkObjects.NetworkEvent.newBuilder().setEvent("andoid").build();
+        NetworkObjects.NetworkEvent authenticationEvent =
+                NetworkObjects.NetworkEvent.newBuilder().setEvent("andoid").build();
 
-    sender.onNext(authenticationEvent);
+        sender.onNext(authenticationEvent);
 
-    TimeUnit.SECONDS.sleep(3);
+        TimeUnit.SECONDS.sleep(3);
 
-    System.out.println("here");
-  }
+        System.out.println("here");
+    }
 }

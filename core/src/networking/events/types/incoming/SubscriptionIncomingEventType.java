@@ -11,30 +11,30 @@ import java.util.UUID;
 
 public class SubscriptionIncomingEventType extends EventType {
 
-  public static String type = "subscription_incoming_event";
-  List<ChunkRange> chunkRangeList;
-  UUID uuid;
+    public static String type = "subscription_incoming_event";
+    List<ChunkRange> chunkRangeList;
+    UUID uuid;
 
-  @Inject
-  public SubscriptionIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
-    NetworkObjects.NetworkData data = networkEvent.getData();
-    this.uuid = UUID.fromString(networkEvent.getUser());
-    this.chunkRangeList = new LinkedList<>();
-    for (NetworkObjects.NetworkData child : data.getChildrenList()) {
-      chunkRangeList.add(new ChunkRange(child));
+    @Inject
+    public SubscriptionIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
+        NetworkObjects.NetworkData data = networkEvent.getData();
+        this.uuid = UUID.fromString(networkEvent.getUser());
+        this.chunkRangeList = new LinkedList<>();
+        for (NetworkObjects.NetworkData child : data.getChildrenList()) {
+            chunkRangeList.add(new ChunkRange(child));
+        }
     }
-  }
 
-  public List<ChunkRange> getChunkRangeList() {
-    return chunkRangeList;
-  }
+    public List<ChunkRange> getChunkRangeList() {
+        return chunkRangeList;
+    }
 
-  public UUID getUser() {
-    return this.uuid;
-  }
+    public UUID getUser() {
+        return this.uuid;
+    }
 
-  @Override
-  public String getType() {
-    return type;
-  }
+    @Override
+    public String getType() {
+        return type;
+    }
 }

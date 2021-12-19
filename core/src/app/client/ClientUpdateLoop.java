@@ -19,48 +19,53 @@ import java.util.concurrent.Callable;
 
 public class ClientUpdateLoop extends UpdateLoop {
 
-  @Inject ChunkGenerationManager chunkGenerationManager;
+    @Inject
+    ChunkGenerationManager chunkGenerationManager;
 
-  @Inject ChunkFactory chunkFactory;
+    @Inject
+    ChunkFactory chunkFactory;
 
-  @Inject ClientNetworkHandle clientNetworkHandle;
+    @Inject
+    ClientNetworkHandle clientNetworkHandle;
 
-  @Inject
-  EventTypeFactory eventTypeFactory;
+    @Inject
+    EventTypeFactory eventTypeFactory;
 
-  @Inject BaseCamera baseCamera;
+    @Inject
+    BaseCamera baseCamera;
 
-  @Inject EventService eventService;
+    @Inject
+    EventService eventService;
 
-  @Override
-  public void run() {
-    this.clock.tick();
-    List<Callable<Chunk>> callableChunkList =
-        this.gameStore.getChunkOnClock(this.clock.currentTick);
+    @Override
+    public void run() {
+        this.clock.tick();
+        List<Callable<Chunk>> callableChunkList =
+                this.gameStore.getChunkOnClock(this.clock.currentTick);
 
-    List<ChunkRange> chunkRangeListOnCamera = baseCamera.getChunkRangeOnScreen();
+        List<ChunkRange> chunkRangeListOnCamera = baseCamera.getChunkRangeOnScreen();
 
-    Set<ChunkRange> subscribeChunkRange = new HashSet<>();
-    for (ChunkRange chunkRange : chunkRangeListOnCamera) {
-      if (this.gameStore.getChunk(chunkRange) == null) {
-          this.gameStore.addChunk(this.clientNetworkHandle.getChunk(chunkRange));
-      }
-      subscribeChunkRange.add(chunkRange);
+        Set<ChunkRange> subscribeChunkRange = new HashSet<>();
+        for (ChunkRange chunkRange : chunkRangeListOnCamera) {
+            if (this.gameStore.getChunk(chunkRange) == null) {
+                this.gameStore.addChunk(this.clientNetworkHandle.getChunk(chunkRange));
+            }
+            subscribeChunkRange.add(chunkRange);
+        }
+
+        if (subscribeChunkRange.size() > 0) {
+            this.clientNetworkHandle.send(
+                    eventTypeFactory
+                            .createSubscriptionOutgoingEvent(new LinkedList<>(subscribeChunkRange))
+                            .toNetworkEvent());
+        }
+
+        try {
+            executor.invokeAll(callableChunkList);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        this.eventService.firePostUpdateEvents();
     }
-
-    if (subscribeChunkRange.size() > 0) {
-      this.clientNetworkHandle.send(
-          eventTypeFactory
-              .createSubscriptionOutgoingEvent(new LinkedList<>(subscribeChunkRange))
-              .toNetworkEvent());
-    }
-
-    try {
-      executor.invokeAll(callableChunkList);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    this.eventService.firePostUpdateEvents();
-  }
 }

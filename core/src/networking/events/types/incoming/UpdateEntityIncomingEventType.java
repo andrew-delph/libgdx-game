@@ -8,25 +8,25 @@ import java.util.UUID;
 
 public class UpdateEntityIncomingEventType extends EventType {
 
-  public static String type = "update_entity_incoming";
+    public static String type = "update_entity_incoming";
 
-  public NetworkObjects.NetworkEvent networkEvent;
+    public NetworkObjects.NetworkEvent networkEvent;
 
-  @Inject
-  public UpdateEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
-    this.networkEvent = networkEvent;
-  }
+    @Inject
+    public UpdateEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
+        this.networkEvent = networkEvent;
+    }
 
-  public NetworkObjects.NetworkData getData() {
-    return this.networkEvent.getData();
-  }
+    public NetworkObjects.NetworkData getData() {
+        return this.networkEvent.getData();
+    }
 
-  public UUID getUser() {
-    return UUID.fromString(this.networkEvent.getUser());
-  }
+    public UUID getUser() {
+        return UUID.fromString(this.networkEvent.getUser());
+    }
 
-  @Override
-  public String getType() {
-    return type;
-  }
+    @Override
+    public String getType() {
+        return type;
+    }
 }

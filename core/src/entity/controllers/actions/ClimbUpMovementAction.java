@@ -5,19 +5,19 @@ import com.badlogic.gdx.physics.box2d.Body;
 import entity.collision.ladder.EntityLadderContact;
 
 public class ClimbUpMovementAction implements EntityAction {
-  EntityLadderContact entityLadderContact;
+    EntityLadderContact entityLadderContact;
 
-  public ClimbUpMovementAction(EntityLadderContact entityLadderContact) {
-    this.entityLadderContact = entityLadderContact;
-  }
+    public ClimbUpMovementAction(EntityLadderContact entityLadderContact) {
+        this.entityLadderContact = entityLadderContact;
+    }
 
-  @Override
-  public void apply(Body body) {
-    body.setLinearVelocity(new Vector2(0, 5));
-  }
+    @Override
+    public void apply(Body body) {
+        body.setLinearVelocity(new Vector2(0, 5));
+    }
 
-  @Override
-  public Boolean isValid(Body body) {
-    return this.entityLadderContact.isOnLadder(body);
-  }
+    @Override
+    public Boolean isValid(Body body) {
+        return this.entityLadderContact.isOnLadder(body);
+    }
 }

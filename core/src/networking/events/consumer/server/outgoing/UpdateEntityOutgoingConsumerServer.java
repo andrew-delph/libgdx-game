@@ -13,16 +13,19 @@ import java.util.function.Consumer;
 
 public class UpdateEntityOutgoingConsumerServer implements Consumer<EventType> {
 
-  @Inject EventService eventService;
-  @Inject ChunkSubscriptionService chunkSubscriptionService;
-  @Inject ServerNetworkHandle serverNetworkHandle;
+    @Inject
+    EventService eventService;
+    @Inject
+    ChunkSubscriptionService chunkSubscriptionService;
+    @Inject
+    ServerNetworkHandle serverNetworkHandle;
 
-  @Override
-  public void accept(EventType eventType) {
-    UpdateEntityOutgoingEventType realEvent = (UpdateEntityOutgoingEventType) eventType;
-    NetworkObjects.NetworkEvent networkEvent = realEvent.toNetworkEvent();
-    for (UUID uuid : chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange())) {
-      serverNetworkHandle.send(uuid, networkEvent);
+    @Override
+    public void accept(EventType eventType) {
+        UpdateEntityOutgoingEventType realEvent = (UpdateEntityOutgoingEventType) eventType;
+        NetworkObjects.NetworkEvent networkEvent = realEvent.toNetworkEvent();
+        for (UUID uuid : chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange())) {
+            serverNetworkHandle.send(uuid, networkEvent);
+        }
     }
-  }
 }

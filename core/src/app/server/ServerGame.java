@@ -17,42 +17,43 @@ import java.io.IOException;
 
 public class ServerGame extends Game {
 
-  @Inject ServerNetworkHandle serverNetworkHandle;
+    @Inject
+    ServerNetworkHandle serverNetworkHandle;
 
-  @Inject
-  EdgeRegistrationBase edgeRegistration;
+    @Inject
+    EdgeRegistrationBase edgeRegistration;
 
-  @Inject
-  public ServerGame(
-      GameStore gameStore,
-      ChunkFactory chunkFactory,
-      ChunkGenerationManager chunkGenerationManager,
-      EventConsumer eventConsumer,
-      CollisionService collisionService)
-      throws Exception {
-    super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer, collisionService);
-  }
-
-  public static void main(String[] args) throws InterruptedException, IOException {
-    Injector injector = Guice.createInjector(new BaseServerConfig());
-    Game game = injector.getInstance(Game.class);
-    game.start();
-
-    while (true) {
-      Thread.sleep(Long.MAX_VALUE);
+    @Inject
+    public ServerGame(
+            GameStore gameStore,
+            ChunkFactory chunkFactory,
+            ChunkGenerationManager chunkGenerationManager,
+            EventConsumer eventConsumer,
+            CollisionService collisionService)
+            throws Exception {
+        super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer, collisionService);
     }
-  }
 
-  @Override
-  public void start() throws IOException, InterruptedException {
-    edgeRegistration.edgeRegistration();
-    super.start();
-    serverNetworkHandle.start();
-  }
+    public static void main(String[] args) throws InterruptedException, IOException {
+        Injector injector = Guice.createInjector(new BaseServerConfig());
+        Game game = injector.getInstance(Game.class);
+        game.start();
 
-  @Override
-  public void stop() {
-    super.stop();
-    this.serverNetworkHandle.close();
-  }
+        while (true) {
+            Thread.sleep(Long.MAX_VALUE);
+        }
+    }
+
+    @Override
+    public void start() throws IOException, InterruptedException {
+        edgeRegistration.edgeRegistration();
+        super.start();
+        serverNetworkHandle.start();
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        this.serverNetworkHandle.close();
+    }
 }

@@ -7,13 +7,13 @@ import common.Clock;
 import entity.EntityBodyBuilder;
 
 public abstract class EmptyBlock extends Block {
-  public EmptyBlock(
-      Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
-    super(clock, baseAssetManager, entityBodyBuilder);
-  }
+    public EmptyBlock(
+            Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
+        super(clock, baseAssetManager, entityBodyBuilder);
+    }
 
-  @Override
-  public Body addWorld(World world) {
-    return entityBodyBuilder.createEmptyBlockBody();
-  }
+    @Override
+    public Body addWorld(World world) {
+        return entityBodyBuilder.createEmptyBlockBody();
+    }
 }

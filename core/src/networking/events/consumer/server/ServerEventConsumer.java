@@ -16,39 +16,51 @@ import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 
 public class ServerEventConsumer extends EventConsumer {
-  @Inject EventService eventService;
-  @Inject ChunkSubscriptionService chunkSubscriptionService;
-  @Inject ServerNetworkHandle serverNetworkHandle;
+    @Inject
+    EventService eventService;
+    @Inject
+    ChunkSubscriptionService chunkSubscriptionService;
+    @Inject
+    ServerNetworkHandle serverNetworkHandle;
 
-  @Inject SubscriptionIncomingConsumerServer subscriptionIncomingConsumerServer;
-  @Inject DisconnectionIncomingConsumerServer disconnectionIncomingConsumerServer;
-  @Inject CreateEntityIncomingConsumerServer createEntityIncomingConsumerServer;
-  @Inject UpdateEntityIncomingServerConsumer updateEntityIncomingServerConsumer;
-  @Inject ReplaceBlockIncomingConsumerServer replaceBlockIncomingConsumerServer;
-  @Inject CreateEntityOutgoingConsumerServer createEntityOutgoingConsumerServer;
-  @Inject UpdateEntityOutgoingConsumerServer updateEntityOutgoingConsumerServer;
-  @Inject ReplaceBlockOutgoingConsumerServer replaceBlockOutgoingConsumerServer;
-  @Inject CreateAIEntityConsumerServer createAIEntityConsumerServer;
+    @Inject
+    SubscriptionIncomingConsumerServer subscriptionIncomingConsumerServer;
+    @Inject
+    DisconnectionIncomingConsumerServer disconnectionIncomingConsumerServer;
+    @Inject
+    CreateEntityIncomingConsumerServer createEntityIncomingConsumerServer;
+    @Inject
+    UpdateEntityIncomingServerConsumer updateEntityIncomingServerConsumer;
+    @Inject
+    ReplaceBlockIncomingConsumerServer replaceBlockIncomingConsumerServer;
+    @Inject
+    CreateEntityOutgoingConsumerServer createEntityOutgoingConsumerServer;
+    @Inject
+    UpdateEntityOutgoingConsumerServer updateEntityOutgoingConsumerServer;
+    @Inject
+    ReplaceBlockOutgoingConsumerServer replaceBlockOutgoingConsumerServer;
+    @Inject
+    CreateAIEntityConsumerServer createAIEntityConsumerServer;
 
-  public void init() {
-    super.init();
-    this.eventService.addListener(
-        SubscriptionIncomingEventType.type, subscriptionIncomingConsumerServer);
-    this.eventService.addListener(
-        DisconnectionIncomingEventType.type, disconnectionIncomingConsumerServer);
-    this.eventService.addListener(
-        CreateEntityIncomingEventType.type, createEntityIncomingConsumerServer);
-    this.eventService.addListener(
-        UpdateEntityIncomingEventType.type, updateEntityIncomingServerConsumer);
-    this.eventService.addListener(
-        ReplaceBlockIncomingEventType.type, replaceBlockIncomingConsumerServer);
-    this.eventService.addListener(
-        CreateEntityOutgoingEventType.type, createEntityOutgoingConsumerServer);
-    this.eventService.addListener(
-        UpdateEntityOutgoingEventType.type, updateEntityOutgoingConsumerServer);
-    this.eventService.addListener(
-        ReplaceBlockOutgoingEventType.type, replaceBlockOutgoingConsumerServer);
-    this.eventService.addPostUpdateListener(
-        CreateAIEntityEventType.type, createAIEntityConsumerServer);
-  }
+    public void init() {
+        super.init();
+        this.eventService.addListener(
+                SubscriptionIncomingEventType.type, subscriptionIncomingConsumerServer);
+        this.eventService.addListener(
+                DisconnectionIncomingEventType.type, disconnectionIncomingConsumerServer);
+        this.eventService.addListener(
+                CreateEntityIncomingEventType.type, createEntityIncomingConsumerServer);
+        this.eventService.addListener(
+                UpdateEntityIncomingEventType.type, updateEntityIncomingServerConsumer);
+        this.eventService.addListener(
+                ReplaceBlockIncomingEventType.type, replaceBlockIncomingConsumerServer);
+        this.eventService.addListener(
+                CreateEntityOutgoingEventType.type, createEntityOutgoingConsumerServer);
+        this.eventService.addListener(
+                UpdateEntityOutgoingEventType.type, updateEntityOutgoingConsumerServer);
+        this.eventService.addListener(
+                ReplaceBlockOutgoingEventType.type, replaceBlockOutgoingConsumerServer);
+        this.eventService.addPostUpdateListener(
+                CreateAIEntityEventType.type, createAIEntityConsumerServer);
+    }
 }

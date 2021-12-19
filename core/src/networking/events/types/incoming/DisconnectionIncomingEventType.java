@@ -7,20 +7,20 @@ import java.util.UUID;
 
 public class DisconnectionIncomingEventType extends EventType {
 
-  public static String type = "disconnection_entity_incoming";
-  UUID uuid;
+    public static String type = "disconnection_entity_incoming";
+    UUID uuid;
 
-  @Inject
-  public DisconnectionIncomingEventType(UUID uuid) {
-    this.uuid = uuid;
-  }
+    @Inject
+    public DisconnectionIncomingEventType(UUID uuid) {
+        this.uuid = uuid;
+    }
 
-  public UUID getUuid() {
-    return uuid;
-  }
+    public UUID getUuid() {
+        return uuid;
+    }
 
-  @Override
-  public String getType() {
-    return type;
-  }
+    @Override
+    public String getType() {
+        return type;
+    }
 }

@@ -16,25 +16,30 @@ import java.util.function.Consumer;
 
 public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
 
-  @Inject GameController gameController;
-  @Inject EntitySerializationConverter entitySerializationConverter;
-  @Inject ChunkSubscriptionService chunkSubscriptionService;
-  @Inject ServerNetworkHandle serverNetworkHandle;
-  @Inject ChunkGenerationManager chunkGenerationManager;
+    @Inject
+    GameController gameController;
+    @Inject
+    EntitySerializationConverter entitySerializationConverter;
+    @Inject
+    ChunkSubscriptionService chunkSubscriptionService;
+    @Inject
+    ServerNetworkHandle serverNetworkHandle;
+    @Inject
+    ChunkGenerationManager chunkGenerationManager;
 
-  @Override
-  public void accept(EventType eventType) {
-    CreateEntityIncomingEventType realEvent = (CreateEntityIncomingEventType) eventType;
-    Entity entity =
-        gameController.triggerCreateEntity(
-            entitySerializationConverter.createEntity(realEvent.getData()));
-    chunkGenerationManager.registerActiveEntity(
-        entity, UUID.fromString(realEvent.networkEvent.getUser()));
+    @Override
+    public void accept(EventType eventType) {
+        CreateEntityIncomingEventType realEvent = (CreateEntityIncomingEventType) eventType;
+        Entity entity =
+                gameController.triggerCreateEntity(
+                        entitySerializationConverter.createEntity(realEvent.getData()));
+        chunkGenerationManager.registerActiveEntity(
+                entity, UUID.fromString(realEvent.networkEvent.getUser()));
 
-    for (UUID uuid :
-        chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
-      if (uuid.equals(realEvent.getUser())) continue;
-      serverNetworkHandle.send(uuid, realEvent.networkEvent);
+        for (UUID uuid :
+                chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
+            if (uuid.equals(realEvent.getUser())) continue;
+            serverNetworkHandle.send(uuid, realEvent.networkEvent);
+        }
     }
-  }
 }

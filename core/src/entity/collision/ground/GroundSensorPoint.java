@@ -4,13 +4,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class GroundSensorPoint {
 
-  private final Body body;
+    private final Body body;
 
-  public GroundSensorPoint(Body body) {
-    this.body = body;
-  }
+    public GroundSensorPoint(Body body) {
+        this.body = body;
+    }
 
-  public Body getBody() {
-    return body;
-  }
+    public Body getBody() {
+        return body;
+    }
 }

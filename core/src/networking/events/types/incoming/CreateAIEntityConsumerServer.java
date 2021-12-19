@@ -2,7 +2,6 @@ package networking.events.types.incoming;
 
 import app.GameController;
 import com.google.inject.Inject;
-import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.EventType;
 import entity.Entity;
@@ -13,7 +12,6 @@ import generation.ChunkGenerationManager;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
-
 
 
 public class CreateAIEntityConsumerServer implements Consumer<EventType> {

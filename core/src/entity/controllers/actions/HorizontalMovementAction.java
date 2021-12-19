@@ -6,20 +6,20 @@ import com.google.inject.Inject;
 
 public class HorizontalMovementAction implements EntityAction {
 
-  int magnitude;
+    int magnitude;
 
-  @Inject
-  HorizontalMovementAction(int magnitude) {
-    this.magnitude = magnitude;
-  }
+    @Inject
+    HorizontalMovementAction(int magnitude) {
+        this.magnitude = magnitude;
+    }
 
-  @Override
-  public void apply(Body body) {
-    body.setLinearVelocity(new Vector2(this.magnitude, body.getLinearVelocity().y));
-  }
+    @Override
+    public void apply(Body body) {
+        body.setLinearVelocity(new Vector2(this.magnitude, body.getLinearVelocity().y));
+    }
 
-  @Override
-  public Boolean isValid(Body body) {
-    return true;
-  }
+    @Override
+    public Boolean isValid(Body body) {
+        return true;
+    }
 }

@@ -12,18 +12,20 @@ import java.util.function.Consumer;
 
 public class ReplaceBlockIncomingConsumerClient implements Consumer<EventType> {
 
-  @Inject EventService eventService;
-  @Inject EntitySerializationConverter entitySerializationConverter;
-  @Inject
-  EventTypeFactory eventTypeFactory;
+    @Inject
+    EventService eventService;
+    @Inject
+    EntitySerializationConverter entitySerializationConverter;
+    @Inject
+    EventTypeFactory eventTypeFactory;
 
-  @Override
-  public void accept(EventType eventType) {
-    ReplaceBlockIncomingEventType realEvent = (ReplaceBlockIncomingEventType) eventType;
-    this.eventService.queuePostUpdateEvent(
-        this.eventTypeFactory.createReplaceBlockEvent(
-            realEvent.getTarget(),
-            (Block)
-                entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
-  }
+    @Override
+    public void accept(EventType eventType) {
+        ReplaceBlockIncomingEventType realEvent = (ReplaceBlockIncomingEventType) eventType;
+        this.eventService.queuePostUpdateEvent(
+                this.eventTypeFactory.createReplaceBlockEvent(
+                        realEvent.getTarget(),
+                        (Block)
+                                entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
+    }
 }

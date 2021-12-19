@@ -6,21 +6,21 @@ import networking.NetworkObjects;
 
 public class RemoveEntityIncomingEventType extends EventType {
 
-  public static String type = "remove_entity_incoming";
+    public static String type = "remove_entity_incoming";
 
-  public NetworkObjects.NetworkEvent networkEvent;
+    public NetworkObjects.NetworkEvent networkEvent;
 
-  @Inject
-  public RemoveEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
-    this.networkEvent = networkEvent;
-  }
+    @Inject
+    public RemoveEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
+        this.networkEvent = networkEvent;
+    }
 
-  public NetworkObjects.NetworkData getData() {
-    return this.networkEvent.getData();
-  }
+    public NetworkObjects.NetworkData getData() {
+        return this.networkEvent.getData();
+    }
 
-  @Override
-  public String getType() {
-    return type;
-  }
+    @Override
+    public String getType() {
+        return type;
+    }
 }

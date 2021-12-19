@@ -2,12 +2,9 @@ package networking.server;
 
 import chunk.Chunk;
 import chunk.ChunkFactory;
-import chunk.ChunkRange;
 import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
-import common.Coordinates;
 import common.GameStore;
-import entity.EntitySerializationConverter;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
@@ -20,83 +17,88 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
-  public UUID uuid;
-  @Inject ObserverFactory observerFactory;
-  @Inject ConnectionStore connectionStore;
-  @Inject GameStore gameStore;
-  @Inject ChunkFactory chunkFactory;
-  @Inject EventTypeFactory eventTypeFactory;
-  @Inject
-  ChunkSubscriptionService chunkSubscriptionService;
-  private Server server;
+    public UUID uuid;
+    @Inject
+    ObserverFactory observerFactory;
+    @Inject
+    ConnectionStore connectionStore;
+    @Inject
+    GameStore gameStore;
+    @Inject
+    ChunkFactory chunkFactory;
+    @Inject
+    EventTypeFactory eventTypeFactory;
+    @Inject
+    ChunkSubscriptionService chunkSubscriptionService;
+    private Server server;
 
-  @Inject
-  public ServerNetworkHandle() {
-    this.uuid = UUID.randomUUID();
-    System.out.println("server: " + this.uuid);
-  }
-
-  public void start() throws IOException {
-    System.out.println("server start");
-    server =
-        ServerBuilder.forPort(99)
-            .addService(this)
-            .addService(ProtoReflectionService.newInstance())
-            .build();
-    server.start();
-  }
-
-  @Override
-  public StreamObserver<NetworkObjects.NetworkEvent> networkObjectStream(
-      StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
-    RequestNetworkEventObserver requestNetworkEventObserver = observerFactory.create();
-    requestNetworkEventObserver.responseObserver = responseObserver;
-    NetworkObjects.NetworkEvent authenticationEvent =
-        NetworkObjects.NetworkEvent.newBuilder()
-            .setEvent("authentication")
-            .setUser(this.uuid.toString())
-            .build();
-    requestNetworkEventObserver.responseObserver.onNext(authenticationEvent);
-    return requestNetworkEventObserver;
-  }
-
-  @Override
-  public void getChunk(
-      NetworkObjects.NetworkEvent request,
-      StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
-
-    GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
-
-    Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
-    if (chunk == null) {
-      chunk = this.chunkFactory.create(realEvent.getChunkRange());
+    @Inject
+    public ServerNetworkHandle() {
+        this.uuid = UUID.randomUUID();
+        System.out.println("server: " + this.uuid);
     }
 
-    chunkSubscriptionService.registerSubscription(realEvent.getUUID(),realEvent.getChunkRange());
+    public void start() throws IOException {
+        System.out.println("server start");
+        server =
+                ServerBuilder.forPort(99)
+                        .addService(this)
+                        .addService(ProtoReflectionService.newInstance())
+                        .build();
+        server.start();
+    }
 
-    responseObserver.onNext(
-        NetworkObjects.NetworkEvent.newBuilder()
-            .setData(chunk.toNetworkData())
-            .setEvent("get_chunk")
-            .build());
-    responseObserver.onCompleted();
-  }
+    @Override
+    public StreamObserver<NetworkObjects.NetworkEvent> networkObjectStream(
+            StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
+        RequestNetworkEventObserver requestNetworkEventObserver = observerFactory.create();
+        requestNetworkEventObserver.responseObserver = responseObserver;
+        NetworkObjects.NetworkEvent authenticationEvent =
+                NetworkObjects.NetworkEvent.newBuilder()
+                        .setEvent("authentication")
+                        .setUser(this.uuid.toString())
+                        .build();
+        requestNetworkEventObserver.responseObserver.onNext(authenticationEvent);
+        return requestNetworkEventObserver;
+    }
 
-  @Override
-  public void getEntity(
-      NetworkObjects.NetworkEvent request,
-      StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
-    System.out.println(2222);
-    responseObserver.onNext(request);
-    responseObserver.onCompleted();
-  }
+    @Override
+    public void getChunk(
+            NetworkObjects.NetworkEvent request,
+            StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
 
-  public void close() {
-    this.server.shutdown();
-  }
+        GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
 
-  public synchronized void send(UUID uuid, NetworkObjects.NetworkEvent networkEvent) {
-    networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
-    connectionStore.getConnection(uuid).responseObserver.onNext(networkEvent);
-  }
+        Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
+        if (chunk == null) {
+            chunk = this.chunkFactory.create(realEvent.getChunkRange());
+        }
+
+        chunkSubscriptionService.registerSubscription(realEvent.getUUID(), realEvent.getChunkRange());
+
+        responseObserver.onNext(
+                NetworkObjects.NetworkEvent.newBuilder()
+                        .setData(chunk.toNetworkData())
+                        .setEvent("get_chunk")
+                        .build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getEntity(
+            NetworkObjects.NetworkEvent request,
+            StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
+        System.out.println(2222);
+        responseObserver.onNext(request);
+        responseObserver.onCompleted();
+    }
+
+    public void close() {
+        this.server.shutdown();
+    }
+
+    public synchronized void send(UUID uuid, NetworkObjects.NetworkEvent networkEvent) {
+        networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
+        connectionStore.getConnection(uuid).responseObserver.onNext(networkEvent);
+    }
 }

@@ -10,16 +10,17 @@ import java.util.Set;
 
 public class EdgeStore {
 
-  Set<AbstractEdge> edges = new HashSet<>();
+    Set<AbstractEdge> edges = new HashSet<>();
 
-  @Inject
-  EdgeStore() {}
+    @Inject
+    EdgeStore() {
+    }
 
-  public void add(AbstractEdge edge) {
-    this.edges.add(edge);
-  }
+    public void add(AbstractEdge edge) {
+        this.edges.add(edge);
+    }
 
-  public List<AbstractEdge> getEdgeList() {
-    return new LinkedList<>(this.edges);
-  }
+    public List<AbstractEdge> getEdgeList() {
+        return new LinkedList<>(this.edges);
+    }
 }

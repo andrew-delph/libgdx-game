@@ -8,24 +8,24 @@ import networking.events.interfaces.SerializeNetworkEvent;
 
 public class RemoveEntityOutgoingEventType extends EventType implements SerializeNetworkEvent {
 
-  public static String type = "remove_entity_outgoing";
-  NetworkObjects.NetworkData entityData;
-  ChunkRange chunkRange;
+    public static String type = "remove_entity_outgoing";
+    NetworkObjects.NetworkData entityData;
+    ChunkRange chunkRange;
 
-  @Inject
-  public RemoveEntityOutgoingEventType(
-      NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
-    this.entityData = entityData;
-    this.chunkRange = chunkRange;
-  }
+    @Inject
+    public RemoveEntityOutgoingEventType(
+            NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
+        this.entityData = entityData;
+        this.chunkRange = chunkRange;
+    }
 
-  @Override
-  public String getType() {
-    return type;
-  }
+    @Override
+    public String getType() {
+        return type;
+    }
 
-  @Override
-  public NetworkObjects.NetworkEvent toNetworkEvent() {
-    return NetworkObjects.NetworkEvent.newBuilder().setData(this.entityData).setEvent(type).build();
-  }
+    @Override
+    public NetworkObjects.NetworkEvent toNetworkEvent() {
+        return NetworkObjects.NetworkEvent.newBuilder().setData(this.entityData).setEvent(type).build();
+    }
 }

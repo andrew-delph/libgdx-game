@@ -10,55 +10,55 @@ import entity.pathfinding.RelativePathNode;
 import entity.pathfinding.RelativeVertex;
 
 public class LadderGreedyEdge extends HorizontalGreedyEdge {
-  GameController gameController;
+    GameController gameController;
 
-  public LadderGreedyEdge(
-      GameController gameController,
-      EntityStructure entityStructure,
-      RelativeVertex from,
-      RelativeVertex to) {
-    super(entityStructure, from, to);
-    this.gameController = gameController;
-  }
+    public LadderGreedyEdge(
+            GameController gameController,
+            EntityStructure entityStructure,
+            RelativeVertex from,
+            RelativeVertex to) {
+        super(entityStructure, from, to);
+        this.gameController = gameController;
+    }
 
-  @Override
-  public double getCost() {
-    return 2;
-  }
+    @Override
+    public double getCost() {
+        return 2;
+    }
 
-  @Override
-  public void appendPathGameStoreOverride(
-      PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {
+    @Override
+    public void appendPathGameStoreOverride(
+            PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {
 
-    pathGameStoreOverride.registerEntityTypeOverride(
-        Ladder.class, this.applyTransition(sourceCoordinates));
-  }
+        pathGameStoreOverride.registerEntityTypeOverride(
+                Ladder.class, this.applyTransition(sourceCoordinates));
+    }
 
-  @Override
-  public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
-    return new LadderEdgeStepper(this.gameController);
-  }
+    @Override
+    public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
+        return new LadderEdgeStepper(this.gameController);
+    }
 }
 
 class LadderEdgeStepper extends HorizontalEdgeStepper {
-  GameController gameController;
+    GameController gameController;
 
-  public LadderEdgeStepper(GameController gameController) {
-    this.gameController = gameController;
-  }
+    public LadderEdgeStepper(GameController gameController) {
+        this.gameController = gameController;
+    }
 
-  @Override
-  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
-    this.gameController.createLadder(relativePathNode.getEndPosition());
-    super.follow(entity, relativePathNode);
+    @Override
+    public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
+        this.gameController.createLadder(relativePathNode.getEndPosition());
+        super.follow(entity, relativePathNode);
 
-    String actionKey;
-    if (relativePathNode.getEndPosition().getYReal() > entity.coordinates.getYReal()) {
-      actionKey = "climbUp";
-    } else if (relativePathNode.getEndPosition().getYReal() < entity.coordinates.getYReal()) {
-      actionKey = "climbDown";
-    } else return;
+        String actionKey;
+        if (relativePathNode.getEndPosition().getYReal() > entity.coordinates.getYReal()) {
+            actionKey = "climbUp";
+        } else if (relativePathNode.getEndPosition().getYReal() < entity.coordinates.getYReal()) {
+            actionKey = "climbDown";
+        } else return;
 
-    entity.entityController.applyAction(actionKey, entity.getBody());
-  }
+        entity.entityController.applyAction(actionKey, entity.getBody());
+    }
 }

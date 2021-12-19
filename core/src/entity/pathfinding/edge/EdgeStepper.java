@@ -5,15 +5,15 @@ import entity.pathfinding.RelativePathNode;
 
 public abstract class EdgeStepper {
 
-  boolean finished = false;
+    boolean finished = false;
 
-  public abstract void follow(Entity entity, RelativePathNode relativePathNode) throws Exception;
+    public abstract void follow(Entity entity, RelativePathNode relativePathNode) throws Exception;
 
-  public void finish() {
-    this.finished = true;
-  }
+    public void finish() {
+        this.finished = true;
+    }
 
-  public boolean isFinished() {
-    return this.finished;
-  }
+    public boolean isFinished() {
+        return this.finished;
+    }
 }

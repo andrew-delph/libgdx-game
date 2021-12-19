@@ -24,7 +24,7 @@ public class testChunkSerialization {
         Chunk chunk1 = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
         EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             Entity entity = entityFactory.createEntity();
             chunk1.addEntity(entity);
         }
@@ -39,10 +39,10 @@ public class testChunkSerialization {
 
         entitySerializationConverter = injector.getInstance(EntitySerializationConverter.class);
 
-        ChunkRange chunkRange = new ChunkRange(new Coordinates(0,0));
+        ChunkRange chunkRange = new ChunkRange(new Coordinates(0, 0));
         assert chunkRange.equals(entitySerializationConverter.createChunkRange(chunkRange.toNetworkData()));
 
-        ChunkRange chunkRange2 = new ChunkRange(new Coordinates(-1,0));
+        ChunkRange chunkRange2 = new ChunkRange(new Coordinates(-1, 0));
         assert chunkRange2.equals(entitySerializationConverter.createChunkRange(chunkRange2.toNetworkData()));
     }
 }

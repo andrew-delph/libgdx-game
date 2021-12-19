@@ -12,16 +12,19 @@ import java.util.function.Consumer;
 
 public class ReplaceBlockOutgoingConsumerServer implements Consumer<EventType> {
 
-  @Inject EventService eventService;
-  @Inject ChunkSubscriptionService chunkSubscriptionService;
-  @Inject ServerNetworkHandle serverNetworkHandle;
+    @Inject
+    EventService eventService;
+    @Inject
+    ChunkSubscriptionService chunkSubscriptionService;
+    @Inject
+    ServerNetworkHandle serverNetworkHandle;
 
-  @Override
-  public void accept(EventType eventType) {
-    ReplaceBlockOutgoingEventType realEvent = (ReplaceBlockOutgoingEventType) eventType;
-    this.eventService.queuePostUpdateEvent(eventType);
-    for (UUID uuid : chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange())) {
-      serverNetworkHandle.send(uuid, realEvent.toNetworkEvent());
+    @Override
+    public void accept(EventType eventType) {
+        ReplaceBlockOutgoingEventType realEvent = (ReplaceBlockOutgoingEventType) eventType;
+        this.eventService.queuePostUpdateEvent(eventType);
+        for (UUID uuid : chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange())) {
+            serverNetworkHandle.send(uuid, realEvent.toNetworkEvent());
+        }
     }
-  }
 }

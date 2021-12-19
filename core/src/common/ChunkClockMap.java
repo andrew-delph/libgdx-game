@@ -13,28 +13,28 @@ import java.util.stream.Collectors;
 
 public class ChunkClockMap {
 
-  Map<ChunkRange, Chunk> map;
+    Map<ChunkRange, Chunk> map;
 
-  @Inject
-  ChunkClockMap() {
-    this.map = new ConcurrentHashMap<>();
-  }
+    @Inject
+    ChunkClockMap() {
+        this.map = new ConcurrentHashMap<>();
+    }
 
-  void add(Chunk chunk) {
-    this.map.put(chunk.chunkRange, chunk);
-  }
+    void add(Chunk chunk) {
+        this.map.put(chunk.chunkRange, chunk);
+    }
 
-  Chunk get(ChunkRange chunkRange) {
-    return this.map.get(chunkRange);
-  }
+    Chunk get(ChunkRange chunkRange) {
+        return this.map.get(chunkRange);
+    }
 
-  public List<ChunkRange> getChunkRangeList() {
-    return new LinkedList<>(this.map.keySet());
-  }
+    public List<ChunkRange> getChunkRangeList() {
+        return new LinkedList<>(this.map.keySet());
+    }
 
-  List<Callable<Chunk>> getChunksOnTick(Tick tick) {
-    return this.map.values().stream()
-        .filter(chunk -> chunk.updateTick.time == tick.time)
-        .collect(Collectors.toList());
-  }
+    List<Callable<Chunk>> getChunksOnTick(Tick tick) {
+        return this.map.values().stream()
+                .filter(chunk -> chunk.updateTick.time == tick.time)
+                .collect(Collectors.toList());
+    }
 }

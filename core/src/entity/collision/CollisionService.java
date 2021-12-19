@@ -8,37 +8,39 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CollisionService {
-  Map<CollisionPair, ContactWrapper> collisionPairContactWrapperMap;
+    Map<CollisionPair, ContactWrapper> collisionPairContactWrapperMap;
 
-  @Inject EntityGroundContact entityGroundContact;
+    @Inject
+    EntityGroundContact entityGroundContact;
 
-  @Inject EntityLadderContact entityLadderContact;
+    @Inject
+    EntityLadderContact entityLadderContact;
 
-  @Inject
-  public CollisionService() {
-    this.collisionPairContactWrapperMap = new HashMap<>();
-  }
-
-  public void init() {
-    entityGroundContact.init();
-    entityLadderContact.init();
-  }
-
-  public void addCollisionConsumer(CollisionPair collisionPair, ContactWrapper contactWrapper) {
-    this.collisionPairContactWrapperMap.put(collisionPair, contactWrapper);
-  }
-
-  public void handleBeginCollision(CollisionPair collisionPair, Object source, Object target) {
-    ContactWrapper contactWrapper = this.collisionPairContactWrapperMap.get(collisionPair);
-    if (contactWrapper == null) {
-      return;
+    @Inject
+    public CollisionService() {
+        this.collisionPairContactWrapperMap = new HashMap<>();
     }
-    contactWrapper.beginContact(source, target);
-  }
 
-  public void handleEndCollision(CollisionPair collisionPair, Object source, Object target) {
-    ContactWrapper contactWrapper = this.collisionPairContactWrapperMap.get(collisionPair);
-    if (contactWrapper == null) return;
-    contactWrapper.endContact(source, target);
-  }
+    public void init() {
+        entityGroundContact.init();
+        entityLadderContact.init();
+    }
+
+    public void addCollisionConsumer(CollisionPair collisionPair, ContactWrapper contactWrapper) {
+        this.collisionPairContactWrapperMap.put(collisionPair, contactWrapper);
+    }
+
+    public void handleBeginCollision(CollisionPair collisionPair, Object source, Object target) {
+        ContactWrapper contactWrapper = this.collisionPairContactWrapperMap.get(collisionPair);
+        if (contactWrapper == null) {
+            return;
+        }
+        contactWrapper.beginContact(source, target);
+    }
+
+    public void handleEndCollision(CollisionPair collisionPair, Object source, Object target) {
+        ContactWrapper contactWrapper = this.collisionPairContactWrapperMap.get(collisionPair);
+        if (contactWrapper == null) return;
+        contactWrapper.endContact(source, target);
+    }
 }

@@ -10,34 +10,34 @@ import java.io.IOException;
 
 public class BasicServer extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
 
-  public static void main(String[] args) throws IOException, InterruptedException {
-    BasicServer basicServer = new BasicServer();
-    Server server = ServerBuilder.forPort(99).addService(basicServer).build();
-    server.start();
-    System.out.println("started");
-    server.awaitTermination();
-  }
+    public static void main(String[] args) throws IOException, InterruptedException {
+        BasicServer basicServer = new BasicServer();
+        Server server = ServerBuilder.forPort(99).addService(basicServer).build();
+        server.start();
+        System.out.println("started");
+        server.awaitTermination();
+    }
 
-  @Override
-  public StreamObserver<NetworkObjects.NetworkEvent> networkObjectStream(
-      StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
-    System.out.println("HEOEEH");
-    return new StreamObserver<NetworkObjects.NetworkEvent>() {
+    @Override
+    public StreamObserver<NetworkObjects.NetworkEvent> networkObjectStream(
+            StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
+        System.out.println("HEOEEH");
+        return new StreamObserver<NetworkObjects.NetworkEvent>() {
 
-      @Override
-      public void onNext(NetworkObjects.NetworkEvent value) {
-        System.out.println("event: " + value.getEvent());
-      }
+            @Override
+            public void onNext(NetworkObjects.NetworkEvent value) {
+                System.out.println("event: " + value.getEvent());
+            }
 
-      @Override
-      public void onError(Throwable t) {
-        System.out.println("onError");
-      }
+            @Override
+            public void onError(Throwable t) {
+                System.out.println("onError");
+            }
 
-      @Override
-      public void onCompleted() {
-        System.out.println("onCompleted");
-      }
-    };
-  }
+            @Override
+            public void onCompleted() {
+                System.out.println("onCompleted");
+            }
+        };
+    }
 }

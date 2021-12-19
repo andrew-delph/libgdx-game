@@ -16,65 +16,66 @@ import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import java.util.UUID;
 
 public class ClientNetworkHandle {
-  public String host = "localhost";
-  public int port = 99;
-  public UUID uuid;
-  RequestNetworkEventObserver requestNetworkEventObserver;
-  @Inject ObserverFactory observerFactory;
-  @Inject
-  EventTypeFactory eventTypeFactory;
-  @Inject
-  EntitySerializationConverter entitySerializationConverter;
-  private ManagedChannel channel;
-  private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
-  private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
+    public String host = "localhost";
+    public int port = 99;
+    public UUID uuid;
+    RequestNetworkEventObserver requestNetworkEventObserver;
+    @Inject
+    ObserverFactory observerFactory;
+    @Inject
+    EventTypeFactory eventTypeFactory;
+    @Inject
+    EntitySerializationConverter entitySerializationConverter;
+    private ManagedChannel channel;
+    private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
+    private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
 
-  @Inject
-  public ClientNetworkHandle() {
-    this.uuid = UUID.randomUUID();
-    System.out.println("client: " + this.uuid);
-  }
+    @Inject
+    public ClientNetworkHandle() {
+        this.uuid = UUID.randomUUID();
+        System.out.println("client: " + this.uuid);
+    }
 
-  public void setHost(String host) {
-    this.host = host;
-  }
+    public void setHost(String host) {
+        this.host = host;
+    }
 
-  public void setPort(int port) {
-    this.port = port;
-  }
+    public void setPort(int port) {
+        this.port = port;
+    }
 
-  public void connect() {
-    this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
-    this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
-    this.blockStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
-    requestNetworkEventObserver = observerFactory.create();
-    requestNetworkEventObserver.responseObserver =
-        this.asyncStub.networkObjectStream(requestNetworkEventObserver);
+    public void connect() {
+        this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+        this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
+        this.blockStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
+        requestNetworkEventObserver = observerFactory.create();
+        requestNetworkEventObserver.responseObserver =
+                this.asyncStub.networkObjectStream(requestNetworkEventObserver);
 
-    asyncStub.getChunk(null, null);
+        asyncStub.getChunk(null, null);
 
-    NetworkObjects.NetworkEvent authenticationEvent =
-        NetworkObjects.NetworkEvent.newBuilder().setEvent("authentication").build();
+        NetworkObjects.NetworkEvent authenticationEvent =
+                NetworkObjects.NetworkEvent.newBuilder().setEvent("authentication").build();
 
-    this.send(authenticationEvent);
-  }
+        this.send(authenticationEvent);
+    }
 
-  public synchronized void send(NetworkObjects.NetworkEvent networkEvent) {
-    networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
-    requestNetworkEventObserver.responseObserver.onNext(networkEvent);
-  }
+    public synchronized void send(NetworkObjects.NetworkEvent networkEvent) {
+        networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
+        requestNetworkEventObserver.responseObserver.onNext(networkEvent);
+    }
 
-  public Chunk getChunk(ChunkRange chunkRange){
+    public Chunk getChunk(ChunkRange chunkRange) {
 
-    GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.uuid);
+        GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.uuid);
 
-    NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(realEvent.toNetworkEvent());
+        NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(realEvent.toNetworkEvent());
 
-    return entitySerializationConverter.createChunk(retrievedNetworkEvent.getData());
-  }
+        return entitySerializationConverter.createChunk(retrievedNetworkEvent.getData());
+    }
 
-  public void close() {
-    this.requestNetworkEventObserver.responseObserver.onCompleted();
-    this.channel.shutdown();
-  }
+    public void close() {
+        this.requestNetworkEventObserver.responseObserver.onCompleted();
+        this.channel.shutdown();
+    }
 }

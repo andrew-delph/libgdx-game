@@ -1,3 +1,4 @@
 package entity;
 
-public class Animation {}
+public class Animation {
+}

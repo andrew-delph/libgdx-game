@@ -18,35 +18,35 @@ import java.util.UUID;
 
 public class testSubscriptionSerialization {
 
-  Injector injector;
+    Injector injector;
 
-  EventTypeFactory eventTypeFactory;
+    EventTypeFactory eventTypeFactory;
 
-  @Before
-  public void setup() {
-    injector = Guice.createInjector(new ClientConfig());
-    eventTypeFactory = injector.getInstance(EventTypeFactory.class);
-  }
+    @Before
+    public void setup() {
+        injector = Guice.createInjector(new ClientConfig());
+        eventTypeFactory = injector.getInstance(EventTypeFactory.class);
+    }
 
-  @Test
-  public void testHandleSubscriptionEvent() {
-    List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 1)));
-    chunkRangeList.add(new ChunkRange(new Coordinates(-2, 1)));
-    SubscriptionOutgoingEventType subscriptionOutgoingEvent =
-        new SubscriptionOutgoingEventType(chunkRangeList);
-    UUID uuid = UUID.randomUUID();
+    @Test
+    public void testHandleSubscriptionEvent() {
+        List<ChunkRange> chunkRangeList = new LinkedList<>();
+        chunkRangeList.add(new ChunkRange(new Coordinates(0, 1)));
+        chunkRangeList.add(new ChunkRange(new Coordinates(-2, 1)));
+        SubscriptionOutgoingEventType subscriptionOutgoingEvent =
+                new SubscriptionOutgoingEventType(chunkRangeList);
+        UUID uuid = UUID.randomUUID();
 
-    SubscriptionIncomingEventType subscriptionIncomingEvent =
-        new SubscriptionIncomingEventType(
-            subscriptionOutgoingEvent.toNetworkEvent().toBuilder()
-                .setUser(uuid.toString())
-                .build());
+        SubscriptionIncomingEventType subscriptionIncomingEvent =
+                new SubscriptionIncomingEventType(
+                        subscriptionOutgoingEvent.toNetworkEvent().toBuilder()
+                                .setUser(uuid.toString())
+                                .build());
 
-    Assert.assertEquals(
-        subscriptionOutgoingEvent.getChunkRangeList(),
-        subscriptionIncomingEvent.getChunkRangeList());
+        Assert.assertEquals(
+                subscriptionOutgoingEvent.getChunkRangeList(),
+                subscriptionIncomingEvent.getChunkRangeList());
 
-    assert subscriptionIncomingEvent.getUser().equals(uuid);
-  }
+        assert subscriptionIncomingEvent.getUser().equals(uuid);
+    }
 }

@@ -16,36 +16,37 @@ import java.io.IOException;
 
 public class ClientGame extends Game {
 
-  @Inject ClientNetworkHandle clientNetworkHandle;
+    @Inject
+    ClientNetworkHandle clientNetworkHandle;
 
-  @Inject
-  EventTypeFactory eventTypeFactory;
+    @Inject
+    EventTypeFactory eventTypeFactory;
 
-  @Inject
-  public ClientGame(
-      GameStore gameStore,
-      ChunkFactory chunkFactory,
-      ChunkGenerationManager chunkGenerationManager,
-      EventConsumer eventConsumer,
-      CollisionService collisionService)
-      throws Exception {
-    super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer, collisionService);
-  }
+    @Inject
+    public ClientGame(
+            GameStore gameStore,
+            ChunkFactory chunkFactory,
+            ChunkGenerationManager chunkGenerationManager,
+            EventConsumer eventConsumer,
+            CollisionService collisionService)
+            throws Exception {
+        super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer, collisionService);
+    }
 
-  @Override
-  public void stop() {
-    super.stop();
-    this.clientNetworkHandle.close();
-  }
+    @Override
+    public void stop() {
+        super.stop();
+        this.clientNetworkHandle.close();
+    }
 
-  @Override
-  public void start() throws IOException, InterruptedException {
-    this.clientNetworkHandle.connect();
-    super.start();
-  }
+    @Override
+    public void start() throws IOException, InterruptedException {
+        this.clientNetworkHandle.connect();
+        super.start();
+    }
 
-  @Override
-  public void init() {
-    this.gameStore.addChunk(this.clientNetworkHandle.getChunk(new ChunkRange(new Coordinates(0, 0))));
-  }
+    @Override
+    public void init() {
+        this.gameStore.addChunk(this.clientNetworkHandle.getChunk(new ChunkRange(new Coordinates(0, 0))));
+    }
 }

@@ -19,253 +19,253 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Chunk implements Callable<Chunk> , SerializeNetworkData {
+public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
-  public ChunkRange chunkRange;
-  public Tick updateTick;
-  public World world;
-  GameStore gameStore;
-  Clock clock;
-  ConcurrentHashMap<UUID, Entity> chunkMap;
-  Set<UUID> bodySet;
-  Map<Entity, Body> neighborEntityBodyMap = new HashMap<>();
+    public ChunkRange chunkRange;
+    public Tick updateTick;
+    public World world;
+    GameStore gameStore;
+    Clock clock;
+    ConcurrentHashMap<UUID, Entity> chunkMap;
+    Set<UUID> bodySet;
+    Map<Entity, Body> neighborEntityBodyMap = new HashMap<>();
 
-  float timeStep = 1 / 5f;
-  float gravity = 1f;
+    float timeStep = 1 / 5f;
+    float gravity = 1f;
 
-  @Inject
-  public Chunk(
-      Clock clock,
-      GameStore gameStore,
-      EntityContactListenerFactory entityContactListenerFactory,
-      ChunkRange chunkRange) {
-    this.gameStore = gameStore;
-    this.clock = clock;
-    this.chunkRange = chunkRange;
-    this.chunkMap = new ConcurrentHashMap<>();
-    this.nextTick(1);
-    this.bodySet = new HashSet<>();
-    this.world = new World(new Vector2(0, -gravity), false);
-    this.world.setContactListener(entityContactListenerFactory.createEntityContactListener());
-  }
-
-  void nextTick(int timeout) {
-    this.updateTick = new Tick(clock.currentTick.time + timeout);
-  }
-
-  @Override
-  public Chunk call() throws Exception {
-    try {
-      this.update();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return this;
-  }
-
-  public synchronized void addEntity(Entity entity) {
-    this.chunkMap.put(entity.uuid, entity);
-
-    if (!bodySet.contains(entity.uuid)) {
-      Body bodyToAdd = entity.addWorld(world);
-      if (bodyToAdd != null) {
-        entity.setBody(bodyToAdd);
-        bodySet.add(entity.uuid);
-      }
-    }
-  }
-
-  public void addAllEntity(List<Entity> entityList){
-    for(Entity entity: entityList){
-      this.addEntity(entity);
-    }
-  }
-
-  public Entity getEntity(UUID uuid) {
-    return this.chunkMap.get(uuid);
-  }
-
-  public Set<UUID> getEntityUUIDSet(){
-    return this.chunkMap.keySet();
-  }
-
-  public List<Entity> getEntityList() {
-    return new LinkedList<Entity>(this.chunkMap.values());
-  }
-
-  public Entity removeEntity(UUID uuid) {
-    Entity entity = this.getEntity(uuid);
-    this.chunkMap.remove(uuid);
-    if (bodySet.contains(entity.uuid)) {
-      System.out.println(
-          "destroy body:"
-              + entity.uuid
-              + " ,"
-              + entity.coordinates
-              + " ,"
-              + entity.coordinates.getX()
-              + ","
-              + entity.coordinates.getY()
-              + ", "
-              + new ChunkRange(entity.coordinates)
-              + ", "
-              + entity.getBody());
-      this.world.destroyBody(entity.getBody());
-      bodySet.remove(entity.uuid);
-    }
-    return entity;
-  }
-
-  synchronized void update() {
-    Set<Entity> neighborEntitySet = new HashSet<>();
-
-    //    Boolean verbose = this.chunkRange.equals(new ChunkRange(new Coordinates(0,0)));
-
-    Chunk neighborChunk = null;
-
-    // up
-    neighborChunk = this.gameStore.getChunk(this.chunkRange.getUp());
-    if (!(neighborChunk == null)) {
-      neighborEntitySet.addAll(
-          neighborChunk.getEntityInRange(
-              new Coordinates(neighborChunk.chunkRange.bottom_x, neighborChunk.chunkRange.bottom_y),
-              new Coordinates(
-                  neighborChunk.chunkRange.top_x, neighborChunk.chunkRange.bottom_y + 2)));
+    @Inject
+    public Chunk(
+            Clock clock,
+            GameStore gameStore,
+            EntityContactListenerFactory entityContactListenerFactory,
+            ChunkRange chunkRange) {
+        this.gameStore = gameStore;
+        this.clock = clock;
+        this.chunkRange = chunkRange;
+        this.chunkMap = new ConcurrentHashMap<>();
+        this.nextTick(1);
+        this.bodySet = new HashSet<>();
+        this.world = new World(new Vector2(0, -gravity), false);
+        this.world.setContactListener(entityContactListenerFactory.createEntityContactListener());
     }
 
-    // down
-    neighborChunk = this.gameStore.getChunk(this.chunkRange.getDown());
-    if (!(neighborChunk == null)) {
-      neighborEntitySet.addAll(
-          neighborChunk.getEntityInRange(
-              new Coordinates(
-                  neighborChunk.chunkRange.bottom_x, neighborChunk.chunkRange.top_y - 2),
-              new Coordinates(neighborChunk.chunkRange.top_x, neighborChunk.chunkRange.top_y)));
+    void nextTick(int timeout) {
+        this.updateTick = new Tick(clock.currentTick.time + timeout);
     }
 
-    // left
-    neighborChunk = this.gameStore.getChunk(this.chunkRange.getLeft());
-    if (!(neighborChunk == null)) {
-      neighborEntitySet.addAll(
-          neighborChunk.getEntityInRange(
-              new Coordinates(
-                  neighborChunk.chunkRange.top_x - 2, neighborChunk.chunkRange.bottom_y),
-              new Coordinates(neighborChunk.chunkRange.top_x, neighborChunk.chunkRange.top_y)));
+    @Override
+    public Chunk call() throws Exception {
+        try {
+            this.update();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return this;
     }
 
-    // right
-    neighborChunk = this.gameStore.getChunk(this.chunkRange.getRight());
-    if (!(neighborChunk == null)) {
-      neighborEntitySet.addAll(
-          neighborChunk.getEntityInRange(
-              new Coordinates(neighborChunk.chunkRange.bottom_x, neighborChunk.chunkRange.bottom_y),
-              new Coordinates(
-                  neighborChunk.chunkRange.bottom_x + 2, neighborChunk.chunkRange.top_y)));
+    public synchronized void addEntity(Entity entity) {
+        this.chunkMap.put(entity.uuid, entity);
+
+        if (!bodySet.contains(entity.uuid)) {
+            Body bodyToAdd = entity.addWorld(world);
+            if (bodyToAdd != null) {
+                entity.setBody(bodyToAdd);
+                bodySet.add(entity.uuid);
+            }
+        }
     }
 
-    // check the difference
-    Set<Entity> entityToAddSet = new HashSet<>(neighborEntitySet);
-    entityToAddSet.removeAll(neighborEntityBodyMap.keySet());
-    Set<Entity> entityToRemoveSet = new HashSet<>(neighborEntityBodyMap.keySet());
-    entityToRemoveSet.removeAll(neighborEntitySet);
-
-    // add temp entity to set
-    for (Entity entity : entityToAddSet) {
-      if (neighborEntityBodyMap.containsKey(entity) || !(entity instanceof Block)) continue;
-
-      Body bodyToAdd = entity.addWorld(world);
-      if (bodyToAdd == null) continue;
-      neighborEntityBodyMap.put(entity, bodyToAdd);
+    public void addAllEntity(List<Entity> entityList) {
+        for (Entity entity : entityList) {
+            this.addEntity(entity);
+        }
     }
 
-    // remove temp entity from set
-    for (Entity entity : entityToRemoveSet) {
-      world.destroyBody(neighborEntityBodyMap.get(entity));
-      neighborEntityBodyMap.remove(entity);
+    public Entity getEntity(UUID uuid) {
+        return this.chunkMap.get(uuid);
     }
 
-    int tickTimeout = Integer.MAX_VALUE;
-    for (Entity entity : this.chunkMap.values()) {
-
-      if (entity.entityController != null) entity.entityController.beforeWorldUpdate();
-      this.gameStore.syncEntity(entity);
-
-      int entityTick = entity.getUpdateTimeout();
-      if (tickTimeout < entityTick) {
-        tickTimeout = entityTick;
-      }
-    }
-    world.step(timeStep, 6, 2);
-
-    for (Entity entity : this.chunkMap.values()) {
-      if (entity.entityController != null) entity.entityController.afterWorldUpdate();
-    }
-    this.nextTick(1);
-  }
-
-  public List<Entity> getEntityInRange(
-      Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates) {
-
-    List<Entity> entityList = new LinkedList<>();
-
-    for (Entity entity : this.getEntityList()) {
-      if (Coordinates.isInRange(bottomLeftCoordinates, topRightCoordinates, entity.coordinates)) {
-        entityList.add(entity);
-      }
+    public Set<UUID> getEntityUUIDSet() {
+        return this.chunkMap.keySet();
     }
 
-    return entityList;
-  }
-
-  public Block getBlock(Coordinates coordinates) {
-    List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
-    for (Entity entity : entityList) {
-      if (entity instanceof Block
-          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
-
-        return (Block) entity;
-      }
+    public List<Entity> getEntityList() {
+        return new LinkedList<Entity>(this.chunkMap.values());
     }
-    return null;
-  }
 
-  public Ladder getLadder(Coordinates coordinates) {
-    List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
-    for (Entity entity : entityList) {
-      if (entity instanceof Ladder
-          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
-
-        return (Ladder) entity;
-      }
+    public Entity removeEntity(UUID uuid) {
+        Entity entity = this.getEntity(uuid);
+        this.chunkMap.remove(uuid);
+        if (bodySet.contains(entity.uuid)) {
+            System.out.println(
+                    "destroy body:"
+                            + entity.uuid
+                            + " ,"
+                            + entity.coordinates
+                            + " ,"
+                            + entity.coordinates.getX()
+                            + ","
+                            + entity.coordinates.getY()
+                            + ", "
+                            + new ChunkRange(entity.coordinates)
+                            + ", "
+                            + entity.getBody());
+            this.world.destroyBody(entity.getBody());
+            bodySet.remove(entity.uuid);
+        }
+        return entity;
     }
-    return null;
-  }
 
-  public List<Entity> getEntityListBaseCoordinates(Coordinates coordinates) {
-    coordinates = coordinates.getBase();
-    return this.getEntityInRange(coordinates, coordinates);
-  }
+    synchronized void update() {
+        Set<Entity> neighborEntitySet = new HashSet<>();
 
-  @Override
-  public NetworkObjects.NetworkData toNetworkData() {
-    NetworkObjects.NetworkData.Builder networkDataBuilder = NetworkObjects.NetworkData.newBuilder();
-    for (Entity entity : this.getEntityList()) {
-      networkDataBuilder.addChildren(entity.toNetworkData());
+        //    Boolean verbose = this.chunkRange.equals(new ChunkRange(new Coordinates(0,0)));
+
+        Chunk neighborChunk = null;
+
+        // up
+        neighborChunk = this.gameStore.getChunk(this.chunkRange.getUp());
+        if (!(neighborChunk == null)) {
+            neighborEntitySet.addAll(
+                    neighborChunk.getEntityInRange(
+                            new Coordinates(neighborChunk.chunkRange.bottom_x, neighborChunk.chunkRange.bottom_y),
+                            new Coordinates(
+                                    neighborChunk.chunkRange.top_x, neighborChunk.chunkRange.bottom_y + 2)));
+        }
+
+        // down
+        neighborChunk = this.gameStore.getChunk(this.chunkRange.getDown());
+        if (!(neighborChunk == null)) {
+            neighborEntitySet.addAll(
+                    neighborChunk.getEntityInRange(
+                            new Coordinates(
+                                    neighborChunk.chunkRange.bottom_x, neighborChunk.chunkRange.top_y - 2),
+                            new Coordinates(neighborChunk.chunkRange.top_x, neighborChunk.chunkRange.top_y)));
+        }
+
+        // left
+        neighborChunk = this.gameStore.getChunk(this.chunkRange.getLeft());
+        if (!(neighborChunk == null)) {
+            neighborEntitySet.addAll(
+                    neighborChunk.getEntityInRange(
+                            new Coordinates(
+                                    neighborChunk.chunkRange.top_x - 2, neighborChunk.chunkRange.bottom_y),
+                            new Coordinates(neighborChunk.chunkRange.top_x, neighborChunk.chunkRange.top_y)));
+        }
+
+        // right
+        neighborChunk = this.gameStore.getChunk(this.chunkRange.getRight());
+        if (!(neighborChunk == null)) {
+            neighborEntitySet.addAll(
+                    neighborChunk.getEntityInRange(
+                            new Coordinates(neighborChunk.chunkRange.bottom_x, neighborChunk.chunkRange.bottom_y),
+                            new Coordinates(
+                                    neighborChunk.chunkRange.bottom_x + 2, neighborChunk.chunkRange.top_y)));
+        }
+
+        // check the difference
+        Set<Entity> entityToAddSet = new HashSet<>(neighborEntitySet);
+        entityToAddSet.removeAll(neighborEntityBodyMap.keySet());
+        Set<Entity> entityToRemoveSet = new HashSet<>(neighborEntityBodyMap.keySet());
+        entityToRemoveSet.removeAll(neighborEntitySet);
+
+        // add temp entity to set
+        for (Entity entity : entityToAddSet) {
+            if (neighborEntityBodyMap.containsKey(entity) || !(entity instanceof Block)) continue;
+
+            Body bodyToAdd = entity.addWorld(world);
+            if (bodyToAdd == null) continue;
+            neighborEntityBodyMap.put(entity, bodyToAdd);
+        }
+
+        // remove temp entity from set
+        for (Entity entity : entityToRemoveSet) {
+            world.destroyBody(neighborEntityBodyMap.get(entity));
+            neighborEntityBodyMap.remove(entity);
+        }
+
+        int tickTimeout = Integer.MAX_VALUE;
+        for (Entity entity : this.chunkMap.values()) {
+
+            if (entity.entityController != null) entity.entityController.beforeWorldUpdate();
+            this.gameStore.syncEntity(entity);
+
+            int entityTick = entity.getUpdateTimeout();
+            if (tickTimeout < entityTick) {
+                tickTimeout = entityTick;
+            }
+        }
+        world.step(timeStep, 6, 2);
+
+        for (Entity entity : this.chunkMap.values()) {
+            if (entity.entityController != null) entity.entityController.afterWorldUpdate();
+        }
+        this.nextTick(1);
     }
-    networkDataBuilder.addChildren(this.chunkRange.toNetworkData());
-    return networkDataBuilder.build();
-  }
 
-  public boolean equals(Object anObject) {
-    if (this == anObject) {
-      return true;
-    }
-    if (!(anObject instanceof Chunk)) {
-      return false;
-    }
-    Chunk other = (Chunk)anObject;
-    if (!this.chunkRange.equals(other.chunkRange)) return false;
+    public List<Entity> getEntityInRange(
+            Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates) {
 
-    return this.getEntityUUIDSet().equals(other.getEntityUUIDSet());
-  }
+        List<Entity> entityList = new LinkedList<>();
+
+        for (Entity entity : this.getEntityList()) {
+            if (Coordinates.isInRange(bottomLeftCoordinates, topRightCoordinates, entity.coordinates)) {
+                entityList.add(entity);
+            }
+        }
+
+        return entityList;
+    }
+
+    public Block getBlock(Coordinates coordinates) {
+        List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
+        for (Entity entity : entityList) {
+            if (entity instanceof Block
+                    && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+
+                return (Block) entity;
+            }
+        }
+        return null;
+    }
+
+    public Ladder getLadder(Coordinates coordinates) {
+        List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
+        for (Entity entity : entityList) {
+            if (entity instanceof Ladder
+                    && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+
+                return (Ladder) entity;
+            }
+        }
+        return null;
+    }
+
+    public List<Entity> getEntityListBaseCoordinates(Coordinates coordinates) {
+        coordinates = coordinates.getBase();
+        return this.getEntityInRange(coordinates, coordinates);
+    }
+
+    @Override
+    public NetworkObjects.NetworkData toNetworkData() {
+        NetworkObjects.NetworkData.Builder networkDataBuilder = NetworkObjects.NetworkData.newBuilder();
+        for (Entity entity : this.getEntityList()) {
+            networkDataBuilder.addChildren(entity.toNetworkData());
+        }
+        networkDataBuilder.addChildren(this.chunkRange.toNetworkData());
+        return networkDataBuilder.build();
+    }
+
+    public boolean equals(Object anObject) {
+        if (this == anObject) {
+            return true;
+        }
+        if (!(anObject instanceof Chunk)) {
+            return false;
+        }
+        Chunk other = (Chunk) anObject;
+        if (!this.chunkRange.equals(other.chunkRange)) return false;
+
+        return this.getEntityUUIDSet().equals(other.getEntityUUIDSet());
+    }
 }

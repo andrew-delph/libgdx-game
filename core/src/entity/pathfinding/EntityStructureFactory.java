@@ -5,9 +5,10 @@ import common.GameStore;
 
 public class EntityStructureFactory {
 
-  @Inject GameStore gameStore;
+    @Inject
+    GameStore gameStore;
 
-  public EntityStructure createEntityStructure() {
-    return new EntityStructure(this.gameStore);
-  }
+    public EntityStructure createEntityStructure() {
+        return new EntityStructure(this.gameStore);
+    }
 }

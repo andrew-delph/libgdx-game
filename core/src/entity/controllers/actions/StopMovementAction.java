@@ -6,16 +6,17 @@ import com.google.inject.Inject;
 
 public class StopMovementAction implements EntityAction {
 
-  @Inject
-  StopMovementAction() {}
+    @Inject
+    StopMovementAction() {
+    }
 
-  @Override
-  public void apply(Body body) {
-    body.setLinearVelocity(new Vector2(0, body.getLinearVelocity().y));
-  }
+    @Override
+    public void apply(Body body) {
+        body.setLinearVelocity(new Vector2(0, body.getLinearVelocity().y));
+    }
 
-  @Override
-  public Boolean isValid(Body body) {
-    return true;
-  }
+    @Override
+    public Boolean isValid(Body body) {
+        return true;
+    }
 }

@@ -18,26 +18,31 @@ import java.util.function.Consumer;
 
 public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
 
-  @Inject EventService eventService;
-  @Inject EntitySerializationConverter entitySerializationConverter;
-  @Inject ChunkSubscriptionService chunkSubscriptionService;
-  @Inject ServerNetworkHandle serverNetworkHandle;
-  @Inject GameStore gameStore;
-  @Inject
-  EventTypeFactory eventTypeFactory;
+    @Inject
+    EventService eventService;
+    @Inject
+    EntitySerializationConverter entitySerializationConverter;
+    @Inject
+    ChunkSubscriptionService chunkSubscriptionService;
+    @Inject
+    ServerNetworkHandle serverNetworkHandle;
+    @Inject
+    GameStore gameStore;
+    @Inject
+    EventTypeFactory eventTypeFactory;
 
-  @Override
-  public void accept(EventType eventType) {
-    ReplaceBlockIncomingEventType realEvent = (ReplaceBlockIncomingEventType) eventType;
-    Entity placedEntity = this.gameStore.getEntity(realEvent.getTarget());
-    ChunkRange chunkRange = new ChunkRange(placedEntity.coordinates);
-    this.eventService.queuePostUpdateEvent(
-        this.eventTypeFactory.createReplaceBlockEvent(
-            realEvent.getTarget(),
-            (Block)
-                entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
-    for (UUID uuid : chunkSubscriptionService.getSubscriptions(chunkRange)) {
-      serverNetworkHandle.send(uuid, realEvent.networkEvent);
+    @Override
+    public void accept(EventType eventType) {
+        ReplaceBlockIncomingEventType realEvent = (ReplaceBlockIncomingEventType) eventType;
+        Entity placedEntity = this.gameStore.getEntity(realEvent.getTarget());
+        ChunkRange chunkRange = new ChunkRange(placedEntity.coordinates);
+        this.eventService.queuePostUpdateEvent(
+                this.eventTypeFactory.createReplaceBlockEvent(
+                        realEvent.getTarget(),
+                        (Block)
+                                entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
+        for (UUID uuid : chunkSubscriptionService.getSubscriptions(chunkRange)) {
+            serverNetworkHandle.send(uuid, realEvent.networkEvent);
+        }
     }
-  }
 }
