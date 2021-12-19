@@ -129,24 +129,6 @@ public class GameScreen extends ApplicationAdapter {
     Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
     debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
     debugRenderer.render(mainChunk.world, debugMatrix);
-
-    //    try {
-    //      mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(-1, 0)));
-    //      debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
-    //      debugRenderer.render(mainChunk.world, debugMatrix);
-    //
-    //    } catch (Exception e) {
-    //      e.printStackTrace();
-    //    }
-    //
-    //    try {
-    //      mainChunk = this.gameStore.getChunk(new ChunkRange(new Coordinates(0, -1)));
-    //      debugMatrix = batch.getProjectionMatrix().cpy().scale(0.5f, 0.5f, 0);
-    //      debugRenderer.render(mainChunk.world, debugMatrix);
-    //
-    //    } catch (Exception e) {
-    //      e.printStackTrace();
-    //    }
   }
 
   @Override

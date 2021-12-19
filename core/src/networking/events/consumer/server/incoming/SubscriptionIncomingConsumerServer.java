@@ -18,7 +18,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class SubscriptionIncomingConsumerServer implements Consumer<EventType> {
-  ;
   @Inject ChunkSubscriptionService chunkSubscriptionService;
   @Inject ServerNetworkHandle serverNetworkHandle;
   @Inject GameStore gameStore;
@@ -38,22 +37,23 @@ public class SubscriptionIncomingConsumerServer implements Consumer<EventType> {
             .distinct()
             .filter(doesNotContain)
             .collect(Collectors.toList());
-    chunkSubscriptionService.registerSubscription(
-        realEvent.getUser(), realEvent.getChunkRangeList());
+
+    chunkSubscriptionService.registerSubscription(realEvent.getUser(), realEvent.getChunkRangeList());
+
     for (ChunkRange chunkRange : newChunkRangeList) {
       Chunk chunk = gameStore.getChunk(chunkRange);
       if (chunk == null) {
         this.gameStore.addChunk(this.chunkFactory.create(chunkRange));
-        chunk = gameStore.getChunk(chunkRange);
+//        chunk = gameStore.getChunk(chunkRange);
       }
-      for (Entity entity : chunk.getEntityList()) {
-        serverNetworkHandle.send(
-            realEvent.getUser(),
-            eventTypeFactory
-                .createCreateEntityOutgoingEvent(
-                    entity.toNetworkData(), new ChunkRange(entity.coordinates))
-                .toNetworkEvent());
-      }
+//      for (Entity entity : chunk.getEntityList()) {
+//        serverNetworkHandle.send(
+//            realEvent.getUser(),
+//            eventTypeFactory
+//                .createCreateEntityOutgoingEvent(
+//                    entity.toNetworkData(), new ChunkRange(entity.coordinates))
+//                .toNetworkEvent());
+//      }
     }
   }
 }

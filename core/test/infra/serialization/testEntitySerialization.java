@@ -1,5 +1,6 @@
 package infra.serialization;
 
+import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
@@ -96,4 +97,6 @@ public class testEntitySerialization {
     assert uuid.equals(gameStore.getEntity(uuid).uuid);
     assert gameStore.getEntity(uuid).getClass().getName().equals(block.getClass().getName());
   }
+
+
 }

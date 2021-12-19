@@ -61,6 +61,9 @@ public class GameStore {
 
   public void addChunk(Chunk chunk) {
     this.chunkClockMap.add(chunk);
+    for(Entity entity: chunk.getEntityList()){
+      this.entityMap.put(entity.uuid, chunk.chunkRange);
+    }
   }
 
   public Chunk getChunk(ChunkRange chunkRange) {

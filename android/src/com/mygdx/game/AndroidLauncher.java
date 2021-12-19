@@ -96,7 +96,7 @@ class PhysicsTest extends ApplicationAdapter implements
 	BitmapFont font;
 	float torque = 0.0f;
 	boolean drawSprite = true;
-	private float elapsed = 0;
+	private final float elapsed = 0;
 
 	@Override
 	public void create() {

@@ -75,8 +75,18 @@ public class Chunk implements Callable<Chunk> , SerializeNetworkData {
     }
   }
 
+  public void addAllEntity(List<Entity> entityList){
+    for(Entity entity: entityList){
+      this.addEntity(entity);
+    }
+  }
+
   public Entity getEntity(UUID uuid) {
     return this.chunkMap.get(uuid);
+  }
+
+  public Set<UUID> getEntityUUIDSet(){
+    return this.chunkMap.keySet();
   }
 
   public List<Entity> getEntityList() {
@@ -242,6 +252,20 @@ public class Chunk implements Callable<Chunk> , SerializeNetworkData {
     for (Entity entity : this.getEntityList()) {
       networkDataBuilder.addChildren(entity.toNetworkData());
     }
+    networkDataBuilder.addChildren(this.chunkRange.toNetworkData());
     return networkDataBuilder.build();
+  }
+
+  public boolean equals(Object anObject) {
+    if (this == anObject) {
+      return true;
+    }
+    if (!(anObject instanceof Chunk)) {
+      return false;
+    }
+    Chunk other = (Chunk)anObject;
+    if (!this.chunkRange.equals(other.chunkRange)) return false;
+
+    return this.getEntityUUIDSet().equals(other.getEntityUUIDSet());
   }
 }

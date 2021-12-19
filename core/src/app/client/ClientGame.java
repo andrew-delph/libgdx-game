@@ -2,7 +2,9 @@ package app.client;
 
 import app.Game;
 import chunk.ChunkFactory;
+import chunk.ChunkRange;
 import com.google.inject.Inject;
+import common.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;
 import entity.collision.CollisionService;
@@ -40,5 +42,10 @@ public class ClientGame extends Game {
   public void start() throws IOException, InterruptedException {
     this.clientNetworkHandle.connect();
     super.start();
+  }
+
+  @Override
+  public void init() {
+    this.gameStore.addChunk(this.clientNetworkHandle.getChunk(new ChunkRange(new Coordinates(0, 0))));
   }
 }

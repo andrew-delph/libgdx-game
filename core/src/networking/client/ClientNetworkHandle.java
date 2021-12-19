@@ -1,12 +1,17 @@
 package networking.client;
 
+import chunk.Chunk;
+import chunk.ChunkRange;
 import com.google.inject.Inject;
+import entity.EntitySerializationConverter;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
 import networking.ObserverFactory;
 import networking.RequestNetworkEventObserver;
+import networking.events.EventTypeFactory;
+import networking.events.types.outgoing.GetChunkOutgoingEventType;
 
 import java.util.UUID;
 
@@ -16,13 +21,18 @@ public class ClientNetworkHandle {
   public UUID uuid;
   RequestNetworkEventObserver requestNetworkEventObserver;
   @Inject ObserverFactory observerFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
+  @Inject
+  EntitySerializationConverter entitySerializationConverter;
   private ManagedChannel channel;
   private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
+  private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
 
   @Inject
   public ClientNetworkHandle() {
     this.uuid = UUID.randomUUID();
-    System.out.println("client: " + this.uuid.toString());
+    System.out.println("client: " + this.uuid);
   }
 
   public void setHost(String host) {
@@ -36,7 +46,7 @@ public class ClientNetworkHandle {
   public void connect() {
     this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
     this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
-    NetworkObjectServiceGrpc.newBlockingStub(channel);
+    this.blockStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
     requestNetworkEventObserver = observerFactory.create();
     requestNetworkEventObserver.responseObserver =
         this.asyncStub.networkObjectStream(requestNetworkEventObserver);
@@ -52,6 +62,15 @@ public class ClientNetworkHandle {
   public synchronized void send(NetworkObjects.NetworkEvent networkEvent) {
     networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
     requestNetworkEventObserver.responseObserver.onNext(networkEvent);
+  }
+
+  public Chunk getChunk(ChunkRange chunkRange){
+
+    GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.uuid);
+
+    NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(realEvent.toNetworkEvent());
+
+    return entitySerializationConverter.createChunk(retrievedNetworkEvent.getData());
   }
 
   public void close() {

@@ -3,9 +3,11 @@ package networking.server;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
+import common.Coordinates;
 import common.GameStore;
-import entity.Entity;
+import entity.EntitySerializationConverter;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
@@ -21,18 +23,17 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   public UUID uuid;
   @Inject ObserverFactory observerFactory;
   @Inject ConnectionStore connectionStore;
+  @Inject GameStore gameStore;
+  @Inject ChunkFactory chunkFactory;
+  @Inject EventTypeFactory eventTypeFactory;
   @Inject
-  GameStore gameStore;
-  @Inject
-  ChunkFactory chunkFactory;
-  @Inject
-  EventTypeFactory eventTypeFactory;
+  ChunkSubscriptionService chunkSubscriptionService;
   private Server server;
 
   @Inject
   public ServerNetworkHandle() {
     this.uuid = UUID.randomUUID();
-    System.out.println("server: " + this.uuid.toString());
+    System.out.println("server: " + this.uuid);
   }
 
   public void start() throws IOException {
@@ -63,16 +64,21 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   public void getChunk(
       NetworkObjects.NetworkEvent request,
       StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
-    System.out.println(1111);
 
     GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
 
     Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
     if (chunk == null) {
-      return;
+      chunk = this.chunkFactory.create(realEvent.getChunkRange());
     }
 
-    responseObserver.onNext(realEvent.toNetworkEvent());
+    chunkSubscriptionService.registerSubscription(realEvent.getUUID(),realEvent.getChunkRange());
+
+    responseObserver.onNext(
+        NetworkObjects.NetworkEvent.newBuilder()
+            .setData(chunk.toNetworkData())
+            .setEvent("get_chunk")
+            .build());
     responseObserver.onCompleted();
   }
 

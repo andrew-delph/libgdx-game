@@ -1,5 +1,8 @@
 package entity;
 
+import chunk.Chunk;
+import chunk.ChunkFactory;
+import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
@@ -10,13 +13,36 @@ import entity.block.StoneBlock;
 import entity.misc.Ladder;
 import networking.NetworkObjects;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 public class EntitySerializationConverter {
   @Inject EntityFactory entityFactory;
   @Inject BlockFactory blockFactory;
+  @Inject
+  ChunkFactory chunkFactory;
 
   @Inject GameStore gameStore;
+
+  public Chunk createChunk(NetworkObjects.NetworkData networkData){
+    List<Entity> entityList = new LinkedList<>();
+    ChunkRange chunkRange = null;
+    for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
+      String classString = networkDataChild.getValue();
+
+      if(classString.equals(ChunkRange.class.getName())){
+        chunkRange = this.createChunkRange(networkDataChild);
+      }
+      else{
+        entityList.add(this.createEntity(networkDataChild));
+      }
+    }
+    Chunk chunkToCreate = chunkFactory.create(chunkRange);
+    chunkToCreate.chunkRange = chunkRange;
+    chunkToCreate.addAllEntity(entityList);
+    return chunkToCreate;
+  }
 
   public Entity createEntity(NetworkObjects.NetworkData networkData) {
     String classString = networkData.getValue();
@@ -57,6 +83,21 @@ public class EntitySerializationConverter {
       }
     }
     return new Coordinates(x, y);
+  }
+
+  public ChunkRange createChunkRange(NetworkObjects.NetworkData networkData) {
+    float x = 0, y = 0;
+    for (NetworkObjects.NetworkData value : networkData.getChildrenList()) {
+      switch (value.getKey()) {
+        case "x":
+          x = Float.parseFloat(value.getValue());
+          break;
+        case "y":
+          y = Float.parseFloat(value.getValue());
+          break;
+      }
+    }
+    return new ChunkRange(new Coordinates(x, y));
   }
 
   public Entity updateEntity(NetworkObjects.NetworkData networkData) {
