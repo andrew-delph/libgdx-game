@@ -66,13 +66,11 @@ public class ClientNetworkHandle {
 
   public Chunk getChunk(ChunkRange chunkRange){
 
-    GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange);
+    GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.uuid);
 
     NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(realEvent.toNetworkEvent());
 
-    Chunk chunkReceived = entitySerializationConverter.createChunk(retrievedNetworkEvent.getData());
-
-    return chunkReceived;
+    return entitySerializationConverter.createChunk(retrievedNetworkEvent.getData());
   }
 
   public void close() {

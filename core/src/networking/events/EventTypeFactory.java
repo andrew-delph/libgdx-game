@@ -102,10 +102,10 @@ public class EventTypeFactory {
   }
 
   public GetChunkOutgoingEventType createGetChunkOutgoingEventType(NetworkObjects.NetworkEvent networkEvent){
-    return new GetChunkOutgoingEventType(entitySerializationConverter.createChunkRange(networkEvent.getData()));
+    return new GetChunkOutgoingEventType(entitySerializationConverter.createChunkRange(networkEvent.getData()), UUID.fromString(networkEvent.getUser()));
   }
 
-  public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange){
-    return new GetChunkOutgoingEventType(chunkRange);
+  public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UUID userID){
+    return new GetChunkOutgoingEventType(chunkRange, userID);
   }
 }

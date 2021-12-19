@@ -26,6 +26,12 @@ public class ChunkSubscriptionService {
     }
   }
 
+  public void registerSubscription(UUID uuid, ChunkRange chunkRange) {
+    List<ChunkRange> chunkRangeList = new LinkedList<>();
+    chunkRangeList.add(chunkRange);
+    this.registerSubscription(uuid, chunkRangeList);
+  }
+
   public List<UUID> getSubscriptions(ChunkRange chunkRange) {
     this.chunkRangeToUser.computeIfAbsent(chunkRange, k -> new HashSet<>());
     return new LinkedList<>(this.chunkRangeToUser.get(chunkRange));
