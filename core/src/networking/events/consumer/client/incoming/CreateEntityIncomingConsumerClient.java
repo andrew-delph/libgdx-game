@@ -5,8 +5,8 @@ import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.EventType;
 import entity.Entity;
-import networking.translation.NetworkDataDeserializer;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
+import networking.translation.NetworkDataDeserializer;
 
 import java.util.function.Consumer;
 

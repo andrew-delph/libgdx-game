@@ -4,9 +4,9 @@ import com.google.inject.Inject;
 import common.events.EventService;
 import common.events.types.EventType;
 import entity.Entity;
-import networking.translation.NetworkDataDeserializer;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.RemoveEntityIncomingEventType;
+import networking.translation.NetworkDataDeserializer;
 
 import java.util.function.Consumer;
 

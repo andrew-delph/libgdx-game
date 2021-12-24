@@ -3,7 +3,6 @@ package networking.client;
 import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
-import networking.translation.NetworkDataDeserializer;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import networking.NetworkObjectServiceGrpc;
@@ -12,6 +11,7 @@ import networking.ObserverFactory;
 import networking.RequestNetworkEventObserver;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
+import networking.translation.NetworkDataDeserializer;
 
 import java.util.UUID;
 

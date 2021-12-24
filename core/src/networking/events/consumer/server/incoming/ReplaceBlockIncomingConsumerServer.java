@@ -7,11 +7,11 @@ import common.GameStore;
 import common.events.EventService;
 import common.events.types.EventType;
 import entity.Entity;
-import networking.translation.NetworkDataDeserializer;
 import entity.block.Block;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import networking.server.ServerNetworkHandle;
+import networking.translation.NetworkDataDeserializer;
 
 import java.util.UUID;
 import java.util.function.Consumer;

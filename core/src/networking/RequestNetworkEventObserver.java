@@ -3,6 +3,7 @@ package networking;
 import common.events.EventService;
 import io.grpc.stub.StreamObserver;
 import networking.events.EventTypeFactory;
+import networking.translation.NetworkEventHandler;
 
 import java.util.UUID;
 

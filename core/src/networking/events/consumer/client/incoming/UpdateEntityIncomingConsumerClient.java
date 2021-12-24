@@ -2,8 +2,8 @@ package networking.events.consumer.client.incoming;
 
 import com.google.inject.Inject;
 import common.events.types.EventType;
-import networking.translation.NetworkDataDeserializer;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
+import networking.translation.NetworkDataDeserializer;
 
 import java.util.function.Consumer;
 

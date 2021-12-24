@@ -5,9 +5,9 @@ import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import entity.Entity;
-import networking.translation.NetworkDataDeserializer;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
 import networking.server.ServerNetworkHandle;
+import networking.translation.NetworkDataDeserializer;
 
 import java.util.UUID;
 import java.util.function.Consumer;

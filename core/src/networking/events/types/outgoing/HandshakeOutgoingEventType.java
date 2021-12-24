@@ -9,7 +9,17 @@ import networking.translation.NetworkDataSerializer;
 import java.util.List;
 import java.util.UUID;
 
+import static networking.events.types.NetworkEventTypeEnum.HANDSHAKE_OUTGOING;
+
 public class HandshakeOutgoingEventType extends EventType implements SerializeNetworkEvent {
+
+    public ChunkRange getChunkRange() {
+        return chunkRange;
+    }
+
+    public List<UUID> getListUUID() {
+        return listUUID;
+    }
 
     ChunkRange chunkRange;
     List<UUID> listUUID;
@@ -21,7 +31,7 @@ public class HandshakeOutgoingEventType extends EventType implements SerializeNe
 
     @Override
     public String getType() {
-        return "handshake_outgoing";
+        return HANDSHAKE_OUTGOING;
     }
 
     @Override

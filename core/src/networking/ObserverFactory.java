@@ -3,6 +3,7 @@ package networking;
 import com.google.inject.Inject;
 import common.events.EventService;
 import networking.events.EventTypeFactory;
+import networking.translation.NetworkEventHandler;
 
 public class ObserverFactory {
     @Inject

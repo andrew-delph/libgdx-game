@@ -10,11 +10,11 @@ import common.events.EventService;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import networking.translation.NetworkDataDeserializer;
 import entity.block.BlockFactory;
-import networking.NetworkEventHandler;
 import networking.NetworkObjects;
 import networking.events.EventTypeFactory;
+import networking.translation.NetworkDataDeserializer;
+import networking.translation.NetworkEventHandler;
 import org.junit.Before;
 import org.junit.Test;
 

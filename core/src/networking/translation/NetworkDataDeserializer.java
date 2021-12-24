@@ -14,6 +14,8 @@ import entity.block.SkyBlock;
 import entity.block.StoneBlock;
 import entity.misc.Ladder;
 import networking.NetworkObjects;
+import networking.events.EventTypeFactory;
+import networking.events.types.incoming.HandshakeIncomingEventType;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,6 +30,8 @@ public class NetworkDataDeserializer {
     ChunkFactory chunkFactory;
     @Inject
     GameStore gameStore;
+    @Inject
+    EventTypeFactory eventTypeFactory;
 
     public Chunk createChunk(NetworkObjects.NetworkData networkData) {
         List<Entity> entityList = new LinkedList<>();
@@ -35,8 +39,8 @@ public class NetworkDataDeserializer {
         for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
             String classString = networkDataChild.getValue();
 
-            if (classString.equals(ChunkRange.class.getName())) {
-                chunkRange = this.createChunkRange(networkDataChild);
+            if (classString.equals(DataTranslationEnum.CHUNK_RANGE)) {
+                chunkRange = createChunkRange(networkDataChild);
             } else {
                 entityList.add(this.createEntity(networkDataChild));
             }
@@ -88,7 +92,7 @@ public class NetworkDataDeserializer {
         return new Coordinates(x, y);
     }
 
-    public ChunkRange createChunkRange(NetworkObjects.NetworkData networkData) {
+    public static ChunkRange createChunkRange(NetworkObjects.NetworkData networkData) {
         float x = 0, y = 0;
         for (NetworkObjects.NetworkData value : networkData.getChildrenList()) {
             switch (value.getKey()) {
@@ -128,10 +132,26 @@ public class NetworkDataDeserializer {
     public static List<UUID> createUUIDList(NetworkObjects.NetworkData networkData) {
         List<UUID> uuidList = new LinkedList<>();
         for (NetworkObjects.NetworkData child : networkData.getChildrenList()) {
-            if (child.getKey().equals(TranslationEnum.UUID.toString())) {
+            if (child.getKey().equals(DataTranslationEnum.UUID)) {
                 uuidList.add(createUUID(child));
             }
         }
         return uuidList;
+    }
+
+    public static HandshakeIncomingEventType createHandshakeIncomingEventType(NetworkObjects.NetworkData networkData) {
+        ChunkRange chunkRange = null;
+        List<UUID> uuidList = null;
+        for (NetworkObjects.NetworkData child : networkData.getChildrenList()) {
+            switch (child.getKey()) {
+                case DataTranslationEnum.UUID_LIST:
+                    uuidList = createUUIDList(child);
+                    break;
+                case DataTranslationEnum.CHUNK_RANGE:
+                    chunkRange = createChunkRange(child);
+                    break;
+            }
+        }
+        return EventTypeFactory.createHandshakeIncomingEventType(chunkRange, uuidList);
     }
 }

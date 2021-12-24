@@ -6,11 +6,11 @@ import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceBlockEventType;
-import networking.translation.NetworkDataDeserializer;
 import entity.block.Block;
 import networking.NetworkObjects;
 import networking.events.types.incoming.*;
 import networking.events.types.outgoing.*;
+import networking.translation.NetworkDataDeserializer;
 
 import java.util.List;
 import java.util.UUID;
@@ -96,5 +96,13 @@ public class EventTypeFactory {
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UUID userID) {
         return new GetChunkOutgoingEventType(chunkRange, userID);
+    }
+
+    public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange, List<UUID> listUUID) {
+        return new HandshakeOutgoingEventType(chunkRange, listUUID);
+    }
+
+    public static HandshakeIncomingEventType createHandshakeIncomingEventType(ChunkRange chunkRange, List<UUID> listUUID) {
+        return new HandshakeIncomingEventType(chunkRange, listUUID);
     }
 }
