@@ -3,7 +3,7 @@ package networking.events.consumer.client.incoming;
 import com.google.inject.Inject;
 import common.events.EventService;
 import common.events.types.EventType;
-import entity.EntitySerializationConverter;
+import networking.translation.NetworkDataDeserializer;
 import entity.block.Block;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
@@ -15,7 +15,7 @@ public class ReplaceBlockIncomingConsumerClient implements Consumer<EventType> {
     @Inject
     EventService eventService;
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
     @Inject
     EventTypeFactory eventTypeFactory;
 

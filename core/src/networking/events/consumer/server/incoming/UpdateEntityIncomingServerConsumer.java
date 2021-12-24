@@ -5,7 +5,7 @@ import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import entity.Entity;
-import entity.EntitySerializationConverter;
+import networking.translation.NetworkDataDeserializer;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
 import networking.server.ServerNetworkHandle;
 
@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 public class UpdateEntityIncomingServerConsumer implements Consumer<EventType> {
 
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
     @Inject
     ChunkSubscriptionService chunkSubscriptionService;
     @Inject

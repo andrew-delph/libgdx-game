@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.EventType;
 import entity.Entity;
-import entity.EntitySerializationConverter;
+import networking.translation.NetworkDataDeserializer;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
 
 import java.util.function.Consumer;
@@ -15,7 +15,7 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
     @Inject
     GameController gameController;
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
 
     @Inject
     GameStore gameStore;

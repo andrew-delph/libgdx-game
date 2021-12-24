@@ -1,4 +1,4 @@
-package entity;
+package networking.translation;
 
 import chunk.Chunk;
 import chunk.ChunkFactory;
@@ -6,6 +6,8 @@ import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
+import entity.Entity;
+import entity.EntityFactory;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
@@ -17,14 +19,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class EntitySerializationConverter {
+public class NetworkDataDeserializer {
     @Inject
     EntityFactory entityFactory;
     @Inject
     BlockFactory blockFactory;
     @Inject
     ChunkFactory chunkFactory;
-
     @Inject
     GameStore gameStore;
 
@@ -118,5 +119,19 @@ public class EntitySerializationConverter {
             return entity;
         }
         return null;
+    }
+
+    public static UUID createUUID(NetworkObjects.NetworkData networkData) {
+        return UUID.fromString(networkData.getValue());
+    }
+
+    public static List<UUID> createUUIDList(NetworkObjects.NetworkData networkData) {
+        List<UUID> uuidList = new LinkedList<>();
+        for (NetworkObjects.NetworkData child : networkData.getChildrenList()) {
+            if (child.getKey().equals(TranslationEnum.UUID.toString())) {
+                uuidList.add(createUUID(child));
+            }
+        }
+        return uuidList;
     }
 }

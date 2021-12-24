@@ -3,7 +3,7 @@ package networking.client;
 import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
-import entity.EntitySerializationConverter;
+import networking.translation.NetworkDataDeserializer;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import networking.NetworkObjectServiceGrpc;
@@ -25,7 +25,7 @@ public class ClientNetworkHandle {
     @Inject
     EventTypeFactory eventTypeFactory;
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
     private ManagedChannel channel;
     private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
     private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;

@@ -6,7 +6,7 @@ import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import entity.Entity;
-import entity.EntitySerializationConverter;
+import networking.translation.NetworkDataDeserializer;
 import generation.ChunkGenerationManager;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
 import networking.server.ServerNetworkHandle;
@@ -19,7 +19,7 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
     @Inject
     GameController gameController;
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
     @Inject
     ChunkSubscriptionService chunkSubscriptionService;
     @Inject

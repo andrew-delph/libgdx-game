@@ -10,7 +10,7 @@ import common.events.EventService;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.EntitySerializationConverter;
+import networking.translation.NetworkDataDeserializer;
 import entity.block.BlockFactory;
 import networking.NetworkEventHandler;
 import networking.NetworkObjects;
@@ -23,7 +23,7 @@ import java.util.UUID;
 
 public class testEntitySerialization {
 
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
 
     GameStore gameStore;
 
@@ -40,7 +40,7 @@ public class testEntitySerialization {
     public void setup() throws IOException {
         injector = Guice.createInjector(new ClientConfig());
         entityFactory = injector.getInstance(EntityFactory.class);
-        entitySerializationConverter = injector.getInstance(EntitySerializationConverter.class);
+        entitySerializationConverter = injector.getInstance(NetworkDataDeserializer.class);
         gameStore = injector.getInstance(GameStore.class);
         chunkFactory = injector.getInstance(ChunkFactory.class);
         eventService = injector.getInstance(EventService.class);

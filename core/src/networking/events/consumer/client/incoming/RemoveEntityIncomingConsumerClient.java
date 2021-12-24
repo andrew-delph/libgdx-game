@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import common.events.EventService;
 import common.events.types.EventType;
 import entity.Entity;
-import entity.EntitySerializationConverter;
+import networking.translation.NetworkDataDeserializer;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.RemoveEntityIncomingEventType;
 
@@ -15,7 +15,7 @@ public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
     @Inject
     EventService eventService;
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
     @Inject
     EventTypeFactory eventTypeFactory;
 

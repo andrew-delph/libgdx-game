@@ -6,7 +6,7 @@ import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceBlockEventType;
-import entity.EntitySerializationConverter;
+import networking.translation.NetworkDataDeserializer;
 import entity.block.Block;
 import networking.NetworkObjects;
 import networking.events.types.incoming.*;
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class EventTypeFactory {
 
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
 
     @Inject
     EventTypeFactory() {

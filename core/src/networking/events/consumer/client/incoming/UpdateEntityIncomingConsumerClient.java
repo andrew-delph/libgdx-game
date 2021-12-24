@@ -2,7 +2,7 @@ package networking.events.consumer.client.incoming;
 
 import com.google.inject.Inject;
 import common.events.types.EventType;
-import entity.EntitySerializationConverter;
+import networking.translation.NetworkDataDeserializer;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
 
 import java.util.function.Consumer;
@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
 
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
 
     @Override
     public void accept(EventType eventType) {
