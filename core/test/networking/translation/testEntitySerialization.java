@@ -1,4 +1,4 @@
-package infra.serialization;
+package networking.translation;
 
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
@@ -13,8 +13,6 @@ import entity.EntityFactory;
 import entity.block.BlockFactory;
 import networking.NetworkObjects;
 import networking.events.EventTypeFactory;
-import networking.translation.NetworkDataDeserializer;
-import networking.translation.NetworkEventHandler;
 import org.junit.Before;
 import org.junit.Test;
 

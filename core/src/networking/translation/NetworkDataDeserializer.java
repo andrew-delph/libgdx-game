@@ -37,7 +37,7 @@ public class NetworkDataDeserializer {
         List<Entity> entityList = new LinkedList<>();
         ChunkRange chunkRange = null;
         for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
-            String classString = networkDataChild.getValue();
+            String classString = networkDataChild.getKey();
 
             if (classString.equals(DataTranslationEnum.CHUNK_RANGE)) {
                 chunkRange = createChunkRange(networkDataChild);

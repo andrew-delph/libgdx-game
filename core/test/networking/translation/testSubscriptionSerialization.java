@@ -1,4 +1,4 @@
-package infra.serialization;
+package networking.translation;
 
 import chunk.ChunkRange;
 import com.google.inject.Guice;

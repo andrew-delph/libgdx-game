@@ -37,7 +37,7 @@ public class NetworkEventHandler extends EventConsumer {
             } else if (event.equals(CreateAIEntityEventType.type)) {
                 System.out.println(event);
                 eventService.queuePostUpdateEvent(eventTypeFactory.createAIEntityEventType(new Coordinates(0, 0)));
-            } else if (event.equals(NetworkEventTypeEnum.HANDSHAKE_OUTGOING.toString())) {
+            } else if (event.equals(NetworkEventTypeEnum.HANDSHAKE_OUTGOING)) {
                 eventService.fireEvent(NetworkDataDeserializer.createHandshakeIncomingEventType(networkEvent.getData()));
             }
         } catch (Exception e) {

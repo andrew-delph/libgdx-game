@@ -1,4 +1,4 @@
-package infra.serialization;
+package networking.translation;
 
 import chunk.Chunk;
 import chunk.ChunkFactory;
@@ -9,7 +9,6 @@ import common.Coordinates;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import networking.translation.NetworkDataDeserializer;
 import org.junit.Test;
 
 public class testChunkSerialization {
