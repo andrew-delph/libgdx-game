@@ -88,6 +88,14 @@ public class GameStore {
         return entityList;
     }
 
+    public List<Entity> getEntityListFromList(List<UUID> uuidList) {
+        List<Entity> entityList = new ArrayList<>();
+        for (UUID entityUUID : uuidList) {
+            entityList.add(this.getEntity(entityUUID));
+        }
+        return entityList;
+    }
+
     public Set<ChunkRange> getActiveChunkRangeSet() {
         return new HashSet<>(this.entityMap.values());
     }

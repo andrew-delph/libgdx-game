@@ -16,7 +16,6 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
     GameController gameController;
     @Inject
     NetworkDataDeserializer entitySerializationConverter;
-
     @Inject
     GameStore gameStore;
 

@@ -139,10 +139,10 @@ public class NetworkDataDeserializer {
         return uuidList;
     }
 
-    public static HandshakeIncomingEventType createHandshakeIncomingEventType(NetworkObjects.NetworkData networkData) {
+    public static HandshakeIncomingEventType createHandshakeIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
         ChunkRange chunkRange = null;
         List<UUID> uuidList = null;
-        for (NetworkObjects.NetworkData child : networkData.getChildrenList()) {
+        for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
             switch (child.getKey()) {
                 case DataTranslationEnum.UUID_LIST:
                     uuidList = createUUIDList(child);
@@ -152,6 +152,10 @@ public class NetworkDataDeserializer {
                     break;
             }
         }
-        return EventTypeFactory.createHandshakeIncomingEventType(chunkRange, uuidList);
+        UUID connectionUUID = null;
+        if (!networkEvent.getUser().isEmpty()) {
+            connectionUUID = UUID.fromString(networkEvent.getUser());
+        }
+        return EventTypeFactory.createHandshakeIncomingEventType(connectionUUID, chunkRange, uuidList);
     }
 }

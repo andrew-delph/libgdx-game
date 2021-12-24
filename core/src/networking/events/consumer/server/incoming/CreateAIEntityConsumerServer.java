@@ -1,4 +1,4 @@
-package networking.events.types.incoming;
+package networking.events.consumer.server.incoming;
 
 import app.GameController;
 import com.google.inject.Inject;

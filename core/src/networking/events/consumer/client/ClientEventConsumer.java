@@ -4,14 +4,9 @@ import com.google.inject.Inject;
 import common.events.EventConsumer;
 import common.events.EventService;
 import common.events.types.CreateAIEntityEventType;
-import networking.events.consumer.client.incoming.CreateEntityIncomingConsumerClient;
-import networking.events.consumer.client.incoming.RemoveEntityIncomingConsumerClient;
-import networking.events.consumer.client.incoming.ReplaceBlockIncomingConsumerClient;
-import networking.events.consumer.client.incoming.UpdateEntityIncomingConsumerClient;
-import networking.events.consumer.client.outgoing.CreateAIEntityConsumerClient;
-import networking.events.consumer.client.outgoing.CreateEntityOutgoingConsumerClient;
-import networking.events.consumer.client.outgoing.ReplaceBlockOutgoingConsumerClient;
-import networking.events.consumer.client.outgoing.UpdateEntityOutgoingConsumerClient;
+import networking.events.consumer.client.incoming.*;
+import networking.events.consumer.client.outgoing.*;
+import networking.events.types.NetworkEventTypeEnum;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
 import networking.events.types.incoming.RemoveEntityIncomingEventType;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
@@ -41,6 +36,10 @@ public class ClientEventConsumer extends EventConsumer {
     ReplaceBlockOutgoingConsumerClient replaceBlockOutgoingConsumer;
     @Inject
     CreateAIEntityConsumerClient createAIEntityConsumerClient;
+    @Inject
+    HandshakeIncomingConsumerClient handshakeIncomingConsumerClient;
+    @Inject
+    HandshakeOutgoingConsumerClient handshakeOutgoingConsumerClient;
 
     @Inject
     protected ClientEventConsumer() {
@@ -57,5 +56,7 @@ public class ClientEventConsumer extends EventConsumer {
         this.eventService.addListener(ReplaceBlockOutgoingEventType.type, replaceBlockOutgoingConsumer);
         this.eventService.addPostUpdateListener(
                 CreateAIEntityEventType.type, createAIEntityConsumerClient);
+        this.eventService.addListener(NetworkEventTypeEnum.HANDSHAKE_INCOMING, handshakeIncomingConsumerClient);
+        this.eventService.addListener(NetworkEventTypeEnum.HANDSHAKE_OUTGOING, handshakeOutgoingConsumerClient);
     }
 }

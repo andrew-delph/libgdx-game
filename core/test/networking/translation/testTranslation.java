@@ -44,7 +44,7 @@ public class testTranslation {
 
         HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.createHandshakeOutgoingEventType(chunkRange, uuidList);
 
-        HandshakeIncomingEventType handshakeIncoming = NetworkDataDeserializer.createHandshakeIncomingEventType(handshakeOutgoing.toNetworkEvent().getData());
+        HandshakeIncomingEventType handshakeIncoming = NetworkDataDeserializer.createHandshakeIncomingEventType(handshakeOutgoing.toNetworkEvent());
 
         assert handshakeOutgoing.getChunkRange().equals(handshakeIncoming.getChunkRange());
         Assert.assertEquals(handshakeIncoming.getListUUID(), handshakeOutgoing.getListUUID());

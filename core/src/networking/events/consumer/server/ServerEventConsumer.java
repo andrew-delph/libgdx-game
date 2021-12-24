@@ -1,6 +1,5 @@
 package networking.events.consumer.server;
 
-import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.events.EventConsumer;
 import common.events.EventService;
@@ -9,19 +8,16 @@ import networking.events.consumer.server.incoming.*;
 import networking.events.consumer.server.outgoing.CreateEntityOutgoingConsumerServer;
 import networking.events.consumer.server.outgoing.ReplaceBlockOutgoingConsumerServer;
 import networking.events.consumer.server.outgoing.UpdateEntityOutgoingConsumerServer;
+import networking.events.types.NetworkEventTypeEnum;
 import networking.events.types.incoming.*;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
-import networking.server.ServerNetworkHandle;
+
 
 public class ServerEventConsumer extends EventConsumer {
     @Inject
     EventService eventService;
-    @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
-    @Inject
-    ServerNetworkHandle serverNetworkHandle;
 
     @Inject
     SubscriptionIncomingConsumerServer subscriptionIncomingConsumerServer;
@@ -41,6 +37,8 @@ public class ServerEventConsumer extends EventConsumer {
     ReplaceBlockOutgoingConsumerServer replaceBlockOutgoingConsumerServer;
     @Inject
     CreateAIEntityConsumerServer createAIEntityConsumerServer;
+    @Inject
+    HandshakeIncomingConsumerServer handshakeIncomingConsumerServer;
 
     public void init() {
         super.init();
@@ -62,5 +60,6 @@ public class ServerEventConsumer extends EventConsumer {
                 ReplaceBlockOutgoingEventType.type, replaceBlockOutgoingConsumerServer);
         this.eventService.addPostUpdateListener(
                 CreateAIEntityEventType.type, createAIEntityConsumerServer);
+        this.eventService.addListener(NetworkEventTypeEnum.HANDSHAKE_INCOMING, handshakeIncomingConsumerServer);
     }
 }

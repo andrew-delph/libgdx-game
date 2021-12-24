@@ -29,6 +29,11 @@ public class EventTypeFactory {
         return new CreateEntityOutgoingEventType(entityData, chunkRange);
     }
 
+    public CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
+            NetworkObjects.NetworkData entityData) {
+        return new CreateEntityOutgoingEventType(entityData, null);
+    }
+
     public CreateEntityIncomingEventType createCreateEntityIncomingEvent(
             NetworkObjects.NetworkEvent networkEvent) {
         return new CreateEntityIncomingEventType(networkEvent);
@@ -91,7 +96,7 @@ public class EventTypeFactory {
     }
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(NetworkObjects.NetworkEvent networkEvent) {
-        return new GetChunkOutgoingEventType(entitySerializationConverter.createChunkRange(networkEvent.getData()), UUID.fromString(networkEvent.getUser()));
+        return new GetChunkOutgoingEventType(NetworkDataDeserializer.createChunkRange(networkEvent.getData()), UUID.fromString(networkEvent.getUser()));
     }
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UUID userID) {
@@ -102,7 +107,7 @@ public class EventTypeFactory {
         return new HandshakeOutgoingEventType(chunkRange, listUUID);
     }
 
-    public static HandshakeIncomingEventType createHandshakeIncomingEventType(ChunkRange chunkRange, List<UUID> listUUID) {
-        return new HandshakeIncomingEventType(chunkRange, listUUID);
+    public static HandshakeIncomingEventType createHandshakeIncomingEventType(UUID requestUUID, ChunkRange chunkRange, List<UUID> listUUID) {
+        return new HandshakeIncomingEventType(requestUUID, chunkRange, listUUID);
     }
 }
