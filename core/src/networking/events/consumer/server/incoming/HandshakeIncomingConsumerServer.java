@@ -33,14 +33,17 @@ public class HandshakeIncomingConsumerServer implements Consumer<EventType> {
 
         List<UUID> missingUUIDList = new LinkedList<>(handshakeIncoming.getListUUID());
 
-        // need to get the uuid of the client
-        // send each entity to the client
+        if (missingUUIDList.size() > 0) {
+            // need to get the uuid of the client
+            // send each entity to the client
+            List<Entity> missingEntityList = this.gameStore.getEntityListFromList(missingUUIDList);
 
-        List<Entity> missingEntityList = this.gameStore.getEntityListFromList(missingUUIDList);
-
-        for (Entity missingEntity : missingEntityList) {
-            CreateEntityOutgoingEventType createEntityOutgoing = eventTypeFactory.createCreateEntityOutgoingEvent(missingEntity.toNetworkData());
-            this.serverNetworkHandle.send(clientUUID, createEntityOutgoing.toNetworkEvent());
+            for (Entity missingEntity : missingEntityList) {
+                CreateEntityOutgoingEventType createEntityOutgoing = eventTypeFactory.createCreateEntityOutgoingEvent(missingEntity.toNetworkData());
+                this.serverNetworkHandle.send(clientUUID, createEntityOutgoing.toNetworkEvent());
+            }
+        } else {
+            this.serverNetworkHandle.initHandshake(clientUUID, chunkRange);
         }
     }
 }

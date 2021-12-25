@@ -130,4 +130,35 @@ public class HandshakeTests {
         TimeUnit.SECONDS.sleep(1);
         assert serverChunk.equals(clientChunk);
     }
+
+    @Test
+    public void testServerInitClient() throws InterruptedException {
+        Coordinates coordinatesToTest = new Coordinates(0, 0);
+        ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
+
+        serverGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
+        clientGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
+
+        Chunk serverChunk = serverGameStore.getChunk(chunkRangeToTest);
+        Chunk clientChunk = clientGameStore.getChunk(chunkRangeToTest);
+        assert serverChunk.equals(clientChunk);
+
+        Entity e1 = entityFactory.createEntity();//server only
+        Entity e2 = entityFactory.createEntity();//both
+        Entity e3 = entityFactory.createEntity();//client only
+
+        e1.coordinates = coordinatesToTest;
+        e2.coordinates = coordinatesToTest;
+        e3.coordinates = coordinatesToTest;
+
+        serverGameStore.addEntity(e1);
+        serverGameStore.addEntity(e2);
+        clientGameStore.addEntity(e2);
+        clientGameStore.addEntity(e3);
+
+        clientNetworkHandle.initHandshake(chunkRangeToTest);
+
+        TimeUnit.SECONDS.sleep(1);
+        assert serverChunk.equals(clientChunk);
+    }
 }

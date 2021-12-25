@@ -26,7 +26,7 @@ public class ServerEventConsumer extends EventConsumer {
     @Inject
     CreateEntityIncomingConsumerServer createEntityIncomingConsumerServer;
     @Inject
-    UpdateEntityIncomingServerConsumer updateEntityIncomingServerConsumer;
+    UpdateEntityIncomingConsumerServer updateEntityIncomingConsumerServer;
     @Inject
     ReplaceBlockIncomingConsumerServer replaceBlockIncomingConsumerServer;
     @Inject
@@ -49,7 +49,7 @@ public class ServerEventConsumer extends EventConsumer {
         this.eventService.addListener(
                 CreateEntityIncomingEventType.type, createEntityIncomingConsumerServer);
         this.eventService.addListener(
-                UpdateEntityIncomingEventType.type, updateEntityIncomingServerConsumer);
+                UpdateEntityIncomingEventType.type, updateEntityIncomingConsumerServer);
         this.eventService.addListener(
                 ReplaceBlockIncomingEventType.type, replaceBlockIncomingConsumerServer);
         this.eventService.addListener(

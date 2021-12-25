@@ -11,6 +11,7 @@ import networking.ObserverFactory;
 import networking.RequestNetworkEventObserver;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
+import networking.events.types.outgoing.HandshakeOutgoingEventType;
 import networking.translation.NetworkDataDeserializer;
 
 import java.util.UUID;
@@ -72,6 +73,12 @@ public class ClientNetworkHandle {
         NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(realEvent.toNetworkEvent());
 
         return entitySerializationConverter.createChunk(retrievedNetworkEvent.getData());
+    }
+
+    public void initHandshake(ChunkRange chunkRange) {
+        HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.
+                createHandshakeOutgoingEventType(chunkRange);
+        this.send(handshakeOutgoing.toNetworkEvent());
     }
 
     public void close() {

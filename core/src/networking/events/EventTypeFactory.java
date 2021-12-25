@@ -12,6 +12,7 @@ import networking.events.types.incoming.*;
 import networking.events.types.outgoing.*;
 import networking.translation.NetworkDataDeserializer;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -105,6 +106,10 @@ public class EventTypeFactory {
 
     public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange, List<UUID> listUUID) {
         return new HandshakeOutgoingEventType(chunkRange, listUUID);
+    }
+
+    public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange) {
+        return new HandshakeOutgoingEventType(chunkRange, new LinkedList<>());
     }
 
     public static HandshakeIncomingEventType createHandshakeIncomingEventType(UUID requestUUID, ChunkRange chunkRange, List<UUID> listUUID) {

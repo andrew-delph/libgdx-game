@@ -12,7 +12,7 @@ import networking.translation.NetworkDataDeserializer;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class UpdateEntityIncomingServerConsumer implements Consumer<EventType> {
+public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
 
     @Inject
     NetworkDataDeserializer entitySerializationConverter;
