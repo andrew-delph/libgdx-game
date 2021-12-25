@@ -36,8 +36,7 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
         chunkGenerationManager.registerActiveEntity(
                 entity, UUID.fromString(realEvent.networkEvent.getUser()));
 
-        for (UUID uuid :
-                chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
+        for (UUID uuid : chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
             if (uuid.equals(realEvent.getUser())) continue;
             serverNetworkHandle.send(uuid, realEvent.networkEvent);
         }

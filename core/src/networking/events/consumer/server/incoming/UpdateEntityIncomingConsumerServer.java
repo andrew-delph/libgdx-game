@@ -25,8 +25,7 @@ public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
     public void accept(EventType eventType) {
         UpdateEntityIncomingEventType realEvent = (UpdateEntityIncomingEventType) eventType;
         Entity entity = entitySerializationConverter.updateEntity(realEvent.getData());
-        for (UUID uuid :
-                chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
+        for (UUID uuid : chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
             if (uuid.equals(realEvent.getUser())) continue;
             serverNetworkHandle.send(uuid, realEvent.networkEvent);
         }

@@ -39,8 +39,7 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
         this.eventService.queuePostUpdateEvent(
                 this.eventTypeFactory.createReplaceBlockEvent(
                         realEvent.getTarget(),
-                        (Block)
-                                entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
+                        (Block) entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
         for (UUID uuid : chunkSubscriptionService.getSubscriptions(chunkRange)) {
             serverNetworkHandle.send(uuid, realEvent.networkEvent);
         }
