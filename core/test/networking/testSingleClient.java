@@ -101,7 +101,7 @@ public class testSingleClient {
 
         TimeUnit.SECONDS.sleep(1);
 
-        Entity clientEntity = clientGameController.createEntity(clientEntityFactory.createEntity());
+        Entity clientEntity = clientGameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
 
@@ -125,7 +125,7 @@ public class testSingleClient {
 
         EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
 
-        Entity clientEntity = clientGameController.createEntity(clientEntityFactory.createEntity());
+        Entity clientEntity = clientGameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
 
@@ -237,7 +237,7 @@ public class testSingleClient {
                                 clientNetworkHandle.uuid)));
 
         EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
-        Entity serverEntity = serverGameController.createEntity(clientEntityFactory.createEntity());
+        Entity serverEntity = serverGameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
 
@@ -271,7 +271,7 @@ public class testSingleClient {
 
         EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
 
-        Entity serverEntity = serverGameController.createEntity(clientEntityFactory.createEntity());
+        Entity serverEntity = serverGameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
 
@@ -300,7 +300,7 @@ public class testSingleClient {
 
         TimeUnit.SECONDS.sleep(1);
 
-        Entity clientEntity = clientGameController.createEntity(clientEntityFactory.createEntity());
+        Entity clientEntity = clientGameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
 
@@ -327,7 +327,7 @@ public class testSingleClient {
 
         serverGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-        serverGameController.createEntity(serverBlockFactory.createDirt());
+        serverGameController.addEntity(serverBlockFactory.createDirt());
         assert serverGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
         TimeUnit.SECONDS.sleep(1);
         Block clientBlock = serverGameStore.getBlock(new Coordinates(0, 0));
@@ -349,7 +349,7 @@ public class testSingleClient {
         EventService serverEventService = serverInjector.getInstance(EventService.class);
         EventService clientEventService = clientInjector.getInstance(EventService.class);
         TimeUnit.SECONDS.sleep(1);
-        Entity serverEntity = serverGameController.createEntity(serverBlockFactory.createDirt());
+        Entity serverEntity = serverGameController.addEntity(serverBlockFactory.createDirt());
         assert serverGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
         TimeUnit.SECONDS.sleep(1);
         assert clientGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;

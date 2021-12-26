@@ -83,7 +83,7 @@ public class testDoubleClientDelayedConnection {
 
         EventTypeFactory client_b_EventTypeFactory = client_b_Injector.getInstance(EventTypeFactory.class);
 
-        Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
+        Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
 

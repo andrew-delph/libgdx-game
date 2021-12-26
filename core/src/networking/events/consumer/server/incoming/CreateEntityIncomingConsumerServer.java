@@ -34,12 +34,10 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
         CreateEntityIncomingEventType incoming = (CreateEntityIncomingEventType) eventType;
         Entity entity = null;
         try {
-            entity = gameController.triggerCreateEntity(
+            entity = gameController.triggerAddEntity(
                     entitySerializationConverter.createEntity(incoming.getData()));
         } catch (SerializationDataMissing e) {
             e.printStackTrace();
-            // TODO test this
-            serverNetworkHandle.initHandshake(incoming.getUser(), incoming.getChunkRange());
             return;
         }
 

@@ -21,6 +21,7 @@ public class UpdateEntityIncomingEventType extends EventType {
     public UpdateEntityIncomingEventType(UUID user, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
         this.networkData = networkData;
         this.chunkRange = chunkRange;
+        this.user = user;
     }
 
     public NetworkObjects.NetworkData getData() {

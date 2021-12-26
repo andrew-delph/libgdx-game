@@ -20,7 +20,7 @@ import java.util.UUID;
 public class ClientNetworkHandle {
     public String host = "localhost";
     public int port = 99;
-    public UUID uuid;
+    public final UUID uuid = UUID.randomUUID();
     RequestNetworkEventObserver requestNetworkEventObserver;
     @Inject
     ObserverFactory observerFactory;
@@ -34,7 +34,6 @@ public class ClientNetworkHandle {
 
     @Inject
     public ClientNetworkHandle() {
-        this.uuid = UUID.randomUUID();
         System.out.println("client: " + this.uuid);
     }
 

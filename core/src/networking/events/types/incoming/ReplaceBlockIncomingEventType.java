@@ -3,14 +3,12 @@ package networking.events.types.incoming;
 import chunk.ChunkRange;
 import common.events.types.EventType;
 import entity.block.Block;
-import networking.NetworkObjects;
 
 import java.util.UUID;
 
 public class ReplaceBlockIncomingEventType extends EventType {
 
     public static String type = "replace_block_incoming";
-    public NetworkObjects.NetworkEvent networkEvent;
 
     UUID user;
     UUID target;
@@ -38,7 +36,7 @@ public class ReplaceBlockIncomingEventType extends EventType {
 
 
     public UUID getUser() {
-        return UUID.fromString(this.networkEvent.getUser());
+        return this.user;
     }
 
     @Override

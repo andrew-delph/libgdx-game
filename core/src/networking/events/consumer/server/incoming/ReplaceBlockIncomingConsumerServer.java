@@ -26,7 +26,7 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
     public void accept(EventType eventType) {
         ReplaceBlockIncomingEventType incoming = (ReplaceBlockIncomingEventType) eventType;
         try {
-            gameController.replaceBlock(incoming.getTarget(), incoming.getReplacementBlock());
+            gameController.triggerReplaceBlock(incoming.getTarget(), incoming.getReplacementBlock());
         } catch (EntityNotFound e) {
             e.printStackTrace();
             serverNetworkHandle.initHandshake(incoming.getUser(), incoming.getChunkRange());
@@ -36,6 +36,7 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
                 incoming.getReplacementBlock(),
                 incoming.getChunkRange());
         for (UUID uuid : chunkSubscriptionService.getSubscriptions(incoming.getChunkRange())) {
+            if (incoming.getUser().equals(uuid)) continue;
             serverNetworkHandle.send(uuid, outgoing.toNetworkEvent());
         }
     }

@@ -41,6 +41,6 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
             //pass
         }
         //TODO remove or update
-        gameController.triggerCreateEntity(entity);
+        gameController.triggerAddEntity(entity);
     }
 }

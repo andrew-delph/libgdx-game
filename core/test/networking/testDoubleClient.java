@@ -100,7 +100,7 @@ public class testDoubleClient {
 
         TimeUnit.SECONDS.sleep(1);
 
-        Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
+        Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(3);
 
@@ -144,7 +144,7 @@ public class testDoubleClient {
 
         TimeUnit.SECONDS.sleep(1);
 
-        Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
+        Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
 
@@ -208,7 +208,7 @@ public class testDoubleClient {
 
         TimeUnit.SECONDS.sleep(1);
 
-        Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
+        Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
 

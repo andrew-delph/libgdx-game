@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
-    public UUID uuid;
+    public final UUID uuid = UUID.randomUUID();
     @Inject
     ObserverFactory observerFactory;
     @Inject
@@ -38,7 +38,6 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
     @Inject
     public ServerNetworkHandle() {
-        this.uuid = UUID.randomUUID();
         System.out.println("server: " + this.uuid);
     }
 

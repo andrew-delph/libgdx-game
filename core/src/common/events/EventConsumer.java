@@ -26,7 +26,7 @@ public class EventConsumer {
                 event -> {
                     common.events.types.ReplaceBlockEventType realEvent = (ReplaceBlockEventType) event;
                     try {
-                        this.gameController.replaceBlock(realEvent.getTarget(), realEvent.getReplacementBlock());
+                        this.gameController.triggerReplaceBlock(realEvent.getTarget(), realEvent.getReplacementBlock());
                     } catch (EntityNotFound e) {
                         e.printStackTrace();
                     }

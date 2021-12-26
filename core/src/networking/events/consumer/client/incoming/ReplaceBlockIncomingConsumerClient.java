@@ -19,7 +19,7 @@ public class ReplaceBlockIncomingConsumerClient implements Consumer<EventType> {
     public void accept(EventType eventType) {
         ReplaceBlockIncomingEventType incoming = (ReplaceBlockIncomingEventType) eventType;
         try {
-            gameController.replaceBlock(incoming.getTarget(), incoming.getReplacementBlock());
+            gameController.triggerReplaceBlock(incoming.getTarget(), incoming.getReplacementBlock());
         } catch (EntityNotFound e) {
             e.printStackTrace();
             clientNetworkHandle.initHandshake(incoming.getChunkRange());

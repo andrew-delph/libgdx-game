@@ -28,7 +28,7 @@ public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
             entity = entitySerializationConverter.createEntity(realEvent.getData());
         } catch (SerializationDataMissing e) {
             e.printStackTrace();
-            // disconnect the client
+            // todo disconnect the client
             return;
         }
         eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(entity.uuid));
