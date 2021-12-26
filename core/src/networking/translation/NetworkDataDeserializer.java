@@ -6,6 +6,8 @@ import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
+import common.exceptions.EntityNotFound;
+import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.BlockFactory;
@@ -33,7 +35,7 @@ public class NetworkDataDeserializer {
     @Inject
     EventTypeFactory eventTypeFactory;
 
-    public Chunk createChunk(NetworkObjects.NetworkData networkData) {
+    public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
         List<Entity> entityList = new LinkedList<>();
         ChunkRange chunkRange = null;
         for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
@@ -51,9 +53,12 @@ public class NetworkDataDeserializer {
         return chunkToCreate;
     }
 
-    public Entity createEntity(NetworkObjects.NetworkData networkData) {
+    public Entity createEntity(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
         String classString = networkData.getValue();
         Entity entity;
+        Coordinates coordinates = null;
+        UUID uuid = null;
+
         if (classString.equals(DirtBlock.class.getName())) {
             entity = blockFactory.createDirt();
         } else if (classString.equals(SkyBlock.class.getName())) {
@@ -65,19 +70,25 @@ public class NetworkDataDeserializer {
         } else if (classString.equals(Entity.class.getName())) {
             entity = entityFactory.createEntity();
         } else {
-            return null;
+            throw new SerializationDataMissing("classString not recognized");
         }
         for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
             if (networkDataChild.getKey().equals(Coordinates.class.getName())) {
-                entity.coordinates = this.createCoordinates(networkDataChild);
+                coordinates = this.createCoordinates(networkDataChild);
             } else if (networkDataChild.getKey().equals(UUID.class.getName())) {
-                entity.uuid = UUID.fromString(networkDataChild.getValue());
+                uuid = UUID.fromString(networkDataChild.getValue());
             }
         }
+
+        if (uuid == null) throw new SerializationDataMissing("Missing UUID");
+        if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
+        entity.uuid = uuid;
+        entity.coordinates = coordinates;
         return entity;
     }
 
     public Coordinates createCoordinates(NetworkObjects.NetworkData networkData) {
+        //TODO put in translations
         float x = 0, y = 0;
         for (NetworkObjects.NetworkData value : networkData.getChildrenList()) {
             switch (value.getKey()) {
@@ -93,6 +104,7 @@ public class NetworkDataDeserializer {
     }
 
     public static ChunkRange createChunkRange(NetworkObjects.NetworkData networkData) {
+        //TODO put in translations
         float x = 0, y = 0;
         for (NetworkObjects.NetworkData value : networkData.getChildrenList()) {
             switch (value.getKey()) {
@@ -107,7 +119,7 @@ public class NetworkDataDeserializer {
         return new ChunkRange(new Coordinates(x, y));
     }
 
-    public Entity updateEntity(NetworkObjects.NetworkData networkData) {
+    public Entity updateEntity(NetworkObjects.NetworkData networkData) throws EntityNotFound, SerializationDataMissing {
         Coordinates coordinates = null;
         UUID uuid = null;
         for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
@@ -117,12 +129,12 @@ public class NetworkDataDeserializer {
                 uuid = UUID.fromString(networkDataChild.getValue());
             }
         }
-        if (uuid != null) {
-            Entity entity = this.gameStore.getEntity(uuid);
-            entity.coordinates = coordinates;
-            return entity;
-        }
-        return null;
+
+        if (uuid == null) throw new SerializationDataMissing("Missing UUID");
+        if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
+        Entity entity = this.gameStore.getEntity(uuid);
+        entity.coordinates = coordinates;
+        return entity;
     }
 
     public static UUID createUUID(NetworkObjects.NetworkData networkData) {

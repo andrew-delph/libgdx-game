@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import common.GameStore;
 import common.events.EventService;
 import common.events.types.EventType;
+import common.exceptions.EntityNotFound;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.HandshakeIncomingEventType;
 
@@ -14,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
 
@@ -21,6 +23,8 @@ public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
     GameStore gameStore;
     @Inject
     EventService eventService;
+
+    private final static Logger LOGGER = Logger.getLogger(GameStore.class.getName());
 
     @Override
     public void accept(EventType eventType) {
@@ -39,7 +43,12 @@ public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
 
         // remove the extra
         for (UUID toRemove : extra) {
-            chunk.removeEntity(toRemove);
+            try {
+                chunk.removeEntity(toRemove);
+            } catch (EntityNotFound e) {
+                e.printStackTrace();
+                LOGGER.severe("Entity already removed in handshake.");
+            }
         }
 
         // request the missing

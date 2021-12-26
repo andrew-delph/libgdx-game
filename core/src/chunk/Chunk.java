@@ -8,6 +8,7 @@ import common.Clock;
 import common.Coordinates;
 import common.GameStore;
 import common.Tick;
+import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.block.Block;
 import entity.collision.EntityContactListenerFactory;
@@ -81,7 +82,9 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         }
     }
 
-    public Entity getEntity(UUID uuid) {
+    public Entity getEntity(UUID uuid) throws EntityNotFound {
+        Entity toReturn = this.chunkMap.get(uuid);
+        if (toReturn == null) throw new EntityNotFound("Entity not found in chunk");
         return this.chunkMap.get(uuid);
     }
 
@@ -93,23 +96,10 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         return new LinkedList<Entity>(this.chunkMap.values());
     }
 
-    public Entity removeEntity(UUID uuid) {
+    public Entity removeEntity(UUID uuid) throws EntityNotFound {
         Entity entity = this.getEntity(uuid);
         this.chunkMap.remove(uuid);
         if (bodySet.contains(entity.uuid)) {
-            System.out.println(
-                    "destroy body:"
-                            + entity.uuid
-                            + " ,"
-                            + entity.coordinates
-                            + " ,"
-                            + entity.coordinates.getX()
-                            + ","
-                            + entity.coordinates.getY()
-                            + ", "
-                            + new ChunkRange(entity.coordinates)
-                            + ", "
-                            + entity.getBody());
             this.world.destroyBody(entity.getBody());
             bodySet.remove(entity.uuid);
         }
@@ -119,9 +109,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     synchronized void update() {
         Set<Entity> neighborEntitySet = new HashSet<>();
 
-        //    Boolean verbose = this.chunkRange.equals(new ChunkRange(new Coordinates(0,0)));
-
-        Chunk neighborChunk = null;
+        Chunk neighborChunk;
 
         // up
         neighborChunk = this.gameStore.getChunk(this.chunkRange.getUp());
@@ -188,7 +176,11 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         for (Entity entity : this.chunkMap.values()) {
 
             if (entity.entityController != null) entity.entityController.beforeWorldUpdate();
-            this.gameStore.syncEntity(entity);
+            try {
+                this.gameStore.syncEntity(entity);
+            } catch (EntityNotFound e) {
+                e.printStackTrace();
+            }
 
             int entityTick = entity.getUpdateTimeout();
             if (tickTimeout < entityTick) {
@@ -217,7 +209,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         return entityList;
     }
 
-    public Block getBlock(Coordinates coordinates) {
+    public Block getBlock(Coordinates coordinates) throws EntityNotFound {
         List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
         for (Entity entity : entityList) {
             if (entity instanceof Block
@@ -226,7 +218,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
                 return (Block) entity;
             }
         }
-        return null;
+        throw new EntityNotFound("could not find block at " + coordinates.toString());
     }
 
     public Ladder getLadder(Coordinates coordinates) {

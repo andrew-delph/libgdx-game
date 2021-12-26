@@ -6,6 +6,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
+import common.exceptions.EntityNotFound;
 import configuration.SoloConfig;
 import entity.EntityFactory;
 import entity.block.Block;
@@ -17,7 +18,7 @@ import org.junit.Test;
 
 public class testEntityStructure {
     @Test
-    public void testRelativeBlockRegister() {
+    public void testRelativeBlockRegister() throws EntityNotFound {
         Injector injector = Guice.createInjector(new SoloConfig());
 
         GameStore gameStore = injector.getInstance(GameStore.class);
@@ -67,7 +68,7 @@ public class testEntityStructure {
     }
 
     @Test
-    public void testRelativeBlockRegisterNegative() {
+    public void testRelativeBlockRegisterNegative() throws EntityNotFound {
         Injector injector = Guice.createInjector(new SoloConfig());
 
         GameStore gameStore = injector.getInstance(GameStore.class);

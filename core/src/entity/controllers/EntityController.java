@@ -4,6 +4,7 @@ import app.GameController;
 import com.badlogic.gdx.physics.box2d.Body;
 import common.Coordinates;
 import common.events.EventService;
+import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.controllers.actions.EntityAction;
 import entity.controllers.actions.EntityActionFactory;
@@ -60,12 +61,15 @@ public class EntityController {
     }
 
     public void afterWorldUpdate() {
-
-        gameController.moveEntity(
-                this.entity.uuid,
-                new Coordinates(
-                        this.entity.getBody().getPosition().x / Entity.coordinatesScale,
-                        this.entity.getBody().getPosition().y / Entity.coordinatesScale));
+        try {
+            gameController.moveEntity(
+                    this.entity.uuid,
+                    new Coordinates(
+                            this.entity.getBody().getPosition().x / Entity.coordinatesScale,
+                            this.entity.getBody().getPosition().y / Entity.coordinatesScale));
+        } catch (EntityNotFound e) {
+            e.printStackTrace();
+        }
         if (this.getAction("climbUp").isValid(this.entity.getBody())) {
             this.entity.getBody().setLinearVelocity(0, 0);
         } else {

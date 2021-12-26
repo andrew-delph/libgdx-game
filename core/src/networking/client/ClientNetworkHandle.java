@@ -3,6 +3,7 @@ package networking.client;
 import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
+import common.exceptions.SerializationDataMissing;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import networking.NetworkObjectServiceGrpc;
@@ -66,7 +67,7 @@ public class ClientNetworkHandle {
         requestNetworkEventObserver.responseObserver.onNext(networkEvent);
     }
 
-    public Chunk getChunk(ChunkRange chunkRange) {
+    public Chunk getChunk(ChunkRange chunkRange) throws SerializationDataMissing {
 
         GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.uuid);
 

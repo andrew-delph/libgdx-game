@@ -2,6 +2,8 @@ package networking.events.consumer.client.incoming;
 
 import com.google.inject.Inject;
 import common.events.types.EventType;
+import common.exceptions.EntityNotFound;
+import common.exceptions.SerializationDataMissing;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
 import networking.translation.NetworkDataDeserializer;
 
@@ -15,6 +17,14 @@ public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
     @Override
     public void accept(EventType eventType) {
         UpdateEntityIncomingEventType realEvent = (UpdateEntityIncomingEventType) eventType;
-        entitySerializationConverter.updateEntity(realEvent.getData());
+        try {
+            entitySerializationConverter.updateEntity(realEvent.getData());
+        } catch (EntityNotFound e) {
+            e.printStackTrace();
+            // TODO init handshake
+        } catch (SerializationDataMissing e) {
+            e.printStackTrace();
+            // TODO disconnect client
+        }
     }
 }

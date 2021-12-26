@@ -5,6 +5,7 @@ import chunk.ChunkRange;
 import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.events.types.EventType;
+import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import generation.ChunkGenerationManager;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
@@ -31,8 +32,15 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
     public void accept(EventType eventType) {
         CreateEntityIncomingEventType realEvent = (CreateEntityIncomingEventType) eventType;
         Entity entity =
-                gameController.triggerCreateEntity(
-                        entitySerializationConverter.createEntity(realEvent.getData()));
+                null;
+        try {
+            entity = gameController.triggerCreateEntity(
+                    entitySerializationConverter.createEntity(realEvent.getData()));
+        } catch (SerializationDataMissing e) {
+            e.printStackTrace();
+            // TODO init a handshake with the client. to remove the entity
+            return;
+        }
         chunkGenerationManager.registerActiveEntity(
                 entity, UUID.fromString(realEvent.networkEvent.getUser()));
 

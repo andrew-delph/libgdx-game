@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;
+import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import entity.collision.CollisionService;
 import generation.ChunkGenerationManager;
@@ -40,7 +41,7 @@ public class Game {
         collisionService.init();
     }
 
-    public void start() throws IOException, InterruptedException {
+    public void start() throws IOException, InterruptedException, SerializationDataMissing {
         timer = new Timer(true);
         timer.scheduleAtFixedRate(updateLoop, 0, 16);
         this.init();
@@ -54,7 +55,7 @@ public class Game {
         return this.gameStore.getEntityListInRange(x1, y1, x2, y2);
     }
 
-    public void init() {
+    public void init() throws SerializationDataMissing {
         gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
     }
 }

@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import common.GameStore;
 import common.events.EventService;
 import common.events.types.EventType;
+import common.exceptions.EntityNotFound;
 import entity.Entity;
 import generation.ChunkGenerationManager;
 import networking.ConnectionStore;
@@ -16,6 +17,7 @@ import networking.server.ServerNetworkHandle;
 
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 public class DisconnectionIncomingConsumerServer implements Consumer<EventType> {
 
@@ -34,12 +36,21 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
     @Inject
     ConnectionStore connectionStore;
 
+    private final static Logger LOGGER = Logger.getLogger(GameStore.class.getName());
+
     @Override
     public void accept(EventType eventType) {
         DisconnectionIncomingEventType realEvent = (DisconnectionIncomingEventType) eventType;
         connectionStore.removeConnection(realEvent.getUuid());
         for (UUID ownersEntityUuid : chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
-            Entity entity = this.gameStore.getEntity(ownersEntityUuid);
+            Entity entity = null;
+            try {
+                entity = this.gameStore.getEntity(ownersEntityUuid);
+            } catch (EntityNotFound e) {
+                LOGGER.severe("DISCONNECT COULD NOT FIND AN ENTITY IT OWNS");
+                e.printStackTrace();
+                return;
+            }
             this.eventService.queuePostUpdateEvent(
                     eventTypeFactory.createRemoveEntityEvent(ownersEntityUuid));
 

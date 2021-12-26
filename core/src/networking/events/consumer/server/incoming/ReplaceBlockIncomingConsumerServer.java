@@ -6,6 +6,8 @@ import com.google.inject.Inject;
 import common.GameStore;
 import common.events.EventService;
 import common.events.types.EventType;
+import common.exceptions.EntityNotFound;
+import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import entity.block.Block;
 import networking.events.EventTypeFactory;
@@ -34,12 +36,25 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
     @Override
     public void accept(EventType eventType) {
         ReplaceBlockIncomingEventType realEvent = (ReplaceBlockIncomingEventType) eventType;
-        Entity placedEntity = this.gameStore.getEntity(realEvent.getTarget());
+        Entity placedEntity = null;
+        try {
+            placedEntity = this.gameStore.getEntity(realEvent.getTarget());
+        } catch (EntityNotFound e) {
+            e.printStackTrace();
+            // TODO init handshake with the client
+            return;
+        }
         ChunkRange chunkRange = new ChunkRange(placedEntity.coordinates);
-        this.eventService.queuePostUpdateEvent(
-                this.eventTypeFactory.createReplaceBlockEvent(
-                        realEvent.getTarget(),
-                        (Block) entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
+        try {
+            this.eventService.queuePostUpdateEvent(
+                    this.eventTypeFactory.createReplaceBlockEvent(
+                            realEvent.getTarget(),
+                            (Block) entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
+        } catch (SerializationDataMissing e) {
+            e.printStackTrace();
+            // TODO disconnect the client
+            return;
+        }
         for (UUID uuid : chunkSubscriptionService.getSubscriptions(chunkRange)) {
             serverNetworkHandle.send(uuid, realEvent.networkEvent);
         }

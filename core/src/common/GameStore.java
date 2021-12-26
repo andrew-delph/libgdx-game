@@ -4,6 +4,7 @@ import chunk.Chunk;
 import chunk.ChunkRange;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
+import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.block.Block;
 import entity.misc.Ladder;
@@ -11,8 +12,11 @@ import entity.misc.Ladder;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 public class GameStore {
+
+    private final static Logger LOGGER = Logger.getLogger(GameStore.class.getName());
 
     Map<UUID, ChunkRange> entityMap;
 
@@ -30,11 +34,11 @@ public class GameStore {
         this.entityMap.put(entity.uuid, entityChunkRange);
     }
 
-    public Entity removeEntity(UUID uuid) {
+    public Entity removeEntity(UUID uuid) throws EntityNotFound {
         ChunkRange chunkRange = this.entityMap.get(uuid);
-        if (chunkRange == null) return null;
+        if (chunkRange == null) throw new EntityNotFound("UUID not found in entityMap");
         Chunk chunk = this.chunkClockMap.get(chunkRange);
-        if (chunk == null) return null;
+        if (chunk == null) throw new EntityNotFound("UUID not found in entityMap");
         Entity entity = chunk.removeEntity(uuid);
         this.entityMap.remove(uuid);
         return entity;
@@ -44,16 +48,25 @@ public class GameStore {
         return this.entityMap.size();
     }
 
-    public Entity getEntity(UUID uuid) {
+    public Entity getEntity(UUID uuid) throws EntityNotFound {
         ChunkRange chunkRange = this.entityMap.get(uuid);
         if (chunkRange == null) {
-            return null;
+            throw new EntityNotFound("UUID not in entityMap");
         }
         Chunk chunk = this.chunkClockMap.get(chunkRange);
         if (chunk == null) {
-            return null;
+            throw new EntityNotFound("Chunk is null");
         }
         return chunk.getEntity(uuid);
+    }
+
+    public Boolean doesEntityExist(UUID uuid) {
+        try {
+            this.getEntity(uuid);
+        } catch (EntityNotFound e) {
+            return false;
+        }
+        return true;
     }
 
     public Chunk getEntityChunk(UUID uuid) {
@@ -71,7 +84,7 @@ public class GameStore {
         return this.chunkClockMap.get(chunkRange);
     }
 
-    public void syncEntity(Entity entity) {
+    public void syncEntity(Entity entity) throws EntityNotFound {
         if (!entityMap.get(entity.uuid).equals(new ChunkRange(entity.coordinates))) {
             Vector2 velocity = entity.getBody().getLinearVelocity();
             this.removeEntity(entity.uuid);
@@ -83,7 +96,11 @@ public class GameStore {
     public List<Entity> getEntityListInRange(int x1, int y1, int x2, int y2) {
         List<Entity> entityList = new ArrayList<>();
         for (UUID entityUUID : new ArrayList<>(this.entityMap.keySet())) {
-            entityList.add(this.getEntity(entityUUID));
+            try {
+                entityList.add(this.getEntity(entityUUID));
+            } catch (EntityNotFound e) {
+                LOGGER.fine(e.toString());
+            }
         }
         return entityList;
     }
@@ -91,7 +108,11 @@ public class GameStore {
     public List<Entity> getEntityListFromList(List<UUID> uuidList) {
         List<Entity> entityList = new ArrayList<>();
         for (UUID entityUUID : uuidList) {
-            entityList.add(this.getEntity(entityUUID));
+            try {
+                entityList.add(this.getEntity(entityUUID));
+            } catch (EntityNotFound e) {
+                LOGGER.fine(e.toString());
+            }
         }
         return entityList;
     }
@@ -104,8 +125,10 @@ public class GameStore {
         return this.chunkClockMap.getChunksOnTick(tick);
     }
 
-    public Block getBlock(Coordinates coordinates) {
-        return this.chunkClockMap.get(new ChunkRange(coordinates)).getBlock(coordinates.getBase());
+    public Block getBlock(Coordinates coordinates) throws EntityNotFound {
+        Chunk chunk = this.chunkClockMap.get(new ChunkRange(coordinates));
+        if (chunk == null) throw new EntityNotFound("Chunk not found");
+        return chunk.getBlock(coordinates.getBase());
     }
 
     public Ladder getLadder(Coordinates coordinates) {
@@ -117,7 +140,11 @@ public class GameStore {
         List<Block> blockList = new LinkedList<>();
         for (Coordinates coordinates :
                 Coordinates.getInRangeList(bottomLeftCoordinates, topRightCoordinates)) {
-            blockList.add(this.getBlock(coordinates));
+            try {
+                blockList.add(this.getBlock(coordinates));
+            } catch (EntityNotFound e) {
+                LOGGER.fine(e.toString());
+            }
         }
         return blockList;
     }

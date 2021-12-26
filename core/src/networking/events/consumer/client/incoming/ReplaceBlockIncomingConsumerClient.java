@@ -3,6 +3,7 @@ package networking.events.consumer.client.incoming;
 import com.google.inject.Inject;
 import common.events.EventService;
 import common.events.types.EventType;
+import common.exceptions.SerializationDataMissing;
 import entity.block.Block;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
@@ -22,10 +23,15 @@ public class ReplaceBlockIncomingConsumerClient implements Consumer<EventType> {
     @Override
     public void accept(EventType eventType) {
         ReplaceBlockIncomingEventType realEvent = (ReplaceBlockIncomingEventType) eventType;
-        this.eventService.queuePostUpdateEvent(
-                this.eventTypeFactory.createReplaceBlockEvent(
-                        realEvent.getTarget(),
-                        (Block)
-                                entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
+        try {
+            this.eventService.queuePostUpdateEvent(
+                    this.eventTypeFactory.createReplaceBlockEvent(
+                            realEvent.getTarget(),
+                            (Block)
+                                    entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
+        } catch (SerializationDataMissing e) {
+            e.printStackTrace();
+            // TODO disconnect the client
+        }
     }
 }

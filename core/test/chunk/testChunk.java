@@ -3,6 +3,7 @@ package chunk;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
+import common.exceptions.EntityNotFound;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
@@ -10,10 +11,12 @@ import entity.block.Block;
 import entity.block.BlockFactory;
 import org.junit.Test;
 
+import static org.junit.Assert.fail;
+
 public class testChunk {
 
     @Test
-    public void testGetBlock() {
+    public void testGetBlock() throws EntityNotFound {
         Injector injector = Guice.createInjector(new ClientConfig());
         ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
         Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
@@ -22,7 +25,11 @@ public class testChunk {
         Entity entity = entityFactory.createEntity();
         assert entity.coordinates.equals(new Coordinates(0, 0));
         chunk.addEntity(entity);
-        assert chunk.getBlock(new Coordinates(0, 0)) == null;
+        try {
+            assert chunk.getBlock(new Coordinates(0, 0)) == null;
+            fail();
+        } catch (Exception ignored) {
+        }
         Block dirtBlock = blockFactory.createDirt();
         assert dirtBlock.coordinates.equals(new Coordinates(0, 0));
         chunk.addEntity(dirtBlock);

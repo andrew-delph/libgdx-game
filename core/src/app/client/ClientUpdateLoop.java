@@ -7,6 +7,7 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.events.EventService;
+import common.exceptions.SerializationDataMissing;
 import generation.ChunkGenerationManager;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
@@ -48,7 +49,11 @@ public class ClientUpdateLoop extends UpdateLoop {
         Set<ChunkRange> subscribeChunkRange = new HashSet<>();
         for (ChunkRange chunkRange : chunkRangeListOnCamera) {
             if (this.gameStore.getChunk(chunkRange) == null) {
-                this.gameStore.addChunk(this.clientNetworkHandle.getChunk(chunkRange));
+                try {
+                    this.gameStore.addChunk(this.clientNetworkHandle.getChunk(chunkRange));
+                } catch (SerializationDataMissing e) {
+                    e.printStackTrace();
+                }
             }
             subscribeChunkRange.add(chunkRange);
         }

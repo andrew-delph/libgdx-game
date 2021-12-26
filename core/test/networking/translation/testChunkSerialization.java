@@ -6,6 +6,7 @@ import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
+import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
@@ -17,7 +18,7 @@ public class testChunkSerialization {
     NetworkDataDeserializer networkDataSerialization;
 
     @Test
-    public void testChunkSerialization() {
+    public void testChunkSerialization() throws SerializationDataMissing {
         networkDataSerialization = injector.getInstance(NetworkDataDeserializer.class);
         ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
         Chunk chunk1 = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));

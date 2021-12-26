@@ -7,6 +7,8 @@ import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
+import common.exceptions.EntityNotFound;
+import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
@@ -48,7 +50,7 @@ public class testEntitySerialization {
     }
 
     @Test
-    public void testCreateEntitySerialization() {
+    public void testCreateEntitySerialization() throws SerializationDataMissing {
         Entity entityWrite = entityFactory.createEntity();
         entityWrite.coordinates = new Coordinates(2, 3);
         Entity entityRead = entitySerializationConverter.createEntity(entityWrite.toNetworkData());
@@ -57,7 +59,7 @@ public class testEntitySerialization {
     }
 
     @Test
-    public void testUpdateEntitySerialization() {
+    public void testUpdateEntitySerialization() throws EntityNotFound, SerializationDataMissing {
         Entity entityWrite = entityFactory.createEntity();
         entityWrite.coordinates = new Coordinates(2, 3);
         gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
@@ -69,7 +71,7 @@ public class testEntitySerialization {
     }
 
     @Test
-    public void testCreateEntityNetworkEvent() {
+    public void testCreateEntityNetworkEvent() throws EntityNotFound {
         Entity entityWrite = entityFactory.createEntity();
         UUID uuid = entityWrite.uuid;
         gameStore.addChunk(chunkFactory.create(new ChunkRange(entityWrite.coordinates)));
@@ -82,7 +84,7 @@ public class testEntitySerialization {
     }
 
     @Test
-    public void testBlockWrite() {
+    public void testBlockWrite() throws EntityNotFound {
         Entity block = blockFactory.createDirt();
         UUID uuid = block.uuid;
         gameStore.addChunk(chunkFactory.create(new ChunkRange(block.coordinates)));

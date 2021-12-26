@@ -6,6 +6,7 @@ import common.Coordinates;
 import common.Direction;
 import common.GameStore;
 import common.events.EventService;
+import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.*;
@@ -16,6 +17,7 @@ import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import java.util.UUID;
 
 public class GameController {
+
     @Inject
     GameStore gameStore;
 
@@ -78,7 +80,7 @@ public class GameController {
         return entity;
     }
 
-    public void moveEntity(UUID uuid, Coordinates coordinates) {
+    public void moveEntity(UUID uuid, Coordinates coordinates) throws EntityNotFound {
         Entity entity = this.gameStore.getEntity(uuid);
         entity.coordinates = coordinates;
         this.eventService.fireEvent(
@@ -93,11 +95,7 @@ public class GameController {
                         entity.toNetworkData(), new ChunkRange(coordinates)));
     }
 
-    public void removeEntity(UUID uuid) {
-        this.gameStore.removeEntity(uuid);
-    }
-
-    public void placeBlock(Entity entity, Direction direction, Class blockClass) {
+    public void placeBlock(Entity entity, Direction direction, Class blockClass) throws EntityNotFound {
         Block removeBlock = null;
         if (direction == Direction.LEFT) {
             removeBlock = this.gameStore.getBlock(entity.getCenter().getLeft());
@@ -108,7 +106,7 @@ public class GameController {
         } else if (direction == Direction.DOWN) {
             removeBlock = this.gameStore.getBlock(entity.getCenter().getDown());
         }
-        if (removeBlock == null) return;
+        if (removeBlock == null) throw new EntityNotFound("Block to remove not found in direction.");
 
         if (removeBlock.getClass() == blockClass) return;
 
@@ -133,9 +131,11 @@ public class GameController {
                         removeBlock.uuid, replacementBlock, new ChunkRange(removeBlock.coordinates)));
     }
 
-    public Entity createLadder(Coordinates coordinates) {
-        if (this.gameStore.getBlock(coordinates) instanceof SolidBlock) return null;
-        if (this.gameStore.getLadder(coordinates) != null) return null;
+    public Entity createLadder(Coordinates coordinates) throws EntityNotFound {
+        if (this.gameStore.getBlock(coordinates) instanceof SolidBlock) {
+            throw new EntityNotFound("Did not find SolidBlock");
+        }
+        if (this.gameStore.getLadder(coordinates) != null) return this.gameStore.getLadder(coordinates);
         Entity entity = entityFactory.createLadder();
         entity.coordinates = coordinates;
         this.gameStore.addEntity(entity);
@@ -146,9 +146,9 @@ public class GameController {
         return entity;
     }
 
-    public Entity replaceBlock(UUID target, Block replacementBlock) {
-        Block removeBlock = (Block) this.gameStore.removeEntity(target);
-        if (removeBlock == null) return null;
+    public Entity replaceBlock(UUID target, Block replacementBlock) throws EntityNotFound {
+        Entity removeBlock = this.gameStore.removeEntity(target);
+        if (removeBlock == null) throw new EntityNotFound("Could not find block to remove.");
         replacementBlock.coordinates = removeBlock.coordinates;
         this.gameStore.addEntity(replacementBlock);
         return replacementBlock;

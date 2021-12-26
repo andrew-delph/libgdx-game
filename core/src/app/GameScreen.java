@@ -15,6 +15,7 @@ import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
+import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
@@ -82,7 +83,7 @@ public class GameScreen extends ApplicationAdapter {
         baseCamera.init();
         try {
             game.start();
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException | SerializationDataMissing e) {
             e.printStackTrace();
         }
         batch = new SpriteBatch();

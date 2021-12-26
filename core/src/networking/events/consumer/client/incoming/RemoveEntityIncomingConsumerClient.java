@@ -3,6 +3,7 @@ package networking.events.consumer.client.incoming;
 import com.google.inject.Inject;
 import common.events.EventService;
 import common.events.types.EventType;
+import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.RemoveEntityIncomingEventType;
@@ -22,7 +23,14 @@ public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
     @Override
     public void accept(EventType eventType) {
         RemoveEntityIncomingEventType realEvent = (RemoveEntityIncomingEventType) eventType;
-        Entity entity = entitySerializationConverter.createEntity(realEvent.getData());
+        Entity entity = null;
+        try {
+            entity = entitySerializationConverter.createEntity(realEvent.getData());
+        } catch (SerializationDataMissing e) {
+            e.printStackTrace();
+            // disconnect the client
+            return;
+        }
         eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(entity.uuid));
     }
 }
