@@ -38,8 +38,8 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
                     entitySerializationConverter.createEntity(incoming.getData()));
         } catch (SerializationDataMissing e) {
             e.printStackTrace();
-            // TODO init a handshake with the client. to remove the entity
-            gameController.initHandshake(incoming.getChunkRange());
+            // TODO test this
+            serverNetworkHandle.initHandshake(incoming.getUser(), incoming.getChunkRange());
             return;
         }
 

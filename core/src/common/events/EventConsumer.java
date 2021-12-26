@@ -29,8 +29,6 @@ public class EventConsumer {
                         this.gameController.replaceBlock(realEvent.getTarget(), realEvent.getReplacementBlock());
                     } catch (EntityNotFound e) {
                         e.printStackTrace();
-                        // TODO test this. maybe we don't need chunk range here..
-                        gameController.initHandshake(realEvent.getChunkRange());
                     }
                 });
         this.eventService.addPostUpdateListener(
@@ -41,7 +39,6 @@ public class EventConsumer {
                         this.gameStore.removeEntity(realEvent.getEntityUUID());
                     } catch (EntityNotFound e) {
                         e.printStackTrace();
-                        // removing an entity that doesn't exist doesn't need a handshake
                     }
                 });
     }

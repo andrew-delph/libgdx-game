@@ -5,7 +5,6 @@ import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
-import entity.Entity;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
 import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
@@ -27,12 +26,12 @@ public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
     @Override
     public void accept(EventType eventType) {
         UpdateEntityIncomingEventType incoming = (UpdateEntityIncomingEventType) eventType;
-        Entity entity = null;
         try {
-            entity = entitySerializationConverter.updateEntity(incoming.getData());
+            entitySerializationConverter.updateEntity(incoming.getData());
         } catch (EntityNotFound e) {
             e.printStackTrace();
-            // TODO handshake with the client
+            // TODO test this
+            serverNetworkHandle.initHandshake(incoming.getUser(), incoming.getChunkRange());
             return;
         } catch (SerializationDataMissing e) {
             e.printStackTrace();

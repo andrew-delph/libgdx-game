@@ -158,8 +158,4 @@ public class GameController {
         this.eventService.queuePostUpdateEvent(
                 this.eventTypeFactory.createAIEntityEventType(new Coordinates(0, 0)));
     }
-
-    public void initHandshake(ChunkRange chunkRange) {
-        this.eventService.fireEvent(EventTypeFactory.createHandshakeOutgoingEventType(chunkRange));
-    }
 }

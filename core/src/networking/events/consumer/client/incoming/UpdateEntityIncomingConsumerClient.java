@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
+import networking.client.ClientNetworkHandle;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
 import networking.translation.NetworkDataDeserializer;
 
@@ -16,6 +17,8 @@ public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
     NetworkDataDeserializer entitySerializationConverter;
     @Inject
     GameController gameController;
+    @Inject
+    ClientNetworkHandle clientNetworkHandle;
 
     @Override
     public void accept(EventType eventType) {
@@ -25,7 +28,7 @@ public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
         } catch (EntityNotFound e) {
             e.printStackTrace();
             // TODO test this
-            gameController.initHandshake(null);
+            clientNetworkHandle.initHandshake(realEvent.getChunkRange());
         } catch (SerializationDataMissing e) {
             e.printStackTrace();
             // TODO disconnect client

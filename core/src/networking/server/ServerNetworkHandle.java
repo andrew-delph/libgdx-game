@@ -101,10 +101,10 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         connectionStore.getConnection(uuid).responseObserver.onNext(networkEvent);
     }
 
-    public void initHandshake(UUID uuid, ChunkRange chunkRange) {
+    public void initHandshake(UUID user, ChunkRange chunkRange) {
         List<UUID> uuidList = new LinkedList<>(this.gameStore.getChunk(chunkRange).getEntityUUIDSet());
         HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.
                 createHandshakeOutgoingEventType(chunkRange, uuidList);
-        this.send(uuid, handshakeOutgoing.toNetworkEvent());
+        this.send(user, handshakeOutgoing.toNetworkEvent());
     }
 }

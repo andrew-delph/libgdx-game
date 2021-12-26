@@ -26,10 +26,10 @@ public class TranslateCreateEntityEvent {
         Entity entity = entityFactory.createEntity();
 
         CreateEntityOutgoingEventType outgoing = EventTypeFactory.createCreateEntityOutgoingEvent(entity.toNetworkData(), chunkRange);
-        CreateEntityIncomingEventType incoming = networkDataDeserializer.createCreateEntityIncomingEventType(
+        CreateEntityIncomingEventType incoming = NetworkDataDeserializer.createCreateEntityIncomingEventType(
                 NetworkDataSerializer.createCreateEntityOutgoingEventType(outgoing));
 
         assert outgoing.getChunkRange().equals(incoming.getChunkRange());
-//        assert outgoing.getEntityData().equals(incoming.getData());
+        assert outgoing.getEntityData().equals(incoming.getData());
     }
 }
