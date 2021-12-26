@@ -4,6 +4,7 @@ import chunk.ChunkRange;
 import common.events.types.EventType;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
+import networking.translation.DataTranslationEnum;
 import networking.translation.NetworkDataSerializer;
 
 import java.util.List;
@@ -40,6 +41,6 @@ public class HandshakeOutgoingEventType extends EventType implements SerializeNe
                 .addChildren(this.chunkRange.toNetworkData())
                 .addChildren(NetworkDataSerializer.createUUIDList(this.listUUID))
                 .build();
-        return NetworkObjects.NetworkEvent.newBuilder().setEvent(this.getType()).setData(data).build();
+        return NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.HANDSHAKE).setData(data).build();
     }
 }

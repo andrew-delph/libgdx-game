@@ -1,13 +1,14 @@
 package networking.events.consumer.server.incoming;
 
-import chunk.ChunkRange;
 import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
+import networking.events.EventTypeFactory;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
+import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 import networking.translation.NetworkDataDeserializer;
 
@@ -25,10 +26,10 @@ public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
 
     @Override
     public void accept(EventType eventType) {
-        UpdateEntityIncomingEventType realEvent = (UpdateEntityIncomingEventType) eventType;
+        UpdateEntityIncomingEventType incoming = (UpdateEntityIncomingEventType) eventType;
         Entity entity = null;
         try {
-            entity = entitySerializationConverter.updateEntity(realEvent.getData());
+            entity = entitySerializationConverter.updateEntity(incoming.getData());
         } catch (EntityNotFound e) {
             e.printStackTrace();
             // TODO handshake with the client
@@ -37,9 +38,10 @@ public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
             e.printStackTrace();
             // TODO disconnect client for now.
         }
-        for (UUID uuid : chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
-            if (uuid.equals(realEvent.getUser())) continue;
-            serverNetworkHandle.send(uuid, realEvent.networkEvent);
+        UpdateEntityOutgoingEventType outgoing = EventTypeFactory.createUpdateEntityOutgoingEvent(incoming.getData(), incoming.getChunkRange());
+        for (UUID uuid : chunkSubscriptionService.getSubscriptions(outgoing.getChunkRange())) {
+            if (uuid.equals(incoming.getUser())) continue;
+            serverNetworkHandle.send(uuid, outgoing.toNetworkEvent());
         }
     }
 }

@@ -25,29 +25,24 @@ public class EventTypeFactory {
     EventTypeFactory() {
     }
 
-    public CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
+    public static CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
             NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
         return new CreateEntityOutgoingEventType(entityData, chunkRange);
     }
 
-    public CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
-            NetworkObjects.NetworkData entityData) {
-        return new CreateEntityOutgoingEventType(entityData, null);
+    public static CreateEntityIncomingEventType createCreateEntityIncomingEvent(UUID user, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+        return new CreateEntityIncomingEventType(user, networkData, chunkRange);
     }
 
-    public CreateEntityIncomingEventType createCreateEntityIncomingEvent(
-            NetworkObjects.NetworkEvent networkEvent) {
-        return new CreateEntityIncomingEventType(networkEvent);
-    }
-
-    public UpdateEntityOutgoingEventType createUpdateEntityOutgoingEvent(
+    public static UpdateEntityOutgoingEventType createUpdateEntityOutgoingEvent(
             NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
         return new UpdateEntityOutgoingEventType(entityData, chunkRange);
     }
 
-    public UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
-            NetworkObjects.NetworkEvent networkEvent) {
-        return new UpdateEntityIncomingEventType(networkEvent);
+    public static UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
+            UUID user,
+            NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+        return new UpdateEntityIncomingEventType(user, networkData, chunkRange);
     }
 
     public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(
@@ -74,18 +69,18 @@ public class EventTypeFactory {
         return new DisconnectionIncomingEventType(uuid);
     }
 
-    public ReplaceBlockIncomingEventType createReplaceBlockIncomingEvent(
-            NetworkObjects.NetworkEvent networkEvent) {
-        return new ReplaceBlockIncomingEventType(networkEvent);
+    public static ReplaceBlockIncomingEventType createReplaceBlockIncomingEvent(
+            UUID user, UUID target, Block replacementBlock, ChunkRange chunkRange) {
+        return new ReplaceBlockIncomingEventType(user, target, replacementBlock, chunkRange);
     }
 
-    public ReplaceBlockOutgoingEventType createReplaceBlockOutgoingEvent(
+    public static ReplaceBlockOutgoingEventType createReplaceBlockOutgoingEvent(
             UUID target, Block replacementBlock, ChunkRange chunkRange) {
         return new ReplaceBlockOutgoingEventType(target, replacementBlock, chunkRange);
     }
 
-    public ReplaceBlockEventType createReplaceBlockEvent(UUID target, Block replacementBlock) {
-        return new ReplaceBlockEventType(target, replacementBlock);
+    public static ReplaceBlockEventType createReplaceBlockEvent(UUID target, Block replacementBlock, ChunkRange chunkRange) {
+        return new ReplaceBlockEventType(target, replacementBlock, chunkRange);
     }
 
     public RemoveEntityEventType createRemoveEntityEvent(UUID entityUuid) {

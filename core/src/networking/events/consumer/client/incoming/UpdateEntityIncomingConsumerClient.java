@@ -1,5 +1,6 @@
 package networking.events.consumer.client.incoming;
 
+import app.GameController;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
@@ -13,6 +14,8 @@ public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
 
     @Inject
     NetworkDataDeserializer entitySerializationConverter;
+    @Inject
+    GameController gameController;
 
     @Override
     public void accept(EventType eventType) {
@@ -21,7 +24,8 @@ public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
             entitySerializationConverter.updateEntity(realEvent.getData());
         } catch (EntityNotFound e) {
             e.printStackTrace();
-            // TODO init handshake
+            // TODO test this
+            gameController.initHandshake(null);
         } catch (SerializationDataMissing e) {
             e.printStackTrace();
             // TODO disconnect client

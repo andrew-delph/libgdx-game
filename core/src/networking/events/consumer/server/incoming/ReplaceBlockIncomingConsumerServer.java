@@ -7,9 +7,7 @@ import common.GameStore;
 import common.events.EventService;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
-import common.exceptions.SerializationDataMissing;
 import entity.Entity;
-import entity.block.Block;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import networking.server.ServerNetworkHandle;
@@ -45,16 +43,10 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
             return;
         }
         ChunkRange chunkRange = new ChunkRange(placedEntity.coordinates);
-        try {
-            this.eventService.queuePostUpdateEvent(
-                    this.eventTypeFactory.createReplaceBlockEvent(
-                            realEvent.getTarget(),
-                            (Block) entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
-        } catch (SerializationDataMissing e) {
-            e.printStackTrace();
-            // TODO disconnect the client
-            return;
-        }
+        this.eventService.queuePostUpdateEvent(
+                EventTypeFactory.createReplaceBlockEvent(
+                        realEvent.getTarget(),
+                        realEvent.getReplacementBlock(), chunkRange));
         for (UUID uuid : chunkSubscriptionService.getSubscriptions(chunkRange)) {
             serverNetworkHandle.send(uuid, realEvent.networkEvent);
         }

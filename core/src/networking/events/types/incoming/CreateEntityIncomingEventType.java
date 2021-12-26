@@ -1,28 +1,38 @@
 package networking.events.types.incoming;
 
-import com.google.inject.Inject;
+import chunk.ChunkRange;
 import common.events.types.EventType;
 import networking.NetworkObjects;
+import networking.events.types.NetworkEventTypeEnum;
 
 import java.util.UUID;
 
 public class CreateEntityIncomingEventType extends EventType {
 
-    public static String type = "create_entity_incoming";
+    public static String type = NetworkEventTypeEnum.CREATE_ENTITY_INCOMING;
 
-    public NetworkObjects.NetworkEvent networkEvent;
 
-    @Inject
-    public CreateEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
-        this.networkEvent = networkEvent;
+    UUID user;
+    NetworkObjects.NetworkData networkData;
+    ChunkRange chunkRange;
+
+    public CreateEntityIncomingEventType(UUID user, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+        this.user = user;
+        this.networkData = networkData;
+        this.chunkRange = chunkRange;
     }
 
     public NetworkObjects.NetworkData getData() {
-        return this.networkEvent.getData();
+        return networkData;
     }
 
     public UUID getUser() {
-        return UUID.fromString(this.networkEvent.getUser());
+        return this.user;
+    }
+    
+
+    public ChunkRange getChunkRange() {
+        return chunkRange;
     }
 
     @Override

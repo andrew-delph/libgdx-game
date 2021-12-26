@@ -2,6 +2,9 @@ package networking.translation;
 
 import chunk.ChunkRange;
 import networking.NetworkObjects;
+import networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
+import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,14 +18,14 @@ public class NetworkDataSerializer {
             dataList.add(NetworkDataSerializer.createUUID(uuid));
         }
         return NetworkObjects.NetworkData.newBuilder()
-                .setKey(String.valueOf(DataTranslationEnum.UUID_LIST))
+                .setKey(DataTranslationEnum.UUID_LIST)
                 .addAllChildren(dataList)
                 .build();
     }
 
     public static NetworkObjects.NetworkData createUUID(UUID uuid) {
         return NetworkObjects.NetworkData.newBuilder()
-                .setKey(String.valueOf(DataTranslationEnum.UUID)).setValue(uuid.toString()).build();
+                .setKey(DataTranslationEnum.UUID).setValue(uuid.toString()).build();
     }
 
     public static NetworkObjects.NetworkData createChunkRange(ChunkRange chunkRange) {
@@ -39,5 +42,45 @@ public class NetworkDataSerializer {
                         .setValue(String.valueOf(chunkRange.bottom_y))
                         .build();
         return builder.addChildren(x).addChildren(y).build();
+    }
+
+    public static NetworkObjects.NetworkEvent createReplaceBlockOutgoingEventType(ReplaceBlockOutgoingEventType replaceBlockOutgoingEventType) {
+        NetworkObjects.NetworkEvent.Builder eventBuilder =
+                NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.REPLACE_BLOCK);
+
+        NetworkObjects.NetworkData.Builder dataListBuilder =
+                NetworkObjects.NetworkData.newBuilder();
+
+        dataListBuilder.addChildren(createChunkRange(replaceBlockOutgoingEventType.getChunkRange()));
+        dataListBuilder.addChildren(createUUID(replaceBlockOutgoingEventType.getTarget()));
+        dataListBuilder.addChildren(replaceBlockOutgoingEventType.getReplacementBlock().toNetworkData());
+
+        return eventBuilder.setData(dataListBuilder).build();
+    }
+
+    public static NetworkObjects.NetworkEvent createUpdateEntityOutgoingEventType(UpdateEntityOutgoingEventType updateEntityOutgoingEventType) {
+        NetworkObjects.NetworkEvent.Builder eventBuilder =
+                NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.UPDATE_ENTITY);
+
+        NetworkObjects.NetworkData.Builder dataListBuilder =
+                NetworkObjects.NetworkData.newBuilder();
+
+        dataListBuilder.addChildren(createChunkRange(updateEntityOutgoingEventType.getChunkRange()));
+        dataListBuilder.addChildren(updateEntityOutgoingEventType.getEntityData());
+
+        return eventBuilder.setData(dataListBuilder).build();
+    }
+
+    public static NetworkObjects.NetworkEvent createCreateEntityOutgoingEventType(CreateEntityOutgoingEventType createEntityOutgoingEventType) {
+        NetworkObjects.NetworkEvent.Builder eventBuilder =
+                NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.CREATE_ENTITY);
+
+        NetworkObjects.NetworkData.Builder dataListBuilder =
+                NetworkObjects.NetworkData.newBuilder();
+
+        dataListBuilder.addChildren(createChunkRange(createEntityOutgoingEventType.getChunkRange()));
+        dataListBuilder.addChildren(createEntityOutgoingEventType.getEntityData());
+
+        return eventBuilder.setData(dataListBuilder).build();
     }
 }

@@ -23,7 +23,7 @@ public class ReplaceBlockOutgoingConsumerClient implements Consumer<EventType> {
         ReplaceBlockOutgoingEventType realEvent = (ReplaceBlockOutgoingEventType) eventType;
         this.eventService.queuePostUpdateEvent(
                 eventTypeFactory.createReplaceBlockEvent(
-                        realEvent.getTarget(), realEvent.getReplacementBlock()));
+                        realEvent.getTarget(), realEvent.getReplacementBlock(), realEvent.getChunkRange()));
         this.clientNetworkHandle.send(realEvent.toNetworkEvent());
     }
 }

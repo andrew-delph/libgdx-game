@@ -4,10 +4,14 @@ import chunk.ChunkRange;
 import common.events.types.EventType;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
+import networking.translation.NetworkDataSerializer;
+
+import static networking.events.types.NetworkEventTypeEnum.UPDATE_ENTITY_OUTGOING;
 
 public class UpdateEntityOutgoingEventType extends EventType implements SerializeNetworkEvent {
-    public static String type = "update_entity_outgoing";
+    public static String type = UPDATE_ENTITY_OUTGOING;
     NetworkObjects.NetworkData entityData;
+
     ChunkRange chunkRange;
 
     public UpdateEntityOutgoingEventType(
@@ -24,8 +28,12 @@ public class UpdateEntityOutgoingEventType extends EventType implements Serializ
         return this.chunkRange;
     }
 
+    public NetworkObjects.NetworkData getEntityData() {
+        return entityData;
+    }
+
     @Override
     public NetworkObjects.NetworkEvent toNetworkEvent() {
-        return NetworkObjects.NetworkEvent.newBuilder().setData(this.entityData).setEvent(type).build();
+        return NetworkDataSerializer.createUpdateEntityOutgoingEventType(this);
     }
 }

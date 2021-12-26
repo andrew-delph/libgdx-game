@@ -319,14 +319,10 @@ public class testSingleClient {
 
     @Test
     public void testClientReplaceBlock() throws InterruptedException, EntityNotFound {
-        GameController clientGameController = clientInjector.getInstance(GameController.class);
-        GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
         GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
         ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
-        ChunkClockMap clientChunkClockMap = clientInjector.getInstance(ChunkClockMap.class);
         GameController serverGameController = serverInjector.getInstance(GameController.class);
         BlockFactory serverBlockFactory = serverInjector.getInstance(BlockFactory.class);
-        EventTypeFactory clientEventTypeFactory = clientInjector.getInstance(EventTypeFactory.class);
         EventService clientEventService = clientInjector.getInstance(EventService.class);
 
         serverGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
@@ -336,7 +332,7 @@ public class testSingleClient {
         TimeUnit.SECONDS.sleep(1);
         Block clientBlock = serverGameStore.getBlock(new Coordinates(0, 0));
         clientEventService.fireEvent(
-                clientEventTypeFactory.createReplaceBlockOutgoingEvent(
+                EventTypeFactory.createReplaceBlockOutgoingEvent(
                         clientBlock.uuid,
                         serverBlockFactory.createSky(),
                         new ChunkRange(clientBlock.coordinates)));
@@ -350,7 +346,6 @@ public class testSingleClient {
         GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
         GameController serverGameController = serverInjector.getInstance(GameController.class);
         BlockFactory serverBlockFactory = serverInjector.getInstance(BlockFactory.class);
-        EventTypeFactory clientEventTypeFactory = clientInjector.getInstance(EventTypeFactory.class);
         EventService serverEventService = serverInjector.getInstance(EventService.class);
         EventService clientEventService = clientInjector.getInstance(EventService.class);
         TimeUnit.SECONDS.sleep(1);
@@ -360,7 +355,7 @@ public class testSingleClient {
         assert clientGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
 
         serverEventService.fireEvent(
-                clientEventTypeFactory.createReplaceBlockOutgoingEvent(
+                EventTypeFactory.createReplaceBlockOutgoingEvent(
                         serverEntity.uuid,
                         serverBlockFactory.createSky(),
                         new ChunkRange(serverEntity.coordinates)));
@@ -370,7 +365,6 @@ public class testSingleClient {
         TimeUnit.SECONDS.sleep(1);
 
         assert clientGameStore.getBlock(new Coordinates(0, 0)).getClass() == SkyBlock.class;
-        System.out.println("done");
     }
 
     @Test
@@ -384,11 +378,9 @@ public class testSingleClient {
         ChunkRange chunkRange = new ChunkRange(coordinates);
 
         serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
-
         clientGameStore.addChunk(clientNetworkHandle.getChunk(chunkRange));
 
         Entity clientEntity = clientGameController.createLadder(coordinates);
-
         TimeUnit.SECONDS.sleep(1);
 
         assert serverGameStore.getEntity(clientEntity.uuid).equals(clientGameStore.getEntity(clientEntity.uuid));
@@ -421,13 +413,11 @@ public class testSingleClient {
         clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
 
         TimeUnit.SECONDS.sleep(1);
-
         clientGameController.createAI();
 
         TimeUnit.SECONDS.sleep(1);
 
         assert false; // not finished
-
     }
 
     @Test

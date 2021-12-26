@@ -125,7 +125,7 @@ public class GameController {
         }
         // put this into a post update event
         this.eventService.queuePostUpdateEvent(
-                this.eventTypeFactory.createReplaceBlockEvent(removeBlock.uuid, replacementBlock));
+                EventTypeFactory.createReplaceBlockEvent(removeBlock.uuid, replacementBlock, new ChunkRange(removeBlock.coordinates)));
         this.eventService.fireEvent(
                 this.eventTypeFactory.createReplaceBlockOutgoingEvent(
                         removeBlock.uuid, replacementBlock, new ChunkRange(removeBlock.coordinates)));
@@ -157,5 +157,9 @@ public class GameController {
     public void createAI() {
         this.eventService.queuePostUpdateEvent(
                 this.eventTypeFactory.createAIEntityEventType(new Coordinates(0, 0)));
+    }
+
+    public void initHandshake(ChunkRange chunkRange) {
+        this.eventService.fireEvent(EventTypeFactory.createHandshakeOutgoingEventType(chunkRange));
     }
 }
