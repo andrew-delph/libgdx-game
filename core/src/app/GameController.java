@@ -109,8 +109,8 @@ public class GameController {
     }
 
     public Entity createLadder(Coordinates coordinates) throws EntityNotFound {
-        if (this.gameStore.getBlock(coordinates) instanceof SolidBlock) {
-            throw new EntityNotFound("Did not find SolidBlock");
+        if (!(this.gameStore.getBlock(coordinates) instanceof EmptyBlock)) {
+            throw new EntityNotFound("Did not find EmptyBlock");
         }
         if (this.gameStore.getLadder(coordinates) != null) return this.gameStore.getLadder(coordinates);
         Entity entity = entityFactory.createLadder();
