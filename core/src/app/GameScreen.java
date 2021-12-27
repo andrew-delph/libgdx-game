@@ -3,7 +3,6 @@ package app;
 import app.render.BaseAssetManager;
 import app.render.BaseCamera;
 import chunk.Chunk;
-import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -14,14 +13,11 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
-import common.events.EventService;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
-import entity.pathfinding.EdgeRegistration;
 import generation.ChunkGenerationManager;
-import networking.events.EventTypeFactory;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -32,46 +28,25 @@ public class GameScreen extends ApplicationAdapter {
 
     @Inject
     Game game;
-
     @Inject
     GameStore gameStore;
-
     @Inject
     EntityFactory entityFactory;
-
-    SpriteBatch batch;
-
     @Inject
     BaseAssetManager baseAssetManager;
-
     @Inject
     ChunkGenerationManager chunkGenerationManager;
-
     @Inject
     BaseCamera baseCamera;
-
-    Entity myEntity;
-
     @Inject
     GameController gameController;
-
-    @Inject
-    ChunkFactory chunkFactory;
-
     @Inject
     EntityControllerFactory entityControllerFactory;
 
-    @Inject
-    EdgeRegistration edgeRegistration;
-    @Inject
-    EventService eventService;
-    @Inject
-    EventTypeFactory eventTypeFactory;
-
     Box2DDebugRenderer debugRenderer;
     Matrix4 debugMatrix;
-
-    Entity pathEntity;
+    Entity myEntity;
+    SpriteBatch batch;
 
     @Inject
     public GameScreen() {

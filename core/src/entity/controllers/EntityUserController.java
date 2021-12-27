@@ -14,7 +14,11 @@ import entity.block.SkyBlock;
 import entity.controllers.actions.EntityActionFactory;
 import networking.events.EventTypeFactory;
 
+import java.util.logging.Logger;
+
 public class EntityUserController extends EntityController {
+
+    private final static Logger LOGGER = Logger.getLogger(EntityUserController.class.getName());
 
     public EntityUserController(
             GameController gameController,

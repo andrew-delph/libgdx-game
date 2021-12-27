@@ -16,7 +16,7 @@ public class EntityBodyBuilder {
     public EntityBodyBuilder() {
     }
 
-    public Body createEntityBody(World world, Coordinates coordinates) {
+    public static Body createEntityBody(World world, Coordinates coordinates) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(
@@ -24,7 +24,7 @@ public class EntityBodyBuilder {
                 coordinates.getYReal() * Entity.coordinatesScale);
 
         Body theBody = world.createBody(bodyDef);
-        theBody.setUserData(this);
+        theBody.setUserData(null);
         PolygonShape shape = new PolygonShape();
 
         //    shape.setAsBox(0.2f, 0.3f); // Entity.coordinatesScale / 2.1f
@@ -64,7 +64,7 @@ public class EntityBodyBuilder {
         return theBody;
     }
 
-    public Body createSolidBlockBody(World world, Coordinates coordinates) {
+    public static Body createSolidBlockBody(World world, Coordinates coordinates) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(
@@ -90,11 +90,11 @@ public class EntityBodyBuilder {
         return theBody;
     }
 
-    public Body createEmptyBlockBody() {
+    public static Body createEmptyBlockBody() {
         return null;
     }
 
-    public Body createEmptyLadderBody(World world, Coordinates coordinates) {
+    public static Body createEmptyLadderBody(World world, Coordinates coordinates) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(
