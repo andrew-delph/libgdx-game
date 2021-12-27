@@ -82,8 +82,7 @@ public class testSingleClient {
     }
 
     @Test
-    public void testClientCreateEntity() throws IOException, InterruptedException, EntityNotFound {
-
+    public void testClientCreateEntity() throws InterruptedException, EntityNotFound {
         GameController clientGameController = clientInjector.getInstance(GameController.class);
         GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
         GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
