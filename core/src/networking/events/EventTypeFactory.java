@@ -6,42 +6,43 @@ import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceBlockEventType;
-import entity.EntitySerializationConverter;
 import entity.block.Block;
 import networking.NetworkObjects;
 import networking.events.types.incoming.*;
 import networking.events.types.outgoing.*;
+import networking.translation.NetworkDataDeserializer;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 public class EventTypeFactory {
 
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
 
     @Inject
     EventTypeFactory() {
     }
 
-    public CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
+    public static CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
             NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
         return new CreateEntityOutgoingEventType(entityData, chunkRange);
     }
 
-    public CreateEntityIncomingEventType createCreateEntityIncomingEvent(
-            NetworkObjects.NetworkEvent networkEvent) {
-        return new CreateEntityIncomingEventType(networkEvent);
+    public static CreateEntityIncomingEventType createCreateEntityIncomingEvent(UUID user, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+        return new CreateEntityIncomingEventType(user, networkData, chunkRange);
     }
 
-    public UpdateEntityOutgoingEventType createUpdateEntityOutgoingEvent(
+    public static UpdateEntityOutgoingEventType createUpdateEntityOutgoingEvent(
             NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
         return new UpdateEntityOutgoingEventType(entityData, chunkRange);
     }
 
-    public UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
-            NetworkObjects.NetworkEvent networkEvent) {
-        return new UpdateEntityIncomingEventType(networkEvent);
+    public static UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
+            UUID user,
+            NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+        return new UpdateEntityIncomingEventType(user, networkData, chunkRange);
     }
 
     public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(
@@ -68,18 +69,18 @@ public class EventTypeFactory {
         return new DisconnectionIncomingEventType(uuid);
     }
 
-    public ReplaceBlockIncomingEventType createReplaceBlockIncomingEvent(
-            NetworkObjects.NetworkEvent networkEvent) {
-        return new ReplaceBlockIncomingEventType(networkEvent);
+    public static ReplaceBlockIncomingEventType createReplaceBlockIncomingEvent(
+            UUID user, UUID target, Block replacementBlock, ChunkRange chunkRange) {
+        return new ReplaceBlockIncomingEventType(user, target, replacementBlock, chunkRange);
     }
 
-    public ReplaceBlockOutgoingEventType createReplaceBlockOutgoingEvent(
+    public static ReplaceBlockOutgoingEventType createReplaceBlockOutgoingEvent(
             UUID target, Block replacementBlock, ChunkRange chunkRange) {
         return new ReplaceBlockOutgoingEventType(target, replacementBlock, chunkRange);
     }
 
-    public ReplaceBlockEventType createReplaceBlockEvent(UUID target, Block replacementBlock) {
-        return new ReplaceBlockEventType(target, replacementBlock);
+    public static ReplaceBlockEventType createReplaceBlockEvent(UUID target, Block replacementBlock, ChunkRange chunkRange) {
+        return new ReplaceBlockEventType(target, replacementBlock, chunkRange);
     }
 
     public RemoveEntityEventType createRemoveEntityEvent(UUID entityUuid) {
@@ -91,10 +92,22 @@ public class EventTypeFactory {
     }
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(NetworkObjects.NetworkEvent networkEvent) {
-        return new GetChunkOutgoingEventType(entitySerializationConverter.createChunkRange(networkEvent.getData()), UUID.fromString(networkEvent.getUser()));
+        return new GetChunkOutgoingEventType(NetworkDataDeserializer.createChunkRange(networkEvent.getData()), UUID.fromString(networkEvent.getUser()));
     }
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UUID userID) {
         return new GetChunkOutgoingEventType(chunkRange, userID);
+    }
+
+    public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange, List<UUID> listUUID) {
+        return new HandshakeOutgoingEventType(chunkRange, listUUID);
+    }
+
+    public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange) {
+        return new HandshakeOutgoingEventType(chunkRange, new LinkedList<>());
+    }
+
+    public static HandshakeIncomingEventType createHandshakeIncomingEventType(UUID requestUUID, ChunkRange chunkRange, List<UUID> listUUID) {
+        return new HandshakeIncomingEventType(requestUUID, chunkRange, listUUID);
     }
 }

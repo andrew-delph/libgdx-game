@@ -34,7 +34,7 @@ public class SoloEventConsumer extends EventConsumer {
                     Entity aiEntity = entityFactory.createEntity();
 
                     aiEntity.coordinates = new Coordinates(0, 1);
-                    gameController.createEntity(aiEntity);
+                    gameController.addEntity(aiEntity);
 
                     // get random target
                     List<Entity> activeEntityList = chunkGenerationManager.getActiveEntityList();

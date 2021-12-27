@@ -1,4 +1,4 @@
-package networking.events.types.incoming;
+package networking.events.consumer.server.incoming;
 
 import app.GameController;
 import com.google.inject.Inject;
@@ -36,7 +36,7 @@ public class CreateAIEntityConsumerServer implements Consumer<EventType> {
         Entity aiEntity = entityFactory.createEntity();
 
         aiEntity.coordinates = realEvent.getCoordinates();
-        gameController.createEntity(aiEntity);
+        gameController.addEntity(aiEntity);
 
         // get random target
         List<Entity> activeEntityList = chunkGenerationManager.getActiveEntityList();

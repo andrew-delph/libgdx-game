@@ -1,20 +1,37 @@
 package networking.events.consumer.client.incoming;
 
+import app.GameController;
 import com.google.inject.Inject;
 import common.events.types.EventType;
-import entity.EntitySerializationConverter;
+import common.exceptions.EntityNotFound;
+import common.exceptions.SerializationDataMissing;
+import networking.client.ClientNetworkHandle;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
+import networking.translation.NetworkDataDeserializer;
 
 import java.util.function.Consumer;
 
 public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
 
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
+    @Inject
+    GameController gameController;
+    @Inject
+    ClientNetworkHandle clientNetworkHandle;
 
     @Override
     public void accept(EventType eventType) {
         UpdateEntityIncomingEventType realEvent = (UpdateEntityIncomingEventType) eventType;
-        entitySerializationConverter.updateEntity(realEvent.getData());
+        try {
+            entitySerializationConverter.updateEntity(realEvent.getData());
+        } catch (EntityNotFound e) {
+            e.printStackTrace();
+            // TODO test this
+            clientNetworkHandle.initHandshake(realEvent.getChunkRange());
+        } catch (SerializationDataMissing e) {
+            e.printStackTrace();
+            // TODO disconnect client
+        }
     }
 }

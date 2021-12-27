@@ -6,6 +6,7 @@ import common.Coordinates;
 import common.Direction;
 import common.GameStore;
 import common.events.EventService;
+import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.*;
@@ -16,6 +17,7 @@ import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import java.util.UUID;
 
 public class GameController {
+
     @Inject
     GameStore gameStore;
 
@@ -31,73 +33,85 @@ public class GameController {
     @Inject
     BlockFactory blockFactory;
 
-    public Entity createEntity(Entity entity) {
+    public Entity addEntity(Entity entity) {
         this.gameStore.addEntity(entity);
         CreateEntityOutgoingEventType createEntityOutgoingEvent =
-                eventTypeFactory.createCreateEntityOutgoingEvent(
+                EventTypeFactory.createCreateEntityOutgoingEvent(
                         entity.toNetworkData(), new ChunkRange(entity.coordinates));
         this.eventService.fireEvent(createEntityOutgoingEvent);
         return entity;
     }
 
-    public Entity createSkyBlock(Coordinates coordinates) {
-        Entity entity = blockFactory.createSky();
-        entity.coordinates = coordinates;
-        this.gameStore.addEntity(entity);
-        CreateEntityOutgoingEventType createEntityOutgoingEvent =
-                eventTypeFactory.createCreateEntityOutgoingEvent(
-                        entity.toNetworkData(), new ChunkRange(coordinates));
-        this.eventService.fireEvent(createEntityOutgoingEvent);
-        return entity;
-    }
-
-    public Entity createDirtBlock(Coordinates coordinates) {
-        Entity entity = blockFactory.createDirt();
-        entity.coordinates = coordinates;
-        this.gameStore.addEntity(entity);
-        CreateEntityOutgoingEventType createEntityOutgoingEvent =
-                eventTypeFactory.createCreateEntityOutgoingEvent(
-                        entity.toNetworkData(), new ChunkRange(coordinates));
-        this.eventService.fireEvent(createEntityOutgoingEvent);
-        return entity;
-    }
-
-    public Entity createStoneBlock(Coordinates coordinates) {
-        Entity entity = blockFactory.createStone();
-        entity.coordinates = coordinates;
-        this.gameStore.addEntity(entity);
-        CreateEntityOutgoingEventType createEntityOutgoingEvent =
-                eventTypeFactory.createCreateEntityOutgoingEvent(
-                        entity.toNetworkData(), new ChunkRange(coordinates));
-        this.eventService.fireEvent(createEntityOutgoingEvent);
-        return entity;
-    }
-
-    public Entity triggerCreateEntity(Entity entity) {
+    public Entity triggerAddEntity(Entity entity) {
         this.gameStore.addEntity(entity);
         return entity;
-    }
-
-    public void moveEntity(UUID uuid, Coordinates coordinates) {
-        Entity entity = this.gameStore.getEntity(uuid);
-        entity.coordinates = coordinates;
-        this.eventService.fireEvent(
-                eventTypeFactory.createUpdateEntityOutgoingEvent(
-                        entity.toNetworkData(), new ChunkRange(coordinates)));
-    }
-
-    public void triggerMoveEntity(Entity entity, Coordinates coordinates) {
-        entity.coordinates = coordinates;
-        this.eventService.fireEvent(
-                eventTypeFactory.createUpdateEntityOutgoingEvent(
-                        entity.toNetworkData(), new ChunkRange(coordinates)));
     }
 
     public void removeEntity(UUID uuid) {
-        this.gameStore.removeEntity(uuid);
+        eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(uuid));
     }
 
-    public void placeBlock(Entity entity, Direction direction, Class blockClass) {
+    public Entity triggerRemoveEntity(UUID uuid) throws EntityNotFound {
+        return this.gameStore.removeEntity(uuid);
+    }
+
+    public Block createSkyBlock(Coordinates coordinates) {
+        Block entity = blockFactory.createSky();
+        entity.coordinates = coordinates;
+        this.gameStore.addEntity(entity);
+        CreateEntityOutgoingEventType createEntityOutgoingEvent =
+                EventTypeFactory.createCreateEntityOutgoingEvent(
+                        entity.toNetworkData(), new ChunkRange(coordinates));
+        this.eventService.fireEvent(createEntityOutgoingEvent);
+        return entity;
+    }
+
+    public Block createDirtBlock(Coordinates coordinates) {
+        Block entity = blockFactory.createDirt();
+        entity.coordinates = coordinates;
+        this.gameStore.addEntity(entity);
+        CreateEntityOutgoingEventType createEntityOutgoingEvent =
+                EventTypeFactory.createCreateEntityOutgoingEvent(
+                        entity.toNetworkData(), new ChunkRange(coordinates));
+        this.eventService.fireEvent(createEntityOutgoingEvent);
+        return entity;
+    }
+
+    public Block createStoneBlock(Coordinates coordinates) {
+        Block entity = blockFactory.createStone();
+        entity.coordinates = coordinates;
+        this.gameStore.addEntity(entity);
+        CreateEntityOutgoingEventType createEntityOutgoingEvent =
+                EventTypeFactory.createCreateEntityOutgoingEvent(
+                        entity.toNetworkData(), new ChunkRange(coordinates));
+        this.eventService.fireEvent(createEntityOutgoingEvent);
+        return entity;
+    }
+
+    public Entity createLadder(Coordinates coordinates) throws EntityNotFound {
+        if (this.gameStore.getBlock(coordinates) instanceof SolidBlock) {
+            throw new EntityNotFound("Did not find SolidBlock");
+        }
+        if (this.gameStore.getLadder(coordinates) != null) return this.gameStore.getLadder(coordinates);
+        Entity entity = entityFactory.createLadder();
+        entity.coordinates = coordinates;
+        this.gameStore.addEntity(entity);
+        CreateEntityOutgoingEventType createEntityOutgoingEvent =
+                EventTypeFactory.createCreateEntityOutgoingEvent(
+                        entity.toNetworkData(), new ChunkRange(coordinates));
+        this.eventService.fireEvent(createEntityOutgoingEvent);
+        return entity;
+    }
+
+    public void moveEntity(UUID uuid, Coordinates coordinates) throws EntityNotFound {
+        Entity entity = this.gameStore.getEntity(uuid);
+        entity.coordinates = coordinates;
+        this.eventService.fireEvent(
+                EventTypeFactory.createUpdateEntityOutgoingEvent(
+                        entity.toNetworkData(), new ChunkRange(coordinates)));
+    }
+
+    public void placeBlock(Entity entity, Direction direction, Class blockClass) throws EntityNotFound {
         Block removeBlock = null;
         if (direction == Direction.LEFT) {
             removeBlock = this.gameStore.getBlock(entity.getCenter().getLeft());
@@ -108,8 +122,7 @@ public class GameController {
         } else if (direction == Direction.DOWN) {
             removeBlock = this.gameStore.getBlock(entity.getCenter().getDown());
         }
-        if (removeBlock == null) return;
-
+        if (removeBlock == null) throw new EntityNotFound("Block to remove not found in direction.");
         if (removeBlock.getClass() == blockClass) return;
 
         Block replacementBlock;
@@ -120,35 +133,25 @@ public class GameController {
         } else {
             return;
         }
+        this.replaceBlock(removeBlock, replacementBlock);
+    }
 
-        Ladder removeLadder = this.gameStore.getLadder(removeBlock.coordinates);
+    public void replaceBlock(Block target, Block replacementBlock) {
+        Ladder removeLadder = this.gameStore.getLadder(target.coordinates);
         if (removeLadder != null) {
-            this.gameStore.removeEntity(removeLadder.uuid);
+            this.removeEntity(removeLadder.uuid);
         }
         // put this into a post update event
         this.eventService.queuePostUpdateEvent(
-                this.eventTypeFactory.createReplaceBlockEvent(removeBlock.uuid, replacementBlock));
+                EventTypeFactory.createReplaceBlockEvent(target.uuid, replacementBlock, new ChunkRange(target.coordinates)));
         this.eventService.fireEvent(
-                this.eventTypeFactory.createReplaceBlockOutgoingEvent(
-                        removeBlock.uuid, replacementBlock, new ChunkRange(removeBlock.coordinates)));
+                EventTypeFactory.createReplaceBlockOutgoingEvent(
+                        target.uuid, replacementBlock, new ChunkRange(target.coordinates)));
     }
 
-    public Entity createLadder(Coordinates coordinates) {
-        if (this.gameStore.getBlock(coordinates) instanceof SolidBlock) return null;
-        if (this.gameStore.getLadder(coordinates) != null) return null;
-        Entity entity = entityFactory.createLadder();
-        entity.coordinates = coordinates;
-        this.gameStore.addEntity(entity);
-        CreateEntityOutgoingEventType createEntityOutgoingEvent =
-                eventTypeFactory.createCreateEntityOutgoingEvent(
-                        entity.toNetworkData(), new ChunkRange(coordinates));
-        this.eventService.fireEvent(createEntityOutgoingEvent);
-        return entity;
-    }
-
-    public Entity replaceBlock(UUID target, Block replacementBlock) {
-        Block removeBlock = (Block) this.gameStore.removeEntity(target);
-        if (removeBlock == null) return null;
+    public Entity triggerReplaceBlock(UUID target, Block replacementBlock) throws EntityNotFound {
+        Entity removeBlock = this.gameStore.removeEntity(target);
+        if (removeBlock == null) throw new EntityNotFound("Could not find block to remove.");
         replacementBlock.coordinates = removeBlock.coordinates;
         this.gameStore.addEntity(replacementBlock);
         return replacementBlock;

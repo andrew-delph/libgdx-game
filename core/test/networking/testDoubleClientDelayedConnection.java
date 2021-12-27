@@ -7,6 +7,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
+import common.exceptions.EntityNotFound;
+import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import entity.Entity;
@@ -59,7 +61,7 @@ public class testDoubleClientDelayedConnection {
     }
 
     @Test
-    public void testDoubleClientCreateEntity() throws InterruptedException {
+    public void testDoubleClientCreateEntity() throws InterruptedException, EntityNotFound, SerializationDataMissing {
 
         client_a_NetworkHandle.connect();
 
@@ -81,7 +83,7 @@ public class testDoubleClientDelayedConnection {
 
         EventTypeFactory client_b_EventTypeFactory = client_b_Injector.getInstance(EventTypeFactory.class);
 
-        Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
+        Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
 

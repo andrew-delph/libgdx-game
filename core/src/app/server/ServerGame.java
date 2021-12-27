@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import common.GameStore;
 import common.events.EventConsumer;
+import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
 import entity.collision.CollisionService;
 import entity.pathfinding.EdgeRegistrationBase;
@@ -34,7 +35,7 @@ public class ServerGame extends Game {
         super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer, collisionService);
     }
 
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws InterruptedException, IOException, SerializationDataMissing {
         Injector injector = Guice.createInjector(new BaseServerConfig());
         Game game = injector.getInstance(Game.class);
         game.start();
@@ -45,7 +46,7 @@ public class ServerGame extends Game {
     }
 
     @Override
-    public void start() throws IOException, InterruptedException {
+    public void start() throws IOException, InterruptedException, SerializationDataMissing {
         edgeRegistration.edgeRegistration();
         super.start();
         serverNetworkHandle.start();

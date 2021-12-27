@@ -8,10 +8,12 @@ import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
+import common.exceptions.EntityNotFound;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
+import generation.ChunkBuilderFactory;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
 import networking.server.ServerNetworkHandle;
@@ -72,7 +74,7 @@ public class testDoubleClient {
     }
 
     @Test
-    public void testDoubleClientCreateEntity() throws InterruptedException {
+    public void testDoubleClientCreateEntity() throws InterruptedException, EntityNotFound {
 
         GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
         GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
@@ -98,7 +100,7 @@ public class testDoubleClient {
 
         TimeUnit.SECONDS.sleep(1);
 
-        Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
+        Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(3);
 
@@ -116,7 +118,7 @@ public class testDoubleClient {
     }
 
     @Test
-    public void testDoubleClientCreateUpdateEntity() throws InterruptedException {
+    public void testDoubleClientCreateUpdateEntity() throws InterruptedException, EntityNotFound {
 
         GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
         GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
@@ -142,7 +144,7 @@ public class testDoubleClient {
 
         TimeUnit.SECONDS.sleep(1);
 
-        Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
+        Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
 
@@ -178,7 +180,7 @@ public class testDoubleClient {
     }
 
     @Test
-    public void testDoubleClientCreateThenDisconnectRemoveOther() throws InterruptedException {
+    public void testDoubleClientCreateThenDisconnectRemoveOther() throws InterruptedException, EntityNotFound {
         GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
         GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
         GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
@@ -206,7 +208,7 @@ public class testDoubleClient {
 
         TimeUnit.SECONDS.sleep(1);
 
-        Entity clientEntity = client_a_GameController.createEntity(clientEntityFactory.createEntity());
+        Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
 
@@ -228,51 +230,43 @@ public class testDoubleClient {
         serverEventService.firePostUpdateEvents();
         client_b_EventService.firePostUpdateEvents();
 
-        assert serverGameStore.getEntity(clientEntity.uuid) == null;
-        assert client_b_GameStore.getEntity(clientEntity.uuid) == null;
+        assert !serverGameStore.doesEntityExist(clientEntity.uuid);
+        assert !client_b_GameStore.doesEntityExist(clientEntity.uuid);
     }
 
     @Test
-    public void testDoubleClientCreateLadder() throws InterruptedException {
-
+    public void testDoubleClientCreateLadder() throws Exception {
         GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
         GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
         GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
         GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
         ChunkFactory client_a_ChunkFactory = client_a_Injector.getInstance(ChunkFactory.class);
-        client_a_GameStore.addChunk(
-                client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
 
-        EntityFactory clientEntityFactory = client_a_Injector.getInstance(EntityFactory.class);
+        ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
+
+        Coordinates coordinates = new Coordinates(0, 1);
+        ChunkRange chunkRange = new ChunkRange(coordinates);
+        serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
+        client_a_GameStore.addChunk(client_a_NetworkHandle.getChunk(chunkRange));
+        client_b_GameStore.addChunk(client_b_NetworkHandle.getChunk(chunkRange));
 
         List<ChunkRange> chunkRangeList = new LinkedList<>();
         chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
         chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
-        for (ChunkRange chunkRange : chunkRangeList) {
-            client_b_GameStore.addChunk(client_a_ChunkFactory.create(chunkRange));
+        for (ChunkRange subChunkRange : chunkRangeList) {
+            client_b_GameStore.addChunk(client_a_ChunkFactory.create(subChunkRange));
         }
 
         EventTypeFactory client_b_EventTypeFactory = client_b_Injector.getInstance(EventTypeFactory.class);
-
         client_b_NetworkHandle.send(
                 client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
         TimeUnit.SECONDS.sleep(1);
+        Entity clientLadder = client_a_GameController.createLadder(coordinates);
+        TimeUnit.SECONDS.sleep(1);
 
-        Entity clientLadder = client_a_GameController.createLadder(new Coordinates(0, 0));
-
-        TimeUnit.SECONDS.sleep(3);
-
-        assert serverGameStore.getEntity(clientLadder.uuid).uuid.equals(clientLadder.uuid);
-        assert serverGameStore
-                .getEntity(clientLadder.uuid)
-                .coordinates
-                .equals(clientLadder.coordinates);
-
-        assert client_b_GameStore.getEntity(clientLadder.uuid).uuid.equals(clientLadder.uuid);
-        assert client_b_GameStore
-                .getEntity(clientLadder.uuid)
-                .coordinates
-                .equals(clientLadder.coordinates);
+        assert serverGameStore.getEntity(clientLadder.uuid).equals(clientLadder);
+        assert client_a_GameStore.getEntity(clientLadder.uuid).equals(clientLadder);
+        assert client_b_GameStore.getEntity(clientLadder.uuid).equals(clientLadder);
     }
 }

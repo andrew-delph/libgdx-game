@@ -3,7 +3,7 @@ package networking.client;
 import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
-import entity.EntitySerializationConverter;
+import common.exceptions.SerializationDataMissing;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import networking.NetworkObjectServiceGrpc;
@@ -12,27 +12,28 @@ import networking.ObserverFactory;
 import networking.RequestNetworkEventObserver;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
+import networking.events.types.outgoing.HandshakeOutgoingEventType;
+import networking.translation.NetworkDataDeserializer;
 
 import java.util.UUID;
 
 public class ClientNetworkHandle {
     public String host = "localhost";
     public int port = 99;
-    public UUID uuid;
+    public final UUID uuid = UUID.randomUUID();
     RequestNetworkEventObserver requestNetworkEventObserver;
     @Inject
     ObserverFactory observerFactory;
     @Inject
     EventTypeFactory eventTypeFactory;
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
     private ManagedChannel channel;
     private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
     private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
 
     @Inject
     public ClientNetworkHandle() {
-        this.uuid = UUID.randomUUID();
         System.out.println("client: " + this.uuid);
     }
 
@@ -65,13 +66,19 @@ public class ClientNetworkHandle {
         requestNetworkEventObserver.responseObserver.onNext(networkEvent);
     }
 
-    public Chunk getChunk(ChunkRange chunkRange) {
+    public Chunk getChunk(ChunkRange chunkRange) throws SerializationDataMissing {
 
         GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.uuid);
 
         NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(realEvent.toNetworkEvent());
 
         return entitySerializationConverter.createChunk(retrievedNetworkEvent.getData());
+    }
+
+    public void initHandshake(ChunkRange chunkRange) {
+        HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.
+                createHandshakeOutgoingEventType(chunkRange);
+        this.send(handshakeOutgoing.toNetworkEvent());
     }
 
     public void close() {

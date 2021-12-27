@@ -3,6 +3,7 @@ package chunk;
 import common.Coordinates;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkData;
+import networking.translation.NetworkDataSerializer;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -93,19 +94,7 @@ public class ChunkRange implements SerializeNetworkData {
     }
 
     public NetworkObjects.NetworkData toNetworkData() {
-        NetworkObjects.NetworkData.Builder builder =
-                NetworkObjects.NetworkData.newBuilder().setValue(this.getClass().getName());
-        NetworkObjects.NetworkData x =
-                NetworkObjects.NetworkData.newBuilder()
-                        .setKey("x")
-                        .setValue(String.valueOf(this.bottom_x))
-                        .build();
-        NetworkObjects.NetworkData y =
-                NetworkObjects.NetworkData.newBuilder()
-                        .setKey("y")
-                        .setValue(String.valueOf(this.bottom_y))
-                        .build();
-        return builder.addChildren(x).addChildren(y).build();
+        return NetworkDataSerializer.createChunkRange(this);
     }
 
     public synchronized ChunkRange getUp() {

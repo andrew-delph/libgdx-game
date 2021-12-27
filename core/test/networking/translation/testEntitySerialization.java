@@ -1,4 +1,4 @@
-package infra.serialization;
+package networking.translation;
 
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
@@ -7,12 +7,12 @@ import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
+import common.exceptions.EntityNotFound;
+import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.EntitySerializationConverter;
 import entity.block.BlockFactory;
-import networking.NetworkEventHandler;
 import networking.NetworkObjects;
 import networking.events.EventTypeFactory;
 import org.junit.Before;
@@ -23,7 +23,7 @@ import java.util.UUID;
 
 public class testEntitySerialization {
 
-    EntitySerializationConverter entitySerializationConverter;
+    NetworkDataDeserializer entitySerializationConverter;
 
     GameStore gameStore;
 
@@ -40,7 +40,7 @@ public class testEntitySerialization {
     public void setup() throws IOException {
         injector = Guice.createInjector(new ClientConfig());
         entityFactory = injector.getInstance(EntityFactory.class);
-        entitySerializationConverter = injector.getInstance(EntitySerializationConverter.class);
+        entitySerializationConverter = injector.getInstance(NetworkDataDeserializer.class);
         gameStore = injector.getInstance(GameStore.class);
         chunkFactory = injector.getInstance(ChunkFactory.class);
         eventService = injector.getInstance(EventService.class);
@@ -50,7 +50,7 @@ public class testEntitySerialization {
     }
 
     @Test
-    public void testCreateEntitySerialization() {
+    public void testCreateEntitySerialization() throws SerializationDataMissing {
         Entity entityWrite = entityFactory.createEntity();
         entityWrite.coordinates = new Coordinates(2, 3);
         Entity entityRead = entitySerializationConverter.createEntity(entityWrite.toNetworkData());
@@ -59,7 +59,7 @@ public class testEntitySerialization {
     }
 
     @Test
-    public void testUpdateEntitySerialization() {
+    public void testUpdateEntitySerialization() throws EntityNotFound, SerializationDataMissing {
         Entity entityWrite = entityFactory.createEntity();
         entityWrite.coordinates = new Coordinates(2, 3);
         gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
@@ -71,7 +71,7 @@ public class testEntitySerialization {
     }
 
     @Test
-    public void testCreateEntityNetworkEvent() {
+    public void testCreateEntityNetworkEvent() throws EntityNotFound {
         Entity entityWrite = entityFactory.createEntity();
         UUID uuid = entityWrite.uuid;
         gameStore.addChunk(chunkFactory.create(new ChunkRange(entityWrite.coordinates)));
@@ -84,7 +84,7 @@ public class testEntitySerialization {
     }
 
     @Test
-    public void testBlockWrite() {
+    public void testBlockWrite() throws EntityNotFound {
         Entity block = blockFactory.createDirt();
         UUID uuid = block.uuid;
         gameStore.addChunk(chunkFactory.create(new ChunkRange(block.coordinates)));

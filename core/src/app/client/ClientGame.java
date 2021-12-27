@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;
+import common.exceptions.SerializationDataMissing;
 import entity.collision.CollisionService;
 import generation.ChunkGenerationManager;
 import networking.client.ClientNetworkHandle;
@@ -40,13 +41,13 @@ public class ClientGame extends Game {
     }
 
     @Override
-    public void start() throws IOException, InterruptedException {
+    public void start() throws IOException, InterruptedException, SerializationDataMissing {
         this.clientNetworkHandle.connect();
         super.start();
     }
 
     @Override
-    public void init() {
+    public void init() throws SerializationDataMissing {
         this.gameStore.addChunk(this.clientNetworkHandle.getChunk(new ChunkRange(new Coordinates(0, 0))));
     }
 }

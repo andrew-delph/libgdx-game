@@ -1,31 +1,28 @@
 package networking.events.consumer.client.incoming;
 
+import app.GameController;
 import com.google.inject.Inject;
-import common.events.EventService;
 import common.events.types.EventType;
-import entity.EntitySerializationConverter;
-import entity.block.Block;
-import networking.events.EventTypeFactory;
+import common.exceptions.EntityNotFound;
+import networking.client.ClientNetworkHandle;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 
 import java.util.function.Consumer;
 
 public class ReplaceBlockIncomingConsumerClient implements Consumer<EventType> {
-
     @Inject
-    EventService eventService;
+    GameController gameController;
     @Inject
-    EntitySerializationConverter entitySerializationConverter;
-    @Inject
-    EventTypeFactory eventTypeFactory;
+    ClientNetworkHandle clientNetworkHandle;
 
     @Override
     public void accept(EventType eventType) {
-        ReplaceBlockIncomingEventType realEvent = (ReplaceBlockIncomingEventType) eventType;
-        this.eventService.queuePostUpdateEvent(
-                this.eventTypeFactory.createReplaceBlockEvent(
-                        realEvent.getTarget(),
-                        (Block)
-                                entitySerializationConverter.createEntity(realEvent.getReplacementBlockData())));
+        ReplaceBlockIncomingEventType incoming = (ReplaceBlockIncomingEventType) eventType;
+        try {
+            gameController.triggerReplaceBlock(incoming.getTarget(), incoming.getReplacementBlock());
+        } catch (EntityNotFound e) {
+            e.printStackTrace();
+            clientNetworkHandle.initHandshake(incoming.getChunkRange());
+        }
     }
 }

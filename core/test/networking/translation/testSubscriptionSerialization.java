@@ -1,11 +1,10 @@
-package infra.serialization;
+package networking.translation;
 
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
 import configuration.ClientConfig;
-import networking.events.EventTypeFactory;
 import networking.events.types.incoming.SubscriptionIncomingEventType;
 import networking.events.types.outgoing.SubscriptionOutgoingEventType;
 import org.junit.Assert;
@@ -20,12 +19,9 @@ public class testSubscriptionSerialization {
 
     Injector injector;
 
-    EventTypeFactory eventTypeFactory;
-
     @Before
     public void setup() {
         injector = Guice.createInjector(new ClientConfig());
-        eventTypeFactory = injector.getInstance(EventTypeFactory.class);
     }
 
     @Test

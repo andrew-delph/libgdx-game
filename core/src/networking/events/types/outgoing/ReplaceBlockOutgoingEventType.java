@@ -6,6 +6,7 @@ import common.events.types.EventType;
 import entity.block.Block;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
+import networking.translation.NetworkDataSerializer;
 
 import java.util.UUID;
 
@@ -43,21 +44,6 @@ public class ReplaceBlockOutgoingEventType extends EventType implements Serializ
 
     @Override
     public NetworkObjects.NetworkEvent toNetworkEvent() {
-        NetworkObjects.NetworkData target =
-                NetworkObjects.NetworkData.newBuilder()
-                        .setKey("target")
-                        .setValue(this.target.toString())
-                        .build();
-        NetworkObjects.NetworkData replacementBlockType =
-                NetworkObjects.NetworkData.newBuilder()
-                        .setKey("replacementBlockData")
-                        .addChildren(this.getReplacementBlock().toNetworkData())
-                        .build();
-        NetworkObjects.NetworkData data =
-                NetworkObjects.NetworkData.newBuilder()
-                        .addChildren(target)
-                        .addChildren(replacementBlockType)
-                        .build();
-        return NetworkObjects.NetworkEvent.newBuilder().setData(data).setEvent(type).build();
+        return NetworkDataSerializer.createReplaceBlockOutgoingEventType(this);
     }
 }

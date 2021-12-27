@@ -2,6 +2,7 @@ package networking.server;
 
 import chunk.Chunk;
 import chunk.ChunkFactory;
+import chunk.ChunkRange;
 import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.GameStore;
@@ -12,12 +13,15 @@ import io.grpc.stub.StreamObserver;
 import networking.*;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
+import networking.events.types.outgoing.HandshakeOutgoingEventType;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
-    public UUID uuid;
+    public final UUID uuid = UUID.randomUUID();
     @Inject
     ObserverFactory observerFactory;
     @Inject
@@ -34,7 +38,6 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
     @Inject
     public ServerNetworkHandle() {
-        this.uuid = UUID.randomUUID();
         System.out.println("server: " + this.uuid);
     }
 
@@ -66,16 +69,12 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     public void getChunk(
             NetworkObjects.NetworkEvent request,
             StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
-
         GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
-
         Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
         if (chunk == null) {
             chunk = this.chunkFactory.create(realEvent.getChunkRange());
         }
-
         chunkSubscriptionService.registerSubscription(realEvent.getUUID(), realEvent.getChunkRange());
-
         responseObserver.onNext(
                 NetworkObjects.NetworkEvent.newBuilder()
                         .setData(chunk.toNetworkData())
@@ -88,7 +87,6 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     public void getEntity(
             NetworkObjects.NetworkEvent request,
             StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
-        System.out.println(2222);
         responseObserver.onNext(request);
         responseObserver.onCompleted();
     }
@@ -100,5 +98,12 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     public synchronized void send(UUID uuid, NetworkObjects.NetworkEvent networkEvent) {
         networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
         connectionStore.getConnection(uuid).responseObserver.onNext(networkEvent);
+    }
+
+    public void initHandshake(UUID user, ChunkRange chunkRange) {
+        List<UUID> uuidList = new LinkedList<>(this.gameStore.getChunk(chunkRange).getEntityUUIDSet());
+        HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.
+                createHandshakeOutgoingEventType(chunkRange, uuidList);
+        this.send(user, handshakeOutgoing.toNetworkEvent());
     }
 }

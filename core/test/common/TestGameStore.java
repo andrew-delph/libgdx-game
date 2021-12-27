@@ -5,6 +5,7 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import common.exceptions.EntityNotFound;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
@@ -31,7 +32,7 @@ public class TestGameStore {
     }
 
     @Test
-    public void testEntityExistence() {
+    public void testEntityExistence() throws EntityNotFound {
         Entity testEntity = entityFactory.createEntity();
         this.gameStore.addChunk(this.chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
         gameStore.addEntity(testEntity);
@@ -46,7 +47,7 @@ public class TestGameStore {
     }
 
     @Test
-    public void testEntitySync() {
+    public void testEntitySync() throws EntityNotFound {
         ChunkRange chunkRange1 = new ChunkRange(new Coordinates(0, 0));
         ChunkRange chunkRange2 = chunkRange1.getRight();
 
