@@ -53,8 +53,6 @@ public class ClientNetworkHandle {
         requestNetworkEventObserver.responseObserver =
                 this.asyncStub.networkObjectStream(requestNetworkEventObserver);
 
-        asyncStub.getChunk(null, null);
-
         NetworkObjects.NetworkEvent authenticationEvent =
                 NetworkObjects.NetworkEvent.newBuilder().setEvent("authentication").build();
 
@@ -67,11 +65,8 @@ public class ClientNetworkHandle {
     }
 
     public Chunk getChunk(ChunkRange chunkRange) throws SerializationDataMissing {
-
         GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.uuid);
-
         NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(realEvent.toNetworkEvent());
-
         return entitySerializationConverter.createChunk(retrievedNetworkEvent.getData());
     }
 
