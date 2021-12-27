@@ -10,9 +10,11 @@ import networking.translation.NetworkDataSerializer;
 
 import java.util.UUID;
 
+import static networking.events.types.NetworkEventTypeEnum.REPLACE_ENTITY_OUTGOING;
+
 public class ReplaceBlockOutgoingEventType extends EventType implements SerializeNetworkEvent {
 
-    public static String type = "replace_block_outgoing";
+    public static String type = REPLACE_ENTITY_OUTGOING;
 
     UUID target;
     Block replacementBlock;

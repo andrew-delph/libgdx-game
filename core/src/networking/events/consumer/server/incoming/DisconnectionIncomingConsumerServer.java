@@ -49,14 +49,14 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
             } catch (EntityNotFound e) {
                 LOGGER.severe("DISCONNECT COULD NOT FIND AN ENTITY IT OWNS");
                 e.printStackTrace();
-                return;
+                continue;
             }
             this.eventService.queuePostUpdateEvent(
                     eventTypeFactory.createRemoveEntityEvent(ownersEntityUuid));
 
-            RemoveEntityOutgoingEventType removeEntityOutgoingEvent =
-                    eventTypeFactory.createRemoveEntityOutgoingEvent(
-                            entity.toNetworkData(), new ChunkRange(entity.coordinates));
+            RemoveEntityOutgoingEventType removeEntityOutgoingEvent = EventTypeFactory.createRemoveEntityOutgoingEvent(
+                    entity.uuid, new ChunkRange(entity.coordinates));
+            
             for (UUID subscriptionUuid :
                     chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
                 serverNetworkHandle.send(subscriptionUuid, removeEntityOutgoingEvent.toNetworkEvent());

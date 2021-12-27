@@ -1,22 +1,35 @@
 package networking.events.types.incoming;
 
-import com.google.inject.Inject;
+import chunk.ChunkRange;
 import common.events.types.EventType;
-import networking.NetworkObjects;
+
+import java.util.UUID;
+
+import static networking.events.types.NetworkEventTypeEnum.REMOVE_ENTITY_INCOMING;
 
 public class RemoveEntityIncomingEventType extends EventType {
+    public static String type = REMOVE_ENTITY_INCOMING;
 
-    public static String type = "remove_entity_incoming";
+    ChunkRange chunkRange;
+    UUID user;
+    UUID target;
 
-    public NetworkObjects.NetworkEvent networkEvent;
-
-    @Inject
-    public RemoveEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) {
-        this.networkEvent = networkEvent;
+    public RemoveEntityIncomingEventType(UUID user, ChunkRange chunkRange, UUID target) {
+        this.chunkRange = chunkRange;
+        this.user = user;
+        this.target = target;
     }
 
-    public NetworkObjects.NetworkData getData() {
-        return this.networkEvent.getData();
+    public ChunkRange getChunkRange() {
+        return chunkRange;
+    }
+
+    public UUID getUser() {
+        return user;
+    }
+
+    public UUID getTarget() {
+        return target;
     }
 
     @Override

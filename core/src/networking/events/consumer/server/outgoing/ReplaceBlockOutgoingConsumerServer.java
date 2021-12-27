@@ -22,7 +22,6 @@ public class ReplaceBlockOutgoingConsumerServer implements Consumer<EventType> {
     @Override
     public void accept(EventType eventType) {
         ReplaceBlockOutgoingEventType realEvent = (ReplaceBlockOutgoingEventType) eventType;
-        this.eventService.queuePostUpdateEvent(eventType);
         for (UUID uuid : chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange())) {
             serverNetworkHandle.send(uuid, realEvent.toNetworkEvent());
         }

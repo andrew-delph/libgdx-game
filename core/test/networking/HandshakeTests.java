@@ -1,5 +1,6 @@
 package networking;
 
+import app.Game;
 import app.GameController;
 import chunk.Chunk;
 import chunk.ChunkFactory;
@@ -10,6 +11,7 @@ import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
 import common.exceptions.EntityNotFound;
+import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import entity.Entity;
@@ -32,6 +34,9 @@ public class HandshakeTests {
     ClientNetworkHandle clientNetworkHandle;
     ServerNetworkHandle serverNetworkHandle;
 
+    Game serverGame;
+    Game clientGame;
+
     GameStore serverGameStore;
     GameStore clientGameStore;
 
@@ -42,7 +47,7 @@ public class HandshakeTests {
     GameController serverGameController;
 
     @Before
-    public void setup() throws IOException, InterruptedException {
+    public void setup() throws IOException, InterruptedException, SerializationDataMissing {
         clientInjector = Guice.createInjector(new ClientConfig());
         serverInjector = Guice.createInjector(new BaseServerConfig());
 
@@ -58,8 +63,11 @@ public class HandshakeTests {
         serverGameController = serverInjector.getInstance(GameController.class);
         clientGameController = clientInjector.getInstance(GameController.class);
 
-        serverNetworkHandle.start();
-        clientNetworkHandle.connect();
+        serverGame = serverInjector.getInstance(Game.class);
+        clientGame = clientInjector.getInstance(Game.class);
+
+        serverGame.start();
+        clientGame.start();
 
         TimeUnit.SECONDS.sleep(1);
     }
@@ -272,7 +280,7 @@ public class HandshakeTests {
         assert !serverChunk.equals(clientChunk);
 
         serverGameController.moveEntity(e2.uuid, coordinatesToMove);
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(2);
         assert serverChunk.equals(clientChunk);
     }
 
@@ -310,7 +318,7 @@ public class HandshakeTests {
         assert !serverChunk.equals(clientChunk);
 
         serverGameController.replaceBlock(blockToRemove, blockToReplace);
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(2);
         assert serverChunk.equals(clientChunk);
     }
 }

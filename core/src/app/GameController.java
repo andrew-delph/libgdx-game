@@ -48,11 +48,31 @@ public class GameController {
     }
 
     public void removeEntity(UUID uuid) {
+        Entity entity;
+        try {
+            entity = this.gameStore.getEntity(uuid);
+        } catch (EntityNotFound e) {
+            e.printStackTrace();
+            return;
+        }
         eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(uuid));
+        eventService.fireEvent(EventTypeFactory.createRemoveEntityOutgoingEvent(
+                entity.uuid, new ChunkRange(entity.coordinates)));
     }
 
     public Entity triggerRemoveEntity(UUID uuid) throws EntityNotFound {
         return this.gameStore.removeEntity(uuid);
+    }
+
+    public Entity createEntity(Coordinates coordinates) {
+        Entity entity = entityFactory.createEntity();
+        entity.coordinates = coordinates;
+        this.gameStore.addEntity(entity);
+        CreateEntityOutgoingEventType createEntityOutgoingEvent =
+                EventTypeFactory.createCreateEntityOutgoingEvent(
+                        entity.toNetworkData(), new ChunkRange(coordinates));
+        this.eventService.fireEvent(createEntityOutgoingEvent);
+        return entity;
     }
 
     public Block createSkyBlock(Coordinates coordinates) {

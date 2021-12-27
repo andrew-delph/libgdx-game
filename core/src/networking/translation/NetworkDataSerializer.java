@@ -3,6 +3,7 @@ package networking.translation;
 import chunk.ChunkRange;
 import networking.NetworkObjects;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 
@@ -81,6 +82,16 @@ public class NetworkDataSerializer {
         dataListBuilder.addChildren(createChunkRange(createEntityOutgoingEventType.getChunkRange()));
         dataListBuilder.addChildren(createEntityOutgoingEventType.getEntityData());
 
+        return eventBuilder.setData(dataListBuilder).build();
+    }
+
+    public static NetworkObjects.NetworkEvent createRemoveEntityOutgoingEventType(RemoveEntityOutgoingEventType removeEntityOutgoingEventType) {
+        NetworkObjects.NetworkEvent.Builder eventBuilder =
+                NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.REMOVE_ENTITY);
+        NetworkObjects.NetworkData.Builder dataListBuilder =
+                NetworkObjects.NetworkData.newBuilder();
+        dataListBuilder.addChildren(createChunkRange(removeEntityOutgoingEventType.getChunkRange()));
+        dataListBuilder.addChildren(createUUID(removeEntityOutgoingEventType.getTarget()));
         return eventBuilder.setData(dataListBuilder).build();
     }
 }
