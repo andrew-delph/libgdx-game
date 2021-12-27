@@ -14,10 +14,7 @@ import entity.block.*;
 import entity.misc.Ladder;
 import networking.NetworkObjects;
 import networking.events.EventTypeFactory;
-import networking.events.types.incoming.CreateEntityIncomingEventType;
-import networking.events.types.incoming.HandshakeIncomingEventType;
-import networking.events.types.incoming.ReplaceBlockIncomingEventType;
-import networking.events.types.incoming.UpdateEntityIncomingEventType;
+import networking.events.types.incoming.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -245,5 +242,27 @@ public class NetworkDataDeserializer {
         return EventTypeFactory.createCreateEntityIncomingEvent(user, networkData, chunkRange);
     }
 
-    
+    public static RemoveEntityIncomingEventType createRemoveEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+        UUID user = null;
+        ChunkRange chunkRange = null;
+        UUID target = null;
+        if (!networkEvent.getUser().isEmpty()) {
+            user = UUID.fromString(networkEvent.getUser());
+        }
+        for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+            switch (child.getKey()) {
+                case DataTranslationEnum.UUID:
+                    target = createUUID(child);
+                    break;
+                case DataTranslationEnum.CHUNK_RANGE:
+                    chunkRange = createChunkRange(child);
+                    break;
+            }
+        }
+        if (chunkRange == null) throw new SerializationDataMissing("Missing chunkRange");
+        if (target == null) throw new SerializationDataMissing("Missing target");
+        return EventTypeFactory.createRemoveEntityIncomingEvent(user, chunkRange, target);
+    }
+
+
 }

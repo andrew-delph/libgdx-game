@@ -6,6 +6,7 @@ import common.events.EventService;
 import common.events.types.CreateAIEntityEventType;
 import networking.events.consumer.server.incoming.*;
 import networking.events.consumer.server.outgoing.CreateEntityOutgoingConsumerServer;
+import networking.events.consumer.server.outgoing.RemoveEntityOutgoingConsumerServer;
 import networking.events.consumer.server.outgoing.ReplaceBlockOutgoingConsumerServer;
 import networking.events.consumer.server.outgoing.UpdateEntityOutgoingConsumerServer;
 import networking.events.types.NetworkEventTypeEnum;
@@ -39,6 +40,10 @@ public class ServerEventConsumer extends EventConsumer {
     CreateAIEntityConsumerServer createAIEntityConsumerServer;
     @Inject
     HandshakeIncomingConsumerServer handshakeIncomingConsumerServer;
+    @Inject
+    RemoveEntityIncomingConsumerServer removeEntityIncomingConsumerServer;
+    @Inject
+    RemoveEntityOutgoingConsumerServer removeEntityOutgoingConsumerServer;
 
     public void init() {
         super.init();
@@ -50,16 +55,18 @@ public class ServerEventConsumer extends EventConsumer {
                 CreateEntityIncomingEventType.type, createEntityIncomingConsumerServer);
         this.eventService.addListener(
                 UpdateEntityIncomingEventType.type, updateEntityIncomingConsumerServer);
-        this.eventService.addListener(
+        this.eventService.addPostUpdateListener(
                 ReplaceBlockIncomingEventType.type, replaceBlockIncomingConsumerServer);
+        this.eventService.addListener(
+                ReplaceBlockOutgoingEventType.type, replaceBlockOutgoingConsumerServer);
         this.eventService.addListener(
                 CreateEntityOutgoingEventType.type, createEntityOutgoingConsumerServer);
         this.eventService.addListener(
                 UpdateEntityOutgoingEventType.type, updateEntityOutgoingConsumerServer);
-        this.eventService.addListener(
-                ReplaceBlockOutgoingEventType.type, replaceBlockOutgoingConsumerServer);
         this.eventService.addPostUpdateListener(
                 CreateAIEntityEventType.type, createAIEntityConsumerServer);
         this.eventService.addListener(NetworkEventTypeEnum.HANDSHAKE_INCOMING, handshakeIncomingConsumerServer);
+        this.eventService.addPostUpdateListener(NetworkEventTypeEnum.REMOVE_ENTITY_INCOMING, removeEntityIncomingConsumerServer);
+        this.eventService.addListener(NetworkEventTypeEnum.REMOVE_ENTITY_OUTGOING, removeEntityOutgoingConsumerServer);
     }
 }

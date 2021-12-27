@@ -1,5 +1,6 @@
 package networking;
 
+import app.Game;
 import app.GameController;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
@@ -9,6 +10,7 @@ import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
 import common.exceptions.EntityNotFound;
+import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import entity.Entity;
@@ -34,12 +36,16 @@ public class testDoubleClient {
     ClientNetworkHandle client_a_NetworkHandle;
     ClientNetworkHandle client_b_NetworkHandle;
 
+    Game serverGame;
+    Game client_a_Game;
+    Game client_b_Game;
+
     Injector serverInjector;
 
     ServerNetworkHandle serverNetworkHandle;
 
     @Before
-    public void setup() throws IOException {
+    public void setup() throws IOException, SerializationDataMissing, InterruptedException {
         client_a_Injector = Guice.createInjector(new ClientConfig());
         client_b_Injector = Guice.createInjector(new ClientConfig());
         serverInjector = Guice.createInjector(new BaseServerConfig());
@@ -48,10 +54,14 @@ public class testDoubleClient {
         client_b_NetworkHandle = client_b_Injector.getInstance(ClientNetworkHandle.class);
 
         serverNetworkHandle = serverInjector.getInstance(ServerNetworkHandle.class);
-        serverNetworkHandle.start();
 
-        client_a_NetworkHandle.connect();
-        client_b_NetworkHandle.connect();
+        serverGame = serverInjector.getInstance(Game.class);
+        client_a_Game = client_a_Injector.getInstance(Game.class);
+        client_b_Game = client_b_Injector.getInstance(Game.class);
+
+        serverGame.start();
+        client_a_Game.start();
+        client_b_Game.start();
     }
 
     @After
@@ -268,5 +278,46 @@ public class testDoubleClient {
         assert serverGameStore.getEntity(clientLadder.uuid).equals(clientLadder);
         assert client_a_GameStore.getEntity(clientLadder.uuid).equals(clientLadder);
         assert client_b_GameStore.getEntity(clientLadder.uuid).equals(clientLadder);
+    }
+
+    @Test
+    public void testRemoveClientToServer() throws InterruptedException, EntityNotFound {
+        GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
+        GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
+        GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+        GameController serverGameController = serverInjector.getInstance(GameController.class);
+        GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
+
+        Entity myEntity = serverGameController.createEntity(new Coordinates(0, 0));
+        TimeUnit.SECONDS.sleep(1);
+
+        assert serverGameStore.getEntity(myEntity.uuid).equals(client_a_GameStore.getEntity(myEntity.uuid));
+        assert serverGameStore.getEntity(myEntity.uuid).equals(client_b_GameStore.getEntity(myEntity.uuid));
+        client_a_GameController.removeEntity(myEntity.uuid);
+        TimeUnit.SECONDS.sleep(1);
+
+        assert !serverGameStore.doesEntityExist(myEntity.uuid);
+        assert !client_a_GameStore.doesEntityExist(myEntity.uuid);
+        assert !client_b_GameStore.doesEntityExist(myEntity.uuid);
+    }
+
+    @Test
+    public void testRemoveServerToClient() throws InterruptedException, EntityNotFound {
+        GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
+        GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
+        GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+        GameController serverGameController = serverInjector.getInstance(GameController.class);
+
+        Entity myEntity = serverGameController.createEntity(new Coordinates(0, 0));
+        TimeUnit.SECONDS.sleep(1);
+
+        assert serverGameStore.getEntity(myEntity.uuid).equals(client_a_GameStore.getEntity(myEntity.uuid));
+        assert serverGameStore.getEntity(myEntity.uuid).equals(client_b_GameStore.getEntity(myEntity.uuid));
+        serverGameController.removeEntity(myEntity.uuid);
+        TimeUnit.SECONDS.sleep(1);
+
+        assert !serverGameStore.doesEntityExist(myEntity.uuid);
+        assert !client_a_GameStore.doesEntityExist(myEntity.uuid);
+        assert !client_b_GameStore.doesEntityExist(myEntity.uuid);
     }
 }

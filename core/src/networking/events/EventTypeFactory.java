@@ -55,14 +55,13 @@ public class EventTypeFactory {
         return new SubscriptionIncomingEventType(networkEvent);
     }
 
-    public RemoveEntityIncomingEventType createRemoveEntityIncomingEvent(
-            NetworkObjects.NetworkEvent networkEvent) {
-        return new RemoveEntityIncomingEventType(networkEvent);
+    public static RemoveEntityIncomingEventType createRemoveEntityIncomingEvent(UUID user, ChunkRange chunkRange, UUID target) {
+        return new RemoveEntityIncomingEventType(user, chunkRange, target);
     }
 
-    public RemoveEntityOutgoingEventType createRemoveEntityOutgoingEvent(
-            NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
-        return new RemoveEntityOutgoingEventType(entityData, chunkRange);
+    public static RemoveEntityOutgoingEventType createRemoveEntityOutgoingEvent(
+            UUID target, ChunkRange chunkRange) {
+        return new RemoveEntityOutgoingEventType(target, chunkRange);
     }
 
     public DisconnectionIncomingEventType createDisconnectionEvent(UUID uuid) {

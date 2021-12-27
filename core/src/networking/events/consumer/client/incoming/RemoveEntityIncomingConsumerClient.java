@@ -1,36 +1,24 @@
 package networking.events.consumer.client.incoming;
 
+import app.GameController;
 import com.google.inject.Inject;
-import common.events.EventService;
 import common.events.types.EventType;
-import common.exceptions.SerializationDataMissing;
-import entity.Entity;
-import networking.events.EventTypeFactory;
+import common.exceptions.EntityNotFound;
 import networking.events.types.incoming.RemoveEntityIncomingEventType;
-import networking.translation.NetworkDataDeserializer;
 
 import java.util.function.Consumer;
 
 public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
-
     @Inject
-    EventService eventService;
-    @Inject
-    NetworkDataDeserializer entitySerializationConverter;
-    @Inject
-    EventTypeFactory eventTypeFactory;
+    GameController gameController;
 
     @Override
     public void accept(EventType eventType) {
-        RemoveEntityIncomingEventType realEvent = (RemoveEntityIncomingEventType) eventType;
-        Entity entity = null;
+        RemoveEntityIncomingEventType incoming = (RemoveEntityIncomingEventType) eventType;
         try {
-            entity = entitySerializationConverter.createEntity(realEvent.getData());
-        } catch (SerializationDataMissing e) {
+            gameController.triggerRemoveEntity(incoming.getTarget());
+        } catch (EntityNotFound e) {
             e.printStackTrace();
-            // todo disconnect the client
-            return;
         }
-        eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(entity.uuid));
     }
 }

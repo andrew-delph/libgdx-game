@@ -40,6 +40,8 @@ public class ClientEventConsumer extends EventConsumer {
     HandshakeIncomingConsumerClient handshakeIncomingConsumerClient;
     @Inject
     HandshakeOutgoingConsumerClient handshakeOutgoingConsumerClient;
+    @Inject
+    RemoveEntityOutgoingConsumerClient removeEntityOutgoingConsumerClient;
 
     @Inject
     protected ClientEventConsumer() {
@@ -49,14 +51,14 @@ public class ClientEventConsumer extends EventConsumer {
         super.init();
         this.eventService.addListener(CreateEntityIncomingEventType.type, createEntityIncomingConsumer);
         this.eventService.addListener(UpdateEntityIncomingEventType.type, updateEntityIncomingConsumer);
-        this.eventService.addListener(RemoveEntityIncomingEventType.type, removeEntityIncomingConsumer);
-        this.eventService.addListener(ReplaceBlockIncomingEventType.type, replaceBlockIncomingConsumer);
+        this.eventService.addPostUpdateListener(ReplaceBlockIncomingEventType.type, replaceBlockIncomingConsumer);
         this.eventService.addListener(CreateEntityOutgoingEventType.type, createEntityOutgoingConsumer);
         this.eventService.addListener(UpdateEntityOutgoingEventType.type, updateEntityOutgoingConsumer);
         this.eventService.addListener(ReplaceBlockOutgoingEventType.type, replaceBlockOutgoingConsumer);
-        this.eventService.addPostUpdateListener(
-                CreateAIEntityEventType.type, createAIEntityConsumerClient);
+        this.eventService.addPostUpdateListener(CreateAIEntityEventType.type, createAIEntityConsumerClient);
         this.eventService.addListener(NetworkEventTypeEnum.HANDSHAKE_INCOMING, handshakeIncomingConsumerClient);
         this.eventService.addListener(NetworkEventTypeEnum.HANDSHAKE_OUTGOING, handshakeOutgoingConsumerClient);
+        this.eventService.addListener(NetworkEventTypeEnum.REMOVE_ENTITY_OUTGOING, removeEntityOutgoingConsumerClient);
+        this.eventService.addPostUpdateListener(RemoveEntityIncomingEventType.type, removeEntityIncomingConsumer);
     }
 }

@@ -5,18 +5,31 @@ import com.google.inject.Inject;
 import common.events.types.EventType;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
+import networking.translation.NetworkDataSerializer;
+
+import java.util.UUID;
+
+import static networking.events.types.NetworkEventTypeEnum.REMOVE_ENTITY_OUTGOING;
 
 public class RemoveEntityOutgoingEventType extends EventType implements SerializeNetworkEvent {
+    public static String type = REMOVE_ENTITY_OUTGOING;
 
-    public static String type = "remove_entity_outgoing";
-    NetworkObjects.NetworkData entityData;
+    UUID target;
     ChunkRange chunkRange;
 
     @Inject
     public RemoveEntityOutgoingEventType(
-            NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
-        this.entityData = entityData;
+            UUID target, ChunkRange chunkRange) {
+        this.target = target;
         this.chunkRange = chunkRange;
+    }
+
+    public ChunkRange getChunkRange() {
+        return chunkRange;
+    }
+
+    public UUID getTarget() {
+        return target;
     }
 
     @Override
@@ -26,6 +39,6 @@ public class RemoveEntityOutgoingEventType extends EventType implements Serializ
 
     @Override
     public NetworkObjects.NetworkEvent toNetworkEvent() {
-        return NetworkObjects.NetworkEvent.newBuilder().setData(this.entityData).setEvent(type).build();
+        return NetworkDataSerializer.createRemoveEntityOutgoingEventType(this);
     }
 }

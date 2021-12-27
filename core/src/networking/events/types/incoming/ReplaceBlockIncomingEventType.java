@@ -6,9 +6,11 @@ import entity.block.Block;
 
 import java.util.UUID;
 
+import static networking.events.types.NetworkEventTypeEnum.REPLACE_ENTITY_INCOMING;
+
 public class ReplaceBlockIncomingEventType extends EventType {
 
-    public static String type = "replace_block_incoming";
+    public static String type = REPLACE_ENTITY_INCOMING;
 
     UUID user;
     UUID target;

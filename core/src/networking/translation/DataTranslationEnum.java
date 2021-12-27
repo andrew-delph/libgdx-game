@@ -8,5 +8,6 @@ public class DataTranslationEnum {
     public static final String REPLACE_BLOCK = "REPLACE_BLOCK";
     public static final String CREATE_ENTITY = "CREATE_ENTITY";
     public static final String UPDATE_ENTITY = "UPDATE_ENTITY";
+    public static final String REMOVE_ENTITY = "REMOVE_ENTITY";
     public static final String HANDSHAKE = "HANDSHAKE";
 }
