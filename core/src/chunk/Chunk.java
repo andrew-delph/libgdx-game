@@ -1,5 +1,6 @@
 package chunk;
 
+import app.GameSettings;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -30,8 +31,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     ConcurrentHashMap<UUID, Entity> chunkMap;
     Set<UUID> bodySet;
     Map<Entity, Body> neighborEntityBodyMap = new HashMap<>();
-
-    float timeStep = 1 / 5f;
+    
     float gravity = 1f;
 
     @Inject
@@ -174,7 +174,6 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
         int tickTimeout = Integer.MAX_VALUE;
         for (Entity entity : this.chunkMap.values()) {
-
             if (entity.entityController != null) entity.entityController.beforeWorldUpdate();
             try {
                 this.gameStore.syncEntity(entity);
@@ -187,7 +186,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
                 tickTimeout = entityTick;
             }
         }
-        world.step(timeStep, 6, 2);
+        world.step(GameSettings.WORLD_TIME_STEP, GameSettings.WORLD_VELOCITY_ITERATIONS, GameSettings.WORLD_POSITION_ITERATIONS);
 
         for (Entity entity : this.chunkMap.values()) {
             if (entity.entityController != null) entity.entityController.afterWorldUpdate();

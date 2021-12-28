@@ -31,11 +31,8 @@ public class EntityUserController extends EntityController {
 
     @Override
     public void beforeWorldUpdate() {
-
         Body body = this.entity.getBody();
-
         float impulse = body.getMass() * 10;
-
         try {
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -51,7 +48,6 @@ public class EntityUserController extends EntityController {
             if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
                 if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                     this.gameController.placeBlock(this.entity, Direction.LEFT, DirtBlock.class);
-
                 } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                     this.gameController.placeBlock(this.entity, Direction.RIGHT, DirtBlock.class);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -74,12 +70,10 @@ public class EntityUserController extends EntityController {
         } catch (EntityNotFound e) {
             e.printStackTrace();
         }
-
         if (Gdx.input.isKeyPressed(Input.Keys.F)) {
             this.eventService.queuePostUpdateEvent(
                     this.eventTypeFactory.createAIEntityEventType(new Coordinates(0, 0)));
         }
-
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             if (this.getAction("climbUp").isValid(body)) {
                 this.applyAction("climbUp", body);
@@ -87,7 +81,6 @@ public class EntityUserController extends EntityController {
                 this.applyAction("jump", body);
             }
         }
-
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             if (this.getAction("climbDown").isValid(body)) {
                 this.applyAction("climbDown", body);

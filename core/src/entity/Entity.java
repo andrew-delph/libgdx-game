@@ -1,5 +1,6 @@
 package entity;
 
+import app.GameSettings;
 import app.render.BaseAssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,7 +15,7 @@ import networking.events.interfaces.SerializeNetworkData;
 import java.util.UUID;
 
 public class Entity implements SerializeNetworkData {
-    public static int coordinatesScale = 25;
+    public static int coordinatesScale = GameSettings.COORDINATES_SCALE;
     public static int staticHeight = (int) (Entity.coordinatesScale * 0.8);
     public static int staticWidth = (int) (Entity.coordinatesScale * 0.8);
     public UUID uuid;
@@ -70,7 +71,7 @@ public class Entity implements SerializeNetworkData {
     }
 
     public synchronized Body addWorld(World world) {
-        return entityBodyBuilder.createEntityBody(world, this.coordinates);
+        return EntityBodyBuilder.createEntityBody(world, this.coordinates);
     }
 
     public synchronized void setController(EntityController entityController) {
