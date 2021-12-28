@@ -72,7 +72,9 @@ public class EntityController {
         }
         if (this.getAction("climbUp").isValid(this.entity.getBody())) {
             this.entity.getBody().setLinearVelocity(0, 0);
+            this.entity.getBody().setGravityScale(0);
         } else {
+            this.entity.getBody().setGravityScale(1);
             this.entity.getBody().setLinearVelocity(0, this.entity.getBody().getLinearVelocity().y);
         }
     }
