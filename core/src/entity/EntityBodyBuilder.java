@@ -17,39 +17,73 @@ public class EntityBodyBuilder {
     }
 
     public static Body createEntityBody(World world, Coordinates coordinates) {
+        float center_x = -(Entity.coordinatesScale - Entity.staticWidth) / 2f;
+        float center_y = -(Entity.coordinatesScale - Entity.staticHeight) / 2f;
+
+        Body theBody;
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(
-                coordinates.getXReal() * Entity.coordinatesScale,
-                coordinates.getYReal() * Entity.coordinatesScale);
 
-        Body theBody = world.createBody(bodyDef);
-        theBody.setUserData(null);
-        PolygonShape shape = new PolygonShape();
+        FixtureDef mainFixtureDef = new FixtureDef();
+        PolygonShape mainShape = new PolygonShape();
+        Fixture mainFixture;
 
-        //    shape.setAsBox(0.2f, 0.3f); // Entity.coordinatesScale / 2.1f
-        shape.setAsBox(
-                Entity.staticWidth / 2f,
-                Entity.staticHeight / 2f,
-                new Vector2(
-                        -(Entity.coordinatesScale - Entity.staticWidth) / 2f,
-                        -(Entity.coordinatesScale - Entity.staticHeight) / 2f),
-                0);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-        fixtureDef.restitution = 0;
-        Fixture bodyFixture = theBody.createFixture(fixtureDef);
+        FixtureDef smoothFixtureDef = new FixtureDef();
+        PolygonShape smoothShape = new PolygonShape();
+        Fixture smoothFixture;
+
+        FixtureDef jumpFixtureDef = new FixtureDef();
+        PolygonShape jumpShape = new PolygonShape();
+        Fixture jumpFixture;
 
         Filter filter = new Filter();
         filter.categoryBits = 1;
         filter.maskBits = 2;
-        bodyFixture.setFilterData(filter);
 
-        bodyFixture.setUserData(new EntityPoint(theBody));
+        // create the body
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(
+                coordinates.getXReal() * Entity.coordinatesScale,
+                coordinates.getYReal() * Entity.coordinatesScale);
+        theBody = world.createBody(bodyDef);
+        theBody.setFixedRotation(true);
 
-        FixtureDef jumpFixtureDef = new FixtureDef();
-        PolygonShape jumpShape = new PolygonShape();
+        // create the main
+        mainShape.setAsBox(
+                Entity.staticWidth / 2f,
+                Entity.staticHeight / 2f,
+                new Vector2(
+                        center_x,
+                        center_y),
+                0);
+        mainFixtureDef.shape = mainShape;
+        mainFixtureDef.density = 1f;
+        mainFixtureDef.restitution = 0;
+        mainFixture = theBody.createFixture(mainFixtureDef);
+        mainFixture.setFilterData(filter);
+        mainFixture.setUserData(new EntityPoint(theBody));
+
+        // create the smooth
+        Vector2[] smoothVertices = new Vector2[3];
+        float left = center_x - (Entity.staticWidth / 2f);
+        float right = center_x + (Entity.staticWidth / 2f);
+        float bottom = center_y - (Entity.staticHeight / 2f) - 1;
+        smoothVertices[0] = new Vector2(
+                left,
+                center_y);
+        smoothVertices[1] = new Vector2(
+                right,
+                center_y);
+        smoothVertices[2] = new Vector2(
+                center_x,
+                bottom);
+        smoothShape.set(smoothVertices);
+        smoothFixtureDef.shape = smoothShape;
+        smoothFixtureDef.density = 1f;
+        smoothFixtureDef.restitution = 0;
+        smoothFixture = theBody.createFixture(smoothFixtureDef);
+        smoothFixture.setFilterData(filter);
+
+        // create the jump
         jumpShape.setAsBox(
                 Entity.staticWidth / 2f,
                 5f,
@@ -57,10 +91,9 @@ public class EntityBodyBuilder {
                 0);
         jumpFixtureDef.shape = jumpShape;
         jumpFixtureDef.isSensor = true;
-
-        Fixture jumpFixture = theBody.createFixture(jumpFixtureDef);
+        jumpFixture = theBody.createFixture(jumpFixtureDef);
         jumpFixture.setUserData(new GroundSensorPoint(theBody));
-        theBody.setFixedRotation(true);
+
         return theBody;
     }
 
@@ -74,7 +107,7 @@ public class EntityBodyBuilder {
         Body theBody = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(Block.staticWidth / 2.0f, Block.staticHeight / 2f);
+        shape.setAsBox(Block.staticWidth / 2f, Block.staticHeight / 2f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0f;
