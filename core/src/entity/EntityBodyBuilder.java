@@ -64,8 +64,8 @@ public class EntityBodyBuilder {
 
         // create the smooth
         Vector2[] smoothVertices = new Vector2[3];
-        float left = center_x - (Entity.staticWidth / 2f);
-        float right = center_x + (Entity.staticWidth / 2f);
+        float left = center_x - (Entity.staticWidth / 2f) - 1;
+        float right = center_x + (Entity.staticWidth / 2f) + 1;
         float bottom = center_y - (Entity.staticHeight / 2f) - 1;
         smoothVertices[0] = new Vector2(
                 left,
