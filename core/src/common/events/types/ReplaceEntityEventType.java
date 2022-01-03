@@ -13,12 +13,19 @@ public class ReplaceEntityEventType extends EventType {
     UUID target;
     Entity replacementEntity;
     ChunkRange chunkRange;
+    Boolean swapVelocity;
 
-    @Inject
-    public ReplaceEntityEventType(UUID target, Entity replacementBlock, ChunkRange chunkRange) {
+
+
+    public ReplaceEntityEventType(UUID target, Entity replacementBlock, Boolean swapVelocity, ChunkRange chunkRange) {
         this.target = target;
         this.replacementEntity = replacementBlock;
         this.chunkRange = chunkRange;
+        this.swapVelocity = swapVelocity;
+    }
+
+    public Boolean getSwapVelocity() {
+        return swapVelocity;
     }
 
     public ChunkRange getChunkRange() {

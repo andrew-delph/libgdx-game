@@ -26,7 +26,7 @@ public class EventConsumer {
                 event -> {
                     ReplaceEntityEventType realEvent = (ReplaceEntityEventType) event;
                     try {
-                        this.gameController.triggerReplaceEntity(realEvent.getTarget(), realEvent.getReplacementEntity());
+                        this.gameController.triggerReplaceEntity(realEvent.getTarget(), realEvent.getReplacementEntity(), realEvent.getSwapVelocity());
                     } catch (EntityNotFound e) {
                         e.printStackTrace();
                     }

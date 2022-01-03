@@ -65,8 +65,8 @@ public class EventTypeFactory {
         return new ReplaceBlockOutgoingEventType(target, replacementEntity, chunkRange);
     }
 
-    public static ReplaceEntityEventType createReplaceEntityEvent(UUID target, Entity replacementEntity, ChunkRange chunkRange) {
-        return new ReplaceEntityEventType(target, replacementEntity, chunkRange);
+    public static ReplaceEntityEventType createReplaceEntityEvent(UUID target, Entity replacementEntity, Boolean swapVelocity, ChunkRange chunkRange) {
+        return new ReplaceEntityEventType(target, replacementEntity, swapVelocity, chunkRange);
     }
 
     public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange, List<UUID> listUUID) {

@@ -164,7 +164,7 @@ public class GameController {
         }
         // put this into a post update event
         this.eventService.queuePostUpdateEvent(
-                EventTypeFactory.createReplaceEntityEvent(target.uuid, replacementBlock, new ChunkRange(target.coordinates)));
+                EventTypeFactory.createReplaceEntityEvent(target.uuid, replacementBlock,false, new ChunkRange(target.coordinates)));
         this.eventService.fireEvent(
                 EventTypeFactory.createReplaceBlockOutgoingEvent(
                         target.uuid, replacementBlock, new ChunkRange(target.coordinates)));
@@ -196,7 +196,7 @@ public class GameController {
     public void syncEntity(Entity entity) throws EntityNotFound {
         if (!gameStore.getEntityChunkRange(entity.uuid).equals(new ChunkRange(entity.coordinates))) {
             this.eventService.queuePostUpdateEvent(
-                    EventTypeFactory.createReplaceEntityEvent(entity.uuid, entity, new ChunkRange(entity.coordinates)));
+                    EventTypeFactory.createReplaceEntityEvent(entity.uuid, entity,true, new ChunkRange(entity.coordinates)));
         }
     }
 
