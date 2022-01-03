@@ -3,7 +3,6 @@ package app;
 import app.render.BaseAssetManager;
 import app.render.BaseCamera;
 import chunk.Chunk;
-import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -14,14 +13,11 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
-import common.events.EventService;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
-import entity.pathfinding.EdgeRegistration;
 import generation.ChunkGenerationManager;
-import networking.events.EventTypeFactory;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -32,46 +28,25 @@ public class GameScreen extends ApplicationAdapter {
 
     @Inject
     Game game;
-
     @Inject
     GameStore gameStore;
-
     @Inject
     EntityFactory entityFactory;
-
-    SpriteBatch batch;
-
     @Inject
     BaseAssetManager baseAssetManager;
-
     @Inject
     ChunkGenerationManager chunkGenerationManager;
-
     @Inject
     BaseCamera baseCamera;
-
-    Entity myEntity;
-
     @Inject
     GameController gameController;
-
-    @Inject
-    ChunkFactory chunkFactory;
-
     @Inject
     EntityControllerFactory entityControllerFactory;
 
-    @Inject
-    EdgeRegistration edgeRegistration;
-    @Inject
-    EventService eventService;
-    @Inject
-    EventTypeFactory eventTypeFactory;
-
     Box2DDebugRenderer debugRenderer;
     Matrix4 debugMatrix;
-
-    Entity pathEntity;
+    Entity myEntity;
+    SpriteBatch batch;
 
     @Inject
     public GameScreen() {
@@ -101,24 +76,18 @@ public class GameScreen extends ApplicationAdapter {
 
     @Override
     public void render() {
-
         debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
         baseCamera.position.set(
                 myEntity.coordinates.getXReal() * Entity.coordinatesScale,
                 myEntity.coordinates.getYReal() * Entity.coordinatesScale,
                 0);
         baseCamera.update();
-
         // focus camera
         batch.setProjectionMatrix(baseCamera.combined);
-
         // clear screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         batch.begin();
-
         List<Entity> renderList = game.getEntityListInRange(0, 0, 100, 100);
-
         try {
             renderList =
                     renderList.stream()
@@ -136,12 +105,24 @@ public class GameScreen extends ApplicationAdapter {
                 e.printStackTrace();
             }
         }
-        //    System.out.println(new ChunkRange(myEntity.coordinates)+";
-        // "+myEntity.coordinates.getXReal()+"; "+myEntity.coordinates.getX());
         batch.end();
         Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
-        debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
+
+        debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0).translate(0, 100, 0);
         debugRenderer.render(mainChunk.world, debugMatrix);
+
+//        Chunk lowerChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getDown());
+//        Chunk leftChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getLeft());
+//        Chunk rightChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getRight());
+//        if (lowerChunk == null) return;
+//        debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0).translate(0, -50, 0);
+//        debugRenderer.render(lowerChunk.world, debugMatrix);
+//        if (leftChunk == null) return;
+//        debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0).translate(-50, 0, 0);
+//        debugRenderer.render(leftChunk.world, debugMatrix);
+//        if (rightChunk == null) return;
+//        debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0).translate(50, 0, 0);
+//        debugRenderer.render(rightChunk.world, debugMatrix);
     }
 
     @Override

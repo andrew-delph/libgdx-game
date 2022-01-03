@@ -299,9 +299,9 @@ public class testSingleClient {
         EventService clientEventService = clientInjector.getInstance(EventService.class);
         TimeUnit.SECONDS.sleep(1);
         Entity serverEntity = serverGameController.addEntity(serverBlockFactory.createDirt());
-        assert serverGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
+        assert serverGameStore.getBlock(new Coordinates(0, 0)).equals(serverEntity);
         TimeUnit.SECONDS.sleep(1);
-        assert clientGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
+        assert clientGameStore.getBlock(new Coordinates(0, 0)).equals(serverEntity);
         serverEventService.fireEvent(
                 EventTypeFactory.createReplaceBlockOutgoingEvent(
                         serverEntity.uuid,

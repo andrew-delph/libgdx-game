@@ -35,6 +35,6 @@ public class TranslateReplaceBlockEvent {
 
         assert outgoing.getChunkRange().equals(incoming.getChunkRange());
         assert outgoing.getTarget().equals(incoming.getTarget());
-        assert outgoing.getReplacementBlock().equals(incoming.getReplacementBlock());
+        assert outgoing.getReplacementEntity().equals(incoming.getReplacementBlock());
     }
 }

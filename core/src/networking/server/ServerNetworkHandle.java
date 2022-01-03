@@ -105,5 +105,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.
                 createHandshakeOutgoingEventType(chunkRange, uuidList);
         this.send(user, handshakeOutgoing.toNetworkEvent());
+
+        System.out.println("SERVER INIT HANDSHAKE " + user.toString());
     }
 }

@@ -3,12 +3,10 @@ package app.client;
 import app.UpdateLoop;
 import app.render.BaseCamera;
 import chunk.Chunk;
-import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.events.EventService;
 import common.exceptions.SerializationDataMissing;
-import generation.ChunkGenerationManager;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
 
@@ -21,20 +19,11 @@ import java.util.concurrent.Callable;
 public class ClientUpdateLoop extends UpdateLoop {
 
     @Inject
-    ChunkGenerationManager chunkGenerationManager;
-
-    @Inject
-    ChunkFactory chunkFactory;
-
-    @Inject
     ClientNetworkHandle clientNetworkHandle;
-
     @Inject
     EventTypeFactory eventTypeFactory;
-
     @Inject
     BaseCamera baseCamera;
-
     @Inject
     EventService eventService;
 

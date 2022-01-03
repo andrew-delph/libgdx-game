@@ -4,7 +4,7 @@ import app.GameController;
 import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.RemoveEntityEventType;
-import common.events.types.ReplaceBlockEventType;
+import common.events.types.ReplaceEntityEventType;
 import common.exceptions.EntityNotFound;
 
 public class EventConsumer {
@@ -22,11 +22,11 @@ public class EventConsumer {
 
     public void init() {
         this.eventService.addPostUpdateListener(
-                common.events.types.ReplaceBlockEventType.type,
+                ReplaceEntityEventType.type,
                 event -> {
-                    common.events.types.ReplaceBlockEventType realEvent = (ReplaceBlockEventType) event;
+                    ReplaceEntityEventType realEvent = (ReplaceEntityEventType) event;
                     try {
-                        this.gameController.triggerReplaceBlock(realEvent.getTarget(), realEvent.getReplacementBlock());
+                        this.gameController.triggerReplaceEntity(realEvent.getTarget(), realEvent.getReplacementEntity(), realEvent.getSwapVelocity());
                     } catch (EntityNotFound e) {
                         e.printStackTrace();
                     }

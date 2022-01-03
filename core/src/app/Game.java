@@ -43,8 +43,8 @@ public class Game {
 
     public void start() throws IOException, InterruptedException, SerializationDataMissing {
         timer = new Timer(true);
-        timer.scheduleAtFixedRate(updateLoop, 0, 16);
         this.init();
+        timer.scheduleAtFixedRate(updateLoop, 0, GameSettings.UPDATE_INTERVAL);
     }
 
     public void stop() {

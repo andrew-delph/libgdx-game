@@ -11,6 +11,7 @@ public class GetChunkOutgoingEventType extends EventType implements SerializeNet
     static String type = "get_chunk";
     ChunkRange chunkRange;
     UUID userId;
+
     public GetChunkOutgoingEventType(ChunkRange chunkRange, UUID userId) {
         this.chunkRange = chunkRange;
         this.userId = userId;

@@ -11,7 +11,6 @@ import common.exceptions.SerializationDataMissing;
 import entity.collision.CollisionService;
 import generation.ChunkGenerationManager;
 import networking.client.ClientNetworkHandle;
-import networking.events.EventTypeFactory;
 
 import java.io.IOException;
 
@@ -19,9 +18,6 @@ public class ClientGame extends Game {
 
     @Inject
     ClientNetworkHandle clientNetworkHandle;
-
-    @Inject
-    EventTypeFactory eventTypeFactory;
 
     @Inject
     public ClientGame(

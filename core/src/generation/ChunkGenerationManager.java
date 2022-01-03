@@ -4,7 +4,6 @@ import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Coordinates;
-import common.GameStore;
 import entity.Entity;
 
 import java.util.*;
@@ -15,8 +14,6 @@ public class ChunkGenerationManager {
     Set<Entity> activeEntity;
     Map<UUID, List<UUID>> uuidOwnerMap;
 
-    @Inject
-    GameStore gameStore;
     @Inject
     ChunkBuilderFactory chunkBuilderFactory;
 
@@ -45,7 +42,7 @@ public class ChunkGenerationManager {
     public List<Callable<Chunk>> generateActiveEntities() {
         List<Callable<Chunk>> generationList = new LinkedList<>();
         for (Entity entity : this.getActiveEntityList()) {
-            generationList.addAll(generateAround(new ChunkRange(entity.coordinates)));
+            generationList.addAll(generateAround(new ChunkRange(entity.coordinates), 3));
         }
         return generationList;
     }
@@ -59,11 +56,11 @@ public class ChunkGenerationManager {
         return chunkBuilderFactory.create(chunkRange);
     }
 
-    public List<Callable<Chunk>> generateAround(ChunkRange chunkRangeRoot) {
+    public List<Callable<Chunk>> generateAround(ChunkRange chunkRangeRoot, int radius) {
 
         List<ChunkRange> surroundingChunkRangeList =
                 ChunkRange.getChunkRangeListAroundPoint(
-                        new Coordinates(chunkRangeRoot.bottom_x, chunkRangeRoot.bottom_y), 3);
+                        new Coordinates(chunkRangeRoot.bottom_x, chunkRangeRoot.bottom_y), radius);
 
         List<Callable<Chunk>> chunkBuilderList = new LinkedList<>();
 

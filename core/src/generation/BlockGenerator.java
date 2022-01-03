@@ -15,16 +15,12 @@ public class BlockGenerator {
     }
 
     public Entity generate(Coordinates coordinates) {
-        Entity block;
         if (coordinates.getY() > 0) {
-            block = gameController.createSkyBlock(coordinates);
+            return gameController.createSkyBlock(coordinates);
         } else if (Math.random() < 0.1) {
-            block = gameController.createStoneBlock(coordinates);
-        } else if (Math.random() < 0) {
-            block = gameController.createSkyBlock(coordinates);
+            return gameController.createStoneBlock(coordinates);
         } else {
-            block = gameController.createDirtBlock(coordinates);
+            return gameController.createDirtBlock(coordinates);
         }
-        return block;
     }
 }

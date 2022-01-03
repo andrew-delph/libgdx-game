@@ -15,11 +15,17 @@ import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
+import entity.block.Block;
+import entity.block.BlockFactory;
+import entity.block.DirtBlock;
+import entity.block.SkyBlock;
+import entity.misc.Ladder;
 import generation.ChunkBuilderFactory;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,6 +46,10 @@ public class testDoubleClient {
     Game client_a_Game;
     Game client_b_Game;
 
+    GameController serverGameController;
+    GameController client_a_GameController;
+    GameController client_b_GameController;
+
     Injector serverInjector;
 
     ServerNetworkHandle serverNetworkHandle;
@@ -58,6 +68,10 @@ public class testDoubleClient {
         serverGame = serverInjector.getInstance(Game.class);
         client_a_Game = client_a_Injector.getInstance(Game.class);
         client_b_Game = client_b_Injector.getInstance(Game.class);
+
+        serverGameController = serverInjector.getInstance(GameController.class);
+        client_a_GameController = client_a_Injector.getInstance(GameController.class);
+        client_b_GameController = client_b_Injector.getInstance(GameController.class);
 
         serverGame.start();
         client_a_Game.start();
@@ -319,5 +333,65 @@ public class testDoubleClient {
         assert !serverGameStore.doesEntityExist(myEntity.uuid);
         assert !client_a_GameStore.doesEntityExist(myEntity.uuid);
         assert !client_b_GameStore.doesEntityExist(myEntity.uuid);
+    }
+
+    @Test
+    public void testClientReplaceLadder() throws Exception {
+        GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
+        GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
+        GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+
+        BlockFactory client_a_BlockFactory = client_a_Injector.getInstance(BlockFactory.class);
+        ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
+
+        Coordinates coordinates = new Coordinates(0, 1);
+        ChunkRange chunkRange = new ChunkRange(coordinates);
+        serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
+        client_a_GameStore.addChunk(client_a_NetworkHandle.getChunk(chunkRange));
+        client_b_GameStore.addChunk(client_b_NetworkHandle.getChunk(chunkRange));
+
+        TimeUnit.SECONDS.sleep(1);
+
+        assert serverGameStore.getChunk(chunkRange).equals(client_a_GameStore.getChunk(chunkRange));
+        assert serverGameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
+        assert client_a_GameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
+        assert serverGameStore.getBlock(coordinates).getClass() == SkyBlock.class;
+
+        Block blockToRemove = client_a_GameStore.getBlock(coordinates);
+        Block blockAsReplacement = client_a_BlockFactory.createDirt();
+
+        Entity ladder = client_a_GameController.createLadder(coordinates);
+        TimeUnit.SECONDS.sleep(1);
+
+        // check chunks equal
+        assert serverGameStore.getChunk(chunkRange).equals(client_a_GameStore.getChunk(chunkRange));
+        assert serverGameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
+        assert client_a_GameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
+        // check block is equal
+        Assert.assertEquals(client_a_GameStore.getBlock(coordinates).getClass(), SkyBlock.class);
+        Assert.assertEquals(serverGameStore.getBlock(coordinates).getClass(), SkyBlock.class);
+        Assert.assertEquals(client_b_GameStore.getBlock(coordinates).getClass(), SkyBlock.class);
+
+        // check ladder exists
+        assert serverGameStore.getEntity(ladder.uuid).getClass() == Ladder.class;
+        assert client_a_GameStore.getEntity(ladder.uuid).equals(serverGameStore.getEntity(ladder.uuid));
+        assert client_b_GameStore.getEntity(ladder.uuid).equals(serverGameStore.getEntity(ladder.uuid));
+
+
+        client_a_GameController.replaceBlock(blockToRemove, blockAsReplacement);
+        TimeUnit.SECONDS.sleep(1);
+
+        // check chunks equal
+        assert serverGameStore.getChunk(chunkRange).equals(client_a_GameStore.getChunk(chunkRange));
+        assert serverGameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
+        assert client_a_GameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
+        // check block is equal
+        Assert.assertEquals(serverGameStore.getBlock(coordinates).getClass(), DirtBlock.class);
+        Assert.assertEquals(client_a_GameStore.getBlock(coordinates).getClass(), DirtBlock.class);
+        Assert.assertEquals(client_b_GameStore.getBlock(coordinates).getClass(), DirtBlock.class);
+//         check ladder exists
+        assert !serverGameStore.doesEntityExist(ladder.uuid);
+        assert !client_a_GameStore.doesEntityExist(ladder.uuid);
+        assert !client_b_GameStore.doesEntityExist(ladder.uuid);
     }
 }

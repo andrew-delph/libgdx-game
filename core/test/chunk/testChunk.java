@@ -16,7 +16,7 @@ import static org.junit.Assert.fail;
 public class testChunk {
 
     @Test
-    public void testGetBlock() throws EntityNotFound {
+    public void testGetBlock() throws EntityNotFound{
         Injector injector = Guice.createInjector(new ClientConfig());
         ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
         Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));

@@ -29,7 +29,7 @@ public class CreateEntityIncomingEventType extends EventType {
     public UUID getUser() {
         return this.user;
     }
-    
+
 
     public ChunkRange getChunkRange() {
         return chunkRange;

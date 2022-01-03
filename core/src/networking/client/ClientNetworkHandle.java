@@ -18,9 +18,9 @@ import networking.translation.NetworkDataDeserializer;
 import java.util.UUID;
 
 public class ClientNetworkHandle {
+    public final UUID uuid = UUID.randomUUID();
     public String host = "localhost";
     public int port = 99;
-    public final UUID uuid = UUID.randomUUID();
     RequestNetworkEventObserver requestNetworkEventObserver;
     @Inject
     ObserverFactory observerFactory;
@@ -74,6 +74,7 @@ public class ClientNetworkHandle {
         HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.
                 createHandshakeOutgoingEventType(chunkRange);
         this.send(handshakeOutgoing.toNetworkEvent());
+        System.out.println("CLIENT INIT HANDSHAKE " + this.uuid);
     }
 
     public void close() {

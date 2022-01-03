@@ -9,6 +9,10 @@ public class CollisionPair {
         this.target = target;
     }
 
+    public CollisionPair reverse() {
+        return new CollisionPair(this.target, this.source);
+    }
+
     @Override
     public int hashCode() {
         return (this.source.toString() + "," + this.target.toString()).hashCode();

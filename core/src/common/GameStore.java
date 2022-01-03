@@ -2,7 +2,6 @@ package common;
 
 import chunk.Chunk;
 import chunk.ChunkRange;
-import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
@@ -84,15 +83,6 @@ public class GameStore {
         return this.chunkClockMap.get(chunkRange);
     }
 
-    public void syncEntity(Entity entity) throws EntityNotFound {
-        if (!entityMap.get(entity.uuid).equals(new ChunkRange(entity.coordinates))) {
-            Vector2 velocity = entity.getBody().getLinearVelocity();
-            this.removeEntity(entity.uuid);
-            this.addEntity(entity);
-            entity.getBody().setLinearVelocity(velocity);
-        }
-    }
-
     public List<Entity> getEntityListInRange(int x1, int y1, int x2, int y2) {
         List<Entity> entityList = new ArrayList<>();
         for (UUID entityUUID : new ArrayList<>(this.entityMap.keySet())) {
@@ -154,5 +144,9 @@ public class GameStore {
         return this.chunkClockMap
                 .get(new ChunkRange(coordinates))
                 .getEntityListBaseCoordinates(coordinates);
+    }
+
+    public ChunkRange getEntityChunkRange(UUID uuid) {
+        return entityMap.get(uuid);
     }
 }
