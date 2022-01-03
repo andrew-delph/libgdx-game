@@ -34,7 +34,7 @@ public class GameController {
     @Inject
     BlockFactory blockFactory;
 
-    public Entity  addEntity(Entity entity) {
+    public Entity addEntity(Entity entity) {
         this.gameStore.addEntity(entity);
         CreateEntityOutgoingEventType createEntityOutgoingEvent =
                 EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -177,7 +177,7 @@ public class GameController {
     public Entity triggerReplaceEntity(UUID target, Entity replacementEntity, Boolean swapVelocity) throws EntityNotFound {
         Vector2 velocity = null;
         Entity removeEntity = this.gameStore.getEntity(target);
-        if (swapVelocity){
+        if (swapVelocity) {
             velocity = removeEntity.getBody().getLinearVelocity();
         }
         replacementEntity.coordinates = removeEntity.coordinates;
@@ -187,7 +187,7 @@ public class GameController {
         this.gameStore.removeEntity(replacementEntity.uuid);
         this.gameStore.addEntity(replacementEntity);
 
-        if (swapVelocity){
+        if (swapVelocity) {
             replacementEntity.getBody().setLinearVelocity(velocity);
         }
         return replacementEntity;

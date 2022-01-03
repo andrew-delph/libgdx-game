@@ -4,7 +4,6 @@ import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import entity.Entity;
-import entity.block.Block;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
 import networking.translation.NetworkDataSerializer;

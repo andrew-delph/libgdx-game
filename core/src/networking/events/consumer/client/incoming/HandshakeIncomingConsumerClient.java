@@ -19,12 +19,11 @@ import java.util.logging.Logger;
 
 public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
 
+    private final static Logger LOGGER = Logger.getLogger(GameStore.class.getName());
     @Inject
     GameStore gameStore;
     @Inject
     EventService eventService;
-
-    private final static Logger LOGGER = Logger.getLogger(GameStore.class.getName());
 
     @Override
     public void accept(EventType eventType) {

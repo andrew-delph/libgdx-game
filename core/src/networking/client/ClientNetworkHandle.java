@@ -18,9 +18,9 @@ import networking.translation.NetworkDataDeserializer;
 import java.util.UUID;
 
 public class ClientNetworkHandle {
+    public final UUID uuid = UUID.randomUUID();
     public String host = "localhost";
     public int port = 99;
-    public final UUID uuid = UUID.randomUUID();
     RequestNetworkEventObserver requestNetworkEventObserver;
     @Inject
     ObserverFactory observerFactory;

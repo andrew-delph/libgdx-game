@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 public class DisconnectionIncomingConsumerServer implements Consumer<EventType> {
 
+    private final static Logger LOGGER = Logger.getLogger(GameStore.class.getName());
     @Inject
     EventService eventService;
     @Inject
@@ -35,8 +36,6 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
     ChunkGenerationManager chunkGenerationManager;
     @Inject
     ConnectionStore connectionStore;
-
-    private final static Logger LOGGER = Logger.getLogger(GameStore.class.getName());
 
     @Override
     public void accept(EventType eventType) {
@@ -56,7 +55,7 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
 
             RemoveEntityOutgoingEventType removeEntityOutgoingEvent = EventTypeFactory.createRemoveEntityOutgoingEvent(
                     entity.uuid, new ChunkRange(entity.coordinates));
-            
+
             for (UUID subscriptionUuid :
                     chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
                 serverNetworkHandle.send(subscriptionUuid, removeEntityOutgoingEvent.toNetworkEvent());

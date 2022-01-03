@@ -9,6 +9,16 @@ import java.util.UUID;
 
 public class HandshakeIncomingEventType extends EventType {
 
+    ChunkRange chunkRange;
+    List<UUID> listUUID;
+    UUID requestUUID;
+
+    public HandshakeIncomingEventType(UUID requestUUID, ChunkRange chunkRange, List<UUID> listUUID) {
+        this.chunkRange = chunkRange;
+        this.listUUID = listUUID;
+        this.requestUUID = requestUUID;
+    }
+
     public ChunkRange getChunkRange() {
         return chunkRange;
     }
@@ -19,16 +29,6 @@ public class HandshakeIncomingEventType extends EventType {
 
     public UUID getRequestUUID() {
         return requestUUID;
-    }
-
-    ChunkRange chunkRange;
-    List<UUID> listUUID;
-    UUID requestUUID;
-
-    public HandshakeIncomingEventType(UUID requestUUID, ChunkRange chunkRange, List<UUID> listUUID) {
-        this.chunkRange = chunkRange;
-        this.listUUID = listUUID;
-        this.requestUUID = requestUUID;
     }
 
     @Override

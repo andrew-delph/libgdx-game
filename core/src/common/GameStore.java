@@ -2,7 +2,6 @@ package common;
 
 import chunk.Chunk;
 import chunk.ChunkRange;
-import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
@@ -147,7 +146,7 @@ public class GameStore {
                 .getEntityListBaseCoordinates(coordinates);
     }
 
-    public ChunkRange getEntityChunkRange(UUID uuid){
+    public ChunkRange getEntityChunkRange(UUID uuid) {
         return entityMap.get(uuid);
     }
 }

@@ -14,20 +14,20 @@ import static networking.events.types.NetworkEventTypeEnum.HANDSHAKE_OUTGOING;
 
 public class HandshakeOutgoingEventType extends EventType implements SerializeNetworkEvent {
 
-    public ChunkRange getChunkRange() {
-        return chunkRange;
-    }
-
-    public List<UUID> getListUUID() {
-        return listUUID;
-    }
-
     ChunkRange chunkRange;
     List<UUID> listUUID;
 
     public HandshakeOutgoingEventType(ChunkRange chunkRange, List<UUID> listUUID) {
         this.chunkRange = chunkRange;
         this.listUUID = listUUID;
+    }
+
+    public ChunkRange getChunkRange() {
+        return chunkRange;
+    }
+
+    public List<UUID> getListUUID() {
+        return listUUID;
     }
 
     @Override

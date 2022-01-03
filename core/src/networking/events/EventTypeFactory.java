@@ -46,16 +46,6 @@ public class EventTypeFactory {
         return new UpdateEntityIncomingEventType(user, networkData, chunkRange);
     }
 
-    public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(
-            List<ChunkRange> chunkRangeList) {
-        return new SubscriptionOutgoingEventType(chunkRangeList);
-    }
-
-    public SubscriptionIncomingEventType createSubscriptionIncomingEvent(
-            NetworkObjects.NetworkEvent networkEvent) {
-        return new SubscriptionIncomingEventType(networkEvent);
-    }
-
     public static RemoveEntityIncomingEventType createRemoveEntityIncomingEvent(UUID user, ChunkRange chunkRange, UUID target) {
         return new RemoveEntityIncomingEventType(user, chunkRange, target);
     }
@@ -63,10 +53,6 @@ public class EventTypeFactory {
     public static RemoveEntityOutgoingEventType createRemoveEntityOutgoingEvent(
             UUID target, ChunkRange chunkRange) {
         return new RemoveEntityOutgoingEventType(target, chunkRange);
-    }
-
-    public DisconnectionIncomingEventType createDisconnectionEvent(UUID uuid) {
-        return new DisconnectionIncomingEventType(uuid);
     }
 
     public static ReplaceBlockIncomingEventType createReplaceBlockIncomingEvent(
@@ -83,6 +69,32 @@ public class EventTypeFactory {
         return new ReplaceEntityEventType(target, replacementEntity, chunkRange);
     }
 
+    public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange, List<UUID> listUUID) {
+        return new HandshakeOutgoingEventType(chunkRange, listUUID);
+    }
+
+    public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange) {
+        return new HandshakeOutgoingEventType(chunkRange, new LinkedList<>());
+    }
+
+    public static HandshakeIncomingEventType createHandshakeIncomingEventType(UUID requestUUID, ChunkRange chunkRange, List<UUID> listUUID) {
+        return new HandshakeIncomingEventType(requestUUID, chunkRange, listUUID);
+    }
+
+    public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(
+            List<ChunkRange> chunkRangeList) {
+        return new SubscriptionOutgoingEventType(chunkRangeList);
+    }
+
+    public SubscriptionIncomingEventType createSubscriptionIncomingEvent(
+            NetworkObjects.NetworkEvent networkEvent) {
+        return new SubscriptionIncomingEventType(networkEvent);
+    }
+
+    public DisconnectionIncomingEventType createDisconnectionEvent(UUID uuid) {
+        return new DisconnectionIncomingEventType(uuid);
+    }
+
     public RemoveEntityEventType createRemoveEntityEvent(UUID entityUuid) {
         return new RemoveEntityEventType(entityUuid);
     }
@@ -97,17 +109,5 @@ public class EventTypeFactory {
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UUID userID) {
         return new GetChunkOutgoingEventType(chunkRange, userID);
-    }
-
-    public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange, List<UUID> listUUID) {
-        return new HandshakeOutgoingEventType(chunkRange, listUUID);
-    }
-
-    public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange) {
-        return new HandshakeOutgoingEventType(chunkRange, new LinkedList<>());
-    }
-
-    public static HandshakeIncomingEventType createHandshakeIncomingEventType(UUID requestUUID, ChunkRange chunkRange, List<UUID> listUUID) {
-        return new HandshakeIncomingEventType(requestUUID, chunkRange, listUUID);
     }
 }
