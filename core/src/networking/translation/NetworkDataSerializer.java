@@ -54,7 +54,7 @@ public class NetworkDataSerializer {
 
         dataListBuilder.addChildren(createChunkRange(replaceBlockOutgoingEventType.getChunkRange()));
         dataListBuilder.addChildren(createUUID(replaceBlockOutgoingEventType.getTarget()));
-        dataListBuilder.addChildren(replaceBlockOutgoingEventType.getReplacementBlock().toNetworkData());
+        dataListBuilder.addChildren(replaceBlockOutgoingEventType.getReplacementEntity().toNetworkData());
 
         return eventBuilder.setData(dataListBuilder).build();
     }

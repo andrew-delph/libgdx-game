@@ -20,8 +20,6 @@ public class EntityContactListener implements ContactListener {
         if (objectA == null || objectB == null) return;
         this.collisionService.handleBeginCollision(
                 new CollisionPair(objectA.getClass(), objectB.getClass()), objectA, objectB);
-        this.collisionService.handleBeginCollision(
-                new CollisionPair(objectB.getClass(), objectA.getClass()), objectB, objectA);
     }
 
     @Override
@@ -33,9 +31,6 @@ public class EntityContactListener implements ContactListener {
         if (objectA == null || objectB == null) return;
         this.collisionService.handleEndCollision(
                 new CollisionPair(objectA.getClass(), objectB.getClass()), objectA, objectB);
-
-        this.collisionService.handleEndCollision(
-                new CollisionPair(objectB.getClass(), objectA.getClass()), objectB, objectA);
     }
 
     @Override

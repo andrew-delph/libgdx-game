@@ -31,16 +31,24 @@ public class CollisionService {
     }
 
     public void handleBeginCollision(CollisionPair collisionPair, Object source, Object target) {
-        ContactWrapper contactWrapper = this.collisionPairContactWrapperMap.get(collisionPair);
-        if (contactWrapper == null) {
+        if (this.collisionPairContactWrapperMap.get(collisionPair) != null) {
+            this.collisionPairContactWrapperMap.get(collisionPair).beginContact(source, target);
             return;
         }
-        contactWrapper.beginContact(source, target);
+        CollisionPair collisionPairReversed = collisionPair.reverse();
+        if (this.collisionPairContactWrapperMap.get(collisionPairReversed) != null) {
+            this.collisionPairContactWrapperMap.get(collisionPairReversed).beginContact(target, source);
+        }
     }
 
     public void handleEndCollision(CollisionPair collisionPair, Object source, Object target) {
-        ContactWrapper contactWrapper = this.collisionPairContactWrapperMap.get(collisionPair);
-        if (contactWrapper == null) return;
-        contactWrapper.endContact(source, target);
+        if (this.collisionPairContactWrapperMap.get(collisionPair) != null) {
+            this.collisionPairContactWrapperMap.get(collisionPair).endContact(source, target);
+            return;
+        }
+        CollisionPair collisionPairReversed = collisionPair.reverse();
+        if (this.collisionPairContactWrapperMap.get(collisionPairReversed) != null) {
+            this.collisionPairContactWrapperMap.get(collisionPairReversed).endContact(target, source);
+        }
     }
 }

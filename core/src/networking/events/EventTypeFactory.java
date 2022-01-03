@@ -5,7 +5,8 @@ import com.google.inject.Inject;
 import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.RemoveEntityEventType;
-import common.events.types.ReplaceBlockEventType;
+import common.events.types.ReplaceEntityEventType;
+import entity.Entity;
 import entity.block.Block;
 import networking.NetworkObjects;
 import networking.events.types.incoming.*;
@@ -74,12 +75,12 @@ public class EventTypeFactory {
     }
 
     public static ReplaceBlockOutgoingEventType createReplaceBlockOutgoingEvent(
-            UUID target, Block replacementBlock, ChunkRange chunkRange) {
-        return new ReplaceBlockOutgoingEventType(target, replacementBlock, chunkRange);
+            UUID target, Entity replacementEntity, ChunkRange chunkRange) {
+        return new ReplaceBlockOutgoingEventType(target, replacementEntity, chunkRange);
     }
 
-    public static ReplaceBlockEventType createReplaceBlockEvent(UUID target, Block replacementBlock, ChunkRange chunkRange) {
-        return new ReplaceBlockEventType(target, replacementBlock, chunkRange);
+    public static ReplaceEntityEventType createReplaceEntityEvent(UUID target, Entity replacementEntity, ChunkRange chunkRange) {
+        return new ReplaceEntityEventType(target, replacementEntity, chunkRange);
     }
 
     public RemoveEntityEventType createRemoveEntityEvent(UUID entityUuid) {

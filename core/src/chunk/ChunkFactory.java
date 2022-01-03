@@ -1,5 +1,6 @@
 package chunk;
 
+import app.GameController;
 import com.google.inject.Inject;
 import common.Clock;
 import common.GameStore;
@@ -17,10 +18,13 @@ public class ChunkFactory {
     EntityContactListenerFactory entityContactListenerFactory;
 
     @Inject
+    GameController gameController;
+
+    @Inject
     ChunkFactory() {
     }
 
     public Chunk create(ChunkRange chunkRange) {
-        return new Chunk(clock, gameStore, entityContactListenerFactory, chunkRange);
+        return new Chunk(clock, gameStore,gameController, entityContactListenerFactory, chunkRange);
     }
 }

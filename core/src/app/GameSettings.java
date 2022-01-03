@@ -6,5 +6,6 @@ public class GameSettings {
     public final static int WORLD_VELOCITY_ITERATIONS = 6;
     public final static int WORLD_POSITION_ITERATIONS = 2;
     public final static int CHUNK_SIZE = 5;
-    public final static int COORDINATES_SCALE = 25;
+    public final static int COORDINATES_SCALE = 35;
+    public final static float GRAVITY = 1f;
 }

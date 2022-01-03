@@ -2,16 +2,17 @@ package common.events.types;
 
 import chunk.ChunkRange;
 import com.google.inject.Inject;
+import entity.Entity;
 import entity.block.Block;
 
 import java.util.UUID;
 
-public class ReplaceBlockEventType extends EventType {
+public class ReplaceEntityEventType extends EventType {
 
     public static String type = "replace_block";
 
     UUID target;
-    Block replacementBlock;
+    Entity replacementEntity;
     ChunkRange chunkRange;
 
     public ChunkRange getChunkRange() {
@@ -19,9 +20,9 @@ public class ReplaceBlockEventType extends EventType {
     }
 
     @Inject
-    public ReplaceBlockEventType(UUID target, Block replacementBlock, ChunkRange chunkRange) {
+    public ReplaceEntityEventType(UUID target, Entity replacementBlock, ChunkRange chunkRange) {
         this.target = target;
-        this.replacementBlock = replacementBlock;
+        this.replacementEntity = replacementBlock;
         this.chunkRange = chunkRange;
     }
 
@@ -29,8 +30,8 @@ public class ReplaceBlockEventType extends EventType {
         return target;
     }
 
-    public Block getReplacementBlock() {
-        return replacementBlock;
+    public Entity getReplacementEntity() {
+        return replacementEntity;
     }
 
     @Override

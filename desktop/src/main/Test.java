@@ -1,20 +1,14 @@
 package main;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.swing.*;
 
 public class Test {
-  public static void main(String[] args) {
-    Set<String> a = new HashSet<>();
-    a.add("x");
-    a.add("y");
-
-    Set<String> b = new HashSet<>();
-    b.add("y");
-    b.add("z");
-
-    HashSet result = new HashSet<>(a);
-    result.removeAll(b);
-    System.out.println(result);
-  }
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("My First GUI");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 300);
+        JButton button = new JButton("Press");
+        frame.getContentPane().add(button); // Adds Button to content pane of frame
+        frame.setVisible(true);
+    }
 }

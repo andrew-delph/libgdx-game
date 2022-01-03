@@ -76,24 +76,18 @@ public class GameScreen extends ApplicationAdapter {
 
     @Override
     public void render() {
-
         debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
         baseCamera.position.set(
                 myEntity.coordinates.getXReal() * Entity.coordinatesScale,
                 myEntity.coordinates.getYReal() * Entity.coordinatesScale,
                 0);
         baseCamera.update();
-
         // focus camera
         batch.setProjectionMatrix(baseCamera.combined);
-
         // clear screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         batch.begin();
-
         List<Entity> renderList = game.getEntityListInRange(0, 0, 100, 100);
-
         try {
             renderList =
                     renderList.stream()
@@ -111,12 +105,24 @@ public class GameScreen extends ApplicationAdapter {
                 e.printStackTrace();
             }
         }
-        //    System.out.println(new ChunkRange(myEntity.coordinates)+";
-        // "+myEntity.coordinates.getXReal()+"; "+myEntity.coordinates.getX());
         batch.end();
         Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
-        debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
+
+        debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0).translate(0, 100, 0);
         debugRenderer.render(mainChunk.world, debugMatrix);
+
+//        Chunk lowerChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getDown());
+//        Chunk leftChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getLeft());
+//        Chunk rightChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getRight());
+//        if (lowerChunk == null) return;
+//        debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0).translate(0, -50, 0);
+//        debugRenderer.render(lowerChunk.world, debugMatrix);
+//        if (leftChunk == null) return;
+//        debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0).translate(-50, 0, 0);
+//        debugRenderer.render(leftChunk.world, debugMatrix);
+//        if (rightChunk == null) return;
+//        debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0).translate(50, 0, 0);
+//        debugRenderer.render(rightChunk.world, debugMatrix);
     }
 
     @Override

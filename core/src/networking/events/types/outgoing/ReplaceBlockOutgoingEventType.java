@@ -3,6 +3,7 @@ package networking.events.types.outgoing;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.events.types.EventType;
+import entity.Entity;
 import entity.block.Block;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
@@ -17,13 +18,13 @@ public class ReplaceBlockOutgoingEventType extends EventType implements Serializ
     public static String type = REPLACE_ENTITY_OUTGOING;
 
     UUID target;
-    Block replacementBlock;
+    Entity replacementEntity;
     ChunkRange chunkRange;
 
     @Inject
-    public ReplaceBlockOutgoingEventType(UUID target, Block replacementBlock, ChunkRange chunkRange) {
+    public ReplaceBlockOutgoingEventType(UUID target, Entity replacementEntity, ChunkRange chunkRange) {
         this.target = target;
-        this.replacementBlock = replacementBlock;
+        this.replacementEntity = replacementEntity;
         this.chunkRange = chunkRange;
     }
 
@@ -35,8 +36,8 @@ public class ReplaceBlockOutgoingEventType extends EventType implements Serializ
         return target;
     }
 
-    public Block getReplacementBlock() {
-        return replacementBlock;
+    public Entity getReplacementEntity() {
+        return replacementEntity;
     }
 
     @Override

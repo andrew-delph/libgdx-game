@@ -1,6 +1,7 @@
 package app;
 
 import chunk.ChunkRange;
+import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.Direction;
@@ -33,7 +34,7 @@ public class GameController {
     @Inject
     BlockFactory blockFactory;
 
-    public Entity addEntity(Entity entity) {
+    public Entity  addEntity(Entity entity) {
         this.gameStore.addEntity(entity);
         CreateEntityOutgoingEventType createEntityOutgoingEvent =
                 EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -163,18 +164,40 @@ public class GameController {
         }
         // put this into a post update event
         this.eventService.queuePostUpdateEvent(
-                EventTypeFactory.createReplaceBlockEvent(target.uuid, replacementBlock, new ChunkRange(target.coordinates)));
+                EventTypeFactory.createReplaceEntityEvent(target.uuid, replacementBlock, new ChunkRange(target.coordinates)));
         this.eventService.fireEvent(
                 EventTypeFactory.createReplaceBlockOutgoingEvent(
                         target.uuid, replacementBlock, new ChunkRange(target.coordinates)));
     }
 
-    public Entity triggerReplaceBlock(UUID target, Block replacementBlock) throws EntityNotFound {
-        Entity removeBlock = this.gameStore.removeEntity(target);
-        if (removeBlock == null) throw new EntityNotFound("Could not find block to remove.");
-        replacementBlock.coordinates = removeBlock.coordinates;
-        this.gameStore.addEntity(replacementBlock);
-        return replacementBlock;
+    public Entity triggerReplaceEntity(UUID target, Entity replacementEntity) throws EntityNotFound {
+        return triggerReplaceEntity(target, replacementEntity, false);
+    }
+
+    public Entity triggerReplaceEntity(UUID target, Entity replacementEntity, Boolean swapVelocity) throws EntityNotFound {
+        Vector2 velocity = null;
+        Entity removeEntity = this.gameStore.getEntity(target);
+        if (swapVelocity){
+            velocity = removeEntity.getBody().getLinearVelocity();
+        }
+        replacementEntity.coordinates = removeEntity.coordinates;
+        this.gameStore.removeEntity(removeEntity.uuid);
+
+        this.gameStore.addEntity(replacementEntity);
+        this.gameStore.removeEntity(replacementEntity.uuid);
+        this.gameStore.addEntity(replacementEntity);
+
+        if (swapVelocity){
+            replacementEntity.getBody().setLinearVelocity(velocity);
+        }
+        return replacementEntity;
+    }
+
+    public void syncEntity(Entity entity) throws EntityNotFound {
+        if (!gameStore.getEntityChunkRange(entity.uuid).equals(new ChunkRange(entity.coordinates))) {
+            this.eventService.queuePostUpdateEvent(
+                    EventTypeFactory.createReplaceEntityEvent(entity.uuid, entity, new ChunkRange(entity.coordinates)));
+        }
     }
 
     public void createAI() {

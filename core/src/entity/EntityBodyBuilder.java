@@ -148,9 +148,10 @@ public class EntityBodyBuilder {
         Filter filter = new Filter();
         filter.categoryBits = 2;
         filter.maskBits = 1;
-        blockFixture.setFilterData(filter);
 
+        blockFixture.setFilterData(filter);
         blockFixture.setUserData(new LadderPoint());
+
         return theBody;
     }
 }

@@ -1,5 +1,6 @@
 package common;
 
+import app.GameController;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
@@ -18,6 +19,7 @@ public class TestGameStore {
 
     Injector injector;
     GameStore gameStore;
+    GameController gameController;
 
     EntityFactory entityFactory;
 
@@ -27,6 +29,7 @@ public class TestGameStore {
     public void setup() throws IOException {
         injector = Guice.createInjector(new ClientConfig());
         gameStore = injector.getInstance(GameStore.class);
+        gameController = injector.getInstance(GameController.class);
         entityFactory = injector.getInstance(EntityFactory.class);
         chunkFactory = injector.getInstance(ChunkFactory.class);
     }
@@ -44,26 +47,5 @@ public class TestGameStore {
         Chunk chunk = this.chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
         this.gameStore.addChunk(chunk);
         assert chunk == gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
-    }
-
-    @Test
-    public void testEntitySync() throws EntityNotFound {
-        ChunkRange chunkRange1 = new ChunkRange(new Coordinates(0, 0));
-        ChunkRange chunkRange2 = chunkRange1.getRight();
-
-        this.gameStore.addChunk(this.chunkFactory.create(chunkRange1));
-        this.gameStore.addChunk(this.chunkFactory.create(chunkRange2));
-
-        Entity entity = this.entityFactory.createEntity();
-
-        this.gameStore.addEntity(entity);
-
-        assert this.gameStore.getEntityChunk(entity.uuid).chunkRange == chunkRange1;
-
-        entity.coordinates = new Coordinates(chunkRange2.bottom_x, chunkRange2.bottom_y);
-
-        this.gameStore.syncEntity(entity);
-
-        assert this.gameStore.getEntityChunk(entity.uuid).chunkRange == chunkRange2;
     }
 }

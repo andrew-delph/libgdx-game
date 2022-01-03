@@ -1,10 +1,10 @@
 package chunk;
 
+import app.GameController;
 import app.GameSettings;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.google.inject.Inject;
 import common.Clock;
 import common.Coordinates;
 import common.GameStore;
@@ -21,32 +21,34 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static app.GameSettings.GRAVITY;
+
 public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
     public ChunkRange chunkRange;
     public Tick updateTick;
     public World world;
     GameStore gameStore;
+    GameController gameController;
     Clock clock;
     ConcurrentHashMap<UUID, Entity> chunkMap;
     Set<UUID> bodySet;
     Map<Entity, Body> neighborEntityBodyMap = new HashMap<>();
-    
-    float gravity = 1f;
 
-    @Inject
     public Chunk(
             Clock clock,
             GameStore gameStore,
+            GameController gameController,
             EntityContactListenerFactory entityContactListenerFactory,
             ChunkRange chunkRange) {
         this.gameStore = gameStore;
+        this.gameController = gameController;
         this.clock = clock;
         this.chunkRange = chunkRange;
         this.chunkMap = new ConcurrentHashMap<>();
         this.nextTick(1);
         this.bodySet = new HashSet<>();
-        this.world = new World(new Vector2(0, -gravity), false);
+        this.world = new World(new Vector2(0, -GRAVITY), false);
         this.world.setContactListener(entityContactListenerFactory.createEntityContactListener());
     }
 
@@ -176,7 +178,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         for (Entity entity : this.chunkMap.values()) {
             if (entity.entityController != null) entity.entityController.beforeWorldUpdate();
             try {
-                this.gameStore.syncEntity(entity);
+                this.gameController.syncEntity(entity);
             } catch (EntityNotFound e) {
                 e.printStackTrace();
             }
