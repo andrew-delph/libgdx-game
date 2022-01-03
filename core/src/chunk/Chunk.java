@@ -215,7 +215,6 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         for (Entity entity : entityList) {
             if (entity instanceof Block
                     && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
-
                 return (Block) entity;
             }
         }

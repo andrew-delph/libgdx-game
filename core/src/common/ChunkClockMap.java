@@ -28,6 +28,10 @@ public class ChunkClockMap {
         return this.map.get(chunkRange);
     }
 
+    Boolean doesChunkExist(ChunkRange chunkRange) {
+        return this.map.containsKey(chunkRange);
+    }
+
     public List<ChunkRange> getChunkRangeList() {
         return new LinkedList<>(this.map.keySet());
     }

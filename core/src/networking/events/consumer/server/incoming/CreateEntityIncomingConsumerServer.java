@@ -41,7 +41,9 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
             return;
         }
 
-        chunkGenerationManager.registerActiveEntity(entity, incoming.getUser());
+        if (entity.getClass() == Entity.class) {
+            chunkGenerationManager.registerActiveEntity(entity, incoming.getUser());
+        }
 
         CreateEntityOutgoingEventType outgoing = EventTypeFactory.createCreateEntityOutgoingEvent(incoming.getData(), incoming.getChunkRange());
 

@@ -74,6 +74,7 @@ public class ClientNetworkHandle {
         HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.
                 createHandshakeOutgoingEventType(chunkRange);
         this.send(handshakeOutgoing.toNetworkEvent());
+        System.out.println("CLIENT INIT HANDSHAKE " + this.uuid);
     }
 
     public void close() {
