@@ -23,6 +23,7 @@ import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import generation.ChunkBuilderFactory;
+import generation.ChunkGenerationManager;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
 import networking.server.ServerNetworkHandle;
@@ -342,15 +343,13 @@ public class testSingleClient {
     }
 
     @Test
-    public void testClientCreateAIEntity() throws IOException, InterruptedException {
+    public void testClientCreateAIEntity() throws InterruptedException, SerializationDataMissing {
         GameController clientGameController = clientInjector.getInstance(GameController.class);
-        GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
-        ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
-        clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
-        TimeUnit.SECONDS.sleep(1);
+        ChunkGenerationManager chunkGenerationManager = serverInjector.getInstance(ChunkGenerationManager.class);
+
+        assert chunkGenerationManager.getActiveEntityList().size()==0;
         clientGameController.createAI();
         TimeUnit.SECONDS.sleep(1);
-        assert false; // not finished
     }
 
     @Test

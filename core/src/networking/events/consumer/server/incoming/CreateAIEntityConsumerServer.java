@@ -40,9 +40,11 @@ public class CreateAIEntityConsumerServer implements Consumer<EventType> {
 
         // get random target
         List<Entity> activeEntityList = chunkGenerationManager.getActiveEntityList();
-        Random rand = new Random();
-        Entity randomTarget = activeEntityList.get(rand.nextInt(activeEntityList.size()));
-        aiEntity.setController(
-                entityControllerFactory.createEntityPathController(aiEntity, randomTarget));
+        if(activeEntityList.size() > 0){
+            Random rand = new Random();
+            Entity randomTarget = activeEntityList.get(rand.nextInt(activeEntityList.size()));
+            aiEntity.setController(
+                    entityControllerFactory.createEntityPathController(aiEntity, randomTarget));
+        }
     }
 }
