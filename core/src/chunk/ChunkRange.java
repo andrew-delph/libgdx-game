@@ -1,6 +1,6 @@
 package chunk;
 
-import app.GameSettings;
+import configuration.GameSettings;
 import common.Coordinates;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkData;

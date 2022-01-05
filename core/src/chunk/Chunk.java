@@ -1,7 +1,7 @@
 package chunk;
 
 import app.GameController;
-import app.GameSettings;
+import configuration.GameSettings;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static app.GameSettings.GRAVITY;
+import static configuration.GameSettings.GRAVITY;
 
 public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 

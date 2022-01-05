@@ -1,6 +1,6 @@
 package entity;
 
-import app.GameSettings;
+import configuration.GameSettings;
 import app.render.BaseAssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;

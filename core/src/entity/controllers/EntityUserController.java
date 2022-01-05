@@ -70,7 +70,7 @@ public class EntityUserController extends EntityController {
         } catch (EntityNotFound e) {
             e.printStackTrace();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
             this.eventService.queuePostUpdateEvent(
                     this.eventTypeFactory.createAIEntityEventType(new Coordinates(0, 0)));
         }
