@@ -344,7 +344,7 @@ public class testSingleClient {
     }
 
     @Test
-    public void testClientCreateAIEntity() throws InterruptedException, SerializationDataMissing {
+    public void testClientCreateAIEntity() throws InterruptedException {
         GameController clientGameController = clientInjector.getInstance(GameController.class);
         ChunkGenerationManager chunkGenerationManager = serverInjector.getInstance(ChunkGenerationManager.class);
 

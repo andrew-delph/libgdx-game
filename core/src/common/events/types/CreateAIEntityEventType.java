@@ -6,6 +6,8 @@ import networking.events.interfaces.SerializeNetworkEvent;
 
 import java.util.UUID;
 
+import static networking.translation.NetworkDataSerializer.createCreateAIEntityEventType;
+
 public class CreateAIEntityEventType extends EventType implements SerializeNetworkEvent {
 
     public static String type = "create_ai";
@@ -33,6 +35,6 @@ public class CreateAIEntityEventType extends EventType implements SerializeNetwo
 
     @Override
     public NetworkObjects.NetworkEvent toNetworkEvent() {
-        return NetworkObjects.NetworkEvent.newBuilder().setData(this.coordinates.toNetworkData()).setEvent(type).build();
+        return createCreateAIEntityEventType(this);
     }
 }

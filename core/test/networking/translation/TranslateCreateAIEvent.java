@@ -20,10 +20,6 @@ public class TranslateCreateAIEvent {
 
     @Test
     public void testTranslateCreateEntityEvent() throws SerializationDataMissing {
-        Injector injector = Guice.createInjector(new ClientConfig());
-        NetworkDataDeserializer networkDataDeserializer = injector.getInstance(NetworkDataDeserializer.class);
-        EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
-
         Coordinates coordinates = new Coordinates(0, 1);
         UUID uuid = UUID.randomUUID();
 
