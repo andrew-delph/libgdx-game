@@ -34,6 +34,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class testSingleClient {
@@ -348,7 +349,7 @@ public class testSingleClient {
         ChunkGenerationManager chunkGenerationManager = serverInjector.getInstance(ChunkGenerationManager.class);
 
         assert chunkGenerationManager.getActiveEntityList().size()==0;
-        clientGameController.createAI();
+        clientGameController.createAI(UUID.randomUUID());
         TimeUnit.SECONDS.sleep(1);
     }
 

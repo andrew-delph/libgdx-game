@@ -99,8 +99,12 @@ public class EventTypeFactory {
         return new RemoveEntityEventType(entityUuid);
     }
 
-    public CreateAIEntityEventType createAIEntityEventType(Coordinates coordinates) {
-        return new CreateAIEntityEventType(coordinates);
+    public static CreateAIEntityEventType createAIEntityEventType(Coordinates coordinates, UUID target) {
+        return new CreateAIEntityEventType(coordinates, target);
+    }
+
+    public static CreateAIEntityEventType createAIEntityEventType(UUID target) {
+        return new CreateAIEntityEventType(new Coordinates(0,0), target);
     }
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(NetworkObjects.NetworkEvent networkEvent) {

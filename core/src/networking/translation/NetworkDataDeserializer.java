@@ -6,6 +6,7 @@ import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
+import common.events.types.CreateAIEntityEventType;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
@@ -19,6 +20,8 @@ import networking.events.types.incoming.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+
+import static networking.translation.DataTranslationEnum.COORDINATES;
 
 public class NetworkDataDeserializer {
     @Inject
@@ -186,8 +189,8 @@ public class NetworkDataDeserializer {
             throw new SerializationDataMissing("classString not recognized");
         }
         for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
-            if (networkDataChild.getKey().equals(Coordinates.class.getName())) {
-                coordinates = this.createCoordinates(networkDataChild);
+            if (networkDataChild.getKey().equals(COORDINATES)) {
+                coordinates = createCoordinates(networkDataChild);
             } else if (networkDataChild.getKey().equals(UUID.class.getName())) {
                 uuid = UUID.fromString(networkDataChild.getValue());
             }
@@ -200,7 +203,7 @@ public class NetworkDataDeserializer {
         return entity;
     }
 
-    public Coordinates createCoordinates(NetworkObjects.NetworkData networkData) {
+    public static Coordinates createCoordinates(NetworkObjects.NetworkData networkData) {
         //TODO put in translations
         float x = 0, y = 0;
         for (NetworkObjects.NetworkData value : networkData.getChildrenList()) {
@@ -220,8 +223,8 @@ public class NetworkDataDeserializer {
         Coordinates coordinates = null;
         UUID uuid = null;
         for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
-            if (networkDataChild.getKey().equals(Coordinates.class.getName())) {
-                coordinates = this.createCoordinates(networkDataChild);
+            if (networkDataChild.getKey().equals(COORDINATES)) {
+                coordinates = createCoordinates(networkDataChild);
             } else if (networkDataChild.getKey().equals(UUID.class.getName())) {
                 uuid = UUID.fromString(networkDataChild.getValue());
             }
@@ -262,6 +265,26 @@ public class NetworkDataDeserializer {
         if (replacementBlock == null) throw new SerializationDataMissing("Missing replacementBlock");
 
         return EventTypeFactory.createReplaceBlockIncomingEvent(user, target, (Block) replacementBlock, chunkRange);
+    }
+
+    public static CreateAIEntityEventType createCreateAIEntityEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+        UUID target = null;
+        Coordinates coordinates = null;
+
+        for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+            switch (child.getKey()) {
+                case DataTranslationEnum.UUID:
+                    target = createUUID(child);
+                    break;
+                case COORDINATES:
+                    coordinates = createCoordinates(child);
+                    break;
+            }
+        }
+        if (target == null) throw new SerializationDataMissing("Missing target uuid");
+        if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
+
+        return EventTypeFactory.createAIEntityEventType(coordinates, target);
     }
 
 

@@ -8,6 +8,8 @@ import networking.events.interfaces.SerializeNetworkData;
 import java.util.LinkedList;
 import java.util.List;
 
+import static networking.translation.NetworkDataSerializer.createCoordinates;
+
 public class Coordinates implements SerializeNetworkData {
     float x;
     float y;
@@ -120,20 +122,6 @@ public class Coordinates implements SerializeNetworkData {
 
     @Override
     public NetworkObjects.NetworkData toNetworkData() {
-        NetworkObjects.NetworkData x =
-                NetworkObjects.NetworkData.newBuilder()
-                        .setKey("x")
-                        .setValue(String.valueOf(this.getXReal()))
-                        .build();
-        NetworkObjects.NetworkData y =
-                NetworkObjects.NetworkData.newBuilder()
-                        .setKey("y")
-                        .setValue(String.valueOf(this.getYReal()))
-                        .build();
-        return NetworkObjects.NetworkData.newBuilder()
-                .setKey(Coordinates.class.getName())
-                .addChildren(x)
-                .addChildren(y)
-                .build();
+        return createCoordinates(this);
     }
 }

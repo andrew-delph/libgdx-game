@@ -1,6 +1,8 @@
 package networking.translation;
 
 import chunk.ChunkRange;
+import common.Coordinates;
+import common.events.types.CreateAIEntityEventType;
 import networking.NetworkObjects;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
@@ -92,6 +94,34 @@ public class NetworkDataSerializer {
                 NetworkObjects.NetworkData.newBuilder();
         dataListBuilder.addChildren(createChunkRange(removeEntityOutgoingEventType.getChunkRange()));
         dataListBuilder.addChildren(createUUID(removeEntityOutgoingEventType.getTarget()));
+        return eventBuilder.setData(dataListBuilder).build();
+    }
+
+    public static NetworkObjects.NetworkData createCoordinates(Coordinates coordinates){
+        NetworkObjects.NetworkData x =
+                NetworkObjects.NetworkData.newBuilder()
+                        .setKey("x")
+                        .setValue(String.valueOf(coordinates.getXReal()))
+                        .build();
+        NetworkObjects.NetworkData y =
+                NetworkObjects.NetworkData.newBuilder()
+                        .setKey("y")
+                        .setValue(String.valueOf(coordinates.getYReal()))
+                        .build();
+        return NetworkObjects.NetworkData.newBuilder()
+                .setKey(DataTranslationEnum.COORDINATES)
+                .addChildren(x)
+                .addChildren(y)
+                .build();
+    }
+
+    public static NetworkObjects.NetworkEvent createCreateAIEntityEventType(CreateAIEntityEventType createAIEntityEventType){
+        NetworkObjects.NetworkEvent.Builder eventBuilder =
+                NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.CREATE_AI);
+        NetworkObjects.NetworkData.Builder dataListBuilder =
+                NetworkObjects.NetworkData.newBuilder();
+        dataListBuilder.addChildren(createCoordinates(createAIEntityEventType.getCoordinates()));
+        dataListBuilder.addChildren(createUUID(createAIEntityEventType.getTarget()));
         return eventBuilder.setData(dataListBuilder).build();
     }
 }

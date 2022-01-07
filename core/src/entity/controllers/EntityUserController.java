@@ -72,7 +72,7 @@ public class EntityUserController extends EntityController {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
             this.eventService.queuePostUpdateEvent(
-                    this.eventTypeFactory.createAIEntityEventType(new Coordinates(0, 0)));
+                    this.eventTypeFactory.createAIEntityEventType(this.entity.uuid));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             if (this.getAction("climbUp").isValid(body)) {
