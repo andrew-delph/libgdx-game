@@ -151,6 +151,42 @@ public class NetworkDataDeserializer {
         return EventTypeFactory.createRemoveEntityIncomingEvent(user, chunkRange, target);
     }
 
+    public static Coordinates createCoordinates(NetworkObjects.NetworkData networkData) {
+        //TODO put in translations
+        float x = 0, y = 0;
+        for (NetworkObjects.NetworkData value : networkData.getChildrenList()) {
+            switch (value.getKey()) {
+                case "x":
+                    x = Float.parseFloat(value.getValue());
+                    break;
+                case "y":
+                    y = Float.parseFloat(value.getValue());
+                    break;
+            }
+        }
+        return new Coordinates(x, y);
+    }
+
+    public static CreateAIEntityEventType createCreateAIEntityEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+        UUID target = null;
+        Coordinates coordinates = null;
+
+        for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+            switch (child.getKey()) {
+                case DataTranslationEnum.UUID:
+                    target = createUUID(child);
+                    break;
+                case COORDINATES:
+                    coordinates = createCoordinates(child);
+                    break;
+            }
+        }
+        if (target == null) throw new SerializationDataMissing("Missing target uuid");
+        if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
+
+        return EventTypeFactory.createAIEntityEventType(coordinates, target);
+    }
+
     public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
         List<Entity> entityList = new LinkedList<>();
         ChunkRange chunkRange = null;
@@ -203,22 +239,6 @@ public class NetworkDataDeserializer {
         return entity;
     }
 
-    public static Coordinates createCoordinates(NetworkObjects.NetworkData networkData) {
-        //TODO put in translations
-        float x = 0, y = 0;
-        for (NetworkObjects.NetworkData value : networkData.getChildrenList()) {
-            switch (value.getKey()) {
-                case "x":
-                    x = Float.parseFloat(value.getValue());
-                    break;
-                case "y":
-                    y = Float.parseFloat(value.getValue());
-                    break;
-            }
-        }
-        return new Coordinates(x, y);
-    }
-
     public Entity updateEntity(NetworkObjects.NetworkData networkData) throws EntityNotFound, SerializationDataMissing {
         Coordinates coordinates = null;
         UUID uuid = null;
@@ -265,26 +285,6 @@ public class NetworkDataDeserializer {
         if (replacementBlock == null) throw new SerializationDataMissing("Missing replacementBlock");
 
         return EventTypeFactory.createReplaceBlockIncomingEvent(user, target, (Block) replacementBlock, chunkRange);
-    }
-
-    public static CreateAIEntityEventType createCreateAIEntityEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
-        UUID target = null;
-        Coordinates coordinates = null;
-
-        for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
-            switch (child.getKey()) {
-                case DataTranslationEnum.UUID:
-                    target = createUUID(child);
-                    break;
-                case COORDINATES:
-                    coordinates = createCoordinates(child);
-                    break;
-            }
-        }
-        if (target == null) throw new SerializationDataMissing("Missing target uuid");
-        if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
-
-        return EventTypeFactory.createAIEntityEventType(coordinates, target);
     }
 
 

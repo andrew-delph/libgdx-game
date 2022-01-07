@@ -348,7 +348,7 @@ public class testSingleClient {
         GameController clientGameController = clientInjector.getInstance(GameController.class);
         ChunkGenerationManager chunkGenerationManager = serverInjector.getInstance(ChunkGenerationManager.class);
 
-        assert chunkGenerationManager.getActiveEntityList().size()==0;
+        assert chunkGenerationManager.getActiveEntityList().size() == 0;
         clientGameController.createAI(UUID.randomUUID());
         TimeUnit.SECONDS.sleep(1);
     }

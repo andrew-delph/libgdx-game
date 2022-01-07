@@ -4,7 +4,6 @@ import app.GameController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
-import common.Coordinates;
 import common.Direction;
 import common.events.EventService;
 import common.exceptions.EntityNotFound;

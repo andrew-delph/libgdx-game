@@ -1,7 +1,6 @@
 package common.events.types;
 
 import chunk.ChunkRange;
-import com.google.inject.Inject;
 import entity.Entity;
 
 import java.util.UUID;
@@ -14,7 +13,6 @@ public class ReplaceEntityEventType extends EventType {
     Entity replacementEntity;
     ChunkRange chunkRange;
     Boolean swapVelocity;
-
 
 
     public ReplaceEntityEventType(UUID target, Entity replacementBlock, Boolean swapVelocity, ChunkRange chunkRange) {

@@ -1,10 +1,8 @@
 package networking.translation;
 
 import com.google.inject.Inject;
-import common.Coordinates;
 import common.events.EventConsumer;
 import common.events.EventService;
-import common.events.types.CreateAIEntityEventType;
 import networking.NetworkObjects;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.SubscriptionOutgoingEventType;

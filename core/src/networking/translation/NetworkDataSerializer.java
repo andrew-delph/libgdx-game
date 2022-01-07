@@ -97,7 +97,7 @@ public class NetworkDataSerializer {
         return eventBuilder.setData(dataListBuilder).build();
     }
 
-    public static NetworkObjects.NetworkData createCoordinates(Coordinates coordinates){
+    public static NetworkObjects.NetworkData createCoordinates(Coordinates coordinates) {
         NetworkObjects.NetworkData x =
                 NetworkObjects.NetworkData.newBuilder()
                         .setKey("x")
@@ -115,7 +115,7 @@ public class NetworkDataSerializer {
                 .build();
     }
 
-    public static NetworkObjects.NetworkEvent createCreateAIEntityEventType(CreateAIEntityEventType createAIEntityEventType){
+    public static NetworkObjects.NetworkEvent createCreateAIEntityEventType(CreateAIEntityEventType createAIEntityEventType) {
         NetworkObjects.NetworkEvent.Builder eventBuilder =
                 NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.CREATE_AI);
         NetworkObjects.NetworkData.Builder dataListBuilder =

@@ -15,13 +15,13 @@ public class CreateAIEntityEventType extends EventType implements SerializeNetwo
     Coordinates coordinates;
     UUID target;
 
-    public UUID getTarget() {
-        return target;
-    }
-
     public CreateAIEntityEventType(Coordinates coordinates, UUID target) {
         this.coordinates = coordinates;
         this.target = target;
+    }
+
+    public UUID getTarget() {
+        return target;
     }
 
     public Coordinates getCoordinates() {

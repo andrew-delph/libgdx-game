@@ -1,7 +1,6 @@
 package chunk;
 
 import app.GameController;
-import configuration.GameSettings;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -10,6 +9,7 @@ import common.Coordinates;
 import common.GameStore;
 import common.Tick;
 import common.exceptions.EntityNotFound;
+import configuration.GameSettings;
 import entity.Entity;
 import entity.block.Block;
 import entity.collision.EntityContactListenerFactory;

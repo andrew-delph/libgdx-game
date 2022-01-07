@@ -1,16 +1,12 @@
 package common.events;
 
 import com.google.inject.Inject;
-import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
 import generation.ChunkGenerationManager;
-
-import java.util.List;
-import java.util.Random;
 
 public class SoloEventConsumer extends EventConsumer {
 

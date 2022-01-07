@@ -9,7 +9,6 @@ import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
-import generation.ChunkGenerationManager;
 
 import java.util.function.Consumer;
 
