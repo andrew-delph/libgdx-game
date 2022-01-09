@@ -202,6 +202,6 @@ public class GameController {
 
     public void createAI(UUID uuid) {
         this.eventService.queuePostUpdateEvent(
-                EventTypeFactory.createAIEntityEventType(uuid));
+                EventTypeFactory.createAIEntityEventType(new Coordinates(0, 2), uuid));
     }
 }

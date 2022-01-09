@@ -24,7 +24,6 @@ public class PathGuider {
     }
 
     public void findPath(Coordinates start, Coordinates end) throws Exception {
-        System.out.println("FIND " + start + " , " + end);
         this.pathNodeQueue = null;
         this.currentPath = relativePathFactory.create(start, end);
         this.currentPath.backgroundSearch();
@@ -32,7 +31,6 @@ public class PathGuider {
 
     public void followPath(Coordinates coordinates) throws Exception {
         if (this.currentPath != null && this.currentPath.isSearching()) {
-            System.out.println("searchign!");
             return;
         } else if (this.currentPath == null) {
             this.findPath(entity.coordinates, coordinates);
@@ -46,9 +44,9 @@ public class PathGuider {
             this.currentPathNode = this.pathNodeQueue.poll();
             if (this.currentPathNode == null) {
                 this.findPath(entity.coordinates, coordinates);
-                System.out.println("find!");
                 return;
             } else {
+                // start using a new path
                 this.currentEdgeStepper = currentPathNode.edge.getEdgeStepper(entity, currentPathNode);
                 this.entity.getBody().setTransform(this.currentPathNode.startPosition.toVector2(), 0);
                 //        this.entity.getBody().setLinearVelocity(this.currentPathNode.edge.from.velocity);
@@ -60,7 +58,15 @@ public class PathGuider {
         try {
             this.currentEdgeStepper.follow(this.entity, this.currentPathNode);
         } catch (Exception e) {
-            System.out.println("follow error!");
+            e.printStackTrace();
+        }
+    }
+
+    public void render() {
+        if (this.currentPathNode != null) this.currentPathNode.render();
+        if (this.pathNodeQueue == null) return;
+        for (RelativePathNode pathNode : this.pathNodeQueue) {
+            pathNode.render();
         }
     }
 }

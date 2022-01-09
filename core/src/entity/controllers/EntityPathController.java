@@ -44,13 +44,18 @@ public class EntityPathController extends EntityController {
         super.afterWorldUpdate();
     }
 
+
+    @Override
+    public void render() {
+        this.pathGuider.render();
+    }
+
     @Override
     public void beforeWorldUpdate() {
         this.beforeUpdateCoordinates = this.entity.coordinates;
         if (this.pathGuider == null) {
             this.pathGuider = pathGuiderFactory.createPathGuider(entity);
         }
-
         if (this.entity.coordinates.getBase().equals(target.coordinates.getBase())) {
             eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(entity.uuid));
             return;

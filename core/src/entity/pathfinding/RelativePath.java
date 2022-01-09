@@ -59,7 +59,6 @@ public class RelativePath implements Callable<Void> {
             RelativePathNode current = unvisitedPathNodeQueue.remove();
 
             if (current.getHeuristicCost() < 0.9) {
-                System.out.println("found " + current.getHeuristicCost());
                 finalPathNode = current;
                 return;
             }

@@ -88,15 +88,15 @@ public class RelativeActionEdgeGenerator {
             Class<? extends Entity> entityClass = relativeBlockMapEntry.getValue();
             RelativeCoordinates blockRelativeCoordinates = relativeBlockMapEntry.getKey();
             if (entityClass.isInstance(SolidBlock.class)) {
-                entityBodyBuilder.createSolidBlockBody(
+                EntityBodyBuilder.createSolidBlockBody(
                         this.world, blockRelativeCoordinates.applyRelativeCoordinates(new Coordinates(0, 0)));
             }
         }
 
         this.body =
-                entityBodyBuilder.createEntityBody(
+                EntityBodyBuilder.createEntityBody(
                         this.world,
-                        relativeVertex.relativeCoordinates.applyRelativeCoordinates(new Coordinates(0, 0)));
+                        relativeVertex.getRelativeCoordinates().applyRelativeCoordinates(new Coordinates(0, 0)));
         this.body.setLinearVelocity(relativeVertex.velocity);
     }
 }

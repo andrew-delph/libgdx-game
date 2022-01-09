@@ -52,7 +52,6 @@ public class RelativePathNode {
     }
 
     public void start() {
-        System.out.println("start= " + this);
         this.edge.start();
     }
 
@@ -82,5 +81,9 @@ public class RelativePathNode {
         return this.startPosition.equals(other.startPosition)
                 && this.edge.equals(other.edge)
                 && this.edge.getClass() == other.edge.getClass();
+    }
+
+    public void render() {
+        this.edge.render(startPosition);
     }
 }

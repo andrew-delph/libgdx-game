@@ -14,7 +14,7 @@ public class HorizontalGreedyEdge extends AbstractEdge {
     public HorizontalGreedyEdge(
             EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {
         super(entityStructure, from, to);
-        this.currentRelativeCoordinates = from.relativeCoordinates;
+        this.currentRelativeCoordinates = from.getRelativeCoordinates();
     }
 
     @Override
@@ -36,13 +36,6 @@ class HorizontalEdgeStepper extends EdgeStepper {
 
         if (!entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase())
                 && !entity.coordinates.getBase().equals(relativePathNode.getEndPosition().getBase())) {
-            System.out.println("NOT ON TRACK");
-            System.out.println(entity.coordinates);
-            System.out.println(relativePathNode.startPosition.getBase());
-            System.out.println(relativePathNode.getEndPosition().getBase());
-            System.out.println(relativePathNode.startPosition);
-            System.out.println(relativePathNode.getEndPosition());
-            System.out.println();
             throw new Exception("not on track");
         }
 

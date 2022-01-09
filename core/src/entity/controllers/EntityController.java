@@ -78,4 +78,7 @@ public class EntityController {
             this.entity.getBody().setLinearVelocity(0, this.entity.getBody().getLinearVelocity().y);
         }
     }
+
+    public void render() {
+    }
 }

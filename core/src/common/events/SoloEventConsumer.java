@@ -26,16 +26,13 @@ public class SoloEventConsumer extends EventConsumer {
         this.eventService.addPostUpdateListener(
                 CreateAIEntityEventType.type,
                 eventType -> {
-                    System.out.println("CREATE AI");
                     try {
                         CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
+                        System.out.println("CREATE AI " + realEvent.getCoordinates());
 
-                        Entity aiEntity = entityFactory.createEntity();
+                        Entity aiEntity = gameController.createEntity(realEvent.getCoordinates());
 
                         Entity aiTarget = gameStore.getEntity(realEvent.getTarget());
-
-                        aiEntity.coordinates = realEvent.getCoordinates();
-                        gameController.addEntity(aiEntity);
 
                         aiEntity.setController(
                                 entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
