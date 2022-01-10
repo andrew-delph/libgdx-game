@@ -47,7 +47,7 @@ public class EntityPathController extends EntityController {
 
     @Override
     public void render() {
-        this.pathGuider.render();
+        if (this.pathGuider != null) this.pathGuider.render();
     }
 
     @Override

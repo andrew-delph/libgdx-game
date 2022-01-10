@@ -34,9 +34,9 @@ public class testTemplateEdgeGenerator {
 
         for (AbstractEdge edge : edgeStore.getEdgeList()) {
             if (edge.isAvailable(new PathGameStoreOverride(), new Coordinates(0, 0))
-                    && edge.getTo().relativeCoordinates.getRelativeY() < 0) {
+                    && edge.getTo().getRelativeCoordinates().getRelativeY() < 0) {
                 Coordinates to =
-                        edge.getTo().relativeCoordinates.applyRelativeCoordinates(new Coordinates(0, 0));
+                        edge.getTo().getRelativeCoordinates().applyRelativeCoordinates(new Coordinates(0, 0));
                 System.out.println(to);
 
                 //        System.out.println(edge);
