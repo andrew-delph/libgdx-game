@@ -75,10 +75,10 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
 
     @Override
     public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
-        this.gameController.triggerReplaceEntity(
+        this.gameController.replaceBlock(
                 this.gameStore.getBlock(
                         this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))
-                        .uuid,
+                        ,
                 blockFactory.createSky());
         super.follow(entity, relativePathNode);
     }
