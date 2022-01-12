@@ -1,6 +1,7 @@
 package entity.pathfinding.edge;
 
 import app.GameController;
+import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import entity.Entity;
 import entity.misc.Ladder;
@@ -9,8 +10,16 @@ import entity.pathfinding.PathGameStoreOverride;
 import entity.pathfinding.RelativePathNode;
 import entity.pathfinding.RelativeVertex;
 
+import static app.GameScreen.pathDebugRender;
+
 public class LadderGreedyEdge extends HorizontalGreedyEdge {
     GameController gameController;
+
+    @Override
+    public void render(Coordinates position) {
+        pathDebugRender.setColor(Color.BLUE);
+        super.render(position);
+    }
 
     public LadderGreedyEdge(
             GameController gameController,
@@ -57,7 +66,9 @@ class LadderEdgeStepper extends HorizontalEdgeStepper {
             actionKey = "climbUp";
         } else if (relativePathNode.getEndPosition().getYReal() < entity.coordinates.getYReal()) {
             actionKey = "climbDown";
-        } else return;
+        } else {
+            return;
+        }
 
         entity.entityController.applyAction(actionKey, entity.getBody());
     }

@@ -1,5 +1,6 @@
 package entity.pathfinding.edge;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import common.Coordinates;
 import entity.Entity;
@@ -7,6 +8,8 @@ import entity.pathfinding.EntityStructure;
 import entity.pathfinding.RelativeCoordinates;
 import entity.pathfinding.RelativePathNode;
 import entity.pathfinding.RelativeVertex;
+
+import static app.GameScreen.pathDebugRender;
 
 public class HorizontalGreedyEdge extends AbstractEdge {
     RelativeCoordinates currentRelativeCoordinates;
@@ -25,6 +28,12 @@ public class HorizontalGreedyEdge extends AbstractEdge {
     @Override
     public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
         return new HorizontalEdgeStepper();
+    }
+
+    @Override
+    public void render(Coordinates position) {
+        pathDebugRender.setColor(Color.GREEN);
+        super.render(position);
     }
 }
 
@@ -50,7 +59,9 @@ class HorizontalEdgeStepper extends EdgeStepper {
             actionKey = "right";
         } else if (relativePathNode.getEndPosition().getXReal() < entity.coordinates.getXReal()) {
             actionKey = "left";
-        } else return;
+        } else {
+            return;
+        }
 
         entity.entityController.applyAction(actionKey, entity.getBody());
     }

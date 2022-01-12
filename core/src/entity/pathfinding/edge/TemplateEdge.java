@@ -1,5 +1,6 @@
 package entity.pathfinding.edge;
 
+import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import entity.Entity;
 import entity.pathfinding.*;
@@ -62,6 +63,7 @@ public class TemplateEdge extends AbstractEdge {
 
     @Override
     public void render(Coordinates position) {
+        pathDebugRender.setColor(Color.PURPLE);
         for (RelativeActionEdge actionEdge : this.getActionEdgeList()) {
             Coordinates start = actionEdge.getFrom().getRelativeCoordinates().applyRelativeCoordinates(position);
             Coordinates end = actionEdge.getTo().getRelativeCoordinates().applyRelativeCoordinates(position);
