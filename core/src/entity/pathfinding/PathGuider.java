@@ -57,9 +57,19 @@ public class PathGuider {
 
         try {
             this.currentEdgeStepper.follow(this.entity, this.currentPathNode);
+            System.out.println("currentEdgeStepper: "+this.currentEdgeStepper);
         } catch (Exception e) {
             e.printStackTrace();
+            this.reset();
+            return;
         }
+    }
+
+    public void reset(){
+        this.currentPath = null;
+        this.currentEdgeStepper = null;
+        this.pathNodeQueue = null;
+        this.currentPathNode = null;
     }
 
     public void render() {

@@ -60,16 +60,5 @@ class LadderEdgeStepper extends HorizontalEdgeStepper {
     public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
         this.gameController.createLadder(relativePathNode.getEndPosition());
         super.follow(entity, relativePathNode);
-
-        String actionKey;
-        if (relativePathNode.getEndPosition().getYReal() > entity.coordinates.getYReal()) {
-            actionKey = "climbUp";
-        } else if (relativePathNode.getEndPosition().getYReal() < entity.coordinates.getYReal()) {
-            actionKey = "climbDown";
-        } else {
-            return;
-        }
-
-        entity.entityController.applyAction(actionKey, entity.getBody());
     }
 }

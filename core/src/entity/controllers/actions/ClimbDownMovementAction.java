@@ -11,6 +11,8 @@ public class ClimbDownMovementAction extends ClimbUpMovementAction {
 
     @Override
     public void apply(Body body) {
-        body.setLinearVelocity(new Vector2(0, -5));
+        body.setGravityScale(0);
+        float x = body.getLinearVelocity().x;
+        body.setLinearVelocity(new Vector2(x, -5));
     }
 }

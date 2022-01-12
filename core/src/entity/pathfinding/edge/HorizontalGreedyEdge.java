@@ -43,8 +43,9 @@ class HorizontalEdgeStepper extends EdgeStepper {
     public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
         String actionKey;
 
-        if (!entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase())
+        if (!entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase().getDown()) && !entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase())
                 && !entity.coordinates.getBase().equals(relativePathNode.getEndPosition().getBase())) {
+            System.out.println("entity.coordinates.getBase() "+ entity.coordinates.getBase()+ " relativePathNode.startPosition.getBase()"+ relativePathNode.startPosition.getBase()+ " relativePathNode.getEndPosition().getBase()"+ relativePathNode.getEndPosition().getBase());
             throw new Exception("not on track");
         }
 
@@ -57,12 +58,25 @@ class HorizontalEdgeStepper extends EdgeStepper {
 
         if (relativePathNode.getEndPosition().getXReal() + 0.1 > entity.coordinates.getXReal()) {
             actionKey = "right";
+            if (entity.entityController.isActionValid(actionKey,entity.getBody())){
+                entity.entityController.applyAction(actionKey, entity.getBody());
+            }
         } else if (relativePathNode.getEndPosition().getXReal() < entity.coordinates.getXReal()) {
             actionKey = "left";
-        } else {
-            return;
+            if (entity.entityController.isActionValid(actionKey,entity.getBody())){
+                entity.entityController.applyAction(actionKey, entity.getBody());
+            }
         }
-
-        entity.entityController.applyAction(actionKey, entity.getBody());
+        if (relativePathNode.getEndPosition().getYReal() > entity.coordinates.getYReal()) {
+            actionKey = "climbUp";
+            if (entity.entityController.isActionValid(actionKey,entity.getBody())){
+                entity.entityController.applyAction(actionKey, entity.getBody());
+            }
+        } else if (relativePathNode.getEndPosition().getYReal() < entity.coordinates.getYReal() - 0.1) {
+            actionKey = "climbDown";
+            if (entity.entityController.isActionValid(actionKey,entity.getBody())){
+                entity.entityController.applyAction(actionKey, entity.getBody());
+            }
+        }
     }
 }
