@@ -1,5 +1,6 @@
 package entity.pathfinding.edge;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import common.Coordinates;
 import entity.Entity;
@@ -8,13 +9,15 @@ import entity.pathfinding.RelativeCoordinates;
 import entity.pathfinding.RelativePathNode;
 import entity.pathfinding.RelativeVertex;
 
+import static app.GameScreen.pathDebugRender;
+
 public class HorizontalGreedyEdge extends AbstractEdge {
     RelativeCoordinates currentRelativeCoordinates;
 
     public HorizontalGreedyEdge(
             EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {
         super(entityStructure, from, to);
-        this.currentRelativeCoordinates = from.relativeCoordinates;
+        this.currentRelativeCoordinates = from.getRelativeCoordinates();
     }
 
     @Override
@@ -26,6 +29,12 @@ public class HorizontalGreedyEdge extends AbstractEdge {
     public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
         return new HorizontalEdgeStepper();
     }
+
+    @Override
+    public void render(Coordinates position) {
+        pathDebugRender.setColor(Color.GREEN);
+        super.render(position);
+    }
 }
 
 class HorizontalEdgeStepper extends EdgeStepper {
@@ -34,15 +43,9 @@ class HorizontalEdgeStepper extends EdgeStepper {
     public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
         String actionKey;
 
-        if (!entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase())
+        if (!entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase().getDown()) && !entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase())
                 && !entity.coordinates.getBase().equals(relativePathNode.getEndPosition().getBase())) {
-            System.out.println("NOT ON TRACK");
-            System.out.println(entity.coordinates);
-            System.out.println(relativePathNode.startPosition.getBase());
-            System.out.println(relativePathNode.getEndPosition().getBase());
-            System.out.println(relativePathNode.startPosition);
-            System.out.println(relativePathNode.getEndPosition());
-            System.out.println();
+            System.out.println("entity.coordinates.getBase() "+ entity.coordinates.getBase()+ " relativePathNode.startPosition.getBase()"+ relativePathNode.startPosition.getBase()+ " relativePathNode.getEndPosition().getBase()"+ relativePathNode.getEndPosition().getBase());
             throw new Exception("not on track");
         }
 
@@ -55,10 +58,25 @@ class HorizontalEdgeStepper extends EdgeStepper {
 
         if (relativePathNode.getEndPosition().getXReal() + 0.1 > entity.coordinates.getXReal()) {
             actionKey = "right";
+            if (entity.entityController.isActionValid(actionKey,entity.getBody())){
+                entity.entityController.applyAction(actionKey, entity.getBody());
+            }
         } else if (relativePathNode.getEndPosition().getXReal() < entity.coordinates.getXReal()) {
             actionKey = "left";
-        } else return;
-
-        entity.entityController.applyAction(actionKey, entity.getBody());
+            if (entity.entityController.isActionValid(actionKey,entity.getBody())){
+                entity.entityController.applyAction(actionKey, entity.getBody());
+            }
+        }
+        if (relativePathNode.getEndPosition().getYReal() > entity.coordinates.getYReal()) {
+            actionKey = "climbUp";
+            if (entity.entityController.isActionValid(actionKey,entity.getBody())){
+                entity.entityController.applyAction(actionKey, entity.getBody());
+            }
+        } else if (relativePathNode.getEndPosition().getYReal() < entity.coordinates.getYReal() - 0.1) {
+            actionKey = "climbDown";
+            if (entity.entityController.isActionValid(actionKey,entity.getBody())){
+                entity.entityController.applyAction(actionKey, entity.getBody());
+            }
+        }
     }
 }

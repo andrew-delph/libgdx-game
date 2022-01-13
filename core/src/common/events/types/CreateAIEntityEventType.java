@@ -4,14 +4,24 @@ import common.Coordinates;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
 
+import java.util.UUID;
+
+import static networking.translation.NetworkDataSerializer.createCreateAIEntityEventType;
+
 public class CreateAIEntityEventType extends EventType implements SerializeNetworkEvent {
 
     public static String type = "create_ai";
 
     Coordinates coordinates;
+    UUID target;
 
-    public CreateAIEntityEventType(Coordinates coordinates) {
+    public CreateAIEntityEventType(Coordinates coordinates, UUID target) {
         this.coordinates = coordinates;
+        this.target = target;
+    }
+
+    public UUID getTarget() {
+        return target;
     }
 
     public Coordinates getCoordinates() {
@@ -25,6 +35,6 @@ public class CreateAIEntityEventType extends EventType implements SerializeNetwo
 
     @Override
     public NetworkObjects.NetworkEvent toNetworkEvent() {
-        return NetworkObjects.NetworkEvent.newBuilder().setData(this.coordinates.toNetworkData()).setEvent(type).build();
+        return createCreateAIEntityEventType(this);
     }
 }

@@ -4,7 +4,6 @@ import app.GameController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
-import common.Coordinates;
 import common.Direction;
 import common.events.EventService;
 import common.exceptions.EntityNotFound;
@@ -70,9 +69,8 @@ public class EntityUserController extends EntityController {
         } catch (EntityNotFound e) {
             e.printStackTrace();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-            this.eventService.queuePostUpdateEvent(
-                    this.eventTypeFactory.createAIEntityEventType(new Coordinates(0, 0)));
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            gameController.createAI(this.entity.uuid);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             if (this.getAction("climbUp").isValid(body)) {

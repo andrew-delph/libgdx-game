@@ -1,12 +1,16 @@
 package entity.pathfinding.edge;
 
+import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import entity.Entity;
 import entity.pathfinding.*;
 
 import java.util.List;
 
+import static app.GameScreen.pathDebugRender;
+
 public class TemplateEdge extends AbstractEdge {
+
 
     List<RelativeActionEdge> actionEdgeList;
 
@@ -55,6 +59,16 @@ public class TemplateEdge extends AbstractEdge {
     @Override
     public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
         return new TemplateEdgeStepper(this.actionEdgeList);
+    }
+
+    @Override
+    public void render(Coordinates position) {
+        pathDebugRender.setColor(Color.PURPLE);
+        for (RelativeActionEdge actionEdge : this.getActionEdgeList()) {
+            Coordinates start = actionEdge.getFrom().getRelativeCoordinates().applyRelativeCoordinates(position);
+            Coordinates end = actionEdge.getTo().getRelativeCoordinates().applyRelativeCoordinates(position);
+            pathDebugRender.line(start.toVector2(), end.toVector2());
+        }
     }
 }
 

@@ -53,7 +53,7 @@ public class EntityBodyBuilder {
                 Entity.staticHeight / 2f,
                 new Vector2(
                         center_x,
-                        center_y),
+                        center_y+2),
                 0);
         mainFixtureDef.shape = mainShape;
         mainFixtureDef.density = 1f;

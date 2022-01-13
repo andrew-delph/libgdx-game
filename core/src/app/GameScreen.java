@@ -6,8 +6,10 @@ import chunk.Chunk;
 import chunk.ChunkRange;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.google.inject.Inject;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 
 public class GameScreen extends ApplicationAdapter {
 
+    public static ShapeRenderer pathDebugRender;
     @Inject
     Game game;
     @Inject
@@ -42,7 +45,6 @@ public class GameScreen extends ApplicationAdapter {
     GameController gameController;
     @Inject
     EntityControllerFactory entityControllerFactory;
-
     Box2DDebugRenderer debugRenderer;
     Matrix4 debugMatrix;
     Entity myEntity;
@@ -72,6 +74,8 @@ public class GameScreen extends ApplicationAdapter {
         myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
         chunkGenerationManager.registerActiveEntity(myEntity, null);
         debugRenderer = new Box2DDebugRenderer();
+        pathDebugRender = new ShapeRenderer();
+        pathDebugRender.setColor(Color.RED);
     }
 
     @Override
@@ -87,6 +91,9 @@ public class GameScreen extends ApplicationAdapter {
         // clear screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+        pathDebugRender.begin(ShapeRenderer.ShapeType.Line);
+        pathDebugRender.setProjectionMatrix(debugMatrix);
+
         List<Entity> renderList = game.getEntityListInRange(0, 0, 100, 100);
         try {
             renderList =
@@ -101,15 +108,19 @@ public class GameScreen extends ApplicationAdapter {
             try {
                 entity.renderSync();
                 entity.sprite.draw(batch);
+                if (entity.entityController != null) entity.entityController.render();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         batch.end();
+
         Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
 
-        debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0).translate(0, 100, 0);
+//        debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0).translate(0, 100, 0);
         debugRenderer.render(mainChunk.world, debugMatrix);
+        pathDebugRender.end();
+
 
 //        Chunk lowerChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getDown());
 //        Chunk leftChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getLeft());

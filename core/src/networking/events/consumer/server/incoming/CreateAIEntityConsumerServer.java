@@ -2,15 +2,14 @@ package networking.events.consumer.server.incoming;
 
 import app.GameController;
 import com.google.inject.Inject;
+import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.EventType;
+import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
-import generation.ChunkGenerationManager;
 
-import java.util.List;
-import java.util.Random;
 import java.util.function.Consumer;
 
 
@@ -23,28 +22,23 @@ public class CreateAIEntityConsumerServer implements Consumer<EventType> {
     GameController gameController;
 
     @Inject
-    ChunkGenerationManager chunkGenerationManager;
+    EntityControllerFactory entityControllerFactory;
 
     @Inject
-    EntityControllerFactory entityControllerFactory;
+    GameStore gameStore;
 
     @Override
     public void accept(EventType eventType) {
-        System.out.println("CREATE AI");
-        CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
-
-        Entity aiEntity = entityFactory.createEntity();
-
-        aiEntity.coordinates = realEvent.getCoordinates();
-        gameController.addEntity(aiEntity);
-
-        // get random target
-        List<Entity> activeEntityList = chunkGenerationManager.getActiveEntityList();
-        if(activeEntityList.size() > 0){
-            Random rand = new Random();
-            Entity randomTarget = activeEntityList.get(rand.nextInt(activeEntityList.size()));
+        try {
+            CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
+            Entity aiEntity = entityFactory.createEntity();
+            Entity aiTarget = gameStore.getEntity(realEvent.getTarget());
+            aiEntity.coordinates = realEvent.getCoordinates();
+            gameController.addEntity(aiEntity);
             aiEntity.setController(
-                    entityControllerFactory.createEntityPathController(aiEntity, randomTarget));
+                    entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
+        } catch (EntityNotFound e) {
+            e.printStackTrace();
         }
     }
 }

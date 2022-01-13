@@ -46,11 +46,16 @@ public class EntityController {
     }
 
     public void applyAction(String type, Body body) {
+        System.out.println(type);
         this.actionMap.get(type).apply(body);
     }
 
     public EntityAction getAction(String type) {
         return this.actionMap.get(type);
+    }
+
+    public Boolean isActionValid(String type, Body body) {
+        return this.actionMap.get(type).isValid(body);
     }
 
     public Set<Map.Entry<String, EntityAction>> getEntityActionEntrySet() {
@@ -77,5 +82,8 @@ public class EntityController {
             this.entity.getBody().setGravityScale(1);
             this.entity.getBody().setLinearVelocity(0, this.entity.getBody().getLinearVelocity().y);
         }
+    }
+
+    public void render() {
     }
 }

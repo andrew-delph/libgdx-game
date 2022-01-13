@@ -7,6 +7,8 @@ import entity.pathfinding.PathGameStoreOverride;
 import entity.pathfinding.RelativePathNode;
 import entity.pathfinding.RelativeVertex;
 
+import static app.GameScreen.pathDebugRender;
+
 public abstract class AbstractEdge {
 
     public EntityStructure entityStructure;
@@ -39,7 +41,7 @@ public abstract class AbstractEdge {
     }
 
     public Coordinates applyTransition(Coordinates sourceCoordinates) {
-        return this.to.relativeCoordinates.applyRelativeCoordinates(sourceCoordinates);
+        return this.to.getRelativeCoordinates().applyRelativeCoordinates(sourceCoordinates);
     }
 
     public void start() {
@@ -81,5 +83,9 @@ public abstract class AbstractEdge {
 
     public double getCost() {
         return 1;
+    }
+
+    public void render(Coordinates position) {
+        pathDebugRender.line(position.toVector2(), this.applyTransition(position).toVector2());
     }
 }

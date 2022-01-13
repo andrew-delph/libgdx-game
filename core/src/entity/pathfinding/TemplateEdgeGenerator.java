@@ -60,14 +60,14 @@ public class TemplateEdgeGenerator {
 
             current = this.applyAction(current, "stop");
 
-            if (current.getLastEdge().from.relativeCoordinates.getRelativeY()
-                    > current.getLastEdge().to.relativeCoordinates.getRelativeY()) {
+            if (current.getLastEdge().from.getRelativeCoordinates().getRelativeY()
+                    > current.getLastEdge().to.getRelativeCoordinates().getRelativeY()) {
                 break;
             } else if (!current
                     .getLastEdge()
                     .from
-                    .relativeCoordinates
-                    .equalBase(current.getLastEdge().to.relativeCoordinates)) {
+                    .getRelativeCoordinates()
+                    .equalBase(current.getLastEdge().to.getRelativeCoordinates())) {
                 this.leafTemplateEdge.add(current);
             }
         }
@@ -109,8 +109,8 @@ public class TemplateEdgeGenerator {
 
         if (!lastActionEdge
                 .getFrom()
-                .relativeCoordinates
-                .equalBase(lastActionEdge.getTo().relativeCoordinates)) {
+                .getRelativeCoordinates()
+                .equalBase(lastActionEdge.getTo().getRelativeCoordinates())) {
             // add to the store
 
             this.edgeStore.add(newTemplateEdge);

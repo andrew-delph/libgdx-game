@@ -58,8 +58,6 @@ public class EdgeRegistration extends EdgeRegistrationBase {
                 new RelativeCoordinates(-1, 0), EmptyBlock.class);
         moveLeftEntityStructure.registerRelativeEntity(
                 new RelativeCoordinates(0, -1), SolidBlock.class);
-        //    moveLeftEntityStructure.registerRelativeBlock(new RelativeCoordinates(-1, -1),
-        // SolidBlock.class);
         RelativeVertex moveLeftFrom =
                 new RelativeVertex(
                         moveLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
@@ -76,8 +74,6 @@ public class EdgeRegistration extends EdgeRegistrationBase {
                 new RelativeCoordinates(1, 0), EmptyBlock.class);
         moveRightEntityStructure.registerRelativeEntity(
                 new RelativeCoordinates(0, -1), SolidBlock.class);
-        //    moveRightEntityStructure.registerRelativeBlock(new RelativeCoordinates(1, -1),
-        // SolidBlock.class);
         RelativeVertex moveRightFrom =
                 new RelativeVertex(
                         moveRightEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
@@ -154,7 +150,6 @@ public class EdgeRegistration extends EdgeRegistrationBase {
 
     @Override
     public void ladderGreedyRegisterEdges() {
-
         EntityStructure startLadderEntityStructure = entityStructureFactory.createEntityStructure();
         startLadderEntityStructure.registerRelativeEntity(
                 new RelativeCoordinates(0, 0), EmptyBlock.class);

@@ -13,11 +13,9 @@ import networking.events.EventTypeFactory;
 public class EntityPathController extends EntityController {
 
     PathGuiderFactory pathGuiderFactory;
-
     EventService eventService;
     EventTypeFactory eventTypeFactory;
     EntityFactory entityFactory;
-
     PathGuider pathGuider;
     Entity target;
     Coordinates beforeUpdateCoordinates = null;
@@ -44,15 +42,20 @@ public class EntityPathController extends EntityController {
         super.afterWorldUpdate();
     }
 
+
+    @Override
+    public void render() {
+        if (this.pathGuider != null) this.pathGuider.render();
+    }
+
     @Override
     public void beforeWorldUpdate() {
         this.beforeUpdateCoordinates = this.entity.coordinates;
         if (this.pathGuider == null) {
             this.pathGuider = pathGuiderFactory.createPathGuider(entity);
         }
-
         if (this.entity.coordinates.getBase().equals(target.coordinates.getBase())) {
-            eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(entity.uuid));
+            gameController.removeEntity(entity.uuid);
             return;
         }
         try {

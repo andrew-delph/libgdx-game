@@ -7,6 +7,7 @@ import common.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;
 import common.exceptions.SerializationDataMissing;
+import configuration.GameSettings;
 import entity.Entity;
 import entity.collision.CollisionService;
 import generation.ChunkGenerationManager;

@@ -1,15 +1,12 @@
 package common.events;
 
 import com.google.inject.Inject;
-import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
+import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
 import generation.ChunkGenerationManager;
-
-import java.util.List;
-import java.util.Random;
 
 public class SoloEventConsumer extends EventConsumer {
 
@@ -29,19 +26,20 @@ public class SoloEventConsumer extends EventConsumer {
         this.eventService.addPostUpdateListener(
                 CreateAIEntityEventType.type,
                 eventType -> {
-                    CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
+                    try {
+                        CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
+                        System.out.println("CREATE AI " + realEvent.getCoordinates());
 
-                    Entity aiEntity = entityFactory.createEntity();
+                        Entity aiEntity = gameController.createEntity(realEvent.getCoordinates());
 
-                    aiEntity.coordinates = new Coordinates(0, 1);
-                    gameController.addEntity(aiEntity);
+                        Entity aiTarget = gameStore.getEntity(realEvent.getTarget());
 
-                    // get random target
-                    List<Entity> activeEntityList = chunkGenerationManager.getActiveEntityList();
-                    Random rand = new Random();
-                    Entity randomTarget = activeEntityList.get(rand.nextInt(activeEntityList.size()));
-                    aiEntity.setController(
-                            entityControllerFactory.createEntityPathController(aiEntity, randomTarget));
+                        aiEntity.setController(
+                                entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
+
+                    } catch (EntityNotFound e) {
+                        e.printStackTrace();
+                    }
                 });
     }
 }

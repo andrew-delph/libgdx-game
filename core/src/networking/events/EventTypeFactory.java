@@ -81,6 +81,14 @@ public class EventTypeFactory {
         return new HandshakeIncomingEventType(requestUUID, chunkRange, listUUID);
     }
 
+    public static CreateAIEntityEventType createAIEntityEventType(Coordinates coordinates, UUID target) {
+        return new CreateAIEntityEventType(coordinates, target);
+    }
+
+    public static CreateAIEntityEventType createAIEntityEventType(UUID target) {
+        return new CreateAIEntityEventType(new Coordinates(0, 0), target);
+    }
+
     public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(
             List<ChunkRange> chunkRangeList) {
         return new SubscriptionOutgoingEventType(chunkRangeList);
@@ -97,10 +105,6 @@ public class EventTypeFactory {
 
     public RemoveEntityEventType createRemoveEntityEvent(UUID entityUuid) {
         return new RemoveEntityEventType(entityUuid);
-    }
-
-    public CreateAIEntityEventType createAIEntityEventType(Coordinates coordinates) {
-        return new CreateAIEntityEventType(coordinates);
     }
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(NetworkObjects.NetworkEvent networkEvent) {

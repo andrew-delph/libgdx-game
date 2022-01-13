@@ -6,6 +6,7 @@ import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
+import common.events.types.CreateAIEntityEventType;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
@@ -19,6 +20,8 @@ import networking.events.types.incoming.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+
+import static networking.translation.DataTranslationEnum.COORDINATES;
 
 public class NetworkDataDeserializer {
     @Inject
@@ -148,6 +151,42 @@ public class NetworkDataDeserializer {
         return EventTypeFactory.createRemoveEntityIncomingEvent(user, chunkRange, target);
     }
 
+    public static Coordinates createCoordinates(NetworkObjects.NetworkData networkData) {
+        //TODO put in translations
+        float x = 0, y = 0;
+        for (NetworkObjects.NetworkData value : networkData.getChildrenList()) {
+            switch (value.getKey()) {
+                case "x":
+                    x = Float.parseFloat(value.getValue());
+                    break;
+                case "y":
+                    y = Float.parseFloat(value.getValue());
+                    break;
+            }
+        }
+        return new Coordinates(x, y);
+    }
+
+    public static CreateAIEntityEventType createCreateAIEntityEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+        UUID target = null;
+        Coordinates coordinates = null;
+
+        for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+            switch (child.getKey()) {
+                case DataTranslationEnum.UUID:
+                    target = createUUID(child);
+                    break;
+                case COORDINATES:
+                    coordinates = createCoordinates(child);
+                    break;
+            }
+        }
+        if (target == null) throw new SerializationDataMissing("Missing target uuid");
+        if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
+
+        return EventTypeFactory.createAIEntityEventType(coordinates, target);
+    }
+
     public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
         List<Entity> entityList = new LinkedList<>();
         ChunkRange chunkRange = null;
@@ -186,8 +225,8 @@ public class NetworkDataDeserializer {
             throw new SerializationDataMissing("classString not recognized");
         }
         for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
-            if (networkDataChild.getKey().equals(Coordinates.class.getName())) {
-                coordinates = this.createCoordinates(networkDataChild);
+            if (networkDataChild.getKey().equals(COORDINATES)) {
+                coordinates = createCoordinates(networkDataChild);
             } else if (networkDataChild.getKey().equals(UUID.class.getName())) {
                 uuid = UUID.fromString(networkDataChild.getValue());
             }
@@ -200,28 +239,12 @@ public class NetworkDataDeserializer {
         return entity;
     }
 
-    public Coordinates createCoordinates(NetworkObjects.NetworkData networkData) {
-        //TODO put in translations
-        float x = 0, y = 0;
-        for (NetworkObjects.NetworkData value : networkData.getChildrenList()) {
-            switch (value.getKey()) {
-                case "x":
-                    x = Float.parseFloat(value.getValue());
-                    break;
-                case "y":
-                    y = Float.parseFloat(value.getValue());
-                    break;
-            }
-        }
-        return new Coordinates(x, y);
-    }
-
     public Entity updateEntity(NetworkObjects.NetworkData networkData) throws EntityNotFound, SerializationDataMissing {
         Coordinates coordinates = null;
         UUID uuid = null;
         for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
-            if (networkDataChild.getKey().equals(Coordinates.class.getName())) {
-                coordinates = this.createCoordinates(networkDataChild);
+            if (networkDataChild.getKey().equals(COORDINATES)) {
+                coordinates = createCoordinates(networkDataChild);
             } else if (networkDataChild.getKey().equals(UUID.class.getName())) {
                 uuid = UUID.fromString(networkDataChild.getValue());
             }

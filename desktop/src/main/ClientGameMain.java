@@ -10,11 +10,8 @@ import networking.client.ClientNetworkHandle;
 
 public class ClientGameMain {
   public static void main(String[] args) {
-
     Injector injector = Guice.createInjector(new ClientConfig());
-
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
-
     ClientNetworkHandle clientNetworkHandle = injector.getInstance(ClientNetworkHandle.class);
 
     if (args.length > 0) {

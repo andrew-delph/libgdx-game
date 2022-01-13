@@ -1,6 +1,5 @@
 package entity;
 
-import app.GameSettings;
 import app.render.BaseAssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -8,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import common.Clock;
 import common.Coordinates;
+import configuration.GameSettings;
 import entity.controllers.EntityController;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkData;

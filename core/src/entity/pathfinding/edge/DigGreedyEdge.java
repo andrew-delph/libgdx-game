@@ -1,12 +1,15 @@
 package entity.pathfinding.edge;
 
 import app.GameController;
+import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import common.GameStore;
 import entity.Entity;
 import entity.block.BlockFactory;
 import entity.block.SkyBlock;
 import entity.pathfinding.*;
+
+import static app.GameScreen.pathDebugRender;
 
 public class DigGreedyEdge extends HorizontalGreedyEdge {
     GameController gameController;
@@ -45,6 +48,12 @@ public class DigGreedyEdge extends HorizontalGreedyEdge {
         pathGameStoreOverride.registerEntityTypeOverride(
                 SkyBlock.class, this.digPosition.applyRelativeCoordinates(sourceCoordinates));
     }
+
+    @Override
+    public void render(Coordinates position) {
+        pathDebugRender.setColor(Color.YELLOW);
+        super.render(position);
+    }
 }
 
 class DigEdgeStepper extends HorizontalEdgeStepper {
@@ -66,10 +75,10 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
 
     @Override
     public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
-        this.gameController.triggerReplaceEntity(
+        this.gameController.replaceBlock(
                 this.gameStore.getBlock(
                         this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))
-                        .uuid,
+                        ,
                 blockFactory.createSky());
         super.follow(entity, relativePathNode);
     }
