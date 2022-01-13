@@ -68,7 +68,6 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
     public synchronized void addEntity(Entity entity) {
         this.chunkMap.put(entity.uuid, entity);
-
         if (!bodySet.contains(entity.uuid)) {
             Body bodyToAdd = entity.addWorld(world);
             if (bodyToAdd != null) {
@@ -113,44 +112,21 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
         Chunk neighborChunk;
 
-        // up
-        neighborChunk = this.gameStore.getChunk(this.chunkRange.getUp());
-        if (!(neighborChunk == null)) {
-            neighborEntitySet.addAll(
-                    neighborChunk.getEntityInRange(
-                            new Coordinates(neighborChunk.chunkRange.bottom_x, neighborChunk.chunkRange.bottom_y),
-                            new Coordinates(
-                                    neighborChunk.chunkRange.top_x, neighborChunk.chunkRange.bottom_y + 2)));
-        }
+        Coordinates neighborBottomLeft = (new Coordinates(this.chunkRange.bottom_x, this.chunkRange.bottom_y)).getLeft().getLeft().getDown().getDown();
+        Coordinates neighborTopRight = (new Coordinates(this.chunkRange.top_x, this.chunkRange.top_y)).getRight().getRight().getUp().getUp();
+        List<Chunk> neighborChunkList = new LinkedList<>();
+        neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getUp()));
+        neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getDown()));
+        neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getLeft()));
+        neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight()));
+        neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getLeft().getUp()));
+        neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getLeft().getDown()));
+        neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight().getUp()));
+        neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight().getDown()));
 
-        // down
-        neighborChunk = this.gameStore.getChunk(this.chunkRange.getDown());
-        if (!(neighborChunk == null)) {
-            neighborEntitySet.addAll(
-                    neighborChunk.getEntityInRange(
-                            new Coordinates(
-                                    neighborChunk.chunkRange.bottom_x, neighborChunk.chunkRange.top_y - 2),
-                            new Coordinates(neighborChunk.chunkRange.top_x, neighborChunk.chunkRange.top_y)));
-        }
-
-        // left
-        neighborChunk = this.gameStore.getChunk(this.chunkRange.getLeft());
-        if (!(neighborChunk == null)) {
-            neighborEntitySet.addAll(
-                    neighborChunk.getEntityInRange(
-                            new Coordinates(
-                                    neighborChunk.chunkRange.top_x - 2, neighborChunk.chunkRange.bottom_y),
-                            new Coordinates(neighborChunk.chunkRange.top_x, neighborChunk.chunkRange.top_y)));
-        }
-
-        // right
-        neighborChunk = this.gameStore.getChunk(this.chunkRange.getRight());
-        if (!(neighborChunk == null)) {
-            neighborEntitySet.addAll(
-                    neighborChunk.getEntityInRange(
-                            new Coordinates(neighborChunk.chunkRange.bottom_x, neighborChunk.chunkRange.bottom_y),
-                            new Coordinates(
-                                    neighborChunk.chunkRange.bottom_x + 2, neighborChunk.chunkRange.top_y)));
+        for(Chunk neighbor: neighborChunkList){
+            if (neighbor == null) continue;
+            neighborEntitySet.addAll(neighbor.getEntityInRange(neighborBottomLeft,neighborTopRight));
         }
 
         // check the difference
