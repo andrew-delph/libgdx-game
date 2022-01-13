@@ -137,7 +137,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
         // add temp entity to set
         for (Entity entity : entityToAddSet) {
-            if (neighborEntityBodyMap.containsKey(entity) || !(entity instanceof Block)) continue;
+            if (neighborEntityBodyMap.containsKey(entity)) continue;
 
             Body bodyToAdd = entity.addWorld(world);
             if (bodyToAdd == null) continue;
