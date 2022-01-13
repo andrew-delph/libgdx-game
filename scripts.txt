@@ -1,0 +1,21 @@
+
+
+
+java -jar packr-all-4.0.0.jar --jdk 'C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.3\jbr' --platform windows64 --executable myapp --classpath desktop/build/libs/desktop-1.0.jar --mainclass main.ClientGameMain --vmargs Xmx1G --output out
+
+C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.3\jbr
+
+gradlew desktop:dist
+
+java -jar desktop/build/libs/desktop-1.0.jar
+
+java -cp "desktop/build/libs/desktop-1.0.jar" infra.Test
+
+./gradlew desktop:dist && java -jar desktop/build/libs/desktop-1.0.jar
+
+./ngrok tcp 99
+
+
+#docker
+docker build -f Server.Dockerfile -t game:server .
+docker run -it -p 99:99 game:server
