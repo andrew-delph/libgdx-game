@@ -6,7 +6,7 @@ project.ext.mainClassName = "main.ClientGameMain"
 project.ext.assetsDir = new File("../core/assets")
 
 task run(dependsOn: classes, type: JavaExec) {
-    main = project.mainClassName
+    main = project.ext.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
@@ -33,6 +33,12 @@ task dist(type: Jar) {
     with jar
 }
 
+task server(type: JavaExec) {
+    group = "Execution"
+    description = "Run the main class with JavaExecTask"
+    classpath = sourceSets.main.runtimeClasspath
+    main = "main.ServerRunner"
+}
 
 dist.dependsOn classes
 

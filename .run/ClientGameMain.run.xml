@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ClientGameMain" type="Application" factoryName="Application" singleton="false" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="main.ClientGameMain" />
-    <module name="libgdx-game.desktop" />
+    <module name="game.desktop" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="main.*" />
