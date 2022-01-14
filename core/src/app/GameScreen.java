@@ -79,6 +79,12 @@ public class GameScreen extends ApplicationAdapter {
     }
 
     @Override
+    public void resize(int width, int height) {
+        System.out.println(width+","+height);
+        baseCamera.setToOrtho(false,width,height);
+    }
+
+    @Override
     public void render() {
         debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
         baseCamera.position.set(
