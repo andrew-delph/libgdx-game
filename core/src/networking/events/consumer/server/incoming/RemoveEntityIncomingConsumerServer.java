@@ -1,7 +1,7 @@
 package networking.events.consumer.server.incoming;
 
 import app.GameController;
-import chunk.ChunkSubscriptionService;
+import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
@@ -18,7 +18,7 @@ public class RemoveEntityIncomingConsumerServer implements Consumer<EventType> {
     @Inject
     GameController gameController;
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
+    ChunkSubscriptionManager chunkSubscriptionManager;
     @Inject
     ServerNetworkHandle serverNetworkHandle;
 
@@ -35,7 +35,7 @@ public class RemoveEntityIncomingConsumerServer implements Consumer<EventType> {
 
         RemoveEntityOutgoingEventType outgoing = EventTypeFactory.createRemoveEntityOutgoingEvent(incoming.getTarget(), incoming.getChunkRange());
 
-        for (UUID uuid : chunkSubscriptionService.getSubscriptions(incoming.getChunkRange())) {
+        for (UUID uuid : chunkSubscriptionManager.getSubscriptions(incoming.getChunkRange())) {
             if (uuid.equals(incoming.getUser())) continue;
             serverNetworkHandle.send(uuid, outgoing.toNetworkEvent());
         }

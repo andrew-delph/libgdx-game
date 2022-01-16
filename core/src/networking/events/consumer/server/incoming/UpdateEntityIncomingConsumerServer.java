@@ -1,6 +1,6 @@
 package networking.events.consumer.server.incoming;
 
-import chunk.ChunkSubscriptionService;
+import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
@@ -19,7 +19,7 @@ public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
     @Inject
     NetworkDataDeserializer entitySerializationConverter;
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
+    ChunkSubscriptionManager chunkSubscriptionManager;
     @Inject
     ServerNetworkHandle serverNetworkHandle;
 
@@ -38,7 +38,7 @@ public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
             // TODO disconnect client for now.
         }
         UpdateEntityOutgoingEventType outgoing = EventTypeFactory.createUpdateEntityOutgoingEvent(incoming.getData(), incoming.getChunkRange());
-        for (UUID uuid : chunkSubscriptionService.getSubscriptions(outgoing.getChunkRange())) {
+        for (UUID uuid : chunkSubscriptionManager.getSubscriptions(outgoing.getChunkRange())) {
             if (uuid.equals(incoming.getUser())) continue;
             serverNetworkHandle.send(uuid, outgoing.toNetworkEvent());
         }

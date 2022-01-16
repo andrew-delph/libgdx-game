@@ -1,6 +1,6 @@
 package networking.events.consumer.server.outgoing;
 
-import chunk.ChunkSubscriptionService;
+import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import networking.NetworkObjects;
@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 public class CreateEntityOutgoingConsumerServer implements Consumer<EventType> {
 
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
+    ChunkSubscriptionManager chunkSubscriptionManager;
     @Inject
     ServerNetworkHandle serverNetworkHandle;
 
@@ -22,7 +22,7 @@ public class CreateEntityOutgoingConsumerServer implements Consumer<EventType> {
     public void accept(EventType eventType) {
         CreateEntityOutgoingEventType realEvent = (CreateEntityOutgoingEventType) eventType;
         NetworkObjects.NetworkEvent networkEvent = realEvent.toNetworkEvent();
-        List<UUID> uuidList = chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange());
+        List<UUID> uuidList = chunkSubscriptionManager.getSubscriptions(realEvent.getChunkRange());
         for (UUID uuid : uuidList) {
             serverNetworkHandle.send(uuid, networkEvent);
         }

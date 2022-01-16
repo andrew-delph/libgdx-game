@@ -24,6 +24,14 @@ public class ChunkGenerationManager {
         this.uuidOwnerMap = new HashMap<>();
     }
 
+    public List<Callable<Chunk>> generateActiveEntities() {
+        List<Callable<Chunk>> generationList = new LinkedList<>();
+        for (Entity entity : this.getActiveEntityList()) {
+            generationList.addAll(generateAround(new ChunkRange(entity.coordinates), 3));
+        }
+        return generationList;
+    }
+
     public void registerActiveEntity(Entity entity, UUID uuid) {
         this.activeEntity.add(entity);
         this.uuidOwnerMap.computeIfAbsent(uuid, k -> new LinkedList<>());
@@ -39,24 +47,18 @@ public class ChunkGenerationManager {
         return new ArrayList<>(this.activeEntity);
     }
 
-    public List<Callable<Chunk>> generateActiveEntities() {
-        List<Callable<Chunk>> generationList = new LinkedList<>();
-        for (Entity entity : this.getActiveEntityList()) {
-            generationList.addAll(generateAround(new ChunkRange(entity.coordinates), 3));
-        }
-        return generationList;
-    }
 
-    Boolean isGenerated(ChunkRange chunkRange) {
+
+    private Boolean isGenerated(ChunkRange chunkRange) {
         return this.generatedSet.contains(chunkRange);
     }
 
-    public ChunkBuilder generate(ChunkRange chunkRange) {
+    private ChunkBuilder generate(ChunkRange chunkRange) {
         this.generatedSet.add(chunkRange);
         return chunkBuilderFactory.create(chunkRange);
     }
 
-    public List<Callable<Chunk>> generateAround(ChunkRange chunkRangeRoot, int radius) {
+    private List<Callable<Chunk>> generateAround(ChunkRange chunkRangeRoot, int radius) {
 
         List<ChunkRange> surroundingChunkRangeList =
                 ChunkRange.getChunkRangeListAroundPoint(

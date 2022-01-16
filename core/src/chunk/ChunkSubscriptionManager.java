@@ -5,13 +5,13 @@ import com.google.inject.Inject;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ChunkSubscriptionService {
+public class ChunkSubscriptionManager {
 
     Map<UUID, Set<ChunkRange>> userToChunkList;
     Map<ChunkRange, Set<UUID>> chunkRangeToUser;
 
     @Inject
-    ChunkSubscriptionService() {
+    ChunkSubscriptionManager() {
         this.userToChunkList = new ConcurrentHashMap<>();
         this.chunkRangeToUser = new ConcurrentHashMap<>();
     }

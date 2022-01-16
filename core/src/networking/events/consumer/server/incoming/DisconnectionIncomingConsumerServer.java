@@ -1,7 +1,7 @@
 package networking.events.consumer.server.incoming;
 
 import chunk.ChunkRange;
-import chunk.ChunkSubscriptionService;
+import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.GameStore;
 import common.events.EventService;
@@ -25,7 +25,7 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
     @Inject
     EventService eventService;
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
+    ChunkSubscriptionManager chunkSubscriptionManager;
     @Inject
     ServerNetworkHandle serverNetworkHandle;
     @Inject
@@ -57,7 +57,7 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
                     entity.uuid, new ChunkRange(entity.coordinates));
 
             for (UUID subscriptionUuid :
-                    chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
+                    chunkSubscriptionManager.getSubscriptions(new ChunkRange(entity.coordinates))) {
                 serverNetworkHandle.send(subscriptionUuid, removeEntityOutgoingEvent.toNetworkEvent());
             }
         }

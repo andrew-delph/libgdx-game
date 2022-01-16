@@ -1,6 +1,6 @@
 package networking;
 
-import chunk.ChunkSubscriptionService;
+import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 
 import java.util.HashMap;
@@ -12,7 +12,7 @@ public class ConnectionStore {
     Map<UUID, RequestNetworkEventObserver> connectionMap;
 
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
+    ChunkSubscriptionManager chunkSubscriptionManager;
 
     @Inject
     public ConnectionStore() {
@@ -25,7 +25,7 @@ public class ConnectionStore {
 
     public void removeConnection(UUID uuid) {
         this.connectionMap.remove(uuid);
-        chunkSubscriptionService.removeUUID(uuid);
+        chunkSubscriptionManager.removeUUID(uuid);
     }
 
     public RequestNetworkEventObserver getConnection(UUID uuid) {

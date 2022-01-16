@@ -2,7 +2,7 @@ package configuration;
 
 import app.render.BaseAssetManager;
 import chunk.ChunkFactory;
-import chunk.ChunkSubscriptionService;
+import chunk.ChunkSubscriptionManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import common.ChunkClockMap;
@@ -35,7 +35,7 @@ public abstract class MainConfig extends AbstractModule {
         bind(BlockGenerator.class).asEagerSingleton();
         bind(EventService.class).asEagerSingleton();
         bind(ConnectionStore.class).asEagerSingleton();
-        bind(ChunkSubscriptionService.class).asEagerSingleton();
+        bind(ChunkSubscriptionManager.class).asEagerSingleton();
 
         bind(ChunkClockMap.class).asEagerSingleton();
         //

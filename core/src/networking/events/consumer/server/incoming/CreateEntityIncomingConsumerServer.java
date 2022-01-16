@@ -1,7 +1,7 @@
 package networking.events.consumer.server.incoming;
 
 import app.GameController;
-import chunk.ChunkSubscriptionService;
+import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.SerializationDataMissing;
@@ -23,7 +23,7 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
     @Inject
     NetworkDataDeserializer entitySerializationConverter;
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
+    ChunkSubscriptionManager chunkSubscriptionManager;
     @Inject
     ServerNetworkHandle serverNetworkHandle;
     @Inject
@@ -47,7 +47,7 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
 
         CreateEntityOutgoingEventType outgoing = EventTypeFactory.createCreateEntityOutgoingEvent(incoming.getData(), incoming.getChunkRange());
 
-        for (UUID uuid : chunkSubscriptionService.getSubscriptions(incoming.getChunkRange())) {
+        for (UUID uuid : chunkSubscriptionManager.getSubscriptions(incoming.getChunkRange())) {
             if (uuid.equals(incoming.getUser())) continue;
             serverNetworkHandle.send(uuid, outgoing.toNetworkEvent());
         }

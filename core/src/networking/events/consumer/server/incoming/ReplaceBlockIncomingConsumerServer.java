@@ -1,7 +1,7 @@
 package networking.events.consumer.server.incoming;
 
 import app.GameController;
-import chunk.ChunkSubscriptionService;
+import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
 
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
+    ChunkSubscriptionManager chunkSubscriptionManager;
     @Inject
     ServerNetworkHandle serverNetworkHandle;
     @Inject
@@ -35,7 +35,7 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
                 incoming.getTarget(),
                 incoming.getReplacementBlock(),
                 incoming.getChunkRange());
-        for (UUID uuid : chunkSubscriptionService.getSubscriptions(incoming.getChunkRange())) {
+        for (UUID uuid : chunkSubscriptionManager.getSubscriptions(incoming.getChunkRange())) {
             if (incoming.getUser().equals(uuid)) continue;
             serverNetworkHandle.send(uuid, outgoing.toNetworkEvent());
         }

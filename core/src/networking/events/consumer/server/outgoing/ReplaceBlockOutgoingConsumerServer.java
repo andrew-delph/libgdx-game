@@ -1,6 +1,6 @@
 package networking.events.consumer.server.outgoing;
 
-import chunk.ChunkSubscriptionService;
+import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.events.EventService;
 import common.events.types.EventType;
@@ -15,14 +15,14 @@ public class ReplaceBlockOutgoingConsumerServer implements Consumer<EventType> {
     @Inject
     EventService eventService;
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
+    ChunkSubscriptionManager chunkSubscriptionManager;
     @Inject
     ServerNetworkHandle serverNetworkHandle;
 
     @Override
     public void accept(EventType eventType) {
         ReplaceBlockOutgoingEventType realEvent = (ReplaceBlockOutgoingEventType) eventType;
-        for (UUID uuid : chunkSubscriptionService.getSubscriptions(realEvent.getChunkRange())) {
+        for (UUID uuid : chunkSubscriptionManager.getSubscriptions(realEvent.getChunkRange())) {
             serverNetworkHandle.send(uuid, realEvent.toNetworkEvent());
         }
     }

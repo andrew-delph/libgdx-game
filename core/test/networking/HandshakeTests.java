@@ -5,7 +5,7 @@ import app.GameController;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
-import chunk.ChunkSubscriptionService;
+import chunk.ChunkSubscriptionManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
@@ -220,7 +220,7 @@ public class HandshakeTests {
         BlockFactory blockFactory = clientInjector.getInstance(BlockFactory.class);
         Coordinates coordinatesToTest = new Coordinates(0, 0);
         ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
-        ChunkSubscriptionService serverChunkSubscriptionService = serverInjector.getInstance(ChunkSubscriptionService.class);
+        ChunkSubscriptionManager serverChunkSubscriptionManager = serverInjector.getInstance(ChunkSubscriptionManager.class);
 
         serverGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
         clientGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
@@ -256,7 +256,7 @@ public class HandshakeTests {
         Coordinates coordinatesToTest = new Coordinates(0, 0);
         Coordinates coordinatesToMove = new Coordinates(1, 1);
         ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
-        ChunkSubscriptionService serverChunkSubscriptionService = serverInjector.getInstance(ChunkSubscriptionService.class);
+        ChunkSubscriptionManager serverChunkSubscriptionManager = serverInjector.getInstance(ChunkSubscriptionManager.class);
 
         serverGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
         clientGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
@@ -270,7 +270,7 @@ public class HandshakeTests {
         e1.coordinates = coordinatesToTest;
         e2.coordinates = coordinatesToTest;
 
-        serverChunkSubscriptionService.registerSubscription(clientNetworkHandle.uuid, chunkRangeToTest);
+        serverChunkSubscriptionManager.registerSubscription(clientNetworkHandle.uuid, chunkRangeToTest);
         clientGameController.addEntity(e1);
         TimeUnit.SECONDS.sleep(1);
         assert serverChunk.equals(clientChunk);
@@ -291,7 +291,7 @@ public class HandshakeTests {
         Coordinates coordinatesToTest = new Coordinates(0, 0);
         Coordinates coordinatesToMove = new Coordinates(1, 1);
         ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
-        ChunkSubscriptionService serverChunkSubscriptionService = serverInjector.getInstance(ChunkSubscriptionService.class);
+        ChunkSubscriptionManager serverChunkSubscriptionManager = serverInjector.getInstance(ChunkSubscriptionManager.class);
 
         serverGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
         clientGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
@@ -308,7 +308,7 @@ public class HandshakeTests {
         blockToRemove.coordinates = coordinatesToTest;
         blockToReplace.coordinates = coordinatesToTest;
 
-        serverChunkSubscriptionService.registerSubscription(clientNetworkHandle.uuid, chunkRangeToTest);
+        serverChunkSubscriptionManager.registerSubscription(clientNetworkHandle.uuid, chunkRangeToTest);
         clientGameController.addEntity(e1);
         TimeUnit.SECONDS.sleep(1);
         assert serverChunk.equals(clientChunk);

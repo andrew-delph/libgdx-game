@@ -3,7 +3,7 @@ package networking.server;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
-import chunk.ChunkSubscriptionService;
+import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.GameStore;
 import io.grpc.Server;
@@ -33,7 +33,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     @Inject
     EventTypeFactory eventTypeFactory;
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
+    ChunkSubscriptionManager chunkSubscriptionManager;
     private Server server;
 
     @Inject
@@ -74,7 +74,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         if (chunk == null) {
             chunk = this.chunkFactory.create(realEvent.getChunkRange());
         }
-        chunkSubscriptionService.registerSubscription(realEvent.getUUID(), realEvent.getChunkRange());
+        chunkSubscriptionManager.registerSubscription(realEvent.getUUID(), realEvent.getChunkRange());
         responseObserver.onNext(
                 NetworkObjects.NetworkEvent.newBuilder()
                         .setData(chunk.toNetworkData())
