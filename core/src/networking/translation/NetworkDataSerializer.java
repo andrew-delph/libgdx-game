@@ -4,10 +4,7 @@ import chunk.ChunkRange;
 import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import networking.NetworkObjects;
-import networking.events.types.outgoing.CreateEntityOutgoingEventType;
-import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
-import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
-import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
+import networking.events.types.outgoing.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -122,6 +119,18 @@ public class NetworkDataSerializer {
                 NetworkObjects.NetworkData.newBuilder();
         dataListBuilder.addChildren(createCoordinates(createAIEntityEventType.getCoordinates()));
         dataListBuilder.addChildren(createUUID(createAIEntityEventType.getTarget()));
+        return eventBuilder.setData(dataListBuilder).build();
+    }
+
+    public static NetworkObjects.NetworkEvent createChunkSwapOutgoingEventType(ChunkSwapOutgoingEventType chunkSwapOutgoingEventType) {
+        NetworkObjects.NetworkEvent.Builder eventBuilder = NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.CHUNK_SWAP);
+
+        NetworkObjects.NetworkData.Builder dataListBuilder = NetworkObjects.NetworkData.newBuilder();
+
+        dataListBuilder.addChildren(createUUID(chunkSwapOutgoingEventType.getTarget()));
+        dataListBuilder.addChildren(createChunkRange(chunkSwapOutgoingEventType.getFrom()).toBuilder().setKey("from"));
+        dataListBuilder.addChildren(createChunkRange(chunkSwapOutgoingEventType.getTo()).toBuilder().setKey("to"));
+
         return eventBuilder.setData(dataListBuilder).build();
     }
 }
