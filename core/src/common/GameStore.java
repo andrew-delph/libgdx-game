@@ -68,6 +68,10 @@ public class GameStore {
         return true;
     }
 
+    public Boolean doesChunkExist(ChunkRange chunkRange) {
+        return this.chunkClockMap.doesChunkExist(chunkRange);
+    }
+
     public Chunk getEntityChunk(UUID uuid) {
         return this.chunkClockMap.get(this.entityMap.get(uuid));
     }
@@ -76,6 +80,13 @@ public class GameStore {
         this.chunkClockMap.add(chunk);
         for (Entity entity : chunk.getEntityList()) {
             this.entityMap.put(entity.uuid, chunk.chunkRange);
+        }
+    }
+
+    public void removeChunk(ChunkRange chunkRange){
+        Chunk removed = this.chunkClockMap.remove(chunkRange);
+        for (UUID uuidToRemove : removed.getEntityUUIDSet()){
+            this.entityMap.remove(uuidToRemove);
         }
     }
 
@@ -148,5 +159,9 @@ public class GameStore {
 
     public ChunkRange getEntityChunkRange(UUID uuid) {
         return entityMap.get(uuid);
+    }
+
+    public List<ChunkRange> getChunkRangeList() {
+        return this.chunkClockMap.getChunkRangeList();
     }
 }

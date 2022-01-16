@@ -8,6 +8,7 @@ import networking.events.interfaces.SerializeNetworkEvent;
 import java.util.UUID;
 
 import static networking.events.types.NetworkEventTypeEnum.CHUNK_SWAP_OUTGOING;
+import static networking.translation.NetworkDataSerializer.createChunkSwapOutgoingEventType;
 
 public class ChunkSwapOutgoingEventType  extends EventType implements SerializeNetworkEvent {
 
@@ -40,6 +41,6 @@ public class ChunkSwapOutgoingEventType  extends EventType implements SerializeN
 
     @Override
     public NetworkObjects.NetworkEvent toNetworkEvent() {
-        return null;
+        return createChunkSwapOutgoingEventType(this);
     }
 }

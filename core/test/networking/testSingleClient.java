@@ -406,4 +406,39 @@ public class testSingleClient {
         assert !serverGameStore.doesEntityExist(myEntity.uuid);
         assert !clientGameStore.doesEntityExist(myEntity.uuid);
     }
+
+    @Test
+    public void testEntityChunkSwap() throws InterruptedException, EntityNotFound {
+        GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+        GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+        GameController serverGameController = serverInjector.getInstance(GameController.class);
+        ChunkFactory serverChunkFactory = serverInjector.getInstance(ChunkFactory.class);
+        ChunkSubscriptionService serverChunkSubscriptionService = serverInjector.getInstance(ChunkSubscriptionService.class);
+
+        serverChunkSubscriptionService.registerSubscription(clientNetworkHandle.uuid, new ChunkRange(new Coordinates(0, 0)));
+        Entity myEntity = serverGameController.createEntity(new Coordinates(0, 0));
+        Coordinates coordinatesToTest = new Coordinates(-1000,1000);
+        ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
+
+        TimeUnit.SECONDS.sleep(1);
+
+        //remove chunk from the client
+        //add chunk to the server
+        //move the entity to that chunk
+        if (!serverGameStore.doesChunkExist(chunkRangeToTest))serverGameStore.addChunk(serverChunkFactory.create(chunkRangeToTest));
+        if (clientGameStore.doesChunkExist(chunkRangeToTest)){
+            clientGameStore.removeChunk(chunkRangeToTest);
+        }
+
+        assert serverGameStore.doesEntityExist(myEntity.uuid);
+        assert clientGameStore.doesEntityExist(myEntity.uuid);
+
+        serverGameController.moveEntity(myEntity.uuid,coordinatesToTest);
+
+        TimeUnit.SECONDS.sleep(1);
+
+        assert serverGameStore.doesEntityExist(myEntity.uuid);
+        assert !clientGameStore.doesEntityExist(myEntity.uuid);
+
+    }
 }

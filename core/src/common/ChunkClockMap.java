@@ -28,6 +28,12 @@ public class ChunkClockMap {
         return this.map.get(chunkRange);
     }
 
+    Chunk remove(ChunkRange chunkRange) {
+        Chunk toRemove = this.map.get(chunkRange);
+        this.map.remove(chunkRange);
+        return toRemove;
+    }
+
     Boolean doesChunkExist(ChunkRange chunkRange) {
         return this.map.containsKey(chunkRange);
     }

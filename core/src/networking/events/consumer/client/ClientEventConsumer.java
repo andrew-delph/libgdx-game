@@ -42,6 +42,7 @@ public class ClientEventConsumer extends EventConsumer {
     HandshakeOutgoingConsumerClient handshakeOutgoingConsumerClient;
     @Inject
     RemoveEntityOutgoingConsumerClient removeEntityOutgoingConsumerClient;
+    @Inject ChunkSwapIncomingConsumerClient chunkSwapIncomingConsumerClient;
 
     @Inject
     protected ClientEventConsumer() {
@@ -60,5 +61,6 @@ public class ClientEventConsumer extends EventConsumer {
         this.eventService.addListener(NetworkEventTypeEnum.HANDSHAKE_OUTGOING, handshakeOutgoingConsumerClient);
         this.eventService.addListener(NetworkEventTypeEnum.REMOVE_ENTITY_OUTGOING, removeEntityOutgoingConsumerClient);
         this.eventService.addPostUpdateListener(RemoveEntityIncomingEventType.type, removeEntityIncomingConsumer);
+        this.eventService.addPostUpdateListener(NetworkEventTypeEnum.CHUNK_SWAP_INCOMING, chunkSwapIncomingConsumerClient);
     }
 }
