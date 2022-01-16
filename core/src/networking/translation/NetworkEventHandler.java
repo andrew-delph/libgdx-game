@@ -37,6 +37,8 @@ public class NetworkEventHandler extends EventConsumer {
                 eventService.queuePostUpdateEvent(NetworkDataDeserializer.createCreateAIEntityEventType(networkEvent));
             } else if (event.equals(DataTranslationEnum.HANDSHAKE)) {
                 eventService.fireEvent(NetworkDataDeserializer.createHandshakeIncomingEventType(networkEvent));
+            }else if (event.equals(DataTranslationEnum.CHUNK_SWAP)) {
+                eventService.queuePostUpdateEvent(NetworkDataDeserializer.createChunkSwapIncomingEventType(networkEvent));
             }
         } catch (Exception e) {
             e.printStackTrace();

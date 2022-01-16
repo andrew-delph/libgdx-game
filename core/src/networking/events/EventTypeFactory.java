@@ -114,4 +114,12 @@ public class EventTypeFactory {
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UUID userID) {
         return new GetChunkOutgoingEventType(chunkRange, userID);
     }
+
+    public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(UUID target, ChunkRange from, ChunkRange to){
+        return new ChunkSwapIncomingEventType(target,from,to);
+    }
+
+    public static ChunkSwapOutgoingEventType createChunkSwapOutgoingEventType(UUID target, ChunkRange from, ChunkRange to){
+        return new ChunkSwapOutgoingEventType(target,from,to);
+    }
 }

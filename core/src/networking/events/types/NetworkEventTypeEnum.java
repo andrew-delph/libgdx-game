@@ -15,4 +15,7 @@ public class NetworkEventTypeEnum {
 
     public final static String REPLACE_ENTITY_INCOMING = "REPLACE_ENTITY_INCOMING";
     public final static String REPLACE_ENTITY_OUTGOING = "REPLACE_ENTITY_OUTGOING";
+
+    public final static String CHUNK_SWAP_INCOMING = "CHUNK_SWAP_INCOMING";
+    public final static String CHUNK_SWAP_OUTGOING = "CHUNK_SWAP_OUTGOING";
 }

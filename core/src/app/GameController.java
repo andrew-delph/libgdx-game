@@ -194,9 +194,13 @@ public class GameController {
     }
 
     public void syncEntity(Entity entity) throws EntityNotFound {
-        if (!gameStore.getEntityChunkRange(entity.uuid).equals(new ChunkRange(entity.coordinates))) {
+        UUID target = entity.uuid;
+        ChunkRange from = gameStore.getEntityChunkRange(entity.uuid);
+        ChunkRange to = new ChunkRange(entity.coordinates);
+        if (!from.equals(to)) {
             this.eventService.queuePostUpdateEvent(
-                    EventTypeFactory.createReplaceEntityEvent(entity.uuid, entity, true, new ChunkRange(entity.coordinates)));
+                    EventTypeFactory.createReplaceEntityEvent(entity.uuid, entity, true, to));
+            this.eventService.fireEvent(EventTypeFactory.createChunkSwapOutgoingEventType(target,from,to));
         }
     }
 

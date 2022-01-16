@@ -5,10 +5,7 @@ import common.events.EventConsumer;
 import common.events.EventService;
 import common.events.types.CreateAIEntityEventType;
 import networking.events.consumer.server.incoming.*;
-import networking.events.consumer.server.outgoing.CreateEntityOutgoingConsumerServer;
-import networking.events.consumer.server.outgoing.RemoveEntityOutgoingConsumerServer;
-import networking.events.consumer.server.outgoing.ReplaceBlockOutgoingConsumerServer;
-import networking.events.consumer.server.outgoing.UpdateEntityOutgoingConsumerServer;
+import networking.events.consumer.server.outgoing.*;
 import networking.events.types.NetworkEventTypeEnum;
 import networking.events.types.incoming.*;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
@@ -44,6 +41,8 @@ public class ServerEventConsumer extends EventConsumer {
     RemoveEntityIncomingConsumerServer removeEntityIncomingConsumerServer;
     @Inject
     RemoveEntityOutgoingConsumerServer removeEntityOutgoingConsumerServer;
+    @Inject
+    ChunkSwapOutgoingConsumerServer chunkSwapOutgoingConsumerServer;
 
     public void init() {
         super.init();
@@ -68,5 +67,6 @@ public class ServerEventConsumer extends EventConsumer {
         this.eventService.addListener(NetworkEventTypeEnum.HANDSHAKE_INCOMING, handshakeIncomingConsumerServer);
         this.eventService.addPostUpdateListener(NetworkEventTypeEnum.REMOVE_ENTITY_INCOMING, removeEntityIncomingConsumerServer);
         this.eventService.addListener(NetworkEventTypeEnum.REMOVE_ENTITY_OUTGOING, removeEntityOutgoingConsumerServer);
+        this.eventService.addListener(NetworkEventTypeEnum.CHUNK_SWAP_OUTGOING, chunkSwapOutgoingConsumerServer);
     }
 }

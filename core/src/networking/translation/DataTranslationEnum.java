@@ -12,4 +12,5 @@ public class DataTranslationEnum {
     public static final String REMOVE_ENTITY = "REMOVE_ENTITY";
     public static final String HANDSHAKE = "HANDSHAKE";
     public static final String CREATE_AI = "CREATE_AI";
+    public static final String CHUNK_SWAP = "CHUNK_SWAP";
 }
