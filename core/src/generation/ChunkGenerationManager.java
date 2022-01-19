@@ -47,8 +47,6 @@ public class ChunkGenerationManager {
         return new ArrayList<>(this.activeEntity);
     }
 
-
-
     private Boolean isGenerated(ChunkRange chunkRange) {
         return this.generatedSet.contains(chunkRange);
     }
