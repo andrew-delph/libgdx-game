@@ -27,7 +27,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import configuration.SoloConfig;
+import configuration.StandAloneConfig;
 import app.GameScreen;
 
 public class AndroidLauncher extends AndroidApplication {
@@ -69,7 +69,7 @@ public class AndroidLauncher extends AndroidApplication {
 //			e.printStackTrace();
 //		}
 
-		Injector injector = Guice.createInjector(new SoloConfig());
+		Injector injector = Guice.createInjector(new StandAloneConfig());
 		GameScreen gameScreen = injector.getInstance(GameScreen.class);
 		initialize(gameScreen, new AndroidApplicationConfiguration());
 

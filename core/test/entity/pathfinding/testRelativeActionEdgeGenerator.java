@@ -3,14 +3,14 @@ package entity.pathfinding;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configuration.SoloConfig;
+import configuration.StandAloneConfig;
 import entity.block.SolidBlock;
 import org.junit.Test;
 
 public class testRelativeActionEdgeGenerator {
     @Test
     public void testRelativeActionEdgeGenerator() {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         RelativeActionEdgeGenerator generator = injector.getInstance(RelativeActionEdgeGenerator.class);
 

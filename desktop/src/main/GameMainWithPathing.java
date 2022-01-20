@@ -5,12 +5,12 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configuration.SoloConfig;
+import configuration.StandAloneConfig;
 import entity.pathfinding.EdgeRegistration;
 
 public class GameMainWithPathing {
     public static void main(String[] arg) {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
         GameScreen gameScreen = injector.getInstance(GameScreen.class);
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 

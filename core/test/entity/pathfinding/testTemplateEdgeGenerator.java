@@ -4,14 +4,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
-import configuration.SoloConfig;
+import configuration.StandAloneConfig;
 import entity.pathfinding.edge.AbstractEdge;
 import org.junit.Test;
 
 public class testTemplateEdgeGenerator {
     @Test
     public void testTemplateEdgeGenerator() {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         TemplateEdgeGeneratorFactory templateEdgeGeneratorFactory =
                 injector.getInstance(TemplateEdgeGeneratorFactory.class);

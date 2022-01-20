@@ -4,14 +4,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.GameStore;
-import configuration.SoloConfig;
+import configuration.StandAloneConfig;
 import entity.pathfinding.edge.HorizontalGreedyEdge;
 import org.junit.Test;
 
 public class testAbstractEdge {
     @Test
     public void testAbstractEdgeEqual() {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         EntityStructure entityStructure = new EntityStructure(injector.getInstance(GameStore.class));
         HorizontalGreedyEdge horizontalGreedyEdge1 =
