@@ -1,4 +1,4 @@
-package app.render;
+package app.screen;
 
 import chunk.ChunkRange;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,6 +11,7 @@ import java.util.List;
 public class BaseCamera extends OrthographicCamera {
     @Inject
     public BaseCamera() {
+        System.out.println("create!");
     }
 
     @Override
@@ -31,15 +32,12 @@ public class BaseCamera extends OrthographicCamera {
         int top_y = (int) ((this.position.y + (this.viewportHeight / 2)) / Entity.coordinatesScale);
 
         Coordinates bottomLeftCoordinates = new Coordinates(left_x, bottom_y);
-
         Coordinates topRightCoordinates = new Coordinates(right_x, top_y);
-
-        ChunkRange bottomLeftChunkRange = new ChunkRange(bottomLeftCoordinates).getLeft().getDown();
-
-        ChunkRange topRightChunkRange = new ChunkRange(topRightCoordinates).getRight().getUp();
+//        ChunkRange bottomLeftChunkRange = new ChunkRange(bottomLeftCoordinates).getLeft().getDown();
+//        ChunkRange topRightChunkRange = new ChunkRange(topRightCoordinates).getRight().getUp();
 
         return ChunkRange.getChunkRangeListTwoPoints(
-                new Coordinates(bottomLeftChunkRange.bottom_x, bottomLeftChunkRange.bottom_y),
-                new Coordinates(topRightChunkRange.top_x, topRightChunkRange.top_y));
+                bottomLeftCoordinates,
+                topRightCoordinates);
     }
 }

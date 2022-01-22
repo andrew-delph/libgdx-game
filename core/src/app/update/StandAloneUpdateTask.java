@@ -1,6 +1,8 @@
 package app.update;
 
+import app.screen.BaseCamera;
 import chunk.Chunk;
+import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Clock;
 import common.GameStore;
@@ -23,6 +25,8 @@ public class StandAloneUpdateTask extends UpdateTask {
     EventService eventService;
     @Inject
     ChunkGenerationManager chunkGenerationManager;
+    @Inject
+    BaseCamera baseCamera;
 
     public StandAloneUpdateTask() {
         executor = Executors.newCachedThreadPool();
@@ -30,9 +34,18 @@ public class StandAloneUpdateTask extends UpdateTask {
 
     @Override
     public void run() {
+        /*
+        - create requested chunks from screen. send them to the generation manager
+        - generate around active entities
+        - don't delete chunks
+         */
+
         this.clock.tick();
         List<Callable<Chunk>> callableChunkList =
                 this.gameStore.getChunkOnClock(this.clock.currentTick);
+
+        List<ChunkRange> chunkRangeOnScreen = baseCamera.getChunkRangeOnScreen();
+        // send chunkRangeOnScreen to the generation
 
         callableChunkList.addAll(this.chunkGenerationManager.generateActiveEntities());
 

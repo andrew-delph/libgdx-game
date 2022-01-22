@@ -6,7 +6,7 @@ import app.update.UpdateTask;
 import app.game.ClientGame;
 import app.screen.ClientGameScreen;
 import app.update.ClientUpdateTask;
-import app.render.BaseCamera;
+import app.screen.BaseCamera;
 import common.events.EventConsumer;
 import networking.client.ClientNetworkHandle;
 import networking.events.consumer.client.ClientEventConsumer;

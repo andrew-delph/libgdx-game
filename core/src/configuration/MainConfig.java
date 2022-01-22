@@ -1,6 +1,8 @@
 package configuration;
 
-import app.render.BaseAssetManager;
+import app.screen.BaseAssetManager;
+import app.screen.BaseCamera;
+import app.user.User;
 import chunk.ChunkFactory;
 import chunk.ChunkSubscriptionManager;
 import com.google.inject.AbstractModule;
@@ -29,6 +31,7 @@ public abstract class MainConfig extends AbstractModule {
     @Override
     protected void configure() {
         bind(BaseAssetManager.class).in(Singleton.class);
+        bind(BaseCamera.class).in(Singleton.class);
         bind(Clock.class).asEagerSingleton();
         bind(GameStore.class).asEagerSingleton();
         bind(ChunkGenerationManager.class).asEagerSingleton();
@@ -59,5 +62,6 @@ public abstract class MainConfig extends AbstractModule {
         bind(ObserverFactory.class).asEagerSingleton();
         bind(EntityLadderContact.class).asEagerSingleton();
         bind(CollisionService.class).asEagerSingleton();
+        bind(User.class).asEagerSingleton();
     }
 }

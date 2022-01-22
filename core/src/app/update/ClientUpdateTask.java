@@ -1,5 +1,6 @@
 package app.update;
 
+import app.screen.GameScreen;
 import chunk.Chunk;
 import com.google.inject.Inject;
 import common.Clock;
@@ -22,6 +23,8 @@ public class ClientUpdateTask extends UpdateTask {
     EventService eventService;
     @Inject
     ChunkGenerationManager chunkGenerationManager;
+    @Inject
+    GameScreen gameScreen;
 
     public ClientUpdateTask() {
         executor = Executors.newCachedThreadPool();
@@ -29,6 +32,11 @@ public class ClientUpdateTask extends UpdateTask {
 
     @Override
     public void run() {
+
+        /*
+        -create requested chunks and send request to subscription manager
+        -delete chunks no longer needs
+         */
         this.clock.tick();
         List<Callable<Chunk>> callableChunkList =
                 this.gameStore.getChunkOnClock(this.clock.currentTick);
