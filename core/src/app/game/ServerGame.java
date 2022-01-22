@@ -1,6 +1,5 @@
-package app.server;
+package app.game;
 
-import app.Game;
 import chunk.ChunkFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;

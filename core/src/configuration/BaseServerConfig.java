@@ -1,8 +1,8 @@
 package configuration;
 
-import app.Game;
+import app.game.Game;
 import app.update.UpdateTask;
-import app.server.ServerGame;
+import app.game.ServerGame;
 import app.update.ServerUpdateTask;
 import common.events.EventConsumer;
 import networking.events.consumer.server.ServerEventConsumer;

@@ -1,6 +1,6 @@
 package main;
 
-import app.Game;
+import app.game.Game;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.exceptions.SerializationDataMissing;

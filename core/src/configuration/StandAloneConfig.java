@@ -1,6 +1,6 @@
 package configuration;
 
-import app.Game;
+import app.game.Game;
 import app.update.UpdateTask;
 import app.update.StandAloneUpdateTask;
 import common.events.EventConsumer;

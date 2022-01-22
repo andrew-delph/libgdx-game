@@ -9,7 +9,7 @@ import entity.block.BlockFactory;
 import entity.block.SkyBlock;
 import entity.pathfinding.*;
 
-import static app.GameScreen.pathDebugRender;
+import static app.screen.GameScreen.pathDebugRender;
 
 public class DigGreedyEdge extends HorizontalGreedyEdge {
     GameController gameController;

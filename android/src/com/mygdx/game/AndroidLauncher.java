@@ -28,7 +28,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import configuration.StandAloneConfig;
-import app.GameScreen;
+import app.screen.GameScreen;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

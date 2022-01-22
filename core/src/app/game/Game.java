@@ -1,4 +1,4 @@
-package app;
+package app.game;
 
 import app.update.UpdateTask;
 import chunk.ChunkFactory;
@@ -53,7 +53,7 @@ public class Game {
         timer.cancel();
     }
 
-    List<Entity> getEntityListInRange(int x1, int y1, int x2, int y2) {
+    public List<Entity> getEntityListInRange(int x1, int y1, int x2, int y2) {
         return this.gameStore.getEntityListInRange(x1, y1, x2, y2);
     }
 

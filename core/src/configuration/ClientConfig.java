@@ -1,10 +1,10 @@
 package configuration;
 
-import app.Game;
-import app.GameScreen;
+import app.game.Game;
+import app.screen.GameScreen;
 import app.update.UpdateTask;
-import app.client.ClientGame;
-import app.client.ClientGameScreen;
+import app.game.ClientGame;
+import app.screen.ClientGameScreen;
 import app.update.ClientUpdateTask;
 import app.render.BaseCamera;
 import common.events.EventConsumer;

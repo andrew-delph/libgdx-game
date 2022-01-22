@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.ClientConfig;
-import app.GameScreen;
+import app.screen.GameScreen;
 import networking.client.ClientNetworkHandle;
 
 public class ClientGameMain {

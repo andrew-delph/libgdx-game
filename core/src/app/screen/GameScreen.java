@@ -1,5 +1,7 @@
-package app;
+package app.screen;
 
+import app.game.Game;
+import app.GameController;
 import app.render.BaseAssetManager;
 import app.render.BaseCamera;
 import chunk.Chunk;

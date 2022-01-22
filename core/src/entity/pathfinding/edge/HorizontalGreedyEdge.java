@@ -9,7 +9,7 @@ import entity.pathfinding.RelativeCoordinates;
 import entity.pathfinding.RelativePathNode;
 import entity.pathfinding.RelativeVertex;
 
-import static app.GameScreen.pathDebugRender;
+import static app.screen.GameScreen.pathDebugRender;
 
 public class HorizontalGreedyEdge extends AbstractEdge {
     RelativeCoordinates currentRelativeCoordinates;
