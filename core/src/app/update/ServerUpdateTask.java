@@ -1,6 +1,5 @@
-package app.standalone;
+package app.update;
 
-import app.UpdateLoop;
 import chunk.Chunk;
 import com.google.inject.Inject;
 import common.Clock;
@@ -13,7 +12,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class StandAloneUpdateLoop extends UpdateLoop {
+public class ServerUpdateTask extends UpdateTask {
 
     @Inject
     public Clock clock;
@@ -25,7 +24,7 @@ public class StandAloneUpdateLoop extends UpdateLoop {
     @Inject
     ChunkGenerationManager chunkGenerationManager;
 
-    public StandAloneUpdateLoop() {
+    public ServerUpdateTask() {
         executor = Executors.newCachedThreadPool();
     }
 
@@ -45,5 +44,4 @@ public class StandAloneUpdateLoop extends UpdateLoop {
 
         this.eventService.firePostUpdateEvents();
     }
-
 }

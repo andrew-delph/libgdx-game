@@ -1,8 +1,8 @@
 package configuration;
 
 import app.Game;
-import app.UpdateLoop;
-import app.standalone.StandAloneUpdateLoop;
+import app.update.UpdateTask;
+import app.update.StandAloneUpdateTask;
 import common.events.EventConsumer;
 import common.events.SoloEventConsumer;
 
@@ -12,6 +12,6 @@ public class StandAloneConfig extends MainConfig {
         super.configure();
         bind(Game.class).asEagerSingleton();
         bind(EventConsumer.class).to(SoloEventConsumer.class).asEagerSingleton();
-        bind(UpdateLoop.class).to(StandAloneUpdateLoop.class);
+        bind(UpdateTask.class).to(StandAloneUpdateTask.class);
     }
 }

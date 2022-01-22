@@ -1,27 +1,19 @@
-package app.client;
+package app.update;
 
-import app.UpdateLoop;
-import app.render.BaseCamera;
 import chunk.Chunk;
-import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Clock;
 import common.GameStore;
 import common.events.EventService;
-import common.exceptions.SerializationDataMissing;
 import generation.ChunkGenerationManager;
-import networking.client.ClientNetworkHandle;
-import networking.events.EventTypeFactory;
 
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ClientUpdateLoop extends UpdateLoop {
+public class StandAloneUpdateTask extends UpdateTask {
+
     @Inject
     public Clock clock;
     @Inject
@@ -32,7 +24,7 @@ public class ClientUpdateLoop extends UpdateLoop {
     @Inject
     ChunkGenerationManager chunkGenerationManager;
 
-    public ClientUpdateLoop() {
+    public StandAloneUpdateTask() {
         executor = Executors.newCachedThreadPool();
     }
 
@@ -52,4 +44,5 @@ public class ClientUpdateLoop extends UpdateLoop {
 
         this.eventService.firePostUpdateEvents();
     }
+
 }

@@ -1,5 +1,6 @@
 package app;
 
+import app.update.UpdateTask;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
@@ -22,7 +23,7 @@ public class Game {
     protected GameStore gameStore;
 
     @Inject
-    UpdateLoop updateLoop;
+    UpdateTask updateTask;
 
     Timer timer;
 
@@ -45,7 +46,7 @@ public class Game {
     public void start() throws IOException, InterruptedException, SerializationDataMissing {
         timer = new Timer(true);
         this.init();
-        timer.scheduleAtFixedRate(updateLoop, 0, GameSettings.UPDATE_INTERVAL);
+        timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);
     }
 
     public void stop() {
