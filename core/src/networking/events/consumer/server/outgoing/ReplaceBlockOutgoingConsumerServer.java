@@ -1,6 +1,5 @@
 package networking.events.consumer.server.outgoing;
 
-import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.events.EventService;
 import common.events.types.EventType;

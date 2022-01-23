@@ -1,23 +1,46 @@
 package chunk;
 
 import app.user.UserID;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 
 import java.util.*;
 
 public class ActiveChunkManager {
 
-    Map<UserID, Set<ChunkRange>> userIDChunkRangeMap = new HashMap<>();
+    Map<UserID, Set<ChunkRange>> userIDChunkRange = new HashMap<>();
+    Map<ChunkRange, Set<UserID>> chunkRangeUserID = new HashMap<>();
 
-    public void registerChunkSubscriptions(UserID user_uuid, Collection<ChunkRange> chunkRangeList) {
-        userIDChunkRangeMap.putIfAbsent(user_uuid, new HashSet<>());
-        userIDChunkRangeMap.get(user_uuid).addAll(chunkRangeList);
+    public synchronized void setUserChunkSubscriptions(UserID userID, Collection<ChunkRange> chunkRangeList) {
+        // remove a user
+        // add all the edges
+        this.removeUser(userID);
+        for(ChunkRange chunkRange: chunkRangeList){
+            this.addUserChunkSubscriptions(userID, chunkRange);
+        }
     }
 
-    public Set<ChunkRange> getUserChunkSubscriptions(UserID user_uuid) {
-        return userIDChunkRangeMap.get(user_uuid);
+    public synchronized void addUserChunkSubscriptions(UserID userID, ChunkRange chunkRange) {
+        userIDChunkRange.putIfAbsent(userID, new HashSet<>());
+        chunkRangeUserID.putIfAbsent(chunkRange, new HashSet<>());
+
+        userIDChunkRange.get(userID).add(chunkRange);
+        chunkRangeUserID.get(chunkRange).add(userID);
     }
 
-    public void deregisterUser(UserID user_uuid) {
-        userIDChunkRangeMap.remove(user_uuid);
+    public synchronized void removeUser(UserID userID) {
+        Set<ChunkRange> chunkRangeSet = this.getUserChunkRanges(userID);
+        for(ChunkRange chunkRange: chunkRangeSet){
+            chunkRangeUserID.get(chunkRange).remove(userID);
+        }
+        userIDChunkRange.remove(userID);
+    }
+
+    public Set<ChunkRange> getUserChunkRanges(UserID userID) {
+        return userIDChunkRange.get(userID);
+    }
+
+    public Set<UserID> getChunkRangeUsers(ChunkRange chunkRange) {
+        return chunkRangeUserID.get(chunkRange);
     }
 }

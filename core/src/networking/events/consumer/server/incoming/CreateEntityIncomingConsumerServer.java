@@ -1,19 +1,19 @@
 package networking.events.consumer.server.incoming;
 
 import app.GameController;
-import chunk.ChunkSubscriptionManager;
+import app.user.UserID;
+import chunk.ActiveChunkManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.SerializationDataMissing;
+import entity.ActiveEntityManager;
 import entity.Entity;
-import generation.ChunkGenerationManager;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 import networking.translation.NetworkDataDeserializer;
 
-import java.util.UUID;
 import java.util.function.Consumer;
 
 public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
@@ -23,16 +23,15 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
     @Inject
     NetworkDataDeserializer entitySerializationConverter;
     @Inject
-    ChunkSubscriptionManager chunkSubscriptionManager;
-    @Inject
     ServerNetworkHandle serverNetworkHandle;
     @Inject
-    ChunkGenerationManager chunkGenerationManager;
+    ActiveEntityManager activeEntityManager;
+    @Inject ActiveChunkManager activeChunkManager;
 
     @Override
     public void accept(EventType eventType) {
         CreateEntityIncomingEventType incoming = (CreateEntityIncomingEventType) eventType;
-        Entity entity = null;
+        Entity entity;
         try {
             entity = gameController.triggerAddEntity(
                     entitySerializationConverter.createEntity(incoming.getData()));
@@ -42,14 +41,14 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
         }
 
         if (entity.getClass() == Entity.class) {
-            chunkGenerationManager.registerActiveEntity(entity, incoming.getUser());
+            activeEntityManager.registerActiveEntity(incoming.getUserID(),entity.uuid);
         }
 
         CreateEntityOutgoingEventType outgoing = EventTypeFactory.createCreateEntityOutgoingEvent(incoming.getData(), incoming.getChunkRange());
 
-        for (UUID uuid : chunkSubscriptionManager.getSubscriptions(incoming.getChunkRange())) {
-            if (uuid.equals(incoming.getUser())) continue;
-            serverNetworkHandle.send(uuid, outgoing.toNetworkEvent());
+        for (UserID userID : activeChunkManager.getChunkRangeUsers(incoming.getChunkRange())) {
+            if (userID.equals(incoming.getUserID())) continue;
+            serverNetworkHandle.send(userID, outgoing.toNetworkEvent());
         }
     }
 }

@@ -19,7 +19,6 @@ import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
-import generation.ChunkGenerationManager;
 
 import java.io.IOException;
 import java.util.Comparator;

@@ -1,14 +1,12 @@
 package networking.events.consumer.server.incoming;
 
 import chunk.ChunkRange;
-import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.GameStore;
 import common.events.EventService;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
-import generation.ChunkGenerationManager;
 import networking.ConnectionStore;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.DisconnectionIncomingEventType;

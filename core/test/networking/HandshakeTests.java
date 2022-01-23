@@ -5,7 +5,6 @@ import app.game.Game;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
-import chunk.ChunkSubscriptionManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;

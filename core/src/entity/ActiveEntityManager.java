@@ -27,7 +27,7 @@ public class ActiveEntityManager {
         return userIDEntityMap.getOrDefault(user_uuid, new HashSet<>());
     }
 
-    Set<UUID> getActiveEntities() {
+    public Set<UUID> getActiveEntities() {
         Set<UUID> allActiveEntity = new HashSet<>();
         for (Set<UUID> userSet : userIDEntityMap.values()) {
             allActiveEntity.addAll(userSet);

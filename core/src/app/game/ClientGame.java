@@ -8,7 +8,6 @@ import common.GameStore;
 import common.events.EventConsumer;
 import common.exceptions.SerializationDataMissing;
 import entity.collision.CollisionService;
-import generation.ChunkGenerationManager;
 import networking.client.ClientNetworkHandle;
 
 import java.io.IOException;

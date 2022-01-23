@@ -1,5 +1,6 @@
 package networking.events;
 
+import app.user.UserID;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Coordinates;
@@ -31,8 +32,8 @@ public class EventTypeFactory {
         return new CreateEntityOutgoingEventType(entityData, chunkRange);
     }
 
-    public static CreateEntityIncomingEventType createCreateEntityIncomingEvent(UUID user, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
-        return new CreateEntityIncomingEventType(user, networkData, chunkRange);
+    public static CreateEntityIncomingEventType createCreateEntityIncomingEvent(UserID userID, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+        return new CreateEntityIncomingEventType(userID, networkData, chunkRange);
     }
 
     public static UpdateEntityOutgoingEventType createUpdateEntityOutgoingEvent(
@@ -107,8 +108,8 @@ public class EventTypeFactory {
         return new SubscriptionIncomingEventType(networkEvent);
     }
 
-    public DisconnectionIncomingEventType createDisconnectionEvent(UUID uuid) {
-        return new DisconnectionIncomingEventType(uuid);
+    public DisconnectionIncomingEventType createDisconnectionEvent(UserID userID) {
+        return new DisconnectionIncomingEventType(userID);
     }
 
     public RemoveEntityEventType createRemoveEntityEvent(UUID entityUuid) {
@@ -116,10 +117,10 @@ public class EventTypeFactory {
     }
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(NetworkObjects.NetworkEvent networkEvent) {
-        return new GetChunkOutgoingEventType(NetworkDataDeserializer.createChunkRange(networkEvent.getData()), UUID.fromString(networkEvent.getUser()));
+        return new GetChunkOutgoingEventType(NetworkDataDeserializer.createChunkRange(networkEvent.getData()), UserID.createUserID(networkEvent.getUser()));
     }
 
-    public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UUID userID) {
+    public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UserID userID) {
         return new GetChunkOutgoingEventType(chunkRange, userID);
     }
 }

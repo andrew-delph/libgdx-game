@@ -14,4 +14,8 @@ public class User {
         return userID;
     }
 
+    @Override
+    public String toString() {
+        return userID.toString();
+    }
 }

@@ -6,7 +6,6 @@ import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
-import generation.ChunkGenerationManager;
 
 public class SoloEventConsumer extends EventConsumer {
 

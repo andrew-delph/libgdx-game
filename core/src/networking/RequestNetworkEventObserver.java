@@ -1,5 +1,6 @@
 package networking;
 
+import app.user.UserID;
 import common.events.EventService;
 import io.grpc.stub.StreamObserver;
 import networking.events.EventTypeFactory;
@@ -10,7 +11,7 @@ import java.util.UUID;
 public class RequestNetworkEventObserver implements StreamObserver<NetworkObjects.NetworkEvent> {
 
     public StreamObserver<NetworkObjects.NetworkEvent> responseObserver;
-    public UUID uuid;
+    public UserID userID;
     NetworkEventHandler networkEventHandler;
     ConnectionStore connectionStore;
     EventService eventService;
@@ -30,9 +31,9 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
     @Override
     public synchronized void onNext(NetworkObjects.NetworkEvent networkEvent) {
         if (networkEvent.getEvent().equals("authentication")) {
-            connectionStore.addConnection(UUID.fromString(networkEvent.getUser()), this);
-            this.uuid = UUID.fromString(networkEvent.getUser());
-            System.out.println("Received authentication: " + this.uuid);
+            this.userID = UserID.createUserID(networkEvent.getUser());
+            connectionStore.addConnection(userID, this);
+            System.out.println("Received authentication: " + this.userID);
         } else {
             networkEventHandler.handleNetworkEvent(networkEvent);
         }
@@ -40,13 +41,13 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
 
     @Override
     public void onError(Throwable throwable) {
-        System.out.println("onError: " + this.uuid + " " + throwable);
-        this.eventService.fireEvent(this.eventTypeFactory.createDisconnectionEvent(this.uuid));
+        System.out.println("onError: " + this.userID + " " + throwable);
+        this.eventService.fireEvent(this.eventTypeFactory.createDisconnectionEvent(this.userID));
     }
 
     @Override
     public void onCompleted() {
-        System.out.println("onCompleted " + this.uuid);
-        this.eventService.fireEvent(this.eventTypeFactory.createDisconnectionEvent(this.uuid));
+        System.out.println("onCompleted " + this.userID);
+        this.eventService.fireEvent(this.eventTypeFactory.createDisconnectionEvent(this.userID));
     }
 }

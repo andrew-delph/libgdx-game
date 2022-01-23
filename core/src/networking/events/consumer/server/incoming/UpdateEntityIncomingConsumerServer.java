@@ -1,6 +1,5 @@
 package networking.events.consumer.server.incoming;
 
-import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;

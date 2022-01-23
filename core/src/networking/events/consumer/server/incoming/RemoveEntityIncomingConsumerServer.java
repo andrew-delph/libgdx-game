@@ -1,7 +1,6 @@
 package networking.events.consumer.server.incoming;
 
 import app.GameController;
-import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;

@@ -63,6 +63,11 @@ project(":core") {
         implementation "io.grpc:grpc-services:1.32.1"
         implementation 'org.apache.tomcat:annotations-api:6.0.53'
         implementation 'com.google.inject:guice:4.0:no_aop'
+
+        // todo remove this if we dont need
+        implementation("com.google.guava:guava:31.0.1-jre")
+
+
 //        implementation group: 'com.google.inject', name: 'guice', version: '4.0'
 //        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
 //        // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject

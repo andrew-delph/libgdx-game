@@ -3,7 +3,6 @@ package networking.events.consumer.server.incoming;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
-import chunk.ChunkSubscriptionManager;
 import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.EventType;

@@ -11,7 +11,6 @@ import common.exceptions.SerializationDataMissing;
 import configuration.GameSettings;
 import entity.Entity;
 import entity.collision.CollisionService;
-import generation.ChunkGenerationManager;
 
 import java.io.IOException;
 import java.util.List;

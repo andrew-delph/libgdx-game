@@ -1,5 +1,6 @@
 package networking.translation;
 
+import app.user.UserID;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
@@ -109,12 +110,12 @@ public class NetworkDataDeserializer {
     }
 
     public static CreateEntityIncomingEventType createCreateEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
-        UUID user = null;
+        UserID userID = null;
         ChunkRange chunkRange = null;
         NetworkObjects.NetworkData networkData = null;
 
         if (!networkEvent.getUser().isEmpty()) {
-            user = UUID.fromString(networkEvent.getUser());
+            userID = UserID.createUserID(networkEvent.getUser());
         }
 
         for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
@@ -127,7 +128,7 @@ public class NetworkDataDeserializer {
         if (chunkRange == null) throw new SerializationDataMissing("Missing chunkRange");
         if (networkData == null) throw new SerializationDataMissing("Missing networkData");
 
-        return EventTypeFactory.createCreateEntityIncomingEvent(user, networkData, chunkRange);
+        return EventTypeFactory.createCreateEntityIncomingEvent(userID, networkData, chunkRange);
     }
 
     public static RemoveEntityIncomingEventType createRemoveEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {

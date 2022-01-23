@@ -1,5 +1,6 @@
 package networking.client;
 
+import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
@@ -26,7 +27,6 @@ import java.util.Set;
 import java.util.UUID;
 
 public class ClientNetworkHandle {
-    public final UUID uuid = UUID.randomUUID();
     private final Set<ChunkRange> chunkRangeLock = Sets.newConcurrentHashSet();
     public String host = "localhost";
     public int port = 99;
@@ -41,13 +41,15 @@ public class ClientNetworkHandle {
     GameStore gameStore;
     @Inject
     ChunkFactory chunkFactory;
+    @Inject
+    User user;
     private ManagedChannel channel;
     private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
     private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
 
     @Inject
     public ClientNetworkHandle() {
-        System.out.println("I am client: " + this.uuid);
+        System.out.println("I am client: " + this.user.toString());
     }
 
     public void setHost(String host) {
@@ -73,12 +75,12 @@ public class ClientNetworkHandle {
     }
 
     public synchronized void send(NetworkObjects.NetworkEvent networkEvent) {
-        networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
+        networkEvent = networkEvent.toBuilder().setUser(this.user.toString()).build();
         requestNetworkEventObserver.responseObserver.onNext(networkEvent);
     }
 
     public Chunk requestChunkBlocking(ChunkRange chunkRange) throws SerializationDataMissing {
-        GetChunkOutgoingEventType outgoing = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.uuid);
+        GetChunkOutgoingEventType outgoing = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.user.getUserID());
         NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(outgoing.toNetworkEvent());
         return entitySerializationConverter.createChunk(retrievedNetworkEvent.getData());
     }
@@ -97,7 +99,7 @@ public class ClientNetworkHandle {
         Chunk myChunk = chunkFactory.create(requestedChunkRange);
         gameStore.addChunk(myChunk);
 
-        GetChunkOutgoingEventType outgoing = eventTypeFactory.createGetChunkOutgoingEventType(requestedChunkRange, this.uuid);
+        GetChunkOutgoingEventType outgoing = eventTypeFactory.createGetChunkOutgoingEventType(requestedChunkRange, this.user.getUserID());
         // make the async request
         // at the end of the request remove the lock
         asyncStub.getChunk(outgoing.toNetworkEvent(), new StreamObserver<NetworkObjects.NetworkEvent>() {
@@ -134,7 +136,7 @@ public class ClientNetworkHandle {
         HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.
                 createHandshakeOutgoingEventType(chunkRange);
         this.send(handshakeOutgoing.toNetworkEvent());
-        System.out.println("CLIENT INIT HANDSHAKE " + this.uuid);
+        System.out.println("CLIENT INIT HANDSHAKE " + this.user.toString());
     }
 
     public void close() {

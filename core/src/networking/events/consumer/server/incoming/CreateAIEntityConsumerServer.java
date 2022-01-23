@@ -17,13 +17,10 @@ public class CreateAIEntityConsumerServer implements Consumer<EventType> {
 
     @Inject
     EntityFactory entityFactory;
-
     @Inject
     GameController gameController;
-
     @Inject
     EntityControllerFactory entityControllerFactory;
-
     @Inject
     GameStore gameStore;
 

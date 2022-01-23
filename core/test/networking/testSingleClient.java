@@ -5,7 +5,6 @@ import app.game.Game;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
-import chunk.ChunkSubscriptionManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.ChunkClockMap;
@@ -16,6 +15,7 @@ import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
+import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.Block;
@@ -23,7 +23,6 @@ import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import generation.ChunkBuilderFactory;
-import generation.ChunkGenerationManager;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
 import networking.server.ServerNetworkHandle;
@@ -346,11 +345,14 @@ public class testSingleClient {
     @Test
     public void testClientCreateAIEntity() throws InterruptedException {
         GameController clientGameController = clientInjector.getInstance(GameController.class);
-        ChunkGenerationManager chunkGenerationManager = serverInjector.getInstance(ChunkGenerationManager.class);
+        ActiveEntityManager serverActiveEntityManager = serverInjector.getInstance(ActiveEntityManager.class);
 
-        assert chunkGenerationManager.getActiveEntityList().size() == 0;
+        Assert.assertEquals(serverActiveEntityManager.getActiveEntities().size(), 0);
+
         clientGameController.createAI(UUID.randomUUID());
         TimeUnit.SECONDS.sleep(1);
+
+        Assert.assertEquals(serverActiveEntityManager.getActiveEntities().size(), 1);
     }
 
     @Test
