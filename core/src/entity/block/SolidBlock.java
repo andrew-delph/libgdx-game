@@ -14,6 +14,6 @@ public abstract class SolidBlock extends Block {
 
     @Override
     public Body addWorld(World world) {
-        return this.entityBodyBuilder.createSolidBlockBody(world, this.coordinates);
+        return EntityBodyBuilder.createSolidBlockBody(world, this.coordinates);
     }
 }

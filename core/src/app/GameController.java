@@ -200,7 +200,7 @@ public class GameController {
         if (!from.equals(to)) {
             this.eventService.queuePostUpdateEvent(
                     EventTypeFactory.createReplaceEntityEvent(entity.uuid, entity, true, to));
-            this.eventService.fireEvent(EventTypeFactory.createChunkSwapOutgoingEventType(target,from,to));
+            this.eventService.fireEvent(EventTypeFactory.createChunkSwapOutgoingEventType(target, from, to));
         }
     }
 

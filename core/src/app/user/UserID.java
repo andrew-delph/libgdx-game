@@ -10,15 +10,15 @@ public class UserID {
         this.id = id;
     }
 
-    public static UserID createUserID(String id){
+    public static UserID createUserID(String id) {
         return new UserID(UUID.fromString(id));
     }
 
-    public static UserID createUserID(UUID id){
+    public static UserID createUserID(UUID id) {
         return new UserID(id);
     }
 
-    public static UserID createUserID(){
+    public static UserID createUserID() {
         return new UserID(UUID.randomUUID());
     }
 }

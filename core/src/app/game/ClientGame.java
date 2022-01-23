@@ -1,6 +1,5 @@
 package app.game;
 
-import app.game.Game;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;

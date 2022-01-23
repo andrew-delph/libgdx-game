@@ -19,6 +19,6 @@ public class Ladder extends Entity {
 
     @Override
     public synchronized Body addWorld(World world) {
-        return this.entityBodyBuilder.createEmptyLadderBody(world, this.coordinates);
+        return EntityBodyBuilder.createEmptyLadderBody(world, this.coordinates);
     }
 }

@@ -78,7 +78,7 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
         this.gameController.replaceBlock(
                 this.gameStore.getBlock(
                         this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))
-                        ,
+                ,
                 blockFactory.createSky());
         super.follow(entity, relativePathNode);
     }

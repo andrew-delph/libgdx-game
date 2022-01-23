@@ -42,7 +42,8 @@ public class ClientEventConsumer extends EventConsumer {
     HandshakeOutgoingConsumerClient handshakeOutgoingConsumerClient;
     @Inject
     RemoveEntityOutgoingConsumerClient removeEntityOutgoingConsumerClient;
-    @Inject ChunkSwapIncomingConsumerClient chunkSwapIncomingConsumerClient;
+    @Inject
+    ChunkSwapIncomingConsumerClient chunkSwapIncomingConsumerClient;
 
     @Inject
     protected ClientEventConsumer() {

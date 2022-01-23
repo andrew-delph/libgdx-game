@@ -83,9 +83,9 @@ public class GameStore {
         }
     }
 
-    public void removeChunk(ChunkRange chunkRange){
+    public void removeChunk(ChunkRange chunkRange) {
         Chunk removed = this.chunkClockMap.remove(chunkRange);
-        for (UUID uuidToRemove : removed.getEntityUUIDSet()){
+        for (UUID uuidToRemove : removed.getEntityUUIDSet()) {
             this.entityMap.remove(uuidToRemove);
         }
     }

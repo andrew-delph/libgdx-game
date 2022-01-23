@@ -1,7 +1,7 @@
 package app.screen;
 
-import app.game.Game;
 import app.GameController;
+import app.game.Game;
 import chunk.Chunk;
 import chunk.ChunkRange;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -80,8 +80,8 @@ public class GameScreen extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        System.out.println(width+","+height);
-        baseCamera.setToOrtho(false,width,height);
+        System.out.println(width + "," + height);
+        baseCamera.setToOrtho(false, width, height);
     }
 
     @Override

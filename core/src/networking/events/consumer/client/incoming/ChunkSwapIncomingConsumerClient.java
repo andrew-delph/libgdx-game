@@ -10,13 +10,14 @@ import java.util.function.Consumer;
 
 public class ChunkSwapIncomingConsumerClient implements Consumer<EventType> {
 
-    @Inject GameStore gameStore;
+    @Inject
+    GameStore gameStore;
 
     @Override
     public void accept(EventType eventType) {
-        ChunkSwapIncomingEventType incoming  = (ChunkSwapIncomingEventType) eventType;
-        if(!gameStore.doesEntityExist(incoming.getTarget())) return;
-        if(!gameStore.doesChunkExist(incoming.getTo())){
+        ChunkSwapIncomingEventType incoming = (ChunkSwapIncomingEventType) eventType;
+        if (!gameStore.doesEntityExist(incoming.getTarget())) return;
+        if (!gameStore.doesChunkExist(incoming.getTo())) {
             try {
                 gameStore.removeEntity(incoming.getTarget());
             } catch (EntityNotFound e) {

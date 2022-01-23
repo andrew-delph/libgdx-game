@@ -30,6 +30,14 @@ public class ServerUpdateTask extends UpdateTask {
 
     @Override
     public void run() {
+        /*
+        - create requested chunks. send them to the generation manager
+        - don't delete chunks
+         */
+        // get the set of active entities. get their chunks
+        // get the set of subscribed chunks
+        // generate them all
+
         this.clock.tick();
         List<Callable<Chunk>> callableChunkList =
                 this.gameStore.getChunkOnClock(this.clock.currentTick);

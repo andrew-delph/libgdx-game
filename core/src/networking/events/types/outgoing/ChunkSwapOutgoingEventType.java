@@ -10,7 +10,7 @@ import java.util.UUID;
 import static networking.events.types.NetworkEventTypeEnum.CHUNK_SWAP_OUTGOING;
 import static networking.translation.NetworkDataSerializer.createChunkSwapOutgoingEventType;
 
-public class ChunkSwapOutgoingEventType  extends EventType implements SerializeNetworkEvent {
+public class ChunkSwapOutgoingEventType extends EventType implements SerializeNetworkEvent {
 
     UUID target;
     ChunkRange from;

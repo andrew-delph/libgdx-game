@@ -14,6 +14,6 @@ public abstract class EmptyBlock extends Block {
 
     @Override
     public Body addWorld(World world) {
-        return entityBodyBuilder.createEmptyBlockBody();
+        return EntityBodyBuilder.createEmptyBlockBody();
     }
 }

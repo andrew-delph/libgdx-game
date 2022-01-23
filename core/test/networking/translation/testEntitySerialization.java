@@ -76,7 +76,7 @@ public class testEntitySerialization {
         UUID uuid = entityWrite.uuid;
         gameStore.addChunk(chunkFactory.create(new ChunkRange(entityWrite.coordinates)));
         networkEventHandler.handleNetworkEvent(
-                eventTypeFactory
+                EventTypeFactory
                         .createCreateEntityOutgoingEvent(
                                 entityWrite.toNetworkData(), new ChunkRange(entityWrite.coordinates))
                         .toNetworkEvent());
@@ -89,7 +89,7 @@ public class testEntitySerialization {
         UUID uuid = block.uuid;
         gameStore.addChunk(chunkFactory.create(new ChunkRange(block.coordinates)));
         networkEventHandler.handleNetworkEvent(
-                eventTypeFactory
+                EventTypeFactory
                         .createCreateEntityOutgoingEvent(
                                 block.toNetworkData(), new ChunkRange(block.coordinates))
                         .toNetworkEvent());

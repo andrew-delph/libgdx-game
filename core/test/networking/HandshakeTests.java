@@ -1,7 +1,7 @@
 package networking;
 
-import app.game.Game;
 import app.GameController;
+import app.game.Game;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;

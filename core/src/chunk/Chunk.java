@@ -124,9 +124,9 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight().getUp()));
         neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight().getDown()));
 
-        for(Chunk neighbor: neighborChunkList){
+        for (Chunk neighbor : neighborChunkList) {
             if (neighbor == null) continue;
-            neighborEntitySet.addAll(neighbor.getEntityInRange(neighborBottomLeft,neighborTopRight));
+            neighborEntitySet.addAll(neighbor.getEntityInRange(neighborBottomLeft, neighborTopRight));
         }
 
         // check the difference

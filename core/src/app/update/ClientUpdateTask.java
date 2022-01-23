@@ -38,6 +38,12 @@ public class ClientUpdateTask extends UpdateTask {
         -delete chunks no longer needs
          */
         this.clock.tick();
+
+        // get chunks on screen + get chunks around active entity
+        // get chunks that exist
+        // difference the set
+        // sub to needed set +  async load them
+        // delete the unneeded set
         List<Callable<Chunk>> callableChunkList =
                 this.gameStore.getChunkOnClock(this.clock.currentTick);
 

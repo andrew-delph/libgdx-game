@@ -1,7 +1,7 @@
 package networking;
 
-import app.game.Game;
 import app.GameController;
+import app.game.Game;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
@@ -417,7 +417,7 @@ public class testSingleClient {
 
         serverChunkSubscriptionManager.registerSubscription(clientNetworkHandle.uuid, new ChunkRange(new Coordinates(0, 0)));
         Entity myEntity = serverGameController.createEntity(new Coordinates(0, 0));
-        Coordinates coordinatesToTest = new Coordinates(-1000,1000);
+        Coordinates coordinatesToTest = new Coordinates(-1000, 1000);
         ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
         TimeUnit.SECONDS.sleep(1);
@@ -425,15 +425,16 @@ public class testSingleClient {
         //remove chunk from the client
         //add chunk to the server
         //move the entity to that chunk
-        if (!serverGameStore.doesChunkExist(chunkRangeToTest))serverGameStore.addChunk(serverChunkFactory.create(chunkRangeToTest));
-        if (clientGameStore.doesChunkExist(chunkRangeToTest)){
+        if (!serverGameStore.doesChunkExist(chunkRangeToTest))
+            serverGameStore.addChunk(serverChunkFactory.create(chunkRangeToTest));
+        if (clientGameStore.doesChunkExist(chunkRangeToTest)) {
             clientGameStore.removeChunk(chunkRangeToTest);
         }
 
         assert serverGameStore.doesEntityExist(myEntity.uuid);
         assert clientGameStore.doesEntityExist(myEntity.uuid);
 
-        serverGameController.moveEntity(myEntity.uuid,coordinatesToTest);
+        serverGameController.moveEntity(myEntity.uuid, coordinatesToTest);
 
         TimeUnit.SECONDS.sleep(1);
 

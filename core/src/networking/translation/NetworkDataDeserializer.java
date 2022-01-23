@@ -187,6 +187,31 @@ public class NetworkDataDeserializer {
         return EventTypeFactory.createAIEntityEventType(coordinates, target);
     }
 
+    public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+        UUID target = null;
+        ChunkRange from = null;
+        ChunkRange to = null;
+
+        for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+            switch (child.getKey()) {
+                case DataTranslationEnum.UUID:
+                    target = createUUID(child);
+                    break;
+                case "from":
+                    from = createChunkRange(child);
+                    break;
+                case "to":
+                    to = createChunkRange(child);
+                    break;
+            }
+        }
+        if (target == null) throw new SerializationDataMissing("Missing target uuid");
+        if (from == null) throw new SerializationDataMissing("Missing from");
+        if (to == null) throw new SerializationDataMissing("Missing to");
+
+        return EventTypeFactory.createChunkSwapIncomingEventType(target, from, to);
+    }
+
     public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
         List<Entity> entityList = new LinkedList<>();
         ChunkRange chunkRange = null;
@@ -285,32 +310,6 @@ public class NetworkDataDeserializer {
         if (replacementBlock == null) throw new SerializationDataMissing("Missing replacementBlock");
 
         return EventTypeFactory.createReplaceBlockIncomingEvent(user, target, (Block) replacementBlock, chunkRange);
-    }
-
-
-    public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing{
-        UUID target = null;
-        ChunkRange from = null;
-        ChunkRange to = null;
-
-        for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
-            switch (child.getKey()) {
-                case DataTranslationEnum.UUID:
-                    target = createUUID(child);
-                    break;
-                case "from":
-                    from = createChunkRange(child);
-                    break;
-                case "to":
-                    to = createChunkRange(child);
-                    break;
-            }
-        }
-        if (target == null) throw new SerializationDataMissing("Missing target uuid");
-        if (from == null) throw new SerializationDataMissing("Missing from");
-        if (to == null) throw new SerializationDataMissing("Missing to");
-
-        return EventTypeFactory.createChunkSwapIncomingEventType(target,from,to);
     }
 
 }

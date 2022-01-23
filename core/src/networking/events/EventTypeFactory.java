@@ -89,6 +89,14 @@ public class EventTypeFactory {
         return new CreateAIEntityEventType(new Coordinates(0, 0), target);
     }
 
+    public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(UUID target, ChunkRange from, ChunkRange to) {
+        return new ChunkSwapIncomingEventType(target, from, to);
+    }
+
+    public static ChunkSwapOutgoingEventType createChunkSwapOutgoingEventType(UUID target, ChunkRange from, ChunkRange to) {
+        return new ChunkSwapOutgoingEventType(target, from, to);
+    }
+
     public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(
             List<ChunkRange> chunkRangeList) {
         return new SubscriptionOutgoingEventType(chunkRangeList);
@@ -113,13 +121,5 @@ public class EventTypeFactory {
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UUID userID) {
         return new GetChunkOutgoingEventType(chunkRange, userID);
-    }
-
-    public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(UUID target, ChunkRange from, ChunkRange to){
-        return new ChunkSwapIncomingEventType(target,from,to);
-    }
-
-    public static ChunkSwapOutgoingEventType createChunkSwapOutgoingEventType(UUID target, ChunkRange from, ChunkRange to){
-        return new ChunkSwapOutgoingEventType(target,from,to);
     }
 }

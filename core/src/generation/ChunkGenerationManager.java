@@ -10,18 +10,15 @@ import java.util.*;
 import java.util.concurrent.Callable;
 
 public class ChunkGenerationManager {
-    Set<ChunkRange> generatedSet;
-    Set<Entity> activeEntity;
-    Map<UUID, List<UUID>> uuidOwnerMap;
+    Set<ChunkRange> generatedSet = new HashSet<>();
+    Set<Entity> activeEntity = new HashSet<>();
+    Map<UUID, List<UUID>> uuidOwnerMap = new HashMap<>();
 
     @Inject
     ChunkBuilderFactory chunkBuilderFactory;
 
     @Inject
     ChunkGenerationManager() {
-        this.generatedSet = new HashSet<>();
-        this.activeEntity = new HashSet<>();
-        this.uuidOwnerMap = new HashMap<>();
     }
 
     public List<Callable<Chunk>> generateActiveEntities() {
