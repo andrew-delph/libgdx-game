@@ -38,11 +38,11 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
     @Inject
     public ServerNetworkHandle() {
-        System.out.println("server: " + this.uuid);
+        System.out.println("I am server: " + this.uuid);
     }
 
     public void start() throws IOException {
-        System.out.println("server start");
+        System.out.println("server listen");
         server =
                 ServerBuilder.forPort(99)
                         .addService(this)

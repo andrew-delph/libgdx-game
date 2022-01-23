@@ -271,8 +271,8 @@ public class testDoubleClient {
         Coordinates coordinates = new Coordinates(0, 1);
         ChunkRange chunkRange = new ChunkRange(coordinates);
         serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
-        client_a_GameStore.addChunk(client_a_NetworkHandle.getChunk(chunkRange));
-        client_b_GameStore.addChunk(client_b_NetworkHandle.getChunk(chunkRange));
+        client_a_GameStore.addChunk(client_a_NetworkHandle.requestChunkBlocking(chunkRange));
+        client_b_GameStore.addChunk(client_b_NetworkHandle.requestChunkBlocking(chunkRange));
 
         List<ChunkRange> chunkRangeList = new LinkedList<>();
         chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
@@ -347,8 +347,8 @@ public class testDoubleClient {
         Coordinates coordinates = new Coordinates(0, 1);
         ChunkRange chunkRange = new ChunkRange(coordinates);
         serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
-        client_a_GameStore.addChunk(client_a_NetworkHandle.getChunk(chunkRange));
-        client_b_GameStore.addChunk(client_b_NetworkHandle.getChunk(chunkRange));
+        client_a_GameStore.addChunk(client_a_NetworkHandle.requestChunkBlocking(chunkRange));
+        client_b_GameStore.addChunk(client_b_NetworkHandle.requestChunkBlocking(chunkRange));
 
         TimeUnit.SECONDS.sleep(1);
 

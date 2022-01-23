@@ -322,7 +322,7 @@ public class testSingleClient {
         Coordinates coordinates = new Coordinates(0, 1);
         ChunkRange chunkRange = new ChunkRange(coordinates);
         serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
-        clientGameStore.addChunk(clientNetworkHandle.getChunk(chunkRange));
+        clientGameStore.addChunk(clientNetworkHandle.requestChunkBlocking(chunkRange));
         Entity clientEntity = clientGameController.createLadder(coordinates);
         TimeUnit.SECONDS.sleep(1);
         assert serverGameStore.getEntity(clientEntity.uuid).equals(clientGameStore.getEntity(clientEntity.uuid));
@@ -337,7 +337,7 @@ public class testSingleClient {
         Coordinates coordinates = new Coordinates(0, 1);
         ChunkRange chunkRange = new ChunkRange(coordinates);
         serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
-        clientGameStore.addChunk(clientNetworkHandle.getChunk(chunkRange));
+        clientGameStore.addChunk(clientNetworkHandle.requestChunkBlocking(chunkRange));
         Entity clientEntity = serverGameController.createLadder(coordinates);
         TimeUnit.SECONDS.sleep(1);
         assert serverGameStore.getEntity(clientEntity.uuid).equals(clientGameStore.getEntity(clientEntity.uuid));
@@ -365,7 +365,7 @@ public class testSingleClient {
         Entity serverEntity = serverEntityFactory.createEntity();
         serverEntity.coordinates = coordinates;
         serverGameStore.addEntity(serverEntity);
-        Chunk clientChunk = clientNetworkHandle.getChunk(chunkRange);
+        Chunk clientChunk = clientNetworkHandle.requestChunkBlocking(chunkRange);
         assert clientChunk.equals(serverChunk);
         assert clientChunk.getEntity(serverEntity.uuid) != null;
     }

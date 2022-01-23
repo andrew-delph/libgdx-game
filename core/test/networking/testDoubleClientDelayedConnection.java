@@ -96,7 +96,7 @@ public class testDoubleClientDelayedConnection {
         client_b_NetworkHandle.connect();
 
         for (ChunkRange chunkRange : chunkRangeList) {
-            client_b_GameStore.addChunk(client_b_NetworkHandle.getChunk(chunkRange));
+            client_b_GameStore.addChunk(client_b_NetworkHandle.requestChunkBlocking(chunkRange));
         }
 
 //    client_b_NetworkHandle.send(

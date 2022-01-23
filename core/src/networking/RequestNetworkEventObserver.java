@@ -32,7 +32,7 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
         if (networkEvent.getEvent().equals("authentication")) {
             connectionStore.addConnection(UUID.fromString(networkEvent.getUser()), this);
             this.uuid = UUID.fromString(networkEvent.getUser());
-            System.out.println("authentication: " + this.uuid);
+            System.out.println("Received authentication: " + this.uuid);
         } else {
             networkEventHandler.handleNetworkEvent(networkEvent);
         }

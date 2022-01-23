@@ -43,6 +43,6 @@ public class ClientGame extends Game {
 
     @Override
     public void init() throws SerializationDataMissing {
-        this.gameStore.addChunk(this.clientNetworkHandle.getChunk(new ChunkRange(new Coordinates(0, 0))));
+        this.gameStore.addChunk(this.clientNetworkHandle.requestChunkBlocking(new ChunkRange(new Coordinates(0, 0))));
     }
 }

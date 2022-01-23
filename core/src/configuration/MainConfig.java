@@ -3,6 +3,7 @@ package configuration;
 import app.screen.BaseAssetManager;
 import app.screen.BaseCamera;
 import app.user.User;
+import chunk.ActiveChunkManager;
 import chunk.ChunkFactory;
 import chunk.ChunkSubscriptionManager;
 import com.google.inject.AbstractModule;
@@ -65,5 +66,6 @@ public abstract class MainConfig extends AbstractModule {
         bind(User.class).asEagerSingleton();
         bind(ActiveEntityManager.class).asEagerSingleton();
         bind(ChunkGenerationService.class).asEagerSingleton();
+        bind(ActiveChunkManager.class).asEagerSingleton();
     }
 }

@@ -4,6 +4,7 @@ import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
+import com.sun.tools.javac.util.Pair;
 import common.Coordinates;
 import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
@@ -213,6 +214,13 @@ public class NetworkDataDeserializer {
     }
 
     public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
+        Pair<ChunkRange, List<Entity>> chunkData = this.createChunkData(networkData);
+        Chunk chunkToCreate = chunkFactory.create(chunkData.fst);
+        chunkToCreate.addAllEntity(chunkData.snd);
+        return chunkToCreate;
+    }
+
+    public Pair<ChunkRange, List<Entity>> createChunkData(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
         List<Entity> entityList = new LinkedList<>();
         ChunkRange chunkRange = null;
         for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
@@ -224,10 +232,7 @@ public class NetworkDataDeserializer {
                 entityList.add(this.createEntity(networkDataChild));
             }
         }
-        Chunk chunkToCreate = chunkFactory.create(chunkRange);
-        chunkToCreate.chunkRange = chunkRange;
-        chunkToCreate.addAllEntity(entityList);
-        return chunkToCreate;
+        return new Pair<>(chunkRange, entityList);
     }
 
     public Entity createEntity(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {

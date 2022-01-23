@@ -7,7 +7,6 @@ import common.Clock;
 import common.GameStore;
 import common.events.EventService;
 import entity.ActiveEntityManager;
-import generation.ChunkGenerationManager;
 import generation.ChunkGenerationService;
 
 import java.util.HashSet;
@@ -26,8 +25,6 @@ public class StandAloneUpdateTask extends UpdateTask {
     public GameStore gameStore;
     @Inject
     EventService eventService;
-    @Inject
-    ChunkGenerationManager chunkGenerationManager;
     @Inject
     BaseCamera baseCamera;
     @Inject

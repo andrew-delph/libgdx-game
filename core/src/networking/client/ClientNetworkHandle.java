@@ -1,11 +1,17 @@
 package networking.client;
 
 import chunk.Chunk;
+import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
+import com.sun.tools.javac.util.Pair;
+import common.GameStore;
 import common.exceptions.SerializationDataMissing;
+import entity.Entity;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
 import networking.ObserverFactory;
@@ -15,10 +21,13 @@ import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
 import networking.translation.NetworkDataDeserializer;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class ClientNetworkHandle {
     public final UUID uuid = UUID.randomUUID();
+    private final Set<ChunkRange> chunkRangeLock = Sets.newConcurrentHashSet();
     public String host = "localhost";
     public int port = 99;
     RequestNetworkEventObserver requestNetworkEventObserver;
@@ -28,13 +37,17 @@ public class ClientNetworkHandle {
     EventTypeFactory eventTypeFactory;
     @Inject
     NetworkDataDeserializer entitySerializationConverter;
+    @Inject
+    GameStore gameStore;
+    @Inject
+    ChunkFactory chunkFactory;
     private ManagedChannel channel;
     private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
     private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
 
     @Inject
     public ClientNetworkHandle() {
-        System.out.println("client: " + this.uuid);
+        System.out.println("I am client: " + this.uuid);
     }
 
     public void setHost(String host) {
@@ -64,10 +77,57 @@ public class ClientNetworkHandle {
         requestNetworkEventObserver.responseObserver.onNext(networkEvent);
     }
 
-    public Chunk getChunk(ChunkRange chunkRange) throws SerializationDataMissing {
-        GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.uuid);
-        NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(realEvent.toNetworkEvent());
+    public Chunk requestChunkBlocking(ChunkRange chunkRange) throws SerializationDataMissing {
+        GetChunkOutgoingEventType outgoing = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.uuid);
+        NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(outgoing.toNetworkEvent());
         return entitySerializationConverter.createChunk(retrievedNetworkEvent.getData());
+    }
+
+    public boolean requestChunkAsync(ChunkRange requestedChunkRange) {
+        // if chunk range is locked. return false
+        // if not. lock it
+        synchronized (this) {
+            if (chunkRangeLock.contains(requestedChunkRange)) {
+                return false;
+            } else {
+                chunkRangeLock.add(requestedChunkRange);
+            }
+        }
+        // make the chunk
+        Chunk myChunk = chunkFactory.create(requestedChunkRange);
+        gameStore.addChunk(myChunk);
+
+        GetChunkOutgoingEventType outgoing = eventTypeFactory.createGetChunkOutgoingEventType(requestedChunkRange, this.uuid);
+        // make the async request
+        // at the end of the request remove the lock
+        asyncStub.getChunk(outgoing.toNetworkEvent(), new StreamObserver<NetworkObjects.NetworkEvent>() {
+
+            @Override
+            public void onNext(NetworkObjects.NetworkEvent networkEvent) {
+                // calls data received
+                try {
+                    Pair<ChunkRange, List<Entity>> chunkData = entitySerializationConverter.createChunkData(networkEvent.getData());
+                    myChunk.addAllEntity(chunkData.snd);
+                } catch (SerializationDataMissing e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                chunkRangeLock.remove(requestedChunkRange);
+                gameStore.removeChunk(requestedChunkRange);
+                t.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                // todo when is this called
+                chunkRangeLock.remove(requestedChunkRange);
+            }
+        });
+        // in the observer. at the end
+        return true;
     }
 
     public void initHandshake(ChunkRange chunkRange) {

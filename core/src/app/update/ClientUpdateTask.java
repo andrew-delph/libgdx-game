@@ -1,15 +1,19 @@
 package app.update;
 
-import app.screen.GameScreen;
-import chunk.Chunk;
+import app.screen.BaseCamera;
+import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Clock;
 import common.GameStore;
 import common.events.EventService;
-import generation.ChunkGenerationManager;
+import entity.ActiveEntityManager;
+import networking.client.ClientNetworkHandle;
+import networking.events.EventTypeFactory;
+import networking.events.types.outgoing.SubscriptionOutgoingEventType;
 
-import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,9 +26,13 @@ public class ClientUpdateTask extends UpdateTask {
     @Inject
     EventService eventService;
     @Inject
-    ChunkGenerationManager chunkGenerationManager;
+    BaseCamera baseCamera;
     @Inject
-    GameScreen gameScreen;
+    ActiveEntityManager activeEntityManager;
+    @Inject
+    ClientNetworkHandle clientNetworkHandle;
+    @Inject
+    EventTypeFactory eventTypeFactory;
 
     public ClientUpdateTask() {
         executor = Executors.newCachedThreadPool();
@@ -32,25 +40,50 @@ public class ClientUpdateTask extends UpdateTask {
 
     @Override
     public void run() {
-
         /*
-        -create requested chunks and send request to subscription manager
+        -create requested chunks and
         -delete chunks no longer needs
+        -send subscription requests
          */
         this.clock.tick();
 
-        // get chunks on screen + get chunks around active entity
+        Set<ChunkRange> requiredChunkRanges = new HashSet<>();
+        // get the set of onscreen chunks
+        requiredChunkRanges.addAll(baseCamera.getChunkRangeOnScreen());
+        // get the set of active entities. get their chunks
+        requiredChunkRanges.addAll(activeEntityManager.getActiveChunkRanges());
         // get chunks that exist
-        // difference the set
-        // sub to needed set +  async load them
-        // delete the unneeded set
-        List<Callable<Chunk>> callableChunkList =
-                this.gameStore.getChunkOnClock(this.clock.currentTick);
 
-        callableChunkList.addAll(this.chunkGenerationManager.generateActiveEntities());
+        Set<ChunkRange> existingChunkRanges = gameStore.getChunkRangeList();
+
+        // to delete = existingChunkRanges - requiredChunkRanges
+        Set<ChunkRange> toDeleteSet = new HashSet<>(existingChunkRanges);
+        toDeleteSet.removeAll(requiredChunkRanges);
+
+        // to request = requiredChunkRanges - existingChunkRanges
+        Set<ChunkRange> toRequestSet = new HashSet<>(requiredChunkRanges);
+        toRequestSet.removeAll(existingChunkRanges);
+
+        // delete all the not needed.
+        for (ChunkRange toDelete : toDeleteSet) {
+            gameStore.removeChunk(toDelete);
+        }
+
+        // request all needed
+        for (ChunkRange toRequest : toRequestSet) {
+            clientNetworkHandle.requestChunkAsync(toRequest);
+        }
+
+        // update the subscriptions on the server
+        if (toDeleteSet.size() > 0) {
+            // currently, not subscribing to new requests because the requestChunkAsync will sub on the server
+            // this could cause a problem if it errors.
+            SubscriptionOutgoingEventType subscriptionOutgoing = eventTypeFactory.createSubscriptionOutgoingEvent(new LinkedList<>(toDeleteSet));
+            this.clientNetworkHandle.send(subscriptionOutgoing.toNetworkEvent());
+        }
 
         try {
-            executor.invokeAll(callableChunkList);
+            executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.currentTick));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

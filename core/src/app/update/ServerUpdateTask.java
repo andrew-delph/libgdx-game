@@ -1,51 +1,46 @@
 package app.update;
 
-import chunk.Chunk;
 import com.google.inject.Inject;
 import common.Clock;
 import common.GameStore;
 import common.events.EventService;
-import generation.ChunkGenerationManager;
+import entity.ActiveEntityManager;
+import generation.ChunkGenerationService;
 
-import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ServerUpdateTask extends UpdateTask {
 
+    public final ExecutorService executor = Executors.newCachedThreadPool();
     @Inject
     public Clock clock;
     @Inject
     public GameStore gameStore;
-    public ExecutorService executor;
     @Inject
     EventService eventService;
     @Inject
-    ChunkGenerationManager chunkGenerationManager;
+    ActiveEntityManager activeEntityManager;
+    @Inject
+    ChunkGenerationService chunkGenerationService;
 
     public ServerUpdateTask() {
-        executor = Executors.newCachedThreadPool();
     }
 
     @Override
     public void run() {
         /*
-        - create requested chunks. send them to the generation manager
+        - queue generation for active entities
         - don't delete chunks
          */
-        // get the set of active entities. get their chunks
-        // get the set of subscribed chunks
-        // generate them all
-
         this.clock.tick();
-        List<Callable<Chunk>> callableChunkList =
-                this.gameStore.getChunkOnClock(this.clock.currentTick);
 
-        callableChunkList.addAll(this.chunkGenerationManager.generateActiveEntities());
+        // queue generation for active entities
+        chunkGenerationService.queueChunkRangeToGenerate(activeEntityManager.getActiveChunkRanges());
 
+        // update all active chunks
         try {
-            executor.invokeAll(callableChunkList);
+            executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.currentTick));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

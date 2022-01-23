@@ -161,7 +161,7 @@ public class GameStore {
         return entityMap.get(uuid);
     }
 
-    public List<ChunkRange> getChunkRangeList() {
+    public Set<ChunkRange> getChunkRangeList() {
         return this.chunkClockMap.getChunkRangeList();
     }
 }
