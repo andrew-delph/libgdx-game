@@ -8,6 +8,7 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.GameStore;
+import generation.ChunkGenerationService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
@@ -37,6 +38,8 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     ActiveChunkManager activeChunkManager;
     @Inject
     User user;
+    @Inject
+    ChunkGenerationService chunkGenerationService;
     private Server server;
 
     @Inject
@@ -75,6 +78,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
         if (chunk == null) {
             chunk = this.chunkFactory.create(realEvent.getChunkRange());
+            chunkGenerationService.queueChunkRangeToGenerate(realEvent.getChunkRange());
         }
         activeChunkManager.addUserChunkSubscriptions(realEvent.getUserID(), realEvent.getChunkRange());
         responseObserver.onNext(

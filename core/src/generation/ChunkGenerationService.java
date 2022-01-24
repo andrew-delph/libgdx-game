@@ -20,9 +20,13 @@ public class ChunkGenerationService {
 
     public synchronized void queueChunkRangeToGenerate(Collection<ChunkRange> toGenerateSet) {
         for (ChunkRange toGenerate : toGenerateSet) {
-            if (generatedSet.contains(toGenerate)) continue;
+            this.queueChunkRangeToGenerate(toGenerate);
+        }
+    }
+
+    public synchronized void queueChunkRangeToGenerate(ChunkRange toGenerate) {
+        if (generatedSet.contains(toGenerate)) return;
             generatedSet.add(toGenerate);
             executor.submit(chunkBuilderFactory.create(toGenerate));
         }
-    }
 }
