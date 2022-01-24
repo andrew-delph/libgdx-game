@@ -2,6 +2,7 @@ package networking.server;
 
 import app.user.User;
 import app.user.UserID;
+import chunk.ActiveChunkManager;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
@@ -33,18 +34,17 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     @Inject
     EventTypeFactory eventTypeFactory;
     @Inject
-    ChunkSubscriptionManager chunkSubscriptionManager;
+    ActiveChunkManager activeChunkManager;
     @Inject
     User user;
     private Server server;
 
     @Inject
     public ServerNetworkHandle() {
-        System.out.println("I am server: " + this.uuid);
     }
 
     public void start() throws IOException {
-        System.out.println("server listen");
+        System.out.println("I am server: " + this.user.toString());
         server =
                 ServerBuilder.forPort(99)
                         .addService(this)
@@ -76,7 +76,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         if (chunk == null) {
             chunk = this.chunkFactory.create(realEvent.getChunkRange());
         }
-        chunkSubscriptionManager.registerSubscription(realEvent.getUserID(), realEvent.getChunkRange());
+        activeChunkManager.addUserChunkSubscriptions(realEvent.getUserID(), realEvent.getChunkRange());
         responseObserver.onNext(
                 NetworkObjects.NetworkEvent.newBuilder()
                         .setData(chunk.toNetworkData())
@@ -99,7 +99,8 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
     public synchronized void send(UserID userID, NetworkObjects.NetworkEvent networkEvent) {
         networkEvent = networkEvent.toBuilder().setUser(user.getUserID().toString()).build();
-        connectionStore.getConnection(userID).responseObserver.onNext(networkEvent);
+        RequestNetworkEventObserver observer = connectionStore.getConnection(userID);
+        observer.responseObserver.onNext(networkEvent);
     }
 
     public void initHandshake(UserID userID, ChunkRange chunkRange) {

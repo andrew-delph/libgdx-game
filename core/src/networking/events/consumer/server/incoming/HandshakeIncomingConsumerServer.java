@@ -1,5 +1,6 @@
 package networking.events.consumer.server.incoming;
 
+import app.user.UserID;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.GameStore;
@@ -29,7 +30,7 @@ public class HandshakeIncomingConsumerServer implements Consumer<EventType> {
         HandshakeIncomingEventType handshakeIncoming = (HandshakeIncomingEventType) eventType;
 
         ChunkRange chunkRange = handshakeIncoming.getChunkRange();
-        UUID clientUUID = handshakeIncoming.getRequestUUID();
+        UserID clientUserID = handshakeIncoming.getRequestUserID();
 
         List<UUID> missingUUIDList = new LinkedList<>(handshakeIncoming.getListUUID());
 
@@ -40,10 +41,10 @@ public class HandshakeIncomingConsumerServer implements Consumer<EventType> {
 
             for (Entity missingEntity : missingEntityList) {
                 CreateEntityOutgoingEventType createEntityOutgoing = EventTypeFactory.createCreateEntityOutgoingEvent(missingEntity.toNetworkData(), chunkRange);
-                this.serverNetworkHandle.send(clientUUID, createEntityOutgoing.toNetworkEvent());
+                this.serverNetworkHandle.send(clientUserID, createEntityOutgoing.toNetworkEvent());
             }
         } else {
-            this.serverNetworkHandle.initHandshake(clientUUID, chunkRange);
+            this.serverNetworkHandle.initHandshake(clientUserID, chunkRange);
         }
     }
 }

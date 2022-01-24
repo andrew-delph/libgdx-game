@@ -10,13 +10,7 @@ import entity.controllers.EntityControllerFactory;
 public class SoloEventConsumer extends EventConsumer {
 
     @Inject
-    EntityFactory entityFactory;
-
-    @Inject
     EntityControllerFactory entityControllerFactory;
-
-    @Inject
-    ChunkGenerationManager chunkGenerationManager;
 
     @Override
     public void init() {

@@ -7,6 +7,7 @@ import app.screen.ClientGameScreen;
 import app.screen.GameScreen;
 import app.update.ClientUpdateTask;
 import app.update.UpdateTask;
+import com.google.inject.Singleton;
 import common.events.EventConsumer;
 import networking.client.ClientNetworkHandle;
 import networking.events.consumer.client.ClientEventConsumer;
@@ -18,7 +19,7 @@ public class ClientConfig extends MainConfig {
         bind(EventConsumer.class).to(ClientEventConsumer.class).asEagerSingleton();
         bind(ClientNetworkHandle.class).asEagerSingleton();
         bind(UpdateTask.class).to(ClientUpdateTask.class).asEagerSingleton();
-        bind(Game.class).to(ClientGame.class).asEagerSingleton();
+        bind(Game.class).to(ClientGame.class).in(Singleton.class);
         bind(BaseCamera.class).asEagerSingleton();
         bind(GameScreen.class).to(ClientGameScreen.class).asEagerSingleton();
     }

@@ -43,6 +43,6 @@ public class testSubscriptionSerialization {
                 subscriptionOutgoingEvent.getChunkRangeList(),
                 subscriptionIncomingEvent.getChunkRangeList());
 
-        assert subscriptionIncomingEvent.getUser().equals(uuid);
+        assert subscriptionIncomingEvent.getUserID().equals(uuid);
     }
 }

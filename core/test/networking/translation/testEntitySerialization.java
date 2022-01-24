@@ -6,6 +6,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
+import common.events.EventConsumer;
 import common.events.EventService;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
@@ -35,6 +36,8 @@ public class testEntitySerialization {
     EventService eventService;
     EventTypeFactory eventTypeFactory;
     NetworkEventHandler networkEventHandler;
+    EventConsumer eventConsumer;
+
 
     @Before
     public void setup() throws IOException {
@@ -47,6 +50,8 @@ public class testEntitySerialization {
         eventTypeFactory = injector.getInstance(EventTypeFactory.class);
         blockFactory = injector.getInstance(BlockFactory.class);
         networkEventHandler = injector.getInstance(NetworkEventHandler.class);
+        eventConsumer = injector.getInstance(EventConsumer.class);
+        eventConsumer.init();
     }
 
     @Test

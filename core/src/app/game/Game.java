@@ -19,30 +19,21 @@ import java.util.Timer;
 public class Game {
 
     @Inject
-    protected GameStore gameStore;
-
-    @Inject
     UpdateTask updateTask;
+    @Inject CollisionService collisionService;
+    @Inject EventConsumer eventConsumer;
+    @Inject ChunkFactory chunkFactory;
+    @Inject GameStore gameStore;
 
     Timer timer;
 
-    ChunkFactory chunkFactory;
-
     @Inject
-    public Game(
-            GameStore gameStore,
-            ChunkFactory chunkFactory,
-            ChunkGenerationManager chunkGenerationManager,
-            EventConsumer eventConsumer,
-            CollisionService collisionService)
-            throws Exception {
-        this.chunkFactory = chunkFactory;
-        this.gameStore = gameStore;
-        eventConsumer.init();
-        collisionService.init();
+    public Game() throws Exception {
     }
 
     public void start() throws IOException, InterruptedException, SerializationDataMissing {
+        this.eventConsumer.init();
+        this.collisionService.init();
         timer = new Timer(true);
         this.init();
         timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);

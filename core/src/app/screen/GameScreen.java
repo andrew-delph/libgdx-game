@@ -2,6 +2,7 @@ package app.screen;
 
 import app.GameController;
 import app.game.Game;
+import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkRange;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -16,6 +17,7 @@ import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
 import common.exceptions.SerializationDataMissing;
+import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
@@ -37,13 +39,15 @@ public class GameScreen extends ApplicationAdapter {
     @Inject
     BaseAssetManager baseAssetManager;
     @Inject
-    ChunkGenerationManager chunkGenerationManager;
-    @Inject
     BaseCamera baseCamera;
     @Inject
     GameController gameController;
     @Inject
     EntityControllerFactory entityControllerFactory;
+    @Inject
+    ActiveEntityManager activeEntityManager;
+    @Inject
+    User user;
     Box2DDebugRenderer debugRenderer;
     Matrix4 debugMatrix;
     Entity myEntity;
@@ -71,7 +75,7 @@ public class GameScreen extends ApplicationAdapter {
         myEntity = gameController.addEntity(myEntity);
         System.out.println("my entity " + myEntity.uuid);
         myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
-        chunkGenerationManager.registerActiveEntity(myEntity, null);
+        activeEntityManager.registerActiveEntity(user.getUserID(), myEntity.getUuid());
         debugRenderer = new Box2DDebugRenderer();
         pathDebugRender = new ShapeRenderer();
         pathDebugRender.setColor(Color.RED);

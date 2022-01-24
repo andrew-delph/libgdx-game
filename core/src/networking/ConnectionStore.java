@@ -8,15 +8,10 @@ import java.util.Map;
 
 public class ConnectionStore {
 
-    Map<UserID, RequestNetworkEventObserver> connectionMap;
-
-    @Inject
-    ChunkSubscriptionManager chunkSubscriptionManager;
-
+    Map<UserID, RequestNetworkEventObserver> connectionMap = new HashMap<>();
 
     @Inject
     public ConnectionStore() {
-        this.connectionMap = new HashMap<>();
     }
 
     public void addConnection(UserID userID, RequestNetworkEventObserver requestNetworkEventObserver) {

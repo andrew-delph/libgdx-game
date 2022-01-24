@@ -1,5 +1,6 @@
 package networking.events.types.incoming;
 
+import app.user.UserID;
 import chunk.ChunkRange;
 import common.events.types.EventType;
 
@@ -11,12 +12,12 @@ public class RemoveEntityIncomingEventType extends EventType {
     public static String type = REMOVE_ENTITY_INCOMING;
 
     ChunkRange chunkRange;
-    UUID user;
+    UserID userID;
     UUID target;
 
-    public RemoveEntityIncomingEventType(UUID user, ChunkRange chunkRange, UUID target) {
+    public RemoveEntityIncomingEventType(UserID userID, ChunkRange chunkRange, UUID target) {
         this.chunkRange = chunkRange;
-        this.user = user;
+        this.userID = userID;
         this.target = target;
     }
 
@@ -24,8 +25,8 @@ public class RemoveEntityIncomingEventType extends EventType {
         return chunkRange;
     }
 
-    public UUID getUser() {
-        return user;
+    public UserID getUserID() {
+        return userID;
     }
 
     public UUID getTarget() {

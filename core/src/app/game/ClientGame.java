@@ -18,14 +18,8 @@ public class ClientGame extends Game {
     ClientNetworkHandle clientNetworkHandle;
 
     @Inject
-    public ClientGame(
-            GameStore gameStore,
-            ChunkFactory chunkFactory,
-            ChunkGenerationManager chunkGenerationManager,
-            EventConsumer eventConsumer,
-            CollisionService collisionService)
-            throws Exception {
-        super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer, collisionService);
+    public ClientGame() throws Exception {
+        super();
     }
 
     @Override

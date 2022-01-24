@@ -41,6 +41,6 @@ public class ActiveChunkManager {
     }
 
     public Set<UserID> getChunkRangeUsers(ChunkRange chunkRange) {
-        return chunkRangeUserID.get(chunkRange);
+        return chunkRangeUserID.getOrDefault(chunkRange, new HashSet<>());
     }
 }

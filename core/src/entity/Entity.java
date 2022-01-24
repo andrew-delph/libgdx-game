@@ -128,4 +128,8 @@ public class Entity implements SerializeNetworkData {
     public Coordinates getCenter() {
         return new Coordinates(this.coordinates.getXReal() + 0.5f, this.coordinates.getYReal() + 0.5f);
     }
+
+    public UUID getUuid(){
+        return this.uuid;
+    }
 }

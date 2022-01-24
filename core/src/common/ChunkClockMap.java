@@ -38,7 +38,7 @@ public class ChunkClockMap {
         return this.map.containsKey(chunkRange);
     }
 
-    public Set<ChunkRange> getChunkRangeList() {
+    public Set<ChunkRange> getChunkRangeSet() {
         return this.map.keySet();
     }
 

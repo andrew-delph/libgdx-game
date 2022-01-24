@@ -18,7 +18,6 @@ public class StandAloneUpdateTask extends UpdateTask {
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
-
     @Inject
     public Clock clock;
     @Inject

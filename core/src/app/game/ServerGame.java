@@ -23,14 +23,8 @@ public class ServerGame extends Game {
     EdgeRegistrationBase edgeRegistration;
 
     @Inject
-    public ServerGame(
-            GameStore gameStore,
-            ChunkFactory chunkFactory,
-            ChunkGenerationManager chunkGenerationManager,
-            EventConsumer eventConsumer,
-            CollisionService collisionService)
-            throws Exception {
-        super(gameStore, chunkFactory, chunkGenerationManager, eventConsumer, collisionService);
+    public ServerGame() throws Exception {
+        super();
     }
 
     public static void main(String[] args) throws InterruptedException, IOException, SerializationDataMissing {

@@ -3,11 +3,10 @@ package app.user;
 import com.google.inject.Inject;
 
 public class User {
-    private final UserID userID;
+    private final UserID userID = UserID.createUserID();
 
     @Inject
     public User() {
-        this.userID = UserID.createUserID();
     }
 
     public UserID getUserID() {

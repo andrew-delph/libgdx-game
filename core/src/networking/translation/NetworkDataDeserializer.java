@@ -80,20 +80,20 @@ public class NetworkDataDeserializer {
                     break;
             }
         }
-        UUID connectionUUID = null;
+        UserID connectionUserID = null;
         if (!networkEvent.getUser().isEmpty()) {
-            connectionUUID = UUID.fromString(networkEvent.getUser());
+            connectionUserID = UserID.createUserID(networkEvent.getUser());
         }
-        return EventTypeFactory.createHandshakeIncomingEventType(connectionUUID, chunkRange, uuidList);
+        return EventTypeFactory.createHandshakeIncomingEventType(connectionUserID, chunkRange, uuidList);
     }
 
     public static UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
-        UUID user = null;
+        UserID user = null;
         ChunkRange chunkRange = null;
         NetworkObjects.NetworkData networkData = null;
 
         if (!networkEvent.getUser().isEmpty()) {
-            user = UUID.fromString(networkEvent.getUser());
+            user = UserID.createUserID(networkEvent.getUser());
         }
 
         for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
@@ -132,11 +132,11 @@ public class NetworkDataDeserializer {
     }
 
     public static RemoveEntityIncomingEventType createRemoveEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
-        UUID user = null;
+        UserID user = null;
         ChunkRange chunkRange = null;
         UUID target = null;
         if (!networkEvent.getUser().isEmpty()) {
-            user = UUID.fromString(networkEvent.getUser());
+            user = UserID.createUserID(networkEvent.getUser());
         }
         for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
             switch (child.getKey()) {
@@ -289,13 +289,13 @@ public class NetworkDataDeserializer {
     }
 
     public ReplaceBlockIncomingEventType createReplaceBlockIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
-        UUID user = null;
+        UserID user = null;
         UUID target = null;
         Entity replacementBlock = null;
         ChunkRange chunkRange = null;
 
         if (!networkEvent.getUser().isEmpty()) {
-            user = UUID.fromString(networkEvent.getUser());
+            user = UserID.createUserID(networkEvent.getUser());
         }
 
         for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {

@@ -42,12 +42,12 @@ public class EventTypeFactory {
     }
 
     public static UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
-            UUID user,
+            UserID user,
             NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
         return new UpdateEntityIncomingEventType(user, networkData, chunkRange);
     }
 
-    public static RemoveEntityIncomingEventType createRemoveEntityIncomingEvent(UUID user, ChunkRange chunkRange, UUID target) {
+    public static RemoveEntityIncomingEventType createRemoveEntityIncomingEvent(UserID user, ChunkRange chunkRange, UUID target) {
         return new RemoveEntityIncomingEventType(user, chunkRange, target);
     }
 
@@ -57,7 +57,7 @@ public class EventTypeFactory {
     }
 
     public static ReplaceBlockIncomingEventType createReplaceBlockIncomingEvent(
-            UUID user, UUID target, Block replacementBlock, ChunkRange chunkRange) {
+            UserID user, UUID target, Block replacementBlock, ChunkRange chunkRange) {
         return new ReplaceBlockIncomingEventType(user, target, replacementBlock, chunkRange);
     }
 
@@ -78,8 +78,8 @@ public class EventTypeFactory {
         return new HandshakeOutgoingEventType(chunkRange, new LinkedList<>());
     }
 
-    public static HandshakeIncomingEventType createHandshakeIncomingEventType(UUID requestUUID, ChunkRange chunkRange, List<UUID> listUUID) {
-        return new HandshakeIncomingEventType(requestUUID, chunkRange, listUUID);
+    public static HandshakeIncomingEventType createHandshakeIncomingEventType(UserID requestUserID, ChunkRange chunkRange, List<UUID> listUUID) {
+        return new HandshakeIncomingEventType(requestUserID, chunkRange, listUUID);
     }
 
     public static CreateAIEntityEventType createAIEntityEventType(Coordinates coordinates, UUID target) {

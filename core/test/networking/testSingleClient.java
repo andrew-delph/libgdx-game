@@ -2,6 +2,8 @@ package networking;
 
 import app.GameController;
 import app.game.Game;
+import app.user.User;
+import chunk.ActiveChunkManager;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
@@ -105,7 +107,6 @@ public class testSingleClient {
 
     @Test
     public void testClientCreateUpdateEntity() throws IOException, InterruptedException, EntityNotFound {
-
         GameController clientGameController = clientInjector.getInstance(GameController.class);
         GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
         GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
@@ -136,7 +137,6 @@ public class testSingleClient {
 
     @Test
     public void testClientCreateBlock() throws IOException, InterruptedException, EntityNotFound {
-
         GameController clientGameController = clientInjector.getInstance(GameController.class);
         GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
         GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
@@ -185,17 +185,16 @@ public class testSingleClient {
 
     @Test
     public void testClientSubscription() throws IOException, InterruptedException {
-
         ChunkClockMap clientChunkClockMap = clientInjector.getInstance(ChunkClockMap.class);
-        ChunkSubscriptionManager serverChunkSubscriptionManager =
-                serverInjector.getInstance(ChunkSubscriptionManager.class);
+        ActiveChunkManager serverActiveChunkManager = serverInjector.getInstance(ActiveChunkManager.class);
+        User clientUser = clientInjector.getInstance(User.class);
         TimeUnit.SECONDS.sleep(1);
 
         Assert.assertEquals(
-                new HashSet<>(clientChunkClockMap.getChunkRangeList()),
+                new HashSet<>(clientChunkClockMap.getChunkRangeSet()),
                 new HashSet<>(
-                        serverChunkSubscriptionManager.getUserChunkRangeSubscriptions(
-                                clientNetworkHandle.uuid)));
+                        serverActiveChunkManager.getUserChunkRanges(
+                                clientUser.getUserID())));
     }
 
     @Test
@@ -203,15 +202,15 @@ public class testSingleClient {
         GameController serverGameController = serverInjector.getInstance(GameController.class);
         GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
         ChunkClockMap clientChunkClockMap = clientInjector.getInstance(ChunkClockMap.class);
-        ChunkSubscriptionManager serverChunkSubscriptionManager =
-                serverInjector.getInstance(ChunkSubscriptionManager.class);
+        ActiveChunkManager serverActiveChunkManager = serverInjector.getInstance(ActiveChunkManager.class);
+        User clientUser = clientInjector.getInstance(User.class);
         TimeUnit.SECONDS.sleep(1);
 
         Assert.assertEquals(
-                new HashSet<>(clientChunkClockMap.getChunkRangeList()),
+                new HashSet<>(clientChunkClockMap.getChunkRangeSet()),
                 new HashSet<>(
-                        serverChunkSubscriptionManager.getUserChunkRangeSubscriptions(
-                                clientNetworkHandle.uuid)));
+                        serverActiveChunkManager.getUserChunkRanges(
+                                clientUser.getUserID())));
         EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
         Entity serverEntity = serverGameController.addEntity(clientEntityFactory.createEntity());
 
@@ -227,14 +226,15 @@ public class testSingleClient {
         GameController serverGameController = serverInjector.getInstance(GameController.class);
         GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
         ChunkClockMap clientChunkClockMap = clientInjector.getInstance(ChunkClockMap.class);
-        ChunkSubscriptionManager serverChunkSubscriptionManager =
-                serverInjector.getInstance(ChunkSubscriptionManager.class);
+        ActiveChunkManager serverActiveChunkManager = serverInjector.getInstance(ActiveChunkManager.class);
+        User clientUser = clientInjector.getInstance(User.class);
+
         TimeUnit.SECONDS.sleep(1);
         Assert.assertEquals(
-                new HashSet<>(clientChunkClockMap.getChunkRangeList()),
+                new HashSet<>(clientChunkClockMap.getChunkRangeSet()),
                 new HashSet<>(
-                        serverChunkSubscriptionManager.getUserChunkRangeSubscriptions(
-                                clientNetworkHandle.uuid)));
+                        serverActiveChunkManager.getUserChunkRanges(
+                                clientUser.getUserID())));
         EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
         Entity serverEntity = serverGameController.addEntity(clientEntityFactory.createEntity());
         TimeUnit.SECONDS.sleep(1);
@@ -395,10 +395,12 @@ public class testSingleClient {
         GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
         GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
         GameController serverGameController = serverInjector.getInstance(GameController.class);
-        ChunkSubscriptionManager serverChunkSubscriptionManager = serverInjector.getInstance(ChunkSubscriptionManager.class);
+        ActiveChunkManager serverActiveChunkManager = serverInjector.getInstance(ActiveChunkManager.class);
+        User clientUser = clientInjector.getInstance(User.class);
+
         Entity myEntity = serverGameController.createEntity(new Coordinates(0, 0));
 
-        serverChunkSubscriptionManager.registerSubscription(clientNetworkHandle.uuid, new ChunkRange(new Coordinates(0, 0)));
+        serverActiveChunkManager.addUserChunkSubscriptions(clientUser.getUserID(), new ChunkRange(new Coordinates(0, 0)));
 
         TimeUnit.SECONDS.sleep(1);
         assert serverGameStore.getEntity(myEntity.uuid).equals(clientGameStore.getEntity(myEntity.uuid));
@@ -415,9 +417,13 @@ public class testSingleClient {
         GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
         GameController serverGameController = serverInjector.getInstance(GameController.class);
         ChunkFactory serverChunkFactory = serverInjector.getInstance(ChunkFactory.class);
-        ChunkSubscriptionManager serverChunkSubscriptionManager = serverInjector.getInstance(ChunkSubscriptionManager.class);
+        ActiveChunkManager serverActiveChunkManager = serverInjector.getInstance(ActiveChunkManager.class);
+        ConnectionStore serverConnectionStore = serverInjector.getInstance(ConnectionStore.class);
 
-        serverChunkSubscriptionManager.registerSubscription(clientNetworkHandle.uuid, new ChunkRange(new Coordinates(0, 0)));
+        User clientUser = clientInjector.getInstance(User.class);
+        assert serverConnectionStore.getConnection(clientUser.getUserID()) != null;
+
+        serverActiveChunkManager.addUserChunkSubscriptions(clientUser.getUserID(), new ChunkRange(new Coordinates(0, 0)));
         Entity myEntity = serverGameController.createEntity(new Coordinates(0, 0));
         Coordinates coordinatesToTest = new Coordinates(-1000, 1000);
         ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);

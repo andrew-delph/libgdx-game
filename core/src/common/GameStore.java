@@ -162,6 +162,6 @@ public class GameStore {
     }
 
     public Set<ChunkRange> getChunkRangeList() {
-        return this.chunkClockMap.getChunkRangeList();
+        return this.chunkClockMap.getChunkRangeSet();
     }
 }

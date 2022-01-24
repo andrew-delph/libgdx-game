@@ -4,6 +4,7 @@ import chunk.ChunkRange;
 import com.google.inject.Inject;
 import configuration.GameSettings;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -17,7 +18,7 @@ public class ChunkGenerationService {
     @Inject
     ChunkBuilderFactory chunkBuilderFactory;
 
-    public synchronized void queueChunkRangeToGenerate(Set<ChunkRange> toGenerateSet) {
+    public synchronized void queueChunkRangeToGenerate(Collection<ChunkRange> toGenerateSet) {
         for (ChunkRange toGenerate : toGenerateSet) {
             if (generatedSet.contains(toGenerate)) continue;
             generatedSet.add(toGenerate);

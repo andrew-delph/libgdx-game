@@ -43,13 +43,13 @@ public class ClientNetworkHandle {
     ChunkFactory chunkFactory;
     @Inject
     User user;
+
     private ManagedChannel channel;
     private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
     private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
 
     @Inject
     public ClientNetworkHandle() {
-        System.out.println("I am client: " + this.user.toString());
     }
 
     public void setHost(String host) {
@@ -61,6 +61,7 @@ public class ClientNetworkHandle {
     }
 
     public void connect() {
+        System.out.println("I am client: " + this.user.toString());
         this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
         this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
         this.blockStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
