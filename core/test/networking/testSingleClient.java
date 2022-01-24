@@ -346,13 +346,15 @@ public class testSingleClient {
     public void testClientCreateAIEntity() throws InterruptedException {
         GameController clientGameController = clientInjector.getInstance(GameController.class);
         ActiveEntityManager serverActiveEntityManager = serverInjector.getInstance(ActiveEntityManager.class);
+        GameController serverGameController = serverInjector.getInstance(GameController.class);
+        Entity target = serverGameController.createEntity(new Coordinates(0,0));
 
-        Assert.assertEquals(serverActiveEntityManager.getActiveEntities().size(), 0);
+        Assert.assertEquals(0, serverActiveEntityManager.getActiveEntities().size());
 
-        clientGameController.createAI(UUID.randomUUID());
+        clientGameController.createAI(target.getUuid());
         TimeUnit.SECONDS.sleep(1);
 
-        Assert.assertEquals(serverActiveEntityManager.getActiveEntities().size(), 1);
+        Assert.assertEquals(1, serverActiveEntityManager.getActiveEntities().size());
     }
 
     @Test

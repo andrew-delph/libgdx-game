@@ -42,6 +42,7 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
     public void accept(EventType eventType) {
         DisconnectionIncomingEventType realEvent = (DisconnectionIncomingEventType) eventType;
         connectionStore.removeConnection(realEvent.getUserID());
+        activeChunkManager.removeUser(realEvent.getUserID());
         for (UUID ownersEntityUuid : activeEntityManager.getUserActiveEntitySet(realEvent.getUserID())) {
             Entity entity = null;
             try {
