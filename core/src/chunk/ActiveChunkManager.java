@@ -8,8 +8,8 @@ import java.util.*;
 
 public class ActiveChunkManager {
 
-    Map<UserID, Set<ChunkRange>> userIDChunkRange = new HashMap<>();
-    Map<ChunkRange, Set<UserID>> chunkRangeUserID = new HashMap<>();
+    private final Map<UserID, Set<ChunkRange>> userIDChunkRange = new HashMap<>();
+    private final Map<ChunkRange, Set<UserID>> chunkRangeUserID = new HashMap<>();
 
     public synchronized void setUserChunkSubscriptions(UserID userID, Collection<ChunkRange> chunkRangeList) {
         // remove a user
@@ -37,7 +37,7 @@ public class ActiveChunkManager {
     }
 
     public Set<ChunkRange> getUserChunkRanges(UserID userID) {
-        return userIDChunkRange.get(userID);
+        return userIDChunkRange.getOrDefault(userID, new HashSet<>());
     }
 
     public Set<UserID> getChunkRangeUsers(ChunkRange chunkRange) {

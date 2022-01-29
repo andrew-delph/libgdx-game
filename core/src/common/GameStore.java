@@ -17,14 +17,13 @@ public class GameStore {
 
     private final static Logger LOGGER = Logger.getLogger(GameStore.class.getName());
 
-    Map<UUID, ChunkRange> entityMap;
+    private Map<UUID, ChunkRange> entityMap = new ConcurrentHashMap<>();;
 
     @Inject
     ChunkClockMap chunkClockMap;
 
     @Inject
     GameStore() {
-        this.entityMap = new ConcurrentHashMap<>();
     }
 
     public void addEntity(Entity entity) {

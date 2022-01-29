@@ -24,7 +24,7 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
     @Override
     public void accept(EventType eventType) {
         CreateEntityIncomingEventType realEvent = (CreateEntityIncomingEventType) eventType;
-        Entity entity = null;
+        Entity entity;
         try {
             entity = entitySerializationConverter.createEntity(realEvent.getData());
         } catch (SerializationDataMissing e) {

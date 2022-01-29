@@ -75,12 +75,12 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
             NetworkObjects.NetworkEvent request,
             StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
         GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
+        activeChunkManager.addUserChunkSubscriptions(realEvent.getUserID(), realEvent.getChunkRange());
         Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
         if (chunk == null) {
             chunk = this.chunkFactory.create(realEvent.getChunkRange());
             chunkGenerationService.queueChunkRangeToGenerate(realEvent.getChunkRange());
         }
-        activeChunkManager.addUserChunkSubscriptions(realEvent.getUserID(), realEvent.getChunkRange());
         responseObserver.onNext(
                 NetworkObjects.NetworkEvent.newBuilder()
                         .setData(chunk.toNetworkData())

@@ -1,5 +1,6 @@
 package app.game;
 
+import app.screen.BaseCamera;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
@@ -16,6 +17,9 @@ public class ClientGame extends Game {
 
     @Inject
     ClientNetworkHandle clientNetworkHandle;
+
+    @Inject
+    BaseCamera baseCamera;
 
     @Inject
     public ClientGame() throws Exception {
@@ -36,6 +40,8 @@ public class ClientGame extends Game {
 
     @Override
     public void init() throws SerializationDataMissing {
-        this.gameStore.addChunk(this.clientNetworkHandle.requestChunkBlocking(new ChunkRange(new Coordinates(0, 0))));
+        for(ChunkRange chunkRange: baseCamera.getChunkRangeOnScreen()){
+            this.gameStore.addChunk(this.clientNetworkHandle.requestChunkBlocking(chunkRange));
+        }
     }
 }

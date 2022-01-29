@@ -12,7 +12,7 @@ public class ActiveEntityManager {
     @Inject
     GameStore gameStore;
 
-    Map<UserID, Set<UUID>> userIDEntityMap = new HashMap<>();
+    private Map<UserID, Set<UUID>> userIDEntityMap = new HashMap<>();
 
     public void registerActiveEntity(UserID user_uuid, UUID entity_uuid) {
         userIDEntityMap.putIfAbsent(user_uuid, new HashSet<>());

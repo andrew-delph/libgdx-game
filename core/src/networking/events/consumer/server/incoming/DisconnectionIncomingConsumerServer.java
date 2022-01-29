@@ -44,7 +44,7 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
         connectionStore.removeConnection(realEvent.getUserID());
         activeChunkManager.removeUser(realEvent.getUserID());
         for (UUID ownersEntityUuid : activeEntityManager.getUserActiveEntitySet(realEvent.getUserID())) {
-            Entity entity = null;
+            Entity entity;
             try {
                 entity = this.gameStore.getEntity(ownersEntityUuid);
             } catch (EntityNotFound e) {

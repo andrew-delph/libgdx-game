@@ -25,6 +25,7 @@ import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import generation.ChunkBuilderFactory;
+import generation.ChunkGenerationService;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
 import networking.server.ServerNetworkHandle;
@@ -35,16 +36,18 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class testSingleClient {
+public class testSingleClientRunningGame {
 
     Injector clientInjector;
     Injector serverInjector;
 
     ClientNetworkHandle clientNetworkHandle;
     ServerNetworkHandle serverNetworkHandle;
+
+    GameStore serverGameStore;
+    GameStore clientGameStore;
 
     Game clientGame, serverGame;
 
@@ -58,6 +61,9 @@ public class testSingleClient {
 
         clientGame = clientInjector.getInstance(Game.class);
         serverGame = serverInjector.getInstance(Game.class);
+
+        serverGameStore = serverInjector.getInstance(GameStore.class);
+        clientGameStore = clientInjector.getInstance(GameStore.class);
 
         serverGame.start();
         clientGame.start();
