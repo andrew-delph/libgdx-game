@@ -8,7 +8,6 @@ import common.events.types.EventType;
 import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 
-import java.util.UUID;
 import java.util.function.Consumer;
 
 public class ReplaceBlockOutgoingConsumerServer implements Consumer<EventType> {

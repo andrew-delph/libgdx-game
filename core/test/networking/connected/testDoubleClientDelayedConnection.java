@@ -1,4 +1,4 @@
-package networking;
+package networking.connected;
 
 import app.GameController;
 import chunk.ChunkFactory;
@@ -15,7 +15,6 @@ import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import networking.client.ClientNetworkHandle;
-import networking.events.EventTypeFactory;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Before;

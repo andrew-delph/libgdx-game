@@ -1,12 +1,13 @@
-package networking;
+package networking.connected;
 
-import app.game.Game;
+import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;
+import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
@@ -80,7 +81,7 @@ public class testSingleClientNoRunningGame {
         // async request the chunk on the client
         // make sure it worked
 
-        Coordinates coordinatesToTest = new Coordinates(-100,-100);
+        Coordinates coordinatesToTest = new Coordinates(-100, -100);
         ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
         Assert.assertEquals(false, serverGameStore.doesChunkExist(chunkRangeToTest));
@@ -106,7 +107,7 @@ public class testSingleClientNoRunningGame {
         // make sure there is NOT a chunk generated on the server
         // async request the chunk on the client
         // make sure it worked
-        Coordinates coordinatesToTest = new Coordinates(-100,-100);
+        Coordinates coordinatesToTest = new Coordinates(-100, -100);
         ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
         Assert.assertEquals(false, serverGameStore.doesChunkExist(chunkRangeToTest));
@@ -121,5 +122,33 @@ public class testSingleClientNoRunningGame {
         Assert.assertTrue(serverGameStore.doesChunkExist(chunkRangeToTest));
         Assert.assertTrue(clientGameStore.doesChunkExist(chunkRangeToTest));
         Assert.assertEquals(serverGameStore.getChunk(chunkRangeToTest), clientGameStore.getChunk(chunkRangeToTest));
+    }
+
+    @Test
+    public void testRequestChunkBlockingNotGenerated() throws SerializationDataMissing, EntityNotFound, InterruptedException {
+        GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+        Coordinates coordinates = new Coordinates(-1, 0);
+        ChunkRange chunkRange = new ChunkRange(coordinates);
+        Chunk clientChunk = clientNetworkHandle.requestChunkBlocking(chunkRange);
+        Chunk serverChunk = serverGameStore.getChunk(chunkRange);
+        assert clientChunk.equals(serverChunk);
+        assert clientChunk.getEntityList().size() > 5;
+        assert serverChunk.getEntityList().size() > 5;
+        Assert.assertEquals(serverChunk.getEntityList().size(), clientChunk.getEntityList().size());
+        assert clientChunk.equals(serverChunk);
+    }
+
+    @Test
+    public void testRequestChunkBlockingGenerated() throws Exception {
+        GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+        Coordinates coordinates = new Coordinates(-1, 0);
+        ChunkRange chunkRange = new ChunkRange(coordinates);
+        serverChunkGenerationService.blockedChunkRangeToGenerate(chunkRange);
+        Chunk clientChunk = clientNetworkHandle.requestChunkBlocking(chunkRange);
+        Chunk serverChunk = serverGameStore.getChunk(chunkRange);
+        assert clientChunk.getEntityList().size() > 5;
+        assert serverChunk.getEntityList().size() > 5;
+        Assert.assertEquals(serverChunk.getEntityList().size(), clientChunk.getEntityList().size());
+        assert clientChunk.equals(serverChunk);
     }
 }

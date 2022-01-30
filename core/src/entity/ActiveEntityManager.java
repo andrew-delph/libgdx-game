@@ -9,10 +9,9 @@ import java.util.*;
 
 public class ActiveEntityManager {
 
+    private final Map<UserID, Set<UUID>> userIDEntityMap = new HashMap<>();
     @Inject
     GameStore gameStore;
-
-    private Map<UserID, Set<UUID>> userIDEntityMap = new HashMap<>();
 
     public void registerActiveEntity(UserID user_uuid, UUID entity_uuid) {
         userIDEntityMap.putIfAbsent(user_uuid, new HashSet<>());

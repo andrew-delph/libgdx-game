@@ -7,7 +7,6 @@ import common.events.types.EventType;
 import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 
-import java.util.UUID;
 import java.util.function.Consumer;
 
 public class RemoveEntityOutgoingConsumerServer implements Consumer<EventType> {

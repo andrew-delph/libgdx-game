@@ -75,12 +75,18 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
             NetworkObjects.NetworkEvent request,
             StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
         GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
-        activeChunkManager.addUserChunkSubscriptions(realEvent.getUserID(), realEvent.getChunkRange());
-        Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
-        if (chunk == null) {
-            chunk = this.chunkFactory.create(realEvent.getChunkRange());
-            chunkGenerationService.queueChunkRangeToGenerate(realEvent.getChunkRange());
+
+        try {
+            chunkGenerationService.blockedChunkRangeToGenerate(realEvent.getChunkRange());
+        } catch (Exception e) {
+            responseObserver.onError(e);
+            return;
         }
+
+        activeChunkManager.addUserChunkSubscriptions(realEvent.getUserID(), realEvent.getChunkRange());
+
+        Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
+
         responseObserver.onNext(
                 NetworkObjects.NetworkEvent.newBuilder()
                         .setData(chunk.toNetworkData())
@@ -112,7 +118,6 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.
                 createHandshakeOutgoingEventType(chunkRange, uuidList);
         this.send(userID, handshakeOutgoing.toNetworkEvent());
-
         System.out.println("SERVER INIT HANDSHAKE " + userID.toString());
     }
 }

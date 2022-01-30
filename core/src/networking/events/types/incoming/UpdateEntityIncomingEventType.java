@@ -6,8 +6,6 @@ import com.google.inject.Inject;
 import common.events.types.EventType;
 import networking.NetworkObjects;
 
-import java.util.UUID;
-
 import static networking.events.types.NetworkEventTypeEnum.UPDATE_ENTITY_INCOMING;
 
 public class UpdateEntityIncomingEventType extends EventType {

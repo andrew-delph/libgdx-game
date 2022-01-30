@@ -4,7 +4,6 @@ import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.sun.tools.javac.util.Pair;
 import common.GameStore;
@@ -23,11 +22,13 @@ import networking.events.types.outgoing.HandshakeOutgoingEventType;
 import networking.translation.NetworkDataDeserializer;
 
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import static networking.translation.DataTranslationEnum.AUTH;
 
 public class ClientNetworkHandle {
-    private final Set<ChunkRange> chunkRangeLock = Sets.newConcurrentHashSet();
+    public final CountDownLatch authLatch = new CountDownLatch(1);
     public String host = "localhost";
     public int port = 99;
     RequestNetworkEventObserver requestNetworkEventObserver;
@@ -43,7 +44,6 @@ public class ClientNetworkHandle {
     ChunkFactory chunkFactory;
     @Inject
     User user;
-
     private ManagedChannel channel;
     private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
     private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
@@ -60,7 +60,7 @@ public class ClientNetworkHandle {
         this.port = port;
     }
 
-    public void connect() {
+    public void connect() throws InterruptedException {
         System.out.println("I am client: " + this.user.toString());
         this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
         this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
@@ -70,9 +70,11 @@ public class ClientNetworkHandle {
                 this.asyncStub.networkObjectStream(requestNetworkEventObserver);
 
         NetworkObjects.NetworkEvent authenticationEvent =
-                NetworkObjects.NetworkEvent.newBuilder().setEvent("authentication").build();
-
+                NetworkObjects.NetworkEvent.newBuilder().setEvent(AUTH).build();
         this.send(authenticationEvent);
+        if (!authLatch.await(5, TimeUnit.SECONDS)) {
+            throw new InterruptedException("did not receive auth information");
+        }
     }
 
     public synchronized void send(NetworkObjects.NetworkEvent networkEvent) {
@@ -81,24 +83,41 @@ public class ClientNetworkHandle {
     }
 
     public Chunk requestChunkBlocking(ChunkRange chunkRange) throws SerializationDataMissing {
+        Chunk myChunk;
+        synchronized (this) {
+            if (gameStore.doesChunkExist(chunkRange)) {
+                return gameStore.getChunk(chunkRange);
+            } else {
+                // make the chunk
+                myChunk = chunkFactory.create(chunkRange);
+                gameStore.addChunk(myChunk);
+            }
+        }
+
         GetChunkOutgoingEventType outgoing = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.user.getUserID());
         NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(outgoing.toNetworkEvent());
-        return entitySerializationConverter.createChunk(retrievedNetworkEvent.getData());
+
+        Pair<ChunkRange, List<Entity>> chunkData = entitySerializationConverter.createChunkData(retrievedNetworkEvent.getData());
+        myChunk.addAllEntity(chunkData.snd);
+
+        gameStore.addChunk(myChunk);
+
+        return myChunk;
     }
 
     public boolean requestChunkAsync(ChunkRange requestedChunkRange) {
+        Chunk myChunk;
         // if chunk range is locked. return false
         // if not. lock it
         synchronized (this) {
-            if (chunkRangeLock.contains(requestedChunkRange)) {
+            if (gameStore.doesChunkExist(requestedChunkRange)) {
                 return false;
             } else {
-                chunkRangeLock.add(requestedChunkRange);
+                // make the chunk
+                myChunk = chunkFactory.create(requestedChunkRange);
+                gameStore.addChunk(myChunk);
             }
         }
-        // make the chunk
-        Chunk myChunk = chunkFactory.create(requestedChunkRange);
-        gameStore.addChunk(myChunk);
 
         GetChunkOutgoingEventType outgoing = eventTypeFactory.createGetChunkOutgoingEventType(requestedChunkRange, this.user.getUserID());
         // make the async request
@@ -111,6 +130,7 @@ public class ClientNetworkHandle {
                 try {
                     Pair<ChunkRange, List<Entity>> chunkData = entitySerializationConverter.createChunkData(networkEvent.getData());
                     myChunk.addAllEntity(chunkData.snd);
+                    gameStore.addChunk(myChunk);
                 } catch (SerializationDataMissing e) {
                     e.printStackTrace();
                 }
@@ -118,15 +138,12 @@ public class ClientNetworkHandle {
 
             @Override
             public void onError(Throwable t) {
-                chunkRangeLock.remove(requestedChunkRange);
                 gameStore.removeChunk(requestedChunkRange);
                 t.printStackTrace();
             }
 
             @Override
             public void onCompleted() {
-                // todo when is this called
-                chunkRangeLock.remove(requestedChunkRange);
             }
         });
         // in the observer. at the end

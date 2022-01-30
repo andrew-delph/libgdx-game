@@ -15,8 +15,6 @@ public class ReplaceBlockOutgoingConsumerClient implements Consumer<EventType> {
     EventService eventService;
     @Inject
     ClientNetworkHandle clientNetworkHandle;
-    @Inject
-    EventTypeFactory eventTypeFactory;
 
     @Override
     public void accept(EventType eventType) {

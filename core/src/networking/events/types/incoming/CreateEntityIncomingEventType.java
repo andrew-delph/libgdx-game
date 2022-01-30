@@ -6,12 +6,9 @@ import common.events.types.EventType;
 import networking.NetworkObjects;
 import networking.events.types.NetworkEventTypeEnum;
 
-import java.util.UUID;
-
 public class CreateEntityIncomingEventType extends EventType {
 
     public static String type = NetworkEventTypeEnum.CREATE_ENTITY_INCOMING;
-
 
     UserID userID;
     NetworkObjects.NetworkData networkData;

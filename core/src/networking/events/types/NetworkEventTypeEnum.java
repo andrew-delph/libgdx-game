@@ -18,4 +18,6 @@ public class NetworkEventTypeEnum {
 
     public final static String CHUNK_SWAP_INCOMING = "CHUNK_SWAP_INCOMING";
     public final static String CHUNK_SWAP_OUTGOING = "CHUNK_SWAP_OUTGOING";
+
+    public final static String AUTH_INCOMING = "AUTH_INCOMING";
 }

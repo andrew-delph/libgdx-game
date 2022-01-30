@@ -20,10 +20,14 @@ public class Game {
 
     @Inject
     UpdateTask updateTask;
-    @Inject CollisionService collisionService;
-    @Inject EventConsumer eventConsumer;
-    @Inject ChunkFactory chunkFactory;
-    @Inject GameStore gameStore;
+    @Inject
+    CollisionService collisionService;
+    @Inject
+    EventConsumer eventConsumer;
+    @Inject
+    ChunkFactory chunkFactory;
+    @Inject
+    GameStore gameStore;
 
     Timer timer;
 
@@ -48,6 +52,7 @@ public class Game {
     }
 
     public void init() throws SerializationDataMissing {
+
         gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
     }
 }

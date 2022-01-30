@@ -10,6 +10,7 @@ import common.events.types.ReplaceEntityEventType;
 import entity.Entity;
 import entity.block.Block;
 import networking.NetworkObjects;
+import networking.RequestNetworkEventObserver;
 import networking.events.types.incoming.*;
 import networking.events.types.outgoing.*;
 import networking.translation.NetworkDataDeserializer;
@@ -122,5 +123,9 @@ public class EventTypeFactory {
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UserID userID) {
         return new GetChunkOutgoingEventType(chunkRange, userID);
+    }
+
+    public AuthenticationIncomingEventType createAuthenticationIncomingEventType(UserID userID, RequestNetworkEventObserver requestNetworkEventObserver) {
+        return new AuthenticationIncomingEventType(userID, requestNetworkEventObserver);
     }
 }

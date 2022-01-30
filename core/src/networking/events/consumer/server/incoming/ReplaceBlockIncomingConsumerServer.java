@@ -11,7 +11,6 @@ import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 
-import java.util.UUID;
 import java.util.function.Consumer;
 
 public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {

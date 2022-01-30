@@ -8,7 +8,6 @@ import networking.NetworkObjects;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 public class SubscriptionIncomingEventType extends EventType {
 

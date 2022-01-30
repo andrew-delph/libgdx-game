@@ -1,4 +1,4 @@
-package networking;
+package networking.connected;
 
 import app.GameController;
 import app.game.Game;

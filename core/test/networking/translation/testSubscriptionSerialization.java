@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 public class testSubscriptionSerialization {
 

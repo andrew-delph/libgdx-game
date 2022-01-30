@@ -12,7 +12,6 @@ import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 import networking.translation.NetworkDataDeserializer;
 
-import java.util.UUID;
 import java.util.function.Consumer;
 
 public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {

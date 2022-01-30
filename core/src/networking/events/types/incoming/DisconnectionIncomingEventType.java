@@ -4,8 +4,6 @@ import app.user.UserID;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 
-import java.util.UUID;
-
 public class DisconnectionIncomingEventType extends EventType {
 
     public final static String type = "disconnection_entity_incoming";

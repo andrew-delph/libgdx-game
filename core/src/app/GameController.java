@@ -193,16 +193,6 @@ public class GameController {
         return replacementEntity;
     }
 
-    public void syncEntity(Entity entity) throws EntityNotFound {
-        UUID target = entity.uuid;
-        ChunkRange from = gameStore.getEntityChunkRange(entity.uuid);
-        ChunkRange to = new ChunkRange(entity.coordinates);
-        if (!from.equals(to)) {
-            this.eventService.queuePostUpdateEvent(
-                    EventTypeFactory.createReplaceEntityEvent(entity.uuid, entity, true, to));
-            this.eventService.fireEvent(EventTypeFactory.createChunkSwapOutgoingEventType(target, from, to));
-        }
-    }
 
     public void createAI(UUID target) {
         this.eventService.queuePostUpdateEvent(

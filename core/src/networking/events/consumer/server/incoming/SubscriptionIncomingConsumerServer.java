@@ -1,16 +1,11 @@
 package networking.events.consumer.server.incoming;
 
 import chunk.ActiveChunkManager;
-import chunk.Chunk;
-import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
-import common.GameStore;
 import common.events.types.EventType;
 import generation.ChunkGenerationService;
-import networking.events.EventTypeFactory;
 import networking.events.types.incoming.SubscriptionIncomingEventType;
-import networking.server.ServerNetworkHandle;
 
 import java.util.List;
 import java.util.Set;

@@ -101,7 +101,11 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         Entity entity = this.getEntity(uuid);
         this.chunkMap.remove(uuid);
         if (bodySet.contains(entity.uuid)) {
-            this.world.destroyBody(entity.getBody());
+            try {
+                this.world.destroyBody(entity.getBody());
+            } catch (Exception e) {
+                System.out.println("the error happened. chunk.removeEntity()");
+            }
             bodySet.remove(entity.uuid);
         }
         return entity;
@@ -109,8 +113,6 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
     synchronized void update() {
         Set<Entity> neighborEntitySet = new HashSet<>();
-
-        Chunk neighborChunk;
 
         Coordinates neighborBottomLeft = (new Coordinates(this.chunkRange.bottom_x, this.chunkRange.bottom_y)).getLeft().getLeft().getDown().getDown();
         Coordinates neighborTopRight = (new Coordinates(this.chunkRange.top_x, this.chunkRange.top_y)).getRight().getRight().getUp().getUp();
@@ -154,7 +156,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         for (Entity entity : this.chunkMap.values()) {
             if (entity.entityController != null) entity.entityController.beforeWorldUpdate();
             try {
-                this.gameController.syncEntity(entity);
+                this.gameStore.syncEntity(entity);
             } catch (EntityNotFound e) {
                 e.printStackTrace();
             }

@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import common.events.types.CreateAIEntityEventType;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
-import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
 
 public class SoloEventConsumer extends EventConsumer {

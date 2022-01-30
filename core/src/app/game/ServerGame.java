@@ -1,14 +1,10 @@
 package app.game;
 
-import chunk.ChunkFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import common.GameStore;
-import common.events.EventConsumer;
 import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
-import entity.collision.CollisionService;
 import entity.pathfinding.EdgeRegistrationBase;
 import networking.server.ServerNetworkHandle;
 

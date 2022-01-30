@@ -1,7 +1,5 @@
 package app.user;
 
-import entity.Entity;
-
 import java.util.UUID;
 
 public class UserID {

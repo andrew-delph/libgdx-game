@@ -15,13 +15,13 @@ public class testActiveEntityManager {
     Injector serverInjector;
 
     @Before
-    public void setup(){
+    public void setup() {
         serverInjector = Guice.createInjector(new BaseServerConfig());
         activeEntityManager = serverInjector.getInstance(ActiveEntityManager.class);
     }
 
     @Test
-    public void testActiveEntityManager(){
+    public void testActiveEntityManager() {
         UserID testUserID = UserID.createUserID();
         UUID testUUID = UUID.randomUUID();
 

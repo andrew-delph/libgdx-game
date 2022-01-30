@@ -1,8 +1,6 @@
 package chunk;
 
 import app.user.UserID;
-import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.MutableGraph;
 
 import java.util.*;
 
@@ -15,7 +13,7 @@ public class ActiveChunkManager {
         // remove a user
         // add all the edges
         this.removeUser(userID);
-        for(ChunkRange chunkRange: chunkRangeList){
+        for (ChunkRange chunkRange : chunkRangeList) {
             this.addUserChunkSubscriptions(userID, chunkRange);
         }
     }
@@ -30,7 +28,7 @@ public class ActiveChunkManager {
 
     public synchronized void removeUser(UserID userID) {
         Set<ChunkRange> chunkRangeSet = this.getUserChunkRanges(userID);
-        for(ChunkRange chunkRange: chunkRangeSet){
+        for (ChunkRange chunkRange : chunkRangeSet) {
             chunkRangeUserID.get(chunkRange).remove(userID);
         }
         userIDChunkRange.remove(userID);

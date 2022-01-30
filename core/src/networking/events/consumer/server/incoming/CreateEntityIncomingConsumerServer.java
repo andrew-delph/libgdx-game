@@ -26,7 +26,8 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
     ServerNetworkHandle serverNetworkHandle;
     @Inject
     ActiveEntityManager activeEntityManager;
-    @Inject ActiveChunkManager activeChunkManager;
+    @Inject
+    ActiveChunkManager activeChunkManager;
 
     @Override
     public void accept(EventType eventType) {
@@ -41,7 +42,7 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
         }
 
         if (entity.getClass() == Entity.class) {
-            activeEntityManager.registerActiveEntity(incoming.getUserID(),entity.uuid);
+            activeEntityManager.registerActiveEntity(incoming.getUserID(), entity.uuid);
         }
 
         CreateEntityOutgoingEventType outgoing = EventTypeFactory.createCreateEntityOutgoingEvent(incoming.getData(), incoming.getChunkRange());

@@ -1,10 +1,9 @@
-package networking;
+package networking.connected;
 
 import app.GameController;
 import app.game.Game;
 import app.user.User;
 import chunk.ActiveChunkManager;
-import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
@@ -26,6 +25,7 @@ import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import generation.ChunkBuilderFactory;
 import generation.ChunkGenerationService;
+import networking.ConnectionStore;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
 import networking.server.ServerNetworkHandle;
@@ -85,9 +85,11 @@ public class testSingleClientRunningGame {
 
     @Test
     public void testAuthentication() throws InterruptedException {
-        ConnectionStore connectionStore = serverInjector.getInstance(ConnectionStore.class);
+        ConnectionStore serverConnectionStore = serverInjector.getInstance(ConnectionStore.class);
+        ConnectionStore clientConnectionStore = clientInjector.getInstance(ConnectionStore.class);
         TimeUnit.SECONDS.sleep(1);
-        assert connectionStore.size() == 1;
+        assert serverConnectionStore.size() == 1;
+        assert clientConnectionStore.size() == 1;
     }
 
     @Test
@@ -304,18 +306,24 @@ public class testSingleClientRunningGame {
         BlockFactory serverBlockFactory = serverInjector.getInstance(BlockFactory.class);
         EventService serverEventService = serverInjector.getInstance(EventService.class);
         EventService clientEventService = clientInjector.getInstance(EventService.class);
+        ActiveChunkManager activeChunkManager = serverInjector.getInstance(ActiveChunkManager.class);
+
+        ChunkGenerationService chunkGenerationService = serverInjector.getInstance(ChunkGenerationService.class);
+        chunkGenerationService.queueChunkRangeToGenerate(new ChunkRange(new Coordinates(0, 0)));
         TimeUnit.SECONDS.sleep(1);
-        Entity serverEntity = serverGameController.addEntity(serverBlockFactory.createDirt());
-        assert serverGameStore.getBlock(new Coordinates(0, 0)).equals(serverEntity);
+        clientGameStore.getBlock(new Coordinates(0, 0));
+
+        Block serverBlockOriginal = serverGameStore.getBlock(new Coordinates(0, 0));
+        assert serverBlockOriginal != null;
+        serverGameController.addEntity(serverBlockOriginal);
+        Block serverBlockReplacement = serverBlockFactory.createSky();
+        serverGameController.replaceBlock(serverBlockOriginal, serverBlockReplacement);
         TimeUnit.SECONDS.sleep(1);
-        assert clientGameStore.getBlock(new Coordinates(0, 0)).equals(serverEntity);
-        serverEventService.fireEvent(
-                EventTypeFactory.createReplaceBlockOutgoingEvent(
-                        serverEntity.uuid,
-                        serverBlockFactory.createSky(),
-                        new ChunkRange(serverEntity.coordinates)));
+        assert clientGameStore.getBlock(new Coordinates(0, 0)).equals(serverBlockReplacement);
         TimeUnit.SECONDS.sleep(1);
-        assert clientGameStore.getBlock(new Coordinates(0, 0)).getClass() == SkyBlock.class;
+        clientEventService.firePostUpdateEvents();
+        serverEventService.firePostUpdateEvents();
+        Assert.assertEquals(clientGameStore.getBlock(new Coordinates(0, 0)).getClass(), SkyBlock.class);
     }
 
     @Test
@@ -328,6 +336,7 @@ public class testSingleClientRunningGame {
         ChunkRange chunkRange = new ChunkRange(coordinates);
         serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
         clientGameStore.addChunk(clientNetworkHandle.requestChunkBlocking(chunkRange));
+        TimeUnit.SECONDS.sleep(1);
         Entity clientEntity = clientGameController.createLadder(coordinates);
         TimeUnit.SECONDS.sleep(1);
         assert serverGameStore.getEntity(clientEntity.uuid).equals(clientGameStore.getEntity(clientEntity.uuid));
@@ -353,32 +362,16 @@ public class testSingleClientRunningGame {
         GameController clientGameController = clientInjector.getInstance(GameController.class);
         ActiveEntityManager serverActiveEntityManager = serverInjector.getInstance(ActiveEntityManager.class);
         GameController serverGameController = serverInjector.getInstance(GameController.class);
-        Entity target = serverGameController.createEntity(new Coordinates(0,0));
+        Entity target = serverGameController.createEntity(new Coordinates(0, 0));
 
         Assert.assertEquals(0, serverActiveEntityManager.getActiveEntities().size());
 
         clientGameController.createAI(target.getUuid());
         TimeUnit.SECONDS.sleep(1);
 
-        Assert.assertEquals(1, serverActiveEntityManager.getActiveEntities().size());
+        Assert.assertEquals(2, serverActiveEntityManager.getActiveEntities().size());
     }
 
-    @Test
-    public void testGetChunk() throws SerializationDataMissing, EntityNotFound {
-        GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
-        ChunkFactory chunkFactory = serverInjector.getInstance(ChunkFactory.class);
-        Coordinates coordinates = new Coordinates(-1, 0);
-        ChunkRange chunkRange = new ChunkRange(coordinates);
-        serverGameStore.addChunk(chunkFactory.create(chunkRange));
-        Chunk serverChunk = serverGameStore.getChunk(chunkRange);
-        EntityFactory serverEntityFactory = serverInjector.getInstance(EntityFactory.class);
-        Entity serverEntity = serverEntityFactory.createEntity();
-        serverEntity.coordinates = coordinates;
-        serverGameStore.addEntity(serverEntity);
-        Chunk clientChunk = clientNetworkHandle.requestChunkBlocking(chunkRange);
-        assert clientChunk.equals(serverChunk);
-        assert clientChunk.getEntity(serverEntity.uuid) != null;
-    }
 
     @Test
     public void testRemoveClientToServer() throws InterruptedException, EntityNotFound {

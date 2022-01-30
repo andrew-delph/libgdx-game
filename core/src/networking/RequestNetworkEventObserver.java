@@ -4,9 +4,8 @@ import app.user.UserID;
 import common.events.EventService;
 import io.grpc.stub.StreamObserver;
 import networking.events.EventTypeFactory;
+import networking.translation.DataTranslationEnum;
 import networking.translation.NetworkEventHandler;
-
-import java.util.UUID;
 
 public class RequestNetworkEventObserver implements StreamObserver<NetworkObjects.NetworkEvent> {
 
@@ -30,10 +29,10 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
 
     @Override
     public synchronized void onNext(NetworkObjects.NetworkEvent networkEvent) {
-        if (networkEvent.getEvent().equals("authentication")) {
+        if (networkEvent.getEvent().equals(DataTranslationEnum.AUTH)) {
             this.userID = UserID.createUserID(networkEvent.getUser());
-            connectionStore.addConnection(userID, this);
             System.out.println("Received authentication: " + this.userID);
+            eventService.fireEvent(eventTypeFactory.createAuthenticationIncomingEventType(userID, this));
         } else {
             networkEventHandler.handleNetworkEvent(networkEvent);
         }

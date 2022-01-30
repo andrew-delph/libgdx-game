@@ -8,9 +8,7 @@ import networking.NetworkObjects;
 import networking.events.types.outgoing.ChunkSwapOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 
-import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Consumer;
 
 public class ChunkSwapOutgoingConsumerServer implements Consumer<EventType> {

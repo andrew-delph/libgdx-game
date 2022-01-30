@@ -51,7 +51,7 @@ public class testGameController {
         assert this.gameStore.getEntityChunk(entity.uuid).chunkRange == chunkRange1;
         Assert.assertEquals(chunkRange1, this.gameStore.getEntityChunk(entity.uuid).chunkRange);
         entity.coordinates = new Coordinates(chunkRange2.bottom_x, chunkRange2.bottom_y);
-        this.gameController.syncEntity(entity);
+        this.gameStore.syncEntity(entity);
         eventService.firePostUpdateEvents();
         Assert.assertEquals(chunkRange2, this.gameStore.getEntityChunk(entity.uuid).chunkRange);
     }

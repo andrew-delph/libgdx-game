@@ -1,14 +1,9 @@
 package app.game;
 
 import app.screen.BaseCamera;
-import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
-import common.Coordinates;
-import common.GameStore;
-import common.events.EventConsumer;
 import common.exceptions.SerializationDataMissing;
-import entity.collision.CollisionService;
 import networking.client.ClientNetworkHandle;
 
 import java.io.IOException;
@@ -34,14 +29,15 @@ public class ClientGame extends Game {
 
     @Override
     public void start() throws IOException, InterruptedException, SerializationDataMissing {
+        this.eventConsumer.init();
         this.clientNetworkHandle.connect();
         super.start();
     }
 
     @Override
     public void init() throws SerializationDataMissing {
-        for(ChunkRange chunkRange: baseCamera.getChunkRangeOnScreen()){
-            this.gameStore.addChunk(this.clientNetworkHandle.requestChunkBlocking(chunkRange));
+        for (ChunkRange chunkRange : baseCamera.getChunkRangeOnScreen()) {
+            this.clientNetworkHandle.requestChunkBlocking(chunkRange);
         }
     }
 }

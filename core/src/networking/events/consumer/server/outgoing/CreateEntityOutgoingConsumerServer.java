@@ -8,9 +8,6 @@ import networking.NetworkObjects;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 import java.util.function.Consumer;
 
 public class CreateEntityOutgoingConsumerServer implements Consumer<EventType> {

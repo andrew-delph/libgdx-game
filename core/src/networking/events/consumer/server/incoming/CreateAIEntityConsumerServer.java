@@ -35,7 +35,7 @@ public class CreateAIEntityConsumerServer implements Consumer<EventType> {
         try {
             CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
             Entity aiEntity = entityFactory.createEntity();
-            activeEntityManager.registerActiveEntity(user.getUserID(),aiEntity.getUuid());
+            activeEntityManager.registerActiveEntity(user.getUserID(), aiEntity.getUuid());
             Entity aiTarget = gameStore.getEntity(realEvent.getTarget());
             aiEntity.coordinates = realEvent.getCoordinates();
             gameController.addEntity(aiEntity);

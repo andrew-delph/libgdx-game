@@ -3,10 +3,12 @@ package common;
 import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
+import common.events.EventService;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.block.Block;
 import entity.misc.Ladder;
+import networking.events.EventTypeFactory;
 
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -16,11 +18,11 @@ import java.util.logging.Logger;
 public class GameStore {
 
     private final static Logger LOGGER = Logger.getLogger(GameStore.class.getName());
-
-    private Map<UUID, ChunkRange> entityMap = new ConcurrentHashMap<>();;
-
+    private final Map<UUID, ChunkRange> entityMap = new ConcurrentHashMap<>();
     @Inject
     ChunkClockMap chunkClockMap;
+    @Inject
+    EventService eventService;
 
     @Inject
     GameStore() {
@@ -162,5 +164,16 @@ public class GameStore {
 
     public Set<ChunkRange> getChunkRangeList() {
         return this.chunkClockMap.getChunkRangeSet();
+    }
+
+    public synchronized void syncEntity(Entity entity) throws EntityNotFound {
+        UUID target = entity.uuid;
+        ChunkRange from = this.getEntityChunkRange(entity.uuid);
+        ChunkRange to = new ChunkRange(entity.coordinates);
+        if (!from.equals(to)) {
+            this.eventService.queuePostUpdateEvent(
+                    EventTypeFactory.createReplaceEntityEvent(entity.uuid, entity, true, to));
+            this.eventService.fireEvent(EventTypeFactory.createChunkSwapOutgoingEventType(target, from, to));
+        }
     }
 }
