@@ -36,10 +36,11 @@ public class Game {
     }
 
     public void start() throws IOException, InterruptedException, SerializationDataMissing {
+        this.preStartInit();
         this.eventConsumer.init();
         this.collisionService.init();
+        this.postStartInit();
         timer = new Timer(true);
-        this.init();
         timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);
     }
 
@@ -51,7 +52,10 @@ public class Game {
         return this.gameStore.getEntityListInRange(x1, y1, x2, y2);
     }
 
-    public void init() throws SerializationDataMissing {
+    public void preStartInit() throws SerializationDataMissing {
         gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
+    }
+
+    public void postStartInit() throws SerializationDataMissing, InterruptedException, IOException {
     }
 }

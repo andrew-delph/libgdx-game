@@ -30,6 +30,7 @@ public class EventTypeFactory {
 
     public static CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
             NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
+
         return new CreateEntityOutgoingEventType(entityData, chunkRange);
     }
 

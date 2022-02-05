@@ -29,13 +29,18 @@ public class ClientGame extends Game {
 
     @Override
     public void start() throws IOException, InterruptedException, SerializationDataMissing {
-        this.eventConsumer.init();
-        this.clientNetworkHandle.connect();
         super.start();
     }
 
     @Override
-    public void init() throws SerializationDataMissing {
+    public void preStartInit() throws SerializationDataMissing {
+//        super.preStartInit();
+    }
+
+    @Override
+    public void postStartInit() throws SerializationDataMissing, InterruptedException {
+        this.clientNetworkHandle.connect();
+
         for (ChunkRange chunkRange : baseCamera.getChunkRangeOnScreen()) {
             this.clientNetworkHandle.requestChunkBlocking(chunkRange);
         }

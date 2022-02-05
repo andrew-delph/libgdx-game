@@ -51,7 +51,7 @@ public class GameStore {
     public Entity getEntity(UUID uuid) throws EntityNotFound {
         ChunkRange chunkRange = this.entityMap.get(uuid);
         if (chunkRange == null) {
-            throw new EntityNotFound("UUID #"+uuid+" not in entityMap");
+            throw new EntityNotFound("UUID #" + uuid + " not in entityMap");
         }
         Chunk chunk = this.chunkClockMap.get(chunkRange);
         if (chunk == null) {

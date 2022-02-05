@@ -44,7 +44,6 @@ public class ServerUpdateTask extends UpdateTask {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         this.eventService.firePostUpdateEvents();
     }
 }
