@@ -103,7 +103,13 @@ public class GameScreen extends ApplicationAdapter {
         pathDebugRender.begin(ShapeRenderer.ShapeType.Line);
         pathDebugRender.setProjectionMatrix(debugMatrix);
 
-        List<Entity> renderList = game.getEntityListInRange(0, 0, 100, 100);
+        List<Entity> renderList = gameStore.getEntityInRange(
+                baseCamera.getBottomLeftCoordinates(),
+                baseCamera.getTopRightCoordinates()
+        );
+
+        System.out.println(renderList.size());
+
         try {
             renderList =
                     renderList.stream()

@@ -137,18 +137,19 @@ public class GameStore {
         return this.chunkClockMap.get(new ChunkRange(coordinates)).getLadder(coordinates.getBase());
     }
 
-    public List<Block> getBlockInRange(
+    public List<Entity> getEntityInRange(
             Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates) {
-        List<Block> blockList = new LinkedList<>();
-        for (Coordinates coordinates :
-                Coordinates.getInRangeList(bottomLeftCoordinates, topRightCoordinates)) {
-            try {
-                blockList.add(this.getBlock(coordinates));
-            } catch (EntityNotFound e) {
-                LOGGER.fine(e.toString());
-            }
+        List<Entity> entityList = new LinkedList<>();
+
+        List<ChunkRange> ChunkRangeInRange = ChunkRange.getChunkRangeListTwoPoints(bottomLeftCoordinates, topRightCoordinates);
+
+        for (ChunkRange currentChunkRange : ChunkRangeInRange) {
+            Chunk currentChunk = this.getChunk(currentChunkRange);
+            if (currentChunk == null) continue;
+            entityList.addAll(currentChunk.getEntityInRange(bottomLeftCoordinates, topRightCoordinates));
         }
-        return blockList;
+
+        return entityList;
     }
 
     public List<Entity> getEntityListBaseCoordinates(Coordinates coordinates) {
