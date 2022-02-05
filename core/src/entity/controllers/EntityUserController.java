@@ -87,10 +87,14 @@ public class EntityUserController extends EntityController {
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            this.applyAction("left", body);
+            if (this.getAction("left").isValid(body)) {
+                this.applyAction("left", body);
+            }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            this.applyAction("right", body);
+            if (this.getAction("right").isValid(body)) {
+                this.applyAction("right", body);
+            }
         }
     }
 }

@@ -3,6 +3,8 @@ package entity.collision;
 import com.google.inject.Inject;
 import entity.collision.ground.EntityGroundContact;
 import entity.collision.ladder.EntityLadderContact;
+import entity.collision.left.EntityLeftContact;
+import entity.collision.right.EntityRightContact;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,12 @@ public class CollisionService {
     EntityLadderContact entityLadderContact;
 
     @Inject
+    EntityLeftContact entityLeftContact;
+
+    @Inject
+    EntityRightContact entityRightContact;
+
+    @Inject
     public CollisionService() {
         this.collisionPairContactWrapperMap = new HashMap<>();
     }
@@ -24,6 +32,8 @@ public class CollisionService {
     public void init() {
         entityGroundContact.init();
         entityLadderContact.init();
+        entityLeftContact.init();
+        entityRightContact.init();
     }
 
     public void addCollisionConsumer(CollisionPair collisionPair, ContactWrapper contactWrapper) {
