@@ -5,7 +5,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
-import configuration.SoloConfig;
+import configuration.StandAloneConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.pathfinding.edge.AbstractEdge;
@@ -16,7 +16,7 @@ public class testEdgeStore {
 
     @Test
     public void testEdgeStore() throws Exception {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         EdgeStore edgeStore = injector.getInstance(EdgeStore.class);
 
@@ -49,7 +49,7 @@ public class testEdgeStore {
 
     @Test
     public void testEdgeStoreCount() throws Exception {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         EdgeStore edgeStore = injector.getInstance(EdgeStore.class);
 

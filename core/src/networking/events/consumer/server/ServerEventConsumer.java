@@ -43,6 +43,8 @@ public class ServerEventConsumer extends EventConsumer {
     RemoveEntityOutgoingConsumerServer removeEntityOutgoingConsumerServer;
     @Inject
     ChunkSwapOutgoingConsumerServer chunkSwapOutgoingConsumerServer;
+    @Inject
+    AuthenticationIncomingConsumerServer authenticationIncomingConsumerServer;
 
     public void init() {
         super.init();
@@ -68,5 +70,6 @@ public class ServerEventConsumer extends EventConsumer {
         this.eventService.addPostUpdateListener(NetworkEventTypeEnum.REMOVE_ENTITY_INCOMING, removeEntityIncomingConsumerServer);
         this.eventService.addListener(NetworkEventTypeEnum.REMOVE_ENTITY_OUTGOING, removeEntityOutgoingConsumerServer);
         this.eventService.addListener(NetworkEventTypeEnum.CHUNK_SWAP_OUTGOING, chunkSwapOutgoingConsumerServer);
+        this.eventService.addListener(NetworkEventTypeEnum.AUTH_INCOMING, authenticationIncomingConsumerServer);
     }
 }

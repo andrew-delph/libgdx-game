@@ -7,7 +7,7 @@ import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
 import common.exceptions.EntityNotFound;
-import configuration.SoloConfig;
+import configuration.StandAloneConfig;
 import entity.EntityFactory;
 import entity.block.Block;
 import entity.block.BlockFactory;
@@ -19,7 +19,7 @@ import org.junit.Test;
 public class testEntityStructure {
     @Test
     public void testRelativeBlockRegister() throws EntityNotFound {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         GameStore gameStore = injector.getInstance(GameStore.class);
         BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
@@ -45,7 +45,7 @@ public class testEntityStructure {
 
     @Test
     public void testRelativeBlockRegisterAbove() {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         GameStore gameStore = injector.getInstance(GameStore.class);
         BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
@@ -69,7 +69,7 @@ public class testEntityStructure {
 
     @Test
     public void testRelativeBlockRegisterNegative() throws EntityNotFound {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         GameStore gameStore = injector.getInstance(GameStore.class);
         BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
@@ -95,7 +95,7 @@ public class testEntityStructure {
 
     @Test
     public void testPathGameStoreOverride() {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         GameStore gameStore = injector.getInstance(GameStore.class);
         BlockFactory blockFactory = injector.getInstance(BlockFactory.class);

@@ -26,7 +26,7 @@ public class TranslateUpdateEntityEvent {
         Entity entity = entityFactory.createEntity();
 
         UpdateEntityOutgoingEventType outgoing = EventTypeFactory.createUpdateEntityOutgoingEvent(entity.toNetworkData(), chunkRange);
-        UpdateEntityIncomingEventType incoming = networkDataDeserializer.createUpdateEntityIncomingEvent(
+        UpdateEntityIncomingEventType incoming = NetworkDataDeserializer.createUpdateEntityIncomingEvent(
                 NetworkDataSerializer.createUpdateEntityOutgoingEventType(outgoing));
 
         assert outgoing.getChunkRange().equals(incoming.getChunkRange());

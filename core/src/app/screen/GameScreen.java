@@ -1,7 +1,8 @@
-package app;
+package app.screen;
 
-import app.render.BaseAssetManager;
-import app.render.BaseCamera;
+import app.GameController;
+import app.game.Game;
+import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkRange;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -16,10 +17,10 @@ import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
 import common.exceptions.SerializationDataMissing;
+import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
-import generation.ChunkGenerationManager;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -38,13 +39,15 @@ public class GameScreen extends ApplicationAdapter {
     @Inject
     BaseAssetManager baseAssetManager;
     @Inject
-    ChunkGenerationManager chunkGenerationManager;
-    @Inject
     BaseCamera baseCamera;
     @Inject
     GameController gameController;
     @Inject
     EntityControllerFactory entityControllerFactory;
+    @Inject
+    ActiveEntityManager activeEntityManager;
+    @Inject
+    User user;
     Box2DDebugRenderer debugRenderer;
     Matrix4 debugMatrix;
     Entity myEntity;
@@ -52,6 +55,7 @@ public class GameScreen extends ApplicationAdapter {
 
     @Inject
     public GameScreen() {
+        System.out.println("create game screen");
     }
 
     @Override
@@ -72,7 +76,7 @@ public class GameScreen extends ApplicationAdapter {
         myEntity = gameController.addEntity(myEntity);
         System.out.println("my entity " + myEntity.uuid);
         myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
-        chunkGenerationManager.registerActiveEntity(myEntity, null);
+        activeEntityManager.registerActiveEntity(user.getUserID(), myEntity.getUuid());
         debugRenderer = new Box2DDebugRenderer();
         pathDebugRender = new ShapeRenderer();
         pathDebugRender.setColor(Color.RED);
@@ -80,8 +84,8 @@ public class GameScreen extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        System.out.println(width+","+height);
-        baseCamera.setToOrtho(false,width,height);
+        System.out.println(width + "," + height);
+        baseCamera.setToOrtho(false, width, height);
     }
 
     @Override

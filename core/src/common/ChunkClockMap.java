@@ -4,9 +4,9 @@ import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -38,8 +38,8 @@ public class ChunkClockMap {
         return this.map.containsKey(chunkRange);
     }
 
-    public List<ChunkRange> getChunkRangeList() {
-        return new LinkedList<>(this.map.keySet());
+    public Set<ChunkRange> getChunkRangeSet() {
+        return this.map.keySet();
     }
 
     List<Callable<Chunk>> getChunksOnTick(Tick tick) {

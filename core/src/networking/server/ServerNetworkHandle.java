@@ -1,11 +1,14 @@
 package networking.server;
 
+import app.user.User;
+import app.user.UserID;
+import chunk.ActiveChunkManager;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
-import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.GameStore;
+import generation.ChunkGenerationService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
@@ -21,7 +24,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
-    public final UUID uuid = UUID.randomUUID();
     @Inject
     ObserverFactory observerFactory;
     @Inject
@@ -33,16 +35,19 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     @Inject
     EventTypeFactory eventTypeFactory;
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
+    ActiveChunkManager activeChunkManager;
+    @Inject
+    User user;
+    @Inject
+    ChunkGenerationService chunkGenerationService;
     private Server server;
 
     @Inject
     public ServerNetworkHandle() {
-        System.out.println("server: " + this.uuid);
     }
 
     public void start() throws IOException {
-        System.out.println("server start");
+        System.out.println("I am server: " + this.user.toString());
         server =
                 ServerBuilder.forPort(99)
                         .addService(this)
@@ -59,7 +64,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         NetworkObjects.NetworkEvent authenticationEvent =
                 NetworkObjects.NetworkEvent.newBuilder()
                         .setEvent("authentication")
-                        .setUser(this.uuid.toString())
+                        .setUser(user.getUserID().toString())
                         .build();
         requestNetworkEventObserver.responseObserver.onNext(authenticationEvent);
         return requestNetworkEventObserver;
@@ -70,11 +75,18 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
             NetworkObjects.NetworkEvent request,
             StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
         GetChunkOutgoingEventType realEvent = eventTypeFactory.createGetChunkOutgoingEventType(request);
-        Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
-        if (chunk == null) {
-            chunk = this.chunkFactory.create(realEvent.getChunkRange());
+
+        try {
+            chunkGenerationService.blockedChunkRangeToGenerate(realEvent.getChunkRange());
+        } catch (Exception e) {
+            responseObserver.onError(e);
+            return;
         }
-        chunkSubscriptionService.registerSubscription(realEvent.getUUID(), realEvent.getChunkRange());
+
+        activeChunkManager.addUserChunkSubscriptions(realEvent.getUserID(), realEvent.getChunkRange());
+
+        Chunk chunk = gameStore.getChunk(realEvent.getChunkRange());
+
         responseObserver.onNext(
                 NetworkObjects.NetworkEvent.newBuilder()
                         .setData(chunk.toNetworkData())
@@ -95,17 +107,17 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
         this.server.shutdown();
     }
 
-    public synchronized void send(UUID uuid, NetworkObjects.NetworkEvent networkEvent) {
-        networkEvent = networkEvent.toBuilder().setUser(this.uuid.toString()).build();
-        connectionStore.getConnection(uuid).responseObserver.onNext(networkEvent);
+    public synchronized void send(UserID userID, NetworkObjects.NetworkEvent networkEvent) {
+        networkEvent = networkEvent.toBuilder().setUser(user.getUserID().toString()).build();
+        RequestNetworkEventObserver observer = connectionStore.getConnection(userID);
+        observer.responseObserver.onNext(networkEvent);
     }
 
-    public void initHandshake(UUID user, ChunkRange chunkRange) {
+    public void initHandshake(UserID userID, ChunkRange chunkRange) {
         List<UUID> uuidList = new LinkedList<>(this.gameStore.getChunk(chunkRange).getEntityUUIDSet());
         HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.
                 createHandshakeOutgoingEventType(chunkRange, uuidList);
-        this.send(user, handshakeOutgoing.toNetworkEvent());
-
-        System.out.println("SERVER INIT HANDSHAKE " + user.toString());
+        this.send(userID, handshakeOutgoing.toNetworkEvent());
+        System.out.println("SERVER INIT HANDSHAKE " + userID.toString());
     }
 }

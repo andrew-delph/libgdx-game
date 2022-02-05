@@ -1,11 +1,10 @@
 package networking.events.types.incoming;
 
+import app.user.UserID;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import networking.NetworkObjects;
-
-import java.util.UUID;
 
 import static networking.events.types.NetworkEventTypeEnum.UPDATE_ENTITY_INCOMING;
 
@@ -13,15 +12,15 @@ public class UpdateEntityIncomingEventType extends EventType {
 
     public static String type = UPDATE_ENTITY_INCOMING;
 
-    UUID user;
+    UserID userID;
     NetworkObjects.NetworkData networkData;
     ChunkRange chunkRange;
 
     @Inject
-    public UpdateEntityIncomingEventType(UUID user, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+    public UpdateEntityIncomingEventType(UserID userID, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
         this.networkData = networkData;
         this.chunkRange = chunkRange;
-        this.user = user;
+        this.userID = userID;
     }
 
     public NetworkObjects.NetworkData getData() {
@@ -32,8 +31,8 @@ public class UpdateEntityIncomingEventType extends EventType {
         return chunkRange;
     }
 
-    public UUID getUser() {
-        return this.user;
+    public UserID getUserID() {
+        return this.userID;
     }
 
     @Override

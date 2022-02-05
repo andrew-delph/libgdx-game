@@ -40,9 +40,9 @@ public class testChunkSerialization {
         networkDataSerialization = injector.getInstance(NetworkDataDeserializer.class);
 
         ChunkRange chunkRange = new ChunkRange(new Coordinates(0, 0));
-        assert chunkRange.equals(networkDataSerialization.createChunkRange(chunkRange.toNetworkData()));
+        assert chunkRange.equals(NetworkDataDeserializer.createChunkRange(chunkRange.toNetworkData()));
 
         ChunkRange chunkRange2 = new ChunkRange(new Coordinates(-1, 0));
-        assert chunkRange2.equals(networkDataSerialization.createChunkRange(chunkRange2.toNetworkData()));
+        assert chunkRange2.equals(NetworkDataDeserializer.createChunkRange(chunkRange2.toNetworkData()));
     }
 }

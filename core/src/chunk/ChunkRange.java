@@ -48,8 +48,8 @@ public class ChunkRange implements SerializeNetworkData {
         ChunkRange root = bottomLeftChunkRange;
         ChunkRange current;
         while (!root.equals(topLeftChunkRange.getUp())) {
-            root = root.getUp();
             current = root;
+            root = root.getUp();
             ChunkRange rowRightChunkRange =
                     new ChunkRange(new Coordinates(topRightChunkRange.bottom_x, current.bottom_y));
             while (!current.equals(rowRightChunkRange.getRight())) {
@@ -116,7 +116,7 @@ public class ChunkRange implements SerializeNetworkData {
 
     @Override
     public int hashCode() {
-        return (this.bottom_x + "," + this.bottom_x + "," + this.top_x + "," + this.top_y).hashCode();
+        return (this.bottom_x + "," + this.bottom_y + "," + this.top_x + "," + this.top_y).hashCode();
     }
 
     @Override

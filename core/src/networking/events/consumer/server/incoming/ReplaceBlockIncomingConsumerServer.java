@@ -1,7 +1,8 @@
 package networking.events.consumer.server.incoming;
 
 import app.GameController;
-import chunk.ChunkSubscriptionService;
+import app.user.UserID;
+import chunk.ActiveChunkManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
@@ -10,13 +11,12 @@ import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 
-import java.util.UUID;
 import java.util.function.Consumer;
 
 public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
 
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
+    ActiveChunkManager activeChunkManager;
     @Inject
     ServerNetworkHandle serverNetworkHandle;
     @Inject
@@ -29,15 +29,15 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
             gameController.triggerReplaceEntity(incoming.getTarget(), incoming.getReplacementBlock());
         } catch (EntityNotFound e) {
             e.printStackTrace();
-            serverNetworkHandle.initHandshake(incoming.getUser(), incoming.getChunkRange());
+            serverNetworkHandle.initHandshake(incoming.getUserID(), incoming.getChunkRange());
         }
         ReplaceBlockOutgoingEventType outgoing = EventTypeFactory.createReplaceBlockOutgoingEvent(
                 incoming.getTarget(),
                 incoming.getReplacementBlock(),
                 incoming.getChunkRange());
-        for (UUID uuid : chunkSubscriptionService.getSubscriptions(incoming.getChunkRange())) {
-            if (incoming.getUser().equals(uuid)) continue;
-            serverNetworkHandle.send(uuid, outgoing.toNetworkEvent());
+        for (UserID userID : activeChunkManager.getChunkRangeUsers(incoming.getChunkRange())) {
+            if (incoming.getUserID().equals(userID)) continue;
+            serverNetworkHandle.send(userID, outgoing.toNetworkEvent());
         }
     }
 }

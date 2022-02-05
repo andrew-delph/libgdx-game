@@ -34,6 +34,10 @@ public class testChunkRange {
                 ChunkRange.getChunkRangeListTwoPoints(
                         new Coordinates(0, 0), new Coordinates(rightUpRoot.bottom_x, rightUpRoot.bottom_y));
 
+        assert chunkRangeList.contains(root);
+        assert chunkRangeList.contains(root.getUp());
+        assert chunkRangeList.contains(root.getRight());
+        assert chunkRangeList.contains(root.getRight().getUp());
         assert chunkRangeList.size() == 4;
 
         rightUpRoot = root.getRight().getUp().getRight().getUp();

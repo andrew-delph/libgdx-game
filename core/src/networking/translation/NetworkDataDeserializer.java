@@ -1,9 +1,11 @@
 package networking.translation;
 
+import app.user.UserID;
 import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
+import com.sun.tools.javac.util.Pair;
 import common.Coordinates;
 import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
@@ -78,20 +80,20 @@ public class NetworkDataDeserializer {
                     break;
             }
         }
-        UUID connectionUUID = null;
+        UserID connectionUserID = null;
         if (!networkEvent.getUser().isEmpty()) {
-            connectionUUID = UUID.fromString(networkEvent.getUser());
+            connectionUserID = UserID.createUserID(networkEvent.getUser());
         }
-        return EventTypeFactory.createHandshakeIncomingEventType(connectionUUID, chunkRange, uuidList);
+        return EventTypeFactory.createHandshakeIncomingEventType(connectionUserID, chunkRange, uuidList);
     }
 
     public static UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
-        UUID user = null;
+        UserID user = null;
         ChunkRange chunkRange = null;
         NetworkObjects.NetworkData networkData = null;
 
         if (!networkEvent.getUser().isEmpty()) {
-            user = UUID.fromString(networkEvent.getUser());
+            user = UserID.createUserID(networkEvent.getUser());
         }
 
         for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
@@ -108,12 +110,12 @@ public class NetworkDataDeserializer {
     }
 
     public static CreateEntityIncomingEventType createCreateEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
-        UUID user = null;
+        UserID userID = null;
         ChunkRange chunkRange = null;
         NetworkObjects.NetworkData networkData = null;
 
         if (!networkEvent.getUser().isEmpty()) {
-            user = UUID.fromString(networkEvent.getUser());
+            userID = UserID.createUserID(networkEvent.getUser());
         }
 
         for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
@@ -126,15 +128,15 @@ public class NetworkDataDeserializer {
         if (chunkRange == null) throw new SerializationDataMissing("Missing chunkRange");
         if (networkData == null) throw new SerializationDataMissing("Missing networkData");
 
-        return EventTypeFactory.createCreateEntityIncomingEvent(user, networkData, chunkRange);
+        return EventTypeFactory.createCreateEntityIncomingEvent(userID, networkData, chunkRange);
     }
 
     public static RemoveEntityIncomingEventType createRemoveEntityIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
-        UUID user = null;
+        UserID user = null;
         ChunkRange chunkRange = null;
         UUID target = null;
         if (!networkEvent.getUser().isEmpty()) {
-            user = UUID.fromString(networkEvent.getUser());
+            user = UserID.createUserID(networkEvent.getUser());
         }
         for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
             switch (child.getKey()) {
@@ -187,7 +189,39 @@ public class NetworkDataDeserializer {
         return EventTypeFactory.createAIEntityEventType(coordinates, target);
     }
 
+    public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+        UUID target = null;
+        ChunkRange from = null;
+        ChunkRange to = null;
+
+        for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+            switch (child.getKey()) {
+                case DataTranslationEnum.UUID:
+                    target = createUUID(child);
+                    break;
+                case "from":
+                    from = createChunkRange(child);
+                    break;
+                case "to":
+                    to = createChunkRange(child);
+                    break;
+            }
+        }
+        if (target == null) throw new SerializationDataMissing("Missing target uuid");
+        if (from == null) throw new SerializationDataMissing("Missing from");
+        if (to == null) throw new SerializationDataMissing("Missing to");
+
+        return EventTypeFactory.createChunkSwapIncomingEventType(target, from, to);
+    }
+
     public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
+        Pair<ChunkRange, List<Entity>> chunkData = this.createChunkData(networkData);
+        Chunk chunkToCreate = chunkFactory.create(chunkData.fst);
+        chunkToCreate.addAllEntity(chunkData.snd);
+        return chunkToCreate;
+    }
+
+    public Pair<ChunkRange, List<Entity>> createChunkData(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
         List<Entity> entityList = new LinkedList<>();
         ChunkRange chunkRange = null;
         for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
@@ -199,10 +233,7 @@ public class NetworkDataDeserializer {
                 entityList.add(this.createEntity(networkDataChild));
             }
         }
-        Chunk chunkToCreate = chunkFactory.create(chunkRange);
-        chunkToCreate.chunkRange = chunkRange;
-        chunkToCreate.addAllEntity(entityList);
-        return chunkToCreate;
+        return new Pair<>(chunkRange, entityList);
     }
 
     public Entity createEntity(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
@@ -258,13 +289,13 @@ public class NetworkDataDeserializer {
     }
 
     public ReplaceBlockIncomingEventType createReplaceBlockIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
-        UUID user = null;
+        UserID user = null;
         UUID target = null;
         Entity replacementBlock = null;
         ChunkRange chunkRange = null;
 
         if (!networkEvent.getUser().isEmpty()) {
-            user = UUID.fromString(networkEvent.getUser());
+            user = UserID.createUserID(networkEvent.getUser());
         }
 
         for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
@@ -285,32 +316,6 @@ public class NetworkDataDeserializer {
         if (replacementBlock == null) throw new SerializationDataMissing("Missing replacementBlock");
 
         return EventTypeFactory.createReplaceBlockIncomingEvent(user, target, (Block) replacementBlock, chunkRange);
-    }
-
-
-    public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing{
-        UUID target = null;
-        ChunkRange from = null;
-        ChunkRange to = null;
-
-        for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
-            switch (child.getKey()) {
-                case DataTranslationEnum.UUID:
-                    target = createUUID(child);
-                    break;
-                case "from":
-                    from = createChunkRange(child);
-                    break;
-                case "to":
-                    to = createChunkRange(child);
-                    break;
-            }
-        }
-        if (target == null) throw new SerializationDataMissing("Missing target uuid");
-        if (from == null) throw new SerializationDataMissing("Missing from");
-        if (to == null) throw new SerializationDataMissing("Missing to");
-
-        return EventTypeFactory.createChunkSwapIncomingEventType(target,from,to);
     }
 
 }

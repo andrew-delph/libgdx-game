@@ -7,7 +7,7 @@ import entity.pathfinding.*;
 
 import java.util.List;
 
-import static app.GameScreen.pathDebugRender;
+import static app.screen.GameScreen.pathDebugRender;
 
 public class TemplateEdge extends AbstractEdge {
 

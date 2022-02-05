@@ -1,22 +1,21 @@
 package networking.events.types.incoming;
 
+import app.user.UserID;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 
-import java.util.UUID;
-
 public class DisconnectionIncomingEventType extends EventType {
 
-    public static String type = "disconnection_entity_incoming";
-    UUID uuid;
+    public final static String type = "disconnection_entity_incoming";
+    private final UserID userID;
 
     @Inject
-    public DisconnectionIncomingEventType(UUID uuid) {
-        this.uuid = uuid;
+    public DisconnectionIncomingEventType(UserID userID) {
+        this.userID = userID;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public UserID getUserID() {
+        return userID;
     }
 
     @Override

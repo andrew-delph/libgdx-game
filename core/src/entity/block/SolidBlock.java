@@ -1,6 +1,6 @@
 package entity.block;
 
-import app.render.BaseAssetManager;
+import app.screen.BaseAssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import common.Clock;
@@ -14,6 +14,6 @@ public abstract class SolidBlock extends Block {
 
     @Override
     public Body addWorld(World world) {
-        return this.entityBodyBuilder.createSolidBlockBody(world, this.coordinates);
+        return EntityBodyBuilder.createSolidBlockBody(world, this.coordinates);
     }
 }

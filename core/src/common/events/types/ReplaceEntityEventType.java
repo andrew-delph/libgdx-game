@@ -30,7 +30,7 @@ public class ReplaceEntityEventType extends EventType {
         return chunkRange;
     }
 
-    public UUID getTarget() {
+    public UUID getTargetUUID() {
         return target;
     }
 

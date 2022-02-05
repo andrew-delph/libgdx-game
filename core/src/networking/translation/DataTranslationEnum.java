@@ -13,4 +13,5 @@ public class DataTranslationEnum {
     public static final String HANDSHAKE = "HANDSHAKE";
     public static final String CREATE_AI = "CREATE_AI";
     public static final String CHUNK_SWAP = "CHUNK_SWAP";
+    public static final String AUTH = "AUTH";
 }

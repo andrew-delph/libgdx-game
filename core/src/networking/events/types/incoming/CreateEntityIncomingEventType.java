@@ -1,23 +1,21 @@
 package networking.events.types.incoming;
 
+import app.user.UserID;
 import chunk.ChunkRange;
 import common.events.types.EventType;
 import networking.NetworkObjects;
 import networking.events.types.NetworkEventTypeEnum;
 
-import java.util.UUID;
-
 public class CreateEntityIncomingEventType extends EventType {
 
     public static String type = NetworkEventTypeEnum.CREATE_ENTITY_INCOMING;
 
-
-    UUID user;
+    UserID userID;
     NetworkObjects.NetworkData networkData;
     ChunkRange chunkRange;
 
-    public CreateEntityIncomingEventType(UUID user, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
-        this.user = user;
+    public CreateEntityIncomingEventType(UserID userID, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+        this.userID = userID;
         this.networkData = networkData;
         this.chunkRange = chunkRange;
     }
@@ -26,8 +24,8 @@ public class CreateEntityIncomingEventType extends EventType {
         return networkData;
     }
 
-    public UUID getUser() {
-        return this.user;
+    public UserID getUserID() {
+        return this.userID;
     }
 
 

@@ -1,5 +1,6 @@
 package networking.events.types.incoming;
 
+import app.user.UserID;
 import chunk.ChunkRange;
 import common.events.types.EventType;
 import entity.block.Block;
@@ -12,13 +13,13 @@ public class ReplaceBlockIncomingEventType extends EventType {
 
     public static String type = REPLACE_ENTITY_INCOMING;
 
-    UUID user;
+    UserID userID;
     UUID target;
     Block replacementBlock;
     ChunkRange chunkRange;
 
-    public ReplaceBlockIncomingEventType(UUID user, UUID target, Block replacementBlock, ChunkRange chunkRange) {
-        this.user = user;
+    public ReplaceBlockIncomingEventType(UserID userID, UUID target, Block replacementBlock, ChunkRange chunkRange) {
+        this.userID = userID;
         this.target = target;
         this.replacementBlock = replacementBlock;
         this.chunkRange = chunkRange;
@@ -37,8 +38,8 @@ public class ReplaceBlockIncomingEventType extends EventType {
     }
 
 
-    public UUID getUser() {
-        return this.user;
+    public UserID getUserID() {
+        return this.userID;
     }
 
     @Override

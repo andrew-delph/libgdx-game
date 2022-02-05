@@ -1,6 +1,7 @@
 package networking.events.consumer.client.incoming;
 
 import app.GameController;
+import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.EventType;
@@ -24,7 +25,7 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
     @Override
     public void accept(EventType eventType) {
         CreateEntityIncomingEventType realEvent = (CreateEntityIncomingEventType) eventType;
-        Entity entity = null;
+        Entity entity;
         try {
             entity = entitySerializationConverter.createEntity(realEvent.getData());
         } catch (SerializationDataMissing e) {
@@ -41,6 +42,11 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
             //pass
         }
         //TODO remove or update
-        gameController.triggerAddEntity(entity);
+        try {
+            gameController.triggerAddEntity(entity);
+        } catch (NullPointerException e) {
+            System.out.println("e: " + new ChunkRange(entity.coordinates));
+            throw e;
+        }
     }
 }

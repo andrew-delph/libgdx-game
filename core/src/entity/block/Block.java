@@ -1,6 +1,6 @@
 package entity.block;
 
-import app.render.BaseAssetManager;
+import app.screen.BaseAssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import common.Clock;

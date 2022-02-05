@@ -1,6 +1,6 @@
 package entity;
 
-import app.render.BaseAssetManager;
+import app.screen.BaseAssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -127,5 +127,9 @@ public class Entity implements SerializeNetworkData {
 
     public Coordinates getCenter() {
         return new Coordinates(this.coordinates.getXReal() + 0.5f, this.coordinates.getYReal() + 0.5f);
+    }
+
+    public UUID getUuid() {
+        return this.uuid;
     }
 }

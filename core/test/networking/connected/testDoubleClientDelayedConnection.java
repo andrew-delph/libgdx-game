@@ -1,4 +1,4 @@
-package networking;
+package networking.connected;
 
 import app.GameController;
 import chunk.ChunkFactory;
@@ -7,6 +7,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
+import common.events.EventConsumer;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
@@ -14,7 +15,6 @@ import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import networking.client.ClientNetworkHandle;
-import networking.events.EventTypeFactory;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Before;
@@ -47,6 +47,11 @@ public class testDoubleClientDelayedConnection {
         client_b_NetworkHandle = client_b_Injector.getInstance(ClientNetworkHandle.class);
 
         serverNetworkHandle = serverInjector.getInstance(ServerNetworkHandle.class);
+
+        client_a_Injector.getInstance(EventConsumer.class).init();
+        client_b_Injector.getInstance(EventConsumer.class).init();
+        serverInjector.getInstance(EventConsumer.class).init();
+
         serverNetworkHandle.start();
 
         //        client_a_NetworkHandle.connect();
@@ -62,7 +67,6 @@ public class testDoubleClientDelayedConnection {
 
     @Test
     public void testDoubleClientCreateEntity() throws InterruptedException, EntityNotFound, SerializationDataMissing {
-
         client_a_NetworkHandle.connect();
 
         GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
@@ -80,9 +84,6 @@ public class testDoubleClientDelayedConnection {
         List<ChunkRange> chunkRangeList = new LinkedList<>();
         chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
 
-
-        EventTypeFactory client_b_EventTypeFactory = client_b_Injector.getInstance(EventTypeFactory.class);
-
         Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
 
         TimeUnit.SECONDS.sleep(1);
@@ -96,7 +97,7 @@ public class testDoubleClientDelayedConnection {
         client_b_NetworkHandle.connect();
 
         for (ChunkRange chunkRange : chunkRangeList) {
-            client_b_GameStore.addChunk(client_b_NetworkHandle.getChunk(chunkRange));
+            client_b_GameStore.addChunk(client_b_NetworkHandle.requestChunkBlocking(chunkRange));
         }
 
 //    client_b_NetworkHandle.send(

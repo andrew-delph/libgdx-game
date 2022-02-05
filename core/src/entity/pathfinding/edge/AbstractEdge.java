@@ -7,7 +7,7 @@ import entity.pathfinding.PathGameStoreOverride;
 import entity.pathfinding.RelativePathNode;
 import entity.pathfinding.RelativeVertex;
 
-import static app.GameScreen.pathDebugRender;
+import static app.screen.GameScreen.pathDebugRender;
 
 public abstract class AbstractEdge {
 

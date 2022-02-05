@@ -1,6 +1,5 @@
-package app.client;
+package app.screen;
 
-import app.GameScreen;
 import com.google.inject.Inject;
 
 public class ClientGameScreen extends GameScreen {

@@ -1,6 +1,6 @@
 package entity.misc;
 
-import app.render.BaseAssetManager;
+import app.screen.BaseAssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import common.Clock;
@@ -19,6 +19,6 @@ public class Ladder extends Entity {
 
     @Override
     public synchronized Body addWorld(World world) {
-        return this.entityBodyBuilder.createEmptyLadderBody(world, this.coordinates);
+        return EntityBodyBuilder.createEmptyLadderBody(world, this.coordinates);
     }
 }

@@ -46,7 +46,6 @@ public class EntityController {
     }
 
     public void applyAction(String type, Body body) {
-        System.out.println(type);
         this.actionMap.get(type).apply(body);
     }
 

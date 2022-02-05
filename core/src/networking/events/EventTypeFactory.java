@@ -1,5 +1,6 @@
 package networking.events;
 
+import app.user.UserID;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Coordinates;
@@ -9,6 +10,7 @@ import common.events.types.ReplaceEntityEventType;
 import entity.Entity;
 import entity.block.Block;
 import networking.NetworkObjects;
+import networking.RequestNetworkEventObserver;
 import networking.events.types.incoming.*;
 import networking.events.types.outgoing.*;
 import networking.translation.NetworkDataDeserializer;
@@ -28,11 +30,12 @@ public class EventTypeFactory {
 
     public static CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
             NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
+
         return new CreateEntityOutgoingEventType(entityData, chunkRange);
     }
 
-    public static CreateEntityIncomingEventType createCreateEntityIncomingEvent(UUID user, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
-        return new CreateEntityIncomingEventType(user, networkData, chunkRange);
+    public static CreateEntityIncomingEventType createCreateEntityIncomingEvent(UserID userID, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+        return new CreateEntityIncomingEventType(userID, networkData, chunkRange);
     }
 
     public static UpdateEntityOutgoingEventType createUpdateEntityOutgoingEvent(
@@ -41,12 +44,12 @@ public class EventTypeFactory {
     }
 
     public static UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
-            UUID user,
+            UserID user,
             NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
         return new UpdateEntityIncomingEventType(user, networkData, chunkRange);
     }
 
-    public static RemoveEntityIncomingEventType createRemoveEntityIncomingEvent(UUID user, ChunkRange chunkRange, UUID target) {
+    public static RemoveEntityIncomingEventType createRemoveEntityIncomingEvent(UserID user, ChunkRange chunkRange, UUID target) {
         return new RemoveEntityIncomingEventType(user, chunkRange, target);
     }
 
@@ -56,7 +59,7 @@ public class EventTypeFactory {
     }
 
     public static ReplaceBlockIncomingEventType createReplaceBlockIncomingEvent(
-            UUID user, UUID target, Block replacementBlock, ChunkRange chunkRange) {
+            UserID user, UUID target, Block replacementBlock, ChunkRange chunkRange) {
         return new ReplaceBlockIncomingEventType(user, target, replacementBlock, chunkRange);
     }
 
@@ -77,8 +80,8 @@ public class EventTypeFactory {
         return new HandshakeOutgoingEventType(chunkRange, new LinkedList<>());
     }
 
-    public static HandshakeIncomingEventType createHandshakeIncomingEventType(UUID requestUUID, ChunkRange chunkRange, List<UUID> listUUID) {
-        return new HandshakeIncomingEventType(requestUUID, chunkRange, listUUID);
+    public static HandshakeIncomingEventType createHandshakeIncomingEventType(UserID requestUserID, ChunkRange chunkRange, List<UUID> listUUID) {
+        return new HandshakeIncomingEventType(requestUserID, chunkRange, listUUID);
     }
 
     public static CreateAIEntityEventType createAIEntityEventType(Coordinates coordinates, UUID target) {
@@ -87,6 +90,14 @@ public class EventTypeFactory {
 
     public static CreateAIEntityEventType createAIEntityEventType(UUID target) {
         return new CreateAIEntityEventType(new Coordinates(0, 0), target);
+    }
+
+    public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(UUID target, ChunkRange from, ChunkRange to) {
+        return new ChunkSwapIncomingEventType(target, from, to);
+    }
+
+    public static ChunkSwapOutgoingEventType createChunkSwapOutgoingEventType(UUID target, ChunkRange from, ChunkRange to) {
+        return new ChunkSwapOutgoingEventType(target, from, to);
     }
 
     public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(
@@ -99,8 +110,8 @@ public class EventTypeFactory {
         return new SubscriptionIncomingEventType(networkEvent);
     }
 
-    public DisconnectionIncomingEventType createDisconnectionEvent(UUID uuid) {
-        return new DisconnectionIncomingEventType(uuid);
+    public DisconnectionIncomingEventType createDisconnectionEvent(UserID userID) {
+        return new DisconnectionIncomingEventType(userID);
     }
 
     public RemoveEntityEventType createRemoveEntityEvent(UUID entityUuid) {
@@ -108,18 +119,14 @@ public class EventTypeFactory {
     }
 
     public GetChunkOutgoingEventType createGetChunkOutgoingEventType(NetworkObjects.NetworkEvent networkEvent) {
-        return new GetChunkOutgoingEventType(NetworkDataDeserializer.createChunkRange(networkEvent.getData()), UUID.fromString(networkEvent.getUser()));
+        return new GetChunkOutgoingEventType(NetworkDataDeserializer.createChunkRange(networkEvent.getData()), UserID.createUserID(networkEvent.getUser()));
     }
 
-    public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UUID userID) {
+    public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UserID userID) {
         return new GetChunkOutgoingEventType(chunkRange, userID);
     }
 
-    public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(UUID target, ChunkRange from, ChunkRange to){
-        return new ChunkSwapIncomingEventType(target,from,to);
-    }
-
-    public static ChunkSwapOutgoingEventType createChunkSwapOutgoingEventType(UUID target, ChunkRange from, ChunkRange to){
-        return new ChunkSwapOutgoingEventType(target,from,to);
+    public AuthenticationIncomingEventType createAuthenticationIncomingEventType(UserID userID, RequestNetworkEventObserver requestNetworkEventObserver) {
+        return new AuthenticationIncomingEventType(userID, requestNetworkEventObserver);
     }
 }

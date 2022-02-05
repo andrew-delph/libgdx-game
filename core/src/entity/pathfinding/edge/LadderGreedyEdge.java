@@ -10,16 +10,10 @@ import entity.pathfinding.PathGameStoreOverride;
 import entity.pathfinding.RelativePathNode;
 import entity.pathfinding.RelativeVertex;
 
-import static app.GameScreen.pathDebugRender;
+import static app.screen.GameScreen.pathDebugRender;
 
 public class LadderGreedyEdge extends HorizontalGreedyEdge {
     GameController gameController;
-
-    @Override
-    public void render(Coordinates position) {
-        pathDebugRender.setColor(Color.BLUE);
-        super.render(position);
-    }
 
     public LadderGreedyEdge(
             GameController gameController,
@@ -28,6 +22,12 @@ public class LadderGreedyEdge extends HorizontalGreedyEdge {
             RelativeVertex to) {
         super(entityStructure, from, to);
         this.gameController = gameController;
+    }
+
+    @Override
+    public void render(Coordinates position) {
+        pathDebugRender.setColor(Color.BLUE);
+        super.render(position);
     }
 
     @Override

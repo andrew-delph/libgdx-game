@@ -4,20 +4,12 @@ import com.google.inject.Inject;
 import common.events.types.CreateAIEntityEventType;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
-import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
-import generation.ChunkGenerationManager;
 
 public class SoloEventConsumer extends EventConsumer {
 
     @Inject
-    EntityFactory entityFactory;
-
-    @Inject
     EntityControllerFactory entityControllerFactory;
-
-    @Inject
-    ChunkGenerationManager chunkGenerationManager;
 
     @Override
     public void init() {

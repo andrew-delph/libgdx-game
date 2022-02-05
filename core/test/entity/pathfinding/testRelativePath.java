@@ -5,7 +5,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
-import configuration.SoloConfig;
+import configuration.StandAloneConfig;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import generation.ChunkBuilderFactory;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class testRelativePath {
     @Test
     public void testRelativePath() throws Exception {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
 
@@ -81,7 +81,7 @@ public class testRelativePath {
 
     @Test
     public void testRelativePath2() throws Exception {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
 
@@ -137,7 +137,7 @@ public class testRelativePath {
 
     @Test
     public void testRelativePathDown() throws Exception {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
 
@@ -205,7 +205,7 @@ public class testRelativePath {
 
     @Test
     public void testRelativePathLadder() throws Exception {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
 
@@ -256,7 +256,7 @@ public class testRelativePath {
 
     @Test
     public void testRelativePathClimbLadder() throws Exception {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
 
@@ -310,7 +310,7 @@ public class testRelativePath {
 
     @Test
     public void testRelativePathDig() throws Exception {
-        Injector injector = Guice.createInjector(new SoloConfig());
+        Injector injector = Guice.createInjector(new StandAloneConfig());
 
         RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
 

@@ -9,7 +9,7 @@ import entity.block.BlockFactory;
 import entity.block.SkyBlock;
 import entity.pathfinding.*;
 
-import static app.GameScreen.pathDebugRender;
+import static app.screen.GameScreen.pathDebugRender;
 
 public class DigGreedyEdge extends HorizontalGreedyEdge {
     GameController gameController;
@@ -78,7 +78,7 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
         this.gameController.replaceBlock(
                 this.gameStore.getBlock(
                         this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))
-                        ,
+                ,
                 blockFactory.createSky());
         super.follow(entity, relativePathNode);
     }

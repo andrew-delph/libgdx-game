@@ -1,7 +1,7 @@
-package networking;
+package networking.connected;
 
-import app.Game;
 import app.GameController;
+import app.game.Game;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
@@ -13,6 +13,7 @@ import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
+import configuration.GameSettings;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.Block;
@@ -271,8 +272,8 @@ public class testDoubleClient {
         Coordinates coordinates = new Coordinates(0, 1);
         ChunkRange chunkRange = new ChunkRange(coordinates);
         serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
-        client_a_GameStore.addChunk(client_a_NetworkHandle.getChunk(chunkRange));
-        client_b_GameStore.addChunk(client_b_NetworkHandle.getChunk(chunkRange));
+        client_a_GameStore.addChunk(client_a_NetworkHandle.requestChunkBlocking(chunkRange));
+        client_b_GameStore.addChunk(client_b_NetworkHandle.requestChunkBlocking(chunkRange));
 
         List<ChunkRange> chunkRangeList = new LinkedList<>();
         chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
@@ -342,54 +343,59 @@ public class testDoubleClient {
         GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
 
         BlockFactory client_a_BlockFactory = client_a_Injector.getInstance(BlockFactory.class);
-        ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
 
-        Coordinates coordinates = new Coordinates(0, 1);
-        ChunkRange chunkRange = new ChunkRange(coordinates);
-        serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
-        client_a_GameStore.addChunk(client_a_NetworkHandle.getChunk(chunkRange));
-        client_b_GameStore.addChunk(client_b_NetworkHandle.getChunk(chunkRange));
+        Coordinates coordinatesToTest = new Coordinates(0, 1);
+        ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
-        TimeUnit.SECONDS.sleep(1);
+        // make sure everyone has the same chunks.
+        client_a_NetworkHandle.requestChunkBlocking(chunkRangeToTest);
+        client_b_NetworkHandle.requestChunkBlocking(chunkRangeToTest);
+        Assert.assertEquals(serverGameStore.getChunk(chunkRangeToTest).getEntityList().size(), GameSettings.CHUNK_SIZE * GameSettings.CHUNK_SIZE);
+        assert serverGameStore.getChunk(chunkRangeToTest).equals(client_a_GameStore.getChunk(chunkRangeToTest));
+        assert serverGameStore.getChunk(chunkRangeToTest).equals(client_b_GameStore.getChunk(chunkRangeToTest));
+        assert client_a_GameStore.getChunk(chunkRangeToTest).equals(client_b_GameStore.getChunk(chunkRangeToTest));
+        assert serverGameStore.getBlock(coordinatesToTest).getClass() == SkyBlock.class;
 
-        assert serverGameStore.getChunk(chunkRange).equals(client_a_GameStore.getChunk(chunkRange));
-        assert serverGameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
-        assert client_a_GameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
-        assert serverGameStore.getBlock(coordinates).getClass() == SkyBlock.class;
-
-        Block blockToRemove = client_a_GameStore.getBlock(coordinates);
+        Block blockToRemove = client_a_GameStore.getBlock(coordinatesToTest);
         Block blockAsReplacement = client_a_BlockFactory.createDirt();
+        blockAsReplacement.coordinates = coordinatesToTest;
 
-        Entity ladder = client_a_GameController.createLadder(coordinates);
+        Entity ladder = client_a_GameController.createLadder(coordinatesToTest);
         TimeUnit.SECONDS.sleep(1);
 
+        Assert.assertEquals(serverGameStore.getChunk(chunkRangeToTest).getEntityList().size(), (GameSettings.CHUNK_SIZE * GameSettings.CHUNK_SIZE) + 1);
         // check chunks equal
-        assert serverGameStore.getChunk(chunkRange).equals(client_a_GameStore.getChunk(chunkRange));
-        assert serverGameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
-        assert client_a_GameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
+        assert serverGameStore.getChunk(chunkRangeToTest).equals(client_a_GameStore.getChunk(chunkRangeToTest));
+        assert serverGameStore.getChunk(chunkRangeToTest).equals(client_b_GameStore.getChunk(chunkRangeToTest));
+        assert client_a_GameStore.getChunk(chunkRangeToTest).equals(client_b_GameStore.getChunk(chunkRangeToTest));
         // check block is equal
-        Assert.assertEquals(client_a_GameStore.getBlock(coordinates).getClass(), SkyBlock.class);
-        Assert.assertEquals(serverGameStore.getBlock(coordinates).getClass(), SkyBlock.class);
-        Assert.assertEquals(client_b_GameStore.getBlock(coordinates).getClass(), SkyBlock.class);
-
+        Assert.assertEquals(client_a_GameStore.getBlock(coordinatesToTest).getClass(), SkyBlock.class);
+        Assert.assertEquals(serverGameStore.getBlock(coordinatesToTest).getClass(), SkyBlock.class);
+        Assert.assertEquals(client_b_GameStore.getBlock(coordinatesToTest).getClass(), SkyBlock.class);
         // check ladder exists
         assert serverGameStore.getEntity(ladder.uuid).getClass() == Ladder.class;
         assert client_a_GameStore.getEntity(ladder.uuid).equals(serverGameStore.getEntity(ladder.uuid));
         assert client_b_GameStore.getEntity(ladder.uuid).equals(serverGameStore.getEntity(ladder.uuid));
 
-
         client_a_GameController.replaceBlock(blockToRemove, blockAsReplacement);
         TimeUnit.SECONDS.sleep(1);
 
-        // check chunks equal
-        assert serverGameStore.getChunk(chunkRange).equals(client_a_GameStore.getChunk(chunkRange));
-        assert serverGameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
-        assert client_a_GameStore.getChunk(chunkRange).equals(client_b_GameStore.getChunk(chunkRange));
         // check block is equal
-        Assert.assertEquals(serverGameStore.getBlock(coordinates).getClass(), DirtBlock.class);
-        Assert.assertEquals(client_a_GameStore.getBlock(coordinates).getClass(), DirtBlock.class);
-        Assert.assertEquals(client_b_GameStore.getBlock(coordinates).getClass(), DirtBlock.class);
-//         check ladder exists
+        Assert.assertEquals(serverGameStore.getBlock(coordinatesToTest).getClass(), DirtBlock.class);
+        Assert.assertEquals(client_a_GameStore.getBlock(coordinatesToTest).getClass(), DirtBlock.class);
+        Assert.assertEquals(client_b_GameStore.getBlock(coordinatesToTest).getClass(), DirtBlock.class);
+
+        // check sizes
+        Assert.assertEquals(serverGameStore.getChunk(chunkRangeToTest).getEntityList().size(), (GameSettings.CHUNK_SIZE * GameSettings.CHUNK_SIZE));
+        Assert.assertEquals(client_a_GameStore.getChunk(chunkRangeToTest).getEntityList().size(), (GameSettings.CHUNK_SIZE * GameSettings.CHUNK_SIZE));
+        Assert.assertEquals(client_b_GameStore.getChunk(chunkRangeToTest).getEntityList().size(), (GameSettings.CHUNK_SIZE * GameSettings.CHUNK_SIZE));
+
+        // check chunks equal
+        assert serverGameStore.getChunk(chunkRangeToTest).equals(client_a_GameStore.getChunk(chunkRangeToTest));
+        assert serverGameStore.getChunk(chunkRangeToTest).equals(client_b_GameStore.getChunk(chunkRangeToTest));
+        assert client_a_GameStore.getChunk(chunkRangeToTest).equals(client_b_GameStore.getChunk(chunkRangeToTest));
+
+        //         check ladder exists
         assert !serverGameStore.doesEntityExist(ladder.uuid);
         assert !client_a_GameStore.doesEntityExist(ladder.uuid);
         assert !client_b_GameStore.doesEntityExist(ladder.uuid);

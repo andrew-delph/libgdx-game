@@ -1,5 +1,6 @@
 package networking.translation;
 
+import app.user.UserID;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -13,7 +14,6 @@ import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 public class testSubscriptionSerialization {
 
@@ -31,18 +31,19 @@ public class testSubscriptionSerialization {
         chunkRangeList.add(new ChunkRange(new Coordinates(-2, 1)));
         SubscriptionOutgoingEventType subscriptionOutgoingEvent =
                 new SubscriptionOutgoingEventType(chunkRangeList);
-        UUID uuid = UUID.randomUUID();
+        UserID userID = UserID.createUserID();
 
         SubscriptionIncomingEventType subscriptionIncomingEvent =
                 new SubscriptionIncomingEventType(
                         subscriptionOutgoingEvent.toNetworkEvent().toBuilder()
-                                .setUser(uuid.toString())
+                                .setUser(userID.toString())
                                 .build());
 
         Assert.assertEquals(
                 subscriptionOutgoingEvent.getChunkRangeList(),
                 subscriptionIncomingEvent.getChunkRangeList());
 
-        assert subscriptionIncomingEvent.getUser().equals(uuid);
+        Assert.assertEquals(subscriptionIncomingEvent.getUserID(), userID);
+
     }
 }

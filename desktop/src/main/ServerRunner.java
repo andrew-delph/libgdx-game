@@ -1,17 +1,17 @@
 package main;
 
-import app.Game;
+import app.game.Game;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.exceptions.SerializationDataMissing;
-import configuration.MainBaseServerConfig;
+import configuration.BaseServerConfig;
 
 import java.io.IOException;
 
 public class ServerRunner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SerializationDataMissing {
-        Injector injector = Guice.createInjector(new MainBaseServerConfig());
+        Injector injector = Guice.createInjector(new BaseServerConfig());
         Game game = injector.getInstance(Game.class);
         game.start();
 

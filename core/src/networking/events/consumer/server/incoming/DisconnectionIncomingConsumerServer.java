@@ -1,14 +1,15 @@
 package networking.events.consumer.server.incoming;
 
+import app.user.UserID;
+import chunk.ActiveChunkManager;
 import chunk.ChunkRange;
-import chunk.ChunkSubscriptionService;
 import com.google.inject.Inject;
 import common.GameStore;
 import common.events.EventService;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
+import entity.ActiveEntityManager;
 import entity.Entity;
-import generation.ChunkGenerationManager;
 import networking.ConnectionStore;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.DisconnectionIncomingEventType;
@@ -25,24 +26,25 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
     @Inject
     EventService eventService;
     @Inject
-    ChunkSubscriptionService chunkSubscriptionService;
-    @Inject
     ServerNetworkHandle serverNetworkHandle;
     @Inject
     GameStore gameStore;
     @Inject
     EventTypeFactory eventTypeFactory;
     @Inject
-    ChunkGenerationManager chunkGenerationManager;
-    @Inject
     ConnectionStore connectionStore;
+    @Inject
+    ActiveChunkManager activeChunkManager;
+    @Inject
+    ActiveEntityManager activeEntityManager;
 
     @Override
     public void accept(EventType eventType) {
         DisconnectionIncomingEventType realEvent = (DisconnectionIncomingEventType) eventType;
-        connectionStore.removeConnection(realEvent.getUuid());
-        for (UUID ownersEntityUuid : chunkGenerationManager.getOwnerUuidList(realEvent.getUuid())) {
-            Entity entity = null;
+        connectionStore.removeConnection(realEvent.getUserID());
+        activeChunkManager.removeUser(realEvent.getUserID());
+        for (UUID ownersEntityUuid : activeEntityManager.getUserActiveEntitySet(realEvent.getUserID())) {
+            Entity entity;
             try {
                 entity = this.gameStore.getEntity(ownersEntityUuid);
             } catch (EntityNotFound e) {
@@ -56,9 +58,8 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
             RemoveEntityOutgoingEventType removeEntityOutgoingEvent = EventTypeFactory.createRemoveEntityOutgoingEvent(
                     entity.uuid, new ChunkRange(entity.coordinates));
 
-            for (UUID subscriptionUuid :
-                    chunkSubscriptionService.getSubscriptions(new ChunkRange(entity.coordinates))) {
-                serverNetworkHandle.send(subscriptionUuid, removeEntityOutgoingEvent.toNetworkEvent());
+            for (UserID subscriptionUserID : activeChunkManager.getChunkRangeUsers(new ChunkRange(entity.coordinates))) {
+                serverNetworkHandle.send(subscriptionUserID, removeEntityOutgoingEvent.toNetworkEvent());
             }
         }
     }
