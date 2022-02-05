@@ -65,7 +65,7 @@ project(":core") {
         implementation 'com.google.inject:guice:4.0:no_aop'
 
         // todo remove this if we dont need
-        implementation("com.google.guava:guava:31.0.1-jre")
+//        implementation("com.google.guava:guava:31.0.1-jre")
 
 
 //        implementation group: 'com.google.inject', name: 'guice', version: '4.0'

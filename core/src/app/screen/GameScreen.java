@@ -55,7 +55,6 @@ public class GameScreen extends ApplicationAdapter {
 
     @Inject
     public GameScreen() {
-        System.out.println("create game screen");
     }
 
     @Override
