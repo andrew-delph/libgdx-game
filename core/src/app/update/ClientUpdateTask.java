@@ -9,8 +9,10 @@ import common.events.EventService;
 import entity.ActiveEntityManager;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
+import networking.events.types.outgoing.SubscriptionOutgoingEventType;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -73,12 +75,12 @@ public class ClientUpdateTask extends UpdateTask {
         }
 
         // update the subscriptions on the server
-//        if (toDeleteSet.size() > 0) {
-//            // currently, not subscribing to new requests because the requestChunkAsync will sub on the server
-//            // this could cause a problem if it errors.
-//            SubscriptionOutgoingEventType subscriptionOutgoing = eventTypeFactory.createSubscriptionOutgoingEvent(new LinkedList<>(toDeleteSet));
-//            this.clientNetworkHandle.send(subscriptionOutgoing.toNetworkEvent());
-//        }
+        if (toDeleteSet.size() > 0) {
+            // currently, not subscribing to new requests because the requestChunkAsync will sub on the server
+            // this could cause a problem if it errors.
+            SubscriptionOutgoingEventType subscriptionOutgoing = eventTypeFactory.createSubscriptionOutgoingEvent(new LinkedList<>(requiredChunkRanges));
+            this.clientNetworkHandle.send(subscriptionOutgoing.toNetworkEvent());
+        }
 
         try {
             executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.currentTick));
