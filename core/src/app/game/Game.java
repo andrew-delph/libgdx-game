@@ -52,7 +52,6 @@ public class Game {
     }
 
     public void init() throws SerializationDataMissing {
-
         gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
     }
 }
