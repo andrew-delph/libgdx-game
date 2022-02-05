@@ -25,16 +25,23 @@ public class BaseCamera extends OrthographicCamera {
     }
 
     public Set<ChunkRange> getChunkRangeOnScreen() {
-        int left_x = (int) ((this.position.x - (this.viewportWidth / 2)) / Entity.coordinatesScale);
-        int bottom_y = (int) ((this.position.y - (this.viewportHeight / 2)) / Entity.coordinatesScale);
-        int right_x = (int) ((this.position.x + (this.viewportWidth / 2)) / Entity.coordinatesScale);
-        int top_y = (int) ((this.position.y + (this.viewportHeight / 2)) / Entity.coordinatesScale);
-
-        Coordinates bottomLeftCoordinates = (new Coordinates(left_x, bottom_y)).getLeft().getDown();
-        Coordinates topRightCoordinates = (new Coordinates(right_x, top_y)).getRight().getUp();
+        Coordinates bottomLeftCoordinates = this.getBottomLeftCoordinates();
+        Coordinates topRightCoordinates = this.getTopRightCoordinates();
 
         return new HashSet<>(ChunkRange.getChunkRangeListTwoPoints(
                 bottomLeftCoordinates,
                 topRightCoordinates));
+    }
+
+    Coordinates getBottomLeftCoordinates() {
+        int left_x = (int) ((this.position.x - (this.viewportWidth / 2)) / Entity.coordinatesScale);
+        int bottom_y = (int) ((this.position.y - (this.viewportHeight / 2)) / Entity.coordinatesScale);
+        return (new Coordinates(left_x, bottom_y)).getLeft().getDown();
+    }
+
+    Coordinates getTopRightCoordinates() {
+        int right_x = (int) ((this.position.x + (this.viewportWidth / 2)) / Entity.coordinatesScale);
+        int top_y = (int) ((this.position.y + (this.viewportHeight / 2)) / Entity.coordinatesScale);
+        return (new Coordinates(right_x, top_y)).getRight().getUp();
     }
 }
