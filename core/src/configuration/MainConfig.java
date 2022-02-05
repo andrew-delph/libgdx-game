@@ -18,6 +18,8 @@ import entity.collision.CollisionService;
 import entity.collision.EntityContactListenerFactory;
 import entity.collision.ground.EntityGroundContact;
 import entity.collision.ladder.EntityLadderContact;
+import entity.collision.left.EntityLeftContact;
+import entity.collision.right.EntityRightContact;
 import entity.controllers.EntityControllerFactory;
 import entity.controllers.actions.EntityActionFactory;
 import entity.pathfinding.EdgeStore;
@@ -51,6 +53,8 @@ public abstract class MainConfig extends AbstractModule {
         bind(EntityActionFactory.class).asEagerSingleton();
         bind(EntityContactListenerFactory.class).asEagerSingleton();
         bind(EntityGroundContact.class).asEagerSingleton();
+        bind(EntityLeftContact.class).asEagerSingleton();
+        bind(EntityRightContact.class).asEagerSingleton();
         bind(EdgeStore.class).asEagerSingleton();
 
         bind(EventTypeFactory.class).asEagerSingleton();

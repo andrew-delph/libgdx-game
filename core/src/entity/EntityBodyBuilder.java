@@ -9,6 +9,8 @@ import entity.collision.EntityPoint;
 import entity.collision.ground.GroundPoint;
 import entity.collision.ground.GroundSensorPoint;
 import entity.collision.ladder.LadderPoint;
+import entity.collision.left.LeftSensorPoint;
+import entity.collision.right.RightSensorPoint;
 
 public class EntityBodyBuilder {
 
@@ -34,6 +36,14 @@ public class EntityBodyBuilder {
         FixtureDef jumpFixtureDef = new FixtureDef();
         PolygonShape jumpShape = new PolygonShape();
         Fixture jumpFixture;
+
+        FixtureDef leftFixtureDef = new FixtureDef();
+        PolygonShape leftShape = new PolygonShape();
+        Fixture leftFixture;
+
+        FixtureDef rightFixtureDef = new FixtureDef();
+        PolygonShape rightShape = new PolygonShape();
+        Fixture rightFixture;
 
         Filter filter = new Filter();
         filter.categoryBits = 1;
@@ -93,6 +103,28 @@ public class EntityBodyBuilder {
         jumpFixtureDef.isSensor = true;
         jumpFixture = theBody.createFixture(jumpFixtureDef);
         jumpFixture.setUserData(new GroundSensorPoint(theBody));
+
+        // create the left
+        leftShape.setAsBox(
+                5f,
+                Entity.staticHeight / 2f,
+                new Vector2(-Entity.staticWidth / 2f, 0),
+                0);
+        leftFixtureDef.shape = leftShape;
+        leftFixtureDef.isSensor = true;
+        leftFixture = theBody.createFixture(leftFixtureDef);
+        leftFixture.setUserData(new LeftSensorPoint(theBody));
+
+        // create the right
+        rightShape.setAsBox(
+                5f,
+                Entity.staticHeight / 2f,
+                new Vector2((Entity.staticWidth / 2f) - 5, 0),
+                0);
+        rightFixtureDef.shape = rightShape;
+        rightFixtureDef.isSensor = true;
+        rightFixture = theBody.createFixture(rightFixtureDef);
+        rightFixture.setUserData(new RightSensorPoint(theBody));
 
         return theBody;
     }

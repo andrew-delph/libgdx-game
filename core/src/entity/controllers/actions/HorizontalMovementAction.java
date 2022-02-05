@@ -3,13 +3,19 @@ package entity.controllers.actions;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
+import entity.collision.left.EntityLeftContact;
+import entity.collision.right.EntityRightContact;
 
 public class HorizontalMovementAction implements EntityAction {
 
     int magnitude;
+    EntityLeftContact entityLeftContact;
+    EntityRightContact entityRightContact;
 
     @Inject
-    HorizontalMovementAction(int magnitude) {
+    HorizontalMovementAction(EntityLeftContact entityLeftContact, EntityRightContact entityRightContact, int magnitude) {
+        this.entityLeftContact = entityLeftContact;
+        this.entityRightContact = entityRightContact;
         this.magnitude = magnitude;
     }
 
@@ -20,6 +26,14 @@ public class HorizontalMovementAction implements EntityAction {
 
     @Override
     public Boolean isValid(Body body) {
+        if (magnitude < 0) {
+            System.out.println(entityLeftContact.isLeftSpace(body));
+            return entityLeftContact.isLeftSpace(body);
+        }
+        if (magnitude > 0) {
+            System.out.println(entityRightContact.isRightSpace(body));
+            return entityRightContact.isRightSpace(body);
+        }
         return true;
     }
 }
