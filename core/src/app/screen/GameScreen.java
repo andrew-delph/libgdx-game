@@ -108,8 +108,6 @@ public class GameScreen extends ApplicationAdapter {
                 baseCamera.getTopRightCoordinates()
         );
 
-        System.out.println(renderList.size());
-
         try {
             renderList =
                     renderList.stream()
