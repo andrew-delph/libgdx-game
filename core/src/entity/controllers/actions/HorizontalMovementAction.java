@@ -27,11 +27,9 @@ public class HorizontalMovementAction implements EntityAction {
     @Override
     public Boolean isValid(Body body) {
         if (magnitude < 0) {
-            System.out.println(entityLeftContact.isLeftSpace(body));
             return entityLeftContact.isLeftSpace(body);
         }
         if (magnitude > 0) {
-            System.out.println(entityRightContact.isRightSpace(body));
             return entityRightContact.isRightSpace(body);
         }
         return true;
