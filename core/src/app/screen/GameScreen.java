@@ -17,6 +17,7 @@ import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
 import common.exceptions.SerializationDataMissing;
+import configuration.GameSettings;
 import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
@@ -100,8 +101,12 @@ public class GameScreen extends ApplicationAdapter {
         // clear screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        pathDebugRender.begin(ShapeRenderer.ShapeType.Line);
-        pathDebugRender.setProjectionMatrix(debugMatrix);
+
+
+        if (GameSettings.RENDER_DEBUG) {
+            pathDebugRender.begin(ShapeRenderer.ShapeType.Line);
+            pathDebugRender.setProjectionMatrix(debugMatrix);
+        }
 
         List<Entity> renderList = gameStore.getEntityInRange(
                 baseCamera.getBottomLeftCoordinates(),
@@ -128,13 +133,14 @@ public class GameScreen extends ApplicationAdapter {
         }
         batch.end();
 
-        Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
+
+        if (GameSettings.RENDER_DEBUG) {
+            Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
+            debugRenderer.render(mainChunk.world, debugMatrix);
+            pathDebugRender.end();
+        }
 
 //        debugMatrix = batch.getProjectionMatrix().cpy().scale(1f, 1f, 0).translate(0, 100, 0);
-        debugRenderer.render(mainChunk.world, debugMatrix);
-        pathDebugRender.end();
-
-
 //        Chunk lowerChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getDown());
 //        Chunk leftChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getLeft());
 //        Chunk rightChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getRight());

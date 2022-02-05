@@ -9,4 +9,5 @@ public class GameSettings {
     public final static int COORDINATES_SCALE = 25;
     public final static float GRAVITY = 1f;
     public final static int GENERATION_THREADS = 5;
+    public final static boolean RENDER_DEBUG = false;
 }
