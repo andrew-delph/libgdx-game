@@ -66,5 +66,6 @@ public abstract class MainConfig extends AbstractModule {
         bind(ChunkGenerationService.class).asEagerSingleton();
         bind(ActiveChunkManager.class).asEagerSingleton();
         bind(User.class).in(Singleton.class);
+        bind(GameSettings.class).in(Singleton.class);
     }
 }

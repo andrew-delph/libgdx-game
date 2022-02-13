@@ -1,5 +1,11 @@
 package configuration;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
 public class GameSettings {
     public final static int UPDATE_INTERVAL = 15;
     public final static float WORLD_TIME_STEP = 1 / 5f;
@@ -10,4 +16,53 @@ public class GameSettings {
     public final static float GRAVITY = 1f;
     public final static int GENERATION_THREADS = 5;
     public final static boolean RENDER_DEBUG = false;
+
+    private final static String HOST_KEY = "host";
+    private final static String PORT_KEY = "port";
+
+    private Properties properties;
+
+    GameSettings() {
+    }
+
+    private Properties getDefaults() {
+        Properties defaults = new Properties();
+        defaults.setProperty(HOST_KEY, "localhost");
+        defaults.setProperty(PORT_KEY, "99");
+        return defaults;
+    }
+
+    public void load() {
+        if (properties != null) return;
+        properties = this.getDefaults();
+        File configFile = new File(System.getProperty("user.dir") + "/config.properties");
+        if (configFile.exists() && !configFile.isDirectory() && configFile.canRead()) {
+            try {
+                properties.load(new FileReader(configFile));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // TODO log message cannot read
+        }
+        try {
+            properties.store(new FileOutputStream(configFile), null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private synchronized String getValue(String key) {
+        this.load();
+        return properties.getProperty(key);
+    }
+
+    public String getHost() {
+        return this.getValue(HOST_KEY);
+    }
+
+    public int getPort() {
+        return Integer.parseInt(this.getValue(PORT_KEY));
+    }
+
 }
