@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 import com.sun.tools.javac.util.Pair;
 import common.GameStore;
 import common.exceptions.SerializationDataMissing;
+import configuration.GameSettings;
 import entity.Entity;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -44,6 +45,9 @@ public class ClientNetworkHandle {
     ChunkFactory chunkFactory;
     @Inject
     User user;
+    @Inject
+    GameSettings gameSettings;
+
     private ManagedChannel channel;
     private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
     private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
@@ -52,17 +56,10 @@ public class ClientNetworkHandle {
     public ClientNetworkHandle() {
     }
 
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
 
     public void connect() throws InterruptedException {
-        System.out.println("I am client: " + this.user.toString());
-        this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+        System.out.println("I am client: " + this.user.toString() + ". Connecting to " + gameSettings.getHost() + ":" + gameSettings.getPort());
+        this.channel = ManagedChannelBuilder.forAddress(gameSettings.getHost(), gameSettings.getPort()).usePlaintext().build();
         this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
         this.blockStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
         requestNetworkEventObserver = observerFactory.create();
