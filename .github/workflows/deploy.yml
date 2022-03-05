@@ -11,12 +11,13 @@ on:
 jobs:
   build-push-deploy:
     runs-on: ubuntu-latest
+    environment: aws
 
     steps:
       
       - name: print secret
         id: print-secret
-        run: echo "the test varaible is ${{secrets.aws.TEST}}."
+        run: echo "the test varaible is ${{secrets.TEST}}."
           
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
