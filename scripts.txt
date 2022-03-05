@@ -17,5 +17,12 @@ java -cp "desktop/build/libs/desktop-1.0.jar" infra.Test
 
 
 #docker
-docker build -f Server.Dockerfile -t game:server .
-docker run -it -p 99:99 game:server
+docker build -f Server.Dockerfile -t andrewdelph/game:server .
+docker run -it -p 99:99 andrewdelph/game:server
+docker push andrewdelph/game:server
+
+
+docker run -it -v C:\Users\andre\git\libgdx-game:/app adoptopenjdk/openjdk11:latest bash
+
+
+./gradlew -Pexclude.android=true :desktop:server
