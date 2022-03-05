@@ -1,5 +1,7 @@
 FROM adoptopenjdk/openjdk11:latest
 
+EXPOSE 99
+
 WORKDIR /app
 
 COPY . /app
