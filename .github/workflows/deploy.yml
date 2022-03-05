@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      
+      - name: print secret
+        id: print-secret
+        run: echo "the test varaible is $TEST."
+          
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
