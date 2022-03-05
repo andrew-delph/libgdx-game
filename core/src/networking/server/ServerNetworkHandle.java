@@ -99,7 +99,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     public void getEntity(
             NetworkObjects.NetworkEvent request,
             StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
-        responseObserver.onNext(request);
+        responseObserver.onNext(request.toBuilder().setUser(user.getUserID().toString()).build());
         responseObserver.onCompleted();
     }
 
