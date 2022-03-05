@@ -28,9 +28,9 @@ service NetworkObjectService{
   rpc networkObjectStream(stream NetworkEvent) returns (stream NetworkEvent) {};
   rpc getChunk(NetworkEvent) returns (NetworkEvent){};
   rpc getEntity(NetworkEvent) returns (NetworkEvent){};
-  rpc connections(google.protobuf.Empty) returns(Health){
+  rpc health(google.protobuf.Empty) returns(Health){
     option (google.api.http) = {
-      get: "/connections"
+      get: "/health"
       body: "*"
     };
   };

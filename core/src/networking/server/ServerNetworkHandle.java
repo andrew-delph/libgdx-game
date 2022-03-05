@@ -105,7 +105,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     }
 
     @Override
-    public void connections(Empty request, StreamObserver<NetworkObjects.Health> responseObserver) {
+    public void health(Empty request, StreamObserver<NetworkObjects.Health> responseObserver) {
         NetworkObjects.Health healthData = NetworkObjects.Health.newBuilder().setHealthy(true).setId(this.user.getUserID().toString()).setConnections(connectionStore.size()).build();
         responseObserver.onNext(healthData);
         responseObserver.onCompleted();
