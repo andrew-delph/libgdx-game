@@ -16,7 +16,7 @@ jobs:
       
       - name: print secret
         id: print-secret
-        run: echo "the test varaible is ${{aws.TEST}}."
+        run: echo "the test varaible is ${{secrets.aws.TEST}}."
           
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
