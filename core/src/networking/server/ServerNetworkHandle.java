@@ -7,6 +7,7 @@ import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
+import com.google.protobuf.Empty;
 import common.GameStore;
 import generation.ChunkGenerationService;
 import io.grpc.Server;
@@ -100,6 +101,13 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
             NetworkObjects.NetworkEvent request,
             StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
         responseObserver.onNext(request.toBuilder().setUser(user.getUserID().toString()).build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void health(Empty request, StreamObserver<NetworkObjects.Health> responseObserver) {
+        NetworkObjects.Health healthData = NetworkObjects.Health.newBuilder().setHealthy(true).setId(this.user.getUserID().toString()).setConnections(connectionStore.size()).build();
+        responseObserver.onNext(healthData);
         responseObserver.onCompleted();
     }
 
