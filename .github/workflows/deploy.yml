@@ -48,7 +48,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: aws/game-server-task.json
+          task-definition: game-server-task.json
           container-name: game-server
           image: ${{ steps.build-image.outputs.image }}
 
