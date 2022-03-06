@@ -9,7 +9,7 @@
         "logDriver": "awslogs",
         "secretOptions": null,
         "options": {
-          "awslogs-group": "/ecs/game-server-task",
+          "awslogs-group": "/ecs/game-task",
           "awslogs-region": "us-east-1",
           "awslogs-stream-prefix": "ecs"
         }
@@ -54,18 +54,18 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "game-server"
+      "name": "game-container"
     }
   ],
   "placementConstraints": [],
-  "memory": "4096",
+  "memory": "2048",
   "taskRoleArn": "arn:aws:iam::309026503458:role/ecsTaskExecutionRole",
   "compatibilities": [
     "EC2",
     "FARGATE"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:309026503458:task-definition/game-server-task:2",
-  "family": "game-server-task",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:309026503458:task-definition/game-task:5",
+  "family": "game-task",
   "requiresAttributes": [
     {
       "targetId": null,
@@ -111,7 +111,7 @@
   "networkMode": "awsvpc",
   "runtimePlatform": null,
   "cpu": "1024",
-  "revision": 2,
+  "revision": 5,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
