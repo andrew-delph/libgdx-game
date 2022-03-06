@@ -54,7 +54,7 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "game-server-container"
+      "name": "game-server"
     }
   ],
   "placementConstraints": [],
