@@ -59,7 +59,12 @@ public class ClientNetworkHandle {
 
     public void connect() throws InterruptedException {
         System.out.println("I am client: " + this.user.toString() + ". Connecting to " + gameSettings.getHost() + ":" + gameSettings.getPort());
-        this.channel = ManagedChannelBuilder.forAddress(gameSettings.getHost(), gameSettings.getPort()).usePlaintext().build();
+        if(gameSettings.getHost().equals("localhost")){
+            this.channel = ManagedChannelBuilder.forAddress(gameSettings.getHost(), gameSettings.getPort()).usePlaintext().build();
+        }
+        else{
+            this.channel = ManagedChannelBuilder.forAddress(gameSettings.getHost(), gameSettings.getPort()).build();
+        }
         this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
         this.blockStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
         requestNetworkEventObserver = observerFactory.create();
