@@ -59,3 +59,9 @@ jobs:
           service: game-service
           cluster: game-cluster
           wait-for-service-stability: true
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+#          options: -v ${{ github.workspace }}:/work -e ABC=123
+          run: |
+            /gradlew '-Pexclude.android=true' zipit
