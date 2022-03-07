@@ -63,5 +63,6 @@ jobs:
         with:
           registry: $ECR_REGISTRY
           image: $ECR_REPOSITORY:$IMAGE_TAG
+          shell: bash
           run: |
-            /gradlew '-Pexclude.android=true' zipit
+            ./gradlew '-Pexclude.android=true' zipit
