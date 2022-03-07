@@ -61,5 +61,10 @@ jobs:
       - uses: addnab/docker-run-action@v3
         with:
           image: ${{ steps.build-image.outputs.image }}
+          options: -v ${{ github.workspace }}:/app/dist
           run: |
             ./gradlew '-Pexclude.android=true' zipit
+      - name: list file in dir
+        id: list files
+        run:|
+          ls
