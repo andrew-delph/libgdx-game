@@ -66,5 +66,5 @@ jobs:
             ./gradlew '-Pexclude.android=true' zipit
       - name: list file in dir
         id: list files
-        run:|
+        run: |
           ls
