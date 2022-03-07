@@ -138,3 +138,7 @@ task zipit(type: Zip) {
     from "out"
 }
 
+clean{
+    delete "dist", "out"
+}
+
