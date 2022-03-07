@@ -45,6 +45,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
+
 }
 
 project(":core") {
@@ -52,6 +53,7 @@ project(":core") {
     apply plugin: 'java'
     apply plugin: 'com.google.protobuf'
     dependencies {
+
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
@@ -117,5 +119,22 @@ project(":desktop") {
     }
 }
 
+task buildEXE {
+    dependsOn tasks.getByPath(':desktop:dist')
+    doLast {
+        delete 'out'
+        exec{
+            workingDir "."
+            commandLine 'java', '-jar', 'packr-all-4.0.0.jar', '--jdk', 'https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.14.1%2B1/OpenJDK11U-jdk_x64_windows_hotspot_11.0.14.1_1.zip', '--platform', 'windows64', '--executable', 'myapp', '--classpath', 'desktop/build/libs/desktop-1.0.jar', '--mainclass', 'main.ClientGameMain', '--vmargs', 'Xmx1G', '--output', 'out'
+        }
+    }
+}
 
+task zipit(type: Zip) {
+    dependsOn tasks.getByPath('buildEXE')
+    delete file("$projectDir/dist/game.zip")
+    archiveFileName = "game.zip"
+    destinationDirectory = file("$projectDir/dist")
+    from "out"
+}
 
