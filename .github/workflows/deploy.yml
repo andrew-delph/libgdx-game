@@ -67,4 +67,4 @@ jobs:
       - name: list file in dir
         id: list-files
         run: |
-          ls
+          ls ${{ github.workspace }}
