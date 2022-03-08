@@ -9,7 +9,11 @@ import common.GameStore;
 import entity.Entity;
 import entity.block.BlockFactory;
 import entity.block.SkyBlock;
-import entity.pathfinding.*;
+import entity.pathfinding.EntityStructure;
+import entity.pathfinding.PathGameStoreOverride;
+import entity.pathfinding.RelativeCoordinates;
+import entity.pathfinding.RelativePathNode;
+import entity.pathfinding.RelativeVertex;
 
 public class DigGreedyEdge extends HorizontalGreedyEdge {
   GameController gameController;

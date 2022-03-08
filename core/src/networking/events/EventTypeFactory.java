@@ -14,8 +14,23 @@ import java.util.List;
 import java.util.UUID;
 import networking.NetworkObjects;
 import networking.RequestNetworkEventObserver;
-import networking.events.types.incoming.*;
-import networking.events.types.outgoing.*;
+import networking.events.types.incoming.AuthenticationIncomingEventType;
+import networking.events.types.incoming.ChunkSwapIncomingEventType;
+import networking.events.types.incoming.CreateEntityIncomingEventType;
+import networking.events.types.incoming.DisconnectionIncomingEventType;
+import networking.events.types.incoming.HandshakeIncomingEventType;
+import networking.events.types.incoming.RemoveEntityIncomingEventType;
+import networking.events.types.incoming.ReplaceBlockIncomingEventType;
+import networking.events.types.incoming.SubscriptionIncomingEventType;
+import networking.events.types.incoming.UpdateEntityIncomingEventType;
+import networking.events.types.outgoing.ChunkSwapOutgoingEventType;
+import networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import networking.events.types.outgoing.GetChunkOutgoingEventType;
+import networking.events.types.outgoing.HandshakeOutgoingEventType;
+import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
+import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
+import networking.events.types.outgoing.SubscriptionOutgoingEventType;
+import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 import networking.translation.NetworkDataDeserializer;
 
 public class EventTypeFactory {

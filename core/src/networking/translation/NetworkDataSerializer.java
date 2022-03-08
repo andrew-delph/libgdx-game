@@ -7,7 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import networking.NetworkObjects;
-import networking.events.types.outgoing.*;
+import networking.events.types.outgoing.ChunkSwapOutgoingEventType;
+import networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
+import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
+import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 
 public class NetworkDataSerializer {
 

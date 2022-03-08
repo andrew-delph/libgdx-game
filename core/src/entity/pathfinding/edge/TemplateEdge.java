@@ -5,7 +5,11 @@ import static app.screen.GameScreen.pathDebugRender;
 import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import entity.Entity;
-import entity.pathfinding.*;
+import entity.pathfinding.EntityStructure;
+import entity.pathfinding.PathGameStoreOverride;
+import entity.pathfinding.RelativeActionEdge;
+import entity.pathfinding.RelativePathNode;
+import entity.pathfinding.RelativeVertex;
 import java.util.List;
 
 public class TemplateEdge extends AbstractEdge {

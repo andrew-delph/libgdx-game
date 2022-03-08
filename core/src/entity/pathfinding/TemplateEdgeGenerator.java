@@ -4,7 +4,11 @@ import com.google.inject.Inject;
 import entity.block.EmptyBlock;
 import entity.block.SolidBlock;
 import entity.pathfinding.edge.TemplateEdge;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class TemplateEdgeGenerator {
   EntityStructure entityStructure;

@@ -1,6 +1,7 @@
 package main;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 public class Test {
   public static void main(String[] args) {

@@ -2,7 +2,11 @@ package common.events;
 
 import com.google.inject.Inject;
 import common.events.types.EventType;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class EventService {

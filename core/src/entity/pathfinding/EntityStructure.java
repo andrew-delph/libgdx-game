@@ -3,7 +3,11 @@ package entity.pathfinding;
 import common.Coordinates;
 import common.GameStore;
 import entity.Entity;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class EntityStructure {
   static int hashCount = 0;

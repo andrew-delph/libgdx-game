@@ -15,14 +15,23 @@ import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.block.*;
+import entity.block.Block;
+import entity.block.BlockFactory;
+import entity.block.DirtBlock;
+import entity.block.SkyBlock;
+import entity.block.StoneBlock;
 import entity.misc.Ladder;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import networking.NetworkObjects;
 import networking.events.EventTypeFactory;
-import networking.events.types.incoming.*;
+import networking.events.types.incoming.ChunkSwapIncomingEventType;
+import networking.events.types.incoming.CreateEntityIncomingEventType;
+import networking.events.types.incoming.HandshakeIncomingEventType;
+import networking.events.types.incoming.RemoveEntityIncomingEventType;
+import networking.events.types.incoming.ReplaceBlockIncomingEventType;
+import networking.events.types.incoming.UpdateEntityIncomingEventType;
 
 public class NetworkDataDeserializer {
   @Inject EntityFactory entityFactory;
