@@ -9,6 +9,7 @@ on:
 
 jobs:
   build-push-deploy:
+
     concurrency:
       group: delpoy
       cancel-in-progress: true
