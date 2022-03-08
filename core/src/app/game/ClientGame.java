@@ -4,9 +4,8 @@ import app.screen.BaseCamera;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.exceptions.SerializationDataMissing;
-import networking.client.ClientNetworkHandle;
-
 import java.io.IOException;
+import networking.client.ClientNetworkHandle;
 
 public class ClientGame extends Game {
 

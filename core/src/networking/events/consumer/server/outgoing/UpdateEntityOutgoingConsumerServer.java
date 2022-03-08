@@ -5,11 +5,10 @@ import chunk.ActiveChunkManager;
 import com.google.inject.Inject;
 import common.events.EventService;
 import common.events.types.EventType;
+import java.util.function.Consumer;
 import networking.NetworkObjects;
 import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
-
-import java.util.function.Consumer;
 
 public class UpdateEntityOutgoingConsumerServer implements Consumer<EventType> {
 

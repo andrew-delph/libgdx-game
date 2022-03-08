@@ -8,7 +8,6 @@ import common.GameStore;
 import common.events.EventService;
 import entity.ActiveEntityManager;
 import generation.ChunkGenerationService;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;

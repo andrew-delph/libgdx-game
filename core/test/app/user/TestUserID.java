@@ -1,9 +1,8 @@
 package app.user;
 
+import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.UUID;
 
 public class TestUserID {
 

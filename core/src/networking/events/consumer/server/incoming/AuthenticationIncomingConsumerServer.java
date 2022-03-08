@@ -1,15 +1,14 @@
 package networking.events.consumer.server.incoming;
 
+import static networking.translation.DataTranslationEnum.AUTH;
+
 import com.google.inject.Inject;
 import common.events.types.EventType;
+import java.util.function.Consumer;
 import networking.ConnectionStore;
 import networking.NetworkObjects;
 import networking.events.types.incoming.AuthenticationIncomingEventType;
 import networking.server.ServerNetworkHandle;
-
-import java.util.function.Consumer;
-
-import static networking.translation.DataTranslationEnum.AUTH;
 
 public class AuthenticationIncomingConsumerServer implements Consumer<EventType> {
 

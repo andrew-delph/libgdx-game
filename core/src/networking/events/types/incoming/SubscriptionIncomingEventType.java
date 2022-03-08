@@ -4,10 +4,9 @@ import app.user.UserID;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.events.types.EventType;
-import networking.NetworkObjects;
-
 import java.util.LinkedList;
 import java.util.List;
+import networking.NetworkObjects;
 
 public class SubscriptionIncomingEventType extends EventType {
 

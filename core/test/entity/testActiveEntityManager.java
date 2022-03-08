@@ -4,10 +4,9 @@ import app.user.UserID;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.BaseServerConfig;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.UUID;
 
 public class testActiveEntityManager {
 

@@ -1,12 +1,11 @@
 package common.events.types;
 
+import static networking.translation.NetworkDataSerializer.createCreateAIEntityEventType;
+
 import common.Coordinates;
+import java.util.UUID;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
-
-import java.util.UUID;
-
-import static networking.translation.NetworkDataSerializer.createCreateAIEntityEventType;
 
 public class CreateAIEntityEventType extends EventType implements SerializeNetworkEvent {
 

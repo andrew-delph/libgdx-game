@@ -1,14 +1,13 @@
 package common;
 
+import static networking.translation.NetworkDataSerializer.createCoordinates;
+
 import com.badlogic.gdx.math.Vector2;
 import entity.Entity;
-import networking.NetworkObjects;
-import networking.events.interfaces.SerializeNetworkData;
-
 import java.util.LinkedList;
 import java.util.List;
-
-import static networking.translation.NetworkDataSerializer.createCoordinates;
+import networking.NetworkObjects;
+import networking.events.interfaces.SerializeNetworkData;
 
 public class Coordinates implements SerializeNetworkData {
   float x;

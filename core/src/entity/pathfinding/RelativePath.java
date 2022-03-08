@@ -3,7 +3,6 @@ package entity.pathfinding;
 import com.google.inject.Inject;
 import common.Coordinates;
 import entity.pathfinding.edge.AbstractEdge;
-
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;

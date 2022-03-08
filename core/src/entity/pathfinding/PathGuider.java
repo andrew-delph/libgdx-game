@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import common.Coordinates;
 import entity.Entity;
 import entity.pathfinding.edge.EdgeStepper;
-
 import java.util.LinkedList;
 import java.util.Queue;
 

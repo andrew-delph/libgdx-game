@@ -6,7 +6,6 @@ import entity.collision.CollisionPair;
 import entity.collision.CollisionService;
 import entity.collision.ContactWrapper;
 import entity.collision.ground.GroundPoint;
-
 import java.util.HashMap;
 import java.util.Map;
 

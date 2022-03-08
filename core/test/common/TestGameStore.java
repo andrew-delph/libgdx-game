@@ -10,10 +10,9 @@ import common.exceptions.EntityNotFound;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class TestGameStore {
 

@@ -12,10 +12,9 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.block.*;
 import entity.misc.Ladder;
+import java.util.UUID;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
-
-import java.util.UUID;
 
 public class GameController {
 

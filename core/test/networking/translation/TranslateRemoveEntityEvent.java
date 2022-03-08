@@ -3,12 +3,11 @@ package networking.translation;
 import chunk.ChunkRange;
 import common.Coordinates;
 import common.exceptions.SerializationDataMissing;
+import java.util.UUID;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.RemoveEntityIncomingEventType;
 import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import org.junit.Test;
-
-import java.util.UUID;
 
 public class TranslateRemoveEntityEvent {
 

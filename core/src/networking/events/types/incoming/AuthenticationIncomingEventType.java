@@ -1,10 +1,10 @@
 package networking.events.types.incoming;
 
+import static networking.events.types.NetworkEventTypeEnum.AUTH_INCOMING;
+
 import app.user.UserID;
 import common.events.types.EventType;
 import networking.RequestNetworkEventObserver;
-
-import static networking.events.types.NetworkEventTypeEnum.AUTH_INCOMING;
 
 public class AuthenticationIncomingEventType extends EventType {
 

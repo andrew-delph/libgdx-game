@@ -5,7 +5,6 @@ import com.google.inject.Inject;
 import entity.collision.CollisionPair;
 import entity.collision.CollisionService;
 import entity.collision.ContactWrapper;
-
 import java.util.HashMap;
 import java.util.Map;
 

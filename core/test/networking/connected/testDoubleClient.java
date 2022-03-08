@@ -22,6 +22,10 @@ import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.misc.Ladder;
 import generation.ChunkBuilderFactory;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
 import networking.server.ServerNetworkHandle;
@@ -29,11 +33,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class testDoubleClient {
 

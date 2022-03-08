@@ -1,9 +1,8 @@
 package chunk;
 
 import common.Coordinates;
-import org.junit.Test;
-
 import java.util.List;
+import org.junit.Test;
 
 public class testChunkRange {
   @Test

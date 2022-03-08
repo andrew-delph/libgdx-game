@@ -14,15 +14,14 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
 import io.grpc.stub.StreamObserver;
-import networking.*;
-import networking.events.EventTypeFactory;
-import networking.events.types.outgoing.GetChunkOutgoingEventType;
-import networking.events.types.outgoing.HandshakeOutgoingEventType;
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import networking.*;
+import networking.events.EventTypeFactory;
+import networking.events.types.outgoing.GetChunkOutgoingEventType;
+import networking.events.types.outgoing.HandshakeOutgoingEventType;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
   @Inject ObserverFactory observerFactory;

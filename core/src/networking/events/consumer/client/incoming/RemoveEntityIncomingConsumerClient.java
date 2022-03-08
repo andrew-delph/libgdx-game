@@ -4,9 +4,8 @@ import app.GameController;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
-import networking.events.types.incoming.RemoveEntityIncomingEventType;
-
 import java.util.function.Consumer;
+import networking.events.types.incoming.RemoveEntityIncomingEventType;
 
 public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
   @Inject GameController gameController;

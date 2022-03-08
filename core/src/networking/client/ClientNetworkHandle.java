@@ -1,5 +1,7 @@
 package networking.client;
 
+import static networking.translation.DataTranslationEnum.AUTH;
+
 import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkFactory;
@@ -13,6 +15,9 @@ import entity.Entity;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
 import networking.ObserverFactory;
@@ -21,12 +26,6 @@ import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
 import networking.translation.NetworkDataDeserializer;
-
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import static networking.translation.DataTranslationEnum.AUTH;
 
 public class ClientNetworkHandle {
   public final CountDownLatch authLatch = new CountDownLatch(1);

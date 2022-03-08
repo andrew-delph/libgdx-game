@@ -9,9 +9,8 @@ import configuration.StandAloneConfig;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import generation.ChunkBuilderFactory;
-import org.junit.Test;
-
 import java.util.Map;
+import org.junit.Test;
 
 public class testRelativePath {
   @Test

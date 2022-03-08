@@ -2,11 +2,10 @@ package networking.events.consumer.client.incoming;
 
 import com.google.inject.Inject;
 import common.events.types.EventType;
+import java.util.function.Consumer;
 import networking.ConnectionStore;
 import networking.client.ClientNetworkHandle;
 import networking.events.types.incoming.AuthenticationIncomingEventType;
-
-import java.util.function.Consumer;
 
 public class AuthenticationIncomingConsumerClient implements Consumer<EventType> {
 

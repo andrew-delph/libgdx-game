@@ -1,11 +1,10 @@
 package networking.events.types.incoming;
 
+import static networking.events.types.NetworkEventTypeEnum.CHUNK_SWAP_INCOMING;
+
 import chunk.ChunkRange;
 import common.events.types.EventType;
-
 import java.util.UUID;
-
-import static networking.events.types.NetworkEventTypeEnum.CHUNK_SWAP_INCOMING;
 
 public class ChunkSwapIncomingEventType extends EventType {
 

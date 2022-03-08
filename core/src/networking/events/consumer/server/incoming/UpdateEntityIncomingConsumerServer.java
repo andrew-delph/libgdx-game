@@ -6,13 +6,12 @@ import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
+import java.util.function.Consumer;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
 import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 import networking.translation.NetworkDataDeserializer;
-
-import java.util.function.Consumer;
 
 public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
 

@@ -11,7 +11,6 @@ import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.controllers.EntityControllerFactory;
-
 import java.util.function.Consumer;
 
 public class CreateAIEntityConsumerServer implements Consumer<EventType> {

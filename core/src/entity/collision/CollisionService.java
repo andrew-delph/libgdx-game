@@ -5,7 +5,6 @@ import entity.collision.ground.EntityGroundContact;
 import entity.collision.ladder.EntityLadderContact;
 import entity.collision.left.EntityLeftContact;
 import entity.collision.right.EntityRightContact;
-
 import java.util.HashMap;
 import java.util.Map;
 

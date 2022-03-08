@@ -12,15 +12,14 @@ import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import generation.ChunkGenerationService;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import networking.client.ClientNetworkHandle;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class testSingleClientNoRunningGame {
   Injector clientInjector;

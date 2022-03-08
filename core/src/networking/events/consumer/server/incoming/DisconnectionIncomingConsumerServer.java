@@ -10,15 +10,14 @@ import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
 import entity.ActiveEntityManager;
 import entity.Entity;
+import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.logging.Logger;
 import networking.ConnectionStore;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.DisconnectionIncomingEventType;
 import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
-
-import java.util.UUID;
-import java.util.function.Consumer;
-import java.util.logging.Logger;
 
 public class DisconnectionIncomingConsumerServer implements Consumer<EventType> {
 

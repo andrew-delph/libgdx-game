@@ -3,10 +3,9 @@ package entity;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.ClientConfig;
-import org.junit.Test;
-
 import java.util.HashSet;
 import java.util.Set;
+import org.junit.Test;
 
 public class testEntityEqual {
   @Test

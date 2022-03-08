@@ -11,7 +11,6 @@ import entity.block.EmptyBlock;
 import entity.block.SolidBlock;
 import entity.controllers.actions.EntityAction;
 import entity.controllers.actions.EntityActionFactory;
-
 import java.util.Map;
 
 public class RelativeActionEdgeGenerator {

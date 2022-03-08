@@ -4,11 +4,10 @@ import app.user.UserID;
 import chunk.ActiveChunkManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
+import java.util.function.Consumer;
 import networking.NetworkObjects;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
-
-import java.util.function.Consumer;
 
 public class CreateEntityOutgoingConsumerServer implements Consumer<EventType> {
 

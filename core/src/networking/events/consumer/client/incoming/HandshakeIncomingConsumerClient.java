@@ -7,15 +7,14 @@ import common.GameStore;
 import common.events.EventService;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
-import networking.events.EventTypeFactory;
-import networking.events.types.incoming.HandshakeIncomingEventType;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
+import networking.events.EventTypeFactory;
+import networking.events.types.incoming.HandshakeIncomingEventType;
 
 public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
 

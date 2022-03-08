@@ -1,5 +1,7 @@
 package chunk;
 
+import static org.junit.Assert.fail;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
@@ -10,8 +12,6 @@ import entity.EntityFactory;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import org.junit.Test;
-
-import static org.junit.Assert.fail;
 
 public class testChunk {
 

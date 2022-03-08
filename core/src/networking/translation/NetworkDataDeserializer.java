@@ -1,5 +1,7 @@
 package networking.translation;
 
+import static networking.translation.DataTranslationEnum.COORDINATES;
+
 import app.user.UserID;
 import chunk.Chunk;
 import chunk.ChunkFactory;
@@ -15,15 +17,12 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.block.*;
 import entity.misc.Ladder;
-import networking.NetworkObjects;
-import networking.events.EventTypeFactory;
-import networking.events.types.incoming.*;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-
-import static networking.translation.DataTranslationEnum.COORDINATES;
+import networking.NetworkObjects;
+import networking.events.EventTypeFactory;
+import networking.events.types.incoming.*;
 
 public class NetworkDataDeserializer {
   @Inject EntityFactory entityFactory;

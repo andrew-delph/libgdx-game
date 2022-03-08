@@ -1,16 +1,15 @@
 package networking.events.types.outgoing;
 
+import static networking.events.types.NetworkEventTypeEnum.REPLACE_ENTITY_OUTGOING;
+
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import entity.Entity;
+import java.util.UUID;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
 import networking.translation.NetworkDataSerializer;
-
-import java.util.UUID;
-
-import static networking.events.types.NetworkEventTypeEnum.REPLACE_ENTITY_OUTGOING;
 
 public class ReplaceBlockOutgoingEventType extends EventType implements SerializeNetworkEvent {
 

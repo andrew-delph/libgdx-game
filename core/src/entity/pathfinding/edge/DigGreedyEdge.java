@@ -1,5 +1,7 @@
 package entity.pathfinding.edge;
 
+import static app.screen.GameScreen.pathDebugRender;
+
 import app.GameController;
 import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
@@ -8,8 +10,6 @@ import entity.Entity;
 import entity.block.BlockFactory;
 import entity.block.SkyBlock;
 import entity.pathfinding.*;
-
-import static app.screen.GameScreen.pathDebugRender;
 
 public class DigGreedyEdge extends HorizontalGreedyEdge {
   GameController gameController;

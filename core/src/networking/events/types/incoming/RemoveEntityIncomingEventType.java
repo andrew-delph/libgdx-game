@@ -1,12 +1,11 @@
 package networking.events.types.incoming;
 
+import static networking.events.types.NetworkEventTypeEnum.REMOVE_ENTITY_INCOMING;
+
 import app.user.UserID;
 import chunk.ChunkRange;
 import common.events.types.EventType;
-
 import java.util.UUID;
-
-import static networking.events.types.NetworkEventTypeEnum.REMOVE_ENTITY_INCOMING;
 
 public class RemoveEntityIncomingEventType extends EventType {
   public static String type = REMOVE_ENTITY_INCOMING;

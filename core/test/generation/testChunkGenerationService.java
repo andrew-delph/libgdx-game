@@ -7,11 +7,10 @@ import common.Coordinates;
 import common.GameStore;
 import configuration.BaseServerConfig;
 import configuration.GameSettings;
+import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
 
 public class testChunkGenerationService {
 

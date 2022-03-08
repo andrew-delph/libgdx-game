@@ -1,16 +1,15 @@
 package networking.events.types.outgoing;
 
+import static networking.events.types.NetworkEventTypeEnum.HANDSHAKE_OUTGOING;
+
 import chunk.ChunkRange;
 import common.events.types.EventType;
+import java.util.List;
+import java.util.UUID;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
 import networking.translation.DataTranslationEnum;
 import networking.translation.NetworkDataSerializer;
-
-import java.util.List;
-import java.util.UUID;
-
-import static networking.events.types.NetworkEventTypeEnum.HANDSHAKE_OUTGOING;
 
 public class HandshakeOutgoingEventType extends EventType implements SerializeNetworkEvent {
 

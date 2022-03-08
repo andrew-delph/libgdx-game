@@ -3,7 +3,6 @@ package entity.pathfinding;
 import common.Coordinates;
 import common.GameStore;
 import entity.Entity;
-
 import java.util.*;
 
 public class EntityStructure {

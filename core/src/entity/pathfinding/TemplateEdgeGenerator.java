@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import entity.block.EmptyBlock;
 import entity.block.SolidBlock;
 import entity.pathfinding.edge.TemplateEdge;
-
 import java.util.*;
 
 public class TemplateEdgeGenerator {

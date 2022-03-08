@@ -1,14 +1,13 @@
 package networking.events.types.outgoing;
 
-import chunk.ChunkRange;
-import common.events.types.EventType;
-import networking.NetworkObjects;
-import networking.events.interfaces.SerializeNetworkEvent;
-
-import java.util.UUID;
-
 import static networking.events.types.NetworkEventTypeEnum.CHUNK_SWAP_OUTGOING;
 import static networking.translation.NetworkDataSerializer.createChunkSwapOutgoingEventType;
+
+import chunk.ChunkRange;
+import common.events.types.EventType;
+import java.util.UUID;
+import networking.NetworkObjects;
+import networking.events.interfaces.SerializeNetworkEvent;
 
 public class ChunkSwapOutgoingEventType extends EventType implements SerializeNetworkEvent {
 

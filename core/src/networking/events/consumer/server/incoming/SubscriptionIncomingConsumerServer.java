@@ -5,13 +5,12 @@ import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import generation.ChunkGenerationService;
-import networking.events.types.incoming.SubscriptionIncomingEventType;
-
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import networking.events.types.incoming.SubscriptionIncomingEventType;
 
 public class SubscriptionIncomingConsumerServer implements Consumer<EventType> {
 

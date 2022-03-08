@@ -1,5 +1,7 @@
 package entity.pathfinding.edge;
 
+import static app.screen.GameScreen.pathDebugRender;
+
 import app.GameController;
 import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
@@ -9,8 +11,6 @@ import entity.pathfinding.EntityStructure;
 import entity.pathfinding.PathGameStoreOverride;
 import entity.pathfinding.RelativePathNode;
 import entity.pathfinding.RelativeVertex;
-
-import static app.screen.GameScreen.pathDebugRender;
 
 public class LadderGreedyEdge extends HorizontalGreedyEdge {
   GameController gameController;

@@ -5,10 +5,9 @@ import chunk.ActiveChunkManager;
 import com.google.inject.Inject;
 import common.events.EventService;
 import common.events.types.EventType;
+import java.util.function.Consumer;
 import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import networking.server.ServerNetworkHandle;
-
-import java.util.function.Consumer;
 
 public class ReplaceBlockOutgoingConsumerServer implements Consumer<EventType> {
 

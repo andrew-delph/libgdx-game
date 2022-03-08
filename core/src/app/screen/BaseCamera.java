@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.google.inject.Inject;
 import common.Coordinates;
 import entity.Entity;
-
 import java.util.HashSet;
 import java.util.Set;
 

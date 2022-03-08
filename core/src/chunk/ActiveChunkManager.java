@@ -1,7 +1,6 @@
 package chunk;
 
 import app.user.UserID;
-
 import java.util.*;
 
 public class ActiveChunkManager {

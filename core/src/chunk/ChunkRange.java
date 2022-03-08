@@ -2,14 +2,13 @@ package chunk;
 
 import common.Coordinates;
 import configuration.GameSettings;
-import networking.NetworkObjects;
-import networking.events.interfaces.SerializeNetworkData;
-import networking.translation.NetworkDataSerializer;
-
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import networking.NetworkObjects;
+import networking.events.interfaces.SerializeNetworkData;
+import networking.translation.NetworkDataSerializer;
 
 public class ChunkRange implements SerializeNetworkData {
   public static final int size = GameSettings.CHUNK_SIZE;

@@ -1,5 +1,7 @@
 package chunk;
 
+import static configuration.GameSettings.GRAVITY;
+
 import app.GameController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -14,14 +16,11 @@ import entity.Entity;
 import entity.block.Block;
 import entity.collision.EntityContactListenerFactory;
 import entity.misc.Ladder;
-import networking.NetworkObjects;
-import networking.events.interfaces.SerializeNetworkData;
-
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static configuration.GameSettings.GRAVITY;
+import networking.NetworkObjects;
+import networking.events.interfaces.SerializeNetworkData;
 
 public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 

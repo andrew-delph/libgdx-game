@@ -8,12 +8,11 @@ import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.block.Block;
 import entity.misc.Ladder;
-import networking.events.EventTypeFactory;
-
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
+import networking.events.EventTypeFactory;
 
 public class GameStore {
 

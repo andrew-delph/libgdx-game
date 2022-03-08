@@ -4,10 +4,9 @@ import app.user.UserID;
 import chunk.ActiveChunkManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
+import java.util.function.Consumer;
 import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
-
-import java.util.function.Consumer;
 
 public class RemoveEntityOutgoingConsumerServer implements Consumer<EventType> {
   @Inject ActiveChunkManager activeChunkManager;

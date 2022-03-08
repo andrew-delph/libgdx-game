@@ -2,7 +2,6 @@ package common.events.types;
 
 import chunk.ChunkRange;
 import entity.Entity;
-
 import java.util.UUID;
 
 public class ReplaceEntityEventType extends EventType {

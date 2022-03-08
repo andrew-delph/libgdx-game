@@ -8,12 +8,11 @@ import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
 import entity.block.Block;
 import entity.block.BlockFactory;
+import java.util.UUID;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import org.junit.Test;
-
-import java.util.UUID;
 
 public class TranslateReplaceBlockEvent {
 

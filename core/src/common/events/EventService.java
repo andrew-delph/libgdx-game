@@ -2,7 +2,6 @@ package common.events;
 
 import com.google.inject.Inject;
 import common.events.types.EventType;
-
 import java.util.*;
 import java.util.function.Consumer;
 

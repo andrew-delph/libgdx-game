@@ -4,7 +4,6 @@ import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import configuration.GameSettings;
-
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;

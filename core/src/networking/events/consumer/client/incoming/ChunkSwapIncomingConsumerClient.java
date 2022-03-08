@@ -4,9 +4,8 @@ import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
-import networking.events.types.incoming.ChunkSwapIncomingEventType;
-
 import java.util.function.Consumer;
+import networking.events.types.incoming.ChunkSwapIncomingEventType;
 
 public class ChunkSwapIncomingConsumerClient implements Consumer<EventType> {
 

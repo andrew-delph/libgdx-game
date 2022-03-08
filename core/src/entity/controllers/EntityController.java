@@ -8,11 +8,10 @@ import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.controllers.actions.EntityAction;
 import entity.controllers.actions.EntityActionFactory;
-import networking.events.EventTypeFactory;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import networking.events.EventTypeFactory;
 
 public class EntityController {
   GameController gameController;

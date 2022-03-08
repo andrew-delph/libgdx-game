@@ -10,7 +10,6 @@ import common.events.EventConsumer;
 import common.exceptions.SerializationDataMissing;
 import configuration.GameSettings;
 import entity.collision.CollisionService;
-
 import java.io.IOException;
 import java.util.Timer;
 

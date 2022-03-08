@@ -9,10 +9,9 @@ import common.Clock;
 import common.Coordinates;
 import configuration.GameSettings;
 import entity.controllers.EntityController;
+import java.util.UUID;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkData;
-
-import java.util.UUID;
 
 public class Entity implements SerializeNetworkData {
   public static int coordinatesScale = GameSettings.COORDINATES_SCALE;

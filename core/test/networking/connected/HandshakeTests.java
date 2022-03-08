@@ -19,14 +19,13 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.block.Block;
 import entity.block.BlockFactory;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import networking.client.ClientNetworkHandle;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class HandshakeTests {
 

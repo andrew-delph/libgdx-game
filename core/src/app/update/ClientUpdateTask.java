@@ -7,15 +7,14 @@ import common.Clock;
 import common.GameStore;
 import common.events.EventService;
 import entity.ActiveEntityManager;
-import networking.client.ClientNetworkHandle;
-import networking.events.EventTypeFactory;
-import networking.events.types.outgoing.SubscriptionOutgoingEventType;
-
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import networking.client.ClientNetworkHandle;
+import networking.events.EventTypeFactory;
+import networking.events.types.outgoing.SubscriptionOutgoingEventType;
 
 public class ClientUpdateTask extends UpdateTask {
   @Inject public Clock clock;

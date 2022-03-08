@@ -3,12 +3,11 @@ package networking.translation;
 import chunk.ChunkRange;
 import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
-import networking.NetworkObjects;
-import networking.events.types.outgoing.*;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import networking.NetworkObjects;
+import networking.events.types.outgoing.*;
 
 public class NetworkDataSerializer {
 

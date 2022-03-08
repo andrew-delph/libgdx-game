@@ -1,13 +1,13 @@
 package entity.pathfinding.edge;
 
+import static app.screen.GameScreen.pathDebugRender;
+
 import common.Coordinates;
 import entity.Entity;
 import entity.pathfinding.EntityStructure;
 import entity.pathfinding.PathGameStoreOverride;
 import entity.pathfinding.RelativePathNode;
 import entity.pathfinding.RelativeVertex;
-
-import static app.screen.GameScreen.pathDebugRender;
 
 public abstract class AbstractEdge {
 

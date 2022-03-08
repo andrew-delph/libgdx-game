@@ -6,7 +6,6 @@ import common.GameStore;
 import common.events.EventService;
 import entity.ActiveEntityManager;
 import generation.ChunkGenerationService;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

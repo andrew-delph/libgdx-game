@@ -1,7 +1,6 @@
 package common.events.types;
 
 import com.google.inject.Inject;
-
 import java.util.UUID;
 
 public class RemoveEntityEventType extends EventType {

@@ -6,14 +6,13 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
 import configuration.ClientConfig;
+import java.util.LinkedList;
+import java.util.List;
 import networking.events.types.incoming.SubscriptionIncomingEventType;
 import networking.events.types.outgoing.SubscriptionOutgoingEventType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class testSubscriptionSerialization {
 

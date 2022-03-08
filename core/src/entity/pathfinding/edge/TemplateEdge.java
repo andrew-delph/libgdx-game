@@ -1,13 +1,12 @@
 package entity.pathfinding.edge;
 
+import static app.screen.GameScreen.pathDebugRender;
+
 import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import entity.Entity;
 import entity.pathfinding.*;
-
 import java.util.List;
-
-import static app.screen.GameScreen.pathDebugRender;
 
 public class TemplateEdge extends AbstractEdge {
 

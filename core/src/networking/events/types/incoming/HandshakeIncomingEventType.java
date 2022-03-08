@@ -3,10 +3,9 @@ package networking.events.types.incoming;
 import app.user.UserID;
 import chunk.ChunkRange;
 import common.events.types.EventType;
-import networking.events.types.NetworkEventTypeEnum;
-
 import java.util.List;
 import java.util.UUID;
+import networking.events.types.NetworkEventTypeEnum;
 
 public class HandshakeIncomingEventType extends EventType {
 

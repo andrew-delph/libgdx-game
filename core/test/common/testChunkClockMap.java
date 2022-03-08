@@ -6,10 +6,9 @@ import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.ClientConfig;
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class testChunkClockMap {
 

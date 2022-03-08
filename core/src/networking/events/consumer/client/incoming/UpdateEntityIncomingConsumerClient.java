@@ -5,11 +5,10 @@ import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
+import java.util.function.Consumer;
 import networking.client.ClientNetworkHandle;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
 import networking.translation.NetworkDataDeserializer;
-
-import java.util.function.Consumer;
 
 public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
 

@@ -8,13 +8,12 @@ import common.events.types.EventType;
 import common.exceptions.SerializationDataMissing;
 import entity.ActiveEntityManager;
 import entity.Entity;
+import java.util.function.Consumer;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.server.ServerNetworkHandle;
 import networking.translation.NetworkDataDeserializer;
-
-import java.util.function.Consumer;
 
 public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
 

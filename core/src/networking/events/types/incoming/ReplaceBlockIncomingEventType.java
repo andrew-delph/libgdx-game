@@ -1,13 +1,12 @@
 package networking.events.types.incoming;
 
+import static networking.events.types.NetworkEventTypeEnum.REPLACE_ENTITY_INCOMING;
+
 import app.user.UserID;
 import chunk.ChunkRange;
 import common.events.types.EventType;
 import entity.block.Block;
-
 import java.util.UUID;
-
-import static networking.events.types.NetworkEventTypeEnum.REPLACE_ENTITY_INCOMING;
 
 public class ReplaceBlockIncomingEventType extends EventType {
 

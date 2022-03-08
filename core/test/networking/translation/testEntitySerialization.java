@@ -14,13 +14,12 @@ import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.BlockFactory;
+import java.io.IOException;
+import java.util.UUID;
 import networking.NetworkObjects;
 import networking.events.EventTypeFactory;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.UUID;
 
 public class testEntitySerialization {
 

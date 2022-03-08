@@ -3,13 +3,12 @@ package networking.translation;
 import chunk.ChunkRange;
 import common.Coordinates;
 import common.exceptions.SerializationDataMissing;
+import java.util.UUID;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ChunkSwapIncomingEventType;
 import networking.events.types.outgoing.ChunkSwapOutgoingEventType;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.UUID;
 
 public class TranslateChunkSwapEvent {
 

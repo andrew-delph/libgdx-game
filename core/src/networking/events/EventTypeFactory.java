@@ -9,15 +9,14 @@ import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceEntityEventType;
 import entity.Entity;
 import entity.block.Block;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
 import networking.NetworkObjects;
 import networking.RequestNetworkEventObserver;
 import networking.events.types.incoming.*;
 import networking.events.types.outgoing.*;
 import networking.translation.NetworkDataDeserializer;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
 
 public class EventTypeFactory {
 

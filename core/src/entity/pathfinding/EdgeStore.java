@@ -2,7 +2,6 @@ package entity.pathfinding;
 
 import com.google.inject.Inject;
 import entity.pathfinding.edge.AbstractEdge;
-
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;

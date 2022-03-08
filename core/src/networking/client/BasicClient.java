@@ -3,10 +3,9 @@ package networking.client;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import java.util.concurrent.TimeUnit;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
-
-import java.util.concurrent.TimeUnit;
 
 public class BasicClient {
   public static void main(String[] args) throws InterruptedException {

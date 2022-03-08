@@ -1,5 +1,7 @@
 package entity.pathfinding.edge;
 
+import static app.screen.GameScreen.pathDebugRender;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import common.Coordinates;
@@ -8,8 +10,6 @@ import entity.pathfinding.EntityStructure;
 import entity.pathfinding.RelativeCoordinates;
 import entity.pathfinding.RelativePathNode;
 import entity.pathfinding.RelativeVertex;
-
-import static app.screen.GameScreen.pathDebugRender;
 
 public class HorizontalGreedyEdge extends AbstractEdge {
   RelativeCoordinates currentRelativeCoordinates;

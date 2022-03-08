@@ -1,12 +1,12 @@
 package networking.events.types.incoming;
 
+import static networking.events.types.NetworkEventTypeEnum.UPDATE_ENTITY_INCOMING;
+
 import app.user.UserID;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import networking.NetworkObjects;
-
-import static networking.events.types.NetworkEventTypeEnum.UPDATE_ENTITY_INCOMING;
 
 public class UpdateEntityIncomingEventType extends EventType {
 

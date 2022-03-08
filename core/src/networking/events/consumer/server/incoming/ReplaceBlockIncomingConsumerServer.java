@@ -6,12 +6,11 @@ import chunk.ActiveChunkManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
+import java.util.function.Consumer;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import networking.server.ServerNetworkHandle;
-
-import java.util.function.Consumer;
 
 public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
 

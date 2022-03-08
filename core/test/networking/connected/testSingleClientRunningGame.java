@@ -25,6 +25,9 @@ import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import generation.ChunkBuilderFactory;
 import generation.ChunkGenerationService;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
 import networking.ConnectionStore;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
@@ -33,10 +36,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.concurrent.TimeUnit;
 
 public class testSingleClientRunningGame {
 

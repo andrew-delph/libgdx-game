@@ -5,7 +5,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
-
 import java.io.IOException;
 
 public class ServerRunner {

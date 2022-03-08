@@ -3,10 +3,9 @@ package networking.server;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+import java.io.IOException;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
-
-import java.io.IOException;
 
 public class BasicServer extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
 

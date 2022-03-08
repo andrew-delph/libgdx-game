@@ -11,9 +11,8 @@ import entity.Entity;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.controllers.actions.EntityActionFactory;
-import networking.events.EventTypeFactory;
-
 import java.util.logging.Logger;
+import networking.events.EventTypeFactory;
 
 public class EntityUserController extends EntityController {
 

@@ -3,9 +3,8 @@ package app.game;
 import com.google.inject.Inject;
 import common.exceptions.SerializationDataMissing;
 import entity.pathfinding.EdgeRegistrationBase;
-import networking.server.ServerNetworkHandle;
-
 import java.io.IOException;
+import networking.server.ServerNetworkHandle;
 
 public class ServerGame extends Game {
 

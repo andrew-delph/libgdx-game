@@ -2,16 +2,15 @@ package networking.translation;
 
 import chunk.ChunkRange;
 import common.Coordinates;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.HandshakeIncomingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
 
 public class testTranslation {
 

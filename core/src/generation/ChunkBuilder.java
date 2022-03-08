@@ -8,7 +8,6 @@ import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameStore;
 import entity.Entity;
-
 import java.util.concurrent.Callable;
 
 public class ChunkBuilder implements Callable<Chunk> {
