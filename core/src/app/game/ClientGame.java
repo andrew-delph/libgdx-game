@@ -26,7 +26,7 @@ public class ClientGame extends Game {
 
   @Override
   public void start() throws IOException, InterruptedException, SerializationDataMissing {
-    super.start();
+          super.start();
   }
 
   @Override
