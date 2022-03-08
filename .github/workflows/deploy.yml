@@ -12,16 +12,11 @@ jobs:
   build-push-deploy:
     runs-on: ubuntu-latest
     environment: aws
-
     steps:
-      
-      - name: print secret
-        id: print-secret
-        run: echo "the test varaible is ${{secrets.TEST}}."
-      
+      -
       - name: Check out code
         uses: actions/checkout@v2
-          
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -32,6 +27,7 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
+
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
@@ -58,13 +54,27 @@ jobs:
           service: game-service
           cluster: game-cluster
           wait-for-service-stability: true
+
       - uses: addnab/docker-run-action@v3
         with:
           image: ${{ steps.build-image.outputs.image }}
           options: -v ${{ github.workspace }}:/app/dist
           run: |
             ./gradlew '-Pexclude.android=true' zipit
-      - name: list file in dir
-        id: list-files
-        run: |
-          ls ${{ github.workspace }}
+
+#      - name: list file in dir
+#        id: list-files
+#        run: |
+#          ls ${{ github.workspace }}
+
+      - name: Upload game.zip file to bucket
+        uses: zdurham/s3-upload-github-action@master
+        with:
+          args: --acl public-read
+        env:
+          FILE: ./game.zip
+          AWS_REGION: 'us-east-1'
+          S3_BUCKET: ${{ secrets.AWSS3BUCKET }}
+          S3_KEY: game.zip
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWSACCESSKEYID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWSSECRETKEY }}
