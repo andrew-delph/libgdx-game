@@ -9,31 +9,31 @@ import networking.translation.NetworkDataSerializer;
 import static networking.events.types.NetworkEventTypeEnum.UPDATE_ENTITY_OUTGOING;
 
 public class UpdateEntityOutgoingEventType extends EventType implements SerializeNetworkEvent {
-    public static String type = UPDATE_ENTITY_OUTGOING;
-    NetworkObjects.NetworkData entityData;
+  public static String type = UPDATE_ENTITY_OUTGOING;
+  NetworkObjects.NetworkData entityData;
 
-    ChunkRange chunkRange;
+  ChunkRange chunkRange;
 
-    public UpdateEntityOutgoingEventType(
-            NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
-        this.chunkRange = chunkRange;
-        this.entityData = entityData;
-    }
+  public UpdateEntityOutgoingEventType(
+      NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
+    this.chunkRange = chunkRange;
+    this.entityData = entityData;
+  }
 
-    public String getType() {
-        return type;
-    }
+  public String getType() {
+    return type;
+  }
 
-    public ChunkRange getChunkRange() {
-        return this.chunkRange;
-    }
+  public ChunkRange getChunkRange() {
+    return this.chunkRange;
+  }
 
-    public NetworkObjects.NetworkData getEntityData() {
-        return entityData;
-    }
+  public NetworkObjects.NetworkData getEntityData() {
+    return entityData;
+  }
 
-    @Override
-    public NetworkObjects.NetworkEvent toNetworkEvent() {
-        return NetworkDataSerializer.createUpdateEntityOutgoingEventType(this);
-    }
+  @Override
+  public NetworkObjects.NetworkEvent toNetworkEvent() {
+    return NetworkDataSerializer.createUpdateEntityOutgoingEventType(this);
+  }
 }

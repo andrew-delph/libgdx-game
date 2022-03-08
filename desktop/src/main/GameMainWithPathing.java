@@ -9,16 +9,16 @@ import configuration.StandAloneConfig;
 import entity.pathfinding.EdgeRegistration;
 
 public class GameMainWithPathing {
-    public static void main(String[] arg) {
-        Injector injector = Guice.createInjector(new StandAloneConfig());
-        GameScreen gameScreen = injector.getInstance(GameScreen.class);
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+  public static void main(String[] arg) {
+    Injector injector = Guice.createInjector(new StandAloneConfig());
+    GameScreen gameScreen = injector.getInstance(GameScreen.class);
+    LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-        EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
-        edgeRegistration.edgeRegistration();
+    EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
+    edgeRegistration.edgeRegistration();
 
-        config.height = 500;
-        config.width = 500;
-        new LwjglApplication(gameScreen, config);
-    }
+    config.height = 500;
+    config.width = 500;
+    new LwjglApplication(gameScreen, config);
+  }
 }

@@ -12,18 +12,15 @@ import java.util.function.Consumer;
 
 public class ReplaceBlockOutgoingConsumerServer implements Consumer<EventType> {
 
-    @Inject
-    EventService eventService;
-    @Inject
-    ActiveChunkManager activeChunkManager;
-    @Inject
-    ServerNetworkHandle serverNetworkHandle;
+  @Inject EventService eventService;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ServerNetworkHandle serverNetworkHandle;
 
-    @Override
-    public void accept(EventType eventType) {
-        ReplaceBlockOutgoingEventType realEvent = (ReplaceBlockOutgoingEventType) eventType;
-        for (UserID userID : activeChunkManager.getChunkRangeUsers(realEvent.getChunkRange())) {
-            serverNetworkHandle.send(userID, realEvent.toNetworkEvent());
-        }
+  @Override
+  public void accept(EventType eventType) {
+    ReplaceBlockOutgoingEventType realEvent = (ReplaceBlockOutgoingEventType) eventType;
+    for (UserID userID : activeChunkManager.getChunkRangeUsers(realEvent.getChunkRange())) {
+      serverNetworkHandle.send(userID, realEvent.toNetworkEvent());
     }
+  }
 }

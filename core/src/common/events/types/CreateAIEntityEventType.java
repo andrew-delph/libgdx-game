@@ -10,31 +10,31 @@ import static networking.translation.NetworkDataSerializer.createCreateAIEntityE
 
 public class CreateAIEntityEventType extends EventType implements SerializeNetworkEvent {
 
-    public static String type = "create_ai";
+  public static String type = "create_ai";
 
-    Coordinates coordinates;
-    UUID target;
+  Coordinates coordinates;
+  UUID target;
 
-    public CreateAIEntityEventType(Coordinates coordinates, UUID target) {
-        this.coordinates = coordinates;
-        this.target = target;
-    }
+  public CreateAIEntityEventType(Coordinates coordinates, UUID target) {
+    this.coordinates = coordinates;
+    this.target = target;
+  }
 
-    public UUID getTarget() {
-        return target;
-    }
+  public UUID getTarget() {
+    return target;
+  }
 
-    public Coordinates getCoordinates() {
-        return coordinates;
-    }
+  public Coordinates getCoordinates() {
+    return coordinates;
+  }
 
-    @Override
-    public String getType() {
-        return type;
-    }
+  @Override
+  public String getType() {
+    return type;
+  }
 
-    @Override
-    public NetworkObjects.NetworkEvent toNetworkEvent() {
-        return createCreateAIEntityEventType(this);
-    }
+  @Override
+  public NetworkObjects.NetworkEvent toNetworkEvent() {
+    return createCreateAIEntityEventType(this);
+  }
 }

@@ -4,14 +4,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class LeftSensorPoint {
 
-    private final Body body;
+  private final Body body;
 
-    public LeftSensorPoint(Body body) {
-        this.body = body;
-    }
+  public LeftSensorPoint(Body body) {
+    this.body = body;
+  }
 
-    public Body getBody() {
-        return body;
-    }
-
+  public Body getBody() {
+    return body;
+  }
 }

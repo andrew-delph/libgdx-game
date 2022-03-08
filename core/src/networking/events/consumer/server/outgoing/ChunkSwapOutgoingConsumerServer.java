@@ -13,19 +13,16 @@ import java.util.function.Consumer;
 
 public class ChunkSwapOutgoingConsumerServer implements Consumer<EventType> {
 
-    @Inject
-    ActiveChunkManager activeChunkManager;
-    @Inject
-    ServerNetworkHandle serverNetworkHandle;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ServerNetworkHandle serverNetworkHandle;
 
-
-    @Override
-    public void accept(EventType eventType) {
-        ChunkSwapOutgoingEventType outgoing = (ChunkSwapOutgoingEventType) eventType;
-        NetworkObjects.NetworkEvent networkEvent = outgoing.toNetworkEvent();
-        Set<UserID> userIDS = activeChunkManager.getChunkRangeUsers(outgoing.getFrom());
-        for (UserID userID : userIDS) {
-            serverNetworkHandle.send(userID, networkEvent);
-        }
+  @Override
+  public void accept(EventType eventType) {
+    ChunkSwapOutgoingEventType outgoing = (ChunkSwapOutgoingEventType) eventType;
+    NetworkObjects.NetworkEvent networkEvent = outgoing.toNetworkEvent();
+    Set<UserID> userIDS = activeChunkManager.getChunkRangeUsers(outgoing.getFrom());
+    for (UserID userID : userIDS) {
+      serverNetworkHandle.send(userID, networkEvent);
     }
+  }
 }

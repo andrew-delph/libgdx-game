@@ -8,33 +8,33 @@ import networking.events.types.NetworkEventTypeEnum;
 
 public class CreateEntityIncomingEventType extends EventType {
 
-    public static String type = NetworkEventTypeEnum.CREATE_ENTITY_INCOMING;
+  public static String type = NetworkEventTypeEnum.CREATE_ENTITY_INCOMING;
 
-    UserID userID;
-    NetworkObjects.NetworkData networkData;
-    ChunkRange chunkRange;
+  UserID userID;
+  NetworkObjects.NetworkData networkData;
+  ChunkRange chunkRange;
 
-    public CreateEntityIncomingEventType(UserID userID, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
-        this.userID = userID;
-        this.networkData = networkData;
-        this.chunkRange = chunkRange;
-    }
+  public CreateEntityIncomingEventType(
+      UserID userID, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+    this.userID = userID;
+    this.networkData = networkData;
+    this.chunkRange = chunkRange;
+  }
 
-    public NetworkObjects.NetworkData getData() {
-        return networkData;
-    }
+  public NetworkObjects.NetworkData getData() {
+    return networkData;
+  }
 
-    public UserID getUserID() {
-        return this.userID;
-    }
+  public UserID getUserID() {
+    return this.userID;
+  }
 
+  public ChunkRange getChunkRange() {
+    return chunkRange;
+  }
 
-    public ChunkRange getChunkRange() {
-        return chunkRange;
-    }
-
-    @Override
-    public String getType() {
-        return type;
-    }
+  @Override
+  public String getType() {
+    return type;
+  }
 }

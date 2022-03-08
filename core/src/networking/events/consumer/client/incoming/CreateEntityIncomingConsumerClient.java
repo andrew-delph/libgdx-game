@@ -15,38 +15,35 @@ import java.util.function.Consumer;
 
 public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
 
-    @Inject
-    GameController gameController;
-    @Inject
-    NetworkDataDeserializer entitySerializationConverter;
-    @Inject
-    GameStore gameStore;
+  @Inject GameController gameController;
+  @Inject NetworkDataDeserializer entitySerializationConverter;
+  @Inject GameStore gameStore;
 
-    @Override
-    public void accept(EventType eventType) {
-        CreateEntityIncomingEventType realEvent = (CreateEntityIncomingEventType) eventType;
-        Entity entity;
-        try {
-            entity = entitySerializationConverter.createEntity(realEvent.getData());
-        } catch (SerializationDataMissing e) {
-            e.printStackTrace();
-            // TODO disconnect the client
-            return;
-        }
-
-        try {
-            if (this.gameStore.getEntity(entity.uuid) != null) {
-                return;
-            }
-        } catch (EntityNotFound e) {
-            //pass
-        }
-        //TODO remove or update
-        try {
-            gameController.triggerAddEntity(entity);
-        } catch (NullPointerException e) {
-            System.out.println("e: " + new ChunkRange(entity.coordinates));
-            throw e;
-        }
+  @Override
+  public void accept(EventType eventType) {
+    CreateEntityIncomingEventType realEvent = (CreateEntityIncomingEventType) eventType;
+    Entity entity;
+    try {
+      entity = entitySerializationConverter.createEntity(realEvent.getData());
+    } catch (SerializationDataMissing e) {
+      e.printStackTrace();
+      // TODO disconnect the client
+      return;
     }
+
+    try {
+      if (this.gameStore.getEntity(entity.uuid) != null) {
+        return;
+      }
+    } catch (EntityNotFound e) {
+      // pass
+    }
+    // TODO remove or update
+    try {
+      gameController.triggerAddEntity(entity);
+    } catch (NullPointerException e) {
+      System.out.println("e: " + new ChunkRange(entity.coordinates));
+      throw e;
+    }
+  }
 }

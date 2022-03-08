@@ -10,30 +10,31 @@ import java.util.UUID;
 
 public class HandshakeIncomingEventType extends EventType {
 
-    ChunkRange chunkRange;
-    List<UUID> listUUID;
-    UserID requestUserID;
+  ChunkRange chunkRange;
+  List<UUID> listUUID;
+  UserID requestUserID;
 
-    public HandshakeIncomingEventType(UserID requestUserID, ChunkRange chunkRange, List<UUID> listUUID) {
-        this.chunkRange = chunkRange;
-        this.listUUID = listUUID;
-        this.requestUserID = requestUserID;
-    }
+  public HandshakeIncomingEventType(
+      UserID requestUserID, ChunkRange chunkRange, List<UUID> listUUID) {
+    this.chunkRange = chunkRange;
+    this.listUUID = listUUID;
+    this.requestUserID = requestUserID;
+  }
 
-    public ChunkRange getChunkRange() {
-        return chunkRange;
-    }
+  public ChunkRange getChunkRange() {
+    return chunkRange;
+  }
 
-    public List<UUID> getListUUID() {
-        return listUUID;
-    }
+  public List<UUID> getListUUID() {
+    return listUUID;
+  }
 
-    public UserID getRequestUserID() {
-        return requestUserID;
-    }
+  public UserID getRequestUserID() {
+    return requestUserID;
+  }
 
-    @Override
-    public String getType() {
-        return NetworkEventTypeEnum.HANDSHAKE_INCOMING;
-    }
+  @Override
+  public String getType() {
+    return NetworkEventTypeEnum.HANDSHAKE_INCOMING;
+  }
 }

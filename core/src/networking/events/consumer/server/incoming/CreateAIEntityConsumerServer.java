@@ -14,35 +14,28 @@ import entity.controllers.EntityControllerFactory;
 
 import java.util.function.Consumer;
 
-
 public class CreateAIEntityConsumerServer implements Consumer<EventType> {
 
-    @Inject
-    EntityFactory entityFactory;
-    @Inject
-    GameController gameController;
-    @Inject
-    EntityControllerFactory entityControllerFactory;
-    @Inject
-    GameStore gameStore;
-    @Inject
-    ActiveEntityManager activeEntityManager;
-    @Inject
-    User user;
+  @Inject EntityFactory entityFactory;
+  @Inject GameController gameController;
+  @Inject EntityControllerFactory entityControllerFactory;
+  @Inject GameStore gameStore;
+  @Inject ActiveEntityManager activeEntityManager;
+  @Inject User user;
 
-    @Override
-    public void accept(EventType eventType) {
-        try {
-            CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
-            Entity aiEntity = entityFactory.createEntity();
-            activeEntityManager.registerActiveEntity(user.getUserID(), aiEntity.getUuid());
-            Entity aiTarget = gameStore.getEntity(realEvent.getTarget());
-            aiEntity.coordinates = realEvent.getCoordinates();
-            gameController.addEntity(aiEntity);
-            aiEntity.setController(
-                    entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
-        } catch (EntityNotFound e) {
-            e.printStackTrace();
-        }
+  @Override
+  public void accept(EventType eventType) {
+    try {
+      CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
+      Entity aiEntity = entityFactory.createEntity();
+      activeEntityManager.registerActiveEntity(user.getUserID(), aiEntity.getUuid());
+      Entity aiTarget = gameStore.getEntity(realEvent.getTarget());
+      aiEntity.coordinates = realEvent.getCoordinates();
+      gameController.addEntity(aiEntity);
+      aiEntity.setController(
+          entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
+    } catch (EntityNotFound e) {
+      e.printStackTrace();
     }
+  }
 }

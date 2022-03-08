@@ -10,16 +10,14 @@ import networking.server.ServerNetworkHandle;
 import java.util.function.Consumer;
 
 public class RemoveEntityOutgoingConsumerServer implements Consumer<EventType> {
-    @Inject
-    ActiveChunkManager activeChunkManager;
-    @Inject
-    ServerNetworkHandle serverNetworkHandle;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ServerNetworkHandle serverNetworkHandle;
 
-    @Override
-    public void accept(EventType eventType) {
-        RemoveEntityOutgoingEventType outgoing = (RemoveEntityOutgoingEventType) eventType;
-        for (UserID userID : activeChunkManager.getChunkRangeUsers(outgoing.getChunkRange())) {
-            serverNetworkHandle.send(userID, outgoing.toNetworkEvent());
-        }
+  @Override
+  public void accept(EventType eventType) {
+    RemoveEntityOutgoingEventType outgoing = (RemoveEntityOutgoingEventType) eventType;
+    for (UserID userID : activeChunkManager.getChunkRangeUsers(outgoing.getChunkRange())) {
+      serverNetworkHandle.send(userID, outgoing.toNetworkEvent());
     }
+  }
 }

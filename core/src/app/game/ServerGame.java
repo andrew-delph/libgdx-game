@@ -9,37 +9,35 @@ import java.io.IOException;
 
 public class ServerGame extends Game {
 
-    @Inject
-    ServerNetworkHandle serverNetworkHandle;
+  @Inject ServerNetworkHandle serverNetworkHandle;
 
-    @Inject
-    EdgeRegistrationBase edgeRegistration;
+  @Inject EdgeRegistrationBase edgeRegistration;
 
-    @Inject
-    public ServerGame() throws Exception {
-        super();
-    }
+  @Inject
+  public ServerGame() throws Exception {
+    super();
+  }
 
-    @Override
-    public void start() throws IOException, InterruptedException, SerializationDataMissing {
-        edgeRegistration.edgeRegistration();
-        super.start();
-    }
+  @Override
+  public void start() throws IOException, InterruptedException, SerializationDataMissing {
+    edgeRegistration.edgeRegistration();
+    super.start();
+  }
 
-    @Override
-    public void preStartInit() throws SerializationDataMissing {
-//        super.preStartInit();
-    }
+  @Override
+  public void preStartInit() throws SerializationDataMissing {
+    //        super.preStartInit();
+  }
 
-    @Override
-    public void postStartInit() throws SerializationDataMissing, InterruptedException, IOException {
-        super.postStartInit();
-        serverNetworkHandle.start();
-    }
+  @Override
+  public void postStartInit() throws SerializationDataMissing, InterruptedException, IOException {
+    super.postStartInit();
+    serverNetworkHandle.start();
+  }
 
-    @Override
-    public void stop() {
-        super.stop();
-        this.serverNetworkHandle.close();
-    }
+  @Override
+  public void stop() {
+    super.stop();
+    this.serverNetworkHandle.close();
+  }
 }

@@ -1,4 +1,3 @@
 package entity.collision.ground;
 
-public class GroundPoint {
-}
+public class GroundPoint {}

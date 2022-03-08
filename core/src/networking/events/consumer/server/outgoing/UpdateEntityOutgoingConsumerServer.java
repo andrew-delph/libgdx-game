@@ -13,19 +13,16 @@ import java.util.function.Consumer;
 
 public class UpdateEntityOutgoingConsumerServer implements Consumer<EventType> {
 
-    @Inject
-    EventService eventService;
-    @Inject
-    ActiveChunkManager activeChunkManager;
-    @Inject
-    ServerNetworkHandle serverNetworkHandle;
+  @Inject EventService eventService;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ServerNetworkHandle serverNetworkHandle;
 
-    @Override
-    public void accept(EventType eventType) {
-        UpdateEntityOutgoingEventType realEvent = (UpdateEntityOutgoingEventType) eventType;
-        NetworkObjects.NetworkEvent networkEvent = realEvent.toNetworkEvent();
-        for (UserID userID : activeChunkManager.getChunkRangeUsers(realEvent.getChunkRange())) {
-            serverNetworkHandle.send(userID, networkEvent);
-        }
+  @Override
+  public void accept(EventType eventType) {
+    UpdateEntityOutgoingEventType realEvent = (UpdateEntityOutgoingEventType) eventType;
+    NetworkObjects.NetworkEvent networkEvent = realEvent.toNetworkEvent();
+    for (UserID userID : activeChunkManager.getChunkRangeUsers(realEvent.getChunkRange())) {
+      serverNetworkHandle.send(userID, networkEvent);
     }
+  }
 }

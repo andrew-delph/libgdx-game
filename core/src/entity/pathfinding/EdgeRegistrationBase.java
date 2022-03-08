@@ -1,20 +1,14 @@
 package entity.pathfinding;
 
-
 public class EdgeRegistrationBase {
 
-    public void edgeRegistration() {
-    }
+  public void edgeRegistration() {}
 
-    public void templateEdgeRegistration() {
-    }
+  public void templateEdgeRegistration() {}
 
-    public void horizontalGreedyRegisterEdges() {
-    }
+  public void horizontalGreedyRegisterEdges() {}
 
-    public void ladderGreedyRegisterEdges() {
-    }
+  public void ladderGreedyRegisterEdges() {}
 
-    public void digGreedyRegisterEdges() {
-    }
+  public void digGreedyRegisterEdges() {}
 }

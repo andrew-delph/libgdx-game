@@ -6,17 +6,17 @@ import common.events.types.EventType;
 
 public class CoordinatesEventType extends EventType {
 
-    public static String type = "coordinates_event";
+  public static String type = "coordinates_event";
 
-    Coordinates coordinates;
+  Coordinates coordinates;
 
-    @Inject
-    public CoordinatesEventType(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
+  @Inject
+  public CoordinatesEventType(Coordinates coordinates) {
+    this.coordinates = coordinates;
+  }
 
-    @Override
-    public String getType() {
-        return type;
-    }
+  @Override
+  public String getType() {
+    return type;
+  }
 }

@@ -1,8 +1,8 @@
 package common;
 
 public enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT
 }

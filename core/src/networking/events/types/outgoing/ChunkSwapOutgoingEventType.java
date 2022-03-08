@@ -12,35 +12,35 @@ import static networking.translation.NetworkDataSerializer.createChunkSwapOutgoi
 
 public class ChunkSwapOutgoingEventType extends EventType implements SerializeNetworkEvent {
 
-    UUID target;
-    ChunkRange from;
-    ChunkRange to;
+  UUID target;
+  ChunkRange from;
+  ChunkRange to;
 
-    public ChunkSwapOutgoingEventType(UUID target, ChunkRange from, ChunkRange to) {
-        this.target = target;
-        this.from = from;
-        this.to = to;
-    }
+  public ChunkSwapOutgoingEventType(UUID target, ChunkRange from, ChunkRange to) {
+    this.target = target;
+    this.from = from;
+    this.to = to;
+  }
 
-    public UUID getTarget() {
-        return target;
-    }
+  public UUID getTarget() {
+    return target;
+  }
 
-    public ChunkRange getFrom() {
-        return from;
-    }
+  public ChunkRange getFrom() {
+    return from;
+  }
 
-    public ChunkRange getTo() {
-        return to;
-    }
+  public ChunkRange getTo() {
+    return to;
+  }
 
-    @Override
-    public String getType() {
-        return CHUNK_SWAP_OUTGOING;
-    }
+  @Override
+  public String getType() {
+    return CHUNK_SWAP_OUTGOING;
+  }
 
-    @Override
-    public NetworkObjects.NetworkEvent toNetworkEvent() {
-        return createChunkSwapOutgoingEventType(this);
-    }
+  @Override
+  public NetworkObjects.NetworkEvent toNetworkEvent() {
+    return createChunkSwapOutgoingEventType(this);
+  }
 }

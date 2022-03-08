@@ -9,30 +9,30 @@ import static networking.events.types.NetworkEventTypeEnum.CHUNK_SWAP_INCOMING;
 
 public class ChunkSwapIncomingEventType extends EventType {
 
-    UUID target;
-    ChunkRange from;
-    ChunkRange to;
+  UUID target;
+  ChunkRange from;
+  ChunkRange to;
 
-    public ChunkSwapIncomingEventType(UUID target, ChunkRange from, ChunkRange to) {
-        this.target = target;
-        this.from = from;
-        this.to = to;
-    }
+  public ChunkSwapIncomingEventType(UUID target, ChunkRange from, ChunkRange to) {
+    this.target = target;
+    this.from = from;
+    this.to = to;
+  }
 
-    public UUID getTarget() {
-        return target;
-    }
+  public UUID getTarget() {
+    return target;
+  }
 
-    public ChunkRange getFrom() {
-        return from;
-    }
+  public ChunkRange getFrom() {
+    return from;
+  }
 
-    public ChunkRange getTo() {
-        return to;
-    }
+  public ChunkRange getTo() {
+    return to;
+  }
 
-    @Override
-    public String getType() {
-        return CHUNK_SWAP_INCOMING;
-    }
+  @Override
+  public String getType() {
+    return CHUNK_SWAP_INCOMING;
+  }
 }

@@ -17,33 +17,32 @@ import java.util.List;
 
 public class testSubscriptionSerialization {
 
-    Injector injector;
+  Injector injector;
 
-    @Before
-    public void setup() {
-        injector = Guice.createInjector(new ClientConfig());
-    }
+  @Before
+  public void setup() {
+    injector = Guice.createInjector(new ClientConfig());
+  }
 
-    @Test
-    public void testHandleSubscriptionEvent() {
-        List<ChunkRange> chunkRangeList = new LinkedList<>();
-        chunkRangeList.add(new ChunkRange(new Coordinates(0, 1)));
-        chunkRangeList.add(new ChunkRange(new Coordinates(-2, 1)));
-        SubscriptionOutgoingEventType subscriptionOutgoingEvent =
-                new SubscriptionOutgoingEventType(chunkRangeList);
-        UserID userID = UserID.createUserID();
+  @Test
+  public void testHandleSubscriptionEvent() {
+    List<ChunkRange> chunkRangeList = new LinkedList<>();
+    chunkRangeList.add(new ChunkRange(new Coordinates(0, 1)));
+    chunkRangeList.add(new ChunkRange(new Coordinates(-2, 1)));
+    SubscriptionOutgoingEventType subscriptionOutgoingEvent =
+        new SubscriptionOutgoingEventType(chunkRangeList);
+    UserID userID = UserID.createUserID();
 
-        SubscriptionIncomingEventType subscriptionIncomingEvent =
-                new SubscriptionIncomingEventType(
-                        subscriptionOutgoingEvent.toNetworkEvent().toBuilder()
-                                .setUser(userID.toString())
-                                .build());
+    SubscriptionIncomingEventType subscriptionIncomingEvent =
+        new SubscriptionIncomingEventType(
+            subscriptionOutgoingEvent.toNetworkEvent().toBuilder()
+                .setUser(userID.toString())
+                .build());
 
-        Assert.assertEquals(
-                subscriptionOutgoingEvent.getChunkRangeList(),
-                subscriptionIncomingEvent.getChunkRangeList());
+    Assert.assertEquals(
+        subscriptionOutgoingEvent.getChunkRangeList(),
+        subscriptionIncomingEvent.getChunkRangeList());
 
-        Assert.assertEquals(subscriptionIncomingEvent.getUserID(), userID);
-
-    }
+    Assert.assertEquals(subscriptionIncomingEvent.getUserID(), userID);
+  }
 }

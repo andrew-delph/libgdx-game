@@ -10,16 +10,14 @@ import java.util.function.Consumer;
 
 public class AuthenticationIncomingConsumerClient implements Consumer<EventType> {
 
-    @Inject
-    ClientNetworkHandle clientNetworkHandle;
+  @Inject ClientNetworkHandle clientNetworkHandle;
 
-    @Inject
-    ConnectionStore connectionStore;
+  @Inject ConnectionStore connectionStore;
 
-    @Override
-    public void accept(EventType eventType) {
-        AuthenticationIncomingEventType incoming = (AuthenticationIncomingEventType) eventType;
-        connectionStore.addConnection(incoming.getUser(), incoming.getRequestNetworkEventObserver());
-        clientNetworkHandle.authLatch.countDown();
-    }
+  @Override
+  public void accept(EventType eventType) {
+    AuthenticationIncomingEventType incoming = (AuthenticationIncomingEventType) eventType;
+    connectionStore.addConnection(incoming.getUser(), incoming.getRequestNetworkEventObserver());
+    clientNetworkHandle.authLatch.countDown();
+  }
 }

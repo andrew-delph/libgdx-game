@@ -6,21 +6,16 @@ import networking.events.EventTypeFactory;
 import networking.translation.NetworkEventHandler;
 
 public class ObserverFactory {
-    @Inject
-    NetworkEventHandler networkEventHandler;
-    @Inject
-    ConnectionStore connectionStore;
-    @Inject
-    EventService eventService;
-    @Inject
-    EventTypeFactory eventTypeFactory;
+  @Inject NetworkEventHandler networkEventHandler;
+  @Inject ConnectionStore connectionStore;
+  @Inject EventService eventService;
+  @Inject EventTypeFactory eventTypeFactory;
 
-    @Inject
-    ObserverFactory() {
-    }
+  @Inject
+  ObserverFactory() {}
 
-    public RequestNetworkEventObserver create() {
-        return new RequestNetworkEventObserver(
-                networkEventHandler, connectionStore, eventService, eventTypeFactory);
-    }
+  public RequestNetworkEventObserver create() {
+    return new RequestNetworkEventObserver(
+        networkEventHandler, connectionStore, eventService, eventTypeFactory);
+  }
 }

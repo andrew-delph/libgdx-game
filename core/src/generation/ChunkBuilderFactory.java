@@ -7,20 +7,15 @@ import com.google.inject.Inject;
 import common.GameStore;
 
 public class ChunkBuilderFactory {
-    @Inject
-    ChunkFactory chunkFactory;
-    @Inject
-    GameStore gameStore;
-    @Inject
-    BlockGenerator blockGenerator;
-    @Inject
-    GameController gameController;
+  @Inject ChunkFactory chunkFactory;
+  @Inject GameStore gameStore;
+  @Inject BlockGenerator blockGenerator;
+  @Inject GameController gameController;
 
-    @Inject
-    ChunkBuilderFactory() {
-    }
+  @Inject
+  ChunkBuilderFactory() {}
 
-    public ChunkBuilder create(ChunkRange chunkRange) {
-        return new ChunkBuilder(chunkFactory, gameStore, blockGenerator, gameController, chunkRange);
-    }
+  public ChunkBuilder create(ChunkRange chunkRange) {
+    return new ChunkBuilder(chunkFactory, gameStore, blockGenerator, gameController, chunkRange);
+  }
 }

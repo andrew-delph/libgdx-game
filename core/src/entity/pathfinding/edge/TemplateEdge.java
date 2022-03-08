@@ -11,82 +11,83 @@ import static app.screen.GameScreen.pathDebugRender;
 
 public class TemplateEdge extends AbstractEdge {
 
+  List<RelativeActionEdge> actionEdgeList;
 
-    List<RelativeActionEdge> actionEdgeList;
+  int currentStep = 0;
 
-    int currentStep = 0;
+  public TemplateEdge(
+      EntityStructure entityStructure,
+      RelativeVertex from,
+      RelativeVertex to,
+      List<RelativeActionEdge> actionEdgeList) {
+    super(entityStructure, from, to);
+    this.actionEdgeList = actionEdgeList;
+  }
 
-    public TemplateEdge(
-            EntityStructure entityStructure,
-            RelativeVertex from,
-            RelativeVertex to,
-            List<RelativeActionEdge> actionEdgeList) {
-        super(entityStructure, from, to);
-        this.actionEdgeList = actionEdgeList;
+  @Override
+  public double getCost() {
+    return 1;
+  }
+
+  public List<RelativeActionEdge> getActionEdgeList() {
+    return actionEdgeList;
+  }
+
+  @Override
+  public boolean isAvailable(PathGameStoreOverride pathGameStoreOverride, Coordinates coordinates) {
+    if (!coordinates.equals(coordinates.getBase())) {
+      return false;
     }
+    return super.isAvailable(pathGameStoreOverride, coordinates);
+  }
 
-    @Override
-    public double getCost() {
-        return 1;
-    }
+  @Override
+  public void finish() {
+    super.finish();
+    this.currentStep = 0;
+  }
 
-    public List<RelativeActionEdge> getActionEdgeList() {
-        return actionEdgeList;
-    }
+  public void registerActionEdge(RelativeActionEdge actionEdge) {
+    this.actionEdgeList.add(actionEdge);
+  }
 
-    @Override
-    public boolean isAvailable(PathGameStoreOverride pathGameStoreOverride, Coordinates coordinates) {
-        if (!coordinates.equals(coordinates.getBase())) {
-            return false;
-        }
-        return super.isAvailable(pathGameStoreOverride, coordinates);
-    }
+  public RelativeActionEdge getLastEdge() {
+    return this.actionEdgeList.get(this.actionEdgeList.size() - 1);
+  }
 
-    @Override
-    public void finish() {
-        super.finish();
-        this.currentStep = 0;
-    }
+  @Override
+  public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
+    return new TemplateEdgeStepper(this.actionEdgeList);
+  }
 
-    public void registerActionEdge(RelativeActionEdge actionEdge) {
-        this.actionEdgeList.add(actionEdge);
+  @Override
+  public void render(Coordinates position) {
+    pathDebugRender.setColor(Color.PURPLE);
+    for (RelativeActionEdge actionEdge : this.getActionEdgeList()) {
+      Coordinates start =
+          actionEdge.getFrom().getRelativeCoordinates().applyRelativeCoordinates(position);
+      Coordinates end =
+          actionEdge.getTo().getRelativeCoordinates().applyRelativeCoordinates(position);
+      pathDebugRender.line(start.toVector2(), end.toVector2());
     }
-
-    public RelativeActionEdge getLastEdge() {
-        return this.actionEdgeList.get(this.actionEdgeList.size() - 1);
-    }
-
-    @Override
-    public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
-        return new TemplateEdgeStepper(this.actionEdgeList);
-    }
-
-    @Override
-    public void render(Coordinates position) {
-        pathDebugRender.setColor(Color.PURPLE);
-        for (RelativeActionEdge actionEdge : this.getActionEdgeList()) {
-            Coordinates start = actionEdge.getFrom().getRelativeCoordinates().applyRelativeCoordinates(position);
-            Coordinates end = actionEdge.getTo().getRelativeCoordinates().applyRelativeCoordinates(position);
-            pathDebugRender.line(start.toVector2(), end.toVector2());
-        }
-    }
+  }
 }
 
 class TemplateEdgeStepper extends EdgeStepper {
 
-    List<RelativeActionEdge> actionEdgeList;
-    int currentStep = 0;
+  List<RelativeActionEdge> actionEdgeList;
+  int currentStep = 0;
 
-    public TemplateEdgeStepper(List<RelativeActionEdge> actionEdgeList) {
-        this.actionEdgeList = actionEdgeList;
-    }
+  public TemplateEdgeStepper(List<RelativeActionEdge> actionEdgeList) {
+    this.actionEdgeList = actionEdgeList;
+  }
 
-    @Override
-    public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
-        RelativeActionEdge currentEdge = this.actionEdgeList.get(currentStep);
-        currentStep++;
-        String actionKey = currentEdge.actionKey;
-        entity.entityController.applyAction(actionKey, entity.getBody());
-        if (currentStep == this.actionEdgeList.size()) this.finish();
-    }
+  @Override
+  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
+    RelativeActionEdge currentEdge = this.actionEdgeList.get(currentStep);
+    currentStep++;
+    String actionKey = currentEdge.actionKey;
+    entity.entityController.applyAction(actionKey, entity.getBody());
+    if (currentStep == this.actionEdgeList.size()) this.finish();
+  }
 }

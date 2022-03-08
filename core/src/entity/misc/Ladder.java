@@ -8,17 +8,17 @@ import entity.Entity;
 import entity.EntityBodyBuilder;
 
 public class Ladder extends Entity {
-    public Ladder(
-            Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
-        super(clock, baseAssetManager, entityBodyBuilder);
-        this.zindex = 2;
-        this.textureName = "ladder.png";
-        this.setWidth(Entity.coordinatesScale);
-        this.setHeight(Entity.coordinatesScale);
-    }
+  public Ladder(
+      Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
+    super(clock, baseAssetManager, entityBodyBuilder);
+    this.zindex = 2;
+    this.textureName = "ladder.png";
+    this.setWidth(Entity.coordinatesScale);
+    this.setHeight(Entity.coordinatesScale);
+  }
 
-    @Override
-    public synchronized Body addWorld(World world) {
-        return EntityBodyBuilder.createEmptyLadderBody(world, this.coordinates);
-    }
+  @Override
+  public synchronized Body addWorld(World world) {
+    return EntityBodyBuilder.createEmptyLadderBody(world, this.coordinates);
+  }
 }

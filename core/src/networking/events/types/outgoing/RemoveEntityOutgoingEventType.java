@@ -12,33 +12,32 @@ import java.util.UUID;
 import static networking.events.types.NetworkEventTypeEnum.REMOVE_ENTITY_OUTGOING;
 
 public class RemoveEntityOutgoingEventType extends EventType implements SerializeNetworkEvent {
-    public static String type = REMOVE_ENTITY_OUTGOING;
+  public static String type = REMOVE_ENTITY_OUTGOING;
 
-    UUID target;
-    ChunkRange chunkRange;
+  UUID target;
+  ChunkRange chunkRange;
 
-    @Inject
-    public RemoveEntityOutgoingEventType(
-            UUID target, ChunkRange chunkRange) {
-        this.target = target;
-        this.chunkRange = chunkRange;
-    }
+  @Inject
+  public RemoveEntityOutgoingEventType(UUID target, ChunkRange chunkRange) {
+    this.target = target;
+    this.chunkRange = chunkRange;
+  }
 
-    public ChunkRange getChunkRange() {
-        return chunkRange;
-    }
+  public ChunkRange getChunkRange() {
+    return chunkRange;
+  }
 
-    public UUID getTarget() {
-        return target;
-    }
+  public UUID getTarget() {
+    return target;
+  }
 
-    @Override
-    public String getType() {
-        return type;
-    }
+  @Override
+  public String getType() {
+    return type;
+  }
 
-    @Override
-    public NetworkObjects.NetworkEvent toNetworkEvent() {
-        return NetworkDataSerializer.createRemoveEntityOutgoingEventType(this);
-    }
+  @Override
+  public NetworkObjects.NetworkEvent toNetworkEvent() {
+    return NetworkDataSerializer.createRemoveEntityOutgoingEventType(this);
+  }
 }

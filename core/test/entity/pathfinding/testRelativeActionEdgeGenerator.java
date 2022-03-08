@@ -8,54 +8,54 @@ import entity.block.SolidBlock;
 import org.junit.Test;
 
 public class testRelativeActionEdgeGenerator {
-    @Test
-    public void testRelativeActionEdgeGenerator() {
-        Injector injector = Guice.createInjector(new StandAloneConfig());
+  @Test
+  public void testRelativeActionEdgeGenerator() {
+    Injector injector = Guice.createInjector(new StandAloneConfig());
 
-        RelativeActionEdgeGenerator generator = injector.getInstance(RelativeActionEdgeGenerator.class);
+    RelativeActionEdgeGenerator generator = injector.getInstance(RelativeActionEdgeGenerator.class);
 
-        EntityStructureFactory entityStructureFactory =
-                injector.getInstance(EntityStructureFactory.class);
+    EntityStructureFactory entityStructureFactory =
+        injector.getInstance(EntityStructureFactory.class);
 
-        EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
-        entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), SolidBlock.class);
-        entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), SolidBlock.class);
+    EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
+    entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), SolidBlock.class);
+    entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), SolidBlock.class);
 
-        RelativeActionEdge leftRelativeActionEdge =
-                generator.generateRelativeActionEdge(
-                        entityStructure,
-                        new RelativeVertex(entityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
-                        "right");
-        //
-        //    System.out.println(relativeActionEdge.getFrom());
-        //    System.out.println(relativeActionEdge.getTo());
-        assert leftRelativeActionEdge.getFrom().getRelativeCoordinates().getRelativeX()
-                < leftRelativeActionEdge.getTo().getRelativeCoordinates().getRelativeX();
+    RelativeActionEdge leftRelativeActionEdge =
+        generator.generateRelativeActionEdge(
+            entityStructure,
+            new RelativeVertex(entityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
+            "right");
+    //
+    //    System.out.println(relativeActionEdge.getFrom());
+    //    System.out.println(relativeActionEdge.getTo());
+    assert leftRelativeActionEdge.getFrom().getRelativeCoordinates().getRelativeX()
+        < leftRelativeActionEdge.getTo().getRelativeCoordinates().getRelativeX();
 
-        RelativeActionEdge rightRelativeActionEdge =
-                generator.generateRelativeActionEdge(
-                        entityStructure,
-                        new RelativeVertex(entityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
-                        "left");
+    RelativeActionEdge rightRelativeActionEdge =
+        generator.generateRelativeActionEdge(
+            entityStructure,
+            new RelativeVertex(entityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
+            "left");
 
-        //    System.out.println(relativeActionEdge.getFrom());
-        //    System.out.println(relativeActionEdge.getTo());
+    //    System.out.println(relativeActionEdge.getFrom());
+    //    System.out.println(relativeActionEdge.getTo());
 
-        assert rightRelativeActionEdge.getFrom().getRelativeCoordinates().getRelativeX()
-                > rightRelativeActionEdge.getTo().getRelativeCoordinates().getRelativeX();
+    assert rightRelativeActionEdge.getFrom().getRelativeCoordinates().getRelativeX()
+        > rightRelativeActionEdge.getTo().getRelativeCoordinates().getRelativeX();
 
-        RelativeActionEdge stopRelativeActionEdge =
-                generator.generateRelativeActionEdge(
-                        entityStructure,
-                        new RelativeVertex(entityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
-                        "stop");
+    RelativeActionEdge stopRelativeActionEdge =
+        generator.generateRelativeActionEdge(
+            entityStructure,
+            new RelativeVertex(entityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0)),
+            "stop");
 
-        //    System.out.println(relativeActionEdge.getFrom());
-        //    System.out.println(relativeActionEdge.getTo());
+    //    System.out.println(relativeActionEdge.getFrom());
+    //    System.out.println(relativeActionEdge.getTo());
 
-        assert stopRelativeActionEdge.getFrom().getRelativeCoordinates().getRelativeX()
-                == stopRelativeActionEdge.getTo().getRelativeCoordinates().getRelativeX();
+    assert stopRelativeActionEdge.getFrom().getRelativeCoordinates().getRelativeX()
+        == stopRelativeActionEdge.getTo().getRelativeCoordinates().getRelativeX();
 
-        assert !leftRelativeActionEdge.equals(rightRelativeActionEdge);
-    }
+    assert !leftRelativeActionEdge.equals(rightRelativeActionEdge);
+  }
 }

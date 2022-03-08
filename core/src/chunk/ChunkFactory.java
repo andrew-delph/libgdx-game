@@ -8,23 +8,18 @@ import entity.collision.EntityContactListenerFactory;
 
 public class ChunkFactory {
 
-    @Inject
-    Clock clock;
+  @Inject Clock clock;
 
-    @Inject
-    GameStore gameStore;
+  @Inject GameStore gameStore;
 
-    @Inject
-    EntityContactListenerFactory entityContactListenerFactory;
+  @Inject EntityContactListenerFactory entityContactListenerFactory;
 
-    @Inject
-    GameController gameController;
+  @Inject GameController gameController;
 
-    @Inject
-    ChunkFactory() {
-    }
+  @Inject
+  ChunkFactory() {}
 
-    public Chunk create(ChunkRange chunkRange) {
-        return new Chunk(clock, gameStore, gameController, entityContactListenerFactory, chunkRange);
-    }
+  public Chunk create(ChunkRange chunkRange) {
+    return new Chunk(clock, gameStore, gameController, entityContactListenerFactory, chunkRange);
+  }
 }

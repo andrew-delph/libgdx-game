@@ -16,31 +16,30 @@ import java.util.function.Consumer;
 
 public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
 
-    @Inject
-    NetworkDataDeserializer entitySerializationConverter;
-    @Inject
-    ServerNetworkHandle serverNetworkHandle;
-    @Inject
-    ActiveChunkManager activeChunkManager;
+  @Inject NetworkDataDeserializer entitySerializationConverter;
+  @Inject ServerNetworkHandle serverNetworkHandle;
+  @Inject ActiveChunkManager activeChunkManager;
 
-    @Override
-    public void accept(EventType eventType) {
-        UpdateEntityIncomingEventType incoming = (UpdateEntityIncomingEventType) eventType;
-        try {
-            entitySerializationConverter.updateEntity(incoming.getData());
-        } catch (EntityNotFound e) {
-            e.printStackTrace();
-            // TODO test this
-            serverNetworkHandle.initHandshake(incoming.getUserID(), incoming.getChunkRange());
-            return;
-        } catch (SerializationDataMissing e) {
-            e.printStackTrace();
-            // TODO disconnect client for now.
-        }
-        UpdateEntityOutgoingEventType outgoing = EventTypeFactory.createUpdateEntityOutgoingEvent(incoming.getData(), incoming.getChunkRange());
-        for (UserID userID : activeChunkManager.getChunkRangeUsers(outgoing.getChunkRange())) {
-            if (userID.equals(incoming.getUserID())) continue;
-            serverNetworkHandle.send(userID, outgoing.toNetworkEvent());
-        }
+  @Override
+  public void accept(EventType eventType) {
+    UpdateEntityIncomingEventType incoming = (UpdateEntityIncomingEventType) eventType;
+    try {
+      entitySerializationConverter.updateEntity(incoming.getData());
+    } catch (EntityNotFound e) {
+      e.printStackTrace();
+      // TODO test this
+      serverNetworkHandle.initHandshake(incoming.getUserID(), incoming.getChunkRange());
+      return;
+    } catch (SerializationDataMissing e) {
+      e.printStackTrace();
+      // TODO disconnect client for now.
     }
+    UpdateEntityOutgoingEventType outgoing =
+        EventTypeFactory.createUpdateEntityOutgoingEvent(
+            incoming.getData(), incoming.getChunkRange());
+    for (UserID userID : activeChunkManager.getChunkRangeUsers(outgoing.getChunkRange())) {
+      if (userID.equals(incoming.getUserID())) continue;
+      serverNetworkHandle.send(userID, outgoing.toNetworkEvent());
+    }
+  }
 }

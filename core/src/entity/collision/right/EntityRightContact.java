@@ -11,37 +11,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EntityRightContact implements ContactWrapper {
-    @Inject
-    CollisionService collisionService;
+  @Inject CollisionService collisionService;
 
-    Map<Body, Integer> rightContactCounter = new HashMap<>();
+  Map<Body, Integer> rightContactCounter = new HashMap<>();
 
-    @Override
-    public void beginContact(Object source, Object target) {
-        RightSensorPoint rightPoint = (RightSensorPoint) source;
-        this.rightContactCounter.putIfAbsent(rightPoint.getBody(), 0);
-        int rightCount = this.rightContactCounter.get(rightPoint.getBody());
-        this.rightContactCounter.put(rightPoint.getBody(), rightCount + 1);
-    }
+  @Override
+  public void beginContact(Object source, Object target) {
+    RightSensorPoint rightPoint = (RightSensorPoint) source;
+    this.rightContactCounter.putIfAbsent(rightPoint.getBody(), 0);
+    int rightCount = this.rightContactCounter.get(rightPoint.getBody());
+    this.rightContactCounter.put(rightPoint.getBody(), rightCount + 1);
+  }
 
-    @Override
-    public void endContact(Object source, Object target) {
-        RightSensorPoint rightPoint = (RightSensorPoint) source;
-        this.rightContactCounter.putIfAbsent(rightPoint.getBody(), 0);
-        int rightCount = this.rightContactCounter.get(rightPoint.getBody());
-        this.rightContactCounter.put(rightPoint.getBody(), rightCount - 1);
-    }
+  @Override
+  public void endContact(Object source, Object target) {
+    RightSensorPoint rightPoint = (RightSensorPoint) source;
+    this.rightContactCounter.putIfAbsent(rightPoint.getBody(), 0);
+    int rightCount = this.rightContactCounter.get(rightPoint.getBody());
+    this.rightContactCounter.put(rightPoint.getBody(), rightCount - 1);
+  }
 
-    public boolean isRightSpace(Body body) {
-        if (this.rightContactCounter.get(body) == null) {
-            return true;
-        } else return this.rightContactCounter.get(body) == 0;
-    }
+  public boolean isRightSpace(Body body) {
+    if (this.rightContactCounter.get(body) == null) {
+      return true;
+    } else return this.rightContactCounter.get(body) == 0;
+  }
 
-    @Override
-    public void init() {
-        collisionService.addCollisionConsumer(
-                new CollisionPair(RightSensorPoint.class, GroundPoint.class), this);
-    }
-
+  @Override
+  public void init() {
+    collisionService.addCollisionConsumer(
+        new CollisionPair(RightSensorPoint.class, GroundPoint.class), this);
+  }
 }

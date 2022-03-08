@@ -16,40 +16,33 @@ import java.util.Timer;
 
 public class Game {
 
-    @Inject
-    UpdateTask updateTask;
-    @Inject
-    CollisionService collisionService;
-    @Inject
-    EventConsumer eventConsumer;
-    @Inject
-    ChunkFactory chunkFactory;
-    @Inject
-    GameStore gameStore;
+  @Inject UpdateTask updateTask;
+  @Inject CollisionService collisionService;
+  @Inject EventConsumer eventConsumer;
+  @Inject ChunkFactory chunkFactory;
+  @Inject GameStore gameStore;
 
-    Timer timer;
+  Timer timer;
 
-    @Inject
-    public Game() throws Exception {
-    }
+  @Inject
+  public Game() throws Exception {}
 
-    public void start() throws IOException, InterruptedException, SerializationDataMissing {
-        this.preStartInit();
-        this.eventConsumer.init();
-        this.collisionService.init();
-        this.postStartInit();
-        timer = new Timer(true);
-        timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);
-    }
+  public void start() throws IOException, InterruptedException, SerializationDataMissing {
+    this.preStartInit();
+    this.eventConsumer.init();
+    this.collisionService.init();
+    this.postStartInit();
+    timer = new Timer(true);
+    timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);
+  }
 
-    public void stop() {
-        timer.cancel();
-    }
+  public void stop() {
+    timer.cancel();
+  }
 
-    public void preStartInit() throws SerializationDataMissing {
-        gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
-    }
+  public void preStartInit() throws SerializationDataMissing {
+    gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
+  }
 
-    public void postStartInit() throws SerializationDataMissing, InterruptedException, IOException {
-    }
+  public void postStartInit() throws SerializationDataMissing, InterruptedException, IOException {}
 }

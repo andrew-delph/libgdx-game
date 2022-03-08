@@ -18,38 +18,36 @@ import java.util.function.Consumer;
 
 public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
 
-    @Inject
-    GameController gameController;
-    @Inject
-    NetworkDataDeserializer entitySerializationConverter;
-    @Inject
-    ServerNetworkHandle serverNetworkHandle;
-    @Inject
-    ActiveEntityManager activeEntityManager;
-    @Inject
-    ActiveChunkManager activeChunkManager;
+  @Inject GameController gameController;
+  @Inject NetworkDataDeserializer entitySerializationConverter;
+  @Inject ServerNetworkHandle serverNetworkHandle;
+  @Inject ActiveEntityManager activeEntityManager;
+  @Inject ActiveChunkManager activeChunkManager;
 
-    @Override
-    public void accept(EventType eventType) {
-        CreateEntityIncomingEventType incoming = (CreateEntityIncomingEventType) eventType;
-        Entity entity;
-        try {
-            entity = gameController.triggerAddEntity(
-                    entitySerializationConverter.createEntity(incoming.getData()));
-        } catch (SerializationDataMissing e) {
-            e.printStackTrace();
-            return;
-        }
-
-        if (entity.getClass() == Entity.class) {
-            activeEntityManager.registerActiveEntity(incoming.getUserID(), entity.uuid);
-        }
-
-        CreateEntityOutgoingEventType outgoing = EventTypeFactory.createCreateEntityOutgoingEvent(incoming.getData(), incoming.getChunkRange());
-
-        for (UserID userID : activeChunkManager.getChunkRangeUsers(incoming.getChunkRange())) {
-            if (userID.equals(incoming.getUserID())) continue;
-            serverNetworkHandle.send(userID, outgoing.toNetworkEvent());
-        }
+  @Override
+  public void accept(EventType eventType) {
+    CreateEntityIncomingEventType incoming = (CreateEntityIncomingEventType) eventType;
+    Entity entity;
+    try {
+      entity =
+          gameController.triggerAddEntity(
+              entitySerializationConverter.createEntity(incoming.getData()));
+    } catch (SerializationDataMissing e) {
+      e.printStackTrace();
+      return;
     }
+
+    if (entity.getClass() == Entity.class) {
+      activeEntityManager.registerActiveEntity(incoming.getUserID(), entity.uuid);
+    }
+
+    CreateEntityOutgoingEventType outgoing =
+        EventTypeFactory.createCreateEntityOutgoingEvent(
+            incoming.getData(), incoming.getChunkRange());
+
+    for (UserID userID : activeChunkManager.getChunkRangeUsers(incoming.getChunkRange())) {
+      if (userID.equals(incoming.getUserID())) continue;
+      serverNetworkHandle.send(userID, outgoing.toNetworkEvent());
+    }
+  }
 }

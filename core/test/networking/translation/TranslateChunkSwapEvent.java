@@ -13,19 +13,20 @@ import java.util.UUID;
 
 public class TranslateChunkSwapEvent {
 
-    @Test
-    public void testTranslateChunkSwapEvent() throws SerializationDataMissing {
-        ChunkRange from = new ChunkRange(new Coordinates(0, 0));
-        ChunkRange to = new ChunkRange(new Coordinates(-1, 0));
-        UUID target = UUID.randomUUID();
+  @Test
+  public void testTranslateChunkSwapEvent() throws SerializationDataMissing {
+    ChunkRange from = new ChunkRange(new Coordinates(0, 0));
+    ChunkRange to = new ChunkRange(new Coordinates(-1, 0));
+    UUID target = UUID.randomUUID();
 
-        ChunkSwapOutgoingEventType outgoing = EventTypeFactory.createChunkSwapOutgoingEventType(target, from, to);
-        ChunkSwapIncomingEventType incoming = NetworkDataDeserializer.createChunkSwapIncomingEventType(
-                NetworkDataSerializer.createChunkSwapOutgoingEventType(outgoing));
+    ChunkSwapOutgoingEventType outgoing =
+        EventTypeFactory.createChunkSwapOutgoingEventType(target, from, to);
+    ChunkSwapIncomingEventType incoming =
+        NetworkDataDeserializer.createChunkSwapIncomingEventType(
+            NetworkDataSerializer.createChunkSwapOutgoingEventType(outgoing));
 
-        assert incoming.getTarget().equals(outgoing.getTarget());
-        Assert.assertEquals(incoming.getFrom(), outgoing.getFrom());
-        Assert.assertEquals(incoming.getTo(), outgoing.getTo());
-    }
-
+    assert incoming.getTarget().equals(outgoing.getTarget());
+    Assert.assertEquals(incoming.getFrom(), outgoing.getFrom());
+    Assert.assertEquals(incoming.getTo(), outgoing.getTo());
+  }
 }

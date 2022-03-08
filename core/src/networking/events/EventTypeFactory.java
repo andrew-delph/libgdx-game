@@ -21,112 +21,122 @@ import java.util.UUID;
 
 public class EventTypeFactory {
 
-    @Inject
-    NetworkDataDeserializer entitySerializationConverter;
+  @Inject NetworkDataDeserializer entitySerializationConverter;
 
-    @Inject
-    EventTypeFactory() {
-    }
+  @Inject
+  EventTypeFactory() {}
 
-    public static CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
-            NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
+  public static CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
+      NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
 
-        return new CreateEntityOutgoingEventType(entityData, chunkRange);
-    }
+    return new CreateEntityOutgoingEventType(entityData, chunkRange);
+  }
 
-    public static CreateEntityIncomingEventType createCreateEntityIncomingEvent(UserID userID, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
-        return new CreateEntityIncomingEventType(userID, networkData, chunkRange);
-    }
+  public static CreateEntityIncomingEventType createCreateEntityIncomingEvent(
+      UserID userID, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+    return new CreateEntityIncomingEventType(userID, networkData, chunkRange);
+  }
 
-    public static UpdateEntityOutgoingEventType createUpdateEntityOutgoingEvent(
-            NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
-        return new UpdateEntityOutgoingEventType(entityData, chunkRange);
-    }
+  public static UpdateEntityOutgoingEventType createUpdateEntityOutgoingEvent(
+      NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
+    return new UpdateEntityOutgoingEventType(entityData, chunkRange);
+  }
 
-    public static UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
-            UserID user,
-            NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
-        return new UpdateEntityIncomingEventType(user, networkData, chunkRange);
-    }
+  public static UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
+      UserID user, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
+    return new UpdateEntityIncomingEventType(user, networkData, chunkRange);
+  }
 
-    public static RemoveEntityIncomingEventType createRemoveEntityIncomingEvent(UserID user, ChunkRange chunkRange, UUID target) {
-        return new RemoveEntityIncomingEventType(user, chunkRange, target);
-    }
+  public static RemoveEntityIncomingEventType createRemoveEntityIncomingEvent(
+      UserID user, ChunkRange chunkRange, UUID target) {
+    return new RemoveEntityIncomingEventType(user, chunkRange, target);
+  }
 
-    public static RemoveEntityOutgoingEventType createRemoveEntityOutgoingEvent(
-            UUID target, ChunkRange chunkRange) {
-        return new RemoveEntityOutgoingEventType(target, chunkRange);
-    }
+  public static RemoveEntityOutgoingEventType createRemoveEntityOutgoingEvent(
+      UUID target, ChunkRange chunkRange) {
+    return new RemoveEntityOutgoingEventType(target, chunkRange);
+  }
 
-    public static ReplaceBlockIncomingEventType createReplaceBlockIncomingEvent(
-            UserID user, UUID target, Block replacementBlock, ChunkRange chunkRange) {
-        return new ReplaceBlockIncomingEventType(user, target, replacementBlock, chunkRange);
-    }
+  public static ReplaceBlockIncomingEventType createReplaceBlockIncomingEvent(
+      UserID user, UUID target, Block replacementBlock, ChunkRange chunkRange) {
+    return new ReplaceBlockIncomingEventType(user, target, replacementBlock, chunkRange);
+  }
 
-    public static ReplaceBlockOutgoingEventType createReplaceBlockOutgoingEvent(
-            UUID target, Entity replacementEntity, ChunkRange chunkRange) {
-        return new ReplaceBlockOutgoingEventType(target, replacementEntity, chunkRange);
-    }
+  public static ReplaceBlockOutgoingEventType createReplaceBlockOutgoingEvent(
+      UUID target, Entity replacementEntity, ChunkRange chunkRange) {
+    return new ReplaceBlockOutgoingEventType(target, replacementEntity, chunkRange);
+  }
 
-    public static ReplaceEntityEventType createReplaceEntityEvent(UUID target, Entity replacementEntity, Boolean swapVelocity, ChunkRange chunkRange) {
-        return new ReplaceEntityEventType(target, replacementEntity, swapVelocity, chunkRange);
-    }
+  public static ReplaceEntityEventType createReplaceEntityEvent(
+      UUID target, Entity replacementEntity, Boolean swapVelocity, ChunkRange chunkRange) {
+    return new ReplaceEntityEventType(target, replacementEntity, swapVelocity, chunkRange);
+  }
 
-    public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange, List<UUID> listUUID) {
-        return new HandshakeOutgoingEventType(chunkRange, listUUID);
-    }
+  public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(
+      ChunkRange chunkRange, List<UUID> listUUID) {
+    return new HandshakeOutgoingEventType(chunkRange, listUUID);
+  }
 
-    public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange) {
-        return new HandshakeOutgoingEventType(chunkRange, new LinkedList<>());
-    }
+  public static HandshakeOutgoingEventType createHandshakeOutgoingEventType(ChunkRange chunkRange) {
+    return new HandshakeOutgoingEventType(chunkRange, new LinkedList<>());
+  }
 
-    public static HandshakeIncomingEventType createHandshakeIncomingEventType(UserID requestUserID, ChunkRange chunkRange, List<UUID> listUUID) {
-        return new HandshakeIncomingEventType(requestUserID, chunkRange, listUUID);
-    }
+  public static HandshakeIncomingEventType createHandshakeIncomingEventType(
+      UserID requestUserID, ChunkRange chunkRange, List<UUID> listUUID) {
+    return new HandshakeIncomingEventType(requestUserID, chunkRange, listUUID);
+  }
 
-    public static CreateAIEntityEventType createAIEntityEventType(Coordinates coordinates, UUID target) {
-        return new CreateAIEntityEventType(coordinates, target);
-    }
+  public static CreateAIEntityEventType createAIEntityEventType(
+      Coordinates coordinates, UUID target) {
+    return new CreateAIEntityEventType(coordinates, target);
+  }
 
-    public static CreateAIEntityEventType createAIEntityEventType(UUID target) {
-        return new CreateAIEntityEventType(new Coordinates(0, 0), target);
-    }
+  public static CreateAIEntityEventType createAIEntityEventType(UUID target) {
+    return new CreateAIEntityEventType(new Coordinates(0, 0), target);
+  }
 
-    public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(UUID target, ChunkRange from, ChunkRange to) {
-        return new ChunkSwapIncomingEventType(target, from, to);
-    }
+  public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(
+      UUID target, ChunkRange from, ChunkRange to) {
+    return new ChunkSwapIncomingEventType(target, from, to);
+  }
 
-    public static ChunkSwapOutgoingEventType createChunkSwapOutgoingEventType(UUID target, ChunkRange from, ChunkRange to) {
-        return new ChunkSwapOutgoingEventType(target, from, to);
-    }
+  public static ChunkSwapOutgoingEventType createChunkSwapOutgoingEventType(
+      UUID target, ChunkRange from, ChunkRange to) {
+    return new ChunkSwapOutgoingEventType(target, from, to);
+  }
 
-    public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(
-            List<ChunkRange> chunkRangeList) {
-        return new SubscriptionOutgoingEventType(chunkRangeList);
-    }
+  public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(
+      List<ChunkRange> chunkRangeList) {
+    return new SubscriptionOutgoingEventType(chunkRangeList);
+  }
 
-    public SubscriptionIncomingEventType createSubscriptionIncomingEvent(
-            NetworkObjects.NetworkEvent networkEvent) {
-        return new SubscriptionIncomingEventType(networkEvent);
-    }
+  public SubscriptionIncomingEventType createSubscriptionIncomingEvent(
+      NetworkObjects.NetworkEvent networkEvent) {
+    return new SubscriptionIncomingEventType(networkEvent);
+  }
 
-    public DisconnectionIncomingEventType createDisconnectionEvent(UserID userID) {
-        return new DisconnectionIncomingEventType(userID);
-    }
+  public DisconnectionIncomingEventType createDisconnectionEvent(UserID userID) {
+    return new DisconnectionIncomingEventType(userID);
+  }
 
-    public RemoveEntityEventType createRemoveEntityEvent(UUID entityUuid) {
-        return new RemoveEntityEventType(entityUuid);
-    }
+  public RemoveEntityEventType createRemoveEntityEvent(UUID entityUuid) {
+    return new RemoveEntityEventType(entityUuid);
+  }
 
-    public GetChunkOutgoingEventType createGetChunkOutgoingEventType(NetworkObjects.NetworkEvent networkEvent) {
-        return new GetChunkOutgoingEventType(NetworkDataDeserializer.createChunkRange(networkEvent.getData()), UserID.createUserID(networkEvent.getUser()));
-    }
+  public GetChunkOutgoingEventType createGetChunkOutgoingEventType(
+      NetworkObjects.NetworkEvent networkEvent) {
+    return new GetChunkOutgoingEventType(
+        NetworkDataDeserializer.createChunkRange(networkEvent.getData()),
+        UserID.createUserID(networkEvent.getUser()));
+  }
 
-    public GetChunkOutgoingEventType createGetChunkOutgoingEventType(ChunkRange chunkRange, UserID userID) {
-        return new GetChunkOutgoingEventType(chunkRange, userID);
-    }
+  public GetChunkOutgoingEventType createGetChunkOutgoingEventType(
+      ChunkRange chunkRange, UserID userID) {
+    return new GetChunkOutgoingEventType(chunkRange, userID);
+  }
 
-    public AuthenticationIncomingEventType createAuthenticationIncomingEventType(UserID userID, RequestNetworkEventObserver requestNetworkEventObserver) {
-        return new AuthenticationIncomingEventType(userID, requestNetworkEventObserver);
-    }
+  public AuthenticationIncomingEventType createAuthenticationIncomingEventType(
+      UserID userID, RequestNetworkEventObserver requestNetworkEventObserver) {
+    return new AuthenticationIncomingEventType(userID, requestNetworkEventObserver);
+  }
 }

@@ -13,33 +13,33 @@ import java.io.IOException;
 
 public class testChunkClockMap {
 
-    Injector injector;
+  Injector injector;
 
-    ChunkClockMap chunkClockMap;
+  ChunkClockMap chunkClockMap;
 
-    ChunkFactory chunkFactory;
+  ChunkFactory chunkFactory;
 
-    @Before
-    public void setup() throws IOException {
-        injector = Guice.createInjector(new ClientConfig());
-        chunkClockMap = injector.getInstance(ChunkClockMap.class);
-        chunkFactory = injector.getInstance(ChunkFactory.class);
-    }
+  @Before
+  public void setup() throws IOException {
+    injector = Guice.createInjector(new ClientConfig());
+    chunkClockMap = injector.getInstance(ChunkClockMap.class);
+    chunkFactory = injector.getInstance(ChunkFactory.class);
+  }
 
-    @Test
-    public void testExistence() {
-        Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(2, 1)));
+  @Test
+  public void testExistence() {
+    Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(2, 1)));
 
-        chunkClockMap.add(chunk);
+    chunkClockMap.add(chunk);
 
-        assert chunk == chunkClockMap.get(new ChunkRange(new Coordinates(2, 1)));
-    }
+    assert chunk == chunkClockMap.get(new ChunkRange(new Coordinates(2, 1)));
+  }
 
-    @Test
-    public void testGetChunksOnTick() {
-        Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
-        chunkClockMap.add(chunk);
-        assert chunkClockMap.getChunksOnTick(new Tick(1)).size() == 1;
-        assert chunkClockMap.getChunksOnTick(new Tick(2)).size() == 0;
-    }
+  @Test
+  public void testGetChunksOnTick() {
+    Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
+    chunkClockMap.add(chunk);
+    assert chunkClockMap.getChunksOnTick(new Tick(1)).size() == 1;
+    assert chunkClockMap.getChunksOnTick(new Tick(2)).size() == 0;
+  }
 }

@@ -9,12 +9,11 @@ import java.util.function.Consumer;
 
 public class CreateAIEntityConsumerClient implements Consumer<EventType> {
 
-    @Inject
-    ClientNetworkHandle clientNetworkHandle;
+  @Inject ClientNetworkHandle clientNetworkHandle;
 
-    @Override
-    public void accept(EventType eventType) {
-        CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
-        clientNetworkHandle.send(realEvent.toNetworkEvent());
-    }
+  @Override
+  public void accept(EventType eventType) {
+    CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
+    clientNetworkHandle.send(realEvent.toNetworkEvent());
+  }
 }

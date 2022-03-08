@@ -14,38 +14,39 @@ import static networking.events.types.NetworkEventTypeEnum.REPLACE_ENTITY_OUTGOI
 
 public class ReplaceBlockOutgoingEventType extends EventType implements SerializeNetworkEvent {
 
-    public static String type = REPLACE_ENTITY_OUTGOING;
+  public static String type = REPLACE_ENTITY_OUTGOING;
 
-    UUID target;
-    Entity replacementEntity;
-    ChunkRange chunkRange;
+  UUID target;
+  Entity replacementEntity;
+  ChunkRange chunkRange;
 
-    @Inject
-    public ReplaceBlockOutgoingEventType(UUID target, Entity replacementEntity, ChunkRange chunkRange) {
-        this.target = target;
-        this.replacementEntity = replacementEntity;
-        this.chunkRange = chunkRange;
-    }
+  @Inject
+  public ReplaceBlockOutgoingEventType(
+      UUID target, Entity replacementEntity, ChunkRange chunkRange) {
+    this.target = target;
+    this.replacementEntity = replacementEntity;
+    this.chunkRange = chunkRange;
+  }
 
-    public ChunkRange getChunkRange() {
-        return chunkRange;
-    }
+  public ChunkRange getChunkRange() {
+    return chunkRange;
+  }
 
-    public UUID getTarget() {
-        return target;
-    }
+  public UUID getTarget() {
+    return target;
+  }
 
-    public Entity getReplacementEntity() {
-        return replacementEntity;
-    }
+  public Entity getReplacementEntity() {
+    return replacementEntity;
+  }
 
-    @Override
-    public String getType() {
-        return type;
-    }
+  @Override
+  public String getType() {
+    return type;
+  }
 
-    @Override
-    public NetworkObjects.NetworkEvent toNetworkEvent() {
-        return NetworkDataSerializer.createReplaceBlockOutgoingEventType(this);
-    }
+  @Override
+  public NetworkObjects.NetworkEvent toNetworkEvent() {
+    return NetworkDataSerializer.createReplaceBlockOutgoingEventType(this);
+  }
 }

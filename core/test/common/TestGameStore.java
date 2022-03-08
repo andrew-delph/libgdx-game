@@ -17,35 +17,35 @@ import java.io.IOException;
 
 public class TestGameStore {
 
-    Injector injector;
-    GameStore gameStore;
-    GameController gameController;
+  Injector injector;
+  GameStore gameStore;
+  GameController gameController;
 
-    EntityFactory entityFactory;
+  EntityFactory entityFactory;
 
-    ChunkFactory chunkFactory;
+  ChunkFactory chunkFactory;
 
-    @Before
-    public void setup() throws IOException {
-        injector = Guice.createInjector(new ClientConfig());
-        gameStore = injector.getInstance(GameStore.class);
-        gameController = injector.getInstance(GameController.class);
-        entityFactory = injector.getInstance(EntityFactory.class);
-        chunkFactory = injector.getInstance(ChunkFactory.class);
-    }
+  @Before
+  public void setup() throws IOException {
+    injector = Guice.createInjector(new ClientConfig());
+    gameStore = injector.getInstance(GameStore.class);
+    gameController = injector.getInstance(GameController.class);
+    entityFactory = injector.getInstance(EntityFactory.class);
+    chunkFactory = injector.getInstance(ChunkFactory.class);
+  }
 
-    @Test
-    public void testEntityExistence() throws EntityNotFound {
-        Entity testEntity = entityFactory.createEntity();
-        this.gameStore.addChunk(this.chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
-        gameStore.addEntity(testEntity);
-        assert testEntity == gameStore.getEntity(testEntity.uuid);
-    }
+  @Test
+  public void testEntityExistence() throws EntityNotFound {
+    Entity testEntity = entityFactory.createEntity();
+    this.gameStore.addChunk(this.chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
+    gameStore.addEntity(testEntity);
+    assert testEntity == gameStore.getEntity(testEntity.uuid);
+  }
 
-    @Test
-    public void testChunkExistence() {
-        Chunk chunk = this.chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
-        this.gameStore.addChunk(chunk);
-        assert chunk == gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
-    }
+  @Test
+  public void testChunkExistence() {
+    Chunk chunk = this.chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
+    this.gameStore.addChunk(chunk);
+    assert chunk == gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
+  }
 }

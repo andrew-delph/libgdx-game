@@ -9,12 +9,11 @@ import java.util.function.Consumer;
 
 public class CreateEntityOutgoingConsumerClient implements Consumer<EventType> {
 
-    @Inject
-    ClientNetworkHandle clientNetworkHandle;
+  @Inject ClientNetworkHandle clientNetworkHandle;
 
-    @Override
-    public void accept(EventType eventType) {
-        CreateEntityOutgoingEventType realEvent = (CreateEntityOutgoingEventType) eventType;
-        clientNetworkHandle.send(realEvent.toNetworkEvent());
-    }
+  @Override
+  public void accept(EventType eventType) {
+    CreateEntityOutgoingEventType realEvent = (CreateEntityOutgoingEventType) eventType;
+    clientNetworkHandle.send(realEvent.toNetworkEvent());
+  }
 }

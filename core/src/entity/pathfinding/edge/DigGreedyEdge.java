@@ -12,74 +12,73 @@ import entity.pathfinding.*;
 import static app.screen.GameScreen.pathDebugRender;
 
 public class DigGreedyEdge extends HorizontalGreedyEdge {
-    GameController gameController;
-    GameStore gameStore;
-    BlockFactory blockFactory;
-    RelativeCoordinates digPosition;
+  GameController gameController;
+  GameStore gameStore;
+  BlockFactory blockFactory;
+  RelativeCoordinates digPosition;
 
-    public DigGreedyEdge(
-            GameController gameController,
-            GameStore gameStore,
-            BlockFactory blockFactory,
-            EntityStructure entityStructure,
-            RelativeVertex position,
-            RelativeCoordinates digPosition) {
-        super(entityStructure, position, position);
-        this.gameController = gameController;
-        this.gameStore = gameStore;
-        this.blockFactory = blockFactory;
-        this.digPosition = digPosition;
-    }
+  public DigGreedyEdge(
+      GameController gameController,
+      GameStore gameStore,
+      BlockFactory blockFactory,
+      EntityStructure entityStructure,
+      RelativeVertex position,
+      RelativeCoordinates digPosition) {
+    super(entityStructure, position, position);
+    this.gameController = gameController;
+    this.gameStore = gameStore;
+    this.blockFactory = blockFactory;
+    this.digPosition = digPosition;
+  }
 
-    @Override
-    public double getCost() {
-        return 3;
-    }
+  @Override
+  public double getCost() {
+    return 3;
+  }
 
-    public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
-        return new DigEdgeStepper(
-                this.gameController, this.gameStore, this.blockFactory, this.digPosition);
-    }
+  public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
+    return new DigEdgeStepper(
+        this.gameController, this.gameStore, this.blockFactory, this.digPosition);
+  }
 
-    @Override
-    public void appendPathGameStoreOverride(
-            PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {
+  @Override
+  public void appendPathGameStoreOverride(
+      PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {
 
-        pathGameStoreOverride.registerEntityTypeOverride(
-                SkyBlock.class, this.digPosition.applyRelativeCoordinates(sourceCoordinates));
-    }
+    pathGameStoreOverride.registerEntityTypeOverride(
+        SkyBlock.class, this.digPosition.applyRelativeCoordinates(sourceCoordinates));
+  }
 
-    @Override
-    public void render(Coordinates position) {
-        pathDebugRender.setColor(Color.YELLOW);
-        super.render(position);
-    }
+  @Override
+  public void render(Coordinates position) {
+    pathDebugRender.setColor(Color.YELLOW);
+    super.render(position);
+  }
 }
 
 class DigEdgeStepper extends HorizontalEdgeStepper {
-    GameController gameController;
-    GameStore gameStore;
-    BlockFactory blockFactory;
-    RelativeCoordinates digPosition;
+  GameController gameController;
+  GameStore gameStore;
+  BlockFactory blockFactory;
+  RelativeCoordinates digPosition;
 
-    public DigEdgeStepper(
-            GameController gameController,
-            GameStore gameStore,
-            BlockFactory blockFactory,
-            RelativeCoordinates digPosition) {
-        this.gameController = gameController;
-        this.gameStore = gameStore;
-        this.blockFactory = blockFactory;
-        this.digPosition = digPosition;
-    }
+  public DigEdgeStepper(
+      GameController gameController,
+      GameStore gameStore,
+      BlockFactory blockFactory,
+      RelativeCoordinates digPosition) {
+    this.gameController = gameController;
+    this.gameStore = gameStore;
+    this.blockFactory = blockFactory;
+    this.digPosition = digPosition;
+  }
 
-    @Override
-    public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
-        this.gameController.replaceBlock(
-                this.gameStore.getBlock(
-                        this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))
-                ,
-                blockFactory.createSky());
-        super.follow(entity, relativePathNode);
-    }
+  @Override
+  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
+    this.gameController.replaceBlock(
+        this.gameStore.getBlock(
+            this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition)),
+        blockFactory.createSky());
+    super.follow(entity, relativePathNode);
+  }
 }

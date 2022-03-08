@@ -13,38 +13,38 @@ import java.util.stream.Collectors;
 
 public class ChunkClockMap {
 
-    Map<ChunkRange, Chunk> map;
+  Map<ChunkRange, Chunk> map;
 
-    @Inject
-    ChunkClockMap() {
-        this.map = new ConcurrentHashMap<>();
-    }
+  @Inject
+  ChunkClockMap() {
+    this.map = new ConcurrentHashMap<>();
+  }
 
-    void add(Chunk chunk) {
-        this.map.put(chunk.chunkRange, chunk);
-    }
+  void add(Chunk chunk) {
+    this.map.put(chunk.chunkRange, chunk);
+  }
 
-    Chunk get(ChunkRange chunkRange) {
-        return this.map.get(chunkRange);
-    }
+  Chunk get(ChunkRange chunkRange) {
+    return this.map.get(chunkRange);
+  }
 
-    Chunk remove(ChunkRange chunkRange) {
-        Chunk toRemove = this.map.get(chunkRange);
-        this.map.remove(chunkRange);
-        return toRemove;
-    }
+  Chunk remove(ChunkRange chunkRange) {
+    Chunk toRemove = this.map.get(chunkRange);
+    this.map.remove(chunkRange);
+    return toRemove;
+  }
 
-    Boolean doesChunkExist(ChunkRange chunkRange) {
-        return this.map.containsKey(chunkRange);
-    }
+  Boolean doesChunkExist(ChunkRange chunkRange) {
+    return this.map.containsKey(chunkRange);
+  }
 
-    public Set<ChunkRange> getChunkRangeSet() {
-        return this.map.keySet();
-    }
+  public Set<ChunkRange> getChunkRangeSet() {
+    return this.map.keySet();
+  }
 
-    List<Callable<Chunk>> getChunksOnTick(Tick tick) {
-        return this.map.values().stream()
-                .filter(chunk -> chunk.updateTick.time == tick.time)
-                .collect(Collectors.toList());
-    }
+  List<Callable<Chunk>> getChunksOnTick(Tick tick) {
+    return this.map.values().stream()
+        .filter(chunk -> chunk.updateTick.time == tick.time)
+        .collect(Collectors.toList());
+  }
 }

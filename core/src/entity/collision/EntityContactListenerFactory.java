@@ -3,14 +3,12 @@ package entity.collision;
 import com.google.inject.Inject;
 
 public class EntityContactListenerFactory {
-    @Inject
-    CollisionService collisionService;
+  @Inject CollisionService collisionService;
 
-    @Inject
-    EntityContactListenerFactory() {
-    }
+  @Inject
+  EntityContactListenerFactory() {}
 
-    public EntityContactListener createEntityContactListener() {
-        return new EntityContactListener(collisionService);
-    }
+  public EntityContactListener createEntityContactListener() {
+    return new EntityContactListener(collisionService);
+  }
 }

@@ -8,15 +8,15 @@ import com.google.inject.Injector;
 import configuration.ClientConfig;
 
 public class ClientGameMain {
-    public static void main(String[] args) {
-        Injector injector = Guice.createInjector(new ClientConfig());
-        GameScreen gameScreen = injector.getInstance(GameScreen.class);
+  public static void main(String[] args) {
+    Injector injector = Guice.createInjector(new ClientConfig());
+    GameScreen gameScreen = injector.getInstance(GameScreen.class);
 
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+    LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-        config.height = 500;
-        config.width = 500;
+    config.height = 500;
+    config.width = 500;
 
-        new LwjglApplication(gameScreen, config);
-    }
+    new LwjglApplication(gameScreen, config);
+  }
 }

@@ -7,36 +7,31 @@ import entity.collision.left.EntityLeftContact;
 import entity.collision.right.EntityRightContact;
 
 public class EntityActionFactory {
-    @Inject
-    EntityGroundContact entityGroundContact;
-    @Inject
-    EntityLadderContact entityLadderContact;
-    @Inject
-    EntityLeftContact entityLeftContact;
-    @Inject
-    EntityRightContact entityRightContact;
+  @Inject EntityGroundContact entityGroundContact;
+  @Inject EntityLadderContact entityLadderContact;
+  @Inject EntityLeftContact entityLeftContact;
+  @Inject EntityRightContact entityRightContact;
 
-    @Inject
-    EntityActionFactory() {
-    }
+  @Inject
+  EntityActionFactory() {}
 
-    public HorizontalMovementAction createHorizontalMovementAction(int magnitude) {
-        return new HorizontalMovementAction(entityLeftContact, entityRightContact, magnitude);
-    }
+  public HorizontalMovementAction createHorizontalMovementAction(int magnitude) {
+    return new HorizontalMovementAction(entityLeftContact, entityRightContact, magnitude);
+  }
 
-    public JumpMovementAction createJumpMovementAction() {
-        return new JumpMovementAction(entityGroundContact);
-    }
+  public JumpMovementAction createJumpMovementAction() {
+    return new JumpMovementAction(entityGroundContact);
+  }
 
-    public StopMovementAction createStopMovementAction() {
-        return new StopMovementAction();
-    }
+  public StopMovementAction createStopMovementAction() {
+    return new StopMovementAction();
+  }
 
-    public ClimbUpMovementAction createClimbUpMovementAction() {
-        return new ClimbUpMovementAction(entityLadderContact);
-    }
+  public ClimbUpMovementAction createClimbUpMovementAction() {
+    return new ClimbUpMovementAction(entityLadderContact);
+  }
 
-    public ClimbUpMovementAction createClimbDownMovementAction() {
-        return new ClimbDownMovementAction(entityLadderContact);
-    }
+  public ClimbUpMovementAction createClimbDownMovementAction() {
+    return new ClimbDownMovementAction(entityLadderContact);
+  }
 }

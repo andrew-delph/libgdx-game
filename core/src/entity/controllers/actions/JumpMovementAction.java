@@ -6,19 +6,19 @@ import entity.collision.ground.EntityGroundContact;
 
 public class JumpMovementAction implements EntityAction {
 
-    EntityGroundContact entityGroundContact;
+  EntityGroundContact entityGroundContact;
 
-    JumpMovementAction(EntityGroundContact entityGroundContact) {
-        this.entityGroundContact = entityGroundContact;
-    }
+  JumpMovementAction(EntityGroundContact entityGroundContact) {
+    this.entityGroundContact = entityGroundContact;
+  }
 
-    @Override
-    public void apply(Body body) {
-        body.setLinearVelocity(new Vector2(0, 9));
-    }
+  @Override
+  public void apply(Body body) {
+    body.setLinearVelocity(new Vector2(0, 9));
+  }
 
-    @Override
-    public Boolean isValid(Body body) {
-        return this.entityGroundContact.isOnGround(body);
-    }
+  @Override
+  public Boolean isValid(Body body) {
+    return this.entityGroundContact.isOnGround(body);
+  }
 }

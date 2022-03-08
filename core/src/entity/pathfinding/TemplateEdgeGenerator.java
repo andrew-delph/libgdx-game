@@ -8,113 +8,110 @@ import entity.pathfinding.edge.TemplateEdge;
 import java.util.*;
 
 public class TemplateEdgeGenerator {
-    EntityStructure entityStructure;
+  EntityStructure entityStructure;
 
-    @Inject
-    RelativeActionEdgeGenerator relativeActionEdgeGenerator;
-    @Inject
-    EntityStructureFactory entityStructureFactory;
+  @Inject RelativeActionEdgeGenerator relativeActionEdgeGenerator;
+  @Inject EntityStructureFactory entityStructureFactory;
 
-    @Inject
-    EdgeStore edgeStore;
+  @Inject EdgeStore edgeStore;
 
-    RelativeVertex rootRelativeVertex;
+  RelativeVertex rootRelativeVertex;
 
-    List<TemplateEdge> leafTemplateEdge = new LinkedList<>();
+  List<TemplateEdge> leafTemplateEdge = new LinkedList<>();
 
-    TemplateEdgeGenerator(
-            RelativeActionEdgeGenerator relativeActionEdgeGenerator,
-            EntityStructureFactory entityStructureFactory,
-            EdgeStore edgeStore,
-            RelativeVertex rootRelativeVertex) {
-        this.relativeActionEdgeGenerator = relativeActionEdgeGenerator;
-        this.entityStructureFactory = entityStructureFactory;
-        this.edgeStore = edgeStore;
-        this.rootRelativeVertex = rootRelativeVertex;
+  TemplateEdgeGenerator(
+      RelativeActionEdgeGenerator relativeActionEdgeGenerator,
+      EntityStructureFactory entityStructureFactory,
+      EdgeStore edgeStore,
+      RelativeVertex rootRelativeVertex) {
+    this.relativeActionEdgeGenerator = relativeActionEdgeGenerator;
+    this.entityStructureFactory = entityStructureFactory;
+    this.edgeStore = edgeStore;
+    this.rootRelativeVertex = rootRelativeVertex;
+  }
+
+  public void generate() {
+    this.generateTree("right");
+    this.generateTree("left");
+  }
+
+  public void generateTrunk() {
+
+    // create root
+    EntityStructure rootEntityStructure = this.entityStructureFactory.createEntityStructure();
+    rootEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, -1), SolidBlock.class);
+    rootEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
+    RelativeActionEdge jumpActionEdge =
+        this.relativeActionEdgeGenerator.generateRelativeActionEdge(
+            rootEntityStructure, this.rootRelativeVertex, "jump");
+    TemplateEdge rootTemplateEdge =
+        new TemplateEdge(
+            rootEntityStructure,
+            jumpActionEdge.getFrom(),
+            jumpActionEdge.getTo(),
+            Collections.singletonList(jumpActionEdge));
+    this.leafTemplateEdge.add(rootTemplateEdge);
+    TemplateEdge current = this.leafTemplateEdge.get(this.leafTemplateEdge.size() - 1);
+
+    while (true) {
+
+      current = this.applyAction(current, "stop");
+
+      if (current.getLastEdge().from.getRelativeCoordinates().getRelativeY()
+          > current.getLastEdge().to.getRelativeCoordinates().getRelativeY()) {
+        break;
+      } else if (!current
+          .getLastEdge()
+          .from
+          .getRelativeCoordinates()
+          .equalBase(current.getLastEdge().to.getRelativeCoordinates())) {
+        this.leafTemplateEdge.add(current);
+      }
     }
+  }
 
-    public void generate() {
-        this.generateTree("right");
-        this.generateTree("left");
+  public void generateTree(String actionKey) {
+    this.generateTrunk();
+
+    for (int i = 0; i < 100; i++) {
+      //      System.out.println(i + " , " + this.leafTemplateEdge.size());
+
+      Set<TemplateEdge> newLeaves = new HashSet<>();
+      while (this.leafTemplateEdge.size() > 0) {
+        TemplateEdge current = this.leafTemplateEdge.remove(0);
+        newLeaves.add(this.applyAction(current, actionKey));
+      }
+      this.leafTemplateEdge.addAll(newLeaves);
     }
+  }
 
-    public void generateTrunk() {
+  public TemplateEdge applyAction(TemplateEdge last, String actionKey) {
+    RelativeActionEdge lastActionEdge = last.getLastEdge();
 
-        // create root
-        EntityStructure rootEntityStructure = this.entityStructureFactory.createEntityStructure();
-        rootEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, -1), SolidBlock.class);
-        rootEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
-        RelativeActionEdge jumpActionEdge =
-                this.relativeActionEdgeGenerator.generateRelativeActionEdge(
-                        rootEntityStructure, this.rootRelativeVertex, "jump");
-        TemplateEdge rootTemplateEdge =
-                new TemplateEdge(
-                        rootEntityStructure,
-                        jumpActionEdge.getFrom(),
-                        jumpActionEdge.getTo(),
-                        Collections.singletonList(jumpActionEdge));
-        this.leafTemplateEdge.add(rootTemplateEdge);
-        TemplateEdge current = this.leafTemplateEdge.get(this.leafTemplateEdge.size() - 1);
+    RelativeVertex currentRelativeVertex = lastActionEdge.getTo();
 
-        while (true) {
+    RelativeActionEdge newActionEdge =
+        this.relativeActionEdgeGenerator.generateRelativeActionEdge(
+            currentRelativeVertex.entityStructure.copy(), currentRelativeVertex, actionKey);
 
-            current = this.applyAction(current, "stop");
+    List<RelativeActionEdge> newActionEdgeList = new LinkedList<>(last.getActionEdgeList());
+    newActionEdgeList.add(newActionEdge);
 
-            if (current.getLastEdge().from.getRelativeCoordinates().getRelativeY()
-                    > current.getLastEdge().to.getRelativeCoordinates().getRelativeY()) {
-                break;
-            } else if (!current
-                    .getLastEdge()
-                    .from
-                    .getRelativeCoordinates()
-                    .equalBase(current.getLastEdge().to.getRelativeCoordinates())) {
-                this.leafTemplateEdge.add(current);
-            }
-        }
+    TemplateEdge newTemplateEdge =
+        new TemplateEdge(
+            newActionEdge.getTo().entityStructure,
+            this.rootRelativeVertex,
+            newActionEdge.to,
+            newActionEdgeList);
+
+    if (!lastActionEdge
+        .getFrom()
+        .getRelativeCoordinates()
+        .equalBase(lastActionEdge.getTo().getRelativeCoordinates())) {
+      // add to the store
+
+      this.edgeStore.add(newTemplateEdge);
     }
-
-    public void generateTree(String actionKey) {
-        this.generateTrunk();
-
-        for (int i = 0; i < 100; i++) {
-            //      System.out.println(i + " , " + this.leafTemplateEdge.size());
-
-            Set<TemplateEdge> newLeaves = new HashSet<>();
-            while (this.leafTemplateEdge.size() > 0) {
-                TemplateEdge current = this.leafTemplateEdge.remove(0);
-                newLeaves.add(this.applyAction(current, actionKey));
-            }
-            this.leafTemplateEdge.addAll(newLeaves);
-        }
-    }
-
-    public TemplateEdge applyAction(TemplateEdge last, String actionKey) {
-        RelativeActionEdge lastActionEdge = last.getLastEdge();
-
-        RelativeVertex currentRelativeVertex = lastActionEdge.getTo();
-
-        RelativeActionEdge newActionEdge =
-                this.relativeActionEdgeGenerator.generateRelativeActionEdge(
-                        currentRelativeVertex.entityStructure.copy(), currentRelativeVertex, actionKey);
-
-        List<RelativeActionEdge> newActionEdgeList = new LinkedList<>(last.getActionEdgeList());
-        newActionEdgeList.add(newActionEdge);
-
-        TemplateEdge newTemplateEdge =
-                new TemplateEdge(
-                        newActionEdge.getTo().entityStructure,
-                        this.rootRelativeVertex,
-                        newActionEdge.to,
-                        newActionEdgeList);
-
-        if (!lastActionEdge
-                .getFrom()
-                .getRelativeCoordinates()
-                .equalBase(lastActionEdge.getTo().getRelativeCoordinates())) {
-            // add to the store
-
-            this.edgeStore.add(newTemplateEdge);
-        }
-        return newTemplateEdge;
-    }
+    return newTemplateEdge;
+  }
 }

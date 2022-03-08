@@ -15,29 +15,25 @@ import java.util.function.Consumer;
 
 public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
 
-    @Inject
-    ActiveChunkManager activeChunkManager;
-    @Inject
-    ServerNetworkHandle serverNetworkHandle;
-    @Inject
-    GameController gameController;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ServerNetworkHandle serverNetworkHandle;
+  @Inject GameController gameController;
 
-    @Override
-    public void accept(EventType eventType) {
-        ReplaceBlockIncomingEventType incoming = (ReplaceBlockIncomingEventType) eventType;
-        try {
-            gameController.triggerReplaceEntity(incoming.getTarget(), incoming.getReplacementBlock());
-        } catch (EntityNotFound e) {
-            e.printStackTrace();
-            serverNetworkHandle.initHandshake(incoming.getUserID(), incoming.getChunkRange());
-        }
-        ReplaceBlockOutgoingEventType outgoing = EventTypeFactory.createReplaceBlockOutgoingEvent(
-                incoming.getTarget(),
-                incoming.getReplacementBlock(),
-                incoming.getChunkRange());
-        for (UserID userID : activeChunkManager.getChunkRangeUsers(incoming.getChunkRange())) {
-            if (incoming.getUserID().equals(userID)) continue;
-            serverNetworkHandle.send(userID, outgoing.toNetworkEvent());
-        }
+  @Override
+  public void accept(EventType eventType) {
+    ReplaceBlockIncomingEventType incoming = (ReplaceBlockIncomingEventType) eventType;
+    try {
+      gameController.triggerReplaceEntity(incoming.getTarget(), incoming.getReplacementBlock());
+    } catch (EntityNotFound e) {
+      e.printStackTrace();
+      serverNetworkHandle.initHandshake(incoming.getUserID(), incoming.getChunkRange());
     }
+    ReplaceBlockOutgoingEventType outgoing =
+        EventTypeFactory.createReplaceBlockOutgoingEvent(
+            incoming.getTarget(), incoming.getReplacementBlock(), incoming.getChunkRange());
+    for (UserID userID : activeChunkManager.getChunkRangeUsers(incoming.getChunkRange())) {
+      if (incoming.getUserID().equals(userID)) continue;
+      serverNetworkHandle.send(userID, outgoing.toNetworkEvent());
+    }
+  }
 }

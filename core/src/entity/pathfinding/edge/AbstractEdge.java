@@ -11,81 +11,80 @@ import static app.screen.GameScreen.pathDebugRender;
 
 public abstract class AbstractEdge {
 
-    public EntityStructure entityStructure;
-    public RelativeVertex from;
-    public RelativeVertex to;
-    boolean finished = false;
+  public EntityStructure entityStructure;
+  public RelativeVertex from;
+  public RelativeVertex to;
+  boolean finished = false;
 
-    public AbstractEdge(EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {
-        this.entityStructure = entityStructure;
-        this.from = from;
-        this.to = to;
+  public AbstractEdge(EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {
+    this.entityStructure = entityStructure;
+    this.from = from;
+    this.to = to;
+  }
+
+  public RelativeVertex getFrom() {
+    return from;
+  }
+
+  public RelativeVertex getTo() {
+    return to;
+  }
+
+  public abstract EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode);
+
+  public boolean isAvailable(PathGameStoreOverride pathGameStoreOverride, Coordinates coordinates) {
+    try {
+      return this.entityStructure.verifyEntityStructure(pathGameStoreOverride, coordinates);
+    } catch (Exception e) {
+      return false;
     }
+  }
 
-    public RelativeVertex getFrom() {
-        return from;
-    }
+  public Coordinates applyTransition(Coordinates sourceCoordinates) {
+    return this.to.getRelativeCoordinates().applyRelativeCoordinates(sourceCoordinates);
+  }
 
-    public RelativeVertex getTo() {
-        return to;
-    }
+  public void start() {
+    this.finished = false;
+  }
 
-    public abstract EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode);
+  public void finish() {
+    this.finished = true;
+  }
 
-    public boolean isAvailable(PathGameStoreOverride pathGameStoreOverride, Coordinates coordinates) {
-        try {
-            return this.entityStructure.verifyEntityStructure(pathGameStoreOverride, coordinates);
-        } catch (Exception e) {
-            return false;
-        }
-    }
+  public Boolean isFinished() {
+    return finished;
+  }
 
-    public Coordinates applyTransition(Coordinates sourceCoordinates) {
-        return this.to.getRelativeCoordinates().applyRelativeCoordinates(sourceCoordinates);
-    }
+  @Override
+  public String toString() {
+    return this.getClass() + "{" + "from=" + from + ", to=" + to + '}';
+  }
 
-    public void start() {
-        this.finished = false;
-    }
+  @Override
+  public int hashCode() {
+    return (this.to.hashCode() + "," + this.from.hashCode()).hashCode();
+  }
 
-    public void finish() {
-        this.finished = true;
-    }
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    AbstractEdge other = (AbstractEdge) obj;
+    return this.to.equals(other.to)
+        && this.from.equals(other.from)
+        && this.entityStructure.equals(other.entityStructure);
+  }
 
-    public Boolean isFinished() {
-        return finished;
-    }
+  public void appendPathGameStoreOverride(
+      PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {}
 
-    @Override
-    public String toString() {
-        return this.getClass() + "{" + "from=" + from + ", to=" + to + '}';
-    }
+  public double getCost() {
+    return 1;
+  }
 
-    @Override
-    public int hashCode() {
-        return (this.to.hashCode() + "," + this.from.hashCode()).hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        AbstractEdge other = (AbstractEdge) obj;
-        return this.to.equals(other.to)
-                && this.from.equals(other.from)
-                && this.entityStructure.equals(other.entityStructure);
-    }
-
-    public void appendPathGameStoreOverride(
-            PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {
-    }
-
-    public double getCost() {
-        return 1;
-    }
-
-    public void render(Coordinates position) {
-        pathDebugRender.line(position.toVector2(), this.applyTransition(position).toVector2());
-    }
+  public void render(Coordinates position) {
+    pathDebugRender.line(position.toVector2(), this.applyTransition(position).toVector2());
+  }
 }

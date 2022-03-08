@@ -11,27 +11,27 @@ import java.util.UUID;
 
 public class testActiveEntityManager {
 
-    ActiveEntityManager activeEntityManager;
-    Injector serverInjector;
+  ActiveEntityManager activeEntityManager;
+  Injector serverInjector;
 
-    @Before
-    public void setup() {
-        serverInjector = Guice.createInjector(new BaseServerConfig());
-        activeEntityManager = serverInjector.getInstance(ActiveEntityManager.class);
-    }
+  @Before
+  public void setup() {
+    serverInjector = Guice.createInjector(new BaseServerConfig());
+    activeEntityManager = serverInjector.getInstance(ActiveEntityManager.class);
+  }
 
-    @Test
-    public void testActiveEntityManager() {
-        UserID testUserID = UserID.createUserID();
-        UUID testUUID = UUID.randomUUID();
+  @Test
+  public void testActiveEntityManager() {
+    UserID testUserID = UserID.createUserID();
+    UUID testUUID = UUID.randomUUID();
 
-        activeEntityManager.registerActiveEntity(testUserID, testUUID);
+    activeEntityManager.registerActiveEntity(testUserID, testUUID);
 
-        assert activeEntityManager.getUserActiveEntitySet(testUserID).contains(testUUID);
-        assert activeEntityManager.getActiveEntities().contains(testUUID);
+    assert activeEntityManager.getUserActiveEntitySet(testUserID).contains(testUUID);
+    assert activeEntityManager.getActiveEntities().contains(testUUID);
 
-        activeEntityManager.deregisterUser(testUserID);
+    activeEntityManager.deregisterUser(testUserID);
 
-        assert !activeEntityManager.getActiveEntities().contains(testUUID);
-    }
+    assert !activeEntityManager.getActiveEntities().contains(testUUID);
+  }
 }

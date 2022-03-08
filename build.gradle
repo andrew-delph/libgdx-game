@@ -123,14 +123,14 @@ task buildEXE {
     dependsOn tasks.getByPath(':desktop:dist')
     doFirst {
         delete 'out'
-        exec{
+        exec {
             workingDir "."
             commandLine 'java', '-jar', 'packr-all-4.0.0.jar', '--jdk', 'https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.14.1%2B1/OpenJDK11U-jdk_x64_windows_hotspot_11.0.14.1_1.zip', '--platform', 'windows64', '--executable', 'myapp', '--classpath', 'desktop/build/libs/desktop-1.0.jar', '--mainclass', 'main.ClientGameMain', '--vmargs', 'Xmx1G', '--output', 'out'
         }
     }
     doLast {
-        copy{
-            from file('environment/'+ENV+'.config.properties')
+        copy {
+            from file('environment/' + ENV + '.config.properties')
             into 'out/'
             rename { 'config.properties' }
         }
@@ -145,7 +145,7 @@ task zipit(type: Zip) {
     from "out"
 }
 
-clean{
+clean {
     delete "dist", "out"
 }
 

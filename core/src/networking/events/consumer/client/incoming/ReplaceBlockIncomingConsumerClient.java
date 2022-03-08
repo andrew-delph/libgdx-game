@@ -10,19 +10,17 @@ import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import java.util.function.Consumer;
 
 public class ReplaceBlockIncomingConsumerClient implements Consumer<EventType> {
-    @Inject
-    GameController gameController;
-    @Inject
-    ClientNetworkHandle clientNetworkHandle;
+  @Inject GameController gameController;
+  @Inject ClientNetworkHandle clientNetworkHandle;
 
-    @Override
-    public void accept(EventType eventType) {
-        ReplaceBlockIncomingEventType incoming = (ReplaceBlockIncomingEventType) eventType;
-        try {
-            gameController.triggerReplaceEntity(incoming.getTarget(), incoming.getReplacementBlock());
-        } catch (EntityNotFound e) {
-            e.printStackTrace();
-            clientNetworkHandle.initHandshake(incoming.getChunkRange());
-        }
+  @Override
+  public void accept(EventType eventType) {
+    ReplaceBlockIncomingEventType incoming = (ReplaceBlockIncomingEventType) eventType;
+    try {
+      gameController.triggerReplaceEntity(incoming.getTarget(), incoming.getReplacementBlock());
+    } catch (EntityNotFound e) {
+      e.printStackTrace();
+      clientNetworkHandle.initHandshake(incoming.getChunkRange());
     }
+  }
 }

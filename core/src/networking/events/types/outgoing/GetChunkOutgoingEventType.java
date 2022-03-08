@@ -7,34 +7,34 @@ import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;
 
 public class GetChunkOutgoingEventType extends EventType implements SerializeNetworkEvent {
-    static String type = "get_chunk";
-    ChunkRange chunkRange;
-    UserID userID;
+  static String type = "get_chunk";
+  ChunkRange chunkRange;
+  UserID userID;
 
-    public GetChunkOutgoingEventType(ChunkRange chunkRange, UserID userID) {
-        this.chunkRange = chunkRange;
-        this.userID = userID;
-    }
+  public GetChunkOutgoingEventType(ChunkRange chunkRange, UserID userID) {
+    this.chunkRange = chunkRange;
+    this.userID = userID;
+  }
 
-    public ChunkRange getChunkRange() {
-        return chunkRange;
-    }
+  public ChunkRange getChunkRange() {
+    return chunkRange;
+  }
 
-    @Override
-    public String getType() {
-        return type;
-    }
+  @Override
+  public String getType() {
+    return type;
+  }
 
-    public UserID getUserID() {
-        return this.userID;
-    }
+  public UserID getUserID() {
+    return this.userID;
+  }
 
-    @Override
-    public NetworkObjects.NetworkEvent toNetworkEvent() {
-        return NetworkObjects.NetworkEvent.newBuilder()
-                .setData(this.chunkRange.toNetworkData())
-                .setUser(this.userID.toString())
-                .setEvent(type)
-                .build();
-    }
+  @Override
+  public NetworkObjects.NetworkEvent toNetworkEvent() {
+    return NetworkObjects.NetworkEvent.newBuilder()
+        .setData(this.chunkRange.toNetworkData())
+        .setUser(this.userID.toString())
+        .setEvent(type)
+        .build();
+  }
 }

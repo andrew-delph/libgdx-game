@@ -9,32 +9,32 @@ import java.util.UUID;
 import static networking.events.types.NetworkEventTypeEnum.REMOVE_ENTITY_INCOMING;
 
 public class RemoveEntityIncomingEventType extends EventType {
-    public static String type = REMOVE_ENTITY_INCOMING;
+  public static String type = REMOVE_ENTITY_INCOMING;
 
-    ChunkRange chunkRange;
-    UserID userID;
-    UUID target;
+  ChunkRange chunkRange;
+  UserID userID;
+  UUID target;
 
-    public RemoveEntityIncomingEventType(UserID userID, ChunkRange chunkRange, UUID target) {
-        this.chunkRange = chunkRange;
-        this.userID = userID;
-        this.target = target;
-    }
+  public RemoveEntityIncomingEventType(UserID userID, ChunkRange chunkRange, UUID target) {
+    this.chunkRange = chunkRange;
+    this.userID = userID;
+    this.target = target;
+  }
 
-    public ChunkRange getChunkRange() {
-        return chunkRange;
-    }
+  public ChunkRange getChunkRange() {
+    return chunkRange;
+  }
 
-    public UserID getUserID() {
-        return userID;
-    }
+  public UserID getUserID() {
+    return userID;
+  }
 
-    public UUID getTarget() {
-        return target;
-    }
+  public UUID getTarget() {
+    return target;
+  }
 
-    @Override
-    public String getType() {
-        return type;
-    }
+  @Override
+  public String getType() {
+    return type;
+  }
 }

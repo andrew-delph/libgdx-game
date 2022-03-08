@@ -9,38 +9,38 @@ import entity.pathfinding.edge.AbstractEdge;
 import org.junit.Test;
 
 public class testTemplateEdgeGenerator {
-    @Test
-    public void testTemplateEdgeGenerator() {
-        Injector injector = Guice.createInjector(new StandAloneConfig());
+  @Test
+  public void testTemplateEdgeGenerator() {
+    Injector injector = Guice.createInjector(new StandAloneConfig());
 
-        TemplateEdgeGeneratorFactory templateEdgeGeneratorFactory =
-                injector.getInstance(TemplateEdgeGeneratorFactory.class);
+    TemplateEdgeGeneratorFactory templateEdgeGeneratorFactory =
+        injector.getInstance(TemplateEdgeGeneratorFactory.class);
 
-        EdgeStore edgeStore = injector.getInstance(EdgeStore.class);
+    EdgeStore edgeStore = injector.getInstance(EdgeStore.class);
 
-        EntityStructureFactory entityStructureFactory =
-                injector.getInstance(EntityStructureFactory.class);
+    EntityStructureFactory entityStructureFactory =
+        injector.getInstance(EntityStructureFactory.class);
 
-        TemplateEdgeGenerator templateEdgeGenerator =
-                templateEdgeGeneratorFactory.create(
-                        new RelativeVertex(
-                                entityStructureFactory.createEntityStructure(),
-                                new RelativeCoordinates(0, 0),
-                                new Vector2(0, 0)));
+    TemplateEdgeGenerator templateEdgeGenerator =
+        templateEdgeGeneratorFactory.create(
+            new RelativeVertex(
+                entityStructureFactory.createEntityStructure(),
+                new RelativeCoordinates(0, 0),
+                new Vector2(0, 0)));
 
-        templateEdgeGenerator.generate();
+    templateEdgeGenerator.generate();
 
-        System.out.println(edgeStore.getEdgeList().size());
+    System.out.println(edgeStore.getEdgeList().size());
 
-        for (AbstractEdge edge : edgeStore.getEdgeList()) {
-            if (edge.isAvailable(new PathGameStoreOverride(), new Coordinates(0, 0))
-                    && edge.getTo().getRelativeCoordinates().getRelativeY() < 0) {
-                Coordinates to =
-                        edge.getTo().getRelativeCoordinates().applyRelativeCoordinates(new Coordinates(0, 0));
-                System.out.println(to);
+    for (AbstractEdge edge : edgeStore.getEdgeList()) {
+      if (edge.isAvailable(new PathGameStoreOverride(), new Coordinates(0, 0))
+          && edge.getTo().getRelativeCoordinates().getRelativeY() < 0) {
+        Coordinates to =
+            edge.getTo().getRelativeCoordinates().applyRelativeCoordinates(new Coordinates(0, 0));
+        System.out.println(to);
 
-                //        System.out.println(edge);
-            }
-        }
+        //        System.out.println(edge);
+      }
     }
+  }
 }

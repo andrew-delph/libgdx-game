@@ -31,41 +31,41 @@ import networking.ObserverFactory;
 import networking.events.EventTypeFactory;
 
 public abstract class MainConfig extends AbstractModule {
-    @Override
-    protected void configure() {
-        bind(BaseAssetManager.class).in(Singleton.class);
-        bind(BaseCamera.class).in(Singleton.class);
-        bind(Clock.class).asEagerSingleton();
-        bind(GameStore.class).asEagerSingleton();
-        bind(BlockGenerator.class).asEagerSingleton();
-        bind(EventService.class).asEagerSingleton();
-        bind(ConnectionStore.class).asEagerSingleton();
+  @Override
+  protected void configure() {
+    bind(BaseAssetManager.class).in(Singleton.class);
+    bind(BaseCamera.class).in(Singleton.class);
+    bind(Clock.class).asEagerSingleton();
+    bind(GameStore.class).asEagerSingleton();
+    bind(BlockGenerator.class).asEagerSingleton();
+    bind(EventService.class).asEagerSingleton();
+    bind(ConnectionStore.class).asEagerSingleton();
 
-        bind(ChunkClockMap.class).asEagerSingleton();
-        bind(ChunkFactory.class).asEagerSingleton();
-        bind(EntityFactory.class).asEagerSingleton();
-        bind(BlockFactory.class).asEagerSingleton();
+    bind(ChunkClockMap.class).asEagerSingleton();
+    bind(ChunkFactory.class).asEagerSingleton();
+    bind(EntityFactory.class).asEagerSingleton();
+    bind(BlockFactory.class).asEagerSingleton();
 
-        bind(ChunkBuilderFactory.class).asEagerSingleton();
+    bind(ChunkBuilderFactory.class).asEagerSingleton();
 
-        bind(EntityControllerFactory.class).asEagerSingleton();
+    bind(EntityControllerFactory.class).asEagerSingleton();
 
-        bind(EntityActionFactory.class).asEagerSingleton();
-        bind(EntityContactListenerFactory.class).asEagerSingleton();
-        bind(EntityGroundContact.class).asEagerSingleton();
-        bind(EntityLeftContact.class).asEagerSingleton();
-        bind(EntityRightContact.class).asEagerSingleton();
-        bind(EdgeStore.class).asEagerSingleton();
+    bind(EntityActionFactory.class).asEagerSingleton();
+    bind(EntityContactListenerFactory.class).asEagerSingleton();
+    bind(EntityGroundContact.class).asEagerSingleton();
+    bind(EntityLeftContact.class).asEagerSingleton();
+    bind(EntityRightContact.class).asEagerSingleton();
+    bind(EdgeStore.class).asEagerSingleton();
 
-        bind(EventTypeFactory.class).asEagerSingleton();
-        bind(ObserverFactory.class).asEagerSingleton();
-        bind(EntityLadderContact.class).asEagerSingleton();
-        bind(CollisionService.class).asEagerSingleton();
-        bind(User.class).asEagerSingleton();
-        bind(ActiveEntityManager.class).asEagerSingleton();
-        bind(ChunkGenerationService.class).asEagerSingleton();
-        bind(ActiveChunkManager.class).asEagerSingleton();
-        bind(User.class).in(Singleton.class);
-        bind(GameSettings.class).in(Singleton.class);
-    }
+    bind(EventTypeFactory.class).asEagerSingleton();
+    bind(ObserverFactory.class).asEagerSingleton();
+    bind(EntityLadderContact.class).asEagerSingleton();
+    bind(CollisionService.class).asEagerSingleton();
+    bind(User.class).asEagerSingleton();
+    bind(ActiveEntityManager.class).asEagerSingleton();
+    bind(ChunkGenerationService.class).asEagerSingleton();
+    bind(ActiveChunkManager.class).asEagerSingleton();
+    bind(User.class).in(Singleton.class);
+    bind(GameSettings.class).in(Singleton.class);
+  }
 }

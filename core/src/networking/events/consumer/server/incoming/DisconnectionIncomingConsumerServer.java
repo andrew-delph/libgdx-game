@@ -22,45 +22,41 @@ import java.util.logging.Logger;
 
 public class DisconnectionIncomingConsumerServer implements Consumer<EventType> {
 
-    private final static Logger LOGGER = Logger.getLogger(GameStore.class.getName());
-    @Inject
-    EventService eventService;
-    @Inject
-    ServerNetworkHandle serverNetworkHandle;
-    @Inject
-    GameStore gameStore;
-    @Inject
-    EventTypeFactory eventTypeFactory;
-    @Inject
-    ConnectionStore connectionStore;
-    @Inject
-    ActiveChunkManager activeChunkManager;
-    @Inject
-    ActiveEntityManager activeEntityManager;
+  private static final Logger LOGGER = Logger.getLogger(GameStore.class.getName());
+  @Inject EventService eventService;
+  @Inject ServerNetworkHandle serverNetworkHandle;
+  @Inject GameStore gameStore;
+  @Inject EventTypeFactory eventTypeFactory;
+  @Inject ConnectionStore connectionStore;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ActiveEntityManager activeEntityManager;
 
-    @Override
-    public void accept(EventType eventType) {
-        DisconnectionIncomingEventType realEvent = (DisconnectionIncomingEventType) eventType;
-        connectionStore.removeConnection(realEvent.getUserID());
-        activeChunkManager.removeUser(realEvent.getUserID());
-        for (UUID ownersEntityUuid : activeEntityManager.getUserActiveEntitySet(realEvent.getUserID())) {
-            Entity entity;
-            try {
-                entity = this.gameStore.getEntity(ownersEntityUuid);
-            } catch (EntityNotFound e) {
-                LOGGER.severe("DISCONNECT COULD NOT FIND AN ENTITY IT OWNS");
-                e.printStackTrace();
-                continue;
-            }
-            this.eventService.queuePostUpdateEvent(
-                    eventTypeFactory.createRemoveEntityEvent(ownersEntityUuid));
+  @Override
+  public void accept(EventType eventType) {
+    DisconnectionIncomingEventType realEvent = (DisconnectionIncomingEventType) eventType;
+    connectionStore.removeConnection(realEvent.getUserID());
+    activeChunkManager.removeUser(realEvent.getUserID());
+    for (UUID ownersEntityUuid :
+        activeEntityManager.getUserActiveEntitySet(realEvent.getUserID())) {
+      Entity entity;
+      try {
+        entity = this.gameStore.getEntity(ownersEntityUuid);
+      } catch (EntityNotFound e) {
+        LOGGER.severe("DISCONNECT COULD NOT FIND AN ENTITY IT OWNS");
+        e.printStackTrace();
+        continue;
+      }
+      this.eventService.queuePostUpdateEvent(
+          eventTypeFactory.createRemoveEntityEvent(ownersEntityUuid));
 
-            RemoveEntityOutgoingEventType removeEntityOutgoingEvent = EventTypeFactory.createRemoveEntityOutgoingEvent(
-                    entity.uuid, new ChunkRange(entity.coordinates));
+      RemoveEntityOutgoingEventType removeEntityOutgoingEvent =
+          EventTypeFactory.createRemoveEntityOutgoingEvent(
+              entity.uuid, new ChunkRange(entity.coordinates));
 
-            for (UserID subscriptionUserID : activeChunkManager.getChunkRangeUsers(new ChunkRange(entity.coordinates))) {
-                serverNetworkHandle.send(subscriptionUserID, removeEntityOutgoingEvent.toNetworkEvent());
-            }
-        }
+      for (UserID subscriptionUserID :
+          activeChunkManager.getChunkRangeUsers(new ChunkRange(entity.coordinates))) {
+        serverNetworkHandle.send(subscriptionUserID, removeEntityOutgoingEvent.toNetworkEvent());
+      }
     }
+  }
 }

@@ -9,16 +9,15 @@ import networking.events.types.incoming.RemoveEntityIncomingEventType;
 import java.util.function.Consumer;
 
 public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
-    @Inject
-    GameController gameController;
+  @Inject GameController gameController;
 
-    @Override
-    public void accept(EventType eventType) {
-        RemoveEntityIncomingEventType incoming = (RemoveEntityIncomingEventType) eventType;
-        try {
-            gameController.triggerRemoveEntity(incoming.getTarget());
-        } catch (EntityNotFound e) {
-            e.printStackTrace();
-        }
+  @Override
+  public void accept(EventType eventType) {
+    RemoveEntityIncomingEventType incoming = (RemoveEntityIncomingEventType) eventType;
+    try {
+      gameController.triggerRemoveEntity(incoming.getTarget());
+    } catch (EntityNotFound e) {
+      e.printStackTrace();
     }
+  }
 }

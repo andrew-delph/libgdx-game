@@ -18,33 +18,32 @@ import java.util.function.Consumer;
 
 public class HandshakeIncomingConsumerServer implements Consumer<EventType> {
 
-    @Inject
-    GameStore gameStore;
-    @Inject
-    ServerNetworkHandle serverNetworkHandle;
-    @Inject
-    EventTypeFactory eventTypeFactory;
+  @Inject GameStore gameStore;
+  @Inject ServerNetworkHandle serverNetworkHandle;
+  @Inject EventTypeFactory eventTypeFactory;
 
-    @Override
-    public void accept(EventType eventType) {
-        HandshakeIncomingEventType handshakeIncoming = (HandshakeIncomingEventType) eventType;
+  @Override
+  public void accept(EventType eventType) {
+    HandshakeIncomingEventType handshakeIncoming = (HandshakeIncomingEventType) eventType;
 
-        ChunkRange chunkRange = handshakeIncoming.getChunkRange();
-        UserID clientUserID = handshakeIncoming.getRequestUserID();
+    ChunkRange chunkRange = handshakeIncoming.getChunkRange();
+    UserID clientUserID = handshakeIncoming.getRequestUserID();
 
-        List<UUID> missingUUIDList = new LinkedList<>(handshakeIncoming.getListUUID());
+    List<UUID> missingUUIDList = new LinkedList<>(handshakeIncoming.getListUUID());
 
-        if (missingUUIDList.size() > 0) {
-            // need to get the uuid of the client
-            // send each entity to the client
-            List<Entity> missingEntityList = this.gameStore.getEntityListFromList(missingUUIDList);
+    if (missingUUIDList.size() > 0) {
+      // need to get the uuid of the client
+      // send each entity to the client
+      List<Entity> missingEntityList = this.gameStore.getEntityListFromList(missingUUIDList);
 
-            for (Entity missingEntity : missingEntityList) {
-                CreateEntityOutgoingEventType createEntityOutgoing = EventTypeFactory.createCreateEntityOutgoingEvent(missingEntity.toNetworkData(), chunkRange);
-                this.serverNetworkHandle.send(clientUserID, createEntityOutgoing.toNetworkEvent());
-            }
-        } else {
-            this.serverNetworkHandle.initHandshake(clientUserID, chunkRange);
-        }
+      for (Entity missingEntity : missingEntityList) {
+        CreateEntityOutgoingEventType createEntityOutgoing =
+            EventTypeFactory.createCreateEntityOutgoingEvent(
+                missingEntity.toNetworkData(), chunkRange);
+        this.serverNetworkHandle.send(clientUserID, createEntityOutgoing.toNetworkEvent());
+      }
+    } else {
+      this.serverNetworkHandle.initHandshake(clientUserID, chunkRange);
     }
+  }
 }
