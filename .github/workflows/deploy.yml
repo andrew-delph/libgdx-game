@@ -60,12 +60,7 @@ jobs:
           image: ${{ steps.build-image.outputs.image }}
           options: -v ${{ github.workspace }}:/app/dist
           run: |
-            ./gradlew '-Pexclude.android=true' zipit
-
-#      - name: list file in dir
-#        id: list-files
-#        run: |
-#          ls ${{ github.workspace }}
+            ./gradlew '-Pexclude.android=true' '-PENV=prod' zipit  
 
       - name: Upload game.zip file to bucket
         uses: zdurham/s3-upload-github-action@master
