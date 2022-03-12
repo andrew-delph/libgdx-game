@@ -1,0 +1,36 @@
+
+
+
+java -jar packr-all-4.0.0.jar --jdk 'C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.3\jbr' --platform windows64 --executable myapp --classpath desktop/build/libs/desktop-1.0.jar --mainclass main.ClientGameMain --vmargs Xmx1G --output out
+
+java -jar packr-all-4.0.0.jar --jdk 'https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.14.1%2B1/OpenJDK11U-jdk_x64_windows_hotspot_11.0.14.1_1.zip' --platform windows64 --executable myapp --classpath desktop/build/libs/desktop-1.0.jar --mainclass main.ClientGameMain --vmargs Xmx1G --output out
+
+
+
+C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.3\jbr
+
+gradlew desktop:dist
+
+java -jar desktop/build/libs/desktop-1.0.jar
+
+java -cp "desktop/build/libs/desktop-1.0.jar" infra.Test
+
+./gradlew desktop:dist && java -jar desktop/build/libs/desktop-1.0.jar
+
+./ngrok tcp 99
+
+
+#docker
+docker build -f Server.Dockerfile -t andrewdelph/game:server .
+docker run -it -p 99:99 andrewdelph/game:server
+docker push andrewdelph/game:server
+
+
+docker run -it -v C:\Users\andre\git\libgdx-game:/app adoptopenjdk/openjdk11:latest bash
+
+
+./gradlew -Pexclude.android=true :desktop:server
+
+docker run -it -v C:\Users\andre\git\libgdx-game\here:/app/ andrewdelph/game:server ./gradlew '-Pexclude.android=true' buildOut
+
+docker run -it -v C:\Users\andre\git\libgdx-game\here:/app/dist andrewdelph/game:server ./gradlew '-Pexclude.android=true' zipit

@@ -1,80 +1,172 @@
 package networking.client;
 
-import com.google.inject.Guice;
+import static networking.translation.DataTranslationEnum.AUTH;
+
+import app.user.User;
+import chunk.Chunk;
+import chunk.ChunkFactory;
+import chunk.ChunkRange;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import infra.entity.EntityManager;
+import com.sun.tools.javac.util.Pair;
+import common.GameStore;
+import common.exceptions.SerializationDataMissing;
+import configuration.GameSettings;
+import entity.Entity;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-import modules.App;
-import networking.NetworkObject;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import networking.NetworkObjectServiceGrpc;
-import networking.client.observers.ClientObserverFactory;
-
-import java.util.Scanner;
+import networking.NetworkObjects;
+import networking.ObserverFactory;
+import networking.RequestNetworkEventObserver;
+import networking.events.EventTypeFactory;
+import networking.events.types.outgoing.GetChunkOutgoingEventType;
+import networking.events.types.outgoing.HandshakeOutgoingEventType;
+import networking.translation.NetworkDataDeserializer;
 
 public class ClientNetworkHandle {
+  public final CountDownLatch authLatch = new CountDownLatch(1);
+  public String host = "localhost";
+  public int port = 99;
+  RequestNetworkEventObserver requestNetworkEventObserver;
+  @Inject ObserverFactory observerFactory;
+  @Inject EventTypeFactory eventTypeFactory;
+  @Inject NetworkDataDeserializer entitySerializationConverter;
+  @Inject GameStore gameStore;
+  @Inject ChunkFactory chunkFactory;
+  @Inject User user;
+  @Inject GameSettings gameSettings;
 
-    public static String host = "localhost";
-    public static int port = 99;
-    final public EntityManager entityManager;
+  private ManagedChannel channel;
+  private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
+  private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
 
-    private final ManagedChannel channel;
-    private final NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockingStub;
-    private final NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
+  @Inject
+  public ClientNetworkHandle() {}
 
+  public void connect() throws InterruptedException {
+    System.out.println(
+        "I am client: "
+            + this.user.toString()
+            + ". Connecting to "
+            + gameSettings.getHost()
+            + ":"
+            + gameSettings.getPort());
+    if (gameSettings.getHost().equals("localhost")) {
+      this.channel =
+          ManagedChannelBuilder.forAddress(gameSettings.getHost(), gameSettings.getPort())
+              .usePlaintext()
+              .build();
+    } else {
+      this.channel =
+          ManagedChannelBuilder.forAddress(gameSettings.getHost(), gameSettings.getPort()).build();
+    }
+    this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
+    this.blockStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
+    requestNetworkEventObserver = observerFactory.create();
+    requestNetworkEventObserver.responseObserver =
+        this.asyncStub.networkObjectStream(requestNetworkEventObserver);
 
-    public StreamObserver<NetworkObject.CreateNetworkObject> createObserver;
-    public StreamObserver<NetworkObject.UpdateNetworkObject> updateObserver;
-    public StreamObserver<NetworkObject.RemoveNetworkObject> removeObserver;
-    // responders
-    public StreamObserver<NetworkObject.CreateNetworkObject> createRequest;
-    public StreamObserver<NetworkObject.UpdateNetworkObject> updateRequest;
-    public StreamObserver<NetworkObject.RemoveNetworkObject> removeRequest;
-    public ClientObserverFactory clientObserverFactory;
+    NetworkObjects.NetworkEvent authenticationEvent =
+        NetworkObjects.NetworkEvent.newBuilder().setEvent(AUTH).build();
+    this.send(authenticationEvent);
+    if (!authLatch.await(5, TimeUnit.SECONDS)) {
+      throw new InterruptedException("did not receive auth information");
+    }
+  }
 
-    @Inject
-    public ClientNetworkHandle(EntityManager entityManager, ClientObserverFactory clientObserverFactory) {
-        this.clientObserverFactory = clientObserverFactory;
-        this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
-        this.blockingStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
-        this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
-        this.entityManager = entityManager;
+  public synchronized void send(NetworkObjects.NetworkEvent networkEvent) {
+    networkEvent = networkEvent.toBuilder().setUser(this.user.toString()).build();
+    requestNetworkEventObserver.responseObserver.onNext(networkEvent);
+  }
 
-        createObserver = this.clientObserverFactory.createCreateObserver();
-        updateObserver = this.clientObserverFactory.createUpdateObserver();
-        removeObserver = this.clientObserverFactory.createRemoveObserver();
+  public Chunk requestChunkBlocking(ChunkRange chunkRange) throws SerializationDataMissing {
+    Chunk myChunk;
+    synchronized (this) {
+      if (gameStore.doesChunkExist(chunkRange)) {
+        return gameStore.getChunk(chunkRange);
+      } else {
+        // make the chunk
+        myChunk = chunkFactory.create(chunkRange);
+        gameStore.addChunk(myChunk);
+      }
     }
 
-    public void connect() {
-        createRequest = this.asyncStub.create(createObserver);
-        updateRequest = this.asyncStub.update(updateObserver);
-        removeRequest = this.asyncStub.remove(removeObserver);
+    GetChunkOutgoingEventType outgoing =
+        eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.user.getUserID());
+    NetworkObjects.NetworkEvent retrievedNetworkEvent =
+        this.blockStub.getChunk(outgoing.toNetworkEvent());
+
+    Pair<ChunkRange, List<Entity>> chunkData =
+        entitySerializationConverter.createChunkData(retrievedNetworkEvent.getData());
+    myChunk.addAllEntity(chunkData.snd);
+
+    gameStore.addChunk(myChunk);
+
+    return myChunk;
+  }
+
+  public boolean requestChunkAsync(ChunkRange requestedChunkRange) {
+    Chunk myChunk;
+    // if chunk range is locked. return false
+    // if not. lock it
+    synchronized (this) {
+      if (gameStore.doesChunkExist(requestedChunkRange)) {
+        return false;
+      } else {
+        // make the chunk
+        myChunk = chunkFactory.create(requestedChunkRange);
+        gameStore.addChunk(myChunk);
+      }
     }
 
-    public void disconnect() {
-        this.createRequest.onCompleted();
-        this.updateRequest.onCompleted();
-        this.removeRequest.onCompleted();
-        this.channel.shutdown();
-    }
+    GetChunkOutgoingEventType outgoing =
+        eventTypeFactory.createGetChunkOutgoingEventType(
+            requestedChunkRange, this.user.getUserID());
+    // make the async request
+    // at the end of the request remove the lock
+    asyncStub.getChunk(
+        outgoing.toNetworkEvent(),
+        new StreamObserver<NetworkObjects.NetworkEvent>() {
 
-    public static void main(String[] args) throws InterruptedException {
-        Injector injector = Guice.createInjector(
-                new App()
-        );
+          @Override
+          public void onNext(NetworkObjects.NetworkEvent networkEvent) {
+            // calls data received
+            try {
+              Pair<ChunkRange, List<Entity>> chunkData =
+                  entitySerializationConverter.createChunkData(networkEvent.getData());
+              myChunk.addAllEntity(chunkData.snd);
+              gameStore.addChunk(myChunk);
+            } catch (SerializationDataMissing e) {
+              e.printStackTrace();
+            }
+          }
 
-        Scanner myInput = new Scanner(System.in);
+          @Override
+          public void onError(Throwable t) {
+            gameStore.removeChunk(requestedChunkRange);
+            t.printStackTrace();
+          }
 
-        ClientNetworkHandle client = injector.getInstance(ClientNetworkHandle.class);
+          @Override
+          public void onCompleted() {}
+        });
+    // in the observer. at the end
+    return true;
+  }
 
-        System.out.println("starting..!");
-        while (true) {
-            String id = myInput.nextLine();
-            NetworkObject.CreateNetworkObject createRequestObject = NetworkObject.CreateNetworkObject.newBuilder().setId(id).build();
-            client.createRequest.onNext(createRequestObject);
-        }
-    }
+  public void initHandshake(ChunkRange chunkRange) {
+    HandshakeOutgoingEventType handshakeOutgoing =
+        EventTypeFactory.createHandshakeOutgoingEventType(chunkRange);
+    this.send(handshakeOutgoing.toNetworkEvent());
+    System.out.println("CLIENT INIT HANDSHAKE " + this.user.toString());
+  }
 
+  public void close() {
+    this.requestNetworkEventObserver.responseObserver.onCompleted();
+    this.channel.shutdown();
+  }
 }

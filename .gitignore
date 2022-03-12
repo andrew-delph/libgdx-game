@@ -92,7 +92,7 @@ nb-configuration.xml
 
 ## Gradle
 
-/local.properties
+local.properties
 .gradle/
 gradle-app.setting
 /build/
@@ -113,3 +113,9 @@ Thumbs.db
 /ios/xcode/native/
 /ios/IOSLauncher.app
 /ios/IOSLauncher.app.dSYM
+
+
+
+OpenJDK11U-jdk_x64_windows_hotspot_11.0.11_9.zip
+
+out

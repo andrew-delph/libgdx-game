@@ -1,0 +1,79 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ dev ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-push-deploy:
+
+    concurrency:
+      group: delpoy
+      cancel-in-progress: true
+
+    runs-on: ubuntu-latest
+    environment: aws
+    steps:
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWSACCESSKEYID }}
+          aws-secret-access-key: ${{ secrets.AWSSECRETKEY }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: game
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -f Server.Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: game-server-task.json
+          container-name: game-container
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: game-service
+          cluster: game-cluster
+          wait-for-service-stability: true
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          options: -v ${{ github.workspace }}:/app/dist
+          run: |
+            ./gradlew '-Pexclude.android=true' '-PENV=prod' zipit  
+
+      - name: Upload game.zip file to bucket
+        uses: zdurham/s3-upload-github-action@master
+        with:
+          args: --acl public-read
+        env:
+          FILE: ./game.zip
+          AWS_REGION: 'us-east-1'
+          S3_BUCKET: ${{ secrets.AWSS3BUCKET }}
+          S3_KEY: game.zip
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWSACCESSKEYID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWSSECRETKEY }}
