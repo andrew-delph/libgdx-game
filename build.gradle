@@ -20,11 +20,22 @@ plugins {
 }
 
 version = scmVersion.version
+
 scmVersion {
-    useHighestVersion = true
     tag {
-        prefix = '^'
-        separator: ''
+        prefix = 'v'
+        versionSeparator = ''
+    }
+    repository {
+        pushTagsOnly = true
+    }
+    branchVersionIncrementer = [
+            'master': 'incrementMinor',
+            'dev'   : 'incrementPatch'
+    ]
+    checks {
+        uncommittedChanges = false // permanently disable uncommitted changes check
+        aheadOfRemote = false // permanently disable ahead of remote check
     }
 }
 
