@@ -19,8 +19,9 @@ plugins {
     id 'pl.allegro.tech.build.axion-release' version '1.8.1'
 }
 
-
+version = scmVersion.version
 scmVersion {
+    useHighestVersion = true
     tag {
         prefix = 'v'
         versionSeparator = ''
@@ -29,7 +30,8 @@ scmVersion {
         pushTagsOnly = true
     }
     branchVersionIncrementer = [
-            'master': 'incrementMinor',
+            'master': 'incrementMajor',
+            'stage' : 'incrementMinor',
             'dev'   : 'incrementPatch'
     ]
     checks {
@@ -37,9 +39,6 @@ scmVersion {
         aheadOfRemote = false // permanently disable ahead of remote check
     }
 }
-
-version = scmVersion.version
-
 
 def protobufVersion = '3.0.0'
 def grpcVersion = '1.32.1'
