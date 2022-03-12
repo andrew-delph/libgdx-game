@@ -19,7 +19,6 @@ plugins {
     id 'pl.allegro.tech.build.axion-release' version '1.8.1'
 }
 
-project.version = scmVersion.version
 
 scmVersion {
     useHighestVersion = true
@@ -28,6 +27,8 @@ scmVersion {
         separator: ''
     }
 }
+
+project.version = scmVersion.version
 
 def protobufVersion = '3.0.0'
 def grpcVersion = '1.32.1'
