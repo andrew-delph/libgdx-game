@@ -26,10 +26,18 @@ jobs:
       - name: Gradle release
         run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }}
 
-      - name: Merge master -> dev
+      - name: Merge master -> stage
         uses: devmasx/merge-branch@1.4.0
         with:
           type: now
           from_branch: master
+          target_branch: stage
+          github_token: ${{ github.token }}
+
+      - name: Merge stage -> dev
+        uses: devmasx/merge-branch@1.4.0
+        with:
+          type: now
+          from_branch: stage
           target_branch: dev
           github_token: ${{ github.token }}
