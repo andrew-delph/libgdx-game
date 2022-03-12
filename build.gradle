@@ -25,6 +25,7 @@ scmVersion {
     useHighestVersion = true
     tag {
         prefix = '^'
+        separator: ''
     }
 }
 
