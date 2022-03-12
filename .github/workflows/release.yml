@@ -1,7 +1,10 @@
 name: Release
+
 on:
   push:
-    tags: [ "*" ]
+    branches:
+      - '**'
+      -
 jobs:
   release:
     runs-on: ubuntu-latest
