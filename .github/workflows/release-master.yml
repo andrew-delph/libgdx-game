@@ -6,7 +6,7 @@ on:
       - 'master'
 
 jobs:
-  tag-dev:
+  tag-master:
     environment: aws
     runs-on: ubuntu-latest
     steps:
