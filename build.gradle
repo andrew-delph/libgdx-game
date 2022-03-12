@@ -19,7 +19,9 @@ plugins {
     id 'pl.allegro.tech.build.axion-release' version '1.13.6'
 }
 
+
 project.version = scmVersion.version
+scmVersion.repository.customUsername = "123"
 
 def protobufVersion = '3.0.0'
 def grpcVersion = '1.32.1'
