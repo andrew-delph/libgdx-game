@@ -1,4 +1,4 @@
-name: Release Master
+name: Release
 
 on:
   push:
