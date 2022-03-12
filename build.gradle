@@ -21,7 +21,7 @@ plugins {
 
 
 project.version = scmVersion.version
-scmVersion.repository.customUsername = "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"
+scmVersion.repository.customUsername = "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"
 
 def protobufVersion = '3.0.0'
 def grpcVersion = '1.32.1'
