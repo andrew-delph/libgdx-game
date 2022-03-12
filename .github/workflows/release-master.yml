@@ -20,9 +20,6 @@ jobs:
           distribution: zulu
           java-version: 11
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
       - name: Gradle release
         run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }} -Prelease.versionIncrementer=incrementMinor
 
