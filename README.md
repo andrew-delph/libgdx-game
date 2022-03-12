@@ -1,5 +1,7 @@
 # WIP game project.
 
+This project uses [Semantic Versioning](https://semver.org/) rules.
+
 ## controllers:
 
 move: a,s,w,d
