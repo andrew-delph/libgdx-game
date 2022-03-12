@@ -23,6 +23,9 @@ project.version = scmVersion.version
 
 scmVersion {
     useHighestVersion = true
+    tag {
+        prefix = '^'
+    }
 }
 
 def protobufVersion = '3.0.0'
