@@ -25,3 +25,11 @@ jobs:
 
       - name: Gradle release
         run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }} -Prelease.versionIncrementer=incrementMinor
+
+      - name: Merge master -> dev
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: master
+          target_branch: dev
+          github_token: ${{ github.token }}
