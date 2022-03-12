@@ -1,16 +1,12 @@
-name: Release
+name: Release Dev
 
 on:
   push:
     branches:
-      - '**'
-      -
-
-permissions:
-  contents: read
+      - 'dev'
 
 jobs:
-  release:
+  tag-dev:
     environment: aws
     runs-on: ubuntu-latest
     steps:

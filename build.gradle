@@ -21,12 +21,6 @@ plugins {
 
 
 project.version = scmVersion.version
-scmVersion {
-    checks {
-        uncommittedChanges = false
-    }
-
-}
 
 def protobufVersion = '3.0.0'
 def grpcVersion = '1.32.1'
