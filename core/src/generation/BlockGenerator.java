@@ -15,7 +15,7 @@ public class BlockGenerator {
   public Entity generate(Coordinates coordinates) {
     if (coordinates.getY() > 0) {
       return gameController.createSkyBlock(coordinates);
-    } else if (Math.random() < 0.1) {
+    } else if (Math.random() < 0.11) {
       return gameController.createStoneBlock(coordinates);
     } else {
       return gameController.createDirtBlock(coordinates);
