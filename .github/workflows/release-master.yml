@@ -21,7 +21,7 @@ jobs:
           java-version: 11
 
       - name: Gradle release
-        run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }} -Prelease.versionIncrementer=incrementMinor -Prelease.versionIncrementer=incrementPatch
+        run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }} -Prelease.versionIncrementer=incrementMinor
 
       - name: Merge master -> dev
         uses: devmasx/merge-branch@master
