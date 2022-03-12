@@ -8,9 +8,10 @@ on:
 
 permissions:
   contents: read
-  
+
 jobs:
   release:
+    environment: aws
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -27,4 +28,4 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Gradle release
-        run: ./gradlew release -Prelease.customUsername=${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }}
