@@ -6,7 +6,7 @@ on:
       - 'master'
 
 jobs:
-  tag-dev:
+  tag-master:
     environment: aws
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +24,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Gradle release
-        run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }} -Prelease.versionIncrementer=incrementMinor
+        run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }}
 
       - name: Merge master -> dev
         uses: devmasx/merge-branch@1.4.0
