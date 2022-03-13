@@ -48,6 +48,7 @@ scmVersion {
                 }
                 println fileTree(".").filter { it.isFile() }.files.name
                 println "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+                println System.getProperty("user.dir")
         }
     }
 }
@@ -56,7 +57,8 @@ project.version = scmVersion.version
 task test3() {
     executeCommand("git status")
     println "ok"
-    println fileTree(".").filter { it.isFile() }.files.name
+//    println fileTree(".").filter { it.isFile() }.files.name
+    println System.getProperty("user.dir")
 }
 
 def executeCommand(String command) {
