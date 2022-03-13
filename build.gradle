@@ -43,7 +43,7 @@ scmVersion {
             context ->
                 if (project.hasProperty("push")) {
                     println "pushing last commit"
-                    println "git push".execute().text()
+                    println "git push".execute().wait()
                 }
         }
     }
