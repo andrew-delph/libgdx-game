@@ -59,7 +59,7 @@ def executeCommand(String command) {
     println "Std Err: ${proc.err.text}"
     println "Std Out: $result"
     if (proc.exitValue() != 0) {
-        sleep(5 * 1000)
+        sleep(3 * 1000)
         throw new GradleException('error occurred')
     }
 }
