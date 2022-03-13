@@ -40,7 +40,7 @@ scmVersion {
                 executeCommand("git fetch")
                 executeCommand("git add .")
                 executeCommand("git status")
-                executeCommand("git -c user.name=\"thing-72\" -c user.email=\"andrewdelph@live.ca\"  commit -a -m \"bump\"")
+                executeCommand("git -c user.name=\"Version Bump\" -c user.email=\"\"  commit -a -m \"bump\"")
                 if (project.hasProperty("push")) {
                     println "PUSHING LAST COMMIT"
                     executeCommand("git push origin")
