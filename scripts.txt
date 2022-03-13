@@ -29,7 +29,7 @@ docker push andrewdelph/game:server
 docker run -it -v C:\Users\andre\git\libgdx-game:/app adoptopenjdk/openjdk11:latest bash
 
 
-./gradlew -Pexclude.android=true :desktop:server
+./gradlew '-Pexclude.android=true' :desktop:server
 
 docker run -it -v C:\Users\andre\git\libgdx-game\here:/app/ andrewdelph/game:server ./gradlew '-Pexclude.android=true' buildOut
 
