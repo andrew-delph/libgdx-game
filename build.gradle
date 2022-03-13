@@ -32,19 +32,11 @@ scmVersion {
             'stage' : 'incrementMinor',
             'dev'   : 'incrementPatch'
     ]
-    checks {
-        uncommittedChanges = false // permanently disable uncommitted changes check
-        aheadOfRemote = false // permanently disable ahead of remote check
-    }
     hooks {
         pre {
-            context -> (new File("core/assets/project.version")).write(context.currentVersion)
-        }
-        pre {
-            context -> "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"".execute()
-        }
-        pre {
             context ->
+                (new File("core/assets/project.version")).write(context.currentVersion)
+                println "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"".execute().text
                 if (project.hasProperty("push")) {
                     println "pushing last commit"
                     println "git push".execute().text
