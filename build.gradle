@@ -36,11 +36,7 @@ scmVersion {
         pre {
             context ->
                 (new File(System.getProperty("user.dir") + "/core/assets/project.version")).write(context.currentVersion)
-                executeCommand("git checkout")
-                executeCommand("git fetch")
-                executeCommand("git add .")
-                executeCommand("git status")
-                executeCommand("git -c user.name=\"thing-72\" -c user.email=\"andrewdelph@live.ca\" commit -m \"Commit project.version file for: 0.1.19\"") // " git commit - a - m \ "Commit project.version file for: ${context.currentVersion}\""
+                executeCommand("git -c user.name=\"Version Bump\" -c user.email=\"\" commit -m \"Version Bump\"")
                 if (project.hasProperty("push")) {
                     println "PUSHING LAST COMMIT"
                     executeCommand("git push origin")
