@@ -43,9 +43,11 @@ scmVersion {
                 if (project.hasProperty("push")) {
                     println "PUSHING LAST COMMIT"
                     executeCommand("git push origin")
-                    println "git log -1".execute().text
-                    println "git status".execute().text
+                    executeCommand("git log -1")
+                    executeCommand("git status")
                 }
+                println fileTree(".").filter { it.isFile() }.files.name
+                println "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         }
     }
 }
@@ -53,14 +55,8 @@ project.version = scmVersion.version
 
 task test3() {
     executeCommand("git status")
-//    executeCommand("pwd")
-//    def command;
-//    command = "git status".execute()
-//    command = "git status".execute()
-//    println command.waitForProcessOutput()
-//    println command.exitValue()
-//    println command.isAlive()
     println "ok"
+    println fileTree(".").filter { it.isFile() }.files.name
 }
 
 def executeCommand(String command) {
