@@ -38,7 +38,7 @@ scmVersion {
                 (new File("core/assets/project.version")).write(context.currentVersion)
                 executeCommand("git add .")
                 executeCommand("git status")
-                executeCommand("git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"")
+                executeCommand("git commit -m \"Commit project.version file for: ${context.currentVersion}\"") // "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\""
                 if (project.hasProperty("push")) {
                     println "PUSHING LAST COMMIT"
                     executeCommand("git push origin")
@@ -52,6 +52,7 @@ project.version = scmVersion.version
 
 task test3() {
     executeCommand("git status")
+//    executeCommand("pwd")
 //    def command;
 //    command = "git status".execute()
 //    command = "git status".execute()
