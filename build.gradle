@@ -39,7 +39,7 @@ scmVersion {
                 println "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"".execute().text
                 if (project.hasProperty("push")) {
                     println "pushing last commit"
-                    println "git push".execute().text
+                    println "git push origin".execute().text
                 }
         }
     }
