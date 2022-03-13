@@ -36,27 +36,17 @@ scmVersion {
         pre {
             context ->
                 (new File(System.getProperty("user.dir") + "/core/assets/project.version")).write(context.currentVersion)
-                executeCommand("git -c user.name=\"Version Bump\" -c user.email=\"\" commit -m \"Version Bump\"")
+                executeCommand("git -c user.name=\"Version_Bump\" -c user.email=\"\" commit -m \"Version Bump\"")
                 if (project.hasProperty("push")) {
                     println "PUSHING LAST COMMIT"
                     executeCommand("git push origin")
                     executeCommand("git log -1")
                     executeCommand("git status")
                 }
-                println fileTree(".").filter { it.isFile() }.files.name
-                println "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-                println System.getProperty("user.dir")
         }
     }
 }
 project.version = scmVersion.version
-
-task test3() {
-    executeCommand("git status")
-    println "ok"
-//    println fileTree(".").filter { it.isFile() }.files.name
-    println System.getProperty("user.dir")
-}
 
 def executeCommand(String command) {
     println "executeCommand: " + command
