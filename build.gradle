@@ -41,6 +41,9 @@ scmVersion {
         pre {
             context -> (new File("core/assets/project.version")).write(context.currentVersion)
         }
+        pre {
+            context -> "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"".execute()
+        }
     }
 }
 
