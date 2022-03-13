@@ -36,19 +36,12 @@ scmVersion {
         pre {
             context ->
                 (new File("core/assets/project.version")).write(context.currentVersion)
-                println "git add .".execute().text
-                println "git status".execute().text
-                def command = null;
-                command = "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"".execute()
-                println command.waitForProcessOutput()
-                println command.exitValue()
-                println command.isAlive()
-                println "-------------------"
-                println command.text
-                println "-------------------"
+                executeCommand("git add .")
+                executeCommand("git status")
+                executeCommand("git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"")
                 if (project.hasProperty("push")) {
-                    println "pushing last commit"
-                    println "git push origin".execute().text
+                    println "PUSHING LAST COMMIT"
+                    executeCommand("git push origin")
                     println "git log -1".execute().text
                     println "git status".execute().text
                 }
@@ -58,13 +51,24 @@ scmVersion {
 project.version = scmVersion.version
 
 task test3() {
-    def command;
-    command = "git status".execute()
-    command = "git status".execute()
-    println command.waitForProcessOutput()
-    println command.exitValue()
-    println command.isAlive()
+    executeCommand("git status")
+//    def command;
+//    command = "git status".execute()
+//    command = "git status".execute()
+//    println command.waitForProcessOutput()
+//    println command.exitValue()
+//    println command.isAlive()
     println "ok"
+}
+
+def executeCommand(String command) {
+    println "executeCommand: " + command
+    def proc = command.execute()
+    proc.waitFor()
+    println "Process exit code: ${proc.exitValue()}"
+    def result = proc.in.text
+    println "Std Err: ${proc.err.text}"
+    println "Std Out: $result"
 }
 
 def protobufVersion = '3.0.0'
