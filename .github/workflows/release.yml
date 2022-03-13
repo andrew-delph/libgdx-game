@@ -1,7 +1,9 @@
 name: Version
 
 on:
-  push:
+  workflow_run:
+    workflows: [ Format ]
+    types: [ completed ]
     branches: [ master, stage, dev ]
 
 jobs:

@@ -14,3 +14,6 @@ jobs:
       - uses: axel-op/googlejavaformat-action@v3
         with:
           args: "--replace"
+      - name: Sleep for 30 seconds
+        run: sleep 60s
+        shell: bash
