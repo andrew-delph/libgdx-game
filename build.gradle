@@ -40,7 +40,7 @@ scmVersion {
                 executeCommand("git fetch")
                 executeCommand("git add .")
                 executeCommand("git status")
-                executeCommand("git -c user.name=\"thing-72\" -c user.email=\"andrewdelph@live.ca\" commit -m \"Commit project.version file for: ${context.currentVersion}\"") // "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\""
+                executeCommand("git -c user.name=\"thing-72\" -c user.email=\"andrewdelph@live.ca\" commit -m \"Commit project.version file for: 0.1.19") // "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\""
                 if (project.hasProperty("push")) {
                     println "PUSHING LAST COMMIT"
                     executeCommand("git push origin")
