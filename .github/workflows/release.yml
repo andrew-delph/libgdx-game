@@ -23,7 +23,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Gradle version
-        run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }} -Ppush=true --stacktrace
+        run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }} -Ppush=true
 
       - name: Merge master -> stage
         uses: devmasx/merge-branch@1.4.0
