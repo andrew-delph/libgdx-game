@@ -40,7 +40,7 @@ scmVersion {
                 executeCommand("git fetch")
                 executeCommand("git add .")
                 executeCommand("git status")
-                executeCommand("git commit -m \"Commit project.version file for: ${context.currentVersion}\"") // "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\""
+                executeCommand("git commit -m \"bump\"") // "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\""
                 if (project.hasProperty("push")) {
                     println "PUSHING LAST COMMIT"
                     executeCommand("git push origin")
