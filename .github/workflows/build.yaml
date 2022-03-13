@@ -44,3 +44,22 @@ jobs:
           docker build -f Server.Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          options: -v ${{ github.workspace }}:/app/dist
+          run: |
+            ./gradlew '-Pexclude.android=true' '-PENV=prod' zipit  
+
+      - name: Upload game.zip file to bucket
+        uses: zdurham/s3-upload-github-action@master
+        with:
+          args: --acl public-read
+        env:
+          FILE: ./game.zip
+          AWS_REGION: 'us-east-1'
+          S3_BUCKET: ${{ secrets.AWSS3BUCKET }}
+          S3_KEY: game.zip
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWSACCESSKEYID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWSSECRETKEY }}
