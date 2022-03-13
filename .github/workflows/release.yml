@@ -1,11 +1,11 @@
-name: Release
+name: Version
 
 on:
   push:
     branches: [ master, stage, dev ]
 
 jobs:
-  tag-master:
+  version:
     environment: aws
     runs-on: ubuntu-latest
     steps:
@@ -22,8 +22,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Gradle release
-        run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }}
+      - name: Gradle version
+        run: ./gradlew release -Prelease.customUsername=${{ secrets.SECRETTOKEN }} -Ppush=true --stacktrace
 
       - name: Merge master -> stage
         uses: devmasx/merge-branch@1.4.0

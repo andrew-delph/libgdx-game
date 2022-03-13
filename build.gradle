@@ -19,7 +19,6 @@ plugins {
     id 'pl.allegro.tech.build.axion-release' version '1.8.1'
 }
 
-version = scmVersion.version
 scmVersion {
     useHighestVersion = true
     tag {
@@ -34,9 +33,34 @@ scmVersion {
             'stage' : 'incrementMinor',
             'dev'   : 'incrementPatch'
     ]
-    checks {
-        uncommittedChanges = false // permanently disable uncommitted changes check
-        aheadOfRemote = false // permanently disable ahead of remote check
+    hooks {
+        pre {
+            context ->
+                (new File(System.getProperty("user.dir") + "/core/assets/project.version")).write(context.currentVersion)
+                executeCommand("git fetch")
+                executeCommand("git add .")
+                executeCommand("git status")
+                executeCommand("git -c user.name=\"Version_Bump\" -c user.email=\"\"  commit -m \"Version_Bump\"")
+                if (project.hasProperty("push")) {
+                    println "PUSHING LAST COMMIT"
+                    executeCommand("git push origin")
+                }
+        }
+    }
+}
+project.version = scmVersion.version
+
+def executeCommand(String command) {
+    println "executeCommand: " + command
+    def proc = command.execute()
+    proc.waitFor()
+    println "Process exit code: ${proc.exitValue()}"
+    def result = proc.in.text
+    println "Std Err: ${proc.err.text}"
+    println "Std Out: $result"
+    if (proc.exitValue() != 0) {
+        sleep(3 * 1000)
+        throw new GradleException('error occurred')
     }
 }
 
@@ -67,7 +91,6 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
-
 }
 
 project(":core") {
@@ -170,4 +193,8 @@ task zipit(type: Zip) {
 clean {
     delete "dist", "out"
 }
+
+
+
+
 
