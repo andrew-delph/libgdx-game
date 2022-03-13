@@ -12,4 +12,4 @@ RUN dos2unix ./gradlew
 
 RUN ./gradlew -Pexclude.android=true :desktop:build
 
-CMD ./gradlew -Pexclude.android=true :desktop:server --stacktrace
+CMD ./gradlew -Pexclude.android=true :desktop:server
