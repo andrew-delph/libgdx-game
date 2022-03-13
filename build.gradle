@@ -36,11 +36,16 @@ scmVersion {
         pre {
             context ->
                 (new File("core/assets/project.version")).write(context.currentVersion)
+                println "git add .".execute().text
                 println "git status".execute().text
-                def commit = "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"".execute()
-                println commit.waitForProcessOutput()
-                println commit.exitValue()
-                println commit.isAlive()
+                def command = null;
+                command = "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"".execute()
+                println command.waitForProcessOutput()
+                println command.exitValue()
+                println command.isAlive()
+                println "-------------------"
+                println command.text
+                println "-------------------"
                 if (project.hasProperty("push")) {
                     println "pushing last commit"
                     println "git push origin".execute().text
@@ -53,7 +58,9 @@ scmVersion {
 project.version = scmVersion.version
 
 task test3() {
-    def command = "git status".execute()
+    def command;
+    command = "git status".execute()
+    command = "git status".execute()
     println command.waitForProcessOutput()
     println command.exitValue()
     println command.isAlive()
