@@ -40,6 +40,7 @@ scmVersion {
                 if (project.hasProperty("push")) {
                     println "pushing last commit"
                     println "git push origin".execute().text
+                    println "git status".execute().text
                 }
         }
     }
@@ -174,6 +175,11 @@ task zipit(type: Zip) {
 
 clean {
     delete "dist", "out"
+}
+
+task test3() {
+    println "git status".execute().text
+    println "ok"
 }
 
 
