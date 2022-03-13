@@ -1,5 +1,6 @@
 package configuration;
 
+import com.badlogic.gdx.Gdx;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -21,6 +22,7 @@ public class GameSettings {
   private static final String PORT_KEY = "port";
 
   private Properties properties;
+  private String VERSION = null;
 
   GameSettings() {}
 
@@ -49,6 +51,7 @@ public class GameSettings {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    VERSION = Gdx.files.internal("project.version").readString();
   }
 
   private synchronized String getValue(String key) {
@@ -62,5 +65,10 @@ public class GameSettings {
 
   public int getPort() {
     return Integer.parseInt(this.getValue(PORT_KEY));
+  }
+
+  public String getVersion() {
+    this.load();
+    return this.VERSION;
   }
 }

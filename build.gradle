@@ -19,9 +19,9 @@ plugins {
     id 'pl.allegro.tech.build.axion-release' version '1.8.1'
 }
 
-version = scmVersion.version
+project.version = scmVersion.version
 scmVersion {
-    useHighestVersion = true
+    useHighestVersion = false
     tag {
         prefix = 'v'
         versionSeparator = ''
@@ -37,6 +37,11 @@ scmVersion {
     checks {
         uncommittedChanges = false // permanently disable uncommitted changes check
         aheadOfRemote = false // permanently disable ahead of remote check
+    }
+    hooks {
+        pre {
+            context -> (new File("core/assets/out.txt")).write(context.currentVersion)
+        }
     }
 }
 
@@ -170,4 +175,6 @@ task zipit(type: Zip) {
 clean {
     delete "dist", "out"
 }
+
+
 
