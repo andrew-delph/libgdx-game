@@ -43,6 +43,13 @@ scmVersion {
         pre {
             context -> "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"".execute()
         }
+        pre {
+            context ->
+                if (project.hasProperty("push")) {
+                    println "pushing last commit"
+                    "git push".execute()
+                }
+        }
     }
 }
 project.version = scmVersion.version
