@@ -70,7 +70,10 @@ def executeCommand(String command) {
     def result = proc.in.text
     println "Std Err: ${proc.err.text}"
     println "Std Out: $result"
-    if (proc.exitValue() != 0) throw new GradleException('error occurred')
+    if (proc.exitValue() != 0) {
+        sleep(5 * 1000)
+        throw new GradleException('error occurred')
+    }
 }
 
 def protobufVersion = '3.0.0'
