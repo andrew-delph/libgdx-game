@@ -34,16 +34,12 @@ scmVersion {
     ]
     hooks {
         pre {
-            context -> (new File("core/assets/project.version")).write(context.currentVersion)
-        }
-        pre {
-            context -> "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"".execute()
-        }
-        pre {
             context ->
+                (new File("core/assets/project.version")).write(context.currentVersion)
+                println "git commit -a -m \"Commit project.version file for: ${context.currentVersion}\"".execute().text
                 if (project.hasProperty("push")) {
                     println "pushing last commit"
-                    println "git push".execute().wait()
+                    println "git push".execute().text
                 }
         }
     }
