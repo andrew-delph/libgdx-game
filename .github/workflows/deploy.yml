@@ -44,7 +44,7 @@ jobs:
         with:
           task-definition: game-server-task.json
           container-name: game-container
-          image: $ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.version_file.outputs.content }}
+          image: 309026503458.dkr.ecr.us-east-1.amazonaws.com/game:0.2.6 #$ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.version_file.outputs.content }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
