@@ -45,14 +45,10 @@ jobs:
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: game
-          IMAGE_TAG: ${{ steps.version_file.outputs.content }}
         with:
           task-definition: game-server-task.json
           container-name: game-container
-          image: "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          image: "${{ steps.login-ecr.outputs.registry }}/game:${{ steps.version_file.outputs.content }}"
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
