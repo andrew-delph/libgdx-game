@@ -1,4 +1,4 @@
-package configuration;
+package common;
 
 import com.badlogic.gdx.Gdx;
 import java.io.File;
