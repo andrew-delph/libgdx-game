@@ -9,6 +9,7 @@ import common.GameStore;
 import common.events.EventConsumer;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
+import common.exceptions.WrongVersion;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import generation.ChunkGenerationService;
@@ -151,5 +152,10 @@ public class testSingleClientNoRunningGame {
     assert serverChunk.getEntityList().size() > 5;
     Assert.assertEquals(serverChunk.getEntityList().size(), clientChunk.getEntityList().size());
     assert clientChunk.equals(serverChunk);
+  }
+
+  @Test
+  public void testGetVersion() throws WrongVersion {
+    assert clientNetworkHandle.checkVersion();
   }
 }
