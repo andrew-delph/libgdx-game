@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: [ Version ]
     types: [ completed ]
-    branches: [ master, stage, dev ]
+    branches: [ major, minor, patch, dev ]
   workflow_dispatch:
 
 jobs:
