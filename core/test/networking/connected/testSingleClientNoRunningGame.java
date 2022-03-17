@@ -1,10 +1,16 @@
 package networking.connected;
 
+import static org.mockito.Mockito.when;
+
 import chunk.Chunk;
 import chunk.ChunkRange;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.util.Modules;
+import com.google.inject.util.Providers;
 import common.Coordinates;
+import common.GameSettings;
 import common.GameStore;
 import common.events.EventConsumer;
 import common.exceptions.EntityNotFound;
@@ -22,6 +28,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import util.mock.GdxTestRunner;
 
 @RunWith(GdxTestRunner.class)
@@ -43,7 +50,17 @@ public class testSingleClientNoRunningGame {
   @Before
   public void setup() throws IOException, InterruptedException, SerializationDataMissing {
     clientInjector = Guice.createInjector(new ClientConfig());
-    serverInjector = Guice.createInjector(new BaseServerConfig());
+    serverInjector =
+        Guice.createInjector(
+            Modules.override(new BaseServerConfig())
+                .with(
+                    new AbstractModule() {
+                      @Override
+                      protected void configure() {
+                        GameSettings serverSettings = Mockito.spy(new GameSettings());
+                        bind(GameSettings.class).toProvider(Providers.of(serverSettings));
+                      }
+                    }));
 
     clientNetworkHandle = clientInjector.getInstance(ClientNetworkHandle.class);
     serverNetworkHandle = serverInjector.getInstance(ServerNetworkHandle.class);
@@ -160,5 +177,12 @@ public class testSingleClientNoRunningGame {
   @Test
   public void testGetVersion() throws WrongVersion {
     assert clientNetworkHandle.checkVersion();
+  }
+
+  @Test(expected = WrongVersion.class)
+  public void testNegativeGetVersion() throws WrongVersion {
+    GameSettings severSettings = serverInjector.getInstance(GameSettings.class);
+    when(severSettings.getVersion()).thenReturn("error");
+    clientNetworkHandle.checkVersion();
   }
 }
