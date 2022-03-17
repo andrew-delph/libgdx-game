@@ -8,6 +8,7 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import com.google.protobuf.Empty;
+import common.GameSettings;
 import common.GameStore;
 import generation.ChunkGenerationService;
 import io.grpc.Server;
@@ -21,6 +22,7 @@ import java.util.UUID;
 import networking.ConnectionStore;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
+import networking.NetworkObjects.Version;
 import networking.ObserverFactory;
 import networking.RequestNetworkEventObserver;
 import networking.events.EventTypeFactory;
@@ -36,6 +38,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Inject ActiveChunkManager activeChunkManager;
   @Inject User user;
   @Inject ChunkGenerationService chunkGenerationService;
+  @Inject GameSettings gameSettings;
   private Server server;
 
   @Inject
@@ -107,6 +110,14 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
             .setConnections(connectionStore.size())
             .build();
     responseObserver.onNext(healthData);
+    responseObserver.onCompleted();
+  }
+
+  @Override
+  public void getVersion(Empty request, StreamObserver<Version> responseObserver) {
+    NetworkObjects.Version versionData =
+        NetworkObjects.Version.newBuilder().setVersion(gameSettings.getVersion()).build();
+    responseObserver.onNext(versionData);
     responseObserver.onCompleted();
   }
 

@@ -7,10 +7,12 @@ import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
+import com.google.protobuf.Empty;
 import com.sun.tools.javac.util.Pair;
 import common.GameSettings;
 import common.GameStore;
 import common.exceptions.SerializationDataMissing;
+import common.exceptions.WrongVersion;
 import entity.Entity;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -155,6 +157,17 @@ public class ClientNetworkHandle {
           public void onCompleted() {}
         });
     // in the observer. at the end
+    return true;
+  }
+
+  public boolean checkVersion() throws WrongVersion {
+    NetworkObjects.Version versionData = this.blockStub.getVersion(Empty.newBuilder().build());
+    if (!gameSettings.getVersion().equals(versionData.getVersion())) {
+      throw new WrongVersion(
+          String.format(
+              "Client version: %s, Server version: %s",
+              gameSettings.getVersion(), versionData.getVersion()));
+    }
     return true;
   }
 

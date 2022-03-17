@@ -23,6 +23,9 @@ message Health{
   string id = 2;
   int32 connections = 3;
 }
+message Version{
+  string version = 1;
+}
 
 service NetworkObjectService{
   rpc networkObjectStream(stream NetworkEvent) returns (stream NetworkEvent) {};
@@ -34,4 +37,5 @@ service NetworkObjectService{
       body: "*"
     };
   };
+  rpc getVersion(google.protobuf.Empty) returns(Version){};
 }

@@ -24,7 +24,7 @@ public class GameSettings {
   private Properties properties;
   private String VERSION = null;
 
-  GameSettings() {}
+  public GameSettings() {}
 
   private Properties getDefaults() {
     Properties defaults = new Properties();
