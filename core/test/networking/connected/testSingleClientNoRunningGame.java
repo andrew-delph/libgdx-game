@@ -20,7 +20,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import util.mock.GdxTestRunner;
 
+@RunWith(GdxTestRunner.class)
 public class testSingleClientNoRunningGame {
   Injector clientInjector;
   Injector serverInjector;

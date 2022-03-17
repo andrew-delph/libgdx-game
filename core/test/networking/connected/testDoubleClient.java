@@ -7,13 +7,13 @@ import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
+import common.GameSettings;
 import common.GameStore;
 import common.events.EventService;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
-import configuration.GameSettings;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.Block;
@@ -33,7 +33,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import util.mock.GdxTestRunner;
 
+@RunWith(GdxTestRunner.class)
 public class testDoubleClient {
 
   Injector client_a_Injector;

@@ -9,6 +9,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import common.ChunkClockMap;
 import common.Clock;
+import common.GameSettings;
 import common.GameStore;
 import common.events.EventService;
 import entity.ActiveEntityManager;

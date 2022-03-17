@@ -1,6 +1,6 @@
 package chunk;
 
-import static configuration.GameSettings.GRAVITY;
+import static common.GameSettings.GRAVITY;
 
 import app.GameController;
 import com.badlogic.gdx.math.Vector2;
@@ -8,10 +8,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import common.Clock;
 import common.Coordinates;
+import common.GameSettings;
 import common.GameStore;
 import common.Tick;
 import common.exceptions.EntityNotFound;
-import configuration.GameSettings;
 import entity.Entity;
 import entity.block.Block;
 import entity.collision.EntityContactListenerFactory;
