@@ -5,6 +5,21 @@ import javax.swing.JFrame;
 
 public class Test {
   public static void main(String[] args) {
+
+    class Printer {
+      public void testPrint() {
+        System.out.println("original");
+      }
+    }
+
+    (new Printer() {
+          public void testPrint() {
+            super.testPrint();
+            System.out.println("new");
+          }
+        })
+        .testPrint();
+
     System.out.println("Working Directory = " + System.getProperty("user.dir"));
     JFrame frame = new JFrame("My First GUI");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
