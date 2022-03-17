@@ -29,9 +29,10 @@ scmVersion {
         pushTagsOnly = true
     }
     branchVersionIncrementer = [
-            'master': 'incrementMajor',
-            'stage' : 'incrementMinor',
-            'dev'   : 'incrementPatch'
+            'major': 'incrementMajor',
+            'minor': 'incrementMinor',
+            'patch': 'incrementPatch',
+            'dev'  : 'incrementPrerelease'
     ]
     hooks {
         pre {
