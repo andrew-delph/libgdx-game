@@ -36,7 +36,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import util.mock.GdxTestRunner;
 
+@RunWith(GdxTestRunner.class)
 public class testSingleClientRunningGame {
 
   Injector clientInjector;
@@ -52,11 +55,12 @@ public class testSingleClientRunningGame {
 
   @Before
   public void setup() throws IOException, InterruptedException, SerializationDataMissing {
+
     clientInjector = Guice.createInjector(new ClientConfig());
     serverInjector = Guice.createInjector(new BaseServerConfig());
 
-    clientNetworkHandle = clientInjector.getInstance(ClientNetworkHandle.class);
     serverNetworkHandle = serverInjector.getInstance(ServerNetworkHandle.class);
+    clientNetworkHandle = clientInjector.getInstance(ClientNetworkHandle.class);
 
     clientGame = clientInjector.getInstance(Game.class);
     serverGame = serverInjector.getInstance(Game.class);
