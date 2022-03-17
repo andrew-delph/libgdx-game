@@ -21,7 +21,8 @@ public class AssetExistsExampleTest {
     BaseAssetManager assetManager = clientInjector.getInstance(BaseAssetManager.class);
     assetManager.init();
     assertTrue(
-        "This test will only pass when the badlogic.jpg file coming with a new project setup has not been deleted.",
+        "This test will only pass when the badlogic.jpg file coming with a new project setup has"
+            + " not been deleted.",
         Gdx.files.internal("badlogic.jpg").exists());
   }
 }
