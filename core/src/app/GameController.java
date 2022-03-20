@@ -184,9 +184,6 @@ public class GameController {
     }
     replacementEntity.coordinates = removeEntity.coordinates;
     this.gameStore.removeEntity(removeEntity.uuid);
-
-    this.gameStore.addEntity(replacementEntity);
-    this.gameStore.removeEntity(replacementEntity.uuid);
     this.gameStore.addEntity(replacementEntity);
 
     if (swapVelocity) {

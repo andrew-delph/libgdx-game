@@ -97,6 +97,7 @@ public class EntityBodyBuilder {
     jumpFixtureDef.isSensor = true;
     jumpFixture = theBody.createFixture(jumpFixtureDef);
     jumpFixture.setUserData(new GroundSensorPoint(theBody));
+    jumpFixture.setFilterData(filter);
 
     // create the left
     leftShape.setAsBox(5f, Entity.staticHeight / 2f, new Vector2(-Entity.staticWidth / 2f, 0), 0);
@@ -104,6 +105,7 @@ public class EntityBodyBuilder {
     leftFixtureDef.isSensor = true;
     leftFixture = theBody.createFixture(leftFixtureDef);
     leftFixture.setUserData(new LeftSensorPoint(theBody));
+    leftFixture.setFilterData(filter);
 
     // create the right
     rightShape.setAsBox(
@@ -112,6 +114,7 @@ public class EntityBodyBuilder {
     rightFixtureDef.isSensor = true;
     rightFixture = theBody.createFixture(rightFixtureDef);
     rightFixture.setUserData(new RightSensorPoint(theBody));
+    rightFixture.setFilterData(filter);
 
     return theBody;
   }
