@@ -22,7 +22,7 @@ public class testChunk {
     Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
-    Entity entity = entityFactory.createEntity();
+    Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
     assert entity.coordinates.equals(new Coordinates(0, 0));
     chunk.addEntity(entity);
     try {
@@ -30,7 +30,7 @@ public class testChunk {
       fail();
     } catch (Exception ignored) {
     }
-    Block dirtBlock = blockFactory.createDirt();
+    Block dirtBlock = blockFactory.createDirt(new Coordinates(0, 0));
     assert dirtBlock.coordinates.equals(new Coordinates(0, 0));
     chunk.addEntity(dirtBlock);
     assert chunk.getBlock(new Coordinates(0, 0)).equals(dirtBlock);
@@ -45,7 +45,7 @@ public class testChunk {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     for (int i = 0; i < 10; i++) {
-      Entity entity = entityFactory.createEntity();
+      Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
       chunk1.addEntity(entity);
       assert !chunk1.equals(chunk2);
       chunk2.addEntity(entity);

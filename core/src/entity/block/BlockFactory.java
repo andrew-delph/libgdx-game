@@ -3,6 +3,7 @@ package entity.block;
 import app.screen.BaseAssetManager;
 import com.google.inject.Inject;
 import common.Clock;
+import common.Coordinates;
 import entity.EntityBodyBuilder;
 
 public class BlockFactory {
@@ -12,15 +13,21 @@ public class BlockFactory {
 
   BlockFactory() {}
 
-  public DirtBlock createDirt() {
-    return new DirtBlock(clock, baseAssetManager, entityBodyBuilder);
+  public DirtBlock createDirt(Coordinates coordinates) {
+    DirtBlock block = new DirtBlock(clock, baseAssetManager, entityBodyBuilder);
+    block.coordinates = coordinates;
+    return block;
   }
 
-  public StoneBlock createStone() {
-    return new StoneBlock(clock, baseAssetManager, entityBodyBuilder);
+  public StoneBlock createStone(Coordinates coordinates) {
+    StoneBlock stoneBlock = new StoneBlock(clock, baseAssetManager, entityBodyBuilder);
+    stoneBlock.coordinates = coordinates;
+    return stoneBlock;
   }
 
-  public SkyBlock createSky() {
-    return new SkyBlock(clock, baseAssetManager, entityBodyBuilder);
+  public SkyBlock createSky(Coordinates coordinates) {
+    SkyBlock skyBlock = new SkyBlock(clock, baseAssetManager, entityBodyBuilder);
+    skyBlock.coordinates = coordinates;
+    return skyBlock;
   }
 }

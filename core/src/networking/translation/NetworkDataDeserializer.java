@@ -255,15 +255,15 @@ public class NetworkDataDeserializer {
     UUID uuid = null;
 
     if (classString.equals(DirtBlock.class.getName())) {
-      entity = blockFactory.createDirt();
+      entity = blockFactory.createDirt(new Coordinates(0, 0));
     } else if (classString.equals(SkyBlock.class.getName())) {
-      entity = blockFactory.createSky();
+      entity = blockFactory.createSky(new Coordinates(0, 0));
     } else if (classString.equals(StoneBlock.class.getName())) {
-      entity = blockFactory.createStone();
+      entity = blockFactory.createStone(new Coordinates(0, 0));
     } else if (classString.equals(Ladder.class.getName())) {
-      entity = entityFactory.createLadder();
+      entity = entityFactory.createLadder(new Coordinates(0, 0));
     } else if (classString.equals(Entity.class.getName())) {
-      entity = entityFactory.createEntity();
+      entity = entityFactory.createEntity(new Coordinates(0, 0));
     } else {
       throw new SerializationDataMissing("classString not recognized");
     }

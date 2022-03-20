@@ -54,8 +54,7 @@ public class testEntitySerialization {
 
   @Test
   public void testCreateEntitySerialization() throws SerializationDataMissing {
-    Entity entityWrite = entityFactory.createEntity();
-    entityWrite.coordinates = new Coordinates(2, 3);
+    Entity entityWrite = entityFactory.createEntity(new Coordinates(2, 3));
     Entity entityRead = entitySerializationConverter.createEntity(entityWrite.toNetworkData());
     assert entityWrite.coordinates.equals(entityRead.coordinates);
     assert entityWrite.uuid.equals(entityRead.uuid);
@@ -63,8 +62,7 @@ public class testEntitySerialization {
 
   @Test
   public void testUpdateEntitySerialization() throws EntityNotFound, SerializationDataMissing {
-    Entity entityWrite = entityFactory.createEntity();
-    entityWrite.coordinates = new Coordinates(2, 3);
+    Entity entityWrite = entityFactory.createEntity(new Coordinates(2, 3));
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
     gameStore.addEntity(entityWrite);
     NetworkObjects.NetworkData networkData = entityWrite.toNetworkData();
@@ -75,7 +73,7 @@ public class testEntitySerialization {
 
   @Test
   public void testCreateEntityNetworkEvent() throws EntityNotFound {
-    Entity entityWrite = entityFactory.createEntity();
+    Entity entityWrite = entityFactory.createEntity(new Coordinates(0, 0));
     UUID uuid = entityWrite.uuid;
     gameStore.addChunk(chunkFactory.create(new ChunkRange(entityWrite.coordinates)));
     networkEventHandler.handleNetworkEvent(
@@ -87,7 +85,7 @@ public class testEntitySerialization {
 
   @Test
   public void testBlockWrite() throws EntityNotFound {
-    Entity block = blockFactory.createDirt();
+    Entity block = blockFactory.createDirt(new Coordinates(0, 0));
     UUID uuid = block.uuid;
     gameStore.addChunk(chunkFactory.create(new ChunkRange(block.coordinates)));
     networkEventHandler.handleNetworkEvent(

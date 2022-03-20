@@ -87,7 +87,8 @@ public class testDoubleClientDelayedConnection {
     List<ChunkRange> chunkRangeList = new LinkedList<>();
     chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
 
-    Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
+    Entity clientEntity =
+        client_a_GameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
 

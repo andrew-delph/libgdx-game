@@ -45,7 +45,7 @@ public class testGameController {
     ChunkRange chunkRange2 = chunkRange1.getRight();
     this.gameStore.addChunk(this.chunkFactory.create(chunkRange1));
     this.gameStore.addChunk(this.chunkFactory.create(chunkRange2));
-    Entity entity = this.entityFactory.createEntity();
+    Entity entity = this.entityFactory.createEntity(new Coordinates(0, 0));
     this.gameStore.addEntity(entity);
     assert this.gameStore.getEntityChunk(entity.uuid).chunkRange == chunkRange1;
     Assert.assertEquals(chunkRange1, this.gameStore.getEntityChunk(entity.uuid).chunkRange);

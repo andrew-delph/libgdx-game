@@ -60,8 +60,7 @@ public class GameScreen extends ApplicationAdapter {
     batch.enableBlending();
     //    edgeRegistration.edgeRegistration();
 
-    myEntity = entityFactory.createEntity();
-    myEntity.coordinates = new Coordinates(0, 2);
+    myEntity = entityFactory.createEntity(new Coordinates(0, 2));
     myEntity = gameController.addEntity(myEntity);
     System.out.println("my entity " + myEntity.uuid);
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));

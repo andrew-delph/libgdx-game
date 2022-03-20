@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import common.GameStore;
 import entity.Entity;
+import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.SkyBlock;
 import entity.pathfinding.EntityStructure;
@@ -79,10 +80,13 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
 
   @Override
   public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
+    Block targetBlock =
+        blockFactory.createSky(
+            this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition));
     this.gameController.replaceBlock(
         this.gameStore.getBlock(
             this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition)),
-        blockFactory.createSky());
+        targetBlock);
     super.follow(entity, relativePathNode);
   }
 }

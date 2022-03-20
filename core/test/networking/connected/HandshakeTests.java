@@ -108,13 +108,9 @@ public class HandshakeTests {
     Chunk clientChunk = clientGameStore.getChunk(chunkRangeToTest);
     assert serverChunk.equals(clientChunk);
 
-    Entity e1 = entityFactory.createEntity(); // server only
-    Entity e2 = entityFactory.createEntity(); // both
-    Entity e3 = entityFactory.createEntity(); // client only
-
-    e1.coordinates = coordinatesToTest;
-    e2.coordinates = coordinatesToTest;
-    e3.coordinates = coordinatesToTest;
+    Entity e1 = entityFactory.createEntity(coordinatesToTest); // server only
+    Entity e2 = entityFactory.createEntity(coordinatesToTest); // both
+    Entity e3 = entityFactory.createEntity(coordinatesToTest); // client only
 
     //        serverGameStore.addEntity(e1);
     serverGameStore.addEntity(e2);
@@ -139,13 +135,9 @@ public class HandshakeTests {
     Chunk clientChunk = clientGameStore.getChunk(chunkRangeToTest);
     assert serverChunk.equals(clientChunk);
 
-    Entity e1 = entityFactory.createEntity(); // server only
-    Entity e2 = entityFactory.createEntity(); // both
-    Entity e3 = entityFactory.createEntity(); // client only
-
-    e1.coordinates = coordinatesToTest;
-    e2.coordinates = coordinatesToTest;
-    e3.coordinates = coordinatesToTest;
+    Entity e1 = entityFactory.createEntity(coordinatesToTest); // server only
+    Entity e2 = entityFactory.createEntity(coordinatesToTest); // both
+    Entity e3 = entityFactory.createEntity(coordinatesToTest); // client only
 
     serverGameStore.addEntity(e1);
     serverGameStore.addEntity(e2);
@@ -170,13 +162,9 @@ public class HandshakeTests {
     Chunk clientChunk = clientGameStore.getChunk(chunkRangeToTest);
     assert serverChunk.equals(clientChunk);
 
-    Entity e1 = entityFactory.createEntity(); // server only
-    Entity e2 = entityFactory.createEntity(); // both
-    Entity e3 = entityFactory.createEntity(); // client only
-
-    e1.coordinates = coordinatesToTest;
-    e2.coordinates = coordinatesToTest;
-    e3.coordinates = coordinatesToTest;
+    Entity e1 = entityFactory.createEntity(coordinatesToTest); // server only
+    Entity e2 = entityFactory.createEntity(coordinatesToTest); // both
+    Entity e3 = entityFactory.createEntity(coordinatesToTest); // client only
 
     serverGameStore.addEntity(e1);
     serverGameStore.addEntity(e2);
@@ -203,11 +191,8 @@ public class HandshakeTests {
     Chunk clientChunk = clientGameStore.getChunk(chunkRangeToTest);
     assert serverChunk.equals(clientChunk);
 
-    Entity e1 = entityFactory.createEntity(); // both
-    Entity e2 = entityFactory.createEntity(); // client only
-
-    e1.coordinates = coordinatesToTest;
-    e2.coordinates = coordinatesToTest;
+    Entity e1 = entityFactory.createEntity(coordinatesToTest); // both
+    Entity e2 = entityFactory.createEntity(coordinatesToTest); // client only
 
     clientGameController.addEntity(e1);
     TimeUnit.SECONDS.sleep(1);
@@ -236,13 +221,9 @@ public class HandshakeTests {
     Chunk clientChunk = clientGameStore.getChunk(chunkRangeToTest);
     assert serverChunk.equals(clientChunk);
 
-    Entity e1 = entityFactory.createEntity(); // both
-    Block blockToRemove = blockFactory.createDirt();
-    Block blockToReplace = blockFactory.createSky();
-
-    e1.coordinates = coordinatesToTest;
-    blockToRemove.coordinates = coordinatesToTest;
-    blockToReplace.coordinates = coordinatesToTest;
+    Entity e1 = entityFactory.createEntity(coordinatesToTest); // both
+    Block blockToRemove = blockFactory.createDirt(coordinatesToTest);
+    Block blockToReplace = blockFactory.createSky(coordinatesToTest);
 
     clientGameController.addEntity(e1);
     TimeUnit.SECONDS.sleep(1);
@@ -273,10 +254,8 @@ public class HandshakeTests {
     Chunk clientChunk = clientGameStore.getChunk(chunkRangeToTest);
     assert serverChunk.equals(clientChunk);
 
-    Entity e1 = entityFactory.createEntity(); // both
-    Entity e2 = entityFactory.createEntity(); // client only
-    e1.coordinates = coordinatesToTest;
-    e2.coordinates = coordinatesToTest;
+    Entity e1 = entityFactory.createEntity(coordinatesToTest); // both
+    Entity e2 = entityFactory.createEntity(coordinatesToTest); // client only
 
     serverActiveChunkManager.addUserChunkSubscriptions(clientUser.getUserID(), chunkRangeToTest);
     clientGameController.addEntity(e1);
@@ -309,13 +288,9 @@ public class HandshakeTests {
     Chunk clientChunk = clientGameStore.getChunk(chunkRangeToTest);
     assert serverChunk.equals(clientChunk);
 
-    Entity e1 = entityFactory.createEntity(); // both
-    Block blockToRemove = blockFactory.createDirt();
-    Block blockToReplace = blockFactory.createSky();
-
-    e1.coordinates = coordinatesToTest;
-    blockToRemove.coordinates = coordinatesToTest;
-    blockToReplace.coordinates = coordinatesToTest;
+    Entity e1 = entityFactory.createEntity(coordinatesToTest); // both
+    Block blockToRemove = blockFactory.createDirt(coordinatesToTest);
+    Block blockToReplace = blockFactory.createSky(coordinatesToTest);
 
     serverActiveChunkManager.addUserChunkSubscriptions(clientUser.getUserID(), chunkRangeToTest);
     clientGameController.addEntity(e1);

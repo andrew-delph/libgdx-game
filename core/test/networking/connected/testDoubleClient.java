@@ -128,7 +128,8 @@ public class testDoubleClient {
 
     TimeUnit.SECONDS.sleep(1);
 
-    Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
+    Entity clientEntity =
+        client_a_GameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(3);
 
@@ -173,7 +174,8 @@ public class testDoubleClient {
 
     TimeUnit.SECONDS.sleep(1);
 
-    Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
+    Entity clientEntity =
+        client_a_GameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -239,7 +241,8 @@ public class testDoubleClient {
 
     TimeUnit.SECONDS.sleep(1);
 
-    Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
+    Entity clientEntity =
+        client_a_GameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -380,8 +383,7 @@ public class testDoubleClient {
     assert serverGameStore.getBlock(coordinatesToTest).getClass() == SkyBlock.class;
 
     Block blockToRemove = client_a_GameStore.getBlock(coordinatesToTest);
-    Block blockAsReplacement = client_a_BlockFactory.createDirt();
-    blockAsReplacement.coordinates = coordinatesToTest;
+    Block blockAsReplacement = client_a_BlockFactory.createDirt(coordinatesToTest);
 
     Entity ladder = client_a_GameController.createLadder(coordinatesToTest);
     TimeUnit.SECONDS.sleep(1);

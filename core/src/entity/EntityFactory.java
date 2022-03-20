@@ -3,6 +3,7 @@ package entity;
 import app.screen.BaseAssetManager;
 import com.google.inject.Inject;
 import common.Clock;
+import common.Coordinates;
 import entity.misc.Ladder;
 
 public class EntityFactory {
@@ -14,11 +15,15 @@ public class EntityFactory {
   @Inject
   EntityFactory() {}
 
-  public Entity createEntity() {
-    return new Entity(clock, baseAssetManager, entityBodyBuilder);
+  public Entity createEntity(Coordinates coordinates) {
+    Entity entity = new Entity(clock, baseAssetManager, entityBodyBuilder);
+    entity.coordinates = coordinates;
+    return entity;
   }
 
-  public Ladder createLadder() {
-    return new Ladder(clock, baseAssetManager, entityBodyBuilder);
+  public Ladder createLadder(Coordinates coordinates) {
+    Ladder ladder = new Ladder(clock, baseAssetManager, entityBodyBuilder);
+    ladder.coordinates = coordinates;
+    return ladder;
   }
 }

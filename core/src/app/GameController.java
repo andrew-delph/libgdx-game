@@ -65,8 +65,7 @@ public class GameController {
   }
 
   public Entity createEntity(Coordinates coordinates) {
-    Entity entity = entityFactory.createEntity();
-    entity.coordinates = coordinates;
+    Entity entity = entityFactory.createEntity(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -76,8 +75,7 @@ public class GameController {
   }
 
   public Block createSkyBlock(Coordinates coordinates) {
-    Block entity = blockFactory.createSky();
-    entity.coordinates = coordinates;
+    Block entity = blockFactory.createSky(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -87,8 +85,7 @@ public class GameController {
   }
 
   public Block createDirtBlock(Coordinates coordinates) {
-    Block entity = blockFactory.createDirt();
-    entity.coordinates = coordinates;
+    Block entity = blockFactory.createDirt(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -98,8 +95,7 @@ public class GameController {
   }
 
   public Block createStoneBlock(Coordinates coordinates) {
-    Block entity = blockFactory.createStone();
-    entity.coordinates = coordinates;
+    Block entity = blockFactory.createStone(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -113,8 +109,7 @@ public class GameController {
       throw new EntityNotFound("Did not find EmptyBlock");
     }
     if (this.gameStore.getLadder(coordinates) != null) return this.gameStore.getLadder(coordinates);
-    Entity entity = entityFactory.createLadder();
-    entity.coordinates = coordinates;
+    Entity entity = entityFactory.createLadder(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -148,9 +143,9 @@ public class GameController {
 
     Block replacementBlock;
     if (blockClass == SkyBlock.class) {
-      replacementBlock = blockFactory.createSky();
+      replacementBlock = blockFactory.createSky(removeBlock.coordinates);
     } else if (blockClass == DirtBlock.class) {
-      replacementBlock = blockFactory.createDirt();
+      replacementBlock = blockFactory.createDirt(removeBlock.coordinates);
     } else {
       return;
     }
@@ -182,7 +177,7 @@ public class GameController {
     if (swapVelocity) {
       velocity = removeEntity.getBody().getLinearVelocity();
     }
-    replacementEntity.coordinates = removeEntity.coordinates;
+    //    replacementEntity.coordinates = removeEntity.coordinates;
     this.gameStore.removeEntity(removeEntity.uuid);
     this.gameStore.addEntity(replacementEntity);
 

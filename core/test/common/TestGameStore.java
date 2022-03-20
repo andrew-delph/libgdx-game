@@ -35,7 +35,7 @@ public class TestGameStore {
 
   @Test
   public void testEntityExistence() throws EntityNotFound {
-    Entity testEntity = entityFactory.createEntity();
+    Entity testEntity = entityFactory.createEntity(new Coordinates(0, 0));
     this.gameStore.addChunk(this.chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
     gameStore.addEntity(testEntity);
     assert testEntity == gameStore.getEntity(testEntity.uuid);

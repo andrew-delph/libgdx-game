@@ -30,8 +30,7 @@ public class testEntityStructure {
 
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-    Block block = blockFactory.createSky();
-    block.coordinates = new Coordinates(0, 0);
+    Block block = blockFactory.createSky(new Coordinates(0, 0));
     gameStore.addEntity(block);
 
     assert gameStore.getBlock(new Coordinates(0, 0)) != null;
@@ -56,8 +55,7 @@ public class testEntityStructure {
 
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-    Block block = blockFactory.createSky();
-    block.coordinates = new Coordinates(0, 3);
+    Block block = blockFactory.createSky(new Coordinates(0, 3));
     gameStore.addEntity(block);
 
     EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
@@ -80,8 +78,7 @@ public class testEntityStructure {
 
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-    Block block = blockFactory.createSky();
-    block.coordinates = new Coordinates(0, 0);
+    Block block = blockFactory.createSky(new Coordinates(0, 0));
     gameStore.addEntity(block);
 
     assert gameStore.getBlock(new Coordinates(0, 0)) != null;
@@ -105,8 +102,7 @@ public class testEntityStructure {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-    Ladder ladder = entityFactory.createLadder();
-    ladder.coordinates = new Coordinates(0, 0);
+    Ladder ladder = entityFactory.createLadder(new Coordinates(0, 0));
 
     EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
     entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), Ladder.class);
