@@ -9,6 +9,7 @@ import common.GameSettings;
 import common.GameStore;
 import common.events.EventConsumer;
 import common.exceptions.SerializationDataMissing;
+import common.exceptions.WrongVersion;
 import entity.collision.CollisionService;
 import java.io.IOException;
 import java.util.Timer;
@@ -26,7 +27,8 @@ public class Game {
   @Inject
   public Game() throws Exception {}
 
-  public void start() throws IOException, InterruptedException, SerializationDataMissing {
+  public void start()
+      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
     this.preStartInit();
     this.eventConsumer.init();
     this.collisionService.init();
@@ -43,5 +45,6 @@ public class Game {
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
   }
 
-  public void postStartInit() throws SerializationDataMissing, InterruptedException, IOException {}
+  public void postStartInit()
+      throws SerializationDataMissing, InterruptedException, IOException, WrongVersion {}
 }

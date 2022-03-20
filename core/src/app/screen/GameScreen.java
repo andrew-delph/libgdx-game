@@ -18,6 +18,7 @@ import common.Coordinates;
 import common.GameSettings;
 import common.GameStore;
 import common.exceptions.SerializationDataMissing;
+import common.exceptions.WrongVersion;
 import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
@@ -54,6 +55,8 @@ public class GameScreen extends ApplicationAdapter {
     try {
       game.start();
     } catch (IOException | InterruptedException | SerializationDataMissing e) {
+      e.printStackTrace();
+    } catch (WrongVersion e) {
       e.printStackTrace();
     }
     batch = new SpriteBatch();

@@ -12,6 +12,7 @@ import common.GameStore;
 import common.events.EventService;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
+import common.exceptions.WrongVersion;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import entity.Entity;
@@ -58,7 +59,8 @@ public class testDoubleClient {
   ServerNetworkHandle serverNetworkHandle;
 
   @Before
-  public void setup() throws IOException, SerializationDataMissing, InterruptedException {
+  public void setup()
+      throws IOException, SerializationDataMissing, InterruptedException, WrongVersion {
     client_a_Injector = Guice.createInjector(new ClientConfig());
     client_b_Injector = Guice.createInjector(new ClientConfig());
     serverInjector = Guice.createInjector(new BaseServerConfig());

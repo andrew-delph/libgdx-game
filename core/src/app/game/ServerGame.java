@@ -2,6 +2,7 @@ package app.game;
 
 import com.google.inject.Inject;
 import common.exceptions.SerializationDataMissing;
+import common.exceptions.WrongVersion;
 import entity.pathfinding.EdgeRegistrationBase;
 import java.io.IOException;
 import networking.server.ServerNetworkHandle;
@@ -18,7 +19,8 @@ public class ServerGame extends Game {
   }
 
   @Override
-  public void start() throws IOException, InterruptedException, SerializationDataMissing {
+  public void start()
+      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
     edgeRegistration.edgeRegistration();
     super.start();
   }
@@ -29,7 +31,8 @@ public class ServerGame extends Game {
   }
 
   @Override
-  public void postStartInit() throws SerializationDataMissing, InterruptedException, IOException {
+  public void postStartInit()
+      throws SerializationDataMissing, InterruptedException, IOException, WrongVersion {
     super.postStartInit();
     serverNetworkHandle.start();
   }

@@ -49,7 +49,7 @@ public class ClientNetworkHandle {
   @Inject
   public ClientNetworkHandle() {}
 
-  public void connect() throws InterruptedException {
+  public void connect() throws InterruptedException, WrongVersion {
     System.out.println(
         "I am client: "
             + this.user.toString()
@@ -71,6 +71,8 @@ public class ClientNetworkHandle {
     requestNetworkEventObserver = observerFactory.create();
     requestNetworkEventObserver.responseObserver =
         this.asyncStub.networkObjectStream(requestNetworkEventObserver);
+
+    this.checkVersion();
 
     NetworkObjects.NetworkEvent authenticationEvent =
         NetworkObjects.NetworkEvent.newBuilder().setEvent(AUTH).build();
