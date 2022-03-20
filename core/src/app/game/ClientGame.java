@@ -4,6 +4,7 @@ import app.screen.BaseCamera;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.exceptions.SerializationDataMissing;
+import common.exceptions.WrongVersion;
 import java.io.IOException;
 import networking.client.ClientNetworkHandle;
 
@@ -25,7 +26,8 @@ public class ClientGame extends Game {
   }
 
   @Override
-  public void start() throws IOException, InterruptedException, SerializationDataMissing {
+  public void start()
+      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
     super.start();
   }
 
@@ -35,7 +37,7 @@ public class ClientGame extends Game {
   }
 
   @Override
-  public void postStartInit() throws SerializationDataMissing, InterruptedException {
+  public void postStartInit() throws SerializationDataMissing, InterruptedException, WrongVersion {
     this.clientNetworkHandle.connect();
 
     for (ChunkRange chunkRange : baseCamera.getChunkRangeOnScreen()) {

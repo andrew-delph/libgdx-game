@@ -48,7 +48,8 @@ public class testSingleClientNoRunningGame {
   ChunkGenerationService serverChunkGenerationService;
 
   @Before
-  public void setup() throws IOException, InterruptedException, SerializationDataMissing {
+  public void setup()
+      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
     clientInjector = Guice.createInjector(new ClientConfig());
     serverInjector =
         Guice.createInjector(

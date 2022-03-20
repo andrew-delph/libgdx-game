@@ -167,6 +167,7 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
 //        implementation group: 'com.google.inject', name: 'guice', version: '4.0'
 //        implementation "com.google.inject:guice:4.0-no_aop"
         implementation 'com.google.inject:guice:4.0:no_aop'

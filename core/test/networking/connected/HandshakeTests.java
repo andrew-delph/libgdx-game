@@ -13,6 +13,7 @@ import common.Coordinates;
 import common.GameStore;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
+import common.exceptions.WrongVersion;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import entity.Entity;
@@ -53,7 +54,8 @@ public class HandshakeTests {
   User clientUser;
 
   @Before
-  public void setup() throws IOException, InterruptedException, SerializationDataMissing {
+  public void setup()
+      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
     clientInjector = Guice.createInjector(new ClientConfig());
     serverInjector = Guice.createInjector(new BaseServerConfig());
 
