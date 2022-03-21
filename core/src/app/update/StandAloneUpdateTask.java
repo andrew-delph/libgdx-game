@@ -48,6 +48,7 @@ public class StandAloneUpdateTask extends UpdateTask {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+
     this.eventService.firePostUpdateEvents();
   }
 }

@@ -1,6 +1,6 @@
 package common;
 
-public class Tick {
+public class Tick implements Comparable<Tick> {
   public int time;
 
   public Tick(int time) {
@@ -19,5 +19,10 @@ public class Tick {
     if (getClass() != obj.getClass()) return false;
     Tick other = (Tick) obj;
     return this.time == other.time;
+  }
+
+  @Override
+  public int compareTo(Tick other) {
+    return this.time - other.time;
   }
 }

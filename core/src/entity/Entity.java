@@ -92,7 +92,7 @@ public class Entity implements SerializeNetworkData {
   }
 
   public synchronized int getUpdateTimeout() {
-    return this.clock.currentTick.time + 1;
+    return 1;
   }
 
   public NetworkObjects.NetworkData toNetworkData() {

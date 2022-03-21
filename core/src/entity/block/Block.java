@@ -22,6 +22,11 @@ public abstract class Block extends Entity {
   }
 
   @Override
+  public synchronized int getUpdateTimeout() {
+    return Integer.MAX_VALUE;
+  }
+
+  @Override
   public Body getBody() {
     return this.body;
   }
