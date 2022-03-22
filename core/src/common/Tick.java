@@ -9,8 +9,8 @@ public class Tick implements Comparable<Tick> {
     this.time = time;
   }
 
-  public Tick next(){
-    return new Tick(time+1);
+  public Tick next() {
+    return new Tick(time + 1);
   }
 
   @Override
