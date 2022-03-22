@@ -58,7 +58,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
   }
 
   void nextTick(int timeout) {
-    this.updateTick = new Tick(clock.currentTick.time + timeout);
+    this.updateTick = new Tick(clock.getCurrentTick().time + timeout);
   }
 
   @Override
@@ -72,7 +72,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
   }
 
   public synchronized void addEntity(Entity entity) {
-    Tick newTick = new Tick(clock.currentTick.time + entity.getUpdateTimeout());
+    Tick newTick = new Tick(clock.getCurrentTick().time + entity.getUpdateTimeout());
     if (newTick.compareTo(this.updateTick) < 0) this.updateTick = newTick;
     this.chunkMap.put(entity.uuid, entity);
     if (!bodySet.contains(entity.uuid)) {

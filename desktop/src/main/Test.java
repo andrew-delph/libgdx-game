@@ -1,31 +1,68 @@
 package main;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import common.Tick;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Test {
-  public static void main(String[] args) {
 
-    class Printer {
-      public void testPrint() {
-        System.out.println("original");
-      }
-    }
+  public static void main(String[] args) throws InterruptedException {
 
-    (new Printer() {
-          public void testPrint() {
-            super.testPrint();
-            System.out.println("new");
-          }
-        })
-        .testPrint();
+    //    final ExecutorService executor = Executors.newFixedThreadPool(2);
+    //    final Lock lock = new ReentrantLock();
+    //    final Condition condition = lock.newCondition();
+    //    final Object obj = new Object();
+    //
+    //    Tick tick = new Tick(1);
+    //
+    //    Runnable task = ()->{
+    //      System.out.println("hello");
+    //    };
+    //
+    //    task.run();
 
-    System.out.println("Working Directory = " + System.getProperty("user.dir"));
-    JFrame frame = new JFrame("My First GUI");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(300, 300);
-    JButton button = new JButton("Press");
-    frame.getContentPane().add(button); // Adds Button to content pane of frame
-    frame.setVisible(true);
+    Set<Tick> set = new HashSet<>();
+
+    Tick a = new Tick(1);
+    Tick b = new Tick(1);
+
+    set.add(a);
+    set.add(b);
+
+    //    System.out.println(a == a);
+    //    System.out.println(a == b);
+    //    System.out.println(a != b);
+
+    //    executor.submit(
+    //        () -> {
+    //          try {
+    //            TimeUnit.SECONDS.sleep(3);
+    //          } catch (InterruptedException e) {
+    //            e.printStackTrace();
+    //          }
+    //          System.out.println("unlocking");
+    //
+    //          synchronized (tick) {
+    //            tick.notifyAll();
+    //          }
+    //
+    //          System.out.println("unlocked");
+    //        });
+    //
+    //    executor.submit(
+    //        () -> {
+    //          System.out.println("waiting ");
+    //          synchronized (tick) {
+    //            try {
+    //              tick.wait();
+    //            } catch (InterruptedException e) {
+    //              e.printStackTrace();
+    //            }
+    //          }
+    //
+    //          System.out.println("done waiting");
+    //        });
+
+    //    executor.shutdown();
   }
 }

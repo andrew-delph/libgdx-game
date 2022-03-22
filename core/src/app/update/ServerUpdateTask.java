@@ -33,7 +33,7 @@ public class ServerUpdateTask extends UpdateTask {
 
     // update all active chunks
     try {
-      executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.currentTick));
+      executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.getCurrentTick()));
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

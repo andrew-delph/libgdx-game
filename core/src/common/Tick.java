@@ -1,5 +1,7 @@
 package common;
 
+import java.util.Objects;
+
 public class Tick implements Comparable<Tick> {
   public int time;
 
@@ -7,22 +9,29 @@ public class Tick implements Comparable<Tick> {
     this.time = time;
   }
 
-  @Override
-  public int hashCode() {
-    return (this.time + "".hashCode());
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
-    Tick other = (Tick) obj;
-    return this.time == other.time;
+  public Tick next(){
+    return new Tick(time+1);
   }
 
   @Override
   public int compareTo(Tick other) {
     return this.time - other.time;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Tick tick = (Tick) o;
+    return time == tick.time;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(time);
   }
 }
