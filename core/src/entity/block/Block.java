@@ -4,13 +4,14 @@ import app.screen.BaseAssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import common.Clock;
+import common.GameSettings;
 import entity.Entity;
 import entity.EntityBodyBuilder;
 
 public abstract class Block extends Entity {
 
-  public static int staticHeight = Entity.coordinatesScale;
-  public static int staticWidth = Entity.coordinatesScale;
+  public static int staticHeight = GameSettings.COORDINATES_SCALE;
+  public static int staticWidth = GameSettings.COORDINATES_SCALE;
 
   public Block(
       Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {

@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import common.Coordinates;
+import common.GameSettings;
 import entity.block.Block;
 import entity.collision.EntityPoint;
 import entity.collision.ground.GroundPoint;
@@ -24,8 +25,8 @@ public class EntityBodyBuilder {
   public EntityBodyBuilder() {}
 
   public static Body createEntityBody(World world, Coordinates coordinates) {
-    float center_x = -(Entity.coordinatesScale - Entity.staticWidth) / 2f;
-    float center_y = -(Entity.coordinatesScale - Entity.staticHeight) / 2f;
+    float center_x = -(GameSettings.COORDINATES_SCALE - Entity.staticWidth) / 2f;
+    float center_y = -(GameSettings.COORDINATES_SCALE - Entity.staticHeight) / 2f;
 
     Body theBody;
     BodyDef bodyDef = new BodyDef();
@@ -57,8 +58,8 @@ public class EntityBodyBuilder {
     // create the body
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(
-        coordinates.getXReal() * Entity.coordinatesScale,
-        coordinates.getYReal() * Entity.coordinatesScale);
+        coordinates.getXReal() * GameSettings.COORDINATES_SCALE,
+        coordinates.getYReal() * GameSettings.COORDINATES_SCALE);
     theBody = world.createBody(bodyDef);
     theBody.setFixedRotation(true);
 
@@ -123,8 +124,8 @@ public class EntityBodyBuilder {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
-        coordinates.getXReal() * Entity.coordinatesScale,
-        coordinates.getYReal() * Entity.coordinatesScale);
+        coordinates.getXReal() * GameSettings.COORDINATES_SCALE,
+        coordinates.getYReal() * GameSettings.COORDINATES_SCALE);
 
     Body theBody = world.createBody(bodyDef);
 
@@ -153,8 +154,8 @@ public class EntityBodyBuilder {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
-        coordinates.getXReal() * Entity.coordinatesScale,
-        coordinates.getYReal() * Entity.coordinatesScale);
+        coordinates.getXReal() * GameSettings.COORDINATES_SCALE,
+        coordinates.getYReal() * GameSettings.COORDINATES_SCALE);
 
     Body theBody = world.createBody(bodyDef);
 

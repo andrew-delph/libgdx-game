@@ -14,9 +14,8 @@ import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkData;
 
 public class Entity implements SerializeNetworkData {
-  public static int coordinatesScale = GameSettings.COORDINATES_SCALE;
-  public static int staticHeight = (int) (Entity.coordinatesScale * 0.8);
-  public static int staticWidth = (int) (Entity.coordinatesScale * 0.8);
+  public static int staticHeight = (int) (GameSettings.COORDINATES_SCALE * 0.8);
+  public static int staticWidth = (int) (GameSettings.COORDINATES_SCALE * 0.8);
   public UUID uuid;
   public EntityController entityController;
   public Animation animation;
@@ -81,8 +80,8 @@ public class Entity implements SerializeNetworkData {
     this.sprite = new Sprite((Texture) baseAssetManager.get(this.textureName));
     this.sprite.setSize(this.getWidth(), this.getHeight());
     this.sprite.setPosition(
-        this.coordinates.getXReal() * coordinatesScale,
-        this.coordinates.getYReal() * coordinatesScale);
+        this.coordinates.getXReal() * GameSettings.COORDINATES_SCALE,
+        this.coordinates.getYReal() * GameSettings.COORDINATES_SCALE);
   }
 
   public void syncPosition() {}

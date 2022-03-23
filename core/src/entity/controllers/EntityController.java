@@ -3,6 +3,7 @@ package entity.controllers;
 import app.GameController;
 import com.badlogic.gdx.physics.box2d.Body;
 import common.Coordinates;
+import common.GameSettings;
 import common.events.EventService;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
@@ -67,8 +68,8 @@ public class EntityController {
       gameController.moveEntity(
           this.entity.uuid,
           new Coordinates(
-              this.entity.getBody().getPosition().x / Entity.coordinatesScale,
-              this.entity.getBody().getPosition().y / Entity.coordinatesScale));
+              this.entity.getBody().getPosition().x / GameSettings.COORDINATES_SCALE,
+              this.entity.getBody().getPosition().y / GameSettings.COORDINATES_SCALE));
     } catch (EntityNotFound e) {
       e.printStackTrace();
     }

@@ -83,8 +83,8 @@ public class GameScreen extends ApplicationAdapter {
   public void render() {
     debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
     baseCamera.position.set(
-        myEntity.coordinates.getXReal() * Entity.coordinatesScale,
-        myEntity.coordinates.getYReal() * Entity.coordinatesScale,
+        myEntity.coordinates.getXReal() * GameSettings.COORDINATES_SCALE,
+        myEntity.coordinates.getYReal() * GameSettings.COORDINATES_SCALE,
         0);
     baseCamera.update();
     // focus camera
