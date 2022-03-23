@@ -14,8 +14,8 @@ import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkData;
 
 public class Entity implements SerializeNetworkData {
-  public static int staticHeight = (int) (GameSettings.COORDINATES_SCALE * 0.8);
-  public static int staticWidth = (int) (GameSettings.COORDINATES_SCALE * 0.8);
+  public static float staticHeight = 0.8f;
+  public static float staticWidth = 0.8f;
   public UUID uuid;
   public EntityController entityController;
   public Animation animation;
@@ -32,8 +32,8 @@ public class Entity implements SerializeNetworkData {
 
   public Entity(
       Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
-    this.setHeight(Entity.staticHeight);
-    this.setWidth(Entity.staticWidth);
+    this.setHeight((int) (Entity.staticHeight * GameSettings.PIXEL_SCALE));
+    this.setWidth((int) (Entity.staticWidth * GameSettings.PIXEL_SCALE));
     this.clock = clock;
     this.baseAssetManager = baseAssetManager;
     this.entityBodyBuilder = entityBodyBuilder;
@@ -80,8 +80,8 @@ public class Entity implements SerializeNetworkData {
     this.sprite = new Sprite((Texture) baseAssetManager.get(this.textureName));
     this.sprite.setSize(this.getWidth(), this.getHeight());
     this.sprite.setPosition(
-        this.coordinates.getXReal() * GameSettings.COORDINATES_SCALE,
-        this.coordinates.getYReal() * GameSettings.COORDINATES_SCALE);
+        this.coordinates.getXReal() * GameSettings.PIXEL_SCALE,
+        this.coordinates.getYReal() * GameSettings.PIXEL_SCALE);
   }
 
   public void syncPosition() {}

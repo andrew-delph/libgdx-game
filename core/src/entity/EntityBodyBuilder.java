@@ -25,8 +25,10 @@ public class EntityBodyBuilder {
   public EntityBodyBuilder() {}
 
   public static Body createEntityBody(World world, Coordinates coordinates) {
-    float center_x = -(GameSettings.COORDINATES_SCALE - Entity.staticWidth) / 2f;
-    float center_y = -(GameSettings.COORDINATES_SCALE - Entity.staticHeight) / 2f;
+    float center_x =
+        -(GameSettings.PHYSICS_SCALE - (Entity.staticWidth * GameSettings.PHYSICS_SCALE)) / 2f;
+    float center_y =
+        -(GameSettings.PHYSICS_SCALE - (Entity.staticHeight * GameSettings.PHYSICS_SCALE)) / 2f;
 
     Body theBody;
     BodyDef bodyDef = new BodyDef();
@@ -58,14 +60,17 @@ public class EntityBodyBuilder {
     // create the body
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(
-        coordinates.getXReal() * GameSettings.COORDINATES_SCALE,
-        coordinates.getYReal() * GameSettings.COORDINATES_SCALE);
+        coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
+        coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
     theBody = world.createBody(bodyDef);
     theBody.setFixedRotation(true);
 
     // create the main
     mainShape.setAsBox(
-        Entity.staticWidth / 2f, Entity.staticHeight / 2f, new Vector2(center_x, center_y + 2), 0);
+        (Entity.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
+        (Entity.staticHeight * GameSettings.PHYSICS_SCALE) / 2f,
+        new Vector2(center_x, center_y + 2),
+        0);
     mainFixtureDef.shape = mainShape;
     mainFixtureDef.density = 1f;
     mainFixtureDef.restitution = 0;
@@ -75,9 +80,9 @@ public class EntityBodyBuilder {
 
     // create the smooth
     Vector2[] smoothVertices = new Vector2[3];
-    float left = center_x - (Entity.staticWidth / 2f) - 1;
-    float right = center_x + (Entity.staticWidth / 2f) + 1;
-    float bottom = center_y - (Entity.staticHeight / 2f) - 1;
+    float left = center_x - ((Entity.staticWidth * GameSettings.PHYSICS_SCALE) / 2f) - 1;
+    float right = center_x + ((Entity.staticWidth * GameSettings.PHYSICS_SCALE) / 2f) + 1;
+    float bottom = center_y - ((Entity.staticHeight * GameSettings.PHYSICS_SCALE) / 2f) - 1;
     smoothVertices[0] = new Vector2(left, center_y);
     smoothVertices[1] = new Vector2(right, center_y);
     smoothVertices[2] = new Vector2(center_x, bottom);
@@ -90,9 +95,11 @@ public class EntityBodyBuilder {
 
     // create the jump
     jumpShape.setAsBox(
-        Entity.staticWidth / 2f,
+        (Entity.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
         5f,
-        new Vector2(-Entity.staticWidth / 8f, -Entity.staticHeight / 2f - 3f),
+        new Vector2(
+            -(Entity.staticWidth * GameSettings.PHYSICS_SCALE) / 8f,
+            -(Entity.staticHeight * GameSettings.PHYSICS_SCALE) / 2f - 3f),
         0);
     jumpFixtureDef.shape = jumpShape;
     jumpFixtureDef.isSensor = true;
@@ -101,7 +108,11 @@ public class EntityBodyBuilder {
     jumpFixture.setFilterData(filter);
 
     // create the left
-    leftShape.setAsBox(5f, Entity.staticHeight / 2f, new Vector2(-Entity.staticWidth / 2f, 0), 0);
+    leftShape.setAsBox(
+        5f,
+        (Entity.staticHeight * GameSettings.PHYSICS_SCALE) / 2f,
+        new Vector2(-(Entity.staticWidth * GameSettings.PHYSICS_SCALE) / 2f, 0),
+        0);
     leftFixtureDef.shape = leftShape;
     leftFixtureDef.isSensor = true;
     leftFixture = theBody.createFixture(leftFixtureDef);
@@ -110,7 +121,10 @@ public class EntityBodyBuilder {
 
     // create the right
     rightShape.setAsBox(
-        5f, Entity.staticHeight / 2f, new Vector2((Entity.staticWidth / 2f) - 5, 0), 0);
+        5f,
+        (Entity.staticHeight * GameSettings.PHYSICS_SCALE) / 2f,
+        new Vector2(((Entity.staticWidth * GameSettings.PHYSICS_SCALE) / 2f) - 5, 0),
+        0);
     rightFixtureDef.shape = rightShape;
     rightFixtureDef.isSensor = true;
     rightFixture = theBody.createFixture(rightFixtureDef);
@@ -124,13 +138,15 @@ public class EntityBodyBuilder {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
-        coordinates.getXReal() * GameSettings.COORDINATES_SCALE,
-        coordinates.getYReal() * GameSettings.COORDINATES_SCALE);
+        coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
+        coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
 
     Body theBody = world.createBody(bodyDef);
 
     PolygonShape shape = new PolygonShape();
-    shape.setAsBox(Block.staticWidth / 2f, Block.staticHeight / 2f);
+    shape.setAsBox(
+        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
+        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
     fixtureDef.density = 0f;
@@ -154,13 +170,15 @@ public class EntityBodyBuilder {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
-        coordinates.getXReal() * GameSettings.COORDINATES_SCALE,
-        coordinates.getYReal() * GameSettings.COORDINATES_SCALE);
+        coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
+        coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
 
     Body theBody = world.createBody(bodyDef);
 
     PolygonShape shape = new PolygonShape();
-    shape.setAsBox(Block.staticWidth / 2.0f, Block.staticHeight / 2f);
+    shape.setAsBox(
+        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.0f,
+        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
     fixtureDef.density = 0f;

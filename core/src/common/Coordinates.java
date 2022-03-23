@@ -18,8 +18,8 @@ public class Coordinates implements SerializeNetworkData {
   }
 
   public Coordinates(Vector2 vector2) {
-    this.x = vector2.x / GameSettings.COORDINATES_SCALE;
-    this.y = vector2.y / GameSettings.COORDINATES_SCALE;
+    this.x = vector2.x / GameSettings.PHYSICS_SCALE;
+    this.y = vector2.y / GameSettings.PHYSICS_SCALE;
   }
 
   public static Boolean isInRange(
@@ -115,8 +115,7 @@ public class Coordinates implements SerializeNetworkData {
 
   public Vector2 toVector2() {
     return new Vector2(
-        this.getXReal() * GameSettings.COORDINATES_SCALE,
-        this.getYReal() * GameSettings.COORDINATES_SCALE);
+        this.getXReal() * GameSettings.PHYSICS_SCALE, this.getYReal() * GameSettings.PHYSICS_SCALE);
   }
 
   @Override

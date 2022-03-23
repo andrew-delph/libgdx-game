@@ -14,8 +14,8 @@ public class RelativeCoordinates {
   }
 
   public RelativeCoordinates(Vector2 vector2) {
-    this.relativeX = vector2.x / GameSettings.COORDINATES_SCALE;
-    this.relativeY = vector2.y / GameSettings.COORDINATES_SCALE;
+    this.relativeX = vector2.x / GameSettings.PHYSICS_SCALE;
+    this.relativeY = vector2.y / GameSettings.PHYSICS_SCALE;
   }
 
   public float getRelativeX() {
@@ -88,7 +88,6 @@ public class RelativeCoordinates {
 
   public Vector2 toVector2() {
     return new Vector2(
-        this.relativeX * GameSettings.COORDINATES_SCALE,
-        this.relativeY * GameSettings.COORDINATES_SCALE);
+        this.relativeX * GameSettings.PHYSICS_SCALE, this.relativeY * GameSettings.PHYSICS_SCALE);
   }
 }

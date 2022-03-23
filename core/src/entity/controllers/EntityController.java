@@ -68,8 +68,8 @@ public class EntityController {
       gameController.moveEntity(
           this.entity.uuid,
           new Coordinates(
-              this.entity.getBody().getPosition().x / GameSettings.COORDINATES_SCALE,
-              this.entity.getBody().getPosition().y / GameSettings.COORDINATES_SCALE));
+              this.entity.getBody().getPosition().x / GameSettings.PHYSICS_SCALE,
+              this.entity.getBody().getPosition().y / GameSettings.PHYSICS_SCALE));
     } catch (EntityNotFound e) {
       e.printStackTrace();
     }

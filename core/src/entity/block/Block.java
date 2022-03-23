@@ -10,16 +10,16 @@ import entity.EntityBodyBuilder;
 
 public abstract class Block extends Entity {
 
-  public static int staticHeight = GameSettings.COORDINATES_SCALE;
-  public static int staticWidth = GameSettings.COORDINATES_SCALE;
+  public static float staticHeight = 1;
+  public static float staticWidth = 1;
 
   public Block(
       Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
     super(clock, baseAssetManager, entityBodyBuilder);
     this.textureName = "badlogic.jpg";
     this.zindex = 0;
-    this.setHeight(Block.staticHeight);
-    this.setWidth(Block.staticWidth);
+    this.setHeight((int) (Block.staticHeight * GameSettings.PIXEL_SCALE));
+    this.setWidth((int) (Block.staticWidth * GameSettings.PIXEL_SCALE));
   }
 
   @Override

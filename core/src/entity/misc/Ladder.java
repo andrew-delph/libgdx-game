@@ -14,8 +14,8 @@ public class Ladder extends Entity {
     super(clock, baseAssetManager, entityBodyBuilder);
     this.zindex = 2;
     this.textureName = "ladder.png";
-    this.setWidth(GameSettings.COORDINATES_SCALE);
-    this.setHeight(GameSettings.COORDINATES_SCALE);
+    this.setWidth(GameSettings.PIXEL_SCALE);
+    this.setHeight(GameSettings.PIXEL_SCALE);
   }
 
   @Override
