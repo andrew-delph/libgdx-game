@@ -43,13 +43,15 @@ public class testGame {
     clock.waitForTick(2);
     clock.waitForTick(
         () -> {
-          System.out.println(gameStore.getChunkOnClock(this.clock.getCurrentTick()));
           assert gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 0;
         });
     gameController.createEntity(new Coordinates(0, 0));
     clock.waitForTick(
         () -> {
-          System.out.println(gameStore.getChunkOnClock(this.clock.getCurrentTick()));
+          assert gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 1;
+        });
+    clock.waitForTick(
+        () -> {
           assert gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 1;
         });
   }
