@@ -77,7 +77,7 @@ public class ClientUpdateTask extends UpdateTask {
     }
 
     try {
-      executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.currentTick));
+      executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.getCurrentTick()));
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

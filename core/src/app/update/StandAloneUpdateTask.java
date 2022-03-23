@@ -44,10 +44,11 @@ public class StandAloneUpdateTask extends UpdateTask {
 
     this.clock.tick();
     try {
-      executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.currentTick));
+      executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.getCurrentTick()));
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+
     this.eventService.firePostUpdateEvents();
   }
 }

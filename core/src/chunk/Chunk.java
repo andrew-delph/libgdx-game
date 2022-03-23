@@ -58,7 +58,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
   }
 
   void nextTick(int timeout) {
-    this.updateTick = new Tick(clock.currentTick.time + timeout);
+    this.updateTick = new Tick(clock.getCurrentTick().time + timeout);
   }
 
   @Override
@@ -72,6 +72,8 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
   }
 
   public synchronized void addEntity(Entity entity) {
+    Tick newTick = new Tick(clock.getCurrentTick().time + entity.getUpdateTimeout());
+    if (newTick.compareTo(this.updateTick) < 0) this.updateTick = newTick;
     this.chunkMap.put(entity.uuid, entity);
     if (!bodySet.contains(entity.uuid)) {
       Body bodyToAdd = entity.addWorld(world);
@@ -168,6 +170,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     }
 
     int tickTimeout = Integer.MAX_VALUE;
+
     for (Entity entity : this.chunkMap.values()) {
       if (entity.entityController != null) entity.entityController.beforeWorldUpdate();
       try {
@@ -177,7 +180,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       }
 
       int entityTick = entity.getUpdateTimeout();
-      if (tickTimeout < entityTick) {
+      if (entityTick < tickTimeout) {
         tickTimeout = entityTick;
       }
     }
@@ -189,7 +192,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     for (Entity entity : this.chunkMap.values()) {
       if (entity.entityController != null) entity.entityController.afterWorldUpdate();
     }
-    this.nextTick(1);
+    this.nextTick(tickTimeout);
   }
 
   public List<Entity> getEntityInRange(
