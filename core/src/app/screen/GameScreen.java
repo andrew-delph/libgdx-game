@@ -159,9 +159,10 @@ public class GameScreen extends ApplicationAdapter {
                   0)
               .translate(
                   0,
-                  -GameSettings.PIXEL_SCALE
-                      * GameSettings.CHUNK_SIZE
-                      * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                  -10
+                      - GameSettings.PIXEL_SCALE
+                          * GameSettings.CHUNK_SIZE
+                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0);
       debugRenderer.render(lowerChunk.world, debugMatrix);
 
@@ -175,9 +176,10 @@ public class GameScreen extends ApplicationAdapter {
                   ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
                   0)
               .translate(
-                  -GameSettings.PIXEL_SCALE
-                      * GameSettings.CHUNK_SIZE
-                      * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                  -10
+                      - GameSettings.PIXEL_SCALE
+                          * GameSettings.CHUNK_SIZE
+                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0,
                   0);
       debugRenderer.render(leftChunk.world, debugMatrix);
@@ -192,9 +194,10 @@ public class GameScreen extends ApplicationAdapter {
                   ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
                   0)
               .translate(
-                  GameSettings.PIXEL_SCALE
-                      * GameSettings.CHUNK_SIZE
-                      * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                  10
+                      + GameSettings.PIXEL_SCALE
+                          * GameSettings.CHUNK_SIZE
+                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0,
                   0);
       debugRenderer.render(rightChunk.world, debugMatrix);
