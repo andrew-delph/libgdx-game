@@ -16,7 +16,7 @@ public class AndroidLauncher extends AndroidApplication {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    Injector injector = Guice.createInjector(new ClientConfig());
+    Injector injector = Guice.createInjector(new StandAloneConfig());
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
     initialize(gameScreen, new AndroidApplicationConfiguration());
 
