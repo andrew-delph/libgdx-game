@@ -72,7 +72,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     dependencies {
-
+        compile group: 'org.jvnet.sorcerer', name: 'sorcerer-javac', version: '0.8'
     }
 }
 
