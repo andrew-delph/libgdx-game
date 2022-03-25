@@ -110,22 +110,11 @@ project(":core") {
         implementation 'org.apache.tomcat:annotations-api:6.0.53'
         implementation 'com.google.inject:guice:4.0:no_aop'
 
-        // todo remove this if we dont need
-//        implementation("com.google.guava:guava:31.0.1-jre")
-
-
-//        implementation group: 'com.google.inject', name: 'guice', version: '4.0'
-//        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
-//        // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
-//        implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
-        testImplementation(
-                'org.hamcrest:hamcrest-library:2.1'
-        )
-        testCompile "org.mockito:mockito-all:1.9.+"
-
-        testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
-        testCompile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        testImplementation 'org.hamcrest:hamcrest-library:2.1'
+        testImplementation "org.mockito:mockito-all:1.9.+"
+        testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+        testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 
     }
@@ -168,12 +157,7 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
-//        implementation group: 'com.google.inject', name: 'guice', version: '4.0'
-//        implementation "com.google.inject:guice:4.0-no_aop"
         implementation 'com.google.inject:guice:4.0:no_aop'
-//        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
-//        // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
-//        implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
     }
 }
 
