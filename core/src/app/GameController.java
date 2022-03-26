@@ -110,7 +110,6 @@ public class GameController {
         return null;
       }
     } catch (EntityNotFound e) {
-      e.printStackTrace();
       LOGGER.error("Could not create Ladder");
       return null;
     }
