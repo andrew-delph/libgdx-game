@@ -6,8 +6,12 @@ import common.GameStore;
 import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceEntityEventType;
 import common.exceptions.EntityNotFound;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EventConsumer {
+
+  final Logger LOGGER = LogManager.getLogger();
 
   @Inject EventService eventService;
   @Inject GameController gameController;
@@ -27,7 +31,7 @@ public class EventConsumer {
                 realEvent.getReplacementEntity(),
                 realEvent.getSwapVelocity());
           } catch (EntityNotFound e) {
-            e.printStackTrace();
+            LOGGER.error(e);
           }
         });
     this.eventService.addPostUpdateListener(

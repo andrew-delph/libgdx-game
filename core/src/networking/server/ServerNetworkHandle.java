@@ -28,8 +28,11 @@ import networking.RequestNetworkEventObserver;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
+  final Logger LOGGER = LogManager.getLogger();
   @Inject ObserverFactory observerFactory;
   @Inject ConnectionStore connectionStore;
   @Inject GameStore gameStore;
@@ -45,7 +48,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   public ServerNetworkHandle() {}
 
   public void start() throws IOException {
-    System.out.println("I am server: " + this.user.toString());
+    LOGGER.info("I am server: " + this.user.toString());
     server =
         ServerBuilder.forPort(99)
             .addService(this)
@@ -136,6 +139,6 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange, uuidList);
     this.send(userID, handshakeOutgoing.toNetworkEvent());
-    System.out.println("SERVER INIT HANDSHAKE " + userID.toString());
+    LOGGER.info("SERVER INIT HANDSHAKE " + userID.toString());
   }
 }

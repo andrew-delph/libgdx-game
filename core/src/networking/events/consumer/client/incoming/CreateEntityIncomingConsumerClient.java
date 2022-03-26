@@ -11,9 +11,12 @@ import entity.Entity;
 import java.util.function.Consumer;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
 import networking.translation.NetworkDataDeserializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
 
+  final Logger LOGGER = LogManager.getLogger();
   @Inject GameController gameController;
   @Inject NetworkDataDeserializer entitySerializationConverter;
   @Inject GameStore gameStore;
@@ -41,7 +44,7 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
     try {
       gameController.triggerAddEntity(entity);
     } catch (NullPointerException e) {
-      System.out.println("e: " + new ChunkRange(entity.coordinates));
+      LOGGER.error("e: " + new ChunkRange(entity.coordinates));
       throw e;
     }
   }

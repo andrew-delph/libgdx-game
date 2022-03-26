@@ -77,7 +77,6 @@ public class TemplateEdgeGenerator {
     this.generateTrunk();
 
     for (int i = 0; i < 100; i++) {
-      //      System.out.println(i + " , " + this.leafTemplateEdge.size());
 
       Set<TemplateEdge> newLeaves = new HashSet<>();
       while (this.leafTemplateEdge.size() > 0) {

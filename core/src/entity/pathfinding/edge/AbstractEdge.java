@@ -3,6 +3,7 @@ package entity.pathfinding.edge;
 import static app.screen.GameScreen.pathDebugRender;
 
 import common.Coordinates;
+import common.GameSettings;
 import entity.Entity;
 import entity.pathfinding.EntityStructure;
 import entity.pathfinding.PathGameStoreOverride;
@@ -85,6 +86,8 @@ public abstract class AbstractEdge {
   }
 
   public void render(Coordinates position) {
-    pathDebugRender.line(position.toVector2(), this.applyTransition(position).toVector2());
+    if (GameSettings.RENDER_DEBUG) {
+      pathDebugRender.line(position.toVector2(), this.applyTransition(position).toVector2());
+    }
   }
 }

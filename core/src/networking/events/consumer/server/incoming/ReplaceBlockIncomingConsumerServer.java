@@ -11,9 +11,12 @@ import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import networking.server.ServerNetworkHandle;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
 
+  final Logger LOGGER = LogManager.getLogger();
   @Inject ActiveChunkManager activeChunkManager;
   @Inject ServerNetworkHandle serverNetworkHandle;
   @Inject GameController gameController;
@@ -24,7 +27,7 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
     try {
       gameController.triggerReplaceEntity(incoming.getTarget(), incoming.getReplacementBlock());
     } catch (EntityNotFound e) {
-      e.printStackTrace();
+      LOGGER.error(e);
       serverNetworkHandle.initHandshake(incoming.getUserID(), incoming.getChunkRange());
     }
     ReplaceBlockOutgoingEventType outgoing =

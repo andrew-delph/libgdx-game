@@ -4,14 +4,18 @@ import app.user.UserID;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.GameStore;
+import common.exceptions.EntityNotFound;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ActiveEntityManager {
 
+  final Logger LOGGER = LogManager.getLogger();
   private final Map<UserID, Set<UUID>> userIDEntityMap = new HashMap<>();
   @Inject GameStore gameStore;
 
@@ -39,9 +43,14 @@ public class ActiveEntityManager {
   public Set<ChunkRange> getActiveChunkRanges() {
     Set<ChunkRange> allActiveChunkRange = new HashSet<>();
     for (UUID entityID : this.getActiveEntities()) {
-      if (this.gameStore.getEntityChunkRange(entityID) != null) {
-        allActiveChunkRange.add(this.gameStore.getEntityChunkRange(entityID));
+      ChunkRange temp;
+      try {
+        temp = this.gameStore.getEntityChunkRange(entityID);
+      } catch (EntityNotFound e) {
+        LOGGER.error(e);
+        continue;
       }
+      allActiveChunkRange.add(temp);
     }
     return allActiveChunkRange;
   }

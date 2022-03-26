@@ -27,10 +27,13 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameScreen extends ApplicationAdapter {
 
   public static ShapeRenderer pathDebugRender;
+  final Logger LOGGER = LogManager.getLogger();
   @Inject Game game;
   @Inject GameStore gameStore;
   @Inject EntityFactory entityFactory;
@@ -65,7 +68,7 @@ public class GameScreen extends ApplicationAdapter {
 
     myEntity = entityFactory.createEntity(new Coordinates(0, 2));
     myEntity = gameController.addEntity(myEntity);
-    System.out.println("my entity " + myEntity.uuid);
+    LOGGER.info("my entity " + myEntity.uuid);
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     activeEntityManager.registerActiveEntity(user.getUserID(), myEntity.getUuid());
     debugRenderer = new Box2DDebugRenderer();
@@ -75,7 +78,7 @@ public class GameScreen extends ApplicationAdapter {
 
   @Override
   public void resize(int width, int height) {
-    System.out.println(width + "," + height);
+    LOGGER.info("resize:" + width + "," + height);
     baseCamera.setToOrtho(false, width, height);
   }
 

@@ -11,12 +11,13 @@ import entity.Entity;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.controllers.actions.EntityActionFactory;
-import java.util.logging.Logger;
 import networking.events.EventTypeFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EntityUserController extends EntityController {
 
-  private static final Logger LOGGER = Logger.getLogger(EntityUserController.class.getName());
+  final Logger LOGGER = LogManager.getLogger();
 
   public EntityUserController(
       GameController gameController,

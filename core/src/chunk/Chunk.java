@@ -27,9 +27,12 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkData;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
+  final Logger LOGGER = LogManager.getLogger();
   public ChunkRange chunkRange;
   public Tick updateTick;
   public World world;
@@ -108,10 +111,11 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     Entity entity = this.getEntity(uuid);
     this.chunkMap.remove(uuid);
     if (bodySet.contains(entity.uuid)) {
+
       try {
         this.world.destroyBody(entity.getBody());
       } catch (Exception e) {
-        System.out.println("the error happened. chunk.removeEntity()");
+        LOGGER.error("the error happened. chunk.removeEntity()");
       }
       bodySet.remove(entity.uuid);
     }
@@ -176,7 +180,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       try {
         this.gameStore.syncEntity(entity);
       } catch (EntityNotFound e) {
-        e.printStackTrace();
+        LOGGER.error(e);
       }
 
       int entityTick = entity.getUpdateTimeout();

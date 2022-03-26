@@ -5,9 +5,12 @@ import common.events.types.CreateAIEntityEventType;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.controllers.EntityControllerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SoloEventConsumer extends EventConsumer {
 
+  final Logger LOGGER = LogManager.getLogger();
   @Inject EntityControllerFactory entityControllerFactory;
 
   @Override
@@ -19,7 +22,7 @@ public class SoloEventConsumer extends EventConsumer {
         eventType -> {
           try {
             CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
-            System.out.println("CREATE AI " + realEvent.getCoordinates());
+            LOGGER.info("CREATE AI " + realEvent.getCoordinates());
 
             Entity aiEntity = gameController.createEntity(realEvent.getCoordinates());
 
