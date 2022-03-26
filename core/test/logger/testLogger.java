@@ -1,24 +1,17 @@
 package logger;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 public class testLogger {
+  final Logger LOGGER = LogManager.getLogger(testLogger.class);
 
   @Test
   public void testLogger() {
-    Logger logger = Logger.getLogger(testLogger.class);
 
-    if (logger.isDebugEnabled()) {
-      logger.debug("This is debug log..");
-    }
-
-    if (logger.isInfoEnabled()) {
-      logger.info("This is info  log ...");
-    }
-
-    logger.warn("This is warn log ...");
-    logger.error("This is error log... ");
-    logger.fatal("This is fatal log ...");
+    LOGGER.debug("This is an DEBUG level log message!");
+    LOGGER.info("This is an INFO level log message!");
+    LOGGER.error("This is an ERROR level log message!");
   }
 }

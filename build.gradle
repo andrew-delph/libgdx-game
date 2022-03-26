@@ -109,9 +109,8 @@ project(":core") {
         implementation "io.grpc:grpc-services:1.32.1"
         implementation 'org.apache.tomcat:annotations-api:6.0.53'
         implementation 'com.google.inject:guice:4.0:no_aop'
-        implementation 'log4j:log4j:1.2.17'
-//        implementation 'org.apache.logging.log4j:log4j:1.2.17'
-//        implementation 'org.apache.logging.log4j:log4j-api:2.17.0'
+        implementation 'org.apache.logging.log4j:log4j-api:2.13.3'
+        implementation 'org.apache.logging.log4j:log4j-core:2.13.3'
 
         testImplementation 'org.hamcrest:hamcrest-library:2.1'
         testImplementation "org.mockito:mockito-all:1.9.+"
