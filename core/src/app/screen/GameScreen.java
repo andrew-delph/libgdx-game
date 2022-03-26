@@ -57,10 +57,9 @@ public class GameScreen extends ApplicationAdapter {
     baseCamera.init();
     try {
       game.start();
-    } catch (IOException | InterruptedException | SerializationDataMissing e) {
-      e.printStackTrace();
-    } catch (WrongVersion e) {
-      e.printStackTrace();
+    } catch (IOException | InterruptedException | SerializationDataMissing | WrongVersion e) {
+      LOGGER.error(e);
+      this.dispose();
     }
     batch = new SpriteBatch();
     batch.enableBlending();
