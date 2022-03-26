@@ -5,6 +5,7 @@ import static app.screen.GameScreen.pathDebugRender;
 import app.GameController;
 import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
+import common.exceptions.EdgeStepperException;
 import entity.Entity;
 import entity.misc.Ladder;
 import entity.pathfinding.EntityStructure;
@@ -57,7 +58,7 @@ class LadderEdgeStepper extends HorizontalEdgeStepper {
   }
 
   @Override
-  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
+  public void follow(Entity entity, RelativePathNode relativePathNode) throws EdgeStepperException {
     this.gameController.createLadder(relativePathNode.getEndPosition());
     super.follow(entity, relativePathNode);
   }

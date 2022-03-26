@@ -162,7 +162,8 @@ public class GameStore {
         .getEntityListBaseCoordinates(coordinates);
   }
 
-  public ChunkRange getEntityChunkRange(UUID uuid) {
+  public ChunkRange getEntityChunkRange(UUID uuid) throws EntityNotFound {
+    if (entityMap.get(uuid) == null) throw new EntityNotFound("No chunk range found for Entity");
     return entityMap.get(uuid);
   }
 

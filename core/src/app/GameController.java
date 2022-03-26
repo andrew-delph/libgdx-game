@@ -19,17 +19,16 @@ import entity.misc.Ladder;
 import java.util.UUID;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameController {
 
+  final Logger LOGGER = LogManager.getLogger();
   @Inject GameStore gameStore;
-
   @Inject EntityFactory entityFactory;
-
   @Inject EventService eventService;
-
   @Inject EventTypeFactory eventTypeFactory;
-
   @Inject BlockFactory blockFactory;
 
   public Entity addEntity(Entity entity) {
@@ -104,9 +103,15 @@ public class GameController {
     return entity;
   }
 
-  public Entity createLadder(Coordinates coordinates) throws EntityNotFound {
-    if (!(this.gameStore.getBlock(coordinates) instanceof EmptyBlock)) {
-      throw new EntityNotFound("Did not find EmptyBlock");
+  public Entity createLadder(Coordinates coordinates) {
+    try {
+      if (!(this.gameStore.getBlock(coordinates) instanceof EmptyBlock)) {
+        LOGGER.debug("Did not find EmptyBlock");
+        return null;
+      }
+    } catch (EntityNotFound e) {
+      LOGGER.error("Could not create Ladder");
+      return null;
     }
     if (this.gameStore.getLadder(coordinates) != null) return this.gameStore.getLadder(coordinates);
     Entity entity = entityFactory.createLadder(coordinates);

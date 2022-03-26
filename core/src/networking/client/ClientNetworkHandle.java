@@ -28,9 +28,12 @@ import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
 import networking.translation.NetworkDataDeserializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ClientNetworkHandle {
   public final CountDownLatch authLatch = new CountDownLatch(1);
+  final Logger LOGGER = LogManager.getLogger();
   public String host = "localhost";
   public int port = 99;
   RequestNetworkEventObserver requestNetworkEventObserver;
@@ -50,7 +53,7 @@ public class ClientNetworkHandle {
   public ClientNetworkHandle() {}
 
   public void connect() throws InterruptedException, WrongVersion {
-    System.out.println(
+    LOGGER.info(
         "I am client: "
             + this.user.toString()
             + ". Connecting to "
@@ -177,7 +180,7 @@ public class ClientNetworkHandle {
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange);
     this.send(handshakeOutgoing.toNetworkEvent());
-    System.out.println("CLIENT INIT HANDSHAKE " + this.user.toString());
+    LOGGER.info("CLIENT INIT HANDSHAKE " + this.user.toString());
   }
 
   public void close() {

@@ -5,6 +5,7 @@ import static app.screen.GameScreen.pathDebugRender;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import common.Coordinates;
+import common.exceptions.EdgeStepperException;
 import entity.Entity;
 import entity.pathfinding.EntityStructure;
 import entity.pathfinding.RelativeCoordinates;
@@ -40,20 +41,13 @@ public class HorizontalGreedyEdge extends AbstractEdge {
 class HorizontalEdgeStepper extends EdgeStepper {
 
   @Override
-  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
+  public void follow(Entity entity, RelativePathNode relativePathNode) throws EdgeStepperException {
     String actionKey;
 
     if (!entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase().getDown())
         && !entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase())
         && !entity.coordinates.getBase().equals(relativePathNode.getEndPosition().getBase())) {
-      System.out.println(
-          "entity.coordinates.getBase() "
-              + entity.coordinates.getBase()
-              + " relativePathNode.startPosition.getBase()"
-              + relativePathNode.startPosition.getBase()
-              + " relativePathNode.getEndPosition().getBase()"
-              + relativePathNode.getEndPosition().getBase());
-      throw new Exception("not on track");
+      throw new EdgeStepperException("not on track");
     }
 
     if (relativePathNode.getEndPosition().calcDistance(entity.coordinates) < 0.3) {
