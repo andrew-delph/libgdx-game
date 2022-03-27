@@ -57,14 +57,12 @@ public class GameScreen extends ApplicationAdapter {
     baseCamera.init();
     try {
       game.start();
-    } catch (IOException | InterruptedException | SerializationDataMissing e) {
-      e.printStackTrace();
-    } catch (WrongVersion e) {
-      e.printStackTrace();
+    } catch (IOException | InterruptedException | SerializationDataMissing | WrongVersion e) {
+      LOGGER.error(e);
+      this.dispose();
     }
     batch = new SpriteBatch();
     batch.enableBlending();
-    //    edgeRegistration.edgeRegistration();
 
     myEntity = entityFactory.createEntity(new Coordinates(0, 2));
     myEntity = gameController.addEntity(myEntity);
@@ -112,14 +110,11 @@ public class GameScreen extends ApplicationAdapter {
         gameStore.getEntityInRange(
             baseCamera.getBottomLeftCoordinates(), baseCamera.getTopRightCoordinates());
 
-    try {
-      renderList =
-          renderList.stream()
-              .sorted(Comparator.comparingInt(entity -> entity.zindex))
-              .collect(Collectors.toList());
-    } catch (Exception e) {
-      System.out.println(e);
-    }
+    renderList =
+        renderList.stream()
+            .sorted(Comparator.comparingInt(entity -> entity.zindex))
+            .collect(Collectors.toList());
+
     for (Entity entity : renderList) {
       // render entity
       try {

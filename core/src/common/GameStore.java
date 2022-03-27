@@ -17,12 +17,13 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
 import networking.events.EventTypeFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameStore {
 
-  private static final Logger LOGGER = Logger.getLogger(GameStore.class.getName());
+  final Logger LOGGER = LogManager.getLogger();
   private final Map<UUID, ChunkRange> entityMap = new ConcurrentHashMap<>();
   @Inject ChunkClockMap chunkClockMap;
   @Inject EventService eventService;
@@ -103,7 +104,7 @@ public class GameStore {
       try {
         entityList.add(this.getEntity(entityUUID));
       } catch (EntityNotFound e) {
-        LOGGER.fine(e.toString());
+        LOGGER.error(e);
       }
     }
     return entityList;
@@ -115,7 +116,7 @@ public class GameStore {
       try {
         entityList.add(this.getEntity(entityUUID));
       } catch (EntityNotFound e) {
-        LOGGER.fine(e.toString());
+        LOGGER.error(e);
       }
     }
     return entityList;
