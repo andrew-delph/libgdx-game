@@ -8,13 +8,13 @@ import networking.ping.PingService;
 
 public class PingResponseIncomingConsumerClient implements Consumer<EventType> {
 
-  @Inject
-  PingService pingService;
+  @Inject PingService pingService;
 
   @Override
   public void accept(EventType eventType) {
     PingResponseIncomingEventType realEvent = (PingResponseIncomingEventType) eventType;
 
-    pingService.setResponseTime(realEvent.getUserID(), realEvent.getPingID(), System.currentTimeMillis());
+    pingService.setResponseTime(
+        realEvent.getUserID(), realEvent.getPingID(), System.currentTimeMillis());
   }
 }
