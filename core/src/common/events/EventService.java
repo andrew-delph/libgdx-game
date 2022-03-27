@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class EventService {
@@ -15,6 +17,8 @@ public class EventService {
   Map<String, List<Consumer<common.events.types.EventType>>> eventPostUpdateListeners =
       new HashMap<>();
   List<common.events.types.EventType> postUpdateEventTypeList = new LinkedList<>();
+
+  ExecutorService executorService = Executors.newCachedThreadPool();
 
   @Inject
   public EventService() {}
@@ -32,14 +36,42 @@ public class EventService {
     }
   }
 
+  public void fireEvent(Long sleep, common.events.types.EventType eventType) {
+    executorService.execute(
+        () -> {
+          try {
+            Thread.sleep(sleep);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          if (this.eventListeners.get(eventType.getType()) != null) {
+            this.eventListeners
+                .get(eventType.getType())
+                .forEach(eventConsumer -> eventConsumer.accept(eventType));
+          }
+        });
+  }
+
   public void addPostUpdateListener(
       String type, Consumer<common.events.types.EventType> eventConsumer) {
     this.eventPostUpdateListeners.computeIfAbsent(type, k -> new ArrayList<>());
     this.eventPostUpdateListeners.get(type).add(eventConsumer);
   }
 
-  public void queuePostUpdateEvent(common.events.types.EventType eventType) {
+  public void queuePostUpdateEvent(EventType eventType) {
     this.postUpdateEventTypeList.add(eventType);
+  }
+
+  public void queuePostUpdateEvent(Long sleep, EventType eventType) {
+    executorService.execute(
+        () -> {
+          try {
+            Thread.sleep(sleep);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          this.postUpdateEventTypeList.add(eventType);
+        });
   }
 
   public void firePostUpdateEvents() {

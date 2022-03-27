@@ -18,25 +18,26 @@ public class NetworkEventHandler extends EventConsumer {
   }
 
   public void handleNetworkEvent(NetworkObjects.NetworkEvent networkEvent) {
+    Long delay = 500L;
     try {
       String event = networkEvent.getEvent();
       if (event.equals(DataTranslationEnum.CREATE_ENTITY)) {
         eventService.fireEvent(
-            NetworkDataDeserializer.createCreateEntityIncomingEventType(networkEvent));
+            delay, NetworkDataDeserializer.createCreateEntityIncomingEventType(networkEvent));
       } else if (event.equals(DataTranslationEnum.UPDATE_ENTITY)) {
         eventService.fireEvent(
-            NetworkDataDeserializer.createUpdateEntityIncomingEvent(networkEvent));
+            delay, NetworkDataDeserializer.createUpdateEntityIncomingEvent(networkEvent));
       } else if (event.equals(SubscriptionOutgoingEventType.type)) {
         eventService.fireEvent(eventTypeFactory.createSubscriptionIncomingEvent(networkEvent));
       } else if (event.equals(DataTranslationEnum.REMOVE_ENTITY)) {
         eventService.queuePostUpdateEvent(
-            NetworkDataDeserializer.createRemoveEntityIncomingEventType(networkEvent));
+            delay, NetworkDataDeserializer.createRemoveEntityIncomingEventType(networkEvent));
       } else if (event.equals(DataTranslationEnum.REPLACE_BLOCK)) {
         eventService.queuePostUpdateEvent(
-            networkDataDeserializer.createReplaceBlockIncomingEventType(networkEvent));
+            delay, networkDataDeserializer.createReplaceBlockIncomingEventType(networkEvent));
       } else if (event.equals(DataTranslationEnum.CREATE_AI)) {
         eventService.queuePostUpdateEvent(
-            NetworkDataDeserializer.createCreateAIEntityEventType(networkEvent));
+            delay, NetworkDataDeserializer.createCreateAIEntityEventType(networkEvent));
       } else if (event.equals(DataTranslationEnum.HANDSHAKE)) {
         eventService.fireEvent(
             NetworkDataDeserializer.createHandshakeIncomingEventType(networkEvent));
