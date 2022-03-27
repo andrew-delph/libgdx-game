@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -75,8 +76,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
   }
 
   public synchronized void addEntity(Entity entity) {
-    Tick newTick = new Tick(clock.getCurrentTick().time + entity.getUpdateTimeout());
-    if (newTick.compareTo(this.updateTick) < 0) this.updateTick = newTick;
+    this.queueChunkUpdates();
     this.chunkMap.put(entity.uuid, entity);
     if (!bodySet.contains(entity.uuid)) {
       Body bodyToAdd = entity.addWorld(world);
@@ -116,10 +116,35 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         this.world.destroyBody(entity.getBody());
       } catch (Exception e) {
         LOGGER.error("the error happened. chunk.removeEntity()");
+        e.printStackTrace();
       }
       bodySet.remove(entity.uuid);
     }
     return entity;
+  }
+
+  void queueChunkUpdates() {
+    List<Chunk> chunkList = this.getNeighborChunks();
+    chunkList.add(this);
+
+    for (Chunk chunk : chunkList) {
+      Tick newTick = new Tick(clock.getCurrentTick().time + 1);
+      if (newTick.compareTo(chunk.updateTick) < 0) chunk.updateTick = newTick;
+    }
+  }
+
+  List<Chunk> getNeighborChunks() {
+    List<Chunk> neighborChunkList = new LinkedList<>();
+    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getUp()));
+    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getDown()));
+    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getLeft()));
+    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight()));
+    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getLeft().getUp()));
+    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getLeft().getDown()));
+    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight().getUp()));
+    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight().getDown()));
+    neighborChunkList.removeIf(Objects::isNull);
+    return neighborChunkList;
   }
 
   synchronized void update() {
@@ -137,17 +162,8 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
             .getRight()
             .getUp()
             .getUp();
-    List<Chunk> neighborChunkList = new LinkedList<>();
-    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getUp()));
-    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getDown()));
-    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getLeft()));
-    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight()));
-    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getLeft().getUp()));
-    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getLeft().getDown()));
-    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight().getUp()));
-    neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight().getDown()));
 
-    for (Chunk neighbor : neighborChunkList) {
+    for (Chunk neighbor : getNeighborChunks()) {
       if (neighbor == null) continue;
       neighborEntitySet.addAll(neighbor.getEntityInRange(neighborBottomLeft, neighborTopRight));
     }
