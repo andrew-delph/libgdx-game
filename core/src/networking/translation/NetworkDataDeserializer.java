@@ -29,6 +29,8 @@ import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ChunkSwapIncomingEventType;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
 import networking.events.types.incoming.HandshakeIncomingEventType;
+import networking.events.types.incoming.PingRequestIncomingEventType;
+import networking.events.types.incoming.PingResponseIncomingEventType;
 import networking.events.types.incoming.RemoveEntityIncomingEventType;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
@@ -222,6 +224,48 @@ public class NetworkDataDeserializer {
     if (to == null) throw new SerializationDataMissing("Missing to");
 
     return EventTypeFactory.createChunkSwapIncomingEventType(target, from, to);
+  }
+
+  public static PingRequestIncomingEventType createPingRequestIncomingEventType(
+      NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+    UUID pingID = null;
+    UserID user = null;
+
+    if (!networkEvent.getUser().isEmpty()) {
+      user = UserID.createUserID(networkEvent.getUser());
+    }
+
+    for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+      switch (child.getKey()) {
+        case DataTranslationEnum.UUID:
+          pingID = createUUID(child);
+          break;
+      }
+    }
+
+    if (pingID == null) throw new SerializationDataMissing("Missing pingID");
+    return EventTypeFactory.createPingRequestIncomingEventType(user, pingID);
+  }
+
+  public static PingResponseIncomingEventType createPingResponseIncomingEventType(
+      NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+    UUID pingID = null;
+    UserID user = null;
+
+    if (!networkEvent.getUser().isEmpty()) {
+      user = UserID.createUserID(networkEvent.getUser());
+    }
+
+    for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+      switch (child.getKey()) {
+        case DataTranslationEnum.UUID:
+          pingID = createUUID(child);
+          break;
+      }
+    }
+
+    if (pingID == null) throw new SerializationDataMissing("Missing pingID");
+    return EventTypeFactory.createPingResponseIncomingEventType(user, pingID);
   }
 
   public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
