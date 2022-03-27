@@ -31,14 +31,14 @@ public class BaseCamera extends OrthographicCamera {
   }
 
   Coordinates getBottomLeftCoordinates() {
-    int left_x = (int) ((this.position.x - (this.viewportWidth / 2)) / GameSettings.PIXEL_SCALE);
-    int bottom_y = (int) ((this.position.y - (this.viewportHeight / 2)) / GameSettings.PIXEL_SCALE);
-    return (new Coordinates(left_x, bottom_y)).getLeft().getDown();
+    int left_x = (int) (this.position.x - (this.viewportWidth / 2)) / GameSettings.PIXEL_SCALE;
+    int bottom_y = (int) (this.position.y - (this.viewportHeight / 2)) / GameSettings.PIXEL_SCALE;
+    return new Coordinates(left_x, bottom_y).getLeft().getDown();
   }
 
   Coordinates getTopRightCoordinates() {
-    int right_x = (int) ((this.position.x + (this.viewportWidth / 2)) / GameSettings.PIXEL_SCALE);
-    int top_y = (int) ((this.position.y + (this.viewportHeight / 2)) / GameSettings.PIXEL_SCALE);
-    return (new Coordinates(right_x, top_y)).getRight().getUp();
+    int right_x = (int) (this.position.x + (this.viewportWidth / 2)) / GameSettings.PIXEL_SCALE;
+    int top_y = (int) (this.position.y + (this.viewportHeight / 2)) / GameSettings.PIXEL_SCALE;
+    return (new Coordinates(right_x, top_y));
   }
 }

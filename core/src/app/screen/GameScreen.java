@@ -110,14 +110,11 @@ public class GameScreen extends ApplicationAdapter {
         gameStore.getEntityInRange(
             baseCamera.getBottomLeftCoordinates(), baseCamera.getTopRightCoordinates());
 
-    try {
-      renderList =
-          renderList.stream()
-              .sorted(Comparator.comparingInt(entity -> entity.zindex))
-              .collect(Collectors.toList());
-    } catch (Exception e) {
-      System.out.println(e);
-    }
+    renderList =
+        renderList.stream()
+            .sorted(Comparator.comparingInt(entity -> entity.zindex))
+            .collect(Collectors.toList());
+
     for (Entity entity : renderList) {
       // render entity
       try {
