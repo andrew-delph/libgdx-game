@@ -8,12 +8,15 @@ import networking.events.consumer.client.incoming.AuthenticationIncomingConsumer
 import networking.events.consumer.client.incoming.ChunkSwapIncomingConsumerClient;
 import networking.events.consumer.client.incoming.CreateEntityIncomingConsumerClient;
 import networking.events.consumer.client.incoming.HandshakeIncomingConsumerClient;
+import networking.events.consumer.client.incoming.PingRequestIncomingConsumerClient;
+import networking.events.consumer.client.incoming.PingResponseIncomingConsumerClient;
 import networking.events.consumer.client.incoming.RemoveEntityIncomingConsumerClient;
 import networking.events.consumer.client.incoming.ReplaceBlockIncomingConsumerClient;
 import networking.events.consumer.client.incoming.UpdateEntityIncomingConsumerClient;
 import networking.events.consumer.client.outgoing.CreateAIEntityConsumerClient;
 import networking.events.consumer.client.outgoing.CreateEntityOutgoingConsumerClient;
 import networking.events.consumer.client.outgoing.HandshakeOutgoingConsumerClient;
+import networking.events.consumer.client.outgoing.PingRequestOutgoingConsumerClient;
 import networking.events.consumer.client.outgoing.RemoveEntityOutgoingConsumerClient;
 import networking.events.consumer.client.outgoing.ReplaceBlockOutgoingConsumerClient;
 import networking.events.consumer.client.outgoing.UpdateEntityOutgoingConsumerClient;
@@ -43,6 +46,9 @@ public class ClientEventConsumer extends EventConsumer {
   @Inject RemoveEntityOutgoingConsumerClient removeEntityOutgoingConsumerClient;
   @Inject ChunkSwapIncomingConsumerClient chunkSwapIncomingConsumerClient;
   @Inject AuthenticationIncomingConsumerClient authenticationIncomingConsumerClient;
+  @Inject PingRequestOutgoingConsumerClient pingRequestOutgoingConsumerClient;
+  @Inject PingRequestIncomingConsumerClient pingRequestIncomingConsumerClient;
+  @Inject PingResponseIncomingConsumerClient pingResponseIncomingConsumerClient;
 
   @Inject
   protected ClientEventConsumer() {}
@@ -70,5 +76,11 @@ public class ClientEventConsumer extends EventConsumer {
         NetworkEventTypeEnum.CHUNK_SWAP_INCOMING, chunkSwapIncomingConsumerClient);
     this.eventService.addListener(
         NetworkEventTypeEnum.AUTH_INCOMING, authenticationIncomingConsumerClient);
+    this.eventService.addListener(
+        NetworkEventTypeEnum.PING_REQUEST_OUTGOING, pingRequestOutgoingConsumerClient);
+    this.eventService.addListener(
+        NetworkEventTypeEnum.PING_REQUEST_INCOMING, pingRequestIncomingConsumerClient);
+    this.eventService.addListener(
+        NetworkEventTypeEnum.PING_RESPONSE_INCOMING, pingResponseIncomingConsumerClient);
   }
 }

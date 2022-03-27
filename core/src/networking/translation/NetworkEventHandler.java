@@ -43,6 +43,12 @@ public class NetworkEventHandler extends EventConsumer {
       } else if (event.equals(DataTranslationEnum.CHUNK_SWAP)) {
         eventService.queuePostUpdateEvent(
             NetworkDataDeserializer.createChunkSwapIncomingEventType(networkEvent));
+      } else if (event.equals(DataTranslationEnum.REQUEST_PING)) {
+        eventService.fireEvent(
+            NetworkDataDeserializer.createPingRequestIncomingEventType(networkEvent));
+      } else if (event.equals(DataTranslationEnum.RESPONSE_PING)) {
+        eventService.fireEvent(
+            NetworkDataDeserializer.createPingResponseIncomingEventType(networkEvent));
       }
     } catch (Exception e) {
       e.printStackTrace();

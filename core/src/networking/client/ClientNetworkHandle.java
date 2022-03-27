@@ -27,6 +27,7 @@ import networking.RequestNetworkEventObserver;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
+import networking.ping.PingService;
 import networking.translation.NetworkDataDeserializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,6 +45,7 @@ public class ClientNetworkHandle {
   @Inject ChunkFactory chunkFactory;
   @Inject User user;
   @Inject GameSettings gameSettings;
+  @Inject PingService pingService;
 
   private ManagedChannel channel;
   private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
@@ -83,6 +85,7 @@ public class ClientNetworkHandle {
     if (!authLatch.await(5, TimeUnit.SECONDS)) {
       throw new InterruptedException("did not receive auth information");
     }
+    pingService.start();
   }
 
   public synchronized void send(NetworkObjects.NetworkEvent networkEvent) {

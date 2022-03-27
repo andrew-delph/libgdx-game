@@ -2,6 +2,7 @@ package networking.connected;
 
 import static org.mockito.Mockito.when;
 
+import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.AbstractModule;
@@ -22,6 +23,7 @@ import generation.ChunkGenerationService;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import networking.client.ClientNetworkHandle;
+import networking.ping.PingService;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Assert;
@@ -44,6 +46,9 @@ public class testSingleClientNoRunningGame {
 
   EventConsumer serverEventConsumer;
   EventConsumer clientEventConsumer;
+
+  User serverUser;
+  User clientUser;
 
   ChunkGenerationService serverChunkGenerationService;
 
@@ -71,6 +76,9 @@ public class testSingleClientNoRunningGame {
 
     serverEventConsumer = serverInjector.getInstance(EventConsumer.class);
     clientEventConsumer = clientInjector.getInstance(EventConsumer.class);
+
+    serverUser = serverInjector.getInstance(User.class);
+    clientUser = clientInjector.getInstance(User.class);
 
     serverChunkGenerationService = serverInjector.getInstance(ChunkGenerationService.class);
 
@@ -185,5 +193,15 @@ public class testSingleClientNoRunningGame {
     GameSettings severSettings = serverInjector.getInstance(GameSettings.class);
     when(severSettings.getVersion()).thenReturn("error");
     clientNetworkHandle.checkVersion();
+  }
+
+  @Test
+  public void testPingService() throws InterruptedException {
+    PingService serverPingService = serverInjector.getInstance(PingService.class);
+    serverPingService.run();
+    PingService clientPingService = clientInjector.getInstance(PingService.class);
+    TimeUnit.SECONDS.sleep(1);
+    assert clientPingService.getAveragePingTime(serverUser.getUserID()) > 0;
+    assert serverPingService.getAveragePingTime(clientUser.getUserID()) > 0;
   }
 }

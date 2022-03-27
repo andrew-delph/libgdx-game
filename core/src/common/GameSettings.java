@@ -9,6 +9,7 @@ import java.util.Properties;
 
 public class GameSettings {
   public static final int UPDATE_INTERVAL = 15;
+  public static final int PING_INTERVAL = 5000;
   public static final float WORLD_TIME_STEP = 1 / 5f;
   public static final int WORLD_VELOCITY_ITERATIONS = 6;
   public static final int WORLD_POSITION_ITERATIONS = 2;

@@ -4,7 +4,6 @@ import app.user.User;
 import app.user.UserID;
 import chunk.ActiveChunkManager;
 import chunk.Chunk;
-import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import com.google.protobuf.Empty;
@@ -28,6 +27,7 @@ import networking.RequestNetworkEventObserver;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
+import networking.ping.PingService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,12 +36,12 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Inject ObserverFactory observerFactory;
   @Inject ConnectionStore connectionStore;
   @Inject GameStore gameStore;
-  @Inject ChunkFactory chunkFactory;
   @Inject EventTypeFactory eventTypeFactory;
   @Inject ActiveChunkManager activeChunkManager;
   @Inject User user;
   @Inject ChunkGenerationService chunkGenerationService;
   @Inject GameSettings gameSettings;
+  @Inject PingService pingService;
   private Server server;
 
   @Inject
@@ -55,6 +55,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
             .addService(ProtoReflectionService.newInstance())
             .build();
     server.start();
+    pingService.start();
   }
 
   @Override

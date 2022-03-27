@@ -30,6 +30,7 @@ import generation.ChunkGenerationService;
 import networking.ConnectionStore;
 import networking.ObserverFactory;
 import networking.events.EventTypeFactory;
+import networking.ping.PingService;
 
 public abstract class MainConfig extends AbstractModule {
   @Override
@@ -68,5 +69,6 @@ public abstract class MainConfig extends AbstractModule {
     bind(ActiveChunkManager.class).asEagerSingleton();
     bind(User.class).in(Singleton.class);
     bind(GameSettings.class).in(Singleton.class);
+    bind(PingService.class).asEagerSingleton();
   }
 }

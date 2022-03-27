@@ -20,4 +20,10 @@ public class NetworkEventTypeEnum {
   public static final String CHUNK_SWAP_OUTGOING = "CHUNK_SWAP_OUTGOING";
 
   public static final String AUTH_INCOMING = "AUTH_INCOMING";
+
+  public static final String PING_REQUEST_OUTGOING = "PING_REQUEST_OUTGOING";
+  public static final String PING_REQUEST_INCOMING = "PING_REQUEST_INCOMING";
+
+  public static final String PING_RESPONSE_OUTGOING = "PING_RESPONSE_OUTGOING";
+  public static final String PING_RESPONSE_INCOMING = "PING_RESPONSE_INCOMING";
 }
