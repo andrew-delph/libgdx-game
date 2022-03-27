@@ -40,13 +40,15 @@ public class testGame {
 
   @Test
   public void testChunksRunningStandAlone() throws InterruptedException {
-    clock.waitForTick(2);
+    clock.waitForTick(4);
+
     clock.waitForTick(
         () -> {
           assert gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 0;
         });
     gameController.createEntity(new Coordinates(0, 0));
     clock.waitForTick(
+        3,
         () -> {
           assert gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 1;
         });

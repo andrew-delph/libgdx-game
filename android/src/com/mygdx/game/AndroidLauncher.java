@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import configuration.StandAloneConfig;
 
 public class AndroidLauncher extends AndroidApplication {
   @Override

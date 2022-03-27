@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Clock {
-  Map<Integer, Object> tickNotifier = new ConcurrentHashMap();
+  Map<Integer, Lockable> tickLockable = new ConcurrentHashMap();
   private Tick currentTick;
 
   Clock() {
@@ -21,10 +21,8 @@ public class Clock {
 
   public synchronized void tick() {
     this.setCurrentTick(new Tick(currentTick.time + 1));
-    tickNotifier.putIfAbsent(currentTick.time, new Object());
-    synchronized (tickNotifier.get(currentTick.time)) {
-      tickNotifier.get(currentTick.time).notifyAll();
-    }
+    tickLockable.putIfAbsent(currentTick.time, new Lockable());
+    tickLockable.get(currentTick.time).unlock();
   }
 
   public void waitForTick() throws InterruptedException {
@@ -32,19 +30,20 @@ public class Clock {
   }
 
   public void waitForTick(int time) throws InterruptedException {
-    int nextTick = this.getCurrentTick().time + time;
-    tickNotifier.putIfAbsent(nextTick, new Object());
-    synchronized (tickNotifier.get(nextTick)) {
-      tickNotifier.get(nextTick).wait();
-    }
+    waitForTick(time, null);
   }
 
   public void waitForTick(Runnable task) throws InterruptedException {
-    this.waitForTick(task, 1);
+    this.waitForTick(1, task);
   }
 
-  public void waitForTick(Runnable task, int waitTime) throws InterruptedException {
-    waitForTick(waitTime);
-    task.run();
+  public void waitForTick(int time, Runnable task) throws InterruptedException {
+    int nextTick = this.getCurrentTick().time + time;
+    tickLockable.putIfAbsent(nextTick, new Lockable());
+    if (task == null) {
+      tickLockable.get(nextTick).waitForUnlock();
+    } else {
+      tickLockable.get(nextTick).waitForUnlock(task);
+    }
   }
 }
