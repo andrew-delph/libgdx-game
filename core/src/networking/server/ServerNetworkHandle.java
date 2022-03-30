@@ -7,6 +7,7 @@ import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import com.google.protobuf.Empty;
+import common.Clock;
 import common.GameSettings;
 import common.GameStore;
 import generation.ChunkGenerationService;
@@ -130,7 +131,11 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   }
 
   public synchronized void send(UserID userID, NetworkObjects.NetworkEvent networkEvent) {
-    networkEvent = networkEvent.toBuilder().setUser(user.getUserID().toString()).build();
+    networkEvent =
+        networkEvent.toBuilder()
+            .setUser(user.getUserID().toString())
+            .setTime(Clock.getCurrentTime())
+            .build();
     RequestNetworkEventObserver observer = connectionStore.getConnection(userID);
     observer.responseObserver.onNext(networkEvent);
   }

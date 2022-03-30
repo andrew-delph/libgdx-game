@@ -11,6 +11,10 @@ public class Clock {
     this.setCurrentTick(new Tick(0));
   }
 
+  public static Long getCurrentTime() {
+    return System.currentTimeMillis();
+  }
+
   public synchronized Tick getCurrentTick() {
     return currentTick;
   }

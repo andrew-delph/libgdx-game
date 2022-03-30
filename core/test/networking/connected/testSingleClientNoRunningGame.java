@@ -201,7 +201,7 @@ public class testSingleClientNoRunningGame {
     serverPingService.run();
     PingService clientPingService = clientInjector.getInstance(PingService.class);
     TimeUnit.SECONDS.sleep(1);
-    assert clientPingService.getAveragePingTime(serverUser.getUserID()) > 0;
-    assert serverPingService.getAveragePingTime(clientUser.getUserID()) > 0;
+    assert clientPingService.calcDelay(serverUser.getUserID(), System.currentTimeMillis()) > 0;
+    assert serverPingService.calcDelay(clientUser.getUserID(), System.currentTimeMillis()) > 0;
   }
 }

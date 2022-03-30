@@ -4,13 +4,22 @@ import app.user.UserID;
 import java.util.UUID;
 
 public class PingObject {
+  private final UUID pingID = UUID.randomUUID();
+  private final Long requestTime = System.currentTimeMillis();
   private UserID userID;
-  private UUID pingID = UUID.randomUUID();
-  private Long requestTime = System.currentTimeMillis();
   private Long responseTime;
+  private Long receiverTime;
 
   public PingObject(UserID userID) {
     this.userID = userID;
+  }
+
+  public Long getReceiverTime() {
+    return receiverTime;
+  }
+
+  public void setReceiverTime(Long receiverTime) {
+    this.receiverTime = receiverTime;
   }
 
   public UUID getPingID() {
@@ -29,7 +38,7 @@ public class PingObject {
     this.responseTime = responseTime;
   }
 
-  public float calcPingTime() {
-    return (this.getResponseTime() - this.getRequestTime()) / 1000f;
+  public long calcPingTime() {
+    return (this.getResponseTime() - this.getRequestTime()) / 2;
   }
 }

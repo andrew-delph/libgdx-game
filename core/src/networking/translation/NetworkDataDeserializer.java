@@ -251,9 +251,13 @@ public class NetworkDataDeserializer {
       NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
     UUID pingID = null;
     UserID user = null;
+    Long time = null;
 
     if (!networkEvent.getUser().isEmpty()) {
       user = UserID.createUserID(networkEvent.getUser());
+    }
+    if (networkEvent.getTime() > 0) {
+      time = networkEvent.getTime();
     }
 
     for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
@@ -265,7 +269,7 @@ public class NetworkDataDeserializer {
     }
 
     if (pingID == null) throw new SerializationDataMissing("Missing pingID");
-    return EventTypeFactory.createPingResponseIncomingEventType(user, pingID);
+    return EventTypeFactory.createPingResponseIncomingEventType(user, pingID, time);
   }
 
   public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {

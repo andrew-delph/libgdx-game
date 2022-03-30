@@ -43,6 +43,7 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
   @Override
   public void onError(Throwable throwable) {
     LOGGER.error(this.userID + " " + throwable);
+    throwable.printStackTrace();
     this.eventService.fireEvent(this.eventTypeFactory.createDisconnectionEvent(this.userID));
   }
 

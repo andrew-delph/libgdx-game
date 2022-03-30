@@ -10,10 +10,16 @@ public class PingResponseIncomingEventType extends EventType {
 
   private UserID userID;
   private UUID pingID;
+  private Long receivedTime;
 
-  public PingResponseIncomingEventType(UserID userID, UUID pingID) {
+  public PingResponseIncomingEventType(UserID userID, UUID pingID, Long receivedTime) {
     this.userID = userID;
     this.pingID = pingID;
+    this.receivedTime = receivedTime;
+  }
+
+  public Long getReceivedTime() {
+    return receivedTime;
   }
 
   public UUID getPingID() {

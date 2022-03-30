@@ -10,6 +10,7 @@ message NetworkEvent{
   string event = 1;
   NetworkData data = 2;
   string user = 3;
+  int64 time = 4;
 }
 
 message NetworkData{
