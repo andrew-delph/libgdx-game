@@ -9,6 +9,7 @@ import chunk.ChunkRange;
 import com.google.inject.Inject;
 import com.google.protobuf.Empty;
 import com.sun.tools.javac.util.Pair;
+import common.Clock;
 import common.GameSettings;
 import common.GameStore;
 import common.exceptions.SerializationDataMissing;
@@ -89,7 +90,11 @@ public class ClientNetworkHandle {
   }
 
   public synchronized void send(NetworkObjects.NetworkEvent networkEvent) {
-    networkEvent = networkEvent.toBuilder().setUser(this.user.toString()).build();
+    networkEvent =
+        networkEvent.toBuilder()
+            .setUser(this.user.toString())
+            .setTime(Clock.getCurrentTime())
+            .build();
     requestNetworkEventObserver.responseObserver.onNext(networkEvent);
   }
 

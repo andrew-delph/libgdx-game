@@ -143,8 +143,8 @@ public class EventTypeFactory {
   }
 
   public static PingResponseIncomingEventType createPingResponseIncomingEventType(
-      UserID userID, UUID pingID) {
-    return new PingResponseIncomingEventType(userID, pingID);
+      UserID userID, UUID pingID, Long receivedTime) {
+    return new PingResponseIncomingEventType(userID, pingID, receivedTime);
   }
 
   public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(

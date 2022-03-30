@@ -1,26 +1,39 @@
 package networking.translation;
 
+import app.user.UserID;
 import com.google.inject.Inject;
 import common.events.EventConsumer;
 import common.events.EventService;
 import networking.NetworkObjects;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.SubscriptionOutgoingEventType;
+import networking.ping.PingService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class NetworkEventHandler extends EventConsumer {
 
+  final Logger LOGGER = LogManager.getLogger();
   @Inject EventTypeFactory eventTypeFactory;
   @Inject EventService eventService;
   @Inject NetworkDataDeserializer networkDataDeserializer;
+  @Inject PingService pingService;
 
   public NetworkEventHandler() {
     super();
   }
 
   public void handleNetworkEvent(NetworkObjects.NetworkEvent networkEvent) {
-    Long delay = 500L;
     try {
+      Long delay;
       String event = networkEvent.getEvent();
+      Long time = networkEvent.getTime();
+      UserID receivedFrom;
+      receivedFrom = UserID.createUserID(networkEvent.getUser());
+      delay = pingService.calcDelay(receivedFrom, time);
+      if (delay < 0) delay = 0L;
+
+      LOGGER.info("Delay: " + delay);
       if (event.equals(DataTranslationEnum.CREATE_ENTITY)) {
         eventService.fireEvent(
             delay, NetworkDataDeserializer.createCreateEntityIncomingEventType(networkEvent));
@@ -52,7 +65,7 @@ public class NetworkEventHandler extends EventConsumer {
             NetworkDataDeserializer.createPingResponseIncomingEventType(networkEvent));
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.error(e);
     }
   }
 }

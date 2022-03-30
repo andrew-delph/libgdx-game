@@ -1,6 +1,7 @@
 package networking.events.consumer.server.incoming;
 
 import com.google.inject.Inject;
+import common.Clock;
 import common.events.types.EventType;
 import java.util.function.Consumer;
 import networking.events.types.incoming.PingResponseIncomingEventType;
@@ -15,6 +16,9 @@ public class PingResponseIncomingConsumerServer implements Consumer<EventType> {
     PingResponseIncomingEventType realEvent = (PingResponseIncomingEventType) eventType;
 
     pingService.setResponseTime(
-        realEvent.getUserID(), realEvent.getPingID(), System.currentTimeMillis());
+        realEvent.getUserID(),
+        realEvent.getPingID(),
+        Clock.getCurrentTime(),
+        realEvent.getReceivedTime());
   }
 }
