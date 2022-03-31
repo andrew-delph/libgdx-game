@@ -29,6 +29,7 @@ import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
 import networking.ping.PingService;
+import networking.sync.SyncService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,6 +44,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Inject ChunkGenerationService chunkGenerationService;
   @Inject GameSettings gameSettings;
   @Inject PingService pingService;
+  @Inject SyncService syncService;
   private Server server;
 
   @Inject
@@ -140,7 +142,12 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     observer.responseObserver.onNext(networkEvent);
   }
 
-  public void initHandshake(UserID userID, ChunkRange chunkRange) {
+  public synchronized void initHandshake(UserID userID, ChunkRange chunkRange) {
+    if (syncService.isHandshakeLocked(userID, chunkRange)) {
+      LOGGER.info("SERVER INIT LOCKED");
+      return;
+    }
+    syncService.lockHandshake(userID, chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
     List<UUID> uuidList = new LinkedList<>(this.gameStore.getChunk(chunkRange).getEntityUUIDSet());
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange, uuidList);

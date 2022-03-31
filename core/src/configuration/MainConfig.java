@@ -31,6 +31,7 @@ import networking.ConnectionStore;
 import networking.ObserverFactory;
 import networking.events.EventTypeFactory;
 import networking.ping.PingService;
+import networking.sync.SyncService;
 
 public abstract class MainConfig extends AbstractModule {
   @Override
@@ -70,5 +71,6 @@ public abstract class MainConfig extends AbstractModule {
     bind(User.class).in(Singleton.class);
     bind(GameSettings.class).in(Singleton.class);
     bind(PingService.class).asEagerSingleton();
+    bind(SyncService.class).asEagerSingleton();
   }
 }

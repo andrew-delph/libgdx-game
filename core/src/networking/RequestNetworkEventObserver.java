@@ -49,7 +49,6 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
 
   @Override
   public void onCompleted() {
-    LOGGER.info(this.userID);
     this.eventService.fireEvent(this.eventTypeFactory.createDisconnectionEvent(this.userID));
   }
 }

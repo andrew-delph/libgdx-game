@@ -32,7 +32,6 @@ public class NetworkEventHandler extends EventConsumer {
       receivedFrom = UserID.createUserID(networkEvent.getUser());
       delay = pingService.calcDelay(receivedFrom, time);
       if (delay < 0) delay = 0L;
-
       if (event.equals(DataTranslationEnum.CREATE_ENTITY)) {
         eventService.fireEvent(
             delay, NetworkDataDeserializer.createCreateEntityIncomingEventType(networkEvent));

@@ -9,8 +9,11 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import common.Clock;
 import common.Coordinates;
+import common.GameSettings;
 import common.GameStore;
+import common.events.EventService;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
@@ -22,8 +25,10 @@ import entity.block.Block;
 import entity.block.BlockFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import networking.client.ClientNetworkHandle;
 import networking.server.ServerNetworkHandle;
+import networking.sync.SyncService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +58,12 @@ public class HandshakeTests {
   User serverUser;
   User clientUser;
 
+  Clock serverClock;
+  Clock clientClock;
+
+  SyncService serverSyncService;
+  SyncService clientSyncService;
+
   @Before
   public void setup()
       throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
@@ -77,8 +88,14 @@ public class HandshakeTests {
     serverUser = serverInjector.getInstance(User.class);
     clientUser = clientInjector.getInstance(User.class);
 
-    serverGame.start();
-    clientGame.start();
+    serverClock = serverInjector.getInstance(Clock.class);
+    clientClock = clientInjector.getInstance(Clock.class);
+
+    serverSyncService = serverInjector.getInstance(SyncService.class);
+    clientSyncService = clientInjector.getInstance(SyncService.class);
+
+    serverGame.init();
+    clientGame.init();
 
     TimeUnit.SECONDS.sleep(1);
   }
@@ -97,6 +114,16 @@ public class HandshakeTests {
     }
   }
 
+  private void tickClocks(int numberOfTicks, float timeout) throws InterruptedException {
+    for (int i = 0; i < numberOfTicks; i++) {
+      serverInjector.getInstance(EventService.class).firePostUpdateEvents();
+      clientInjector.getInstance(EventService.class).firePostUpdateEvents();
+      serverClock.tick();
+      clientClock.tick();
+      TimeUnit.MILLISECONDS.sleep((long) timeout * 1000);
+    }
+  }
+
   @Test
   public void testServerInitServerExtra() throws InterruptedException {
     // THIS TEST ONLY VERIFIES THE CLIENT REMOVED THE EXTRA
@@ -110,6 +137,8 @@ public class HandshakeTests {
     Chunk clientChunk = clientGameStore.getChunk(chunkRangeToTest);
     assert serverChunk.equals(clientChunk);
 
+    tickClocks(2, .5f);
+
     Entity e1 = entityFactory.createEntity(coordinatesToTest); // server only
     Entity e2 = entityFactory.createEntity(coordinatesToTest); // both
     Entity e3 = entityFactory.createEntity(coordinatesToTest); // client only
@@ -119,9 +148,32 @@ public class HandshakeTests {
     clientGameStore.addEntity(e2);
     clientGameStore.addEntity(e3);
 
-    serverNetworkHandle.initHandshake(clientUser.getUserID(), chunkRangeToTest);
+    tickClocks(2, 0);
 
-    TimeUnit.SECONDS.sleep(1);
+    serverNetworkHandle.initHandshake(clientUser.getUserID(), chunkRangeToTest);
+    AtomicReference<Boolean> serverHandshakeLocked = new AtomicReference<>(false);
+    serverClock.addTaskOnTick(
+        1,
+        () -> {
+          serverHandshakeLocked.set(
+              serverSyncService.isHandshakeLocked(clientUser.getUserID(), chunkRangeToTest));
+        });
+
+    tickClocks(2, 2);
+
+    assert serverHandshakeLocked.get();
+
+    serverClock.addTaskOnTick(
+        GameSettings.HANDSHAKE_TIMEOUT,
+        () -> {
+          serverHandshakeLocked.set(
+              serverSyncService.isHandshakeLocked(clientUser.getUserID(), chunkRangeToTest));
+        });
+
+    tickClocks(GameSettings.HANDSHAKE_TIMEOUT, 0);
+
+    assert !serverHandshakeLocked.get();
+
     assert serverChunk.equals(clientChunk);
   }
 
@@ -175,7 +227,28 @@ public class HandshakeTests {
 
     clientNetworkHandle.initHandshake(chunkRangeToTest);
 
-    TimeUnit.SECONDS.sleep(1);
+    AtomicReference<Boolean> clientHandshakeLocked = new AtomicReference<>(false);
+    clientClock.addTaskOnTick(
+        1,
+        () -> {
+          clientHandshakeLocked.set(
+              clientSyncService.isHandshakeLocked(clientUser.getUserID(), chunkRangeToTest));
+        });
+
+    tickClocks(2, 2);
+
+    assert clientHandshakeLocked.get();
+
+    clientClock.addTaskOnTick(
+        GameSettings.HANDSHAKE_TIMEOUT,
+        () -> {
+          clientHandshakeLocked.set(
+              clientSyncService.isHandshakeLocked(clientUser.getUserID(), chunkRangeToTest));
+        });
+
+    tickClocks(GameSettings.HANDSHAKE_TIMEOUT, 0);
+    assert !clientHandshakeLocked.get();
+
     assert serverChunk.equals(clientChunk);
   }
 
@@ -235,8 +308,10 @@ public class HandshakeTests {
     TimeUnit.SECONDS.sleep(1);
     assert !serverChunk.equals(clientChunk);
 
+    // this will trigger the handshake
     clientGameController.replaceBlock(blockToRemove, blockToReplace);
     TimeUnit.SECONDS.sleep(1);
+    tickClocks(100, 0.1f);
     assert serverChunk.equals(clientChunk);
   }
 
@@ -274,11 +349,11 @@ public class HandshakeTests {
   }
 
   @Test
-  public void testClientInitReplaceHandshake() throws InterruptedException {
+  public void testClientInitReplaceHandshake()
+      throws InterruptedException, WrongVersion, SerializationDataMissing, IOException {
     // server updates an entity that doesn't exist on client
     BlockFactory blockFactory = clientInjector.getInstance(BlockFactory.class);
     Coordinates coordinatesToTest = new Coordinates(0, 0);
-    Coordinates coordinatesToMove = new Coordinates(1, 1);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
     ActiveChunkManager serverActiveChunkManager =
         serverInjector.getInstance(ActiveChunkManager.class);
@@ -305,6 +380,7 @@ public class HandshakeTests {
 
     serverGameController.replaceBlock(blockToRemove, blockToReplace);
     TimeUnit.SECONDS.sleep(2);
+    tickClocks(2000, 0.2f);
     assert serverChunk.equals(clientChunk);
   }
 }
