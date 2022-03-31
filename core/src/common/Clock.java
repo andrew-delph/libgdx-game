@@ -50,4 +50,10 @@ public class Clock {
       tickLockable.get(nextTick).waitForUnlock(task);
     }
   }
+
+  public void addTaskOnTick(int time, Runnable task) {
+    int nextTick = this.getCurrentTick().time + time;
+    tickLockable.putIfAbsent(nextTick, new Lockable());
+    tickLockable.get(nextTick).addTaskToUnlock(task);
+  }
 }

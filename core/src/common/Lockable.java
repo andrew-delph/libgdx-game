@@ -27,7 +27,11 @@ public class Lockable {
   }
 
   void waitForUnlock(Runnable task) throws InterruptedException {
-    tasks.add(task);
+    addTaskToUnlock(task);
     waitForUnlock();
+  }
+
+  synchronized void addTaskToUnlock(Runnable task) {
+    tasks.add(task);
   }
 }

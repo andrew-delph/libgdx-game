@@ -29,12 +29,17 @@ public class Game {
 
   public void start()
       throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
+    init();
+    timer = new Timer(true);
+    timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);
+  }
+
+  public void init()
+      throws SerializationDataMissing, WrongVersion, IOException, InterruptedException {
     this.preStartInit();
     this.eventConsumer.init();
     this.collisionService.init();
     this.postStartInit();
-    timer = new Timer(true);
-    timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);
   }
 
   public void stop() {

@@ -38,7 +38,7 @@ public class PingService extends TimerTask {
     pingObject.setResponseTime(responseTime);
     pingObject.setReceiverTime(receivedTime);
 
-    LOGGER.info("Received ping: #userID " + userID + " #time " + pingObject.calcPingTime());
+    LOGGER.debug("Received ping: #userID " + userID + " #time " + pingObject.calcPingTime());
   }
 
   public long calcDelay(UserID userID, Long theirTime) {
@@ -69,7 +69,6 @@ public class PingService extends TimerTask {
       return 0;
     }
     long delay = theirTime + avgDiff - ourTime + (long) (avgPing * .1);
-    LOGGER.info("delay : " + delay);
     return delay;
   }
 

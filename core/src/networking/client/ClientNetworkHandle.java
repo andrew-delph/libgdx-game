@@ -29,6 +29,7 @@ import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
 import networking.ping.PingService;
+import networking.sync.SyncService;
 import networking.translation.NetworkDataDeserializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +48,7 @@ public class ClientNetworkHandle {
   @Inject User user;
   @Inject GameSettings gameSettings;
   @Inject PingService pingService;
+  @Inject SyncService syncService;
 
   private ManagedChannel channel;
   private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
@@ -184,7 +186,12 @@ public class ClientNetworkHandle {
     return true;
   }
 
-  public void initHandshake(ChunkRange chunkRange) {
+  public synchronized void initHandshake(ChunkRange chunkRange) {
+    if (syncService.isHandshakeLocked(this.user.getUserID(), chunkRange)) {
+      LOGGER.info("CLIENT INIT LOCKED");
+      return;
+    }
+    syncService.lockHandshake(user.getUserID(), chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange);
     this.send(handshakeOutgoing.toNetworkEvent());
