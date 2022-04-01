@@ -7,20 +7,23 @@ import common.GameStore;
 import common.events.EventService;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
+import entity.ActiveEntityManager;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.logging.Logger;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.HandshakeIncomingEventType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
 
-  private static final Logger LOGGER = Logger.getLogger(GameStore.class.getName());
+  final Logger LOGGER = LogManager.getLogger();
   @Inject GameStore gameStore;
   @Inject EventService eventService;
+  @Inject ActiveEntityManager activeEntityManager;
 
   @Override
   public void accept(EventType eventType) {
@@ -36,14 +39,14 @@ public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
     // get the extra uuid on the client
     List<UUID> extra = new ArrayList<>(chunk.getEntityUUIDSet());
     extra.removeAll(handshakeIncoming.getListUUID());
+    extra.removeAll(activeEntityManager.getActiveEntities());
 
     // remove the extra
     for (UUID toRemove : extra) {
       try {
         chunk.removeEntity(toRemove);
       } catch (EntityNotFound e) {
-        e.printStackTrace();
-        LOGGER.severe("Entity already removed in handshake.");
+        LOGGER.error(e);
       }
     }
 

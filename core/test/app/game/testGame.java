@@ -11,6 +11,7 @@ import common.exceptions.WrongVersion;
 import configuration.StandAloneConfig;
 import entity.ActiveEntityManager;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,20 +42,23 @@ public class testGame {
   @Test
   public void testChunksRunningStandAlone() throws InterruptedException {
     clock.waitForTick(4);
-
+    AtomicReference<Boolean> check = new AtomicReference<>(false);
     clock.waitForTick(
         () -> {
-          assert gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 0;
+          check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 0);
         });
+    assert check.get();
     gameController.createEntity(new Coordinates(0, 0));
     clock.waitForTick(
         3,
         () -> {
-          assert gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 1;
+          check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 1);
         });
+    assert check.get();
     clock.waitForTick(
         () -> {
-          assert gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 1;
+          check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 1);
         });
+    assert check.get();
   }
 }
