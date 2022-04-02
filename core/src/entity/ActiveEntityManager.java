@@ -24,6 +24,11 @@ public class ActiveEntityManager {
     userIDEntityMap.get(user_uuid).add(entity_uuid);
   }
 
+  public void removeActiveEntity(UserID user_uuid, UUID entity_uuid) {
+    userIDEntityMap.putIfAbsent(user_uuid, new HashSet<>());
+    userIDEntityMap.get(user_uuid).remove(entity_uuid);
+  }
+
   public void deregisterUser(UserID user_uuid) {
     userIDEntityMap.remove(user_uuid);
   }

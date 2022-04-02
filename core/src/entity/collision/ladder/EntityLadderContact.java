@@ -32,9 +32,7 @@ public class EntityLadderContact implements ContactWrapper {
   }
 
   public boolean isOnLadder(Body body) {
-    if (this.ladderContactCounter.get(body) == null) {
-      return false;
-    } else return this.ladderContactCounter.get(body) > 0;
+    return ladderContactCounter.getOrDefault(body, 0) > 0;
   }
 
   @Override
