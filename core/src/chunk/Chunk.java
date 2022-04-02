@@ -115,7 +115,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       try {
         this.world.destroyBody(entity.getBody());
       } catch (Exception e) {
-        LOGGER.error("the error happened. chunk.removeEntity()");
+        LOGGER.error("the error happened. chunk.removeEntity() " + entity.uuid);
         e.printStackTrace();
       }
       bodySet.remove(entity.uuid);

@@ -188,14 +188,14 @@ public class ClientNetworkHandle {
 
   public synchronized void initHandshake(ChunkRange chunkRange) {
     if (syncService.isHandshakeLocked(this.user.getUserID(), chunkRange)) {
-      LOGGER.info("CLIENT INIT LOCKED");
+      LOGGER.info("CLIENT INIT LOCKED " + " " + chunkRange);
       return;
     }
     syncService.lockHandshake(user.getUserID(), chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange);
     this.send(handshakeOutgoing.toNetworkEvent());
-    LOGGER.info("CLIENT INIT HANDSHAKE " + this.user.toString());
+    LOGGER.info("CLIENT INIT HANDSHAKE " + chunkRange);
   }
 
   public void close() {
