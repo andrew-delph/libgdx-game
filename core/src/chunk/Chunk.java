@@ -95,7 +95,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
   public Entity getEntity(UUID uuid) throws EntityNotFound {
     Entity toReturn = this.chunkMap.get(uuid);
-    if (toReturn == null) throw new EntityNotFound("Entity not found in chunk");
+    if (toReturn == null) throw new EntityNotFound("Entity not found in chunk #UUID " + uuid);
     return this.chunkMap.get(uuid);
   }
 
