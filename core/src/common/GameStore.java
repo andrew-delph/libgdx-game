@@ -33,8 +33,8 @@ public class GameStore {
 
   public void addEntity(Entity entity) {
     ChunkRange entityChunkRange = new ChunkRange(entity.coordinates);
-    this.chunkClockMap.get(entityChunkRange).addEntity(entity);
     this.entityMap.put(entity.uuid, entityChunkRange);
+    this.chunkClockMap.get(entityChunkRange).addEntity(entity);
   }
 
   public Entity removeEntity(UUID uuid) throws EntityNotFound {
@@ -81,17 +81,18 @@ public class GameStore {
   }
 
   public void addChunk(Chunk chunk) {
-    this.chunkClockMap.add(chunk);
     for (Entity entity : chunk.getEntityList()) {
       this.entityMap.put(entity.uuid, chunk.chunkRange);
     }
+    this.chunkClockMap.add(chunk);
   }
 
   public void removeChunk(ChunkRange chunkRange) {
-    Chunk removed = this.chunkClockMap.remove(chunkRange);
+    Chunk removed = this.chunkClockMap.get(chunkRange);
     for (UUID uuidToRemove : removed.getEntityUUIDSet()) {
       this.entityMap.remove(uuidToRemove);
     }
+    this.chunkClockMap.remove(chunkRange);
   }
 
   public Chunk getChunk(ChunkRange chunkRange) {
@@ -164,7 +165,8 @@ public class GameStore {
   }
 
   public ChunkRange getEntityChunkRange(UUID uuid) throws EntityNotFound {
-    if (entityMap.get(uuid) == null) throw new EntityNotFound("No chunk range found for Entity");
+    if (entityMap.get(uuid) == null)
+      throw new EntityNotFound("No chunk range found for Entity #uuid" + uuid);
     return entityMap.get(uuid);
   }
 

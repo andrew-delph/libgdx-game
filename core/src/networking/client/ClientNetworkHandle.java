@@ -108,7 +108,6 @@ public class ClientNetworkHandle {
       } else {
         // make the chunk
         myChunk = chunkFactory.create(chunkRange);
-        gameStore.addChunk(myChunk);
       }
     }
 
@@ -155,8 +154,9 @@ public class ClientNetworkHandle {
             try {
               Pair<ChunkRange, List<Entity>> chunkData =
                   entitySerializationConverter.createChunkData(networkEvent.getData());
-              myChunk.addAllEntity(chunkData.snd);
-              gameStore.addChunk(myChunk);
+              for (Entity toAdd : chunkData.snd) {
+                gameStore.addEntity(toAdd);
+              }
             } catch (SerializationDataMissing e) {
               e.printStackTrace();
             }
