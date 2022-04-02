@@ -58,7 +58,7 @@ public class EventService {
     this.eventPostUpdateListeners.get(type).add(eventConsumer);
   }
 
-  public void queuePostUpdateEvent(EventType eventType) {
+  public synchronized void queuePostUpdateEvent(EventType eventType) {
     this.postUpdateEventTypeList.add(eventType);
   }
 
@@ -70,11 +70,11 @@ public class EventService {
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
-          this.postUpdateEventTypeList.add(eventType);
+          this.queuePostUpdateEvent(eventType);
         });
   }
 
-  public void firePostUpdateEvents() {
+  public synchronized void firePostUpdateEvents() {
     List<common.events.types.EventType> postUpdateEventTypeListCopy =
         new LinkedList<>(this.postUpdateEventTypeList);
     this.postUpdateEventTypeList = new LinkedList<>();

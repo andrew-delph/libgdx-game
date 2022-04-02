@@ -25,6 +25,7 @@ public class EntityRightContact implements ContactWrapper {
   @Override
   public void endContact(Object source, Object target) {
     RightSensorPoint rightPoint = (RightSensorPoint) source;
+    if (rightPoint.getBody() == null) return;
     this.rightContactCounter.putIfAbsent(rightPoint.getBody(), 0);
     int rightCount = this.rightContactCounter.get(rightPoint.getBody());
     this.rightContactCounter.put(rightPoint.getBody(), rightCount - 1);

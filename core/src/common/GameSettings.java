@@ -22,7 +22,7 @@ public class GameSettings {
   public static final int PING_LIMIT = 20;
   public static final int PING_INTERVAL = 5000;
 
-  public static final int HANDSHAKE_TIMEOUT = 10;
+  public static final int HANDSHAKE_TIMEOUT = 75;
 
   private static final String HOST_KEY = "host";
   private static final String PORT_KEY = "port";
