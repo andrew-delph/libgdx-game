@@ -8,6 +8,7 @@ import common.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;
 import common.events.EventService;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
@@ -62,7 +63,8 @@ public class testEntitySerialization {
   }
 
   @Test
-  public void testUpdateEntitySerialization() throws EntityNotFound, SerializationDataMissing {
+  public void testUpdateEntitySerialization()
+      throws EntityNotFound, SerializationDataMissing, ChunkNotFound {
     Entity entityWrite = entityFactory.createEntity(new Coordinates(2, 3));
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
     gameStore.addEntity(entityWrite);

@@ -5,6 +5,7 @@ import app.user.UserID;
 import chunk.ActiveChunkManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import java.util.function.Consumer;
 import networking.events.EventTypeFactory;
@@ -29,6 +30,9 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
     } catch (EntityNotFound e) {
       LOGGER.error(e);
       serverNetworkHandle.initHandshake(incoming.getUserID(), incoming.getChunkRange());
+    } catch (ChunkNotFound e) {
+      LOGGER.error(e);
+      return;
     }
     ReplaceBlockOutgoingEventType outgoing =
         EventTypeFactory.createReplaceBlockOutgoingEvent(

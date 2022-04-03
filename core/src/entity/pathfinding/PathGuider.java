@@ -2,6 +2,7 @@ package entity.pathfinding;
 
 import com.google.inject.Inject;
 import common.Coordinates;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import entity.Entity;
 import entity.pathfinding.edge.EdgeStepper;
@@ -58,7 +59,7 @@ public class PathGuider {
 
     try {
       this.currentEdgeStepper.follow(this.entity, this.currentPathNode);
-    } catch (EdgeStepperException e) {
+    } catch (EdgeStepperException | ChunkNotFound e) {
       LOGGER.debug("Edge stepper error: " + e);
       this.reset();
     }

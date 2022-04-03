@@ -8,6 +8,7 @@ import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
@@ -70,7 +71,8 @@ public class testDoubleClientDelayedConnection {
 
   @Test
   public void testDoubleClientCreateEntity()
-      throws InterruptedException, EntityNotFound, SerializationDataMissing, WrongVersion {
+      throws InterruptedException, EntityNotFound, SerializationDataMissing, WrongVersion,
+          ChunkNotFound {
     client_a_NetworkHandle.connect();
 
     GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);

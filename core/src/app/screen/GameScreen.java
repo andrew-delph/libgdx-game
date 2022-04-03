@@ -17,6 +17,7 @@ import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameSettings;
 import common.GameStore;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
 import entity.ActiveEntityManager;
@@ -65,7 +66,12 @@ public class GameScreen extends ApplicationAdapter {
     batch.enableBlending();
 
     myEntity = entityFactory.createEntity(new Coordinates(0, 2));
-    myEntity = gameController.addEntity(myEntity);
+    try {
+      myEntity = gameController.addEntity(myEntity);
+    } catch (ChunkNotFound e) {
+      LOGGER.error(e);
+      this.dispose();
+    }
     LOGGER.info("my entity " + myEntity.uuid);
     myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
     activeEntityManager.registerActiveEntity(user.getUserID(), myEntity.getUuid());

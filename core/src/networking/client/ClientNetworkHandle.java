@@ -12,6 +12,7 @@ import com.sun.tools.javac.util.Pair;
 import common.Clock;
 import common.GameSettings;
 import common.GameStore;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
 import entity.Entity;
@@ -121,7 +122,11 @@ public class ClientNetworkHandle {
         entitySerializationConverter.createChunkData(retrievedNetworkEvent.getData());
 
     for (Entity toAdd : chunkData.snd) {
-      gameStore.addEntity(toAdd);
+      try {
+        gameStore.addEntity(toAdd);
+      } catch (ChunkNotFound e) {
+        LOGGER.error(e);
+      }
     }
 
     return myChunk;
@@ -157,7 +162,11 @@ public class ClientNetworkHandle {
               Pair<ChunkRange, List<Entity>> chunkData =
                   entitySerializationConverter.createChunkData(networkEvent.getData());
               for (Entity toAdd : chunkData.snd) {
-                gameStore.addEntity(toAdd);
+                try {
+                  gameStore.addEntity(toAdd);
+                } catch (ChunkNotFound e) {
+                  LOGGER.error(e);
+                }
               }
             } catch (SerializationDataMissing e) {
               e.printStackTrace();

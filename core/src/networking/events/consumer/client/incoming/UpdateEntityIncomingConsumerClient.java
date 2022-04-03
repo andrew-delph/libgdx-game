@@ -24,7 +24,6 @@ public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
       entitySerializationConverter.updateEntity(realEvent.getData());
     } catch (EntityNotFound e) {
       LOGGER.error(e);
-      // TODO test this
       clientNetworkHandle.initHandshake(realEvent.getChunkRange());
     } catch (SerializationDataMissing e) {
       LOGGER.error(e);

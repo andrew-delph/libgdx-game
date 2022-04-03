@@ -10,6 +10,7 @@ import common.Coordinates;
 import common.GameSettings;
 import common.GameStore;
 import common.events.EventService;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
@@ -103,7 +104,8 @@ public class testDoubleClient {
   }
 
   @Test
-  public void testDoubleClientCreateEntity() throws InterruptedException, EntityNotFound {
+  public void testDoubleClientCreateEntity()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
 
     GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
     GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
@@ -149,7 +151,8 @@ public class testDoubleClient {
   }
 
   @Test
-  public void testDoubleClientCreateUpdateEntity() throws InterruptedException, EntityNotFound {
+  public void testDoubleClientCreateUpdateEntity()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
 
     GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
     GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
@@ -214,7 +217,7 @@ public class testDoubleClient {
 
   @Test
   public void testDoubleClientCreateThenDisconnectRemoveOther()
-      throws InterruptedException, EntityNotFound {
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
     GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
     GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
@@ -308,7 +311,8 @@ public class testDoubleClient {
   }
 
   @Test
-  public void testRemoveClientToServer() throws InterruptedException, EntityNotFound {
+  public void testRemoveClientToServer()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
     GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
@@ -333,7 +337,8 @@ public class testDoubleClient {
   }
 
   @Test
-  public void testRemoveServerToClient() throws InterruptedException, EntityNotFound {
+  public void testRemoveServerToClient()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
     GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
