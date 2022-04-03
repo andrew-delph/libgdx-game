@@ -65,11 +65,12 @@ public class EntityController {
 
   public void afterWorldUpdate() {
     try {
-      gameController.moveEntity(
-          this.entity.uuid,
+      Coordinates moveTo =
           new Coordinates(
               this.entity.getBody().getPosition().x / GameSettings.PHYSICS_SCALE,
-              this.entity.getBody().getPosition().y / GameSettings.PHYSICS_SCALE));
+              this.entity.getBody().getPosition().y / GameSettings.PHYSICS_SCALE);
+      if (!this.entity.coordinates.equals(moveTo))
+        gameController.moveEntity(this.entity.uuid, moveTo);
     } catch (EntityNotFound e) {
       e.printStackTrace();
     }
