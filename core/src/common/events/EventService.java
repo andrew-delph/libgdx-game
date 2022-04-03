@@ -10,13 +10,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EventService {
 
+  final Logger LOGGER = LogManager.getLogger();
   Map<String, List<Consumer<EventType>>> eventListeners = new HashMap<>();
   Map<String, List<Consumer<EventType>>> eventPostUpdateListeners = new HashMap<>();
   ConcurrentLinkedQueue<EventType> postUpdateQueue = new ConcurrentLinkedQueue<>();
-
   ExecutorService executorService = Executors.newCachedThreadPool();
 
   @Inject
@@ -44,9 +46,7 @@ public class EventService {
             e.printStackTrace();
           }
           if (this.eventListeners.get(eventType.getType()) != null) {
-            this.eventListeners
-                .get(eventType.getType())
-                .forEach(eventConsumer -> eventConsumer.accept(eventType));
+            fireEvent(eventType);
           }
         });
   }
@@ -77,9 +77,13 @@ public class EventService {
     while (postUpdateQueue.size() > 0) {
       EventType eventType = postUpdateQueue.poll();
       if (this.eventPostUpdateListeners.get(eventType.getType()) != null) {
-        this.eventPostUpdateListeners
-            .get(eventType.getType())
-            .forEach(eventConsumer -> eventConsumer.accept(eventType));
+        try {
+          this.eventPostUpdateListeners
+              .get(eventType.getType())
+              .forEach(eventConsumer -> eventConsumer.accept(eventType));
+        } catch (Exception e) {
+          LOGGER.error(e);
+        }
       }
     }
   }
