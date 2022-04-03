@@ -6,12 +6,16 @@ import app.user.User;
 import chunk.ActiveChunkManager;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.util.Modules;
+import com.google.inject.util.Providers;
 import common.ChunkClockMap;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
+import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
@@ -32,12 +36,14 @@ import java.util.concurrent.TimeUnit;
 import networking.ConnectionStore;
 import networking.client.ClientNetworkHandle;
 import networking.events.EventTypeFactory;
+import networking.events.consumer.client.incoming.HandshakeIncomingConsumerClient;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import util.mock.GdxTestRunner;
 
 @RunWith(GdxTestRunner.class)
@@ -57,8 +63,28 @@ public class testSingleClientRunningGame {
   @Before
   public void setup()
       throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
+    // block implementation of handshake
+    clientInjector =
+        Guice.createInjector(
+            Modules.override(new ClientConfig())
+                .with(
+                    new AbstractModule() {
+                      @Override
+                      protected void configure() {
+                        HandshakeIncomingConsumerClient handshakeIncomingConsumerClient =
+                            Mockito.spy(
+                                new HandshakeIncomingConsumerClient() {
+                                  @Override
+                                  public void accept(EventType eventType) {
+                                    System.out.println(
+                                        "OVERRIDE FOR HandshakeIncomingConsumerClient");
+                                  }
+                                });
 
-    clientInjector = Guice.createInjector(new ClientConfig());
+                        bind(HandshakeIncomingConsumerClient.class)
+                            .toProvider(Providers.of(handshakeIncomingConsumerClient));
+                      }
+                    }));
     serverInjector = Guice.createInjector(new BaseServerConfig());
 
     serverNetworkHandle = serverInjector.getInstance(ServerNetworkHandle.class);
@@ -435,7 +461,7 @@ public class testSingleClientRunningGame {
   }
 
   @Test
-  public void testEntityChunkSwap() throws InterruptedException, EntityNotFound {
+  public void testEntityChunkSwapRemovalEntity() throws InterruptedException, EntityNotFound {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameController serverGameController = serverInjector.getInstance(GameController.class);
@@ -472,6 +498,47 @@ public class testSingleClientRunningGame {
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore.doesEntityExist(myEntity.uuid);
+    assert (new ChunkRange(myEntity.coordinates)).equals(chunkRangeToTest);
     assert !clientGameStore.doesEntityExist(myEntity.uuid);
+  }
+
+  @Test
+  public void testEntityChunkSwapCreateEntity() throws InterruptedException, EntityNotFound {
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+    GameController serverGameController = serverInjector.getInstance(GameController.class);
+    ChunkFactory serverChunkFactory = serverInjector.getInstance(ChunkFactory.class);
+    ActiveChunkManager serverActiveChunkManager =
+        serverInjector.getInstance(ActiveChunkManager.class);
+    ConnectionStore serverConnectionStore = serverInjector.getInstance(ConnectionStore.class);
+
+    User clientUser = clientInjector.getInstance(User.class);
+    assert serverConnectionStore.getConnection(clientUser.getUserID()) != null;
+
+    Coordinates coordinatesInit = new Coordinates(-1000, 1000);
+
+    serverGameStore.addChunk(serverChunkFactory.create(new ChunkRange(coordinatesInit)));
+
+    Coordinates coordinatesToTest = new Coordinates(0, 0);
+    ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
+
+    serverActiveChunkManager.addUserChunkSubscriptions(
+        clientUser.getUserID(), new ChunkRange(coordinatesToTest));
+    Entity myEntity = serverGameController.createEntity(coordinatesInit);
+
+    TimeUnit.SECONDS.sleep(1);
+
+    // assert client doesn't have chunk
+    // assert client doesnt have entity
+    assert !clientGameStore.doesChunkExist(new ChunkRange(coordinatesInit));
+    assert !clientGameStore.doesEntityExist(myEntity.uuid);
+
+    serverGameController.moveEntity(myEntity.uuid, coordinatesToTest);
+
+    TimeUnit.SECONDS.sleep(1);
+
+    assert serverGameStore.doesEntityExist(myEntity.uuid);
+    assert (new ChunkRange(myEntity.coordinates)).equals(chunkRangeToTest);
+    assert clientGameStore.doesEntityExist(myEntity.uuid);
   }
 }

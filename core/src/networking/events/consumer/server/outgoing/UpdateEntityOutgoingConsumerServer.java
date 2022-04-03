@@ -3,7 +3,6 @@ package networking.events.consumer.server.outgoing;
 import app.user.UserID;
 import chunk.ActiveChunkManager;
 import com.google.inject.Inject;
-import common.events.EventService;
 import common.events.types.EventType;
 import java.util.function.Consumer;
 import networking.NetworkObjects;
@@ -12,7 +11,6 @@ import networking.server.ServerNetworkHandle;
 
 public class UpdateEntityOutgoingConsumerServer implements Consumer<EventType> {
 
-  @Inject EventService eventService;
   @Inject ActiveChunkManager activeChunkManager;
   @Inject ServerNetworkHandle serverNetworkHandle;
 
