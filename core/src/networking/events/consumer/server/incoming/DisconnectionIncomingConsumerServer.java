@@ -56,6 +56,7 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
           activeChunkManager.getChunkRangeUsers(new ChunkRange(entity.coordinates))) {
         serverNetworkHandle.send(subscriptionUserID, removeEntityOutgoingEvent.toNetworkEvent());
       }
+      activeEntityManager.deregisterUser(realEvent.getUserID());
     }
   }
 }

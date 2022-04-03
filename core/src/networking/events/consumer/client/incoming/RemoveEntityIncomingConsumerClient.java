@@ -6,8 +6,11 @@ import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
 import java.util.function.Consumer;
 import networking.events.types.incoming.RemoveEntityIncomingEventType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
+  final Logger LOGGER = LogManager.getLogger();
   @Inject GameController gameController;
 
   @Override
@@ -16,7 +19,7 @@ public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
     try {
       gameController.triggerRemoveEntity(incoming.getTarget());
     } catch (EntityNotFound e) {
-      e.printStackTrace();
+      LOGGER.error(e);
     }
   }
 }

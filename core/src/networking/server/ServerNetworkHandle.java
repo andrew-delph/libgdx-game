@@ -144,7 +144,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
   public synchronized void initHandshake(UserID userID, ChunkRange chunkRange) {
     if (syncService.isHandshakeLocked(userID, chunkRange)) {
-      LOGGER.info("SERVER INIT LOCKED");
+      LOGGER.info("SERVER INIT LOCKED " + userID.toString() + " " + chunkRange);
       return;
     }
     syncService.lockHandshake(userID, chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
@@ -152,6 +152,6 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange, uuidList);
     this.send(userID, handshakeOutgoing.toNetworkEvent());
-    LOGGER.info("SERVER INIT HANDSHAKE " + userID.toString());
+    LOGGER.info("SERVER INIT HANDSHAKE " + userID.toString() + " " + chunkRange);
   }
 }

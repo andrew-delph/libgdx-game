@@ -4,19 +4,18 @@ import com.google.inject.Inject;
 import common.events.types.EventType;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class EventService {
 
-  Map<String, List<Consumer<common.events.types.EventType>>> eventListeners = new HashMap<>();
-  Map<String, List<Consumer<common.events.types.EventType>>> eventPostUpdateListeners =
-      new HashMap<>();
-  List<common.events.types.EventType> postUpdateEventTypeList = new LinkedList<>();
+  Map<String, List<Consumer<EventType>>> eventListeners = new HashMap<>();
+  Map<String, List<Consumer<EventType>>> eventPostUpdateListeners = new HashMap<>();
+  ConcurrentLinkedQueue<EventType> postUpdateQueue = new ConcurrentLinkedQueue<>();
 
   ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -58,8 +57,8 @@ public class EventService {
     this.eventPostUpdateListeners.get(type).add(eventConsumer);
   }
 
-  public void queuePostUpdateEvent(EventType eventType) {
-    this.postUpdateEventTypeList.add(eventType);
+  public synchronized void queuePostUpdateEvent(EventType eventType) {
+    this.postUpdateQueue.add(eventType);
   }
 
   public void queuePostUpdateEvent(Long sleep, EventType eventType) {
@@ -70,15 +69,13 @@ public class EventService {
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
-          this.postUpdateEventTypeList.add(eventType);
+          this.queuePostUpdateEvent(eventType);
         });
   }
 
-  public void firePostUpdateEvents() {
-    List<common.events.types.EventType> postUpdateEventTypeListCopy =
-        new LinkedList<>(this.postUpdateEventTypeList);
-    this.postUpdateEventTypeList = new LinkedList<>();
-    for (EventType eventType : postUpdateEventTypeListCopy) {
+  public synchronized void firePostUpdateEvents() {
+    while (postUpdateQueue.size() > 0) {
+      EventType eventType = postUpdateQueue.poll();
       if (this.eventPostUpdateListeners.get(eventType.getType()) != null) {
         this.eventPostUpdateListeners
             .get(eventType.getType())

@@ -24,7 +24,7 @@ public class EntityBodyBuilder {
   @Inject
   public EntityBodyBuilder() {}
 
-  public static Body createEntityBody(World world, Coordinates coordinates) {
+  public static synchronized Body createEntityBody(World world, Coordinates coordinates) {
     float center_x =
         -(GameSettings.PHYSICS_SCALE - (Entity.staticWidth * GameSettings.PHYSICS_SCALE)) / 2f;
     float center_y =
@@ -134,7 +134,7 @@ public class EntityBodyBuilder {
     return theBody;
   }
 
-  public static Body createSolidBlockBody(World world, Coordinates coordinates) {
+  public static synchronized Body createSolidBlockBody(World world, Coordinates coordinates) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
@@ -162,11 +162,11 @@ public class EntityBodyBuilder {
     return theBody;
   }
 
-  public static Body createEmptyBlockBody() {
+  public static synchronized Body createEmptyBlockBody() {
     return null;
   }
 
-  public static Body createEmptyLadderBody(World world, Coordinates coordinates) {
+  public static synchronized Body createEmptyLadderBody(World world, Coordinates coordinates) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(

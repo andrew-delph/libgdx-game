@@ -46,7 +46,8 @@ public class PingService extends TimerTask {
     long avgPing;
     long avgDiff;
     try {
-      List<PingObject> pingObjectList = new LinkedList<>(pingObjectMap.get(userID).values());
+      List<PingObject> pingObjectList =
+          new LinkedList<>(pingObjectMap.getOrDefault(userID, new LinkedHashMap<>()).values());
 
       Predicate<PingObject> hasResponse =
           pingObject ->
@@ -61,6 +62,8 @@ public class PingService extends TimerTask {
         totalPing += pingObject.calcPingTime();
         totalDiff += pingObject.getResponseTime() - pingObject.getReceiverTime();
       }
+
+      if (pingObjectList.size() == 0) return 0;
 
       avgPing = totalPing / pingObjectList.size();
       avgDiff = totalDiff / pingObjectList.size();

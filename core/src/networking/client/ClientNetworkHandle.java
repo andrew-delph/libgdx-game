@@ -108,7 +108,6 @@ public class ClientNetworkHandle {
       } else {
         // make the chunk
         myChunk = chunkFactory.create(chunkRange);
-        gameStore.addChunk(myChunk);
       }
     }
 
@@ -155,8 +154,9 @@ public class ClientNetworkHandle {
             try {
               Pair<ChunkRange, List<Entity>> chunkData =
                   entitySerializationConverter.createChunkData(networkEvent.getData());
-              myChunk.addAllEntity(chunkData.snd);
-              gameStore.addChunk(myChunk);
+              for (Entity toAdd : chunkData.snd) {
+                gameStore.addEntity(toAdd);
+              }
             } catch (SerializationDataMissing e) {
               e.printStackTrace();
             }
@@ -188,14 +188,14 @@ public class ClientNetworkHandle {
 
   public synchronized void initHandshake(ChunkRange chunkRange) {
     if (syncService.isHandshakeLocked(this.user.getUserID(), chunkRange)) {
-      LOGGER.info("CLIENT INIT LOCKED");
+      LOGGER.info("CLIENT INIT LOCKED " + " " + chunkRange);
       return;
     }
     syncService.lockHandshake(user.getUserID(), chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange);
     this.send(handshakeOutgoing.toNetworkEvent());
-    LOGGER.info("CLIENT INIT HANDSHAKE " + this.user.toString());
+    LOGGER.info("CLIENT INIT HANDSHAKE " + chunkRange);
   }
 
   public void close() {
