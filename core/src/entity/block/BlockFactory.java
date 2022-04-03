@@ -14,20 +14,17 @@ public class BlockFactory {
   BlockFactory() {}
 
   public DirtBlock createDirt(Coordinates coordinates) {
-    DirtBlock block = new DirtBlock(clock, baseAssetManager, entityBodyBuilder);
-    block.coordinates = coordinates;
+    DirtBlock block = new DirtBlock(clock, baseAssetManager, entityBodyBuilder, coordinates);
     return block;
   }
 
   public StoneBlock createStone(Coordinates coordinates) {
-    StoneBlock stoneBlock = new StoneBlock(clock, baseAssetManager, entityBodyBuilder);
-    stoneBlock.coordinates = coordinates;
+    StoneBlock stoneBlock = new StoneBlock(clock, baseAssetManager, entityBodyBuilder, coordinates);
     return stoneBlock;
   }
 
   public SkyBlock createSky(Coordinates coordinates) {
-    SkyBlock skyBlock = new SkyBlock(clock, baseAssetManager, entityBodyBuilder);
-    skyBlock.coordinates = coordinates;
+    SkyBlock skyBlock = new SkyBlock(clock, baseAssetManager, entityBodyBuilder, coordinates);
     return skyBlock;
   }
 }
