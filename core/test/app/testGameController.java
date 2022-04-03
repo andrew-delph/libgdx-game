@@ -8,6 +8,7 @@ import common.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;
 import common.events.EventService;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import configuration.ClientConfig;
 import entity.Entity;
@@ -39,7 +40,7 @@ public class testGameController {
   }
 
   @Test
-  public void testEntitySync() throws EntityNotFound {
+  public void testEntitySync() throws EntityNotFound, ChunkNotFound {
     eventConsumer.init();
     ChunkRange chunkRange1 = new ChunkRange(new Coordinates(0, 0));
     ChunkRange chunkRange2 = chunkRange1.getRight();

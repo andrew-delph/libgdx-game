@@ -1,10 +1,10 @@
 package networking.events.consumer.client.incoming;
 
 import app.GameController;
-import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.EventType;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
@@ -43,9 +43,9 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
     // TODO remove or update
     try {
       gameController.triggerAddEntity(entity);
-    } catch (NullPointerException e) {
-      LOGGER.error("e: " + new ChunkRange(entity.coordinates));
-      throw e;
+    } catch (ChunkNotFound e) {
+      LOGGER.error(e);
+      throw new NullPointerException(e.toString());
     }
   }
 }

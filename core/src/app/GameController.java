@@ -7,6 +7,7 @@ import common.Coordinates;
 import common.Direction;
 import common.GameStore;
 import common.events.EventService;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.EntityFactory;
@@ -31,8 +32,8 @@ public class GameController {
   @Inject EventTypeFactory eventTypeFactory;
   @Inject BlockFactory blockFactory;
 
-  public Entity addEntity(Entity entity) {
-    this.gameStore.addEntity(entity);
+  public Entity addEntity(Entity entity) throws ChunkNotFound {
+    triggerAddEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(entity.coordinates));
@@ -40,7 +41,7 @@ public class GameController {
     return entity;
   }
 
-  public Entity triggerAddEntity(Entity entity) {
+  public Entity triggerAddEntity(Entity entity) throws ChunkNotFound {
     this.gameStore.addEntity(entity);
     return entity;
   }
@@ -63,7 +64,7 @@ public class GameController {
     return this.gameStore.removeEntity(uuid);
   }
 
-  public Entity createEntity(Coordinates coordinates) {
+  public Entity createEntity(Coordinates coordinates) throws ChunkNotFound {
     Entity entity = entityFactory.createEntity(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
@@ -73,7 +74,7 @@ public class GameController {
     return entity;
   }
 
-  public Block createSkyBlock(Coordinates coordinates) {
+  public Block createSkyBlock(Coordinates coordinates) throws ChunkNotFound {
     Block entity = blockFactory.createSky(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
@@ -83,7 +84,7 @@ public class GameController {
     return entity;
   }
 
-  public Block createDirtBlock(Coordinates coordinates) {
+  public Block createDirtBlock(Coordinates coordinates) throws ChunkNotFound {
     Block entity = blockFactory.createDirt(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
@@ -93,7 +94,7 @@ public class GameController {
     return entity;
   }
 
-  public Block createStoneBlock(Coordinates coordinates) {
+  public Block createStoneBlock(Coordinates coordinates) throws ChunkNotFound {
     Block entity = blockFactory.createStone(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
@@ -103,7 +104,7 @@ public class GameController {
     return entity;
   }
 
-  public Entity createLadder(Coordinates coordinates) {
+  public Entity createLadder(Coordinates coordinates) throws ChunkNotFound {
     try {
       if (!(this.gameStore.getBlock(coordinates) instanceof EmptyBlock)) {
         LOGGER.debug("Did not find EmptyBlock");
@@ -125,10 +126,11 @@ public class GameController {
 
   public void moveEntity(UUID uuid, Coordinates coordinates) throws EntityNotFound {
     Entity entity = this.gameStore.getEntity(uuid);
+    Coordinates preCoordinates = entity.coordinates;
     entity.coordinates = coordinates;
     this.eventService.fireEvent(
         EventTypeFactory.createUpdateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(coordinates)));
+            entity.toNetworkData(), new ChunkRange(preCoordinates)));
   }
 
   public void placeBlock(Entity entity, Direction direction, Class blockClass)
@@ -171,12 +173,13 @@ public class GameController {
             target.uuid, replacementBlock, new ChunkRange(target.coordinates)));
   }
 
-  public Entity triggerReplaceEntity(UUID target, Entity replacementEntity) throws EntityNotFound {
+  public Entity triggerReplaceEntity(UUID target, Entity replacementEntity)
+      throws EntityNotFound, ChunkNotFound {
     return triggerReplaceEntity(target, replacementEntity, false);
   }
 
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity, Boolean swapVelocity)
-      throws EntityNotFound {
+      throws EntityNotFound, ChunkNotFound {
     Vector2 velocity = null;
     Entity removeEntity = this.gameStore.getEntity(target);
     if (swapVelocity) {

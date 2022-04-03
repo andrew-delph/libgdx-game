@@ -2,6 +2,7 @@ package common.events;
 
 import com.google.inject.Inject;
 import common.events.types.CreateAIEntityEventType;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.controllers.EntityControllerFactory;
@@ -32,6 +33,8 @@ public class SoloEventConsumer extends EventConsumer {
                 entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
 
           } catch (EntityNotFound e) {
+            e.printStackTrace();
+          } catch (ChunkNotFound e) {
             e.printStackTrace();
           }
         });

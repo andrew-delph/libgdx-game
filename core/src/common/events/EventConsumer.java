@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceEntityEventType;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.ActiveEntityManager;
 import org.apache.logging.log4j.LogManager;
@@ -34,14 +35,14 @@ public class EventConsumer {
                 realEvent.getTargetUUID(),
                 realEvent.getReplacementEntity(),
                 realEvent.getSwapVelocity());
-          } catch (EntityNotFound e) {
+          } catch (EntityNotFound | ChunkNotFound e) {
             LOGGER.error(e);
           }
         });
     this.eventService.addPostUpdateListener(
-        common.events.types.RemoveEntityEventType.type,
+        RemoveEntityEventType.type,
         event -> {
-          common.events.types.RemoveEntityEventType realEvent = (RemoveEntityEventType) event;
+          RemoveEntityEventType realEvent = (RemoveEntityEventType) event;
           try {
             this.gameStore.removeEntity(realEvent.getEntityUUID());
             activeEntityManager.removeActiveEntity(user.getUserID(), realEvent.getEntityUUID());

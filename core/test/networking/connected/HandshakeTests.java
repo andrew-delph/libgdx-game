@@ -14,6 +14,7 @@ import common.Coordinates;
 import common.GameSettings;
 import common.GameStore;
 import common.events.EventService;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
@@ -125,7 +126,7 @@ public class HandshakeTests {
   }
 
   @Test
-  public void testServerInitServerExtra() throws InterruptedException {
+  public void testServerInitServerExtra() throws InterruptedException, ChunkNotFound {
     // THIS TEST ONLY VERIFIES THE CLIENT REMOVED THE EXTRA
     Coordinates coordinatesToTest = new Coordinates(0, 0);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
@@ -178,7 +179,7 @@ public class HandshakeTests {
   }
 
   @Test
-  public void testServerInitServer() throws InterruptedException {
+  public void testServerInitServer() throws InterruptedException, ChunkNotFound {
     Coordinates coordinatesToTest = new Coordinates(0, 0);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
@@ -205,7 +206,7 @@ public class HandshakeTests {
   }
 
   @Test
-  public void testServerInitClient() throws InterruptedException {
+  public void testServerInitClient() throws InterruptedException, ChunkNotFound {
     Coordinates coordinatesToTest = new Coordinates(0, 0);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
@@ -253,7 +254,8 @@ public class HandshakeTests {
   }
 
   @Test
-  public void testServerInitUpdateHandshake() throws InterruptedException, EntityNotFound {
+  public void testServerInitUpdateHandshake()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
     // client updates an entity that doesn't exist
     Coordinates coordinatesToTest = new Coordinates(0, 0);
     Coordinates coordinatesToMove = new Coordinates(1, 1);
@@ -283,7 +285,8 @@ public class HandshakeTests {
   }
 
   @Test
-  public void testServerInitReplaceHandshake() throws InterruptedException {
+  public void testServerInitReplaceHandshake()
+      throws InterruptedException, ChunkNotFound, EntityNotFound {
     // client replaces an entity that doesn't exist on the server
     BlockFactory blockFactory = clientInjector.getInstance(BlockFactory.class);
     Coordinates coordinatesToTest = new Coordinates(0, 0);
@@ -302,6 +305,8 @@ public class HandshakeTests {
 
     clientGameController.addEntity(e1);
     TimeUnit.SECONDS.sleep(1);
+    assert serverGameStore.getEntity(e1.uuid) != null;
+    assert clientGameStore.getEntity(e1.uuid) != null;
     assert serverChunk.equals(clientChunk);
 
     clientGameStore.addEntity(blockToRemove);
@@ -310,13 +315,14 @@ public class HandshakeTests {
 
     // this will trigger the handshake
     clientGameController.replaceBlock(blockToRemove, blockToReplace);
+    tickClocks(1000, 0.1f);
     TimeUnit.SECONDS.sleep(1);
-    tickClocks(100, 0.1f);
     assert serverChunk.equals(clientChunk);
   }
 
   @Test
-  public void testClientInitUpdateHandshake() throws InterruptedException, EntityNotFound {
+  public void testClientInitUpdateHandshake()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
     // server updates an entity that doesn't exist on client
     Coordinates coordinatesToTest = new Coordinates(0, 0);
     Coordinates coordinatesToMove = new Coordinates(1, 1);
@@ -350,7 +356,8 @@ public class HandshakeTests {
 
   @Test
   public void testClientInitReplaceHandshake()
-      throws InterruptedException, WrongVersion, SerializationDataMissing, IOException {
+      throws InterruptedException, WrongVersion, SerializationDataMissing, IOException,
+          ChunkNotFound {
     // server updates an entity that doesn't exist on client
     BlockFactory blockFactory = clientInjector.getInstance(BlockFactory.class);
     Coordinates coordinatesToTest = new Coordinates(0, 0);

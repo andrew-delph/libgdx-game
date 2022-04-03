@@ -16,6 +16,7 @@ import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
 import common.events.types.EventType;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
@@ -43,8 +44,25 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import util.mock.GdxTestRunner;
+
+class MockHandshakeIncomingConsumerClient extends HandshakeIncomingConsumerClient {
+
+  private Boolean called = false;
+
+  public Boolean getCalled() {
+    return called;
+  }
+
+  public void setCalled(Boolean called) {
+    this.called = called;
+  }
+
+  public void accept(EventType eventType) {
+    System.out.println("OVERRIDE FOR HandshakeIncomingConsumerClient");
+    setCalled(true);
+  }
+}
 
 @RunWith(GdxTestRunner.class)
 public class testSingleClientRunningGame {
@@ -60,6 +78,8 @@ public class testSingleClientRunningGame {
 
   Game clientGame, serverGame;
 
+  MockHandshakeIncomingConsumerClient mockHandshakeIncomingConsumerClient;
+
   @Before
   public void setup()
       throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
@@ -71,24 +91,18 @@ public class testSingleClientRunningGame {
                     new AbstractModule() {
                       @Override
                       protected void configure() {
-                        HandshakeIncomingConsumerClient handshakeIncomingConsumerClient =
-                            Mockito.spy(
-                                new HandshakeIncomingConsumerClient() {
-                                  @Override
-                                  public void accept(EventType eventType) {
-                                    System.out.println(
-                                        "OVERRIDE FOR HandshakeIncomingConsumerClient");
-                                  }
-                                });
-
                         bind(HandshakeIncomingConsumerClient.class)
-                            .toProvider(Providers.of(handshakeIncomingConsumerClient));
+                            .toProvider(Providers.of(new MockHandshakeIncomingConsumerClient()));
                       }
                     }));
     serverInjector = Guice.createInjector(new BaseServerConfig());
 
     serverNetworkHandle = serverInjector.getInstance(ServerNetworkHandle.class);
     clientNetworkHandle = clientInjector.getInstance(ClientNetworkHandle.class);
+
+    mockHandshakeIncomingConsumerClient =
+        (MockHandshakeIncomingConsumerClient)
+            clientInjector.getInstance(HandshakeIncomingConsumerClient.class);
 
     clientGame = clientInjector.getInstance(Game.class);
     serverGame = serverInjector.getInstance(Game.class);
@@ -102,6 +116,8 @@ public class testSingleClientRunningGame {
 
   @After
   public void cleanup() {
+    assert !mockHandshakeIncomingConsumerClient.getCalled();
+
     try {
       clientGame.stop();
     } catch (Exception e) {
@@ -124,7 +140,7 @@ public class testSingleClientRunningGame {
   }
 
   @Test
-  public void testClientCreateEntity() throws InterruptedException, EntityNotFound {
+  public void testClientCreateEntity() throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
@@ -147,7 +163,7 @@ public class testSingleClientRunningGame {
 
   @Test
   public void testClientCreateUpdateEntity()
-      throws IOException, InterruptedException, EntityNotFound {
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
@@ -178,7 +194,7 @@ public class testSingleClientRunningGame {
   }
 
   @Test
-  public void testClientCreateBlock() throws IOException, InterruptedException, EntityNotFound {
+  public void testClientCreateBlock() throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
@@ -198,7 +214,7 @@ public class testSingleClientRunningGame {
 
   @Test
   public void testClientCreateUpdateBlock()
-      throws IOException, InterruptedException, EntityNotFound {
+      throws IOException, InterruptedException, EntityNotFound, ChunkNotFound {
 
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
@@ -241,7 +257,7 @@ public class testSingleClientRunningGame {
 
   @Test
   public void testSubscriptionServerCreateEntity()
-      throws IOException, InterruptedException, EntityNotFound {
+      throws IOException, InterruptedException, EntityNotFound, ChunkNotFound {
     GameController serverGameController = serverInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     ChunkClockMap clientChunkClockMap = clientInjector.getInstance(ChunkClockMap.class);
@@ -265,7 +281,7 @@ public class testSingleClientRunningGame {
 
   @Test
   public void testSubscriptionServerCreateEntityUpdate()
-      throws IOException, InterruptedException, EntityNotFound {
+      throws IOException, InterruptedException, EntityNotFound, ChunkNotFound {
 
     GameController serverGameController = serverInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
@@ -293,7 +309,8 @@ public class testSingleClientRunningGame {
   }
 
   @Test
-  public void testClientDisconnectRemoveEntity() throws InterruptedException, EntityNotFound {
+  public void testClientDisconnectRemoveEntity()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
@@ -315,7 +332,7 @@ public class testSingleClientRunningGame {
   }
 
   @Test
-  public void testClientReplaceBlock() throws InterruptedException, EntityNotFound {
+  public void testClientReplaceBlock() throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
     GameController serverGameController = serverInjector.getInstance(GameController.class);
@@ -336,7 +353,7 @@ public class testSingleClientRunningGame {
   }
 
   @Test
-  public void testServerReplaceBlock() throws InterruptedException, EntityNotFound {
+  public void testServerReplaceBlock() throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     GameController serverGameController = serverInjector.getInstance(GameController.class);
@@ -416,7 +433,8 @@ public class testSingleClientRunningGame {
   }
 
   @Test
-  public void testRemoveClientToServer() throws InterruptedException, EntityNotFound {
+  public void testRemoveClientToServer()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameController serverGameController = serverInjector.getInstance(GameController.class);
@@ -436,7 +454,8 @@ public class testSingleClientRunningGame {
   }
 
   @Test
-  public void testRemoveServerToClient() throws InterruptedException, EntityNotFound {
+  public void testRemoveServerToClient()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameController serverGameController = serverInjector.getInstance(GameController.class);
@@ -461,7 +480,8 @@ public class testSingleClientRunningGame {
   }
 
   @Test
-  public void testEntityChunkSwapRemovalEntity() throws InterruptedException, EntityNotFound {
+  public void testEntityChunkSwapRemovalEntity()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameController serverGameController = serverInjector.getInstance(GameController.class);
@@ -503,9 +523,11 @@ public class testSingleClientRunningGame {
   }
 
   @Test
-  public void testEntityChunkSwapCreateEntity() throws InterruptedException, EntityNotFound {
+  public void testEntityChunkSwapCreateEntity()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+
     GameController serverGameController = serverInjector.getInstance(GameController.class);
     ChunkFactory serverChunkFactory = serverInjector.getInstance(ChunkFactory.class);
     ActiveChunkManager serverActiveChunkManager =

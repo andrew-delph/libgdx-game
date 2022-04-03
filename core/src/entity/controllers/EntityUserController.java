@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
 import common.Direction;
 import common.events.EventService;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.block.DirtBlock;
@@ -68,6 +69,8 @@ public class EntityUserController extends EntityController {
         }
       }
     } catch (EntityNotFound e) {
+      e.printStackTrace();
+    } catch (ChunkNotFound e) {
       e.printStackTrace();
     }
     if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {

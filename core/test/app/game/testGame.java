@@ -6,6 +6,7 @@ import com.google.inject.Injector;
 import common.Clock;
 import common.Coordinates;
 import common.GameStore;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
 import configuration.StandAloneConfig;
@@ -40,7 +41,7 @@ public class testGame {
   }
 
   @Test
-  public void testChunksRunningStandAlone() throws InterruptedException {
+  public void testChunksRunningStandAlone() throws InterruptedException, ChunkNotFound {
     clock.waitForTick(4);
     AtomicReference<Boolean> check = new AtomicReference<>(false);
     clock.waitForTick(

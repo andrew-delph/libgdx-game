@@ -7,6 +7,7 @@ import common.Coordinates;
 import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.EventType;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.ActiveEntityManager;
 import entity.Entity;
@@ -34,7 +35,7 @@ public class CreateAIEntityConsumerServer implements Consumer<EventType> {
       gameController.addEntity(aiEntity);
       aiEntity.setController(
           entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
-    } catch (EntityNotFound e) {
+    } catch (EntityNotFound | ChunkNotFound e) {
       e.printStackTrace();
     }
   }

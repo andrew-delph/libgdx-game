@@ -5,6 +5,7 @@ import static app.screen.GameScreen.pathDebugRender;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import common.Coordinates;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import entity.Entity;
 import entity.pathfinding.EntityStructure;
@@ -41,7 +42,8 @@ public class HorizontalGreedyEdge extends AbstractEdge {
 class HorizontalEdgeStepper extends EdgeStepper {
 
   @Override
-  public void follow(Entity entity, RelativePathNode relativePathNode) throws EdgeStepperException {
+  public void follow(Entity entity, RelativePathNode relativePathNode)
+      throws EdgeStepperException, ChunkNotFound {
     String actionKey;
 
     if (!entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase().getDown())
