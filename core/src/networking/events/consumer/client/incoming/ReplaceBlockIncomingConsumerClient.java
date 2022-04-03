@@ -7,8 +7,11 @@ import common.exceptions.EntityNotFound;
 import java.util.function.Consumer;
 import networking.client.ClientNetworkHandle;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ReplaceBlockIncomingConsumerClient implements Consumer<EventType> {
+  final Logger LOGGER = LogManager.getLogger();
   @Inject GameController gameController;
   @Inject ClientNetworkHandle clientNetworkHandle;
 
@@ -18,6 +21,7 @@ public class ReplaceBlockIncomingConsumerClient implements Consumer<EventType> {
     try {
       gameController.triggerReplaceEntity(incoming.getTarget(), incoming.getReplacementBlock());
     } catch (EntityNotFound e) {
+      LOGGER.error(e);
       clientNetworkHandle.initHandshake(incoming.getChunkRange());
     }
   }
