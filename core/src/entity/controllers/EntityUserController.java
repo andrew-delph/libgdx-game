@@ -70,7 +70,7 @@ public class EntityUserController extends EntityController {
     } catch (EntityNotFound e) {
       e.printStackTrace();
     }
-    if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+    if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
       gameController.createAI(this.entity.uuid);
     }
     if (Gdx.input.isKeyPressed(Input.Keys.W)) {
