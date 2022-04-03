@@ -20,13 +20,13 @@ public class Entity implements SerializeNetworkData {
   public EntityController entityController;
   public Animation animation;
   public Sprite sprite;
-  public Body body;
   public Coordinates coordinates;
   public int zindex = 1;
   public String textureName = "frog.png";
   public EntityBodyBuilder entityBodyBuilder;
   Clock clock;
   BaseAssetManager baseAssetManager;
+  private Body body;
   private int width;
   private int height;
 
