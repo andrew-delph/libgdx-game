@@ -1,5 +1,7 @@
 package entity.pathfinding;
 
+import static common.GameSettings.PATHING_THREADS;
+
 import com.google.inject.Inject;
 import common.Coordinates;
 import entity.pathfinding.edge.AbstractEdge;
@@ -16,7 +18,7 @@ import java.util.concurrent.Future;
 
 public class RelativePath implements Callable<Void> {
 
-  static ExecutorService executor = Executors.newFixedThreadPool(4);
+  static ExecutorService executor = Executors.newFixedThreadPool(PATHING_THREADS);
   public Coordinates target;
   public RelativePathNode finalPathNode = null;
   Coordinates source;
