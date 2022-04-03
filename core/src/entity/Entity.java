@@ -22,7 +22,6 @@ public class Entity implements SerializeNetworkData {
   public Sprite sprite;
   public Coordinates coordinates;
   public int zindex = 1;
-  public String textureName = "frog.png";
   public EntityBodyBuilder entityBodyBuilder;
   Clock clock;
   BaseAssetManager baseAssetManager;
@@ -31,17 +30,21 @@ public class Entity implements SerializeNetworkData {
   private int height;
 
   public Entity(
-      Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
+      Clock clock,
+      BaseAssetManager baseAssetManager,
+      EntityBodyBuilder entityBodyBuilder,
+      Coordinates coordinates) {
     this.setHeight((int) (Entity.staticHeight * GameSettings.PIXEL_SCALE));
     this.setWidth((int) (Entity.staticWidth * GameSettings.PIXEL_SCALE));
     this.clock = clock;
     this.baseAssetManager = baseAssetManager;
     this.entityBodyBuilder = entityBodyBuilder;
-    this.sprite = new Sprite();
-    this.sprite.setPosition(0, 0);
-    this.sprite.setSize(width, height);
-    this.coordinates = new Coordinates(0, 0);
+    this.coordinates = coordinates;
     this.uuid = UUID.randomUUID();
+  }
+
+  public String getTextureName() {
+    return "frog.png";
   }
 
   public int getWidth() {
@@ -77,8 +80,10 @@ public class Entity implements SerializeNetworkData {
   }
 
   public synchronized void renderSync() {
-    this.sprite = new Sprite((Texture) baseAssetManager.get(this.textureName));
-    this.sprite.setSize(this.getWidth(), this.getHeight());
+    if (this.sprite == null) {
+      this.sprite = new Sprite((Texture) baseAssetManager.get(this.getTextureName()));
+      this.sprite.setSize(this.getWidth(), this.getHeight());
+    }
     this.sprite.setPosition(
         this.coordinates.getXReal() * GameSettings.PIXEL_SCALE,
         this.coordinates.getYReal() * GameSettings.PIXEL_SCALE);
