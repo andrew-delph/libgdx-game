@@ -38,7 +38,7 @@ public class EntityPathController extends EntityController {
   }
 
   @Override
-  public void afterWorldUpdate() {
+  public void afterWorldUpdate() throws Exception {
     super.afterWorldUpdate();
   }
 

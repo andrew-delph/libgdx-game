@@ -59,7 +59,7 @@ public class GameScreen extends ApplicationAdapter {
     try {
       game.start();
     } catch (IOException | InterruptedException | SerializationDataMissing | WrongVersion e) {
-      LOGGER.error(e);
+      LOGGER.error(e, e);
       this.dispose();
     }
     batch = new SpriteBatch();

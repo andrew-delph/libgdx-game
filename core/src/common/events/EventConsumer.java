@@ -36,7 +36,7 @@ public class EventConsumer {
                 realEvent.getReplacementEntity(),
                 realEvent.getSwapVelocity());
           } catch (EntityNotFound | ChunkNotFound e) {
-            LOGGER.error(e);
+            LOGGER.error(e, e);
           }
         });
     this.eventService.addPostUpdateListener(
@@ -47,7 +47,7 @@ public class EventConsumer {
             this.gameStore.removeEntity(realEvent.getEntityUUID());
             activeEntityManager.removeActiveEntity(user.getUserID(), realEvent.getEntityUUID());
           } catch (EntityNotFound e) {
-            e.printStackTrace();
+            LOGGER.error(e, e);
           }
         });
   }

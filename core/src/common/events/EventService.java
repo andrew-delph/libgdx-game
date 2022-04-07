@@ -82,7 +82,7 @@ public class EventService {
               .get(eventType.getType())
               .forEach(eventConsumer -> eventConsumer.accept(eventType));
         } catch (Exception e) {
-          LOGGER.error(e);
+          LOGGER.error(e, e);
         }
       }
     }
