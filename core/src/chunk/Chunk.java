@@ -115,7 +115,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       try {
         if (entity.getBody() != null) this.world.destroyBody(entity.getBody());
       } catch (Exception e) {
-        LOGGER.error("Unable to delete body for:" + entity.uuid);
+        LOGGER.error("Unable to delete body for:" + entity.uuid, e);
       }
       bodySet.remove(entity.uuid);
     }
@@ -146,7 +146,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     return neighborChunkList;
   }
 
-  synchronized void update() {
+  synchronized void update() throws Exception {
     Set<Entity> neighborEntitySet = new HashSet<>();
 
     Coordinates neighborBottomLeft =

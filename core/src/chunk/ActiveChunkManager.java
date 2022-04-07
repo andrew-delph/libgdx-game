@@ -24,8 +24,8 @@ public class ActiveChunkManager {
   }
 
   public void addUserChunkSubscriptions(UserID userID, ChunkRange chunkRange) {
-    userIDChunkRange.putIfAbsent(userID, new HashSet<>());
-    chunkRangeUserID.putIfAbsent(chunkRange, new HashSet<>());
+    userIDChunkRange.putIfAbsent(userID, ConcurrentHashMap.newKeySet());
+    chunkRangeUserID.putIfAbsent(chunkRange, ConcurrentHashMap.newKeySet());
 
     userIDChunkRange.get(userID).add(chunkRange);
     chunkRangeUserID.get(chunkRange).add(userID);
