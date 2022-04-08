@@ -107,7 +107,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     return new LinkedList<Entity>(this.chunkMap.values());
   }
 
-  public Entity removeEntity(UUID uuid) throws EntityNotFound {
+  public synchronized Entity removeEntity(UUID uuid) throws EntityNotFound {
     Entity entity = this.getEntity(uuid);
     this.chunkMap.remove(uuid);
     if (bodySet.contains(entity.uuid)) {
