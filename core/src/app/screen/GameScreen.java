@@ -136,18 +136,11 @@ public class GameScreen extends ApplicationAdapter {
     if (GameSettings.RENDER_DEBUG) {
 
       Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
-      debugRenderer.render(mainChunk.world, debugMatrix);
+      synchronized (mainChunk) {
+        debugRenderer.render(mainChunk.world, debugMatrix);
+      }
       pathDebugRender.end();
 
-      debugMatrix =
-          batch
-              .getProjectionMatrix()
-              .cpy()
-              .scale(
-                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
-                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
-                  0)
-              .translate(0, 100, 0);
       Chunk lowerChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getDown());
       Chunk leftChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getLeft());
       Chunk rightChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getRight());
@@ -168,7 +161,9 @@ public class GameScreen extends ApplicationAdapter {
                           * GameSettings.CHUNK_SIZE
                           * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0);
-      debugRenderer.render(lowerChunk.world, debugMatrix);
+      synchronized (lowerChunk) {
+        debugRenderer.render(lowerChunk.world, debugMatrix);
+      }
 
       if (leftChunk == null) return;
       debugMatrix =
@@ -186,7 +181,9 @@ public class GameScreen extends ApplicationAdapter {
                           * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0,
                   0);
-      debugRenderer.render(leftChunk.world, debugMatrix);
+      synchronized (leftChunk) {
+        debugRenderer.render(leftChunk.world, debugMatrix);
+      }
 
       if (rightChunk == null) return;
       debugMatrix =
@@ -204,7 +201,9 @@ public class GameScreen extends ApplicationAdapter {
                           * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0,
                   0);
-      debugRenderer.render(rightChunk.world, debugMatrix);
+      synchronized (rightChunk) {
+        debugRenderer.render(rightChunk.world, debugMatrix);
+      }
     }
   }
 
