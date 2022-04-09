@@ -26,6 +26,13 @@ public class BaseCamera extends OrthographicCamera {
     Coordinates bottomLeftCoordinates = this.getBottomLeftCoordinates();
     Coordinates topRightCoordinates = this.getTopRightCoordinates();
 
+    int expandRange = 10;
+
+    for (int i = 0; i < expandRange; i++) {
+      bottomLeftCoordinates = bottomLeftCoordinates.getLeft().getDown();
+      topRightCoordinates = topRightCoordinates.getRight().getUp();
+    }
+
     return new HashSet<>(
         ChunkRange.getChunkRangeListTwoPoints(bottomLeftCoordinates, topRightCoordinates));
   }
