@@ -122,7 +122,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     return entity;
   }
 
-  List<Chunk> getNeighborChunks() {
+  public List<Chunk> getNeighborChunks() {
     List<Chunk> neighborChunkList = new LinkedList<>();
     neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getUp()));
     neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getDown()));

@@ -3,7 +3,7 @@ package common;
 import chunk.Chunk;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,9 +40,20 @@ public class ChunkClockMap {
     return this.map.keySet();
   }
 
-  List<Chunk> getChunksOnTick(Tick tick) {
-    return this.map.values().stream()
-        .filter(chunk -> chunk.updateTick.time == tick.time)
-        .collect(Collectors.toList());
+  Set<Chunk> getChunksOnTick(Tick tick) {
+    Set<Chunk> onMyTick =
+        this.map.values().stream()
+            .filter(chunk -> chunk.updateTick.time == tick.time)
+            .collect(Collectors.toSet());
+
+    Set<Chunk> surroundingChunks = new HashSet<>();
+
+    for (Chunk onTick : onMyTick) {
+      surroundingChunks.addAll(onTick.getNeighborChunks());
+    }
+
+    onMyTick.addAll(surroundingChunks);
+
+    return onMyTick;
   }
 }

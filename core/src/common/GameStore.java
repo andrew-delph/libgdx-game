@@ -132,7 +132,7 @@ public class GameStore {
     return new HashSet<>(this.entityMap.values());
   }
 
-  public List<Chunk> getChunkOnClock(Tick tick) {
+  public Set<Chunk> getChunkOnClock(Tick tick) {
     return this.chunkClockMap.getChunksOnTick(tick);
   }
 

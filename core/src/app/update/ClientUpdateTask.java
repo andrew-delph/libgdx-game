@@ -10,7 +10,6 @@ import common.events.EventService;
 import entity.ActiveEntityManager;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -79,7 +78,7 @@ public class ClientUpdateTask extends UpdateTask {
     }
 
     try {
-      List<Chunk> listChunk = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
+      Set<Chunk> listChunk = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
       executor.invokeAll(listChunk);
     } catch (InterruptedException e) {
       e.printStackTrace();
