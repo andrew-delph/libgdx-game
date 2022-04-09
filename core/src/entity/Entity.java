@@ -21,7 +21,7 @@ public class Entity implements SerializeNetworkData {
   public Animation animation;
   public Sprite sprite;
   public Coordinates coordinates;
-  public int zindex = 1;
+  public int zindex = 3;
   public EntityBodyBuilder entityBodyBuilder;
   Clock clock;
   BaseAssetManager baseAssetManager;

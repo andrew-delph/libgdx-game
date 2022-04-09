@@ -75,7 +75,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     return this;
   }
 
-  public void addEntity(Entity entity) {
+  public synchronized void addEntity(Entity entity) {
     this.chunkMap.put(entity.uuid, entity);
     if (!bodySet.contains(entity.uuid)) {
       Body bodyToAdd = entity.addWorld(world);
