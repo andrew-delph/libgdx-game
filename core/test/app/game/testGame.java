@@ -53,12 +53,12 @@ public class testGame {
     clock.waitForTick(
         3,
         () -> {
-          check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 1);
+          check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() > 1);
         });
     assert check.get();
     clock.waitForTick(
         () -> {
-          check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 1);
+          check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() > 1);
         });
     assert check.get();
   }
