@@ -117,7 +117,7 @@ project(":core") {
         implementation 'org.apache.tomcat:annotations-api:6.0.53'
         implementation 'com.google.inject:guice:4.0:no_aop'
         implementation 'org.apache.logging.log4j:log4j-api:2.17.2'
-        annotationProcessor 'org.apache.logging.log4j:log4j-core:2.17.2'
+        implementation 'org.apache.logging.log4j:log4j-core:2.17.2'
         implementation "com.google.guava:guava:31.1-jre"
 
         testImplementation 'org.hamcrest:hamcrest-library:2.1'
