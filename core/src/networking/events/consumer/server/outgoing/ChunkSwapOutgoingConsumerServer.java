@@ -8,6 +8,7 @@ import common.GameStore;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 import networking.NetworkObjects;
@@ -27,16 +28,29 @@ public class ChunkSwapOutgoingConsumerServer implements Consumer<EventType> {
 
   @Override
   public void accept(EventType eventType) {
+    /*
+     Happens when an entity is chunk swapped on the server.
+     The client needs to remove the entity if they don't have the chunk that it is swapped to.
+     If the client doesn't have the chunk the entity is swapped into. It needs to create that entity.
+
+     userIDSFrom are the users which don't have the chunks moved to
+     userIDSTo are the users which don't have the chunk moved from
+
+    */
     ChunkSwapOutgoingEventType chunkSwapOutgoingEventType = (ChunkSwapOutgoingEventType) eventType;
     NetworkObjects.NetworkEvent chunkSwapOutgoingNetworkEvent =
         chunkSwapOutgoingEventType.toNetworkEvent();
 
-    Set<UserID> userIDSFrom =
+    Set<UserID> userIDSFromOriginal =
         activeChunkManager.getChunkRangeUsers(chunkSwapOutgoingEventType.getFrom());
-    Set<UserID> userIDSTo =
+    Set<UserID> userIDSToOriginal =
         activeChunkManager.getChunkRangeUsers(chunkSwapOutgoingEventType.getTo());
-    userIDSFrom.removeAll(userIDSTo);
-    userIDSTo.removeAll(userIDSFrom);
+
+    Set<UserID> userIDSFrom = (new HashSet<>(userIDSFromOriginal));
+    userIDSFrom.removeAll(userIDSToOriginal);
+
+    Set<UserID> userIDSTo = (new HashSet<>(userIDSToOriginal));
+    userIDSTo.removeAll(userIDSFromOriginal);
 
     for (UserID userID : userIDSFrom) {
       serverNetworkHandle.send(userID, chunkSwapOutgoingNetworkEvent);

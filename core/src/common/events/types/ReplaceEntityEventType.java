@@ -38,6 +38,20 @@ public class ReplaceEntityEventType extends EventType {
   }
 
   @Override
+  public String toString() {
+    return "ReplaceEntityEventType{"
+        + "target="
+        + target
+        + ", replacementEntity="
+        + replacementEntity
+        + ", chunkRange="
+        + chunkRange
+        + ", swapVelocity="
+        + swapVelocity
+        + '}';
+  }
+
+  @Override
   public String getType() {
     return type;
   }

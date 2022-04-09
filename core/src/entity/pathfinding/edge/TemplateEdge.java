@@ -93,7 +93,7 @@ class TemplateEdgeStepper extends EdgeStepper {
     RelativeActionEdge currentEdge = this.actionEdgeList.get(currentStep);
     currentStep++;
     String actionKey = currentEdge.actionKey;
-    entity.entityController.applyAction(actionKey, entity.getBody());
+    entity.getEntityController().applyAction(actionKey, entity.getBody());
     if (currentStep == this.actionEdgeList.size()) this.finish();
   }
 }

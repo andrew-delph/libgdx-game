@@ -70,13 +70,12 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     try {
       this.update();
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.error("CHUNK UPDATE FAILED", e);
     }
     return this;
   }
 
   public synchronized void addEntity(Entity entity) {
-    this.queueChunkUpdates();
     this.chunkMap.put(entity.uuid, entity);
     if (!bodySet.contains(entity.uuid)) {
       Body bodyToAdd = entity.addWorld(world);
@@ -85,6 +84,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         bodySet.add(entity.uuid);
       }
     }
+    this.nextTick(1);
   }
 
   public void addAllEntity(List<Entity> entityList) {
@@ -120,16 +120,6 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       bodySet.remove(entity.uuid);
     }
     return entity;
-  }
-
-  void queueChunkUpdates() {
-    List<Chunk> chunkList = this.getNeighborChunks();
-    chunkList.add(this);
-
-    for (Chunk chunk : chunkList) {
-      Tick newTick = new Tick(clock.getCurrentTick().time + 1);
-      if (newTick.compareTo(chunk.updateTick) < 0) chunk.updateTick = newTick;
-    }
   }
 
   List<Chunk> getNeighborChunks() {
@@ -191,7 +181,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     int tickTimeout = Integer.MAX_VALUE;
 
     for (Entity entity : this.chunkMap.values()) {
-      if (entity.entityController != null) entity.entityController.beforeWorldUpdate();
+      if (entity.getEntityController() != null) entity.getEntityController().beforeWorldUpdate();
       try {
         this.gameStore.syncEntity(entity);
       } catch (EntityNotFound e) {
@@ -209,7 +199,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
         GameSettings.WORLD_POSITION_ITERATIONS);
 
     for (Entity entity : this.chunkMap.values()) {
-      if (entity.entityController != null) entity.entityController.afterWorldUpdate();
+      if (entity.getEntityController() != null) entity.getEntityController().afterWorldUpdate();
     }
     this.nextTick(tickTimeout);
   }

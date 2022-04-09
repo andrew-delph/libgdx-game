@@ -61,24 +61,24 @@ class HorizontalEdgeStepper extends EdgeStepper {
 
     if (relativePathNode.getEndPosition().getXReal() + 0.1 > entity.coordinates.getXReal()) {
       actionKey = "right";
-      if (entity.entityController.isActionValid(actionKey, entity.getBody())) {
-        entity.entityController.applyAction(actionKey, entity.getBody());
+      if (entity.getEntityController().isActionValid(actionKey, entity.getBody())) {
+        entity.getEntityController().applyAction(actionKey, entity.getBody());
       }
     } else if (relativePathNode.getEndPosition().getXReal() < entity.coordinates.getXReal()) {
       actionKey = "left";
-      if (entity.entityController.isActionValid(actionKey, entity.getBody())) {
-        entity.entityController.applyAction(actionKey, entity.getBody());
+      if (entity.getEntityController().isActionValid(actionKey, entity.getBody())) {
+        entity.getEntityController().applyAction(actionKey, entity.getBody());
       }
     }
     if (relativePathNode.getEndPosition().getYReal() > entity.coordinates.getYReal()) {
       actionKey = "climbUp";
-      if (entity.entityController.isActionValid(actionKey, entity.getBody())) {
-        entity.entityController.applyAction(actionKey, entity.getBody());
+      if (entity.getEntityController().isActionValid(actionKey, entity.getBody())) {
+        entity.getEntityController().applyAction(actionKey, entity.getBody());
       }
     } else if (relativePathNode.getEndPosition().getYReal() < entity.coordinates.getYReal() - 0.1) {
       actionKey = "climbDown";
-      if (entity.entityController.isActionValid(actionKey, entity.getBody())) {
-        entity.entityController.applyAction(actionKey, entity.getBody());
+      if (entity.getEntityController().isActionValid(actionKey, entity.getBody())) {
+        entity.getEntityController().applyAction(actionKey, entity.getBody());
       }
     }
   }

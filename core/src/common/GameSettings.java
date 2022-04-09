@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class GameSettings {
-  public static final boolean RENDER_DEBUG = true;
+  public static final boolean RENDER_DEBUG = false;
 
   public static final int UPDATE_INTERVAL = 15;
   public static final float WORLD_TIME_STEP = 1 / 5f;

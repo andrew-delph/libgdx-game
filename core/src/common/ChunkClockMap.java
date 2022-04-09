@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -41,7 +40,7 @@ public class ChunkClockMap {
     return this.map.keySet();
   }
 
-  List<Callable<Chunk>> getChunksOnTick(Tick tick) {
+  List<Chunk> getChunksOnTick(Tick tick) {
     return this.map.values().stream()
         .filter(chunk -> chunk.updateTick.time == tick.time)
         .collect(Collectors.toList());
