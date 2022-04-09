@@ -12,6 +12,7 @@ import entity.controllers.EntityController;
 import java.util.UUID;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkData;
+import networking.translation.NetworkDataSerializer;
 
 public class Entity implements SerializeNetworkData {
   public static float staticHeight = 0.8f;
@@ -104,17 +105,7 @@ public class Entity implements SerializeNetworkData {
   }
 
   public NetworkObjects.NetworkData toNetworkData() {
-    NetworkObjects.NetworkData uuid =
-        NetworkObjects.NetworkData.newBuilder()
-            .setKey(UUID.class.getName())
-            .setValue(this.uuid.toString())
-            .build();
-    return NetworkObjects.NetworkData.newBuilder()
-        .setKey("class")
-        .setValue(this.getClass().getName())
-        .addChildren(this.coordinates.toNetworkData())
-        .addChildren(uuid)
-        .build();
+    return NetworkDataSerializer.createEntity(this);
   }
 
   @Override

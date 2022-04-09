@@ -3,6 +3,7 @@ package networking.translation;
 import chunk.ChunkRange;
 import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
+import entity.Entity;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +17,20 @@ import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 
 public class NetworkDataSerializer {
+
+  public static NetworkObjects.NetworkData createEntity(Entity entity) {
+    NetworkObjects.NetworkData uuid =
+        NetworkObjects.NetworkData.newBuilder()
+            .setKey(UUID.class.getName())
+            .setValue(entity.uuid.toString())
+            .build();
+    return NetworkObjects.NetworkData.newBuilder()
+        .setKey("class")
+        .setValue(entity.getClass().getName())
+        .addChildren(entity.coordinates.toNetworkData())
+        .addChildren(uuid)
+        .build();
+  }
 
   public static NetworkObjects.NetworkData createUUIDList(List<UUID> uuidList) {
     List<NetworkObjects.NetworkData> dataList = new LinkedList<>();
