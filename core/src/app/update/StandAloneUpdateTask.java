@@ -33,6 +33,9 @@ public class StandAloneUpdateTask extends UpdateTask {
     - generate around active entities
     - don't delete chunks
      */
+
+    this.clock.tick();
+
     Set<ChunkRange> requiredChunkRanges = new HashSet<>();
 
     // get the set of onscreen chunks
@@ -42,7 +45,6 @@ public class StandAloneUpdateTask extends UpdateTask {
     // generate them all
     chunkGenerationService.queueChunkRangeToGenerate(requiredChunkRanges);
 
-    this.clock.tick();
     try {
       executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.getCurrentTick()));
     } catch (InterruptedException e) {

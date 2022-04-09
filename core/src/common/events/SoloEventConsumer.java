@@ -29,7 +29,7 @@ public class SoloEventConsumer extends EventConsumer {
 
             Entity aiTarget = gameStore.getEntity(realEvent.getTarget());
 
-            aiEntity.setController(
+            aiEntity.setEntityController(
                 entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
 
           } catch (EntityNotFound e) {

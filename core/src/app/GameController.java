@@ -185,7 +185,6 @@ public class GameController {
     if (swapVelocity) {
       velocity = removeEntity.getBody().getLinearVelocity();
     }
-    //    replacementEntity.coordinates = removeEntity.coordinates;
     this.gameStore.removeEntity(removeEntity.uuid);
     this.gameStore.addEntity(replacementEntity);
 

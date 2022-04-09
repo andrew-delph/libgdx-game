@@ -2,6 +2,7 @@ package chunk;
 
 import app.user.UserID;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,7 +24,7 @@ public class ActiveChunkManager {
     }
   }
 
-  public void addUserChunkSubscriptions(UserID userID, ChunkRange chunkRange) {
+  public synchronized void addUserChunkSubscriptions(UserID userID, ChunkRange chunkRange) {
     userIDChunkRange.putIfAbsent(userID, ConcurrentHashMap.newKeySet());
     chunkRangeUserID.putIfAbsent(chunkRange, ConcurrentHashMap.newKeySet());
 
@@ -39,11 +40,12 @@ public class ActiveChunkManager {
     userIDChunkRange.remove(userID);
   }
 
-  public Set<ChunkRange> getUserChunkRanges(UserID userID) {
-    return new HashSet<>(userIDChunkRange.getOrDefault(userID, new HashSet<>()));
+  public synchronized Set<ChunkRange> getUserChunkRanges(UserID userID) {
+    return Collections.unmodifiableSet((userIDChunkRange.getOrDefault(userID, new HashSet<>())));
   }
 
-  public Set<UserID> getChunkRangeUsers(ChunkRange chunkRange) {
-    return new HashSet<>(chunkRangeUserID.getOrDefault(chunkRange, new HashSet<>()));
+  public synchronized Set<UserID> getChunkRangeUsers(ChunkRange chunkRange) {
+    return Collections.unmodifiableSet(
+        (chunkRangeUserID.getOrDefault(chunkRange, new HashSet<>())));
   }
 }

@@ -17,7 +17,6 @@ public class Entity implements SerializeNetworkData {
   public static float staticHeight = 0.8f;
   public static float staticWidth = 0.8f;
   public UUID uuid;
-  public EntityController entityController;
   public Animation animation;
   public Sprite sprite;
   public Coordinates coordinates;
@@ -25,6 +24,7 @@ public class Entity implements SerializeNetworkData {
   public EntityBodyBuilder entityBodyBuilder;
   Clock clock;
   BaseAssetManager baseAssetManager;
+  private EntityController entityController;
   private Body body;
   private int width;
   private int height;
@@ -41,6 +41,14 @@ public class Entity implements SerializeNetworkData {
     this.entityBodyBuilder = entityBodyBuilder;
     this.coordinates = coordinates;
     this.uuid = UUID.randomUUID();
+  }
+
+  public EntityController getEntityController() {
+    return entityController;
+  }
+
+  public synchronized void setEntityController(EntityController entityController) {
+    this.entityController = entityController;
   }
 
   public String getTextureName() {
@@ -73,10 +81,6 @@ public class Entity implements SerializeNetworkData {
 
   public synchronized Body addWorld(World world) {
     return EntityBodyBuilder.createEntityBody(world, this.coordinates);
-  }
-
-  public synchronized void setController(EntityController entityController) {
-    this.entityController = entityController;
   }
 
   public synchronized void renderSync() {

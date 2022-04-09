@@ -73,7 +73,7 @@ public class GameScreen extends ApplicationAdapter {
       this.dispose();
     }
     LOGGER.info("my entity " + myEntity.uuid);
-    myEntity.setController(entityControllerFactory.createEntityUserController(myEntity));
+    myEntity.setEntityController(entityControllerFactory.createEntityUserController(myEntity));
     activeEntityManager.registerActiveEntity(user.getUserID(), myEntity.getUuid());
     debugRenderer = new Box2DDebugRenderer();
     pathDebugRender = new ShapeRenderer();
@@ -126,7 +126,7 @@ public class GameScreen extends ApplicationAdapter {
       try {
         entity.renderSync();
         entity.sprite.draw(batch);
-        if (entity.entityController != null) entity.entityController.render();
+        if (entity.getEntityController() != null) entity.getEntityController().render();
       } catch (Exception e) {
         e.printStackTrace();
       }

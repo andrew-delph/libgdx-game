@@ -33,7 +33,7 @@ public class CreateAIEntityConsumerServer implements Consumer<EventType> {
       Entity aiTarget = gameStore.getEntity(realEvent.getTarget());
       aiEntity.coordinates = realEvent.getCoordinates();
       gameController.addEntity(aiEntity);
-      aiEntity.setController(
+      aiEntity.setEntityController(
           entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
     } catch (EntityNotFound | ChunkNotFound e) {
       e.printStackTrace();
