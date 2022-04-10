@@ -1,6 +1,6 @@
 package entity.collision;
 
-import common.exceptions.BodyNotFound;
+import chunk.world.exceptions.BodyNotFound;
 
 public interface ContactWrapper {
   void beginContact(Object source, Object target) throws BodyNotFound;

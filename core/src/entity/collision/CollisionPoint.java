@@ -1,7 +1,7 @@
 package entity.collision;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import common.exceptions.BodyNotFound;
+import chunk.world.exceptions.BodyNotFound;
 
 public abstract class CollisionPoint {
 

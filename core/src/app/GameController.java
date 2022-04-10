@@ -7,7 +7,7 @@ import common.Coordinates;
 import common.Direction;
 import common.GameStore;
 import common.events.EventService;
-import common.exceptions.BodyNotFound;
+import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;

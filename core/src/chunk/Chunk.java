@@ -3,6 +3,7 @@ package chunk;
 import static common.GameSettings.GRAVITY;
 
 import app.GameController;
+import chunk.world.WorldWrapper;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -11,7 +12,7 @@ import common.Coordinates;
 import common.GameSettings;
 import common.GameStore;
 import common.Tick;
-import common.exceptions.BodyNotFound;
+import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.block.Block;

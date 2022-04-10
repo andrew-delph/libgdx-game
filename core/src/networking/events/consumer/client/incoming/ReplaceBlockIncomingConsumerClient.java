@@ -3,7 +3,7 @@ package networking.events.consumer.client.incoming;
 import app.GameController;
 import com.google.inject.Inject;
 import common.events.types.EventType;
-import common.exceptions.BodyNotFound;
+import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import java.util.function.Consumer;

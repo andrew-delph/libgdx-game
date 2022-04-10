@@ -6,7 +6,7 @@ import app.GameController;
 import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import common.GameStore;
-import common.exceptions.BodyNotFound;
+import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import common.exceptions.EntityNotFound;

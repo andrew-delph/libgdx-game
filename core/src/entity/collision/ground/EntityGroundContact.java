@@ -2,7 +2,7 @@ package entity.collision.ground;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
-import common.exceptions.BodyNotFound;
+import chunk.world.exceptions.BodyNotFound;
 import entity.collision.CollisionPair;
 import entity.collision.CollisionService;
 import entity.collision.ContactWrapper;

@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import common.Clock;
 import common.Coordinates;
 import common.GameSettings;
-import common.exceptions.BodyNotFound;
+import chunk.world.exceptions.BodyNotFound;
 import entity.controllers.EntityController;
 import java.util.UUID;
 import networking.NetworkObjects;

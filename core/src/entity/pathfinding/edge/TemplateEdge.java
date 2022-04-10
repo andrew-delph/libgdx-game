@@ -5,7 +5,7 @@ import static app.screen.GameScreen.pathDebugRender;
 import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import common.GameSettings;
-import common.exceptions.BodyNotFound;
+import chunk.world.exceptions.BodyNotFound;
 import entity.Entity;
 import entity.pathfinding.EntityStructure;
 import entity.pathfinding.PathGameStoreOverride;

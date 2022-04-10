@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceEntityEventType;
-import common.exceptions.BodyNotFound;
+import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.ActiveEntityManager;
