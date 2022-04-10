@@ -9,7 +9,5 @@ public class WorldWrapper {
     this.world = world;
   }
 
-  public void tick(){
-
-  }
+  public void tick() {}
 }
