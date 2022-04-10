@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
 import common.Direction;
 import common.events.EventService;
+import common.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
@@ -30,7 +31,7 @@ public class EntityUserController extends EntityController {
   }
 
   @Override
-  public void beforeWorldUpdate() throws EntityNotFound, ChunkNotFound {
+  public void beforeWorldUpdate() throws EntityNotFound, ChunkNotFound, BodyNotFound {
     Body body = this.entity.getBody();
     float impulse = body.getMass() * 10;
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {

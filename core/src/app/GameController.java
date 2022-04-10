@@ -7,6 +7,7 @@ import common.Coordinates;
 import common.Direction;
 import common.GameStore;
 import common.events.EventService;
+import common.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
@@ -174,12 +175,12 @@ public class GameController {
   }
 
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity)
-      throws EntityNotFound, ChunkNotFound {
+      throws EntityNotFound, ChunkNotFound, BodyNotFound {
     return triggerReplaceEntity(target, replacementEntity, false);
   }
 
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity, Boolean swapVelocity)
-      throws EntityNotFound, ChunkNotFound {
+      throws EntityNotFound, ChunkNotFound, BodyNotFound {
     Vector2 velocity = null;
     Entity removeEntity = this.gameStore.getEntity(target);
     if (swapVelocity) {

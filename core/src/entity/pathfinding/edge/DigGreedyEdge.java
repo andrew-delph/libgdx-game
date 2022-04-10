@@ -6,6 +6,7 @@ import app.GameController;
 import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import common.GameStore;
+import common.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import common.exceptions.EntityNotFound;
@@ -83,7 +84,7 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
 
   @Override
   public void follow(Entity entity, RelativePathNode relativePathNode)
-      throws EdgeStepperException, ChunkNotFound {
+      throws EdgeStepperException, ChunkNotFound, BodyNotFound {
     Block targetBlock =
         blockFactory.createSky(
             this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition));

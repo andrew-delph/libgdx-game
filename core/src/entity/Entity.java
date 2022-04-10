@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import common.Clock;
 import common.Coordinates;
 import common.GameSettings;
+import common.exceptions.BodyNotFound;
 import entity.controllers.EntityController;
 import java.util.UUID;
 import networking.NetworkObjects;
@@ -72,7 +73,8 @@ public class Entity implements SerializeNetworkData {
     this.height = height;
   }
 
-  public Body getBody() {
+  public Body getBody() throws BodyNotFound {
+    if (body == null) throw new BodyNotFound("in Entity");
     return body;
   }
 

@@ -166,6 +166,7 @@ public class ClientNetworkHandle {
                   gameStore.addEntity(toAdd);
                 } catch (ChunkNotFound e) {
                   LOGGER.error(e);
+                  onCompleted();
                 }
               }
             } catch (SerializationDataMissing e) {

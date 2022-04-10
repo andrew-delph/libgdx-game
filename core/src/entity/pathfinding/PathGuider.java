@@ -2,6 +2,7 @@ package entity.pathfinding;
 
 import com.google.inject.Inject;
 import common.Coordinates;
+import common.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import entity.Entity;
@@ -31,7 +32,7 @@ public class PathGuider {
     this.currentPath.backgroundSearch();
   }
 
-  public void followPath(Coordinates coordinates) {
+  public void followPath(Coordinates coordinates) throws BodyNotFound {
     if (this.currentPath != null && this.currentPath.isSearching()) {
       return;
     } else if (this.currentPath == null) {
