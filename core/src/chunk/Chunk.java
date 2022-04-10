@@ -11,6 +11,7 @@ import common.Coordinates;
 import common.GameSettings;
 import common.GameStore;
 import common.Tick;
+import common.exceptions.BodyNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.block.Block;
@@ -75,13 +76,31 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     return this;
   }
 
+  public synchronized Entity removeEntity(UUID uuid) throws EntityNotFound {
+    Entity entity = this.getEntity(uuid);
+    this.chunkMap.remove(uuid);
+    if (bodySet.contains(entity.uuid)) {
+      try {
+        this.world.destroyBody(entity.getBody());
+        bodySet.remove(entity.uuid);
+      } catch (Exception e) {
+        LOGGER.error("Unable to delete body for:" + entity.uuid, e);
+      }
+    }
+    return entity;
+  }
+
   public synchronized void addEntity(Entity entity) {
     this.chunkMap.put(entity.uuid, entity);
     if (!bodySet.contains(entity.uuid)) {
       Body bodyToAdd = entity.addWorld(world);
       if (bodyToAdd != null) {
-        entity.setBody(bodyToAdd);
-        bodySet.add(entity.uuid);
+        try {
+          entity.setBody(bodyToAdd);
+          bodySet.add(entity.uuid);
+        } catch (BodyNotFound e) {
+          LOGGER.error(e, e);
+        }
       }
     }
     this.nextTick(1);
@@ -105,21 +124,6 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
   public List<Entity> getEntityList() {
     return new LinkedList<Entity>(this.chunkMap.values());
-  }
-
-  public synchronized Entity removeEntity(UUID uuid) throws EntityNotFound {
-    Entity entity = this.getEntity(uuid);
-    this.chunkMap.remove(uuid);
-    if (bodySet.contains(entity.uuid)) {
-
-      try {
-        if (entity.getBody() != null) this.world.destroyBody(entity.getBody());
-      } catch (Exception e) {
-        LOGGER.error("Unable to delete body for:" + entity.uuid, e);
-      }
-      bodySet.remove(entity.uuid);
-    }
-    return entity;
   }
 
   public List<Chunk> getNeighborChunks() {

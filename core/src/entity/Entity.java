@@ -74,11 +74,12 @@ public class Entity implements SerializeNetworkData {
   }
 
   public Body getBody() throws BodyNotFound {
-    if (body == null) throw new BodyNotFound("in Entity");
+    if (body == null) throw new BodyNotFound(this.toString());
     return body;
   }
 
-  public void setBody(Body body) {
+  public void setBody(Body body) throws BodyNotFound {
+    if (body == null) throw new BodyNotFound(this.toString());
     this.body = body;
   }
 
@@ -126,6 +127,11 @@ public class Entity implements SerializeNetworkData {
 
   public Coordinates getCenter() {
     return new Coordinates(this.coordinates.getXReal() + 0.5f, this.coordinates.getYReal() + 0.5f);
+  }
+
+  @Override
+  public String toString() {
+    return "Entity{" + "uuid=" + uuid + ", coordinates=" + coordinates + ", body=" + body + '}';
   }
 
   public UUID getUuid() {
