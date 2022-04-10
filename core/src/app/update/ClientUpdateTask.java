@@ -68,7 +68,7 @@ public class ClientUpdateTask extends UpdateTask {
     }
 
     // update the subscriptions on the server
-    if (toDeleteSet.size() > 0) {
+    if (toRequestSet.size() > 0 || toDeleteSet.size() > 0) {
       // currently, not subscribing to new requests because the requestChunkAsync will sub on the
       // server
       // this could cause a problem if it errors.
