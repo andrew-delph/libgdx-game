@@ -1,7 +1,7 @@
 package entity.collision;
 
-import com.google.inject.Inject;
 import chunk.world.exceptions.BodyNotFound;
+import com.google.inject.Inject;
 import entity.collision.ground.EntityGroundContact;
 import entity.collision.ladder.EntityLadderContact;
 import entity.collision.left.EntityLeftContact;

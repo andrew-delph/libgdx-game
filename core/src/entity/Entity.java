@@ -1,6 +1,7 @@
 package entity;
 
 import app.screen.BaseAssetManager;
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -8,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import common.Clock;
 import common.Coordinates;
 import common.GameSettings;
-import chunk.world.exceptions.BodyNotFound;
 import entity.controllers.EntityController;
 import java.util.UUID;
 import networking.NetworkObjects;

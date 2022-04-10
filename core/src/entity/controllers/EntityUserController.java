@@ -1,12 +1,12 @@
 package entity.controllers;
 
 import app.GameController;
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
 import common.Direction;
 import common.events.EventService;
-import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;

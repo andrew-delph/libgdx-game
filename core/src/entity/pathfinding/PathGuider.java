@@ -1,8 +1,8 @@
 package entity.pathfinding;
 
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Inject;
 import common.Coordinates;
-import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import entity.Entity;

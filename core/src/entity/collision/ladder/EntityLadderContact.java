@@ -1,8 +1,8 @@
 package entity.collision.ladder;
 
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
-import chunk.world.exceptions.BodyNotFound;
 import entity.collision.CollisionPair;
 import entity.collision.CollisionService;
 import entity.collision.ContactWrapper;

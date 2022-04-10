@@ -1,9 +1,9 @@
 package networking.events.consumer.client.incoming;
 
 import app.GameController;
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Inject;
 import common.events.types.EventType;
-import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import java.util.function.Consumer;
