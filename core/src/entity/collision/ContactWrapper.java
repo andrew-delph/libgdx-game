@@ -1,9 +1,11 @@
 package entity.collision;
 
-public interface ContactWrapper {
-  void beginContact(Object source, Object target);
+import common.exceptions.BodyNotFound;
 
-  void endContact(Object source, Object target);
+public interface ContactWrapper {
+  void beginContact(Object source, Object target) throws BodyNotFound;
+
+  void endContact(Object source, Object target) throws BodyNotFound;
 
   void init();
 }

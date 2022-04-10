@@ -7,8 +7,8 @@ import common.events.types.EventType;
 import java.util.UUID;
 
 public class PingRequestIncomingEventType extends EventType {
-  private UserID userID;
-  private UUID pingID;
+  private final UserID userID;
+  private final UUID pingID;
 
   public PingRequestIncomingEventType(UserID userID, UUID pingID) {
     this.userID = userID;

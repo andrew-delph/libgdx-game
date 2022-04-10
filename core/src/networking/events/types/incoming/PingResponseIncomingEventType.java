@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public class PingResponseIncomingEventType extends EventType {
 
-  private UserID userID;
-  private UUID pingID;
-  private Long receivedTime;
+  private final UserID userID;
+  private final UUID pingID;
+  private final Long receivedTime;
 
   public PingResponseIncomingEventType(UserID userID, UUID pingID, Long receivedTime) {
     this.userID = userID;

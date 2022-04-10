@@ -2,6 +2,7 @@ package entity.collision.right;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
+import common.exceptions.BodyNotFound;
 import entity.collision.CollisionPair;
 import entity.collision.CollisionService;
 import entity.collision.ContactWrapper;
@@ -17,24 +18,17 @@ public class EntityRightContact implements ContactWrapper {
   Map<Body, Integer> rightContactCounter = new HashMap<>();
 
   @Override
-  public void beginContact(Object source, Object target) {
+  public void beginContact(Object source, Object target) throws BodyNotFound {
     RightSensorPoint rightPoint = (RightSensorPoint) source;
-    if (rightPoint.getBody() == null) {
-      LOGGER.error("rightPoint.getBody() == null");
-      return;
-    }
+
     this.rightContactCounter.putIfAbsent(rightPoint.getBody(), 0);
-    int rightCount = this.rightContactCounter.get(rightPoint.getBody());
+    int rightCount = this.rightContactCounter.getOrDefault(rightPoint.getBody(), 0);
     this.rightContactCounter.put(rightPoint.getBody(), rightCount + 1);
   }
 
   @Override
-  public void endContact(Object source, Object target) {
+  public void endContact(Object source, Object target) throws BodyNotFound {
     RightSensorPoint rightPoint = (RightSensorPoint) source;
-    if (rightPoint.getBody() == null) {
-      LOGGER.error("rightPoint.getBody() == null");
-      return;
-    }
     this.rightContactCounter.putIfAbsent(rightPoint.getBody(), 0);
     int rightCount = this.rightContactCounter.get(rightPoint.getBody());
     this.rightContactCounter.put(rightPoint.getBody(), rightCount - 1);

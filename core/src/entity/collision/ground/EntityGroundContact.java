@@ -2,6 +2,7 @@ package entity.collision.ground;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
+import common.exceptions.BodyNotFound;
 import entity.collision.CollisionPair;
 import entity.collision.CollisionService;
 import entity.collision.ContactWrapper;
@@ -17,14 +18,14 @@ public class EntityGroundContact implements ContactWrapper {
   @Inject
   public EntityGroundContact() {}
 
-  public synchronized void beginContact(Object source, Object target) {
+  public synchronized void beginContact(Object source, Object target) throws BodyNotFound {
     GroundSensorPoint groundSensorPoint = (GroundSensorPoint) source;
     this.groundContactCounter.putIfAbsent(groundSensorPoint.getBody(), 0);
     int groundCount = this.groundContactCounter.get(groundSensorPoint.getBody());
     this.groundContactCounter.put(groundSensorPoint.getBody(), groundCount + 1);
   }
 
-  public synchronized void endContact(Object source, Object target) {
+  public synchronized void endContact(Object source, Object target) throws BodyNotFound {
     GroundSensorPoint groundSensorPoint = (GroundSensorPoint) source;
     this.groundContactCounter.putIfAbsent(groundSensorPoint.getBody(), 0);
     int groundCount = this.groundContactCounter.get(groundSensorPoint.getBody());

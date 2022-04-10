@@ -34,7 +34,7 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
     if (networkEvent.getEvent().equals(DataTranslationEnum.AUTH)) {
       this.userID = UserID.createUserID(networkEvent.getUser());
       LOGGER.info("Received authentication: " + this.userID);
-      eventService.fireEvent(eventTypeFactory.createAuthenticationIncomingEventType(userID, this));
+      eventService.fireEvent(EventTypeFactory.createAuthenticationIncomingEventType(userID, this));
     } else {
       networkEventHandler.handleNetworkEvent(networkEvent);
     }

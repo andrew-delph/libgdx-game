@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class PingResponseOutgoingEventType extends EventType {
 
-  private UUID pingID;
+  private final UUID pingID;
 
   public PingResponseOutgoingEventType(UUID pingID) {
     this.pingID = pingID;
