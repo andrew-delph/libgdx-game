@@ -1,10 +1,11 @@
 package entity.collision;
 
 public class CollisionPair {
-  Class source;
-  Class target;
+  Class<? extends CollisionPoint> source;
+  Class<? extends CollisionPoint> target;
 
-  public CollisionPair(Class source, Class target) {
+  public CollisionPair(
+      Class<? extends CollisionPoint> source, Class<? extends CollisionPoint> target) {
     this.source = source;
     this.target = target;
   }

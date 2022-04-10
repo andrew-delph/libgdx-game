@@ -158,7 +158,7 @@ public class EntityBodyBuilder {
     filter.maskBits = 1;
     blockFixture.setFilterData(filter);
 
-    blockFixture.setUserData(new GroundPoint());
+    blockFixture.setUserData(new GroundPoint(theBody));
     return theBody;
   }
 
@@ -191,7 +191,7 @@ public class EntityBodyBuilder {
     filter.maskBits = 1;
 
     blockFixture.setFilterData(filter);
-    blockFixture.setUserData(new LadderPoint());
+    blockFixture.setUserData(new LadderPoint(theBody));
 
     return theBody;
   }

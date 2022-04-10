@@ -1,16 +1,11 @@
 package entity.collision.ground;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import entity.collision.CollisionPoint;
 
-public class GroundSensorPoint {
-
-  private final Body body;
+public class GroundSensorPoint extends CollisionPoint {
 
   public GroundSensorPoint(Body body) {
-    this.body = body;
-  }
-
-  public Body getBody() {
-    return body;
+    super(body);
   }
 }

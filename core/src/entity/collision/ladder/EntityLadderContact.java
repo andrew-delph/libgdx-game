@@ -2,6 +2,7 @@ package entity.collision.ladder;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
+import common.exceptions.BodyNotFound;
 import entity.collision.CollisionPair;
 import entity.collision.CollisionService;
 import entity.collision.ContactWrapper;
@@ -16,7 +17,7 @@ public class EntityLadderContact implements ContactWrapper {
   Map<Body, Integer> ladderContactCounter = new HashMap<>();
 
   @Override
-  public void beginContact(Object source, Object target) {
+  public void beginContact(Object source, Object target) throws BodyNotFound {
     EntityPoint entityPoint = (EntityPoint) source;
     this.ladderContactCounter.putIfAbsent(entityPoint.getBody(), 0);
     int ladderCount = this.ladderContactCounter.get(entityPoint.getBody());
@@ -24,7 +25,7 @@ public class EntityLadderContact implements ContactWrapper {
   }
 
   @Override
-  public void endContact(Object source, Object target) {
+  public void endContact(Object source, Object target) throws BodyNotFound {
     EntityPoint entityPoint = (EntityPoint) source;
     this.ladderContactCounter.putIfAbsent(entityPoint.getBody(), 0);
     int ladderCount = this.ladderContactCounter.get(entityPoint.getBody());

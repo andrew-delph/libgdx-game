@@ -2,6 +2,7 @@ package entity.collision.left;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
+import common.exceptions.BodyNotFound;
 import entity.collision.CollisionPair;
 import entity.collision.CollisionService;
 import entity.collision.ContactWrapper;
@@ -15,7 +16,7 @@ public class EntityLeftContact implements ContactWrapper {
   Map<Body, Integer> leftContactCounter = new HashMap<>();
 
   @Override
-  public void beginContact(Object source, Object target) {
+  public void beginContact(Object source, Object target) throws BodyNotFound {
     LeftSensorPoint leftPoint = (LeftSensorPoint) source;
     this.leftContactCounter.putIfAbsent(leftPoint.getBody(), 0);
     int leftCount = this.leftContactCounter.get(leftPoint.getBody());
@@ -23,7 +24,7 @@ public class EntityLeftContact implements ContactWrapper {
   }
 
   @Override
-  public void endContact(Object source, Object target) {
+  public void endContact(Object source, Object target) throws BodyNotFound {
     LeftSensorPoint leftPoint = (LeftSensorPoint) source;
     this.leftContactCounter.putIfAbsent(leftPoint.getBody(), 0);
     int leftCount = this.leftContactCounter.get(leftPoint.getBody());

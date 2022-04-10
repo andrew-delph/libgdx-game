@@ -42,7 +42,7 @@ public class testGame {
 
   @Test
   public void testChunksRunningStandAlone() throws InterruptedException, ChunkNotFound {
-    clock.waitForTick(4);
+    clock.waitForTick(10); // should change to wait for generation to be complete
     AtomicReference<Boolean> check = new AtomicReference<>(false);
     clock.waitForTick(
         () -> {
