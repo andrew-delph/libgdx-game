@@ -5,7 +5,7 @@ import common.exceptions.BodyNotFound;
 
 public abstract class CollisionPoint {
 
-  private Body body;
+  private final Body body;
 
   public CollisionPoint(Body body) {
     this.body = body;

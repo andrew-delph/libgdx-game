@@ -6,7 +6,7 @@ import java.util.UUID;
 public class PingObject {
   private final UUID pingID = UUID.randomUUID();
   private final Long requestTime = System.currentTimeMillis();
-  private UserID userID;
+  private final UserID userID;
   private Long responseTime;
   private Long receiverTime;
 
