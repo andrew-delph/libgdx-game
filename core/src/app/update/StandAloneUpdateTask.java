@@ -33,7 +33,6 @@ public class StandAloneUpdateTask extends UpdateTask {
     - generate around active entities
     - don't delete chunks
      */
-
     this.clock.tick();
 
     Set<ChunkRange> requiredChunkRanges = new HashSet<>();
