@@ -35,6 +35,7 @@ import org.apache.logging.log4j.Logger;
 public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
   final Logger LOGGER = LogManager.getLogger();
+  private final WorldWrapper worldWrapper;
   public ChunkRange chunkRange;
   public Tick updateTick;
   public World world;
@@ -58,8 +59,9 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     this.chunkMap = new ConcurrentHashMap<>();
     this.nextTick(1);
     this.bodySet = new HashSet<>();
-    this.world = new World(new Vector2(0, -GRAVITY), false);
-    this.world.setContactListener(entityContactListenerFactory.createEntityContactListener());
+    World world = new World(new Vector2(0, -GRAVITY), false);
+    world.setContactListener(entityContactListenerFactory.createEntityContactListener());
+    this.worldWrapper = new WorldWrapper(world);
   }
 
   void nextTick(int timeout) {
@@ -140,7 +142,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     return neighborChunkList;
   }
 
-  synchronized void update() throws Exception {
+  private void updateNeighbors() {
     Set<Entity> neighborEntitySet = new HashSet<>();
 
     Coordinates neighborBottomLeft =
@@ -181,6 +183,11 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       world.destroyBody(neighborEntityBodyMap.get(entity));
       neighborEntityBodyMap.remove(entity);
     }
+  }
+
+  synchronized void update() throws Exception {
+
+    this.updateNeighbors();
 
     int tickTimeout = Integer.MAX_VALUE;
 
