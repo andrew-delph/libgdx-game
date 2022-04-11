@@ -6,6 +6,7 @@ import app.user.User;
 import chunk.ActiveChunkManager;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -82,7 +83,8 @@ public class testSingleClientRunningGame {
 
   @Before
   public void setup()
-      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
+      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
+          BodyNotFound {
     // block implementation of handshake
     clientInjector =
         Guice.createInjector(

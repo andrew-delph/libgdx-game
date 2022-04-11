@@ -1,6 +1,7 @@
 package main;
 
 import app.screen.GameScreen;
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
@@ -9,7 +10,7 @@ import configuration.StandAloneConfig;
 import entity.pathfinding.EdgeRegistration;
 
 public class GameMainWithPathing {
-  public static void main(String[] arg) {
+  public static void main(String[] arg) throws BodyNotFound {
     Injector injector = Guice.createInjector(new StandAloneConfig());
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
     LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

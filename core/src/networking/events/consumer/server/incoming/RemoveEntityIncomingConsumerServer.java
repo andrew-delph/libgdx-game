@@ -3,6 +3,7 @@ package networking.events.consumer.server.incoming;
 import app.GameController;
 import app.user.UserID;
 import chunk.ActiveChunkManager;
+import chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
@@ -24,7 +25,7 @@ public class RemoveEntityIncomingConsumerServer implements Consumer<EventType> {
 
     try {
       gameController.triggerRemoveEntity(incoming.getTarget());
-    } catch (EntityNotFound e) {
+    } catch (EntityNotFound | DestroyBodyException e) {
       e.printStackTrace();
       this.serverNetworkHandle.initHandshake(incoming.getUserID(), incoming.getChunkRange());
     }

@@ -3,9 +3,10 @@ package networking.events.consumer.server.incoming;
 import app.GameController;
 import app.user.UserID;
 import chunk.ActiveChunkManager;
+import chunk.world.exceptions.BodyNotFound;
+import chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
 import common.events.types.EventType;
-import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import java.util.function.Consumer;
@@ -31,7 +32,7 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
     } catch (EntityNotFound e) {
       LOGGER.error(e);
       serverNetworkHandle.initHandshake(incoming.getUserID(), incoming.getChunkRange());
-    } catch (ChunkNotFound | BodyNotFound e) {
+    } catch (ChunkNotFound | BodyNotFound | DestroyBodyException e) {
       LOGGER.error(e);
       return;
     }

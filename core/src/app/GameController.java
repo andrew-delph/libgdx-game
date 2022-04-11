@@ -1,13 +1,14 @@
 package app;
 
 import chunk.ChunkRange;
+import chunk.world.exceptions.BodyNotFound;
+import chunk.world.exceptions.DestroyBodyException;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.Direction;
 import common.GameStore;
 import common.events.EventService;
-import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
@@ -61,7 +62,7 @@ public class GameController {
             entity.uuid, new ChunkRange(entity.coordinates)));
   }
 
-  public Entity triggerRemoveEntity(UUID uuid) throws EntityNotFound {
+  public Entity triggerRemoveEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
     return this.gameStore.removeEntity(uuid);
   }
 
@@ -175,12 +176,12 @@ public class GameController {
   }
 
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity)
-      throws EntityNotFound, ChunkNotFound, BodyNotFound {
+      throws EntityNotFound, ChunkNotFound, BodyNotFound, DestroyBodyException {
     return triggerReplaceEntity(target, replacementEntity, false);
   }
 
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity, Boolean swapVelocity)
-      throws EntityNotFound, ChunkNotFound, BodyNotFound {
+      throws EntityNotFound, ChunkNotFound, BodyNotFound, DestroyBodyException {
     Vector2 velocity = null;
     Entity removeEntity = this.gameStore.getEntity(target);
     if (swapVelocity) {

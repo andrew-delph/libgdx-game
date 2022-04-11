@@ -2,11 +2,12 @@ package common.events;
 
 import app.GameController;
 import app.user.User;
+import chunk.world.exceptions.BodyNotFound;
+import chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceEntityEventType;
-import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.ActiveEntityManager;
@@ -36,7 +37,7 @@ public class EventConsumer {
                 realEvent.getTargetUUID(),
                 realEvent.getReplacementEntity(),
                 realEvent.getSwapVelocity());
-          } catch (EntityNotFound | BodyNotFound | ChunkNotFound e) {
+          } catch (EntityNotFound | BodyNotFound | DestroyBodyException | ChunkNotFound e) {
             LOGGER.error(e);
           }
         });
@@ -47,7 +48,7 @@ public class EventConsumer {
           try {
             this.gameStore.removeEntity(realEvent.getEntityUUID());
             activeEntityManager.removeActiveEntity(user.getUserID(), realEvent.getEntityUUID());
-          } catch (EntityNotFound e) {
+          } catch (EntityNotFound | DestroyBodyException e) {
             LOGGER.error(e, e);
           }
         });

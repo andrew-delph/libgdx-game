@@ -1,5 +1,6 @@
-package entity;
+package chunk.world;
 
+import chunk.ChunkRange;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -9,8 +10,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
-import common.Coordinates;
+import com.sun.tools.javac.util.Pair;
 import common.GameSettings;
+import entity.Entity;
 import entity.block.Block;
 import entity.collision.EntityPoint;
 import entity.collision.ground.GroundPoint;
@@ -18,13 +20,15 @@ import entity.collision.ground.GroundSensorPoint;
 import entity.collision.ladder.LadderPoint;
 import entity.collision.left.LeftSensorPoint;
 import entity.collision.right.RightSensorPoint;
+import java.util.UUID;
 
 public class EntityBodyBuilder {
 
   @Inject
   public EntityBodyBuilder() {}
 
-  public static synchronized Body createEntityBody(World world, Coordinates coordinates) {
+  public static Pair<UUID, Body> createEntityBody(
+      World world, ChunkRange chunkRange, Entity entity) {
     float center_x =
         -(GameSettings.PHYSICS_SCALE - (Entity.staticWidth * GameSettings.PHYSICS_SCALE)) / 2f;
     float center_y =
@@ -60,8 +64,8 @@ public class EntityBodyBuilder {
     // create the body
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(
-        coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
-        coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
     theBody = world.createBody(bodyDef);
     theBody.setFixedRotation(true);
 
@@ -131,15 +135,16 @@ public class EntityBodyBuilder {
     rightFixture.setUserData(new RightSensorPoint(theBody));
     rightFixture.setFilterData(filter);
 
-    return theBody;
+    return new Pair<>(entity.uuid, theBody);
   }
 
-  public static synchronized Body createSolidBlockBody(World world, Coordinates coordinates) {
+  public static Pair<UUID, Body> createSolidBlockBody(
+      World world, ChunkRange chunkRange, Entity entity) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
-        coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
-        coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
 
     Body theBody = world.createBody(bodyDef);
 
@@ -159,19 +164,21 @@ public class EntityBodyBuilder {
     blockFixture.setFilterData(filter);
 
     blockFixture.setUserData(new GroundPoint(theBody));
-    return theBody;
+    return new Pair<>(entity.uuid, theBody);
   }
 
-  public static synchronized Body createEmptyBlockBody() {
+  public static Pair<UUID, Body> createEmptyBlockBody(
+      World world, ChunkRange chunkRange, Entity entity) {
     return null;
   }
 
-  public static synchronized Body createEmptyLadderBody(World world, Coordinates coordinates) {
+  public static Pair<UUID, Body> createEmptyLadderBody(
+      World world, ChunkRange chunkRange, Entity entity) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
-        coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
-        coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
 
     Body theBody = world.createBody(bodyDef);
 
@@ -193,6 +200,6 @@ public class EntityBodyBuilder {
     blockFixture.setFilterData(filter);
     blockFixture.setUserData(new LadderPoint(theBody));
 
-    return theBody;
+    return new Pair<>(entity.uuid, theBody);
   }
 }

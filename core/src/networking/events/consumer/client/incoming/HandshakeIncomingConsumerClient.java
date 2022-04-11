@@ -2,6 +2,7 @@ package networking.events.consumer.client.incoming;
 
 import chunk.Chunk;
 import chunk.ChunkRange;
+import chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
 import common.GameStore;
 import common.events.EventService;
@@ -45,7 +46,7 @@ public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
     for (UUID toRemove : extra) {
       try {
         chunk.removeEntity(toRemove);
-      } catch (EntityNotFound e) {
+      } catch (EntityNotFound | DestroyBodyException e) {
         LOGGER.error(e);
       }
     }

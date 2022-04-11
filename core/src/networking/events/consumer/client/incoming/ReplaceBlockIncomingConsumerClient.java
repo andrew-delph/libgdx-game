@@ -1,9 +1,10 @@
 package networking.events.consumer.client.incoming;
 
 import app.GameController;
+import chunk.world.exceptions.BodyNotFound;
+import chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
 import common.events.types.EventType;
-import chunk.world.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import java.util.function.Consumer;
@@ -25,7 +26,7 @@ public class ReplaceBlockIncomingConsumerClient implements Consumer<EventType> {
     } catch (EntityNotFound e) {
       LOGGER.error(e);
       clientNetworkHandle.initHandshake(incoming.getChunkRange());
-    } catch (ChunkNotFound | BodyNotFound e) {
+    } catch (ChunkNotFound | BodyNotFound | DestroyBodyException e) {
       LOGGER.error(e);
     }
   }

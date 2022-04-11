@@ -2,6 +2,7 @@ package app.game;
 
 import app.screen.BaseCamera;
 import chunk.ChunkRange;
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Inject;
 import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
@@ -27,7 +28,8 @@ public class ClientGame extends Game {
 
   @Override
   public void start()
-      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
+      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
+          BodyNotFound {
     super.start();
   }
 

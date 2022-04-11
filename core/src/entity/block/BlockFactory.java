@@ -1,10 +1,10 @@
 package entity.block;
 
 import app.screen.BaseAssetManager;
+import chunk.world.EntityBodyBuilder;
 import com.google.inject.Inject;
 import common.Clock;
 import common.Coordinates;
-import entity.EntityBodyBuilder;
 
 public class BlockFactory {
   @Inject Clock clock;

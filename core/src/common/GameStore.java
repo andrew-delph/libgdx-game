@@ -2,6 +2,7 @@ package common;
 
 import chunk.Chunk;
 import chunk.ChunkRange;
+import chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
 import common.events.EventService;
 import common.exceptions.ChunkNotFound;
@@ -42,7 +43,7 @@ public class GameStore {
     }
   }
 
-  public Entity removeEntity(UUID uuid) throws EntityNotFound {
+  public Entity removeEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
     ChunkRange chunkRange = this.entityMap.get(uuid);
     if (chunkRange == null) throw new EntityNotFound("UUID not found in entityMap");
     Chunk chunk = this.chunkClockMap.get(chunkRange);

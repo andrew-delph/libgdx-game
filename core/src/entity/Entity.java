@@ -1,14 +1,17 @@
 package entity;
 
 import app.screen.BaseAssetManager;
+import chunk.Chunk;
+import chunk.world.CreateBodyCallable;
+import chunk.world.EntityBodyBuilder;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.sun.tools.javac.util.Pair;
 import common.Clock;
 import common.Coordinates;
 import common.GameSettings;
-import chunk.world.exceptions.BodyNotFound;
 import entity.controllers.EntityController;
 import java.util.UUID;
 import networking.NetworkObjects;
@@ -73,18 +76,15 @@ public class Entity implements SerializeNetworkData {
     this.height = height;
   }
 
-  public Body getBody() throws BodyNotFound {
-    if (body == null) throw new BodyNotFound(this.toString());
-    return body;
-  }
-
-  public void setBody(Body body) throws BodyNotFound {
-    if (body == null) throw new BodyNotFound(this.toString());
-    this.body = body;
-  }
-
-  public synchronized Body addWorld(World world) {
-    return EntityBodyBuilder.createEntityBody(world, this.coordinates);
+  public synchronized CreateBodyCallable addWorld(Chunk chunk) {
+    Entity myEntity = this;
+    return new CreateBodyCallable() {
+      @Override
+      protected Pair<UUID, Body> addWorld(World world) {
+        return EntityBodyBuilder.createEntityBody(
+            world, chunk.chunkRange, myEntity); // TODO test with Entity.this
+      }
+    };
   }
 
   public synchronized void renderSync() {

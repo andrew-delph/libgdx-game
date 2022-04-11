@@ -1,6 +1,7 @@
 package entity.pathfinding;
 
 import app.GameController;
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 import common.GameStore;
@@ -24,7 +25,7 @@ public class EdgeRegistration extends EdgeRegistrationBase {
   @Inject
   EdgeRegistration() {}
 
-  public void edgeRegistration() {
+  public void edgeRegistration() throws BodyNotFound {
     this.templateEdgeRegistration();
     this.horizontalGreedyRegisterEdges();
     this.ladderGreedyRegisterEdges();
@@ -32,7 +33,7 @@ public class EdgeRegistration extends EdgeRegistrationBase {
   }
 
   @Override
-  public void templateEdgeRegistration() {
+  public void templateEdgeRegistration() throws BodyNotFound {
 
     TemplateEdgeGenerator templateEdgeGenerator =
         templateEdgeGeneratorFactory.create(

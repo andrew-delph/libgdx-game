@@ -3,6 +3,7 @@ package app.game;
 import app.update.UpdateTask;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameSettings;
@@ -28,7 +29,8 @@ public class Game {
   public Game() throws Exception {}
 
   public void start()
-      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
+      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
+          BodyNotFound {
     init();
     timer = new Timer(true);
     timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);

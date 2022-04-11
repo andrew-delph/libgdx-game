@@ -4,6 +4,7 @@ import app.GameController;
 import app.game.Game;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
@@ -61,7 +62,8 @@ public class testDoubleClient {
 
   @Before
   public void setup()
-      throws IOException, SerializationDataMissing, InterruptedException, WrongVersion {
+      throws IOException, SerializationDataMissing, InterruptedException, WrongVersion,
+          BodyNotFound {
     client_a_Injector = Guice.createInjector(new ClientConfig());
     client_b_Injector = Guice.createInjector(new ClientConfig());
     serverInjector = Guice.createInjector(new BaseServerConfig());
