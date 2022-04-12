@@ -388,11 +388,9 @@ public class testSingleClientRunningGame {
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
-    ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
     Coordinates coordinates = new Coordinates(0, 1);
     ChunkRange chunkRange = new ChunkRange(coordinates);
-    serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
-    clientGameStore.addChunk(clientNetworkHandle.requestChunkBlocking(chunkRange));
+    clientNetworkHandle.requestChunkBlocking(chunkRange);
     TimeUnit.SECONDS.sleep(1);
     Entity clientEntity = clientGameController.createLadder(coordinates);
     TimeUnit.SECONDS.sleep(1);

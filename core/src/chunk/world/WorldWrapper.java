@@ -28,8 +28,9 @@ public class WorldWrapper {
         GameSettings.WORLD_POSITION_ITERATIONS);
   }
 
-  public synchronized void addEntity(CreateBodyCallable createBodyCallable) throws Exception {
+  public synchronized void addEntity(CreateBodyCallable createBodyCallable) {
     Pair<UUID, Body> pair = createBodyCallable.addWorld(world);
+    if (pair == null) return;
     uuidBodyMap.put(pair.fst, pair.snd);
   }
 
@@ -38,9 +39,9 @@ public class WorldWrapper {
   }
 
   public synchronized void destroyEntity(Entity entity) throws DestroyBodyException {
-    uuidBodyMap.remove(entity.uuid);
     try {
       world.destroyBody(getBody(entity));
+      uuidBodyMap.remove(entity.uuid);
     } catch (Exception e) {
       throw new DestroyBodyException(e.toString());
     }
@@ -74,6 +75,7 @@ public class WorldWrapper {
     try {
       getBody(entity);
     } catch (BodyNotFound e) {
+      uuidBodyMap.remove(entity.uuid);
       return false;
     }
     return true;

@@ -2,6 +2,8 @@ package entity.controllers.actions;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import common.exceptions.ChunkNotFound;
+import entity.Entity;
 import entity.collision.ladder.EntityLadderContact;
 
 public class ClimbUpMovementAction implements EntityAction {
@@ -18,7 +20,7 @@ public class ClimbUpMovementAction implements EntityAction {
   }
 
   @Override
-  public Boolean isValid(Body body) {
-    return this.entityLadderContact.isOnLadder(body);
+  public Boolean isValid(Entity entity) throws ChunkNotFound {
+    return this.entityLadderContact.isOnLadder(entity);
   }
 }

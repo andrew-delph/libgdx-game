@@ -4,16 +4,20 @@ import app.screen.BaseAssetManager;
 import chunk.Chunk;
 import chunk.world.CreateBodyCallable;
 import chunk.world.EntityBodyBuilder;
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.sun.tools.javac.util.Pair;
 import common.Clock;
 import common.Coordinates;
 import common.GameSettings;
+import common.exceptions.ChunkNotFound;
 import entity.controllers.EntityController;
 import java.util.UUID;
+import java.util.function.Consumer;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkData;
 import networking.translation.NetworkDataSerializer;
@@ -29,8 +33,8 @@ public class Entity implements SerializeNetworkData {
   public EntityBodyBuilder entityBodyBuilder;
   Clock clock;
   BaseAssetManager baseAssetManager;
+  private Chunk chunk;
   private EntityController entityController;
-  private Body body;
   private int width;
   private int height;
 
@@ -46,6 +50,15 @@ public class Entity implements SerializeNetworkData {
     this.entityBodyBuilder = entityBodyBuilder;
     this.coordinates = coordinates;
     this.uuid = UUID.randomUUID();
+  }
+
+  public Chunk getChunk() throws ChunkNotFound {
+    if (chunk == null) throw new ChunkNotFound(this.toString());
+    return chunk;
+  }
+
+  public void setChunk(Chunk chunk) {
+    this.chunk = chunk;
   }
 
   public EntityController getEntityController() {
@@ -76,7 +89,7 @@ public class Entity implements SerializeNetworkData {
     this.height = height;
   }
 
-  public synchronized CreateBodyCallable addWorld(Chunk chunk) {
+  public CreateBodyCallable addWorld(Chunk chunk) {
     Entity myEntity = this;
     return new CreateBodyCallable() {
       @Override
@@ -103,12 +116,32 @@ public class Entity implements SerializeNetworkData {
     this.zindex = zindex;
   }
 
-  public synchronized int getUpdateTimeout() {
+  public int getUpdateTimeout() {
     return 1;
   }
 
   public NetworkObjects.NetworkData toNetworkData() {
     return NetworkDataSerializer.createEntity(this);
+  }
+
+  public Vector2 getBodyVelocity() throws BodyNotFound, ChunkNotFound {
+    return getChunk().getWorldWrapper().getVelocity(this);
+  }
+
+  public void setBodyVelocity(Vector2 velocity) throws ChunkNotFound, BodyNotFound {
+    getChunk().getWorldWrapper().setVelocity(this, velocity);
+  }
+
+  public Vector2 getBodyPosition() throws BodyNotFound, ChunkNotFound {
+    return getChunk().getWorldWrapper().getPosition(this);
+  }
+
+  public void setBodyPosition(Vector2 position) throws ChunkNotFound, BodyNotFound {
+    getChunk().getWorldWrapper().setPosition(this, position);
+  }
+
+  public void applyBody(Consumer<Body> applyFunction) throws ChunkNotFound, BodyNotFound {
+    getChunk().getWorldWrapper().applyBody(this, applyFunction);
   }
 
   @Override
@@ -131,7 +164,7 @@ public class Entity implements SerializeNetworkData {
 
   @Override
   public String toString() {
-    return "Entity{" + "uuid=" + uuid + ", coordinates=" + coordinates + ", body=" + body + '}';
+    return "Entity{" + "uuid=" + uuid + ", coordinates=" + coordinates + '}';
   }
 
   public UUID getUuid() {

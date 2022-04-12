@@ -29,14 +29,14 @@ import org.apache.logging.log4j.Logger;
 public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
   final Logger LOGGER = LogManager.getLogger();
-  private final WorldWrapper worldWrapper;
+  final ConcurrentHashMap<UUID, Entity> chunkMap = new ConcurrentHashMap<>();
+  final Set<UUID> bodySet = new HashSet<>();
+  private final WorldWrapper worldWrapper = new WorldWrapper();
   public ChunkRange chunkRange;
   public Tick updateTick;
   GameStore gameStore;
   GameController gameController;
   Clock clock;
-  ConcurrentHashMap<UUID, Entity> chunkMap;
-  Set<UUID> bodySet;
   Set<Entity> neighborEntitySet = new HashSet<>();
 
   public Chunk(
@@ -49,13 +49,14 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     this.gameController = gameController;
     this.clock = clock;
     this.chunkRange = chunkRange;
-    this.chunkMap = new ConcurrentHashMap<>();
     this.nextTick(1);
-    this.bodySet = new HashSet<>();
-    this.worldWrapper = new WorldWrapper();
     this.worldWrapper.applyWorld(
         (World world) ->
             world.setContactListener(entityContactListenerFactory.createEntityContactListener()));
+  }
+
+  public WorldWrapper getWorldWrapper() {
+    return worldWrapper;
   }
 
   void nextTick(int timeout) {
@@ -89,7 +90,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
   public synchronized void addBody(Entity entity) {
     synchronized (worldWrapper) {
-      if (!worldWrapper.hasBody(entity)) entity.addWorld(this);
+      if (!worldWrapper.hasBody(entity)) worldWrapper.addEntity(entity.addWorld(this));
     }
   }
 

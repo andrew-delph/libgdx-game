@@ -2,6 +2,7 @@ package app;
 
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
@@ -40,14 +41,15 @@ public class testGameController {
   }
 
   @Test
-  public void testEntitySync() throws EntityNotFound, ChunkNotFound {
+  public void testEntitySync() throws EntityNotFound, ChunkNotFound, BodyNotFound {
     eventConsumer.init();
     ChunkRange chunkRange1 = new ChunkRange(new Coordinates(0, 0));
     ChunkRange chunkRange2 = chunkRange1.getRight();
     this.gameStore.addChunk(this.chunkFactory.create(chunkRange1));
     this.gameStore.addChunk(this.chunkFactory.create(chunkRange2));
-    Entity entity = this.entityFactory.createEntity(new Coordinates(0, 0));
+    Entity entity = this.entityFactory.createEntity(new Coordinates(0, 1));
     this.gameStore.addEntity(entity);
+    System.out.println(entity.getBodyPosition());
     assert this.gameStore.getEntityChunk(entity.uuid).chunkRange == chunkRange1;
     Assert.assertEquals(chunkRange1, this.gameStore.getEntityChunk(entity.uuid).chunkRange);
     entity.coordinates = new Coordinates(chunkRange2.bottom_x, chunkRange2.bottom_y);

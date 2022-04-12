@@ -38,7 +38,7 @@ public class EventConsumer {
                 realEvent.getReplacementEntity(),
                 realEvent.getSwapVelocity());
           } catch (EntityNotFound | BodyNotFound | DestroyBodyException | ChunkNotFound e) {
-            LOGGER.error(e);
+            LOGGER.error(e, e);
           }
         });
     this.eventService.addPostUpdateListener(

@@ -185,13 +185,13 @@ public class GameController {
     Vector2 velocity = null;
     Entity removeEntity = this.gameStore.getEntity(target);
     if (swapVelocity) {
-      velocity = removeEntity.getBody().getLinearVelocity();
+      velocity = removeEntity.getBodyVelocity();
     }
     this.gameStore.removeEntity(removeEntity.uuid);
     this.gameStore.addEntity(replacementEntity);
 
     if (swapVelocity) {
-      replacementEntity.getBody().setLinearVelocity(velocity);
+      replacementEntity.setBodyVelocity(velocity);
     }
     return replacementEntity;
   }

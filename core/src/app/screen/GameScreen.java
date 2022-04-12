@@ -3,6 +3,8 @@ package app.screen;
 import app.GameController;
 import app.game.Game;
 import app.user.User;
+import chunk.Chunk;
+import chunk.ChunkRange;
 import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameSettings;
@@ -136,81 +139,92 @@ public class GameScreen extends ApplicationAdapter {
     }
     batch.end();
 
-    //    if (GameSettings.RENDER_DEBUG) {
-    //
-    //      Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
-    //      synchronized (mainChunk) {
-    //        debugRenderer.render(mainChunk.world, debugMatrix);
-    //      }
-    //      pathDebugRender.end();
-    //
-    //      Chunk lowerChunk = this.gameStore.getChunk((new
-    // ChunkRange(myEntity.coordinates)).getDown());
-    //      Chunk leftChunk = this.gameStore.getChunk((new
-    // ChunkRange(myEntity.coordinates)).getLeft());
-    //      Chunk rightChunk = this.gameStore.getChunk((new
-    // ChunkRange(myEntity.coordinates)).getRight());
-    //
-    //      if (lowerChunk == null) return;
-    //      debugMatrix =
-    //          batch
-    //              .getProjectionMatrix()
-    //              .cpy()
-    //              .scale(
-    //                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
-    //                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
-    //                  0)
-    //              .translate(
-    //                  0,
-    //                  -10
-    //                      - GameSettings.PIXEL_SCALE
-    //                          * GameSettings.CHUNK_SIZE
-    //                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
-    //                  0);
-    //      synchronized (lowerChunk) {
-    //        debugRenderer.render(lowerChunk.world, debugMatrix);
-    //      }
-    //
-    //      if (leftChunk == null) return;
-    //      debugMatrix =
-    //          batch
-    //              .getProjectionMatrix()
-    //              .cpy()
-    //              .scale(
-    //                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
-    //                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
-    //                  0)
-    //              .translate(
-    //                  -10
-    //                      - GameSettings.PIXEL_SCALE
-    //                          * GameSettings.CHUNK_SIZE
-    //                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
-    //                  0,
-    //                  0);
-    //      synchronized (leftChunk) {
-    //        debugRenderer.render(leftChunk.world, debugMatrix);
-    //      }
-    //
-    //      if (rightChunk == null) return;
-    //      debugMatrix =
-    //          batch
-    //              .getProjectionMatrix()
-    //              .cpy()
-    //              .scale(
-    //                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
-    //                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
-    //                  0)
-    //              .translate(
-    //                  10
-    //                      + GameSettings.PIXEL_SCALE
-    //                          * GameSettings.CHUNK_SIZE
-    //                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
-    //                  0,
-    //                  0);
-    //      synchronized (rightChunk) {
-    //        debugRenderer.render(rightChunk.world, debugMatrix);
-    //      }
-    //    }
+    if (GameSettings.RENDER_DEBUG) {
+
+      Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
+
+      mainChunk
+          .getWorldWrapper()
+          .applyWorld(
+              (World world) -> {
+                debugRenderer.render(world, debugMatrix);
+              });
+      pathDebugRender.end();
+
+      Chunk lowerChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getDown());
+      Chunk leftChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getLeft());
+      Chunk rightChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getRight());
+
+      if (lowerChunk == null) return;
+      debugMatrix =
+          batch
+              .getProjectionMatrix()
+              .cpy()
+              .scale(
+                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
+                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
+                  0)
+              .translate(
+                  0,
+                  -10
+                      - GameSettings.PIXEL_SCALE
+                          * GameSettings.CHUNK_SIZE
+                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                  0);
+      lowerChunk
+          .getWorldWrapper()
+          .applyWorld(
+              (World world) -> {
+                debugRenderer.render(world, debugMatrix);
+              });
+
+      if (leftChunk == null) return;
+      debugMatrix =
+          batch
+              .getProjectionMatrix()
+              .cpy()
+              .scale(
+                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
+                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
+                  0)
+              .translate(
+                  -10
+                      - GameSettings.PIXEL_SCALE
+                          * GameSettings.CHUNK_SIZE
+                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                  0,
+                  0);
+
+      leftChunk
+          .getWorldWrapper()
+          .applyWorld(
+              (World world) -> {
+                debugRenderer.render(world, debugMatrix);
+              });
+
+      if (rightChunk == null) return;
+      debugMatrix =
+          batch
+              .getProjectionMatrix()
+              .cpy()
+              .scale(
+                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
+                  ((float) GameSettings.PIXEL_SCALE / GameSettings.PHYSICS_SCALE),
+                  0)
+              .translate(
+                  10
+                      + GameSettings.PIXEL_SCALE
+                          * GameSettings.CHUNK_SIZE
+                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                  0,
+                  0);
+      rightChunk
+          .getWorldWrapper()
+          .applyWorld(
+              (World world) -> {
+                debugRenderer.render(world, debugMatrix);
+              });
+    }
   }
 
   @Override
