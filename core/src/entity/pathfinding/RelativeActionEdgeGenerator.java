@@ -112,7 +112,7 @@ public class RelativeActionEdgeGenerator {
             relativeVertex
                 .getRelativeCoordinates()
                 .applyRelativeCoordinates(new Coordinates(0, 0)));
-    entity.addWorld(chunk);
+    worldWrapper.addEntity(entity.addWorld(chunk));
     worldWrapper.setVelocity(entity, relativeVertex.velocity);
   }
 }
