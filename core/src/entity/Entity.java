@@ -110,8 +110,6 @@ public class Entity implements SerializeNetworkData {
         this.coordinates.getYReal() * GameSettings.PIXEL_SCALE);
   }
 
-  public void syncPosition() {}
-
   public synchronized void setZindex(int zindex) {
     this.zindex = zindex;
   }
