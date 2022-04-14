@@ -2,12 +2,14 @@ package chunk;
 
 import app.GameController;
 import chunk.world.WorldWrapper;
+import chunk.world.exceptions.BodyNotFound;
 import chunk.world.exceptions.DestroyBodyException;
 import com.badlogic.gdx.physics.box2d.World;
 import common.Clock;
 import common.Coordinates;
 import common.GameStore;
 import common.Tick;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.block.Block;
@@ -30,14 +32,13 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
   final Logger LOGGER = LogManager.getLogger();
   final ConcurrentHashMap<UUID, Entity> chunkMap = new ConcurrentHashMap<>();
-  final Set<UUID> bodySet = new HashSet<>();
   private final WorldWrapper worldWrapper = new WorldWrapper();
   public ChunkRange chunkRange;
   public Tick updateTick;
   GameStore gameStore;
   GameController gameController;
   Clock clock;
-  Set<Entity> neighborEntitySet = new HashSet<>();
+  private Set<Entity> neighborEntitySet = new HashSet<>();
 
   public Chunk(
       Clock clock,
@@ -68,7 +69,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     try {
       this.update();
     } catch (Exception e) {
-      LOGGER.error("CHUNK UPDATE FAILED", e);
+      LOGGER.error("CHUNK UPDATE FAILED: " + this, e);
     }
     return this;
   }
@@ -88,10 +89,12 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     this.nextTick(1);
   }
 
-  public synchronized void addBody(Entity entity) {
+  public synchronized boolean addBody(Entity entity) {
     synchronized (worldWrapper) {
-      if (!worldWrapper.hasBody(entity)) worldWrapper.addEntity(entity.addWorld(this));
+      if (worldWrapper.hasBody(entity)) return false;
+      worldWrapper.addEntity(entity.addWorld(this));
     }
+    return true;
   }
 
   public void addAllEntity(List<Entity> entityList) {
@@ -128,7 +131,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     return neighborChunkList;
   }
 
-  private void updateNeighbors() {
+  private void updateNeighbors() throws BodyNotFound, ChunkNotFound {
     Set<Entity> currentNeighborEntitySet = new HashSet<>();
 
     Coordinates neighborBottomLeft =
@@ -153,14 +156,13 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     // check the difference
     Set<Entity> entityToAddSet = new HashSet<>(currentNeighborEntitySet);
     entityToAddSet.removeAll(neighborEntitySet);
-    Set<Entity> entityToRemoveSet = new HashSet<>(currentNeighborEntitySet);
-    entityToRemoveSet.removeAll(neighborEntitySet);
+    Set<Entity> entityToRemoveSet = new HashSet<>(neighborEntitySet);
+    entityToRemoveSet.removeAll(currentNeighborEntitySet);
 
     // add temp entity to set
     for (Entity entity : entityToAddSet) {
-      if (entityToAddSet.contains(entity)) continue;
       this.addBody(entity);
-      entityToAddSet.add(entity);
+      neighborEntitySet.add(entity);
     }
 
     // remove temp entity from set
@@ -171,7 +173,14 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       } catch (DestroyBodyException e) {
         LOGGER.error(e);
       }
-      entityToRemoveSet.remove(entity);
+      neighborEntitySet.remove(entity);
+    }
+
+    for (Entity entity : currentNeighborEntitySet) {
+      if (!worldWrapper.hasBody(entity)) {
+        continue;
+      }
+      worldWrapper.setPosition(entity, entity.getBodyPosition());
     }
   }
 
@@ -226,6 +235,11 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       }
     }
     throw new EntityNotFound("could not find block at " + coordinates.toString());
+  }
+
+  @Override
+  public String toString() {
+    return "Chunk{" + "chunkRange=" + chunkRange + '}';
   }
 
   public Ladder getLadder(Coordinates coordinates) {

@@ -63,6 +63,10 @@ public class WorldWrapper {
     getBody(entity).setActive(flag);
   }
 
+  public synchronized void setGravity(Entity entity, Float gravity) throws BodyNotFound {
+    getBody(entity).setGravityScale(gravity);
+  }
+
   public synchronized void setPosition(Entity entity, Vector2 position) throws BodyNotFound {
     getBody(entity).setTransform(position, 0);
   }
