@@ -22,7 +22,7 @@ public class NetworkDataSerializer {
     NetworkObjects.NetworkData uuid =
         NetworkObjects.NetworkData.newBuilder()
             .setKey(UUID.class.getName())
-            .setValue(entity.uuid.toString())
+            .setValue(entity.getUuid().toString())
             .build();
     return NetworkObjects.NetworkData.newBuilder()
         .setKey("class")

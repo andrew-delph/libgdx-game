@@ -139,15 +139,21 @@ public class testDoubleClient {
 
     TimeUnit.SECONDS.sleep(3);
 
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
 
-    assert client_b_GameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert client_b_GameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert client_b_GameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
   }
@@ -186,33 +192,45 @@ public class testDoubleClient {
 
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
 
-    assert client_b_GameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert client_b_GameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert client_b_GameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
 
-    client_a_GameController.moveEntity(clientEntity.uuid, new Coordinates(0, 1));
+    client_a_GameController.moveEntity(clientEntity.getUuid(), new Coordinates(0, 1));
 
     TimeUnit.SECONDS.sleep(1);
 
     assert clientEntity.coordinates.equals(new Coordinates(0, 1));
 
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
 
-    assert client_b_GameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert client_b_GameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert client_b_GameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
   }
@@ -253,15 +271,21 @@ public class testDoubleClient {
 
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
 
-    assert client_b_GameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert client_b_GameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert client_b_GameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
 
@@ -271,8 +295,8 @@ public class testDoubleClient {
     serverEventService.firePostUpdateEvents();
     client_b_EventService.firePostUpdateEvents();
 
-    assert !serverGameStore.doesEntityExist(clientEntity.uuid);
-    assert !client_b_GameStore.doesEntityExist(clientEntity.uuid);
+    assert !serverGameStore.doesEntityExist(clientEntity.getUuid());
+    assert !client_b_GameStore.doesEntityExist(clientEntity.getUuid());
   }
 
   @Test
@@ -307,9 +331,9 @@ public class testDoubleClient {
     Entity clientLadder = client_a_GameController.createLadder(coordinates);
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.getEntity(clientLadder.uuid).equals(clientLadder);
-    assert client_a_GameStore.getEntity(clientLadder.uuid).equals(clientLadder);
-    assert client_b_GameStore.getEntity(clientLadder.uuid).equals(clientLadder);
+    assert serverGameStore.getEntity(clientLadder.getUuid()).equals(clientLadder);
+    assert client_a_GameStore.getEntity(clientLadder.getUuid()).equals(clientLadder);
+    assert client_b_GameStore.getEntity(clientLadder.getUuid()).equals(clientLadder);
   }
 
   @Test
@@ -325,17 +349,17 @@ public class testDoubleClient {
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
-        .getEntity(myEntity.uuid)
-        .equals(client_a_GameStore.getEntity(myEntity.uuid));
+        .getEntity(myEntity.getUuid())
+        .equals(client_a_GameStore.getEntity(myEntity.getUuid()));
     assert serverGameStore
-        .getEntity(myEntity.uuid)
-        .equals(client_b_GameStore.getEntity(myEntity.uuid));
-    client_a_GameController.removeEntity(myEntity.uuid);
+        .getEntity(myEntity.getUuid())
+        .equals(client_b_GameStore.getEntity(myEntity.getUuid()));
+    client_a_GameController.removeEntity(myEntity.getUuid());
     TimeUnit.SECONDS.sleep(1);
 
-    assert !serverGameStore.doesEntityExist(myEntity.uuid);
-    assert !client_a_GameStore.doesEntityExist(myEntity.uuid);
-    assert !client_b_GameStore.doesEntityExist(myEntity.uuid);
+    assert !serverGameStore.doesEntityExist(myEntity.getUuid());
+    assert !client_a_GameStore.doesEntityExist(myEntity.getUuid());
+    assert !client_b_GameStore.doesEntityExist(myEntity.getUuid());
   }
 
   @Test
@@ -350,17 +374,17 @@ public class testDoubleClient {
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
-        .getEntity(myEntity.uuid)
-        .equals(client_a_GameStore.getEntity(myEntity.uuid));
+        .getEntity(myEntity.getUuid())
+        .equals(client_a_GameStore.getEntity(myEntity.getUuid()));
     assert serverGameStore
-        .getEntity(myEntity.uuid)
-        .equals(client_b_GameStore.getEntity(myEntity.uuid));
-    serverGameController.removeEntity(myEntity.uuid);
+        .getEntity(myEntity.getUuid())
+        .equals(client_b_GameStore.getEntity(myEntity.getUuid()));
+    serverGameController.removeEntity(myEntity.getUuid());
     TimeUnit.SECONDS.sleep(1);
 
-    assert !serverGameStore.doesEntityExist(myEntity.uuid);
-    assert !client_a_GameStore.doesEntityExist(myEntity.uuid);
-    assert !client_b_GameStore.doesEntityExist(myEntity.uuid);
+    assert !serverGameStore.doesEntityExist(myEntity.getUuid());
+    assert !client_a_GameStore.doesEntityExist(myEntity.getUuid());
+    assert !client_b_GameStore.doesEntityExist(myEntity.getUuid());
   }
 
   @Test
@@ -415,9 +439,13 @@ public class testDoubleClient {
     Assert.assertEquals(serverGameStore.getBlock(coordinatesToTest).getClass(), SkyBlock.class);
     Assert.assertEquals(client_b_GameStore.getBlock(coordinatesToTest).getClass(), SkyBlock.class);
     // check ladder exists
-    assert serverGameStore.getEntity(ladder.uuid).getClass() == Ladder.class;
-    assert client_a_GameStore.getEntity(ladder.uuid).equals(serverGameStore.getEntity(ladder.uuid));
-    assert client_b_GameStore.getEntity(ladder.uuid).equals(serverGameStore.getEntity(ladder.uuid));
+    assert serverGameStore.getEntity(ladder.getUuid()).getClass() == Ladder.class;
+    assert client_a_GameStore
+        .getEntity(ladder.getUuid())
+        .equals(serverGameStore.getEntity(ladder.getUuid()));
+    assert client_b_GameStore
+        .getEntity(ladder.getUuid())
+        .equals(serverGameStore.getEntity(ladder.getUuid()));
 
     client_a_GameController.replaceBlock(blockToRemove, blockAsReplacement);
     TimeUnit.SECONDS.sleep(1);
@@ -450,8 +478,8 @@ public class testDoubleClient {
         .equals(client_b_GameStore.getChunk(chunkRangeToTest));
 
     //         check ladder exists
-    assert !serverGameStore.doesEntityExist(ladder.uuid);
-    assert !client_a_GameStore.doesEntityExist(ladder.uuid);
-    assert !client_b_GameStore.doesEntityExist(ladder.uuid);
+    assert !serverGameStore.doesEntityExist(ladder.getUuid());
+    assert !client_a_GameStore.doesEntityExist(ladder.getUuid());
+    assert !client_b_GameStore.doesEntityExist(ladder.getUuid());
   }
 }

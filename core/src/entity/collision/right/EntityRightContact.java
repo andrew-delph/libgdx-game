@@ -10,9 +10,7 @@ public class EntityRightContact extends ContactWrapperCounter {
   final Logger LOGGER = LogManager.getLogger();
 
   public boolean isRightSpace(Entity entity) throws ChunkNotFound {
-    if (this.getContactCount(entity.uuid, entity.getChunk().chunkRange) != null
-        && this.getContactCount(entity.uuid, entity.getChunk().chunkRange) > 0) {
-      return false;
-    } else return true;
+    return this.getContactCount(entity.getUuid(), entity.getChunk().chunkRange) == null
+        || this.getContactCount(entity.getUuid(), entity.getChunk().chunkRange) <= 0;
   }
 }

@@ -59,7 +59,7 @@ public class testEntitySerialization {
     Entity entityWrite = entityFactory.createEntity(new Coordinates(2, 3));
     Entity entityRead = entitySerializationConverter.createEntity(entityWrite.toNetworkData());
     assert entityWrite.coordinates.equals(entityRead.coordinates);
-    assert entityWrite.uuid.equals(entityRead.uuid);
+    assert entityWrite.getUuid().equals(entityRead.getUuid());
   }
 
   @Test
@@ -77,27 +77,27 @@ public class testEntitySerialization {
   @Test
   public void testCreateEntityNetworkEvent() throws EntityNotFound, InterruptedException {
     Entity entityWrite = entityFactory.createEntity(new Coordinates(0, 0));
-    UUID uuid = entityWrite.uuid;
+    UUID uuid = entityWrite.getUuid();
     gameStore.addChunk(chunkFactory.create(new ChunkRange(entityWrite.coordinates)));
     networkEventHandler.handleNetworkEvent(
         EventTypeFactory.createCreateEntityOutgoingEvent(
                 entityWrite.toNetworkData(), new ChunkRange(entityWrite.coordinates))
             .toNetworkEvent());
     TimeUnit.SECONDS.sleep(1);
-    assert uuid.equals(gameStore.getEntity(uuid).uuid);
+    assert uuid.equals(gameStore.getEntity(uuid).getUuid());
   }
 
   @Test
   public void testBlockWrite() throws EntityNotFound, InterruptedException {
     Entity block = blockFactory.createDirt(new Coordinates(0, 0));
-    UUID uuid = block.uuid;
+    UUID uuid = block.getUuid();
     gameStore.addChunk(chunkFactory.create(new ChunkRange(block.coordinates)));
     networkEventHandler.handleNetworkEvent(
         EventTypeFactory.createCreateEntityOutgoingEvent(
                 block.toNetworkData(), new ChunkRange(block.coordinates))
             .toNetworkEvent());
     TimeUnit.SECONDS.sleep(1);
-    assert uuid.equals(gameStore.getEntity(uuid).uuid);
+    assert uuid.equals(gameStore.getEntity(uuid).getUuid());
     assert gameStore.getEntity(uuid).getClass().getName().equals(block.getClass().getName());
   }
 }

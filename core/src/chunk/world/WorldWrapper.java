@@ -45,7 +45,7 @@ public class WorldWrapper {
   public synchronized void destroyEntity(Entity entity) throws DestroyBodyException {
     try {
       world.destroyBody(getBody(entity));
-      uuidBodyMap.remove(entity.uuid);
+      uuidBodyMap.remove(entity.getUuid());
     } catch (Exception e) {
       throw new DestroyBodyException(e.toString());
     }
@@ -83,15 +83,15 @@ public class WorldWrapper {
     try {
       getBody(entity);
     } catch (BodyNotFound e) {
-      uuidBodyMap.remove(entity.uuid);
+      uuidBodyMap.remove(entity.getUuid());
       return false;
     }
     return true;
   }
 
   private synchronized Body getBody(Entity entity) throws BodyNotFound {
-    if (uuidBodyMap.get(entity.uuid) == null)
-      throw new BodyNotFound("Body not found for entity: " + entity.uuid);
-    return uuidBodyMap.get(entity.uuid);
+    if (uuidBodyMap.get(entity.getUuid()) == null)
+      throw new BodyNotFound("Body not found for entity: " + entity.getUuid());
+    return uuidBodyMap.get(entity.getUuid());
   }
 }

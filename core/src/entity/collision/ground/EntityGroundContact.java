@@ -11,9 +11,7 @@ public class EntityGroundContact extends ContactWrapperCounter {
   public EntityGroundContact() {}
 
   public Boolean isOnGround(Entity entity) throws ChunkNotFound {
-    if (this.getContactCount(entity.uuid, entity.getChunk().chunkRange) != null
-        && this.getContactCount(entity.uuid, entity.getChunk().chunkRange) > 0) {
-      return true;
-    } else return false;
+    return this.getContactCount(entity.getUuid(), entity.getChunk().chunkRange) != null
+        && this.getContactCount(entity.getUuid(), entity.getChunk().chunkRange) > 0;
   }
 }

@@ -95,9 +95,12 @@ public class testDoubleClientDelayedConnection {
 
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
 
@@ -113,9 +116,12 @@ public class testDoubleClientDelayedConnection {
 
     TimeUnit.SECONDS.sleep(1);
 
-    assert client_b_GameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert client_b_GameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert client_b_GameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
   }

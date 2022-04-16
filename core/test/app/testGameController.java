@@ -50,11 +50,11 @@ public class testGameController {
     Entity entity = this.entityFactory.createEntity(new Coordinates(0, 1));
     this.gameStore.addEntity(entity);
     System.out.println(entity.getBodyPosition());
-    assert this.gameStore.getEntityChunk(entity.uuid).chunkRange == chunkRange1;
-    Assert.assertEquals(chunkRange1, this.gameStore.getEntityChunk(entity.uuid).chunkRange);
+    assert this.gameStore.getEntityChunk(entity.getUuid()).chunkRange == chunkRange1;
+    Assert.assertEquals(chunkRange1, this.gameStore.getEntityChunk(entity.getUuid()).chunkRange);
     entity.coordinates = new Coordinates(chunkRange2.bottom_x, chunkRange2.bottom_y);
     this.gameStore.syncEntity(entity);
     eventService.firePostUpdateEvents();
-    Assert.assertEquals(chunkRange2, this.gameStore.getEntityChunk(entity.uuid).chunkRange);
+    Assert.assertEquals(chunkRange2, this.gameStore.getEntityChunk(entity.getUuid()).chunkRange);
   }
 }
