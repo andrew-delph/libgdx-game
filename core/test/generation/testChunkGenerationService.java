@@ -52,7 +52,7 @@ public class testChunkGenerationService {
 
     Assert.assertTrue(gameStore.doesChunkExist(chunkRangeToTest));
     Assert.assertEquals(
-        gameStore.getChunk(chunkRangeToTest).getEntityList().size(),
-        GameSettings.CHUNK_SIZE * GameSettings.CHUNK_SIZE);
+        GameSettings.CHUNK_SIZE * GameSettings.CHUNK_SIZE,
+        gameStore.getChunk(chunkRangeToTest).getEntityList().size());
   }
 }

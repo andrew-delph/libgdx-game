@@ -35,8 +35,6 @@ public class testEdgeStore {
     Entity entity = entityFactory.createEntity(new Coordinates(0.5f, 1));
     gameStore.addEntity(entity);
 
-    System.out.println(entity.getBody());
-
     EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
     edgeRegistration.templateEdgeRegistration();
 

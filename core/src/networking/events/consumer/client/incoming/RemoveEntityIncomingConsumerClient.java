@@ -1,6 +1,7 @@
 package networking.events.consumer.client.incoming;
 
 import app.GameController;
+import chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
@@ -18,7 +19,7 @@ public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
     RemoveEntityIncomingEventType incoming = (RemoveEntityIncomingEventType) eventType;
     try {
       gameController.triggerRemoveEntity(incoming.getTarget());
-    } catch (EntityNotFound e) {
+    } catch (EntityNotFound | DestroyBodyException e) {
       LOGGER.error(e);
     }
   }

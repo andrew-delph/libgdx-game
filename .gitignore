@@ -120,3 +120,6 @@ OpenJDK11U-jdk_x64_windows_hotspot_11.0.11_9.zip
 
 out
 config.properties
+
+#draw.io backup
+*.bkp

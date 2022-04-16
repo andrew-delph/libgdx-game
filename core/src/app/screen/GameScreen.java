@@ -5,6 +5,7 @@ import app.game.Game;
 import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkRange;
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.GameSettings;
@@ -58,7 +60,11 @@ public class GameScreen extends ApplicationAdapter {
     baseCamera.init();
     try {
       game.start();
-    } catch (IOException | InterruptedException | SerializationDataMissing | WrongVersion e) {
+    } catch (IOException
+        | InterruptedException
+        | SerializationDataMissing
+        | BodyNotFound
+        | WrongVersion e) {
       LOGGER.error(e, e);
       this.dispose();
     }
@@ -136,9 +142,13 @@ public class GameScreen extends ApplicationAdapter {
     if (GameSettings.RENDER_DEBUG) {
 
       Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
-      synchronized (mainChunk) {
-        debugRenderer.render(mainChunk.world, debugMatrix);
-      }
+
+      mainChunk
+          .getWorldWrapper()
+          .applyWorld(
+              (World world) -> {
+                debugRenderer.render(world, debugMatrix);
+              });
       pathDebugRender.end();
 
       Chunk lowerChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getDown());
@@ -161,9 +171,12 @@ public class GameScreen extends ApplicationAdapter {
                           * GameSettings.CHUNK_SIZE
                           * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0);
-      synchronized (lowerChunk) {
-        debugRenderer.render(lowerChunk.world, debugMatrix);
-      }
+      lowerChunk
+          .getWorldWrapper()
+          .applyWorld(
+              (World world) -> {
+                debugRenderer.render(world, debugMatrix);
+              });
 
       if (leftChunk == null) return;
       debugMatrix =
@@ -181,9 +194,13 @@ public class GameScreen extends ApplicationAdapter {
                           * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0,
                   0);
-      synchronized (leftChunk) {
-        debugRenderer.render(leftChunk.world, debugMatrix);
-      }
+
+      leftChunk
+          .getWorldWrapper()
+          .applyWorld(
+              (World world) -> {
+                debugRenderer.render(world, debugMatrix);
+              });
 
       if (rightChunk == null) return;
       debugMatrix =
@@ -201,9 +218,12 @@ public class GameScreen extends ApplicationAdapter {
                           * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0,
                   0);
-      synchronized (rightChunk) {
-        debugRenderer.render(rightChunk.world, debugMatrix);
-      }
+      rightChunk
+          .getWorldWrapper()
+          .applyWorld(
+              (World world) -> {
+                debugRenderer.render(world, debugMatrix);
+              });
     }
   }
 

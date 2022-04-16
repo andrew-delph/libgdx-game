@@ -6,6 +6,7 @@ import app.user.User;
 import chunk.ActiveChunkManager;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -82,7 +83,8 @@ public class testSingleClientRunningGame {
 
   @Before
   public void setup()
-      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
+      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
+          BodyNotFound {
     // block implementation of handshake
     clientInjector =
         Guice.createInjector(
@@ -386,11 +388,9 @@ public class testSingleClientRunningGame {
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
-    ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
     Coordinates coordinates = new Coordinates(0, 1);
     ChunkRange chunkRange = new ChunkRange(coordinates);
-    serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
-    clientGameStore.addChunk(clientNetworkHandle.requestChunkBlocking(chunkRange));
+    clientNetworkHandle.requestChunkBlocking(chunkRange);
     TimeUnit.SECONDS.sleep(1);
     Entity clientEntity = clientGameController.createLadder(coordinates);
     TimeUnit.SECONDS.sleep(1);

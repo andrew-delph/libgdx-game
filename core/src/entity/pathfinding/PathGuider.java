@@ -1,8 +1,8 @@
 package entity.pathfinding;
 
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Inject;
 import common.Coordinates;
-import common.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import entity.Entity;
@@ -32,7 +32,7 @@ public class PathGuider {
     this.currentPath.backgroundSearch();
   }
 
-  public void followPath(Coordinates coordinates) throws BodyNotFound {
+  public void followPath(Coordinates coordinates) throws BodyNotFound, ChunkNotFound {
     if (this.currentPath != null && this.currentPath.isSearching()) {
       return;
     } else if (this.currentPath == null) {
@@ -51,8 +51,7 @@ public class PathGuider {
       } else {
         // start using a new path
         this.currentEdgeStepper = currentPathNode.edge.getEdgeStepper(entity, currentPathNode);
-        this.entity.getBody().setTransform(this.currentPathNode.startPosition.toVector2(), 0);
-        //        this.entity.getBody().setLinearVelocity(this.currentPathNode.edge.from.velocity);
+        this.entity.setBodyPosition(this.currentPathNode.startPosition.toVector2());
         this.entity.coordinates = this.currentPathNode.startPosition;
         this.currentPathNode.start();
       }

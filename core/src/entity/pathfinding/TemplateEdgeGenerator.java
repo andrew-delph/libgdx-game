@@ -1,5 +1,6 @@
 package entity.pathfinding;
 
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Inject;
 import entity.block.EmptyBlock;
 import entity.block.SolidBlock;
@@ -33,12 +34,12 @@ public class TemplateEdgeGenerator {
     this.rootRelativeVertex = rootRelativeVertex;
   }
 
-  public void generate() {
+  public void generate() throws BodyNotFound {
     this.generateTree("right");
     this.generateTree("left");
   }
 
-  public void generateTrunk() {
+  public void generateTrunk() throws BodyNotFound {
 
     // create root
     EntityStructure rootEntityStructure = this.entityStructureFactory.createEntityStructure();
@@ -73,7 +74,7 @@ public class TemplateEdgeGenerator {
     }
   }
 
-  public void generateTree(String actionKey) {
+  public void generateTree(String actionKey) throws BodyNotFound {
     this.generateTrunk();
 
     for (int i = 0; i < 100; i++) {
@@ -87,7 +88,7 @@ public class TemplateEdgeGenerator {
     }
   }
 
-  public TemplateEdge applyAction(TemplateEdge last, String actionKey) {
+  public TemplateEdge applyAction(TemplateEdge last, String actionKey) throws BodyNotFound {
     RelativeActionEdge lastActionEdge = last.getLastEdge();
 
     RelativeVertex currentRelativeVertex = lastActionEdge.getTo();

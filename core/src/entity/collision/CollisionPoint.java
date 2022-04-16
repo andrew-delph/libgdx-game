@@ -1,18 +1,23 @@
 package entity.collision;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import common.exceptions.BodyNotFound;
+import chunk.ChunkRange;
+import java.util.UUID;
 
 public abstract class CollisionPoint {
 
-  private final Body body;
+  private final UUID uuid;
+  private final ChunkRange chunkRange;
 
-  public CollisionPoint(Body body) {
-    this.body = body;
+  public CollisionPoint(UUID uuid, ChunkRange chunkRange) {
+    this.uuid = uuid;
+    this.chunkRange = chunkRange;
   }
 
-  public Body getBody() throws BodyNotFound {
-    if (body == null) throw new BodyNotFound("In CollisionPoint");
-    return body;
+  public UUID getUuid() {
+    return uuid;
+  }
+
+  public ChunkRange getChunkRange() {
+    return chunkRange;
   }
 }

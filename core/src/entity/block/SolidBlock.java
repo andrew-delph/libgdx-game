@@ -1,11 +1,16 @@
 package entity.block;
 
 import app.screen.BaseAssetManager;
+import chunk.Chunk;
+import chunk.world.CreateBodyCallable;
+import chunk.world.EntityBodyBuilder;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.sun.tools.javac.util.Pair;
 import common.Clock;
 import common.Coordinates;
-import entity.EntityBodyBuilder;
+import entity.Entity;
+import java.util.UUID;
 
 public abstract class SolidBlock extends Block {
   public SolidBlock(
@@ -17,7 +22,14 @@ public abstract class SolidBlock extends Block {
   }
 
   @Override
-  public Body addWorld(World world) {
-    return EntityBodyBuilder.createSolidBlockBody(world, this.coordinates);
+  public synchronized CreateBodyCallable addWorld(Chunk chunk) {
+    Entity myEntity = this;
+    return new CreateBodyCallable() {
+      @Override
+      protected Pair<UUID, Body> addWorld(World world) {
+        return EntityBodyBuilder.createSolidBlockBody(
+            world, chunk.chunkRange, myEntity); // TODO test with Entity.this
+      }
+    };
   }
 }

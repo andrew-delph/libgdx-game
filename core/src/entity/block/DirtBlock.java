@@ -1,9 +1,9 @@
 package entity.block;
 
 import app.screen.BaseAssetManager;
+import chunk.world.EntityBodyBuilder;
 import common.Clock;
 import common.Coordinates;
-import entity.EntityBodyBuilder;
 
 public class DirtBlock extends SolidBlock {
 

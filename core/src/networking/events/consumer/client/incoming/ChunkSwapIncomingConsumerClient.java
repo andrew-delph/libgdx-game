@@ -1,5 +1,6 @@
 package networking.events.consumer.client.incoming;
 
+import chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
 import common.GameStore;
 import common.events.types.EventType;
@@ -18,7 +19,7 @@ public class ChunkSwapIncomingConsumerClient implements Consumer<EventType> {
     if (!gameStore.doesChunkExist(incoming.getTo())) {
       try {
         gameStore.removeEntity(incoming.getTarget());
-      } catch (EntityNotFound e) {
+      } catch (EntityNotFound | DestroyBodyException e) {
         e.printStackTrace();
       }
     }

@@ -2,6 +2,7 @@ package common;
 
 import chunk.Chunk;
 import chunk.ChunkRange;
+import chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
 import common.events.EventService;
 import common.exceptions.ChunkNotFound;
@@ -34,15 +35,18 @@ public class GameStore {
   public void addEntity(Entity entity) throws ChunkNotFound {
     ChunkRange entityChunkRange = new ChunkRange(entity.coordinates);
     this.entityMap.put(entity.uuid, entityChunkRange);
+    Chunk chunk;
     try {
-      this.chunkClockMap.get(entityChunkRange).addEntity(entity);
+      chunk = this.chunkClockMap.get(entityChunkRange);
+      chunk.addEntity(entity);
     } catch (NullPointerException e) {
-      throw new ChunkNotFound(
-          "addEntity cannot find chunk: " + entityChunkRange + " " + entity.uuid);
+      e.printStackTrace();
+      throw new ChunkNotFound("addEntity cannot find chunk: " + entityChunkRange + " " + entity);
     }
+    entity.setChunk(chunk);
   }
 
-  public Entity removeEntity(UUID uuid) throws EntityNotFound {
+  public Entity removeEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
     ChunkRange chunkRange = this.entityMap.get(uuid);
     if (chunkRange == null) throw new EntityNotFound("UUID not found in entityMap");
     Chunk chunk = this.chunkClockMap.get(chunkRange);

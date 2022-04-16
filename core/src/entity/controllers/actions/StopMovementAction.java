@@ -3,6 +3,7 @@ package entity.controllers.actions;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
+import entity.Entity;
 
 public class StopMovementAction implements EntityAction {
 
@@ -15,7 +16,7 @@ public class StopMovementAction implements EntityAction {
   }
 
   @Override
-  public Boolean isValid(Body body) {
+  public Boolean isValid(Entity entity) {
     return true;
   }
 }

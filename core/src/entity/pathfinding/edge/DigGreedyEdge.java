@@ -3,10 +3,10 @@ package entity.pathfinding.edge;
 import static app.screen.GameScreen.pathDebugRender;
 
 import app.GameController;
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import common.GameStore;
-import common.exceptions.BodyNotFound;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import common.exceptions.EntityNotFound;

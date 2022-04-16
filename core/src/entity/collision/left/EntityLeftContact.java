@@ -1,45 +1,15 @@
 package entity.collision.left;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.google.inject.Inject;
-import common.exceptions.BodyNotFound;
-import entity.collision.CollisionPair;
-import entity.collision.CollisionService;
-import entity.collision.ContactWrapper;
-import entity.collision.ground.GroundPoint;
-import java.util.HashMap;
-import java.util.Map;
+import common.exceptions.ChunkNotFound;
+import entity.Entity;
+import entity.collision.ContactWrapperCounter;
 
-public class EntityLeftContact implements ContactWrapper {
-  @Inject CollisionService collisionService;
+public class EntityLeftContact extends ContactWrapperCounter {
 
-  Map<Body, Integer> leftContactCounter = new HashMap<>();
-
-  @Override
-  public void beginContact(Object source, Object target) throws BodyNotFound {
-    LeftSensorPoint leftPoint = (LeftSensorPoint) source;
-    this.leftContactCounter.putIfAbsent(leftPoint.getBody(), 0);
-    int leftCount = this.leftContactCounter.get(leftPoint.getBody());
-    this.leftContactCounter.put(leftPoint.getBody(), leftCount + 1);
-  }
-
-  @Override
-  public void endContact(Object source, Object target) throws BodyNotFound {
-    LeftSensorPoint leftPoint = (LeftSensorPoint) source;
-    this.leftContactCounter.putIfAbsent(leftPoint.getBody(), 0);
-    int leftCount = this.leftContactCounter.get(leftPoint.getBody());
-    this.leftContactCounter.put(leftPoint.getBody(), leftCount - 1);
-  }
-
-  public boolean isLeftSpace(Body body) {
-    if (this.leftContactCounter.get(body) == null) {
-      return true;
-    } else return this.leftContactCounter.get(body) == 0;
-  }
-
-  @Override
-  public void init() {
-    collisionService.addCollisionConsumer(
-        new CollisionPair(LeftSensorPoint.class, GroundPoint.class), this);
+  public boolean isLeftSpace(Entity entity) throws ChunkNotFound {
+    if (this.getContactCount(entity.uuid, entity.getChunk().chunkRange) != null
+        && this.getContactCount(entity.uuid, entity.getChunk().chunkRange) > 0) {
+      return false;
+    } else return true;
   }
 }

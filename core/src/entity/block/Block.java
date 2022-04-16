@@ -1,13 +1,11 @@
 package entity.block;
 
 import app.screen.BaseAssetManager;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
+import chunk.world.EntityBodyBuilder;
 import common.Clock;
 import common.Coordinates;
 import common.GameSettings;
 import entity.Entity;
-import entity.EntityBodyBuilder;
 
 public abstract class Block extends Entity {
 
@@ -29,6 +27,4 @@ public abstract class Block extends Entity {
   public synchronized int getUpdateTimeout() {
     return Integer.MAX_VALUE;
   }
-
-  public abstract Body addWorld(World world);
 }

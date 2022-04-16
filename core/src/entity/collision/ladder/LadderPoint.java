@@ -1,11 +1,12 @@
 package entity.collision.ladder;
 
-import com.badlogic.gdx.physics.box2d.Body;
+import chunk.ChunkRange;
 import entity.collision.CollisionPoint;
+import java.util.UUID;
 
 public class LadderPoint extends CollisionPoint {
 
-  public LadderPoint(Body body) {
-    super(body);
+  public LadderPoint(UUID uuid, ChunkRange chunkRange) {
+    super(uuid, chunkRange);
   }
 }

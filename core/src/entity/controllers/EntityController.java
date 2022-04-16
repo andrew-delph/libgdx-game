@@ -1,10 +1,13 @@
 package entity.controllers;
 
 import app.GameController;
+import chunk.world.exceptions.BodyNotFound;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import common.Coordinates;
 import common.GameSettings;
 import common.events.EventService;
+import common.exceptions.ChunkNotFound;
 import entity.Entity;
 import entity.controllers.actions.EntityAction;
 import entity.controllers.actions.EntityActionFactory;
@@ -44,16 +47,19 @@ public class EntityController {
     this.actionMap.put(type, action);
   }
 
-  public void applyAction(String type, Body body) {
-    this.actionMap.get(type).apply(body);
+  public void applyAction(String type, Entity entity) throws ChunkNotFound, BodyNotFound {
+    entity.applyBody(
+        (Body body) -> {
+          this.actionMap.get(type).apply(body);
+        });
   }
 
   public EntityAction getAction(String type) {
     return this.actionMap.get(type);
   }
 
-  public Boolean isActionValid(String type, Body body) {
-    return this.actionMap.get(type).isValid(body);
+  public Boolean isActionValid(String type, Entity entity) throws ChunkNotFound {
+    return this.actionMap.get(type).isValid(entity);
   }
 
   public Set<Map.Entry<String, EntityAction>> getEntityActionEntrySet() {
@@ -65,17 +71,23 @@ public class EntityController {
   public void afterWorldUpdate() throws Exception {
     Coordinates moveTo =
         new Coordinates(
-            this.entity.getBody().getPosition().x / GameSettings.PHYSICS_SCALE,
-            this.entity.getBody().getPosition().y / GameSettings.PHYSICS_SCALE);
+            this.entity.getBodyPosition().x / GameSettings.PHYSICS_SCALE,
+            this.entity.getBodyPosition().y / GameSettings.PHYSICS_SCALE);
     if (!this.entity.coordinates.equals(moveTo))
       gameController.moveEntity(this.entity.uuid, moveTo);
 
-    if (this.getAction("climbUp").isValid(this.entity.getBody())) {
-      this.entity.getBody().setLinearVelocity(0, 0);
-      this.entity.getBody().setGravityScale(0);
+    if (this.getAction("climbUp").isValid(entity)) {
+      this.entity.setBodyVelocity(new Vector2(0, 0));
+      this.entity.applyBody(
+          (Body body) -> {
+            body.setGravityScale(0);
+          });
     } else {
-      this.entity.getBody().setGravityScale(1);
-      this.entity.getBody().setLinearVelocity(0, this.entity.getBody().getLinearVelocity().y);
+      this.entity.applyBody(
+          (Body body) -> {
+            body.setGravityScale(1);
+          });
+      this.entity.setBodyVelocity(new Vector2(0, this.entity.getBodyVelocity().y));
     }
   }
 

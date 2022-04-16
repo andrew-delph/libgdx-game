@@ -1,6 +1,7 @@
 package app.game;
 
 import app.GameController;
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Clock;
@@ -30,7 +31,8 @@ public class testGame {
 
   @Before
   public void setup()
-      throws IOException, WrongVersion, SerializationDataMissing, InterruptedException {
+      throws IOException, WrongVersion, SerializationDataMissing, InterruptedException,
+          BodyNotFound {
     injector = Guice.createInjector(new StandAloneConfig());
     game = injector.getInstance(Game.class);
     clock = injector.getInstance(Clock.class);
