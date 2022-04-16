@@ -279,7 +279,7 @@ public class HandshakeTests {
     TimeUnit.SECONDS.sleep(1);
     assert !serverChunk.equals(clientChunk);
 
-    clientGameController.moveEntity(e2.uuid, coordinatesToMove);
+    clientGameController.moveEntity(e2.getUuid(), coordinatesToMove);
     TimeUnit.SECONDS.sleep(1);
     assert serverChunk.equals(clientChunk);
   }
@@ -305,8 +305,8 @@ public class HandshakeTests {
 
     clientGameController.addEntity(e1);
     TimeUnit.SECONDS.sleep(1);
-    assert serverGameStore.getEntity(e1.uuid) != null;
-    assert clientGameStore.getEntity(e1.uuid) != null;
+    assert serverGameStore.getEntity(e1.getUuid()) != null;
+    assert clientGameStore.getEntity(e1.getUuid()) != null;
     assert serverChunk.equals(clientChunk);
 
     clientGameStore.addEntity(blockToRemove);
@@ -349,7 +349,7 @@ public class HandshakeTests {
     TimeUnit.SECONDS.sleep(1);
     assert !serverChunk.equals(clientChunk);
 
-    serverGameController.moveEntity(e2.uuid, coordinatesToMove);
+    serverGameController.moveEntity(e2.getUuid(), coordinatesToMove);
     TimeUnit.SECONDS.sleep(2);
     assert serverChunk.equals(clientChunk);
   }

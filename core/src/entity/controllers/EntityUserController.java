@@ -66,7 +66,7 @@ public class EntityUserController extends EntityController {
     }
 
     if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-      gameController.createAI(this.entity.uuid);
+      gameController.createAI(this.entity.getUuid());
     }
     if (Gdx.input.isKeyPressed(Input.Keys.W)) {
       if (this.getAction("climbUp").isValid(entity)) {

@@ -34,7 +34,7 @@ public class GameStore {
 
   public void addEntity(Entity entity) throws ChunkNotFound {
     ChunkRange entityChunkRange = new ChunkRange(entity.coordinates);
-    this.entityMap.put(entity.uuid, entityChunkRange);
+    this.entityMap.put(entity.getUuid(), entityChunkRange);
     Chunk chunk;
     try {
       chunk = this.chunkClockMap.get(entityChunkRange);
@@ -91,7 +91,7 @@ public class GameStore {
 
   public void addChunk(Chunk chunk) {
     for (Entity entity : chunk.getEntityList()) {
-      this.entityMap.put(entity.uuid, chunk.chunkRange);
+      this.entityMap.put(entity.getUuid(), chunk.chunkRange);
     }
     this.chunkClockMap.add(chunk);
   }
@@ -184,12 +184,12 @@ public class GameStore {
   }
 
   public synchronized void syncEntity(Entity entity) throws EntityNotFound {
-    UUID target = entity.uuid;
-    ChunkRange from = this.getEntityChunkRange(entity.uuid);
+    UUID target = entity.getUuid();
+    ChunkRange from = this.getEntityChunkRange(entity.getUuid());
     ChunkRange to = new ChunkRange(entity.coordinates);
     if (!from.equals(to)) {
       this.eventService.queuePostUpdateEvent(
-          EventTypeFactory.createReplaceEntityEvent(entity.uuid, entity, true, to));
+          EventTypeFactory.createReplaceEntityEvent(entity.getUuid(), entity, true, to));
       this.eventService.fireEvent(
           EventTypeFactory.createChunkSwapOutgoingEventType(target, from, to));
     }

@@ -59,7 +59,7 @@ public class GameController {
     eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(uuid));
     eventService.fireEvent(
         EventTypeFactory.createRemoveEntityOutgoingEvent(
-            entity.uuid, new ChunkRange(entity.coordinates)));
+            entity.getUuid(), new ChunkRange(entity.coordinates)));
   }
 
   public Entity triggerRemoveEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
@@ -164,15 +164,15 @@ public class GameController {
   public void replaceBlock(Block target, Block replacementBlock) {
     Ladder removeLadder = this.gameStore.getLadder(target.coordinates);
     if (removeLadder != null) {
-      this.removeEntity(removeLadder.uuid);
+      this.removeEntity(removeLadder.getUuid());
     }
     // put this into a post update event
     this.eventService.queuePostUpdateEvent(
         EventTypeFactory.createReplaceEntityEvent(
-            target.uuid, replacementBlock, false, new ChunkRange(target.coordinates)));
+            target.getUuid(), replacementBlock, false, new ChunkRange(target.coordinates)));
     this.eventService.fireEvent(
         EventTypeFactory.createReplaceBlockOutgoingEvent(
-            target.uuid, replacementBlock, new ChunkRange(target.coordinates)));
+            target.getUuid(), replacementBlock, new ChunkRange(target.coordinates)));
   }
 
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity)
@@ -187,7 +187,7 @@ public class GameController {
     if (swapVelocity) {
       velocity = removeEntity.getBodyVelocity();
     }
-    this.gameStore.removeEntity(removeEntity.uuid);
+    this.gameStore.removeEntity(removeEntity.getUuid());
     this.gameStore.addEntity(replacementEntity);
 
     if (swapVelocity) {

@@ -19,7 +19,7 @@ public class testEntityEqual {
 
     assert !entity1.equals(entity2);
 
-    entity2.uuid = entity1.uuid;
+    entity2.setUuid(entity1.getUuid());
 
     assert entity1.equals(entity2);
   }

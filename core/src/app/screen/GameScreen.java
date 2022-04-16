@@ -78,7 +78,7 @@ public class GameScreen extends ApplicationAdapter {
       LOGGER.error(e);
       this.dispose();
     }
-    LOGGER.info("my entity " + myEntity.uuid);
+    LOGGER.info("my entity " + myEntity.getUuid());
     myEntity.setEntityController(entityControllerFactory.createEntityUserController(myEntity));
     activeEntityManager.registerActiveEntity(user.getUserID(), myEntity.getUuid());
     debugRenderer = new Box2DDebugRenderer();

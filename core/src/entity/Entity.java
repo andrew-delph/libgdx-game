@@ -25,14 +25,14 @@ import networking.translation.NetworkDataSerializer;
 public class Entity implements SerializeNetworkData {
   public static float staticHeight = 0.8f;
   public static float staticWidth = 0.8f;
-  public UUID uuid;
+  private final Clock clock;
   public Animation animation;
-  public Sprite sprite;
   public Coordinates coordinates;
   public int zindex = 3;
   public EntityBodyBuilder entityBodyBuilder;
-  Clock clock;
+  public Sprite sprite;
   BaseAssetManager baseAssetManager;
+  private UUID uuid;
   private Chunk chunk;
   private EntityController entityController;
   private int width;
@@ -167,5 +167,9 @@ public class Entity implements SerializeNetworkData {
 
   public UUID getUuid() {
     return this.uuid;
+  }
+
+  public void setUuid(UUID uuid) {
+    this.uuid = uuid;
   }
 }

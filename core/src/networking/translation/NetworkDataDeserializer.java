@@ -325,7 +325,7 @@ public class NetworkDataDeserializer {
 
     if (uuid == null) throw new SerializationDataMissing("Missing UUID");
     if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
-    entity.uuid = uuid;
+    entity.setUuid(uuid);
     entity.coordinates = coordinates;
     return entity;
   }

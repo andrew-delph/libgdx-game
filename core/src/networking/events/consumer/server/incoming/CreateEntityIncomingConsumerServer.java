@@ -38,7 +38,7 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
     }
 
     if (entity.getClass() == Entity.class) {
-      activeEntityManager.registerActiveEntity(incoming.getUserID(), entity.uuid);
+      activeEntityManager.registerActiveEntity(incoming.getUserID(), entity.getUuid());
     }
 
     CreateEntityOutgoingEventType outgoing =

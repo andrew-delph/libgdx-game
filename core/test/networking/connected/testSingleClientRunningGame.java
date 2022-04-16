@@ -156,9 +156,12 @@ public class testSingleClientRunningGame {
         clientGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
   }
@@ -179,18 +182,24 @@ public class testSingleClientRunningGame {
         clientGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
-    clientGameController.moveEntity(clientEntity.uuid, new Coordinates(0, 1));
+    clientGameController.moveEntity(clientEntity.getUuid(), new Coordinates(0, 1));
 
     TimeUnit.SECONDS.sleep(1);
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
 
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
   }
@@ -207,9 +216,12 @@ public class testSingleClientRunningGame {
     Entity clientEntity = clientGameController.createDirtBlock(new Coordinates(0, 0));
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
   }
@@ -228,18 +240,24 @@ public class testSingleClientRunningGame {
     Entity clientEntity = clientGameController.createDirtBlock(new Coordinates(0, 0));
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
 
-    clientGameController.moveEntity(clientEntity.uuid, new Coordinates(0, 1));
+    clientGameController.moveEntity(clientEntity.getUuid(), new Coordinates(0, 1));
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
   }
@@ -276,9 +294,11 @@ public class testSingleClientRunningGame {
         serverGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
-    assert serverEntity.uuid.equals(clientGameStore.getEntity(serverEntity.uuid).uuid);
+    assert serverEntity
+        .getUuid()
+        .equals(clientGameStore.getEntity(serverEntity.getUuid()).getUuid());
     assert serverEntity.coordinates.equals(
-        clientGameStore.getEntity(serverEntity.uuid).coordinates);
+        clientGameStore.getEntity(serverEntity.getUuid()).coordinates);
   }
 
   @Test
@@ -300,14 +320,18 @@ public class testSingleClientRunningGame {
     Entity serverEntity =
         serverGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
-    assert serverEntity.uuid.equals(clientGameStore.getEntity(serverEntity.uuid).uuid);
+    assert serverEntity
+        .getUuid()
+        .equals(clientGameStore.getEntity(serverEntity.getUuid()).getUuid());
     assert serverEntity.coordinates.equals(
-        clientGameStore.getEntity(serverEntity.uuid).coordinates);
-    serverGameController.moveEntity(serverEntity.uuid, new Coordinates(0, 1));
+        clientGameStore.getEntity(serverEntity.getUuid()).coordinates);
+    serverGameController.moveEntity(serverEntity.getUuid(), new Coordinates(0, 1));
     TimeUnit.SECONDS.sleep(1);
-    assert serverEntity.uuid.equals(clientGameStore.getEntity(serverEntity.uuid).uuid);
+    assert serverEntity
+        .getUuid()
+        .equals(clientGameStore.getEntity(serverEntity.getUuid()).getUuid());
     assert serverEntity.coordinates.equals(
-        clientGameStore.getEntity(serverEntity.uuid).coordinates);
+        clientGameStore.getEntity(serverEntity.getUuid()).coordinates);
   }
 
   @Test
@@ -323,14 +347,17 @@ public class testSingleClientRunningGame {
     Entity clientEntity =
         clientGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
     this.clientNetworkHandle.close();
     TimeUnit.SECONDS.sleep(1);
-    assert !serverGameStore.doesEntityExist(clientEntity.uuid);
+    assert !serverGameStore.doesEntityExist(clientEntity.getUuid());
   }
 
   @Test
@@ -347,7 +374,7 @@ public class testSingleClientRunningGame {
     Block clientBlock = serverGameStore.getBlock(new Coordinates(0, 0));
     clientEventService.fireEvent(
         EventTypeFactory.createReplaceBlockOutgoingEvent(
-            clientBlock.uuid,
+            clientBlock.getUuid(),
             serverBlockFactory.createSky(clientBlock.coordinates),
             new ChunkRange(clientBlock.coordinates)));
     TimeUnit.SECONDS.sleep(1);
@@ -395,8 +422,8 @@ public class testSingleClientRunningGame {
     Entity clientEntity = clientGameController.createLadder(coordinates);
     TimeUnit.SECONDS.sleep(1);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
-        .equals(clientGameStore.getEntity(clientEntity.uuid));
+        .getEntity(clientEntity.getUuid())
+        .equals(clientGameStore.getEntity(clientEntity.getUuid()));
   }
 
   @Test
@@ -412,8 +439,8 @@ public class testSingleClientRunningGame {
     Entity clientEntity = serverGameController.createLadder(coordinates);
     TimeUnit.SECONDS.sleep(1);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
-        .equals(clientGameStore.getEntity(clientEntity.uuid));
+        .getEntity(clientEntity.getUuid())
+        .equals(clientGameStore.getEntity(clientEntity.getUuid()));
   }
 
   @Test
@@ -444,13 +471,13 @@ public class testSingleClientRunningGame {
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
-        .getEntity(myEntity.uuid)
-        .equals(clientGameStore.getEntity(myEntity.uuid));
-    clientGameController.removeEntity(myEntity.uuid);
+        .getEntity(myEntity.getUuid())
+        .equals(clientGameStore.getEntity(myEntity.getUuid()));
+    clientGameController.removeEntity(myEntity.getUuid());
     TimeUnit.SECONDS.sleep(1);
 
-    assert !serverGameStore.doesEntityExist(myEntity.uuid);
-    assert !clientGameStore.doesEntityExist(myEntity.uuid);
+    assert !serverGameStore.doesEntityExist(myEntity.getUuid());
+    assert !clientGameStore.doesEntityExist(myEntity.getUuid());
   }
 
   @Test
@@ -470,13 +497,13 @@ public class testSingleClientRunningGame {
 
     TimeUnit.SECONDS.sleep(1);
     assert serverGameStore
-        .getEntity(myEntity.uuid)
-        .equals(clientGameStore.getEntity(myEntity.uuid));
-    serverGameController.removeEntity(myEntity.uuid);
+        .getEntity(myEntity.getUuid())
+        .equals(clientGameStore.getEntity(myEntity.getUuid()));
+    serverGameController.removeEntity(myEntity.getUuid());
     TimeUnit.SECONDS.sleep(1);
 
-    assert !serverGameStore.doesEntityExist(myEntity.uuid);
-    assert !clientGameStore.doesEntityExist(myEntity.uuid);
+    assert !serverGameStore.doesEntityExist(myEntity.getUuid());
+    assert !clientGameStore.doesEntityExist(myEntity.getUuid());
   }
 
   @Test
@@ -510,16 +537,16 @@ public class testSingleClientRunningGame {
       clientGameStore.removeChunk(chunkRangeToTest);
     }
 
-    assert serverGameStore.doesEntityExist(myEntity.uuid);
-    assert clientGameStore.doesEntityExist(myEntity.uuid);
+    assert serverGameStore.doesEntityExist(myEntity.getUuid());
+    assert clientGameStore.doesEntityExist(myEntity.getUuid());
 
-    serverGameController.moveEntity(myEntity.uuid, coordinatesToTest);
+    serverGameController.moveEntity(myEntity.getUuid(), coordinatesToTest);
 
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.doesEntityExist(myEntity.uuid);
+    assert serverGameStore.doesEntityExist(myEntity.getUuid());
     assert (new ChunkRange(myEntity.coordinates)).equals(chunkRangeToTest);
-    assert !clientGameStore.doesEntityExist(myEntity.uuid);
+    assert !clientGameStore.doesEntityExist(myEntity.getUuid());
   }
 
   @Test
@@ -553,14 +580,14 @@ public class testSingleClientRunningGame {
     // assert client doesn't have chunk
     // assert client doesnt have entity
     assert !clientGameStore.doesChunkExist(new ChunkRange(coordinatesInit));
-    assert !clientGameStore.doesEntityExist(myEntity.uuid);
+    assert !clientGameStore.doesEntityExist(myEntity.getUuid());
 
-    serverGameController.moveEntity(myEntity.uuid, coordinatesToTest);
+    serverGameController.moveEntity(myEntity.getUuid(), coordinatesToTest);
 
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.doesEntityExist(myEntity.uuid);
+    assert serverGameStore.doesEntityExist(myEntity.getUuid());
     assert (new ChunkRange(myEntity.coordinates)).equals(chunkRangeToTest);
-    assert clientGameStore.doesEntityExist(myEntity.uuid);
+    assert clientGameStore.doesEntityExist(myEntity.getUuid());
   }
 }
