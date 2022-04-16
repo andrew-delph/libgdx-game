@@ -32,7 +32,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
   final Logger LOGGER = LogManager.getLogger();
   final ConcurrentHashMap<UUID, Entity> chunkMap = new ConcurrentHashMap<>();
-  private final WorldWrapper worldWrapper = new WorldWrapper();
+  private final WorldWrapper worldWrapper;
   public ChunkRange chunkRange;
   public Tick updateTick;
   GameStore gameStore;
@@ -51,6 +51,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     this.clock = clock;
     this.chunkRange = chunkRange;
     this.nextTick(1);
+    this.worldWrapper = new WorldWrapper(chunkRange);
     this.worldWrapper.applyWorld(
         (World world) ->
             world.setContactListener(entityContactListenerFactory.createEntityContactListener()));
@@ -80,12 +81,14 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     synchronized (worldWrapper) {
       if (worldWrapper.hasBody(entity)) worldWrapper.destroyEntity(entity);
     }
+    neighborEntitySet.add(entity);
     return entity;
   }
 
   public synchronized void addEntity(Entity entity) {
     this.chunkMap.put(entity.uuid, entity);
     this.addBody(entity);
+    neighborEntitySet.remove(entity);
     this.nextTick(1);
   }
 

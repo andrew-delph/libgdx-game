@@ -2,6 +2,7 @@ package chunk.world;
 
 import static common.GameSettings.GRAVITY;
 
+import chunk.ChunkRange;
 import chunk.world.exceptions.BodyNotFound;
 import chunk.world.exceptions.DestroyBodyException;
 import com.badlogic.gdx.math.Vector2;
@@ -18,8 +19,11 @@ import java.util.function.Consumer;
 public class WorldWrapper {
   private final World world = new World(new Vector2(0, -GRAVITY), false);
   private final Map<UUID, Body> uuidBodyMap = new HashMap<>();
+  private final ChunkRange chunkRange;
 
-  public WorldWrapper() {}
+  public WorldWrapper(ChunkRange chunkRange) {
+    this.chunkRange = chunkRange;
+  }
 
   public synchronized void tick() {
     world.step(

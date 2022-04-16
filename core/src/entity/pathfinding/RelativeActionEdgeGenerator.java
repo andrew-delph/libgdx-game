@@ -92,7 +92,7 @@ public class RelativeActionEdgeGenerator {
 
   private void setupWorld(EntityStructure entityStructure, RelativeVertex relativeVertex)
       throws BodyNotFound {
-    this.worldWrapper = new WorldWrapper();
+    this.worldWrapper = new WorldWrapper(new ChunkRange(new Coordinates(0, 0)));
     this.chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
 
     for (Map.Entry<RelativeCoordinates, Class<? extends Entity>> relativeBlockMapEntry :
