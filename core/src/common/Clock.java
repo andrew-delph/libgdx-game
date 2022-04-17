@@ -1,13 +1,59 @@
 package common;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class Clock {
-  public Tick currentTick;
+  Map<Integer, Lockable> tickLockable = new ConcurrentHashMap();
+  private Tick currentTick;
 
   Clock() {
-    this.currentTick = new Tick(0);
+    this.setCurrentTick(new Tick(0));
   }
 
-  public void tick() {
-    this.currentTick = new Tick(this.currentTick.time + 1);
+  public static Long getCurrentTime() {
+    return System.currentTimeMillis();
+  }
+
+  public synchronized Tick getCurrentTick() {
+    return currentTick;
+  }
+
+  public synchronized void setCurrentTick(Tick currentTick) {
+    this.currentTick = currentTick;
+  }
+
+  public synchronized void tick() {
+    this.setCurrentTick(new Tick(currentTick.time + 1));
+    tickLockable.putIfAbsent(currentTick.time, new Lockable());
+    tickLockable.get(currentTick.time).unlock();
+  }
+
+  public void waitForTick() throws InterruptedException {
+    waitForTick(1);
+  }
+
+  public void waitForTick(int time) throws InterruptedException {
+    waitForTick(time, null);
+  }
+
+  public void waitForTick(Runnable task) throws InterruptedException {
+    this.waitForTick(1, task);
+  }
+
+  public void waitForTick(int time, Runnable task) throws InterruptedException {
+    int nextTick = this.getCurrentTick().time + time;
+    tickLockable.putIfAbsent(nextTick, new Lockable());
+    if (task == null) {
+      tickLockable.get(nextTick).waitForUnlock();
+    } else {
+      tickLockable.get(nextTick).waitForUnlock(task);
+    }
+  }
+
+  public void addTaskOnTick(int time, Runnable task) {
+    int nextTick = this.getCurrentTick().time + time;
+    tickLockable.putIfAbsent(nextTick, new Lockable());
+    tickLockable.get(nextTick).addTaskToUnlock(task);
   }
 }

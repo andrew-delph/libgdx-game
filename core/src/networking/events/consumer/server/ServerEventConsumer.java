@@ -9,12 +9,15 @@ import networking.events.consumer.server.incoming.CreateAIEntityConsumerServer;
 import networking.events.consumer.server.incoming.CreateEntityIncomingConsumerServer;
 import networking.events.consumer.server.incoming.DisconnectionIncomingConsumerServer;
 import networking.events.consumer.server.incoming.HandshakeIncomingConsumerServer;
+import networking.events.consumer.server.incoming.PingRequestIncomingConsumerServer;
+import networking.events.consumer.server.incoming.PingResponseIncomingConsumerServer;
 import networking.events.consumer.server.incoming.RemoveEntityIncomingConsumerServer;
 import networking.events.consumer.server.incoming.ReplaceBlockIncomingConsumerServer;
 import networking.events.consumer.server.incoming.SubscriptionIncomingConsumerServer;
 import networking.events.consumer.server.incoming.UpdateEntityIncomingConsumerServer;
 import networking.events.consumer.server.outgoing.ChunkSwapOutgoingConsumerServer;
 import networking.events.consumer.server.outgoing.CreateEntityOutgoingConsumerServer;
+import networking.events.consumer.server.outgoing.PingRequestOutgoingConsumerServer;
 import networking.events.consumer.server.outgoing.RemoveEntityOutgoingConsumerServer;
 import networking.events.consumer.server.outgoing.ReplaceBlockOutgoingConsumerServer;
 import networking.events.consumer.server.outgoing.UpdateEntityOutgoingConsumerServer;
@@ -45,6 +48,9 @@ public class ServerEventConsumer extends EventConsumer {
   @Inject RemoveEntityOutgoingConsumerServer removeEntityOutgoingConsumerServer;
   @Inject ChunkSwapOutgoingConsumerServer chunkSwapOutgoingConsumerServer;
   @Inject AuthenticationIncomingConsumerServer authenticationIncomingConsumerServer;
+  @Inject PingRequestOutgoingConsumerServer pingRequestOutgoingConsumerServer;
+  @Inject PingRequestIncomingConsumerServer pingRequestIncomingConsumerServer;
+  @Inject PingResponseIncomingConsumerServer pingResponseIncomingConsumerServer;
 
   public void init() {
     super.init();
@@ -76,5 +82,11 @@ public class ServerEventConsumer extends EventConsumer {
         NetworkEventTypeEnum.CHUNK_SWAP_OUTGOING, chunkSwapOutgoingConsumerServer);
     this.eventService.addListener(
         NetworkEventTypeEnum.AUTH_INCOMING, authenticationIncomingConsumerServer);
+    this.eventService.addListener(
+        NetworkEventTypeEnum.PING_REQUEST_OUTGOING, pingRequestOutgoingConsumerServer);
+    this.eventService.addListener(
+        NetworkEventTypeEnum.PING_REQUEST_INCOMING, pingRequestIncomingConsumerServer);
+    this.eventService.addListener(
+        NetworkEventTypeEnum.PING_RESPONSE_INCOMING, pingResponseIncomingConsumerServer);
   }
 }

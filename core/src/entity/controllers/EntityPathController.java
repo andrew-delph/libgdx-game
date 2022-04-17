@@ -38,7 +38,7 @@ public class EntityPathController extends EntityController {
   }
 
   @Override
-  public void afterWorldUpdate() {
+  public void afterWorldUpdate() throws Exception {
     super.afterWorldUpdate();
   }
 
@@ -54,7 +54,7 @@ public class EntityPathController extends EntityController {
       this.pathGuider = pathGuiderFactory.createPathGuider(entity);
     }
     if (this.entity.coordinates.getBase().equals(target.coordinates.getBase())) {
-      gameController.removeEntity(entity.uuid);
+      gameController.removeEntity(entity.getUuid());
       return;
     }
     try {

@@ -19,6 +19,8 @@ import networking.events.types.incoming.ChunkSwapIncomingEventType;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
 import networking.events.types.incoming.DisconnectionIncomingEventType;
 import networking.events.types.incoming.HandshakeIncomingEventType;
+import networking.events.types.incoming.PingRequestIncomingEventType;
+import networking.events.types.incoming.PingResponseIncomingEventType;
 import networking.events.types.incoming.RemoveEntityIncomingEventType;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import networking.events.types.incoming.SubscriptionIncomingEventType;
@@ -27,6 +29,8 @@ import networking.events.types.outgoing.ChunkSwapOutgoingEventType;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
+import networking.events.types.outgoing.PingRequestOutgoingEventType;
+import networking.events.types.outgoing.PingResponseOutgoingEventType;
 import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import networking.events.types.outgoing.SubscriptionOutgoingEventType;
@@ -119,6 +123,30 @@ public class EventTypeFactory {
     return new ChunkSwapOutgoingEventType(target, from, to);
   }
 
+  public static AuthenticationIncomingEventType createAuthenticationIncomingEventType(
+      UserID userID, RequestNetworkEventObserver requestNetworkEventObserver) {
+    return new AuthenticationIncomingEventType(userID, requestNetworkEventObserver);
+  }
+
+  public static PingRequestOutgoingEventType createPingRequestOutgoingEventType(
+      UserID userID, UUID pingID) {
+    return new PingRequestOutgoingEventType(userID, pingID);
+  }
+
+  public static PingResponseOutgoingEventType createPingResponseOutgoingEventType(UUID pingID) {
+    return new PingResponseOutgoingEventType(pingID);
+  }
+
+  public static PingRequestIncomingEventType createPingRequestIncomingEventType(
+      UserID userID, UUID pingID) {
+    return new PingRequestIncomingEventType(userID, pingID);
+  }
+
+  public static PingResponseIncomingEventType createPingResponseIncomingEventType(
+      UserID userID, UUID pingID, Long receivedTime) {
+    return new PingResponseIncomingEventType(userID, pingID, receivedTime);
+  }
+
   public SubscriptionOutgoingEventType createSubscriptionOutgoingEvent(
       List<ChunkRange> chunkRangeList) {
     return new SubscriptionOutgoingEventType(chunkRangeList);
@@ -147,10 +175,5 @@ public class EventTypeFactory {
   public GetChunkOutgoingEventType createGetChunkOutgoingEventType(
       ChunkRange chunkRange, UserID userID) {
     return new GetChunkOutgoingEventType(chunkRange, userID);
-  }
-
-  public AuthenticationIncomingEventType createAuthenticationIncomingEventType(
-      UserID userID, RequestNetworkEventObserver requestNetworkEventObserver) {
-    return new AuthenticationIncomingEventType(userID, requestNetworkEventObserver);
   }
 }

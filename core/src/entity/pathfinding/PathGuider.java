@@ -1,14 +1,19 @@
 package entity.pathfinding;
 
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Inject;
 import common.Coordinates;
+import common.exceptions.ChunkNotFound;
+import common.exceptions.EdgeStepperException;
 import entity.Entity;
 import entity.pathfinding.edge.EdgeStepper;
 import java.util.LinkedList;
 import java.util.Queue;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PathGuider {
-
+  final Logger LOGGER = LogManager.getLogger();
   public RelativePathNode currentPathNode;
   @Inject RelativePathFactory relativePathFactory;
   Entity entity;
@@ -21,13 +26,13 @@ public class PathGuider {
     this.entity = entity;
   }
 
-  public void findPath(Coordinates start, Coordinates end) throws Exception {
+  public void findPath(Coordinates start, Coordinates end) {
     this.pathNodeQueue = null;
     this.currentPath = relativePathFactory.create(start, end);
     this.currentPath.backgroundSearch();
   }
 
-  public void followPath(Coordinates coordinates) throws Exception {
+  public void followPath(Coordinates coordinates) throws BodyNotFound, ChunkNotFound {
     if (this.currentPath != null && this.currentPath.isSearching()) {
       return;
     } else if (this.currentPath == null) {
@@ -46,8 +51,7 @@ public class PathGuider {
       } else {
         // start using a new path
         this.currentEdgeStepper = currentPathNode.edge.getEdgeStepper(entity, currentPathNode);
-        this.entity.getBody().setTransform(this.currentPathNode.startPosition.toVector2(), 0);
-        //        this.entity.getBody().setLinearVelocity(this.currentPathNode.edge.from.velocity);
+        this.entity.setBodyPosition(this.currentPathNode.startPosition.toVector2());
         this.entity.coordinates = this.currentPathNode.startPosition;
         this.currentPathNode.start();
       }
@@ -55,11 +59,9 @@ public class PathGuider {
 
     try {
       this.currentEdgeStepper.follow(this.entity, this.currentPathNode);
-      System.out.println("currentEdgeStepper: " + this.currentEdgeStepper);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (EdgeStepperException | ChunkNotFound e) {
+      LOGGER.debug("Edge stepper error: " + e);
       this.reset();
-      return;
     }
   }
 

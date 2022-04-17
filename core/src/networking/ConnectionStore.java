@@ -2,12 +2,14 @@ package networking;
 
 import app.user.UserID;
 import com.google.inject.Inject;
-import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionStore {
 
-  Map<UserID, RequestNetworkEventObserver> connectionMap = new HashMap<>();
+  Map<UserID, RequestNetworkEventObserver> connectionMap = new ConcurrentHashMap<>();
 
   @Inject
   public ConnectionStore() {}
@@ -23,6 +25,10 @@ public class ConnectionStore {
 
   public RequestNetworkEventObserver getConnection(UserID userID) {
     return this.connectionMap.get(userID);
+  }
+
+  public List<UserID> getConnectedUserID() {
+    return new LinkedList<>(this.connectionMap.keySet());
   }
 
   public int size() {

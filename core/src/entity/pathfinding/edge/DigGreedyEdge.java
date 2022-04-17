@@ -3,10 +3,15 @@ package entity.pathfinding.edge;
 import static app.screen.GameScreen.pathDebugRender;
 
 import app.GameController;
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
 import common.GameStore;
+import common.exceptions.ChunkNotFound;
+import common.exceptions.EdgeStepperException;
+import common.exceptions.EntityNotFound;
 import entity.Entity;
+import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.SkyBlock;
 import entity.pathfinding.EntityStructure;
@@ -78,11 +83,19 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
   }
 
   @Override
-  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
-    this.gameController.replaceBlock(
-        this.gameStore.getBlock(
-            this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition)),
-        blockFactory.createSky());
+  public void follow(Entity entity, RelativePathNode relativePathNode)
+      throws EdgeStepperException, ChunkNotFound, BodyNotFound {
+    Block targetBlock =
+        blockFactory.createSky(
+            this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition));
+    try {
+      this.gameController.replaceBlock(
+          this.gameStore.getBlock(
+              this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition)),
+          targetBlock);
+    } catch (EntityNotFound e) {
+      throw new EdgeStepperException(e.toString());
+    }
     super.follow(entity, relativePathNode);
   }
 }

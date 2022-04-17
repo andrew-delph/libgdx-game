@@ -2,12 +2,16 @@ package common.events;
 
 import com.google.inject.Inject;
 import common.events.types.CreateAIEntityEventType;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.controllers.EntityControllerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SoloEventConsumer extends EventConsumer {
 
+  final Logger LOGGER = LogManager.getLogger();
   @Inject EntityControllerFactory entityControllerFactory;
 
   @Override
@@ -19,16 +23,18 @@ public class SoloEventConsumer extends EventConsumer {
         eventType -> {
           try {
             CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
-            System.out.println("CREATE AI " + realEvent.getCoordinates());
+            LOGGER.info("CREATE AI " + realEvent.getCoordinates());
 
             Entity aiEntity = gameController.createEntity(realEvent.getCoordinates());
 
             Entity aiTarget = gameStore.getEntity(realEvent.getTarget());
 
-            aiEntity.setController(
+            aiEntity.setEntityController(
                 entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
 
           } catch (EntityNotFound e) {
+            e.printStackTrace();
+          } catch (ChunkNotFound e) {
             e.printStackTrace();
           }
         });

@@ -24,7 +24,7 @@ public class TranslateUpdateEntityEvent {
 
     Coordinates coordinates = new Coordinates(0, 1);
     ChunkRange chunkRange = new ChunkRange(coordinates);
-    Entity entity = entityFactory.createEntity();
+    Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
 
     UpdateEntityOutgoingEventType outgoing =
         EventTypeFactory.createUpdateEntityOutgoingEvent(entity.toNetworkData(), chunkRange);

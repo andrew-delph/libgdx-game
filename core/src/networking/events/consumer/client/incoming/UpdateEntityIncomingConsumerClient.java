@@ -1,6 +1,5 @@
 package networking.events.consumer.client.incoming;
 
-import app.GameController;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.EntityNotFound;
@@ -9,11 +8,13 @@ import java.util.function.Consumer;
 import networking.client.ClientNetworkHandle;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
 import networking.translation.NetworkDataDeserializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
 
+  final Logger LOGGER = LogManager.getLogger();
   @Inject NetworkDataDeserializer entitySerializationConverter;
-  @Inject GameController gameController;
   @Inject ClientNetworkHandle clientNetworkHandle;
 
   @Override
@@ -22,11 +23,10 @@ public class UpdateEntityIncomingConsumerClient implements Consumer<EventType> {
     try {
       entitySerializationConverter.updateEntity(realEvent.getData());
     } catch (EntityNotFound e) {
-      e.printStackTrace();
-      // TODO test this
+      LOGGER.error(e);
       clientNetworkHandle.initHandshake(realEvent.getChunkRange());
     } catch (SerializationDataMissing e) {
-      e.printStackTrace();
+      LOGGER.error(e);
       // TODO disconnect client
     }
   }

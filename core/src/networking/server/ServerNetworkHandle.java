@@ -4,10 +4,11 @@ import app.user.User;
 import app.user.UserID;
 import chunk.ActiveChunkManager;
 import chunk.Chunk;
-import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import com.google.protobuf.Empty;
+import common.Clock;
+import common.GameSettings;
 import common.GameStore;
 import generation.ChunkGenerationService;
 import io.grpc.Server;
@@ -21,34 +22,43 @@ import java.util.UUID;
 import networking.ConnectionStore;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
+import networking.NetworkObjects.Version;
 import networking.ObserverFactory;
 import networking.RequestNetworkEventObserver;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
+import networking.ping.PingService;
+import networking.sync.SyncService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
+  final Logger LOGGER = LogManager.getLogger();
   @Inject ObserverFactory observerFactory;
   @Inject ConnectionStore connectionStore;
   @Inject GameStore gameStore;
-  @Inject ChunkFactory chunkFactory;
   @Inject EventTypeFactory eventTypeFactory;
   @Inject ActiveChunkManager activeChunkManager;
   @Inject User user;
   @Inject ChunkGenerationService chunkGenerationService;
+  @Inject GameSettings gameSettings;
+  @Inject PingService pingService;
+  @Inject SyncService syncService;
   private Server server;
 
   @Inject
   public ServerNetworkHandle() {}
 
   public void start() throws IOException {
-    System.out.println("I am server: " + this.user.toString());
+    LOGGER.info("I am server: " + this.user.toString());
     server =
         ServerBuilder.forPort(99)
             .addService(this)
             .addService(ProtoReflectionService.newInstance())
             .build();
     server.start();
+    pingService.start();
   }
 
   @Override
@@ -110,21 +120,38 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     responseObserver.onCompleted();
   }
 
+  @Override
+  public void getVersion(Empty request, StreamObserver<Version> responseObserver) {
+    NetworkObjects.Version versionData =
+        NetworkObjects.Version.newBuilder().setVersion(gameSettings.getVersion()).build();
+    responseObserver.onNext(versionData);
+    responseObserver.onCompleted();
+  }
+
   public void close() {
     this.server.shutdown();
   }
 
   public synchronized void send(UserID userID, NetworkObjects.NetworkEvent networkEvent) {
-    networkEvent = networkEvent.toBuilder().setUser(user.getUserID().toString()).build();
+    networkEvent =
+        networkEvent.toBuilder()
+            .setUser(user.getUserID().toString())
+            .setTime(Clock.getCurrentTime())
+            .build();
     RequestNetworkEventObserver observer = connectionStore.getConnection(userID);
     observer.responseObserver.onNext(networkEvent);
   }
 
-  public void initHandshake(UserID userID, ChunkRange chunkRange) {
+  public synchronized void initHandshake(UserID userID, ChunkRange chunkRange) {
+    if (syncService.isHandshakeLocked(userID, chunkRange)) {
+      LOGGER.info("SERVER INIT LOCKED " + userID.toString() + " " + chunkRange);
+      return;
+    }
+    syncService.lockHandshake(userID, chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
     List<UUID> uuidList = new LinkedList<>(this.gameStore.getChunk(chunkRange).getEntityUUIDSet());
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange, uuidList);
     this.send(userID, handshakeOutgoing.toNetworkEvent());
-    System.out.println("SERVER INIT HANDSHAKE " + userID.toString());
+    LOGGER.info("SERVER INIT HANDSHAKE " + userID.toString() + " " + chunkRange);
   }
 }

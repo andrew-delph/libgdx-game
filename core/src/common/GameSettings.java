@@ -1,4 +1,4 @@
-package configuration;
+package common;
 
 import com.badlogic.gdx.Gdx;
 import java.io.File;
@@ -8,15 +8,22 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class GameSettings {
+  public static final boolean RENDER_DEBUG = false;
+
   public static final int UPDATE_INTERVAL = 15;
   public static final float WORLD_TIME_STEP = 1 / 5f;
   public static final int WORLD_VELOCITY_ITERATIONS = 6;
   public static final int WORLD_POSITION_ITERATIONS = 2;
   public static final int CHUNK_SIZE = 5;
-  public static final int COORDINATES_SCALE = 25;
+  public static final int PIXEL_SCALE = 30;
+  public static final int PHYSICS_SCALE = 25;
   public static final float GRAVITY = 1f;
   public static final int GENERATION_THREADS = 5;
-  public static final boolean RENDER_DEBUG = false;
+  public static final int PATHING_THREADS = 7;
+  public static final int PING_LIMIT = 20;
+  public static final int PING_INTERVAL = 5000;
+
+  public static final int HANDSHAKE_TIMEOUT = 75;
 
   private static final String HOST_KEY = "host";
   private static final String PORT_KEY = "port";
@@ -24,7 +31,7 @@ public class GameSettings {
   private Properties properties;
   private String VERSION = null;
 
-  GameSettings() {}
+  public GameSettings() {}
 
   private Properties getDefaults() {
     Properties defaults = new Properties();

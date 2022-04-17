@@ -4,17 +4,22 @@ import com.google.inject.Inject;
 import common.events.types.EventType;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EventService {
 
-  Map<String, List<Consumer<common.events.types.EventType>>> eventListeners = new HashMap<>();
-  Map<String, List<Consumer<common.events.types.EventType>>> eventPostUpdateListeners =
-      new HashMap<>();
-  List<common.events.types.EventType> postUpdateEventTypeList = new LinkedList<>();
+  final Logger LOGGER = LogManager.getLogger();
+  Map<String, List<Consumer<EventType>>> eventListeners = new HashMap<>();
+  Map<String, List<Consumer<EventType>>> eventPostUpdateListeners = new HashMap<>();
+  ConcurrentLinkedQueue<EventType> postUpdateQueue = new ConcurrentLinkedQueue<>();
+  ExecutorService executorService = Executors.newCachedThreadPool();
 
   @Inject
   public EventService() {}
@@ -32,25 +37,53 @@ public class EventService {
     }
   }
 
+  public void fireEvent(Long sleep, common.events.types.EventType eventType) {
+    executorService.execute(
+        () -> {
+          try {
+            Thread.sleep(sleep);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          if (this.eventListeners.get(eventType.getType()) != null) {
+            fireEvent(eventType);
+          }
+        });
+  }
+
   public void addPostUpdateListener(
       String type, Consumer<common.events.types.EventType> eventConsumer) {
     this.eventPostUpdateListeners.computeIfAbsent(type, k -> new ArrayList<>());
     this.eventPostUpdateListeners.get(type).add(eventConsumer);
   }
 
-  public void queuePostUpdateEvent(common.events.types.EventType eventType) {
-    this.postUpdateEventTypeList.add(eventType);
+  public synchronized void queuePostUpdateEvent(EventType eventType) {
+    this.postUpdateQueue.add(eventType);
   }
 
-  public void firePostUpdateEvents() {
-    List<common.events.types.EventType> postUpdateEventTypeListCopy =
-        new LinkedList<>(this.postUpdateEventTypeList);
-    this.postUpdateEventTypeList = new LinkedList<>();
-    for (EventType eventType : postUpdateEventTypeListCopy) {
+  public void queuePostUpdateEvent(Long sleep, EventType eventType) {
+    executorService.execute(
+        () -> {
+          try {
+            Thread.sleep(sleep);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          this.queuePostUpdateEvent(eventType);
+        });
+  }
+
+  public synchronized void firePostUpdateEvents() {
+    while (postUpdateQueue.size() > 0) {
+      EventType eventType = postUpdateQueue.poll();
       if (this.eventPostUpdateListeners.get(eventType.getType()) != null) {
-        this.eventPostUpdateListeners
-            .get(eventType.getType())
-            .forEach(eventConsumer -> eventConsumer.accept(eventType));
+        try {
+          this.eventPostUpdateListeners
+              .get(eventType.getType())
+              .forEach(eventConsumer -> eventConsumer.accept(eventType));
+        } catch (Exception e) {
+          LOGGER.error("Error with " + eventType, e);
+        }
       }
     }
   }

@@ -1,8 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" factoryName="Application" name="ClientGameMain"
     nameIsGenerated="true"
-    singleton="false"
-    type="Application">
+    singleton="false" type="Application">
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="main.*"/>

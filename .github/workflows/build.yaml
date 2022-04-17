@@ -1,0 +1,71 @@
+name: Build
+
+on:
+  workflow_run:
+    workflows: [ Version ]
+    types: [ completed ]
+    branches: [ master, stage, dev ]
+  workflow_dispatch:
+
+jobs:
+  build-push-image:
+
+    concurrency:
+      group: delpoy
+      cancel-in-progress: true
+
+    runs-on: ubuntu-latest
+    environment: aws
+    steps:
+
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Read project.version
+        id: version_file
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./core/assets/project.version
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWSACCESSKEYID }}
+          aws-secret-access-key: ${{ secrets.AWSSECRETKEY }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: game
+          IMAGE_TAG: ${{ steps.version_file.outputs.content }}
+        run: |
+          docker build -f Server.Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          options: -v ${{ github.workspace }}:/app/dist
+          run: |
+            ./gradlew '-Pexclude.android=true' '-PENV=prod' zipit  
+
+      - name: Upload game.zip file to bucket
+        uses: zdurham/s3-upload-github-action@master
+        with:
+          args: --acl public-read
+        env:
+          FILE: ./game.zip
+          AWS_REGION: 'us-east-1'
+          S3_BUCKET: ${{ secrets.AWSS3BUCKET }}
+          S3_KEY: windows/${{ steps.version_file.outputs.content }}.zip
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWSACCESSKEYID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWSSECRETKEY }}

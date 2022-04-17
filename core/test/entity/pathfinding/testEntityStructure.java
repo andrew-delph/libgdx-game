@@ -6,6 +6,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import configuration.StandAloneConfig;
 import entity.EntityFactory;
@@ -18,7 +19,7 @@ import org.junit.Test;
 
 public class testEntityStructure {
   @Test
-  public void testRelativeBlockRegister() throws EntityNotFound {
+  public void testRelativeBlockRegister() throws EntityNotFound, ChunkNotFound {
     Injector injector = Guice.createInjector(new StandAloneConfig());
 
     GameStore gameStore = injector.getInstance(GameStore.class);
@@ -30,8 +31,7 @@ public class testEntityStructure {
 
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-    Block block = blockFactory.createSky();
-    block.coordinates = new Coordinates(0, 0);
+    Block block = blockFactory.createSky(new Coordinates(0, 0));
     gameStore.addEntity(block);
 
     assert gameStore.getBlock(new Coordinates(0, 0)) != null;
@@ -44,7 +44,7 @@ public class testEntityStructure {
   }
 
   @Test
-  public void testRelativeBlockRegisterAbove() {
+  public void testRelativeBlockRegisterAbove() throws ChunkNotFound {
     Injector injector = Guice.createInjector(new StandAloneConfig());
 
     GameStore gameStore = injector.getInstance(GameStore.class);
@@ -56,8 +56,7 @@ public class testEntityStructure {
 
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-    Block block = blockFactory.createSky();
-    block.coordinates = new Coordinates(0, 3);
+    Block block = blockFactory.createSky(new Coordinates(0, 3));
     gameStore.addEntity(block);
 
     EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
@@ -68,7 +67,7 @@ public class testEntityStructure {
   }
 
   @Test
-  public void testRelativeBlockRegisterNegative() throws EntityNotFound {
+  public void testRelativeBlockRegisterNegative() throws EntityNotFound, ChunkNotFound {
     Injector injector = Guice.createInjector(new StandAloneConfig());
 
     GameStore gameStore = injector.getInstance(GameStore.class);
@@ -80,8 +79,7 @@ public class testEntityStructure {
 
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-    Block block = blockFactory.createSky();
-    block.coordinates = new Coordinates(0, 0);
+    Block block = blockFactory.createSky(new Coordinates(0, 0));
     gameStore.addEntity(block);
 
     assert gameStore.getBlock(new Coordinates(0, 0)) != null;
@@ -105,8 +103,7 @@ public class testEntityStructure {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
-    Ladder ladder = entityFactory.createLadder();
-    ladder.coordinates = new Coordinates(0, 0);
+    Ladder ladder = entityFactory.createLadder(new Coordinates(0, 0));
 
     EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
     entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), Ladder.class);

@@ -1,26 +1,39 @@
 package networking.connected;
 
+import static org.mockito.Mockito.when;
+
+import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkRange;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.util.Modules;
+import com.google.inject.util.Providers;
 import common.Coordinates;
+import common.GameSettings;
 import common.GameStore;
 import common.events.EventConsumer;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
+import common.exceptions.WrongVersion;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import generation.ChunkGenerationService;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import networking.client.ClientNetworkHandle;
+import networking.ping.PingService;
 import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import util.mock.GdxTestRunner;
 
+@RunWith(GdxTestRunner.class)
 public class testSingleClientNoRunningGame {
   Injector clientInjector;
   Injector serverInjector;
@@ -34,12 +47,26 @@ public class testSingleClientNoRunningGame {
   EventConsumer serverEventConsumer;
   EventConsumer clientEventConsumer;
 
+  User serverUser;
+  User clientUser;
+
   ChunkGenerationService serverChunkGenerationService;
 
   @Before
-  public void setup() throws IOException, InterruptedException, SerializationDataMissing {
+  public void setup()
+      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion {
     clientInjector = Guice.createInjector(new ClientConfig());
-    serverInjector = Guice.createInjector(new BaseServerConfig());
+    serverInjector =
+        Guice.createInjector(
+            Modules.override(new BaseServerConfig())
+                .with(
+                    new AbstractModule() {
+                      @Override
+                      protected void configure() {
+                        GameSettings serverSettings = Mockito.spy(new GameSettings());
+                        bind(GameSettings.class).toProvider(Providers.of(serverSettings));
+                      }
+                    }));
 
     clientNetworkHandle = clientInjector.getInstance(ClientNetworkHandle.class);
     serverNetworkHandle = serverInjector.getInstance(ServerNetworkHandle.class);
@@ -49,6 +76,9 @@ public class testSingleClientNoRunningGame {
 
     serverEventConsumer = serverInjector.getInstance(EventConsumer.class);
     clientEventConsumer = clientInjector.getInstance(EventConsumer.class);
+
+    serverUser = serverInjector.getInstance(User.class);
+    clientUser = clientInjector.getInstance(User.class);
 
     serverChunkGenerationService = serverInjector.getInstance(ChunkGenerationService.class);
 
@@ -151,5 +181,29 @@ public class testSingleClientNoRunningGame {
     assert serverChunk.getEntityList().size() > 5;
     Assert.assertEquals(serverChunk.getEntityList().size(), clientChunk.getEntityList().size());
     assert clientChunk.equals(serverChunk);
+  }
+
+  @Test
+  public void testGetVersion() throws WrongVersion {
+    assert clientNetworkHandle.checkVersion();
+  }
+
+  @Test(expected = WrongVersion.class)
+  public void testNegativeGetVersion() throws WrongVersion {
+    GameSettings severSettings = serverInjector.getInstance(GameSettings.class);
+    when(severSettings.getVersion()).thenReturn("error");
+    clientNetworkHandle.checkVersion();
+  }
+
+  @Test
+  public void testPingService() throws InterruptedException {
+    PingService serverPingService = serverInjector.getInstance(PingService.class);
+    serverPingService.run();
+    PingService clientPingService = clientInjector.getInstance(PingService.class);
+    TimeUnit.SECONDS.sleep(1);
+    assert clientPingService.calcDelay(serverUser.getUserID(), System.currentTimeMillis() + 100L)
+        > 0;
+    assert serverPingService.calcDelay(clientUser.getUserID(), System.currentTimeMillis() + 100L)
+        > 0;
   }
 }

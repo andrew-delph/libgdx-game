@@ -1,12 +1,19 @@
 package entity.pathfinding;
 
+import chunk.Chunk;
+import chunk.ChunkFactory;
+import chunk.ChunkRange;
+import chunk.world.WorldWrapper;
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import common.Coordinates;
 import entity.Entity;
-import entity.EntityBodyBuilder;
+import entity.EntityFactory;
+import entity.block.Block;
+import entity.block.BlockFactory;
 import entity.block.EmptyBlock;
 import entity.block.SolidBlock;
 import entity.controllers.actions.EntityAction;
@@ -15,19 +22,20 @@ import java.util.Map;
 
 public class RelativeActionEdgeGenerator {
 
-  World world;
-  Body body;
-
-  @Inject EntityStructureFactory entityStructureFactory;
-  @Inject EntityBodyBuilder entityBodyBuilder;
+  WorldWrapper worldWrapper;
+  Chunk chunk;
+  Entity entity;
 
   @Inject EntityActionFactory entityActionFactory;
+  @Inject BlockFactory blockFactory;
+  @Inject ChunkFactory chunkFactory;
+  @Inject EntityFactory entityFactory;
 
-  @Inject
   RelativeActionEdgeGenerator() {}
 
   public RelativeActionEdge generateRelativeActionEdge(
-      EntityStructure rootEntityStructure, RelativeVertex fromRelativeVertex, String actionKey) {
+      EntityStructure rootEntityStructure, RelativeVertex fromRelativeVertex, String actionKey)
+      throws BodyNotFound {
     this.setupWorld(rootEntityStructure, fromRelativeVertex);
 
     EntityAction entityAction;
@@ -42,13 +50,17 @@ public class RelativeActionEdgeGenerator {
       entityAction = entityActionFactory.createStopMovementAction();
     else return null;
 
-    entityAction.apply(this.body);
+    worldWrapper.applyBody(
+        entity,
+        (Body body) -> {
+          entityAction.apply(body);
+        });
 
-    this.world.step(1 / 5f, 6, 2);
+    worldWrapper.tick();
 
     EntityStructure newEntityStructure = rootEntityStructure.copy();
 
-    Vector2 rootPosition = this.body.getPosition();
+    Vector2 rootPosition = worldWrapper.getPosition(entity);
 
     RelativeCoordinates newRelativeCoordinates = new RelativeCoordinates(rootPosition);
 
@@ -67,33 +79,40 @@ public class RelativeActionEdgeGenerator {
 
     RelativeVertex toRelativeVertex =
         new RelativeVertex(
-            newEntityStructure, newRelativeCoordinates, this.body.getLinearVelocity());
+            newEntityStructure, newRelativeCoordinates, worldWrapper.getVelocity(entity));
 
-    this.world.dispose();
+    worldWrapper.applyWorld(
+        (World world) -> {
+          world.dispose();
+        });
     System.gc();
 
     return new RelativeActionEdge(fromRelativeVertex, toRelativeVertex, actionKey);
   }
 
-  private void setupWorld(EntityStructure entityStructure, RelativeVertex relativeVertex) {
-    this.world = new World(new Vector2(0, -1f), false);
+  private void setupWorld(EntityStructure entityStructure, RelativeVertex relativeVertex)
+      throws BodyNotFound {
+    this.worldWrapper = new WorldWrapper(new ChunkRange(new Coordinates(0, 0)));
+    this.chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
 
     for (Map.Entry<RelativeCoordinates, Class<? extends Entity>> relativeBlockMapEntry :
         entityStructure.getRelativeEntityMapEntrySet()) {
       Class<? extends Entity> entityClass = relativeBlockMapEntry.getValue();
       RelativeCoordinates blockRelativeCoordinates = relativeBlockMapEntry.getKey();
       if (entityClass.isInstance(SolidBlock.class)) {
-        EntityBodyBuilder.createSolidBlockBody(
-            this.world, blockRelativeCoordinates.applyRelativeCoordinates(new Coordinates(0, 0)));
+        Block block =
+            blockFactory.createDirt(
+                blockRelativeCoordinates.applyRelativeCoordinates(new Coordinates(0, 0)));
+        block.addWorld(chunk);
       }
     }
 
-    this.body =
-        EntityBodyBuilder.createEntityBody(
-            this.world,
+    this.entity =
+        entityFactory.createEntity(
             relativeVertex
                 .getRelativeCoordinates()
                 .applyRelativeCoordinates(new Coordinates(0, 0)));
-    this.body.setLinearVelocity(relativeVertex.velocity);
+    worldWrapper.addEntity(entity.addWorld(chunk));
+    worldWrapper.setVelocity(entity, relativeVertex.velocity);
   }
 }

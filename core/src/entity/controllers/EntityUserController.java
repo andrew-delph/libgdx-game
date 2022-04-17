@@ -1,22 +1,24 @@
 package entity.controllers;
 
 import app.GameController;
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.physics.box2d.Body;
 import common.Direction;
 import common.events.EventService;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.controllers.actions.EntityActionFactory;
-import java.util.logging.Logger;
 import networking.events.EventTypeFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EntityUserController extends EntityController {
 
-  private static final Logger LOGGER = Logger.getLogger(EntityUserController.class.getName());
+  final Logger LOGGER = LogManager.getLogger();
 
   public EntityUserController(
       GameController gameController,
@@ -28,72 +30,66 @@ public class EntityUserController extends EntityController {
   }
 
   @Override
-  public void beforeWorldUpdate() {
-    Body body = this.entity.getBody();
-    float impulse = body.getMass() * 10;
-    try {
-      if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-          this.gameController.placeBlock(this.entity, Direction.LEFT, SkyBlock.class);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-          this.gameController.placeBlock(this.entity, Direction.RIGHT, SkyBlock.class);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-          this.gameController.placeBlock(this.entity, Direction.DOWN, SkyBlock.class);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-          this.gameController.placeBlock(this.entity, Direction.UP, SkyBlock.class);
-        }
+  public void beforeWorldUpdate() throws EntityNotFound, ChunkNotFound, BodyNotFound {
+    if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+      if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        this.gameController.placeBlock(this.entity, Direction.LEFT, SkyBlock.class);
+      } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        this.gameController.placeBlock(this.entity, Direction.RIGHT, SkyBlock.class);
+      } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        this.gameController.placeBlock(this.entity, Direction.DOWN, SkyBlock.class);
+      } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        this.gameController.placeBlock(this.entity, Direction.UP, SkyBlock.class);
       }
-      if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-          this.gameController.placeBlock(this.entity, Direction.LEFT, DirtBlock.class);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-          this.gameController.placeBlock(this.entity, Direction.RIGHT, DirtBlock.class);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-          this.gameController.placeBlock(this.entity, Direction.DOWN, DirtBlock.class);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-          this.gameController.placeBlock(this.entity, Direction.UP, DirtBlock.class);
-        }
-      }
-      if (Gdx.input.isKeyPressed(Input.Keys.E)) {
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-          this.gameController.createLadder(this.entity.coordinates.getMiddle().getLeft().getBase());
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-          this.gameController.createLadder(
-              this.entity.coordinates.getMiddle().getRight().getBase());
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-          this.gameController.createLadder(this.entity.coordinates.getMiddle().getDown().getBase());
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-          this.gameController.createLadder(this.entity.coordinates.getMiddle().getUp().getBase());
-        }
-      }
-    } catch (EntityNotFound e) {
-      e.printStackTrace();
     }
+    if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+      if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        this.gameController.placeBlock(this.entity, Direction.LEFT, DirtBlock.class);
+      } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        this.gameController.placeBlock(this.entity, Direction.RIGHT, DirtBlock.class);
+      } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        this.gameController.placeBlock(this.entity, Direction.DOWN, DirtBlock.class);
+      } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        this.gameController.placeBlock(this.entity, Direction.UP, DirtBlock.class);
+      }
+    }
+    if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+      if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        this.gameController.createLadder(this.entity.coordinates.getMiddle().getLeft().getBase());
+      } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        this.gameController.createLadder(this.entity.coordinates.getMiddle().getRight().getBase());
+      } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        this.gameController.createLadder(this.entity.coordinates.getMiddle().getDown().getBase());
+      } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        this.gameController.createLadder(this.entity.coordinates.getMiddle().getUp().getBase());
+      }
+    }
+
     if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-      gameController.createAI(this.entity.uuid);
+      gameController.createAI(this.entity.getUuid());
     }
     if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-      if (this.getAction("climbUp").isValid(body)) {
-        this.applyAction("climbUp", body);
-      } else if (this.getAction("jump").isValid(body)) {
-        this.applyAction("jump", body);
+      if (this.getAction("climbUp").isValid(entity)) {
+        this.applyAction("climbUp", entity);
+      } else if (this.getAction("jump").isValid(entity)) {
+        this.applyAction("jump", entity);
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-      if (this.getAction("climbDown").isValid(body)) {
-        this.applyAction("climbDown", body);
+      if (this.getAction("climbDown").isValid(entity)) {
+        this.applyAction("climbDown", entity);
       } else {
-        this.applyAction("stop", body);
+        this.applyAction("stop", entity);
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-      if (this.getAction("left").isValid(body)) {
-        this.applyAction("left", body);
+      if (this.getAction("left").isValid(entity)) {
+        this.applyAction("left", entity);
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-      if (this.getAction("right").isValid(body)) {
-        this.applyAction("right", body);
+      if (this.getAction("right").isValid(entity)) {
+        this.applyAction("right", entity);
       }
     }
   }

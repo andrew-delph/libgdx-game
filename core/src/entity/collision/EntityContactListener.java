@@ -19,8 +19,8 @@ public class EntityContactListener implements ContactListener {
   public void beginContact(Contact contact) {
     Fixture fixtureA = contact.getFixtureA();
     Fixture fixtureB = contact.getFixtureB();
-    Object objectA = fixtureA.getUserData();
-    Object objectB = fixtureB.getUserData();
+    CollisionPoint objectA = (CollisionPoint) fixtureA.getUserData();
+    CollisionPoint objectB = (CollisionPoint) fixtureB.getUserData();
     if (objectA == null || objectB == null) return;
     this.collisionService.handleBeginCollision(
         new CollisionPair(objectA.getClass(), objectB.getClass()), objectA, objectB);
@@ -30,8 +30,8 @@ public class EntityContactListener implements ContactListener {
   public void endContact(Contact contact) {
     Fixture fixtureA = contact.getFixtureA();
     Fixture fixtureB = contact.getFixtureB();
-    Object objectA = fixtureA.getUserData();
-    Object objectB = fixtureB.getUserData();
+    CollisionPoint objectA = (CollisionPoint) fixtureA.getUserData();
+    CollisionPoint objectB = (CollisionPoint) fixtureB.getUserData();
     if (objectA == null || objectB == null) return;
     this.collisionService.handleEndCollision(
         new CollisionPair(objectA.getClass(), objectB.getClass()), objectA, objectB);

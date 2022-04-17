@@ -7,10 +7,14 @@ import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
+import com.google.protobuf.Empty;
 import com.sun.tools.javac.util.Pair;
+import common.Clock;
+import common.GameSettings;
 import common.GameStore;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.SerializationDataMissing;
-import configuration.GameSettings;
+import common.exceptions.WrongVersion;
 import entity.Entity;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -25,10 +29,15 @@ import networking.RequestNetworkEventObserver;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.GetChunkOutgoingEventType;
 import networking.events.types.outgoing.HandshakeOutgoingEventType;
+import networking.ping.PingService;
+import networking.sync.SyncService;
 import networking.translation.NetworkDataDeserializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ClientNetworkHandle {
   public final CountDownLatch authLatch = new CountDownLatch(1);
+  final Logger LOGGER = LogManager.getLogger();
   public String host = "localhost";
   public int port = 99;
   RequestNetworkEventObserver requestNetworkEventObserver;
@@ -39,6 +48,8 @@ public class ClientNetworkHandle {
   @Inject ChunkFactory chunkFactory;
   @Inject User user;
   @Inject GameSettings gameSettings;
+  @Inject PingService pingService;
+  @Inject SyncService syncService;
 
   private ManagedChannel channel;
   private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
@@ -47,8 +58,8 @@ public class ClientNetworkHandle {
   @Inject
   public ClientNetworkHandle() {}
 
-  public void connect() throws InterruptedException {
-    System.out.println(
+  public void connect() throws InterruptedException, WrongVersion {
+    LOGGER.info(
         "I am client: "
             + this.user.toString()
             + ". Connecting to "
@@ -70,16 +81,23 @@ public class ClientNetworkHandle {
     requestNetworkEventObserver.responseObserver =
         this.asyncStub.networkObjectStream(requestNetworkEventObserver);
 
+    this.checkVersion();
+
     NetworkObjects.NetworkEvent authenticationEvent =
         NetworkObjects.NetworkEvent.newBuilder().setEvent(AUTH).build();
     this.send(authenticationEvent);
     if (!authLatch.await(5, TimeUnit.SECONDS)) {
       throw new InterruptedException("did not receive auth information");
     }
+    pingService.start();
   }
 
   public synchronized void send(NetworkObjects.NetworkEvent networkEvent) {
-    networkEvent = networkEvent.toBuilder().setUser(this.user.toString()).build();
+    networkEvent =
+        networkEvent.toBuilder()
+            .setUser(this.user.toString())
+            .setTime(Clock.getCurrentTime())
+            .build();
     requestNetworkEventObserver.responseObserver.onNext(networkEvent);
   }
 
@@ -102,9 +120,14 @@ public class ClientNetworkHandle {
 
     Pair<ChunkRange, List<Entity>> chunkData =
         entitySerializationConverter.createChunkData(retrievedNetworkEvent.getData());
-    myChunk.addAllEntity(chunkData.snd);
 
-    gameStore.addChunk(myChunk);
+    for (Entity toAdd : chunkData.snd) {
+      try {
+        gameStore.addEntity(toAdd);
+      } catch (ChunkNotFound e) {
+        LOGGER.error(e);
+      }
+    }
 
     return myChunk;
   }
@@ -138,8 +161,14 @@ public class ClientNetworkHandle {
             try {
               Pair<ChunkRange, List<Entity>> chunkData =
                   entitySerializationConverter.createChunkData(networkEvent.getData());
-              myChunk.addAllEntity(chunkData.snd);
-              gameStore.addChunk(myChunk);
+              for (Entity toAdd : chunkData.snd) {
+                try {
+                  gameStore.addEntity(toAdd);
+                } catch (ChunkNotFound e) {
+                  LOGGER.error(e);
+                  onCompleted();
+                }
+              }
             } catch (SerializationDataMissing e) {
               e.printStackTrace();
             }
@@ -158,11 +187,27 @@ public class ClientNetworkHandle {
     return true;
   }
 
-  public void initHandshake(ChunkRange chunkRange) {
+  public boolean checkVersion() throws WrongVersion {
+    NetworkObjects.Version versionData = this.blockStub.getVersion(Empty.newBuilder().build());
+    if (!gameSettings.getVersion().equals(versionData.getVersion())) {
+      throw new WrongVersion(
+          String.format(
+              "Client version: %s, Server version: %s",
+              gameSettings.getVersion(), versionData.getVersion()));
+    }
+    return true;
+  }
+
+  public synchronized void initHandshake(ChunkRange chunkRange) {
+    if (syncService.isHandshakeLocked(this.user.getUserID(), chunkRange)) {
+      LOGGER.info("CLIENT INIT LOCKED " + " " + chunkRange);
+      return;
+    }
+    syncService.lockHandshake(user.getUserID(), chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange);
     this.send(handshakeOutgoing.toNetworkEvent());
-    System.out.println("CLIENT INIT HANDSHAKE " + this.user.toString());
+    LOGGER.info("CLIENT INIT HANDSHAKE " + chunkRange);
   }
 
   public void close() {

@@ -1,5 +1,6 @@
 package entity.pathfinding;
 
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -10,7 +11,7 @@ import org.junit.Test;
 
 public class testTemplateEdgeGenerator {
   @Test
-  public void testTemplateEdgeGenerator() {
+  public void testTemplateEdgeGenerator() throws BodyNotFound {
     Injector injector = Guice.createInjector(new StandAloneConfig());
 
     TemplateEdgeGeneratorFactory templateEdgeGeneratorFactory =

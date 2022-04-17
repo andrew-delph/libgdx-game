@@ -5,6 +5,7 @@ import app.user.UserID;
 import chunk.ActiveChunkManager;
 import com.google.inject.Inject;
 import common.events.types.EventType;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.ActiveEntityManager;
 import entity.Entity;
@@ -31,13 +32,13 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
       entity =
           gameController.triggerAddEntity(
               entitySerializationConverter.createEntity(incoming.getData()));
-    } catch (SerializationDataMissing e) {
+    } catch (SerializationDataMissing | ChunkNotFound e) {
       e.printStackTrace();
       return;
     }
 
     if (entity.getClass() == Entity.class) {
-      activeEntityManager.registerActiveEntity(incoming.getUserID(), entity.uuid);
+      activeEntityManager.registerActiveEntity(incoming.getUserID(), entity.getUuid());
     }
 
     CreateEntityOutgoingEventType outgoing =

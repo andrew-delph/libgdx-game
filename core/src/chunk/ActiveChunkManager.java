@@ -2,15 +2,17 @@ package chunk;
 
 import app.user.UserID;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ActiveChunkManager {
 
-  private final Map<UserID, Set<ChunkRange>> userIDChunkRange = new HashMap<>();
-  private final Map<ChunkRange, Set<UserID>> chunkRangeUserID = new HashMap<>();
+  private final ConcurrentHashMap<UserID, Set<ChunkRange>> userIDChunkRange =
+      new ConcurrentHashMap<>();
+  private final ConcurrentHashMap<ChunkRange, Set<UserID>> chunkRangeUserID =
+      new ConcurrentHashMap<>();
 
   public synchronized void setUserChunkSubscriptions(
       UserID userID, Collection<ChunkRange> chunkRangeList) {
@@ -23,8 +25,8 @@ public class ActiveChunkManager {
   }
 
   public synchronized void addUserChunkSubscriptions(UserID userID, ChunkRange chunkRange) {
-    userIDChunkRange.putIfAbsent(userID, new HashSet<>());
-    chunkRangeUserID.putIfAbsent(chunkRange, new HashSet<>());
+    userIDChunkRange.putIfAbsent(userID, ConcurrentHashMap.newKeySet());
+    chunkRangeUserID.putIfAbsent(chunkRange, ConcurrentHashMap.newKeySet());
 
     userIDChunkRange.get(userID).add(chunkRange);
     chunkRangeUserID.get(chunkRange).add(userID);
@@ -38,11 +40,12 @@ public class ActiveChunkManager {
     userIDChunkRange.remove(userID);
   }
 
-  public Set<ChunkRange> getUserChunkRanges(UserID userID) {
-    return userIDChunkRange.getOrDefault(userID, new HashSet<>());
+  public synchronized Set<ChunkRange> getUserChunkRanges(UserID userID) {
+    return Collections.unmodifiableSet((userIDChunkRange.getOrDefault(userID, new HashSet<>())));
   }
 
-  public Set<UserID> getChunkRangeUsers(ChunkRange chunkRange) {
-    return chunkRangeUserID.getOrDefault(chunkRange, new HashSet<>());
+  public synchronized Set<UserID> getChunkRangeUsers(ChunkRange chunkRange) {
+    return Collections.unmodifiableSet(
+        (chunkRangeUserID.getOrDefault(chunkRange, new HashSet<>())));
   }
 }

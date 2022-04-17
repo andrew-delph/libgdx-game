@@ -2,7 +2,7 @@ package entity.pathfinding;
 
 import com.badlogic.gdx.math.Vector2;
 import common.Coordinates;
-import entity.Entity;
+import common.GameSettings;
 
 public class RelativeCoordinates {
   float relativeX;
@@ -14,8 +14,8 @@ public class RelativeCoordinates {
   }
 
   public RelativeCoordinates(Vector2 vector2) {
-    this.relativeX = vector2.x / Entity.coordinatesScale;
-    this.relativeY = vector2.y / Entity.coordinatesScale;
+    this.relativeX = vector2.x / GameSettings.PHYSICS_SCALE;
+    this.relativeY = vector2.y / GameSettings.PHYSICS_SCALE;
   }
 
   public float getRelativeX() {
@@ -88,6 +88,6 @@ public class RelativeCoordinates {
 
   public Vector2 toVector2() {
     return new Vector2(
-        this.relativeX * Entity.coordinatesScale, this.relativeY * Entity.coordinatesScale);
+        this.relativeX * GameSettings.PHYSICS_SCALE, this.relativeY * GameSettings.PHYSICS_SCALE);
   }
 }

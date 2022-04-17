@@ -32,11 +32,8 @@ public class testEdgeStore {
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, 0))).call();
     chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, -1))).call();
 
-    Entity entity = entityFactory.createEntity();
-    entity.coordinates = new Coordinates(0.5f, 1);
+    Entity entity = entityFactory.createEntity(new Coordinates(0.5f, 1));
     gameStore.addEntity(entity);
-
-    System.out.println(entity.getBody());
 
     EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
     edgeRegistration.templateEdgeRegistration();

@@ -3,17 +3,34 @@ package networking.translation;
 import chunk.ChunkRange;
 import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
+import entity.Entity;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import networking.NetworkObjects;
 import networking.events.types.outgoing.ChunkSwapOutgoingEventType;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import networking.events.types.outgoing.PingRequestOutgoingEventType;
+import networking.events.types.outgoing.PingResponseOutgoingEventType;
 import networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 
 public class NetworkDataSerializer {
+
+  public static NetworkObjects.NetworkData createEntity(Entity entity) {
+    NetworkObjects.NetworkData uuid =
+        NetworkObjects.NetworkData.newBuilder()
+            .setKey(UUID.class.getName())
+            .setValue(entity.getUuid().toString())
+            .build();
+    return NetworkObjects.NetworkData.newBuilder()
+        .setKey("class")
+        .setValue(entity.getClass().getName())
+        .addChildren(entity.coordinates.toNetworkData())
+        .addChildren(uuid)
+        .build();
+  }
 
   public static NetworkObjects.NetworkData createUUIDList(List<UUID> uuidList) {
     List<NetworkObjects.NetworkData> dataList = new LinkedList<>();
@@ -142,5 +159,35 @@ public class NetworkDataSerializer {
         createChunkRange(chunkSwapOutgoingEventType.getTo()).toBuilder().setKey("to"));
 
     return eventBuilder.setData(dataListBuilder).build();
+  }
+
+  public static NetworkObjects.NetworkEvent createPingRequestOutgoingEventType(
+      PingRequestOutgoingEventType pingRequestOutgoingEventType) {
+
+    NetworkObjects.NetworkEvent.Builder eventBuilder =
+        NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.REQUEST_PING);
+
+    NetworkObjects.NetworkData.Builder dataBuilder = NetworkObjects.NetworkData.newBuilder();
+
+    NetworkObjects.NetworkData pingID = createUUID(pingRequestOutgoingEventType.getPingID());
+
+    dataBuilder.addChildren(pingID);
+
+    return eventBuilder.setData(dataBuilder).build();
+  }
+
+  public static NetworkObjects.NetworkEvent createPingResponseOutgoingEventType(
+      PingResponseOutgoingEventType pingResponseOutgoingEventType) {
+
+    NetworkObjects.NetworkEvent.Builder eventBuilder =
+        NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.RESPONSE_PING);
+
+    NetworkObjects.NetworkData.Builder dataBuilder = NetworkObjects.NetworkData.newBuilder();
+
+    NetworkObjects.NetworkData pingID = createUUID(pingResponseOutgoingEventType.getPingID());
+
+    dataBuilder.addChildren(pingID);
+
+    return eventBuilder.setData(dataBuilder).build();
   }
 }

@@ -17,7 +17,14 @@ plugins {
     id "com.google.protobuf" version "0.8.18"
     id "java"
     id 'pl.allegro.tech.build.axion-release' version '1.8.1'
+//    id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
+
+//jar {
+//    manifest {
+//        attributes 'Multi-Release': 'true'
+//    }
+//}
 
 scmVersion {
     useHighestVersion = true
@@ -101,7 +108,6 @@ project(":core") {
 
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         implementation 'junit:junit:4.12'
         implementation 'io.grpc:grpc-netty:1.32.1'
         implementation 'io.grpc:grpc-okhttp:1.32.1'
@@ -110,21 +116,26 @@ project(":core") {
         implementation "io.grpc:grpc-services:1.32.1"
         implementation 'org.apache.tomcat:annotations-api:6.0.53'
         implementation 'com.google.inject:guice:4.0:no_aop'
+        implementation 'org.apache.logging.log4j:log4j-api:2.17.2'
+        implementation 'org.apache.logging.log4j:log4j-core:2.17.2'
+        implementation "com.google.guava:guava:31.1-jre"
 
-        // todo remove this if we dont need
-//        implementation("com.google.guava:guava:31.0.1-jre")
+        testImplementation 'org.hamcrest:hamcrest-library:2.1'
+        testImplementation "org.mockito:mockito-all:1.9.5"
+        testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+        testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 
-
-//        implementation group: 'com.google.inject', name: 'guice', version: '4.0'
-//        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
-//        // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
-//        implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
-        testImplementation(
-                'org.hamcrest:hamcrest-library:2.1'
-        )
     }
     sourceSets {
         main {
+            java {
+                srcDirs = ["src/"]
+            }
+            resources {
+                srcDirs = ["../core/assets"]
+            }
             proto {
                 srcDir 'src/proto'
                 include '**/*.proto'
@@ -155,12 +166,8 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-//        implementation group: 'com.google.inject', name: 'guice', version: '4.0'
-//        implementation "com.google.inject:guice:4.0-no_aop"
+        api "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         implementation 'com.google.inject:guice:4.0:no_aop'
-//        annotationProcessor group: 'com.google.auto.factory', name: 'auto-factory', version: '1.0.1'
-//        // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
-//        implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
     }
 }
 
@@ -174,6 +181,7 @@ task buildEXE {
         }
     }
     doLast {
+        def ENV = System.getenv("ENV") ?: "prod"
         copy {
             from file('environment/' + ENV + '.config.properties')
             into 'out/'

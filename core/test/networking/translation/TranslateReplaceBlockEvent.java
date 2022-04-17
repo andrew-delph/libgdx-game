@@ -24,8 +24,8 @@ public class TranslateReplaceBlockEvent {
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
 
     UUID uuidToRemove = UUID.randomUUID();
-    Block blockReplacement = blockFactory.createDirt();
     Coordinates coordinates = new Coordinates(0, 1);
+    Block blockReplacement = blockFactory.createDirt(coordinates);
     ChunkRange chunkRange = new ChunkRange(coordinates);
 
     ReplaceBlockOutgoingEventType outgoing =

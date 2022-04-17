@@ -13,4 +13,6 @@ public class DataTranslationEnum {
   public static final String CREATE_AI = "CREATE_AI";
   public static final String CHUNK_SWAP = "CHUNK_SWAP";
   public static final String AUTH = "AUTH";
+  public static final String REQUEST_PING = "REQUEST_PING";
+  public static final String RESPONSE_PING = "RESPONSE_PING";
 }

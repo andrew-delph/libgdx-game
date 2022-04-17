@@ -1,12 +1,15 @@
 package app;
 
 import chunk.ChunkRange;
+import chunk.world.exceptions.BodyNotFound;
+import chunk.world.exceptions.DestroyBodyException;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.Direction;
 import common.GameStore;
 import common.events.EventService;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.EntityFactory;
@@ -19,21 +22,20 @@ import entity.misc.Ladder;
 import java.util.UUID;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameController {
 
+  final Logger LOGGER = LogManager.getLogger();
   @Inject GameStore gameStore;
-
   @Inject EntityFactory entityFactory;
-
   @Inject EventService eventService;
-
   @Inject EventTypeFactory eventTypeFactory;
-
   @Inject BlockFactory blockFactory;
 
-  public Entity addEntity(Entity entity) {
-    this.gameStore.addEntity(entity);
+  public Entity addEntity(Entity entity) throws ChunkNotFound {
+    triggerAddEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
             entity.toNetworkData(), new ChunkRange(entity.coordinates));
@@ -41,7 +43,7 @@ public class GameController {
     return entity;
   }
 
-  public Entity triggerAddEntity(Entity entity) {
+  public Entity triggerAddEntity(Entity entity) throws ChunkNotFound {
     this.gameStore.addEntity(entity);
     return entity;
   }
@@ -57,16 +59,15 @@ public class GameController {
     eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(uuid));
     eventService.fireEvent(
         EventTypeFactory.createRemoveEntityOutgoingEvent(
-            entity.uuid, new ChunkRange(entity.coordinates)));
+            entity.getUuid(), new ChunkRange(entity.coordinates)));
   }
 
-  public Entity triggerRemoveEntity(UUID uuid) throws EntityNotFound {
+  public Entity triggerRemoveEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
     return this.gameStore.removeEntity(uuid);
   }
 
-  public Entity createEntity(Coordinates coordinates) {
-    Entity entity = entityFactory.createEntity();
-    entity.coordinates = coordinates;
+  public Entity createEntity(Coordinates coordinates) throws ChunkNotFound {
+    Entity entity = entityFactory.createEntity(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -75,9 +76,8 @@ public class GameController {
     return entity;
   }
 
-  public Block createSkyBlock(Coordinates coordinates) {
-    Block entity = blockFactory.createSky();
-    entity.coordinates = coordinates;
+  public Block createSkyBlock(Coordinates coordinates) throws ChunkNotFound {
+    Block entity = blockFactory.createSky(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -86,9 +86,8 @@ public class GameController {
     return entity;
   }
 
-  public Block createDirtBlock(Coordinates coordinates) {
-    Block entity = blockFactory.createDirt();
-    entity.coordinates = coordinates;
+  public Block createDirtBlock(Coordinates coordinates) throws ChunkNotFound {
+    Block entity = blockFactory.createDirt(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -97,9 +96,8 @@ public class GameController {
     return entity;
   }
 
-  public Block createStoneBlock(Coordinates coordinates) {
-    Block entity = blockFactory.createStone();
-    entity.coordinates = coordinates;
+  public Block createStoneBlock(Coordinates coordinates) throws ChunkNotFound {
+    Block entity = blockFactory.createStone(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -108,13 +106,18 @@ public class GameController {
     return entity;
   }
 
-  public Entity createLadder(Coordinates coordinates) throws EntityNotFound {
-    if (!(this.gameStore.getBlock(coordinates) instanceof EmptyBlock)) {
-      throw new EntityNotFound("Did not find EmptyBlock");
+  public Entity createLadder(Coordinates coordinates) throws ChunkNotFound {
+    try {
+      if (!(this.gameStore.getBlock(coordinates) instanceof EmptyBlock)) {
+        LOGGER.debug("Did not find EmptyBlock");
+        return null;
+      }
+    } catch (EntityNotFound e) {
+      LOGGER.error("Could not create Ladder");
+      return null;
     }
     if (this.gameStore.getLadder(coordinates) != null) return this.gameStore.getLadder(coordinates);
-    Entity entity = entityFactory.createLadder();
-    entity.coordinates = coordinates;
+    Entity entity = entityFactory.createLadder(coordinates);
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
@@ -125,10 +128,11 @@ public class GameController {
 
   public void moveEntity(UUID uuid, Coordinates coordinates) throws EntityNotFound {
     Entity entity = this.gameStore.getEntity(uuid);
+    Coordinates preCoordinates = entity.coordinates;
     entity.coordinates = coordinates;
     this.eventService.fireEvent(
         EventTypeFactory.createUpdateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(coordinates)));
+            entity.toNetworkData(), new ChunkRange(preCoordinates)));
   }
 
   public void placeBlock(Entity entity, Direction direction, Class blockClass)
@@ -148,9 +152,9 @@ public class GameController {
 
     Block replacementBlock;
     if (blockClass == SkyBlock.class) {
-      replacementBlock = blockFactory.createSky();
+      replacementBlock = blockFactory.createSky(removeBlock.coordinates);
     } else if (blockClass == DirtBlock.class) {
-      replacementBlock = blockFactory.createDirt();
+      replacementBlock = blockFactory.createDirt(removeBlock.coordinates);
     } else {
       return;
     }
@@ -160,37 +164,34 @@ public class GameController {
   public void replaceBlock(Block target, Block replacementBlock) {
     Ladder removeLadder = this.gameStore.getLadder(target.coordinates);
     if (removeLadder != null) {
-      this.removeEntity(removeLadder.uuid);
+      this.removeEntity(removeLadder.getUuid());
     }
     // put this into a post update event
     this.eventService.queuePostUpdateEvent(
         EventTypeFactory.createReplaceEntityEvent(
-            target.uuid, replacementBlock, false, new ChunkRange(target.coordinates)));
+            target.getUuid(), replacementBlock, false, new ChunkRange(target.coordinates)));
     this.eventService.fireEvent(
         EventTypeFactory.createReplaceBlockOutgoingEvent(
-            target.uuid, replacementBlock, new ChunkRange(target.coordinates)));
+            target.getUuid(), replacementBlock, new ChunkRange(target.coordinates)));
   }
 
-  public Entity triggerReplaceEntity(UUID target, Entity replacementEntity) throws EntityNotFound {
+  public Entity triggerReplaceEntity(UUID target, Entity replacementEntity)
+      throws EntityNotFound, ChunkNotFound, BodyNotFound, DestroyBodyException {
     return triggerReplaceEntity(target, replacementEntity, false);
   }
 
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity, Boolean swapVelocity)
-      throws EntityNotFound {
+      throws EntityNotFound, ChunkNotFound, BodyNotFound, DestroyBodyException {
     Vector2 velocity = null;
     Entity removeEntity = this.gameStore.getEntity(target);
     if (swapVelocity) {
-      velocity = removeEntity.getBody().getLinearVelocity();
+      velocity = removeEntity.getBodyVelocity();
     }
-    replacementEntity.coordinates = removeEntity.coordinates;
-    this.gameStore.removeEntity(removeEntity.uuid);
-
-    this.gameStore.addEntity(replacementEntity);
-    this.gameStore.removeEntity(replacementEntity.uuid);
+    this.gameStore.removeEntity(removeEntity.getUuid());
     this.gameStore.addEntity(replacementEntity);
 
     if (swapVelocity) {
-      replacementEntity.getBody().setLinearVelocity(velocity);
+      replacementEntity.setBodyVelocity(velocity);
     }
     return replacementEntity;
   }

@@ -29,6 +29,8 @@ import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ChunkSwapIncomingEventType;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
 import networking.events.types.incoming.HandshakeIncomingEventType;
+import networking.events.types.incoming.PingRequestIncomingEventType;
+import networking.events.types.incoming.PingResponseIncomingEventType;
 import networking.events.types.incoming.RemoveEntityIncomingEventType;
 import networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
@@ -224,6 +226,52 @@ public class NetworkDataDeserializer {
     return EventTypeFactory.createChunkSwapIncomingEventType(target, from, to);
   }
 
+  public static PingRequestIncomingEventType createPingRequestIncomingEventType(
+      NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+    UUID pingID = null;
+    UserID user = null;
+
+    if (!networkEvent.getUser().isEmpty()) {
+      user = UserID.createUserID(networkEvent.getUser());
+    }
+
+    for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+      switch (child.getKey()) {
+        case DataTranslationEnum.UUID:
+          pingID = createUUID(child);
+          break;
+      }
+    }
+
+    if (pingID == null) throw new SerializationDataMissing("Missing pingID");
+    return EventTypeFactory.createPingRequestIncomingEventType(user, pingID);
+  }
+
+  public static PingResponseIncomingEventType createPingResponseIncomingEventType(
+      NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+    UUID pingID = null;
+    UserID user = null;
+    Long time = null;
+
+    if (!networkEvent.getUser().isEmpty()) {
+      user = UserID.createUserID(networkEvent.getUser());
+    }
+    if (networkEvent.getTime() > 0) {
+      time = networkEvent.getTime();
+    }
+
+    for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+      switch (child.getKey()) {
+        case DataTranslationEnum.UUID:
+          pingID = createUUID(child);
+          break;
+      }
+    }
+
+    if (pingID == null) throw new SerializationDataMissing("Missing pingID");
+    return EventTypeFactory.createPingResponseIncomingEventType(user, pingID, time);
+  }
+
   public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
     Pair<ChunkRange, List<Entity>> chunkData = this.createChunkData(networkData);
     Chunk chunkToCreate = chunkFactory.create(chunkData.fst);
@@ -255,15 +303,15 @@ public class NetworkDataDeserializer {
     UUID uuid = null;
 
     if (classString.equals(DirtBlock.class.getName())) {
-      entity = blockFactory.createDirt();
+      entity = blockFactory.createDirt(new Coordinates(0, 0));
     } else if (classString.equals(SkyBlock.class.getName())) {
-      entity = blockFactory.createSky();
+      entity = blockFactory.createSky(new Coordinates(0, 0));
     } else if (classString.equals(StoneBlock.class.getName())) {
-      entity = blockFactory.createStone();
+      entity = blockFactory.createStone(new Coordinates(0, 0));
     } else if (classString.equals(Ladder.class.getName())) {
-      entity = entityFactory.createLadder();
+      entity = entityFactory.createLadder(new Coordinates(0, 0));
     } else if (classString.equals(Entity.class.getName())) {
-      entity = entityFactory.createEntity();
+      entity = entityFactory.createEntity(new Coordinates(0, 0));
     } else {
       throw new SerializationDataMissing("classString not recognized");
     }
@@ -277,7 +325,7 @@ public class NetworkDataDeserializer {
 
     if (uuid == null) throw new SerializationDataMissing("Missing UUID");
     if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
-    entity.uuid = uuid;
+    entity.setUuid(uuid);
     entity.coordinates = coordinates;
     return entity;
   }

@@ -3,12 +3,14 @@ package app.game;
 import app.update.UpdateTask;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
+import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Inject;
 import common.Coordinates;
+import common.GameSettings;
 import common.GameStore;
 import common.events.EventConsumer;
 import common.exceptions.SerializationDataMissing;
-import configuration.GameSettings;
+import common.exceptions.WrongVersion;
 import entity.collision.CollisionService;
 import java.io.IOException;
 import java.util.Timer;
@@ -26,13 +28,20 @@ public class Game {
   @Inject
   public Game() throws Exception {}
 
-  public void start() throws IOException, InterruptedException, SerializationDataMissing {
+  public void start()
+      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
+          BodyNotFound {
+    init();
+    timer = new Timer(true);
+    timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);
+  }
+
+  public void init()
+      throws SerializationDataMissing, WrongVersion, IOException, InterruptedException {
     this.preStartInit();
     this.eventConsumer.init();
     this.collisionService.init();
     this.postStartInit();
-    timer = new Timer(true);
-    timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);
   }
 
   public void stop() {
@@ -43,5 +52,6 @@ public class Game {
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
   }
 
-  public void postStartInit() throws SerializationDataMissing, InterruptedException, IOException {}
+  public void postStartInit()
+      throws SerializationDataMissing, InterruptedException, IOException, WrongVersion {}
 }

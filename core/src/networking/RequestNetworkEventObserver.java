@@ -6,9 +6,11 @@ import io.grpc.stub.StreamObserver;
 import networking.events.EventTypeFactory;
 import networking.translation.DataTranslationEnum;
 import networking.translation.NetworkEventHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RequestNetworkEventObserver implements StreamObserver<NetworkObjects.NetworkEvent> {
-
+  final Logger LOGGER = LogManager.getLogger();
   public StreamObserver<NetworkObjects.NetworkEvent> responseObserver;
   public UserID userID;
   NetworkEventHandler networkEventHandler;
@@ -31,8 +33,8 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
   public synchronized void onNext(NetworkObjects.NetworkEvent networkEvent) {
     if (networkEvent.getEvent().equals(DataTranslationEnum.AUTH)) {
       this.userID = UserID.createUserID(networkEvent.getUser());
-      System.out.println("Received authentication: " + this.userID);
-      eventService.fireEvent(eventTypeFactory.createAuthenticationIncomingEventType(userID, this));
+      LOGGER.info("Received authentication: " + this.userID);
+      eventService.fireEvent(EventTypeFactory.createAuthenticationIncomingEventType(userID, this));
     } else {
       networkEventHandler.handleNetworkEvent(networkEvent);
     }
@@ -40,14 +42,13 @@ public class RequestNetworkEventObserver implements StreamObserver<NetworkObject
 
   @Override
   public void onError(Throwable throwable) {
-    System.out.println("requestobserver onError: " + this.userID + " " + throwable);
+    LOGGER.error(this.userID + " " + throwable);
     throwable.printStackTrace();
     this.eventService.fireEvent(this.eventTypeFactory.createDisconnectionEvent(this.userID));
   }
 
   @Override
   public void onCompleted() {
-    System.out.println("onCompleted " + this.userID);
     this.eventService.fireEvent(this.eventTypeFactory.createDisconnectionEvent(this.userID));
   }
 }

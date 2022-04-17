@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  formatting:
+  format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2 # v2 minimum required

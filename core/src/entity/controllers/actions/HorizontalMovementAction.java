@@ -3,6 +3,8 @@ package entity.controllers.actions;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
+import common.exceptions.ChunkNotFound;
+import entity.Entity;
 import entity.collision.left.EntityLeftContact;
 import entity.collision.right.EntityRightContact;
 
@@ -26,12 +28,12 @@ public class HorizontalMovementAction implements EntityAction {
   }
 
   @Override
-  public Boolean isValid(Body body) {
+  public Boolean isValid(Entity entity) throws ChunkNotFound {
     if (magnitude < 0) {
-      return entityLeftContact.isLeftSpace(body);
+      return entityLeftContact.isLeftSpace(entity);
     }
     if (magnitude > 0) {
-      return entityRightContact.isRightSpace(body);
+      return entityRightContact.isRightSpace(entity);
     }
     return true;
   }

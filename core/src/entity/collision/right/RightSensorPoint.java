@@ -1,16 +1,12 @@
 package entity.collision.right;
 
-import com.badlogic.gdx.physics.box2d.Body;
+import chunk.ChunkRange;
+import entity.collision.CollisionPoint;
+import java.util.UUID;
 
-public class RightSensorPoint {
+public class RightSensorPoint extends CollisionPoint {
 
-  private final Body body;
-
-  public RightSensorPoint(Body body) {
-    this.body = body;
-  }
-
-  public Body getBody() {
-    return body;
+  public RightSensorPoint(UUID uuid, ChunkRange chunkRange) {
+    super(uuid, chunkRange);
   }
 }

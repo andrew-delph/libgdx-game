@@ -1,5 +1,6 @@
 package entity.pathfinding;
 
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -9,7 +10,7 @@ import org.junit.Test;
 
 public class testRelativeActionEdgeGenerator {
   @Test
-  public void testRelativeActionEdgeGenerator() {
+  public void testRelativeActionEdgeGenerator() throws BodyNotFound {
     Injector injector = Guice.createInjector(new StandAloneConfig());
 
     RelativeActionEdgeGenerator generator = injector.getInstance(RelativeActionEdgeGenerator.class);

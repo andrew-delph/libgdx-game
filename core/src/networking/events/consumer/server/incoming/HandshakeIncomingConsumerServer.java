@@ -19,7 +19,6 @@ public class HandshakeIncomingConsumerServer implements Consumer<EventType> {
 
   @Inject GameStore gameStore;
   @Inject ServerNetworkHandle serverNetworkHandle;
-  @Inject EventTypeFactory eventTypeFactory;
 
   @Override
   public void accept(EventType eventType) {

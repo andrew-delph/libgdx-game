@@ -3,9 +3,11 @@ package networking.events.consumer.server.incoming;
 import app.GameController;
 import app.user.User;
 import com.google.inject.Inject;
+import common.Coordinates;
 import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.EventType;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.ActiveEntityManager;
 import entity.Entity;
@@ -26,14 +28,14 @@ public class CreateAIEntityConsumerServer implements Consumer<EventType> {
   public void accept(EventType eventType) {
     try {
       CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
-      Entity aiEntity = entityFactory.createEntity();
+      Entity aiEntity = entityFactory.createEntity(new Coordinates(0, 0));
       activeEntityManager.registerActiveEntity(user.getUserID(), aiEntity.getUuid());
       Entity aiTarget = gameStore.getEntity(realEvent.getTarget());
       aiEntity.coordinates = realEvent.getCoordinates();
       gameController.addEntity(aiEntity);
-      aiEntity.setController(
+      aiEntity.setEntityController(
           entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
-    } catch (EntityNotFound e) {
+    } catch (EntityNotFound | ChunkNotFound e) {
       e.printStackTrace();
     }
   }

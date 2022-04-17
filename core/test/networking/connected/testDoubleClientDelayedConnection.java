@@ -8,8 +8,10 @@ import com.google.inject.Injector;
 import common.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
+import common.exceptions.WrongVersion;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import entity.Entity;
@@ -23,7 +25,10 @@ import networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import util.mock.GdxTestRunner;
 
+@RunWith(GdxTestRunner.class)
 public class testDoubleClientDelayedConnection {
 
   Injector client_a_Injector;
@@ -66,7 +71,8 @@ public class testDoubleClientDelayedConnection {
 
   @Test
   public void testDoubleClientCreateEntity()
-      throws InterruptedException, EntityNotFound, SerializationDataMissing {
+      throws InterruptedException, EntityNotFound, SerializationDataMissing, WrongVersion,
+          ChunkNotFound {
     client_a_NetworkHandle.connect();
 
     GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
@@ -84,13 +90,17 @@ public class testDoubleClientDelayedConnection {
     List<ChunkRange> chunkRangeList = new LinkedList<>();
     chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
 
-    Entity clientEntity = client_a_GameController.addEntity(clientEntityFactory.createEntity());
+    Entity clientEntity =
+        client_a_GameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert serverGameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
 
@@ -106,9 +116,12 @@ public class testDoubleClientDelayedConnection {
 
     TimeUnit.SECONDS.sleep(1);
 
-    assert client_b_GameStore.getEntity(clientEntity.uuid).uuid.equals(clientEntity.uuid);
     assert client_b_GameStore
-        .getEntity(clientEntity.uuid)
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert client_b_GameStore
+        .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
   }

@@ -1,15 +1,11 @@
 package entity.collision;
 
-import com.badlogic.gdx.physics.box2d.Body;
+import chunk.ChunkRange;
+import java.util.UUID;
 
-public class EntityPoint {
-  Body body;
+public class EntityPoint extends CollisionPoint {
 
-  public EntityPoint(Body body) {
-    this.body = body;
-  }
-
-  public Body getBody() {
-    return body;
+  public EntityPoint(UUID uuid, ChunkRange chunkRange) {
+    super(uuid, chunkRange);
   }
 }

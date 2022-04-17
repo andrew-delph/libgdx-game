@@ -1,21 +1,23 @@
 package entity.block;
 
 import app.screen.BaseAssetManager;
+import chunk.world.EntityBodyBuilder;
 import common.Clock;
-import entity.EntityBodyBuilder;
+import common.Coordinates;
 
 public class SkyBlock extends EmptyBlock {
   public SkyBlock(
-      Clock clock, BaseAssetManager baseAssetManager, EntityBodyBuilder entityBodyBuilder) {
-    super(clock, baseAssetManager, entityBodyBuilder);
-    this.textureName = "sky.png";
+      Clock clock,
+      BaseAssetManager baseAssetManager,
+      EntityBodyBuilder entityBodyBuilder,
+      Coordinates coordinates) {
+    super(clock, baseAssetManager, entityBodyBuilder, coordinates);
   }
 
   @Override
-  public synchronized void renderSync() {
+  public String getTextureName() {
     if (this.coordinates.getY() < 0) {
-      this.textureName = "dirty.png";
-    }
-    super.renderSync();
+      return "dirty.png";
+    } else return "sky.png";
   }
 }

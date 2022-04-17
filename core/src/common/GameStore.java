@@ -2,8 +2,10 @@ package common;
 
 import chunk.Chunk;
 import chunk.ChunkRange;
+import chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
 import common.events.EventService;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.block.Block;
@@ -15,14 +17,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
 import networking.events.EventTypeFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameStore {
 
-  private static final Logger LOGGER = Logger.getLogger(GameStore.class.getName());
+  final Logger LOGGER = LogManager.getLogger();
   private final Map<UUID, ChunkRange> entityMap = new ConcurrentHashMap<>();
   @Inject ChunkClockMap chunkClockMap;
   @Inject EventService eventService;
@@ -30,13 +32,21 @@ public class GameStore {
   @Inject
   GameStore() {}
 
-  public void addEntity(Entity entity) {
+  public void addEntity(Entity entity) throws ChunkNotFound {
     ChunkRange entityChunkRange = new ChunkRange(entity.coordinates);
-    this.chunkClockMap.get(entityChunkRange).addEntity(entity);
-    this.entityMap.put(entity.uuid, entityChunkRange);
+    this.entityMap.put(entity.getUuid(), entityChunkRange);
+    Chunk chunk;
+    try {
+      chunk = this.chunkClockMap.get(entityChunkRange);
+      chunk.addEntity(entity);
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+      throw new ChunkNotFound("addEntity cannot find chunk: " + entityChunkRange + " " + entity);
+    }
+    entity.setChunk(chunk);
   }
 
-  public Entity removeEntity(UUID uuid) throws EntityNotFound {
+  public Entity removeEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
     ChunkRange chunkRange = this.entityMap.get(uuid);
     if (chunkRange == null) throw new EntityNotFound("UUID not found in entityMap");
     Chunk chunk = this.chunkClockMap.get(chunkRange);
@@ -80,17 +90,18 @@ public class GameStore {
   }
 
   public void addChunk(Chunk chunk) {
-    this.chunkClockMap.add(chunk);
     for (Entity entity : chunk.getEntityList()) {
-      this.entityMap.put(entity.uuid, chunk.chunkRange);
+      this.entityMap.put(entity.getUuid(), chunk.chunkRange);
     }
+    this.chunkClockMap.add(chunk);
   }
 
   public void removeChunk(ChunkRange chunkRange) {
-    Chunk removed = this.chunkClockMap.remove(chunkRange);
+    Chunk removed = this.chunkClockMap.get(chunkRange);
     for (UUID uuidToRemove : removed.getEntityUUIDSet()) {
       this.entityMap.remove(uuidToRemove);
     }
+    this.chunkClockMap.remove(chunkRange);
   }
 
   public Chunk getChunk(ChunkRange chunkRange) {
@@ -103,7 +114,7 @@ public class GameStore {
       try {
         entityList.add(this.getEntity(entityUUID));
       } catch (EntityNotFound e) {
-        LOGGER.fine(e.toString());
+        LOGGER.error(e);
       }
     }
     return entityList;
@@ -115,7 +126,7 @@ public class GameStore {
       try {
         entityList.add(this.getEntity(entityUUID));
       } catch (EntityNotFound e) {
-        LOGGER.fine(e.toString());
+        LOGGER.error(e);
       }
     }
     return entityList;
@@ -125,7 +136,7 @@ public class GameStore {
     return new HashSet<>(this.entityMap.values());
   }
 
-  public List<Callable<Chunk>> getChunkOnClock(Tick tick) {
+  public Set<Chunk> getChunkOnClock(Tick tick) {
     return this.chunkClockMap.getChunksOnTick(tick);
   }
 
@@ -162,7 +173,9 @@ public class GameStore {
         .getEntityListBaseCoordinates(coordinates);
   }
 
-  public ChunkRange getEntityChunkRange(UUID uuid) {
+  public ChunkRange getEntityChunkRange(UUID uuid) throws EntityNotFound {
+    if (entityMap.get(uuid) == null)
+      throw new EntityNotFound("No chunk range found for Entity #uuid" + uuid);
     return entityMap.get(uuid);
   }
 
@@ -171,12 +184,12 @@ public class GameStore {
   }
 
   public synchronized void syncEntity(Entity entity) throws EntityNotFound {
-    UUID target = entity.uuid;
-    ChunkRange from = this.getEntityChunkRange(entity.uuid);
+    UUID target = entity.getUuid();
+    ChunkRange from = this.getEntityChunkRange(entity.getUuid());
     ChunkRange to = new ChunkRange(entity.coordinates);
     if (!from.equals(to)) {
       this.eventService.queuePostUpdateEvent(
-          EventTypeFactory.createReplaceEntityEvent(entity.uuid, entity, true, to));
+          EventTypeFactory.createReplaceEntityEvent(entity.getUuid(), entity, true, to));
       this.eventService.fireEvent(
           EventTypeFactory.createChunkSwapOutgoingEventType(target, from, to));
     }

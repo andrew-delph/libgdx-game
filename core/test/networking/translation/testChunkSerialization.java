@@ -25,7 +25,7 @@ public class testChunkSerialization {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     for (int i = 0; i < 10; i++) {
-      Entity entity = entityFactory.createEntity();
+      Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
       chunk1.addEntity(entity);
     }
 

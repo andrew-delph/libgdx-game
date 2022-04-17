@@ -2,8 +2,11 @@ package entity.pathfinding.edge;
 
 import static app.screen.GameScreen.pathDebugRender;
 
+import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.graphics.Color;
 import common.Coordinates;
+import common.GameSettings;
+import common.exceptions.ChunkNotFound;
 import entity.Entity;
 import entity.pathfinding.EntityStructure;
 import entity.pathfinding.PathGameStoreOverride;
@@ -65,13 +68,15 @@ public class TemplateEdge extends AbstractEdge {
 
   @Override
   public void render(Coordinates position) {
-    pathDebugRender.setColor(Color.PURPLE);
-    for (RelativeActionEdge actionEdge : this.getActionEdgeList()) {
-      Coordinates start =
-          actionEdge.getFrom().getRelativeCoordinates().applyRelativeCoordinates(position);
-      Coordinates end =
-          actionEdge.getTo().getRelativeCoordinates().applyRelativeCoordinates(position);
-      pathDebugRender.line(start.toVector2(), end.toVector2());
+    if (GameSettings.RENDER_DEBUG) {
+      pathDebugRender.setColor(Color.PURPLE);
+      for (RelativeActionEdge actionEdge : this.getActionEdgeList()) {
+        Coordinates start =
+            actionEdge.getFrom().getRelativeCoordinates().applyRelativeCoordinates(position);
+        Coordinates end =
+            actionEdge.getTo().getRelativeCoordinates().applyRelativeCoordinates(position);
+        pathDebugRender.line(start.toVector2(), end.toVector2());
+      }
     }
   }
 }
@@ -86,11 +91,12 @@ class TemplateEdgeStepper extends EdgeStepper {
   }
 
   @Override
-  public void follow(Entity entity, RelativePathNode relativePathNode) throws Exception {
+  public void follow(Entity entity, RelativePathNode relativePathNode)
+      throws BodyNotFound, ChunkNotFound {
     RelativeActionEdge currentEdge = this.actionEdgeList.get(currentStep);
     currentStep++;
     String actionKey = currentEdge.actionKey;
-    entity.entityController.applyAction(actionKey, entity.getBody());
+    entity.getEntityController().applyAction(actionKey, entity);
     if (currentStep == this.actionEdgeList.size()) this.finish();
   }
 }

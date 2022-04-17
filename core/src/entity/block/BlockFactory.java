@@ -1,9 +1,10 @@
 package entity.block;
 
 import app.screen.BaseAssetManager;
+import chunk.world.EntityBodyBuilder;
 import com.google.inject.Inject;
 import common.Clock;
-import entity.EntityBodyBuilder;
+import common.Coordinates;
 
 public class BlockFactory {
   @Inject Clock clock;
@@ -12,15 +13,18 @@ public class BlockFactory {
 
   BlockFactory() {}
 
-  public DirtBlock createDirt() {
-    return new DirtBlock(clock, baseAssetManager, entityBodyBuilder);
+  public DirtBlock createDirt(Coordinates coordinates) {
+    DirtBlock block = new DirtBlock(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    return block;
   }
 
-  public StoneBlock createStone() {
-    return new StoneBlock(clock, baseAssetManager, entityBodyBuilder);
+  public StoneBlock createStone(Coordinates coordinates) {
+    StoneBlock stoneBlock = new StoneBlock(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    return stoneBlock;
   }
 
-  public SkyBlock createSky() {
-    return new SkyBlock(clock, baseAssetManager, entityBodyBuilder);
+  public SkyBlock createSky(Coordinates coordinates) {
+    SkyBlock skyBlock = new SkyBlock(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    return skyBlock;
   }
 }

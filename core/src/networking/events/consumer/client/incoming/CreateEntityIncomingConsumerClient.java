@@ -1,22 +1,22 @@
 package networking.events.consumer.client.incoming;
 
 import app.GameController;
-import chunk.ChunkRange;
 import com.google.inject.Inject;
-import common.GameStore;
 import common.events.types.EventType;
-import common.exceptions.EntityNotFound;
+import common.exceptions.ChunkNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import java.util.function.Consumer;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
 import networking.translation.NetworkDataDeserializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
 
+  final Logger LOGGER = LogManager.getLogger();
   @Inject GameController gameController;
   @Inject NetworkDataDeserializer entitySerializationConverter;
-  @Inject GameStore gameStore;
 
   @Override
   public void accept(EventType eventType) {
@@ -25,24 +25,15 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
     try {
       entity = entitySerializationConverter.createEntity(realEvent.getData());
     } catch (SerializationDataMissing e) {
-      e.printStackTrace();
+      LOGGER.error(e, e);
       // TODO disconnect the client
       return;
     }
 
     try {
-      if (this.gameStore.getEntity(entity.uuid) != null) {
-        return;
-      }
-    } catch (EntityNotFound e) {
-      // pass
-    }
-    // TODO remove or update
-    try {
       gameController.triggerAddEntity(entity);
-    } catch (NullPointerException e) {
-      System.out.println("e: " + new ChunkRange(entity.coordinates));
-      throw e;
+    } catch (ChunkNotFound e) {
+      LOGGER.error(e, e);
     }
   }
 }

@@ -11,7 +11,11 @@ public class UserID {
   }
 
   public static UserID createUserID(String id) {
-    return new UserID(UUID.fromString(id));
+    try {
+      return new UserID(UUID.fromString(id));
+    } catch (Exception e) {
+      return null;
+    }
   }
 
   public static UserID createUserID() {

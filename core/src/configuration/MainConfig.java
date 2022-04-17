@@ -9,6 +9,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import common.ChunkClockMap;
 import common.Clock;
+import common.GameSettings;
 import common.GameStore;
 import common.events.EventService;
 import entity.ActiveEntityManager;
@@ -29,6 +30,8 @@ import generation.ChunkGenerationService;
 import networking.ConnectionStore;
 import networking.ObserverFactory;
 import networking.events.EventTypeFactory;
+import networking.ping.PingService;
+import networking.sync.SyncService;
 
 public abstract class MainConfig extends AbstractModule {
   @Override
@@ -67,5 +70,7 @@ public abstract class MainConfig extends AbstractModule {
     bind(ActiveChunkManager.class).asEagerSingleton();
     bind(User.class).in(Singleton.class);
     bind(GameSettings.class).in(Singleton.class);
+    bind(PingService.class).asEagerSingleton();
+    bind(SyncService.class).asEagerSingleton();
   }
 }
