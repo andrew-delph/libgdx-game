@@ -123,3 +123,4 @@ config.properties
 
 #draw.io backup
 *.bkp
+*.dtmp
