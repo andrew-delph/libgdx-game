@@ -17,6 +17,7 @@ import entity.EntityFactory;
 import entity.block.BlockFactory;
 import entity.collision.CollisionService;
 import entity.collision.EntityContactListenerFactory;
+import entity.collision.RayCastService;
 import entity.collision.ground.EntityGroundContact;
 import entity.collision.ladder.EntityLadderContact;
 import entity.collision.left.EntityLeftContact;
@@ -72,5 +73,6 @@ public abstract class MainConfig extends AbstractModule {
     bind(GameSettings.class).in(Singleton.class);
     bind(PingService.class).asEagerSingleton();
     bind(SyncService.class).asEagerSingleton();
+    bind(RayCastService.class).asEagerSingleton();
   }
 }

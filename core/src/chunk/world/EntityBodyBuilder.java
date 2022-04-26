@@ -80,7 +80,7 @@ public class EntityBodyBuilder {
     mainFixtureDef.restitution = 0;
     mainFixture = theBody.createFixture(mainFixtureDef);
     mainFixture.setFilterData(filter);
-    mainFixture.setUserData(new EntityPoint(entity.getUuid(), chunkRange));
+    mainFixture.setUserData(new EntityPoint(entity, chunkRange));
 
     // create the smooth
     Vector2[] smoothVertices = new Vector2[3];
@@ -108,7 +108,7 @@ public class EntityBodyBuilder {
     jumpFixtureDef.shape = jumpShape;
     jumpFixtureDef.isSensor = true;
     jumpFixture = theBody.createFixture(jumpFixtureDef);
-    jumpFixture.setUserData(new GroundSensorPoint(entity.getUuid(), chunkRange));
+    jumpFixture.setUserData(new GroundSensorPoint(entity, chunkRange));
     jumpFixture.setFilterData(filter);
 
     // create the left
@@ -120,7 +120,7 @@ public class EntityBodyBuilder {
     leftFixtureDef.shape = leftShape;
     leftFixtureDef.isSensor = true;
     leftFixture = theBody.createFixture(leftFixtureDef);
-    leftFixture.setUserData(new LeftSensorPoint(entity.getUuid(), chunkRange));
+    leftFixture.setUserData(new LeftSensorPoint(entity, chunkRange));
     leftFixture.setFilterData(filter);
 
     // create the right
@@ -132,7 +132,7 @@ public class EntityBodyBuilder {
     rightFixtureDef.shape = rightShape;
     rightFixtureDef.isSensor = true;
     rightFixture = theBody.createFixture(rightFixtureDef);
-    rightFixture.setUserData(new RightSensorPoint(entity.getUuid(), chunkRange));
+    rightFixture.setUserData(new RightSensorPoint(entity, chunkRange));
     rightFixture.setFilterData(filter);
 
     return new Pair<>(entity.getUuid(), theBody);
@@ -163,7 +163,7 @@ public class EntityBodyBuilder {
     filter.maskBits = 1;
     blockFixture.setFilterData(filter);
 
-    blockFixture.setUserData(new GroundPoint(entity.getUuid(), chunkRange));
+    blockFixture.setUserData(new GroundPoint(entity, chunkRange));
     return new Pair<>(entity.getUuid(), theBody);
   }
 
@@ -198,7 +198,7 @@ public class EntityBodyBuilder {
     filter.maskBits = 1;
 
     blockFixture.setFilterData(filter);
-    blockFixture.setUserData(new LadderPoint(entity.getUuid(), chunkRange));
+    blockFixture.setUserData(new LadderPoint(entity, chunkRange));
 
     return new Pair<>(entity.getUuid(), theBody);
   }
