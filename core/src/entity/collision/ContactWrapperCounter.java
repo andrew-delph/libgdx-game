@@ -9,36 +9,36 @@ public abstract class ContactWrapperCounter {
   Table<UUID, ChunkRange, Integer> contactCounterTable = HashBasedTable.create();
 
   public synchronized void beginContact(CollisionPoint source, CollisionPoint target) {
-    if (!contactCounterTable.contains(source.getUuid(), source.getChunkRange())) {
-      contactCounterTable.put(source.getUuid(), source.getChunkRange(), 0);
+    if (!contactCounterTable.contains(source.getEntity().getUuid(), source.getChunkRange())) {
+      contactCounterTable.put(source.getEntity().getUuid(), source.getChunkRange(), 0);
     }
-    if (!contactCounterTable.contains(target.getUuid(), target.getChunkRange())) {
-      contactCounterTable.put(target.getUuid(), target.getChunkRange(), 0);
+    if (!contactCounterTable.contains(target.getEntity().getUuid(), target.getChunkRange())) {
+      contactCounterTable.put(target.getEntity().getUuid(), target.getChunkRange(), 0);
     }
 
     contactCounterTable.put(
-        source.getUuid(),
+        source.getEntity().getUuid(),
         source.getChunkRange(),
-        contactCounterTable.get(source.getUuid(), source.getChunkRange()) + 1);
+        contactCounterTable.get(source.getEntity().getUuid(), source.getChunkRange()) + 1);
 
     contactCounterTable.put(
-        target.getUuid(),
+        target.getEntity().getUuid(),
         target.getChunkRange(),
-        contactCounterTable.get(target.getUuid(), target.getChunkRange()) + 1);
+        contactCounterTable.get(target.getEntity().getUuid(), target.getChunkRange()) + 1);
   }
 
   public synchronized void endContact(CollisionPoint source, CollisionPoint target) {
-    if (contactCounterTable.contains(source.getUuid(), source.getChunkRange())) {
+    if (contactCounterTable.contains(source.getEntity().getUuid(), source.getChunkRange())) {
       contactCounterTable.put(
-          source.getUuid(),
+          source.getEntity().getUuid(),
           source.getChunkRange(),
-          contactCounterTable.get(source.getUuid(), source.getChunkRange()) - 1);
+          contactCounterTable.get(source.getEntity().getUuid(), source.getChunkRange()) - 1);
     }
-    if (contactCounterTable.contains(target.getUuid(), target.getChunkRange())) {
+    if (contactCounterTable.contains(target.getEntity().getUuid(), target.getChunkRange())) {
       contactCounterTable.put(
-          target.getUuid(),
+          target.getEntity().getUuid(),
           target.getChunkRange(),
-          contactCounterTable.get(target.getUuid(), target.getChunkRange()) - 1);
+          contactCounterTable.get(target.getEntity().getUuid(), target.getChunkRange()) - 1);
     }
   }
 

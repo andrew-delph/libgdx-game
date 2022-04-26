@@ -1,11 +1,11 @@
 package entity.collision;
 
 import chunk.ChunkRange;
-import java.util.UUID;
+import entity.Entity;
 
 public class EntityPoint extends CollisionPoint {
 
-  public EntityPoint(UUID uuid, ChunkRange chunkRange) {
-    super(uuid, chunkRange);
+  public EntityPoint(Entity entity, ChunkRange chunkRange) {
+    super(entity, chunkRange);
   }
 }

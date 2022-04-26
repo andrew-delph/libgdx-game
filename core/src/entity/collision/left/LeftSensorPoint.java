@@ -1,12 +1,12 @@
 package entity.collision.left;
 
 import chunk.ChunkRange;
+import entity.Entity;
 import entity.collision.CollisionPoint;
-import java.util.UUID;
 
 public class LeftSensorPoint extends CollisionPoint {
 
-  public LeftSensorPoint(UUID uuid, ChunkRange chunkRange) {
-    super(uuid, chunkRange);
+  public LeftSensorPoint(Entity entity, ChunkRange chunkRange) {
+    super(entity, chunkRange);
   }
 }
