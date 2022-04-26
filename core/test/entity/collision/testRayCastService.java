@@ -85,12 +85,14 @@ public class testRayCastService {
 
     assert rayCastResult.contains(dirt);
     assert rayCastResult.contains(stone);
+    assert rayCastResult.size() == 2;
 
     rayCastResult =
         rayCastService.rayCast(
             (new Coordinates(4, -5)).getMiddle(), (new Coordinates(4, 5)).getMiddle());
 
     assert rayCastResult.contains(stone);
+    assert rayCastResult.size() == 1;
 
     gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(5, 0))));
 
@@ -104,5 +106,6 @@ public class testRayCastService {
     assert rayCastResult.contains(dirt);
     assert rayCastResult.contains(stone);
     assert rayCastResult.contains(dirt2);
+    assert rayCastResult.size() == 3;
   }
 }
