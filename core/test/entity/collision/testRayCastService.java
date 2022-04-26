@@ -1,6 +1,5 @@
 package entity.collision;
 
-import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
@@ -71,8 +70,7 @@ public class testRayCastService {
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
     RayCastService rayCastService = injector.getInstance(RayCastService.class);
 
-    Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
-    gameStore.addChunk(chunk);
+    gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
 
     Entity dirt = blockFactory.createDirt(new Coordinates(2, 1));
     Entity stone = blockFactory.createStone(new Coordinates(4, 1));
@@ -93,5 +91,18 @@ public class testRayCastService {
             (new Coordinates(4, -5)).getMiddle(), (new Coordinates(4, 5)).getMiddle());
 
     assert rayCastResult.contains(stone);
+
+    gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(5, 0))));
+
+    Entity dirt2 = blockFactory.createDirt(new Coordinates(7, 1));
+    gameStore.addEntity(dirt2);
+
+    rayCastResult =
+        rayCastService.rayCast(
+            (new Coordinates(-1, 1)).getMiddle(), (new Coordinates(11, 1)).getMiddle());
+
+    assert rayCastResult.contains(dirt);
+    assert rayCastResult.contains(stone);
+    assert rayCastResult.contains(dirt2);
   }
 }
