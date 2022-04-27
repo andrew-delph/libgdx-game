@@ -36,4 +36,9 @@ public class EntityControllerFactory {
         source,
         target);
   }
+
+  public ProjectileController createProjectileController(Entity entity) {
+    return new ProjectileController(
+        gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+  }
 }

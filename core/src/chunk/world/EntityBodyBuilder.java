@@ -20,6 +20,7 @@ import entity.collision.ground.GroundSensorPoint;
 import entity.collision.ladder.LadderPoint;
 import entity.collision.left.LeftSensorPoint;
 import entity.collision.right.RightSensorPoint;
+import entity.misc.Projectile;
 import java.util.UUID;
 
 public class EntityBodyBuilder {
@@ -199,6 +200,39 @@ public class EntityBodyBuilder {
 
     blockFixture.setFilterData(filter);
     blockFixture.setUserData(new LadderPoint(entity, chunkRange));
+
+    return new Pair<>(entity.getUuid(), theBody);
+  }
+
+  public static Pair<UUID, Body> createProjectileBody(
+      World world, ChunkRange chunkRange, Entity entity) {
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyDef.BodyType.StaticBody;
+    bodyDef.position.set(
+        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+
+    Body theBody = world.createBody(bodyDef);
+
+    PolygonShape shape = new PolygonShape();
+    shape.setAsBox(
+        (Projectile.staticWidth * GameSettings.PHYSICS_SCALE) / 2.0f,
+        (Projectile.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
+    FixtureDef fixtureDef = new FixtureDef();
+    fixtureDef.shape = shape;
+    fixtureDef.density = 0f;
+    fixtureDef.restitution = 0;
+    fixtureDef.isSensor = true;
+    Fixture blockFixture = theBody.createFixture(fixtureDef);
+
+    Filter filter = new Filter();
+    filter.categoryBits = 1;
+    filter.maskBits = 2;
+
+    blockFixture.setFilterData(filter);
+    blockFixture.setUserData(new LadderPoint(entity, chunkRange));
+
+    theBody.setGravityScale(0);
 
     return new Pair<>(entity.getUuid(), theBody);
   }

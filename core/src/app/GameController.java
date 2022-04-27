@@ -18,7 +18,9 @@ import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.EmptyBlock;
 import entity.block.SkyBlock;
+import entity.controllers.EntityControllerFactory;
 import entity.misc.Ladder;
+import entity.misc.Projectile;
 import java.util.UUID;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
@@ -33,6 +35,7 @@ public class GameController {
   @Inject EventService eventService;
   @Inject EventTypeFactory eventTypeFactory;
   @Inject BlockFactory blockFactory;
+  @Inject EntityControllerFactory entityControllerFactory;
 
   public Entity addEntity(Entity entity) throws ChunkNotFound {
     triggerAddEntity(entity);
@@ -124,6 +127,19 @@ public class GameController {
             entity.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
+  }
+
+  public Projectile createProjectile(Coordinates coordinates, Vector2 velocity)
+      throws ChunkNotFound, BodyNotFound {
+    Projectile projectile = entityFactory.createProjectile(coordinates);
+    this.gameStore.addEntity(projectile);
+    projectile.setBodyVelocity(velocity);
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
+        EventTypeFactory.createCreateEntityOutgoingEvent(
+            projectile.toNetworkData(), new ChunkRange(coordinates));
+    this.eventService.fireEvent(createEntityOutgoingEvent);
+    projectile.setEntityController(entityControllerFactory.createProjectileController(projectile));
+    return projectile;
   }
 
   public void moveEntity(UUID uuid, Coordinates coordinates) throws EntityNotFound {
