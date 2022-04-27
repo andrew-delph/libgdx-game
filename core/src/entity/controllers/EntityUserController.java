@@ -4,6 +4,8 @@ import app.GameController;
 import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Vector2;
 import common.Direction;
 import common.events.EventService;
 import common.exceptions.ChunkNotFound;
@@ -63,6 +65,10 @@ public class EntityUserController extends EntityController {
       } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
         this.gameController.createLadder(this.entity.coordinates.getMiddle().getUp().getBase());
       }
+    }
+
+    if (Gdx.input.isKeyJustPressed(Keys.F1)) {
+      gameController.createProjectile(this.entity.coordinates.getMiddle(), new Vector2(1110, 1110));
     }
 
     if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {

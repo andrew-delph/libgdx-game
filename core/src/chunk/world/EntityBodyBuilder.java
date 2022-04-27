@@ -207,7 +207,7 @@ public class EntityBodyBuilder {
   public static Pair<UUID, Body> createProjectileBody(
       World world, ChunkRange chunkRange, Entity entity) {
     BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyDef.BodyType.StaticBody;
+    bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(
         entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
         entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
@@ -220,9 +220,8 @@ public class EntityBodyBuilder {
         (Projectile.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
-    fixtureDef.density = 0f;
+    fixtureDef.density = 1f;
     fixtureDef.restitution = 0;
-    fixtureDef.isSensor = true;
     Fixture blockFixture = theBody.createFixture(fixtureDef);
 
     Filter filter = new Filter();
