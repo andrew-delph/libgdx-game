@@ -1,6 +1,6 @@
 package entity.collision;
 
-import entity.collision.ground.GroundSensor;
+import entity.collision.right.ground.GroundSensor;
 import org.junit.Test;
 
 public class testCollisionPair {

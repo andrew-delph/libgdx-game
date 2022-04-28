@@ -162,7 +162,7 @@ public class Entity implements SerializeNetworkData {
 
   @Override
   public String toString() {
-    return "Entity{" + "uuid=" + uuid + ", coordinates=" + coordinates + '}';
+    return this.getClass().getName() + "{" + "uuid=" + uuid + ", coordinates=" + coordinates + '}';
   }
 
   public UUID getUuid() {

@@ -1,4 +1,4 @@
-package entity.collision.ground;
+package entity.collision.right.ground;
 
 import chunk.ChunkRange;
 import entity.Entity;
