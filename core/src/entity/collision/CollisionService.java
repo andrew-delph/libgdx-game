@@ -1,15 +1,18 @@
 package entity.collision;
 
 import com.google.inject.Inject;
-import entity.collision.ground.EntityGroundContact;
-import entity.collision.ground.GroundPoint;
-import entity.collision.ground.GroundSensorPoint;
 import entity.collision.ladder.EntityLadderContact;
-import entity.collision.ladder.LadderPoint;
+import entity.collision.ladder.LadderSensor;
 import entity.collision.left.EntityLeftContact;
-import entity.collision.left.LeftSensorPoint;
+import entity.collision.left.LeftSensor;
+import entity.collision.projectile.BlockProjectileContact;
+import entity.collision.projectile.EntityProjectileContact;
+import entity.collision.projectile.ProjectileSensor;
 import entity.collision.right.EntityRightContact;
-import entity.collision.right.RightSensorPoint;
+import entity.collision.right.RightSensor;
+import entity.collision.right.ground.EntityFeetSensor;
+import entity.collision.right.ground.EntityGroundContact;
+import entity.collision.right.ground.GroundSensor;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
@@ -17,11 +20,13 @@ import org.apache.logging.log4j.Logger;
 
 public class CollisionService {
   final Logger LOGGER = LogManager.getLogger();
-  Map<CollisionPair, ContactWrapperCounter> collisionPairContactWrapperMap;
+  Map<CollisionPair, ContactWrapper> collisionPairContactWrapperMap;
   @Inject EntityGroundContact entityGroundContact;
   @Inject EntityLadderContact entityLadderContact;
   @Inject EntityLeftContact entityLeftContact;
   @Inject EntityRightContact entityRightContact;
+  @Inject BlockProjectileContact blockProjectileContact;
+  @Inject EntityProjectileContact entityProjectileContact;
 
   @Inject
   public CollisionService() {
@@ -30,17 +35,20 @@ public class CollisionService {
 
   public void init() {
     this.addCollisionConsumer(
-        new CollisionPair(GroundSensorPoint.class, GroundPoint.class), entityGroundContact);
+        new CollisionPair(EntityFeetSensor.class, GroundSensor.class), entityGroundContact);
     this.addCollisionConsumer(
-        new CollisionPair(EntityPoint.class, LadderPoint.class), entityLadderContact);
+        new CollisionPair(EntityPoint.class, LadderSensor.class), entityLadderContact);
     this.addCollisionConsumer(
-        new CollisionPair(LeftSensorPoint.class, GroundPoint.class), entityLeftContact);
+        new CollisionPair(LeftSensor.class, GroundSensor.class), entityLeftContact);
     this.addCollisionConsumer(
-        new CollisionPair(RightSensorPoint.class, GroundPoint.class), entityRightContact);
+        new CollisionPair(RightSensor.class, GroundSensor.class), entityRightContact);
+    this.addCollisionConsumer(
+        new CollisionPair(ProjectileSensor.class, GroundSensor.class), blockProjectileContact);
+    this.addCollisionConsumer(
+        new CollisionPair(ProjectileSensor.class, EntityPoint.class), entityProjectileContact);
   }
 
-  public void addCollisionConsumer(
-      CollisionPair collisionPair, ContactWrapperCounter contactWrapper) {
+  public void addCollisionConsumer(CollisionPair collisionPair, ContactWrapper contactWrapper) {
     this.collisionPairContactWrapperMap.put(collisionPair, contactWrapper);
   }
 

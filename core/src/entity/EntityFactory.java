@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import common.Clock;
 import common.Coordinates;
 import entity.misc.Ladder;
+import entity.misc.Projectile;
 
 public class EntityFactory {
 
@@ -24,5 +25,10 @@ public class EntityFactory {
   public Ladder createLadder(Coordinates coordinates) {
     Ladder ladder = new Ladder(clock, baseAssetManager, entityBodyBuilder, coordinates);
     return ladder;
+  }
+
+  public Projectile createProjectile(Coordinates coordinates) {
+    Projectile projectile = new Projectile(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    return projectile;
   }
 }

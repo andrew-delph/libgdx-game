@@ -1,10 +1,10 @@
 package entity.controllers.actions;
 
 import com.google.inject.Inject;
-import entity.collision.ground.EntityGroundContact;
 import entity.collision.ladder.EntityLadderContact;
 import entity.collision.left.EntityLeftContact;
 import entity.collision.right.EntityRightContact;
+import entity.collision.right.ground.EntityGroundContact;
 
 public class EntityActionFactory {
   @Inject EntityGroundContact entityGroundContact;

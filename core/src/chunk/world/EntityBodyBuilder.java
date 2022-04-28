@@ -9,23 +9,21 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.google.inject.Inject;
 import com.sun.tools.javac.util.Pair;
 import common.GameSettings;
 import entity.Entity;
 import entity.block.Block;
 import entity.collision.EntityPoint;
-import entity.collision.ground.GroundPoint;
-import entity.collision.ground.GroundSensorPoint;
-import entity.collision.ladder.LadderPoint;
-import entity.collision.left.LeftSensorPoint;
-import entity.collision.right.RightSensorPoint;
+import entity.collision.ladder.LadderSensor;
+import entity.collision.left.LeftSensor;
+import entity.collision.projectile.ProjectileSensor;
+import entity.collision.right.RightSensor;
+import entity.collision.right.ground.EntityFeetSensor;
+import entity.collision.right.ground.GroundSensor;
+import entity.misc.Projectile;
 import java.util.UUID;
 
 public class EntityBodyBuilder {
-
-  @Inject
-  public EntityBodyBuilder() {}
 
   public static Pair<UUID, Body> createEntityBody(
       World world, ChunkRange chunkRange, Entity entity) {
@@ -57,10 +55,6 @@ public class EntityBodyBuilder {
     PolygonShape rightShape = new PolygonShape();
     Fixture rightFixture;
 
-    Filter filter = new Filter();
-    filter.categoryBits = 1;
-    filter.maskBits = 2;
-
     // create the body
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(
@@ -79,7 +73,7 @@ public class EntityBodyBuilder {
     mainFixtureDef.density = 1f;
     mainFixtureDef.restitution = 0;
     mainFixture = theBody.createFixture(mainFixtureDef);
-    mainFixture.setFilterData(filter);
+    mainFixture.setFilterData(entityFilter());
     mainFixture.setUserData(new EntityPoint(entity, chunkRange));
 
     // create the smooth
@@ -95,7 +89,7 @@ public class EntityBodyBuilder {
     smoothFixtureDef.density = 1f;
     smoothFixtureDef.restitution = 0;
     smoothFixture = theBody.createFixture(smoothFixtureDef);
-    smoothFixture.setFilterData(filter);
+    smoothFixture.setFilterData(entityFilter());
 
     // create the jump
     jumpShape.setAsBox(
@@ -108,8 +102,8 @@ public class EntityBodyBuilder {
     jumpFixtureDef.shape = jumpShape;
     jumpFixtureDef.isSensor = true;
     jumpFixture = theBody.createFixture(jumpFixtureDef);
-    jumpFixture.setUserData(new GroundSensorPoint(entity, chunkRange));
-    jumpFixture.setFilterData(filter);
+    jumpFixture.setUserData(new EntityFeetSensor(entity, chunkRange));
+    jumpFixture.setFilterData(entityFilter());
 
     // create the left
     leftShape.setAsBox(
@@ -120,8 +114,8 @@ public class EntityBodyBuilder {
     leftFixtureDef.shape = leftShape;
     leftFixtureDef.isSensor = true;
     leftFixture = theBody.createFixture(leftFixtureDef);
-    leftFixture.setUserData(new LeftSensorPoint(entity, chunkRange));
-    leftFixture.setFilterData(filter);
+    leftFixture.setUserData(new LeftSensor(entity, chunkRange));
+    leftFixture.setFilterData(entityFilter());
 
     // create the right
     rightShape.setAsBox(
@@ -132,8 +126,8 @@ public class EntityBodyBuilder {
     rightFixtureDef.shape = rightShape;
     rightFixtureDef.isSensor = true;
     rightFixture = theBody.createFixture(rightFixtureDef);
-    rightFixture.setUserData(new RightSensorPoint(entity, chunkRange));
-    rightFixture.setFilterData(filter);
+    rightFixture.setUserData(new RightSensor(entity, chunkRange));
+    rightFixture.setFilterData(entityFilter());
 
     return new Pair<>(entity.getUuid(), theBody);
   }
@@ -158,12 +152,9 @@ public class EntityBodyBuilder {
     fixtureDef.restitution = 0;
     Fixture blockFixture = theBody.createFixture(fixtureDef);
 
-    Filter filter = new Filter();
-    filter.categoryBits = 2;
-    filter.maskBits = 1;
-    blockFixture.setFilterData(filter);
+    blockFixture.setFilterData(blockFilter());
 
-    blockFixture.setUserData(new GroundPoint(entity, chunkRange));
+    blockFixture.setUserData(new GroundSensor(entity, chunkRange));
     return new Pair<>(entity.getUuid(), theBody);
   }
 
@@ -193,13 +184,70 @@ public class EntityBodyBuilder {
     fixtureDef.isSensor = true;
     Fixture blockFixture = theBody.createFixture(fixtureDef);
 
-    Filter filter = new Filter();
-    filter.categoryBits = 2;
-    filter.maskBits = 1;
-
-    blockFixture.setFilterData(filter);
-    blockFixture.setUserData(new LadderPoint(entity, chunkRange));
+    blockFixture.setFilterData(ladderFilter());
+    blockFixture.setUserData(new LadderSensor(entity, chunkRange));
 
     return new Pair<>(entity.getUuid(), theBody);
+  }
+
+  public static Pair<UUID, Body> createProjectileBody(
+      World world, ChunkRange chunkRange, Entity entity) {
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyDef.BodyType.DynamicBody;
+    bodyDef.position.set(
+        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+
+    Body theBody = world.createBody(bodyDef);
+
+    PolygonShape shape = new PolygonShape();
+    shape.setAsBox(
+        (Projectile.staticWidth * GameSettings.PHYSICS_SCALE) / 2.0f,
+        (Projectile.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
+    FixtureDef fixtureDef = new FixtureDef();
+    fixtureDef.shape = shape;
+    fixtureDef.density = 1f;
+    fixtureDef.restitution = 0;
+    fixtureDef.isSensor = true;
+    Fixture projectileFixture = theBody.createFixture(fixtureDef);
+
+    projectileFixture.setFilterData(projectileFilter());
+    projectileFixture.setUserData(new ProjectileSensor(entity, chunkRange));
+
+    theBody.setGravityScale(0);
+
+    return new Pair<>(entity.getUuid(), theBody);
+  }
+
+  public static Filter entityFilter() {
+    // entity collides with blocks
+    Filter filter = new Filter();
+    filter.categoryBits = 0b1;
+    filter.maskBits = 0b110;
+    return filter;
+  }
+
+  public static Filter blockFilter() {
+    // blocks collide with everything
+    Filter filter = new Filter();
+    filter.categoryBits = 0b10;
+    filter.maskBits = 0b101;
+    return filter;
+  }
+
+  public static Filter ladderFilter() {
+    // ladder collides with entities
+    Filter filter = new Filter();
+    filter.categoryBits = 0b10;
+    filter.maskBits = 0b1;
+    return filter;
+  }
+
+  public static Filter projectileFilter() {
+    // collides with entities and blocks
+    Filter filter = new Filter();
+    filter.categoryBits = 0b100;
+    filter.maskBits = 0b11;
+    return filter;
   }
 }
