@@ -5,7 +5,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import java.util.UUID;
 
-public abstract class ContactWrapperCounter {
+public abstract class ContactWrapperCounter implements ContactWrapper {
   Table<UUID, ChunkRange, Integer> contactCounterTable = HashBasedTable.create();
 
   public synchronized void beginContact(CollisionPoint source, CollisionPoint target) {

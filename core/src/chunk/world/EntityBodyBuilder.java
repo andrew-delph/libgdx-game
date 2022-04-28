@@ -15,11 +15,12 @@ import common.GameSettings;
 import entity.Entity;
 import entity.block.Block;
 import entity.collision.EntityPoint;
-import entity.collision.ground.GroundPoint;
-import entity.collision.ground.GroundSensorPoint;
-import entity.collision.ladder.LadderPoint;
-import entity.collision.left.LeftSensorPoint;
-import entity.collision.right.RightSensorPoint;
+import entity.collision.ground.EntityFeetSensor;
+import entity.collision.ground.GroundSensor;
+import entity.collision.ladder.LadderSensor;
+import entity.collision.left.LeftSensor;
+import entity.collision.projectile.ProjectileSensor;
+import entity.collision.right.RightSensor;
 import entity.misc.Projectile;
 import java.util.UUID;
 
@@ -109,7 +110,7 @@ public class EntityBodyBuilder {
     jumpFixtureDef.shape = jumpShape;
     jumpFixtureDef.isSensor = true;
     jumpFixture = theBody.createFixture(jumpFixtureDef);
-    jumpFixture.setUserData(new GroundSensorPoint(entity, chunkRange));
+    jumpFixture.setUserData(new EntityFeetSensor(entity, chunkRange));
     jumpFixture.setFilterData(filter);
 
     // create the left
@@ -121,7 +122,7 @@ public class EntityBodyBuilder {
     leftFixtureDef.shape = leftShape;
     leftFixtureDef.isSensor = true;
     leftFixture = theBody.createFixture(leftFixtureDef);
-    leftFixture.setUserData(new LeftSensorPoint(entity, chunkRange));
+    leftFixture.setUserData(new LeftSensor(entity, chunkRange));
     leftFixture.setFilterData(filter);
 
     // create the right
@@ -133,7 +134,7 @@ public class EntityBodyBuilder {
     rightFixtureDef.shape = rightShape;
     rightFixtureDef.isSensor = true;
     rightFixture = theBody.createFixture(rightFixtureDef);
-    rightFixture.setUserData(new RightSensorPoint(entity, chunkRange));
+    rightFixture.setUserData(new RightSensor(entity, chunkRange));
     rightFixture.setFilterData(filter);
 
     return new Pair<>(entity.getUuid(), theBody);
@@ -164,7 +165,7 @@ public class EntityBodyBuilder {
     filter.maskBits = 1;
     blockFixture.setFilterData(filter);
 
-    blockFixture.setUserData(new GroundPoint(entity, chunkRange));
+    blockFixture.setUserData(new GroundSensor(entity, chunkRange));
     return new Pair<>(entity.getUuid(), theBody);
   }
 
@@ -199,7 +200,7 @@ public class EntityBodyBuilder {
     filter.maskBits = 1;
 
     blockFixture.setFilterData(filter);
-    blockFixture.setUserData(new LadderPoint(entity, chunkRange));
+    blockFixture.setUserData(new LadderSensor(entity, chunkRange));
 
     return new Pair<>(entity.getUuid(), theBody);
   }
@@ -229,7 +230,7 @@ public class EntityBodyBuilder {
     filter.maskBits = 2;
 
     blockFixture.setFilterData(filter);
-    blockFixture.setUserData(new LadderPoint(entity, chunkRange));
+    blockFixture.setUserData(new ProjectileSensor(entity, chunkRange));
 
     theBody.setGravityScale(0);
 

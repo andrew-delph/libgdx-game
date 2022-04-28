@@ -4,9 +4,9 @@ import chunk.ChunkRange;
 import entity.Entity;
 import entity.collision.CollisionPoint;
 
-public class LadderPoint extends CollisionPoint {
+public class LadderSensor extends CollisionPoint {
 
-  public LadderPoint(Entity entity, ChunkRange chunkRange) {
+  public LadderSensor(Entity entity, ChunkRange chunkRange) {
     super(entity, chunkRange);
   }
 }

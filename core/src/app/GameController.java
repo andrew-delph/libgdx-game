@@ -1,5 +1,6 @@
 package app;
 
+import app.user.User;
 import chunk.ChunkRange;
 import chunk.world.exceptions.BodyNotFound;
 import chunk.world.exceptions.DestroyBodyException;
@@ -11,6 +12,7 @@ import common.GameStore;
 import common.events.EventService;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
+import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.Block;
@@ -36,6 +38,8 @@ public class GameController {
   @Inject EventTypeFactory eventTypeFactory;
   @Inject BlockFactory blockFactory;
   @Inject EntityControllerFactory entityControllerFactory;
+  @Inject User user;
+  @Inject ActiveEntityManager activeEntityManager;
 
   public Entity addEntity(Entity entity) throws ChunkNotFound {
     triggerAddEntity(entity);
@@ -139,6 +143,7 @@ public class GameController {
             projectile.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     projectile.setEntityController(entityControllerFactory.createProjectileController(projectile));
+    activeEntityManager.registerActiveEntity(user.getUserID(), projectile.getUuid());
     return projectile;
   }
 
