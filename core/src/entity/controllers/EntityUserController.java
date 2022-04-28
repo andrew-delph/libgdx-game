@@ -71,6 +71,10 @@ public class EntityUserController extends EntityController {
       gameController.createProjectile(this.entity.coordinates.getMiddle(), new Vector2(10, 0));
     }
 
+    if (Gdx.input.isKeyJustPressed(Keys.F2)) {
+      gameController.createTurret(this.entity.coordinates.getMiddle());
+    }
+
     if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
       gameController.createAI(this.entity.getUuid());
     }
