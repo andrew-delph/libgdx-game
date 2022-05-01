@@ -23,6 +23,7 @@ import entity.block.SkyBlock;
 import entity.controllers.EntityControllerFactory;
 import entity.misc.Ladder;
 import entity.misc.Projectile;
+import entity.misc.Turret;
 import java.util.UUID;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
@@ -145,6 +146,18 @@ public class GameController {
     projectile.setEntityController(entityControllerFactory.createProjectileController(projectile));
     activeEntityManager.registerActiveEntity(user.getUserID(), projectile.getUuid());
     return projectile;
+  }
+
+  public Turret createTurret(Coordinates coordinates) throws ChunkNotFound, BodyNotFound {
+    Turret turret = entityFactory.createTurret(coordinates);
+    this.gameStore.addEntity(turret);
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
+        EventTypeFactory.createCreateEntityOutgoingEvent(
+            turret.toNetworkData(), new ChunkRange(coordinates));
+    this.eventService.fireEvent(createEntityOutgoingEvent);
+    turret.setEntityController(entityControllerFactory.createProjectileController(turret));
+    activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
+    return turret;
   }
 
   public void moveEntity(UUID uuid, Coordinates coordinates) throws EntityNotFound {
