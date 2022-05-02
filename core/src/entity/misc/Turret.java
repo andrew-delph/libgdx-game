@@ -29,7 +29,7 @@ public class Turret extends Entity {
 
       @Override
       protected Pair<UUID, Body> addWorld(World world) {
-        return EntityBodyBuilder.createEntityBody(world, chunk.chunkRange, myTurret);
+        return EntityBodyBuilder.createTurretBody(world, chunk.chunkRange, myTurret);
       }
     };
   }

@@ -148,14 +148,27 @@ public class GameController {
     return projectile;
   }
 
-  public Turret createTurret(Coordinates coordinates) throws ChunkNotFound, BodyNotFound {
+  public Turret createTurret(Coordinates coordinates) throws ChunkNotFound {
+
+    try {
+      if (!(this.gameStore.getBlock(coordinates) instanceof EmptyBlock)) {
+        LOGGER.debug("Did not find EmptyBlock");
+        return null;
+      }
+    } catch (EntityNotFound e) {
+      LOGGER.error("Could not create Ladder");
+      return null;
+    }
+
+    // TODO if misc is there don't place one. need a function like ladder.
+
     Turret turret = entityFactory.createTurret(coordinates);
     this.gameStore.addEntity(turret);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
             turret.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
-    turret.setEntityController(entityControllerFactory.createProjectileController(turret));
+    turret.setEntityController(entityControllerFactory.createTurretController(turret));
     activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
     return turret;
   }
