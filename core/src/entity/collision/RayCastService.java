@@ -24,8 +24,8 @@ public class RayCastService {
     /*
      Returns all the entities of the bodies reached by the ray-cast;
     */
-
     Set<Entity> rayCastCollisions = new HashSet<>();
+    if (start.getBase().equals(end.getBase())) return rayCastCollisions;
 
     for (ChunkRange chunkRange : getChunkRangesOnLine(start, end)) {
       Chunk chunk = gameStore.getChunk(chunkRange);
@@ -48,7 +48,6 @@ public class RayCastService {
                 world.rayCast(rayCastCallback, start.toVector2(), end.toVector2());
               });
     }
-
     return rayCastCollisions;
   }
 

@@ -150,6 +150,13 @@ public class GameStore {
     return this.chunkClockMap.get(new ChunkRange(coordinates)).getLadder(coordinates.getBase());
   }
 
+  public List<Entity> getEntityInRange(Coordinates coordinates, int range) {
+    Coordinates bottomLeft =
+        new Coordinates(coordinates.getX() - range, coordinates.getY() - range);
+    Coordinates topRight = new Coordinates(coordinates.getX() + range, coordinates.getY() + range);
+    return this.getEntityInRange(bottomLeft, topRight);
+  }
+
   public List<Entity> getEntityInRange(
       Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates) {
     List<Entity> entityList = new LinkedList<>();
