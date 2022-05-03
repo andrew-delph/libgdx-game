@@ -1,11 +1,11 @@
 package entity.controllers;
 
 import app.GameController;
-import com.badlogic.gdx.math.Vector2;
 import common.Clock;
 import common.Coordinates;
 import common.GameStore;
 import common.Tick;
+import common.Util;
 import common.events.EventService;
 import entity.Entity;
 import entity.collision.RayCastService;
@@ -58,7 +58,6 @@ public class TurretController extends EntityController {
     for (Entity next : closeEntities) {
       Set<Entity> rayCastEntities = rayCastService.rayCast(entity.coordinates, next.coordinates);
       if (!next.getClass().equals(Entity.class)) continue;
-      System.out.println(next.getClass());
       rayCastEntities.remove(entity);
       rayCastEntities.remove(next);
 
@@ -69,7 +68,8 @@ public class TurretController extends EntityController {
         float m = (end.getYReal() - start.getYReal()) / (end.getXReal() - start.getXReal());
         float b = (start.getYReal()) - (m * start.getXReal());
         // fire projectile
-        gameController.createProjectile(entity.coordinates, new Vector2(1 / m, m));
+        gameController.createProjectile(
+            entity.coordinates, Util.calcVelocity(entity.coordinates, next.coordinates, 5));
         tick = clock.getCurrentTick();
         return;
       }
