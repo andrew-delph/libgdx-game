@@ -3,6 +3,7 @@ package networking.translation;
 import chunk.ChunkRange;
 import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
+import common.events.types.CreateTurretEventType;
 import entity.Entity;
 import java.util.LinkedList;
 import java.util.List;
@@ -142,6 +143,15 @@ public class NetworkDataSerializer {
     NetworkObjects.NetworkData.Builder dataListBuilder = NetworkObjects.NetworkData.newBuilder();
     dataListBuilder.addChildren(createCoordinates(createAIEntityEventType.getCoordinates()));
     dataListBuilder.addChildren(createUUID(createAIEntityEventType.getTarget()));
+    return eventBuilder.setData(dataListBuilder).build();
+  }
+
+  public static NetworkObjects.NetworkEvent serializeCreateTurretEventType(
+      CreateTurretEventType createTurretEventType) {
+    NetworkObjects.NetworkEvent.Builder eventBuilder =
+        NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.CREATE_TURRET);
+    NetworkObjects.NetworkData.Builder dataListBuilder = NetworkObjects.NetworkData.newBuilder();
+    dataListBuilder.addChildren(createCoordinates(createTurretEventType.getCoordinates()));
     return eventBuilder.setData(dataListBuilder).build();
   }
 

@@ -11,6 +11,7 @@ import com.sun.tools.javac.util.Pair;
 import common.Coordinates;
 import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
+import common.events.types.CreateTurretEventType;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
@@ -272,6 +273,22 @@ public class NetworkDataDeserializer {
 
     if (pingID == null) throw new SerializationDataMissing("Missing pingID");
     return EventTypeFactory.createPingResponseIncomingEventType(user, pingID, time);
+  }
+
+  public static CreateTurretEventType createCreateTurretEventType(
+      NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+    Coordinates coordinates = null;
+
+    for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+      switch (child.getKey()) {
+        case COORDINATES:
+          coordinates = createCoordinates(child);
+          break;
+      }
+    }
+    if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
+
+    return EventTypeFactory.createTurretEventType(coordinates);
   }
 
   public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {

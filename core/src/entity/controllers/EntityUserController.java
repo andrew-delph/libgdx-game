@@ -72,7 +72,7 @@ public class EntityUserController extends EntityController {
     }
 
     if (Gdx.input.isKeyJustPressed(Keys.F2)) {
-      gameController.createTurret(this.entity.coordinates.getBase());
+      gameController.triggerCreateTurret(this.entity.coordinates.getBase());
     }
 
     if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {

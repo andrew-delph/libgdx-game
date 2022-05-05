@@ -25,6 +25,7 @@ import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.misc.Ladder;
+import entity.misc.Turret;
 import generation.ChunkBuilderFactory;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -366,8 +367,12 @@ public class testDoubleClient {
         client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
     TimeUnit.SECONDS.sleep(1);
-    Entity clientTurret = client_a_GameController.createTurret(coordinates);
+    client_a_GameController.triggerCreateTurret(coordinates);
     TimeUnit.SECONDS.sleep(1);
+
+    Turret clientTurret = client_a_GameStore.getTurret(coordinates);
+
+    assert clientTurret != null;
 
     assert serverGameStore.getEntity(clientTurret.getUuid()).equals(clientTurret);
     assert client_a_GameStore.getEntity(clientTurret.getUuid()).equals(clientTurret);

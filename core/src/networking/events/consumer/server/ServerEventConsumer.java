@@ -4,9 +4,11 @@ import com.google.inject.Inject;
 import common.events.EventConsumer;
 import common.events.EventService;
 import common.events.types.CreateAIEntityEventType;
+import common.events.types.CreateTurretEventType;
 import networking.events.consumer.server.incoming.AuthenticationIncomingConsumerServer;
 import networking.events.consumer.server.incoming.CreateAIEntityConsumerServer;
 import networking.events.consumer.server.incoming.CreateEntityIncomingConsumerServer;
+import networking.events.consumer.server.incoming.CreateTurretIncomingConsumerServer;
 import networking.events.consumer.server.incoming.DisconnectionIncomingConsumerServer;
 import networking.events.consumer.server.incoming.HandshakeIncomingConsumerServer;
 import networking.events.consumer.server.incoming.PingRequestIncomingConsumerServer;
@@ -51,6 +53,7 @@ public class ServerEventConsumer extends EventConsumer {
   @Inject PingRequestOutgoingConsumerServer pingRequestOutgoingConsumerServer;
   @Inject PingRequestIncomingConsumerServer pingRequestIncomingConsumerServer;
   @Inject PingResponseIncomingConsumerServer pingResponseIncomingConsumerServer;
+  @Inject CreateTurretIncomingConsumerServer createTurretIncomingConsumerServer;
 
   public void init() {
     super.init();
@@ -88,5 +91,7 @@ public class ServerEventConsumer extends EventConsumer {
         NetworkEventTypeEnum.PING_REQUEST_INCOMING, pingRequestIncomingConsumerServer);
     this.eventService.addListener(
         NetworkEventTypeEnum.PING_RESPONSE_INCOMING, pingResponseIncomingConsumerServer);
+    this.eventService.addPostUpdateListener(
+        CreateTurretEventType.type, createTurretIncomingConsumerServer);
   }
 }
