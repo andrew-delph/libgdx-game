@@ -10,6 +10,7 @@ import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.block.Block;
 import entity.misc.Ladder;
+import entity.misc.Turret;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -148,6 +149,10 @@ public class GameStore {
 
   public Ladder getLadder(Coordinates coordinates) {
     return this.chunkClockMap.get(new ChunkRange(coordinates)).getLadder(coordinates.getBase());
+  }
+
+  public Turret getTurret(Coordinates coordinates) {
+    return this.chunkClockMap.get(new ChunkRange(coordinates)).getTurret(coordinates.getBase());
   }
 
   public List<Entity> getEntityInRange(Coordinates coordinates, int range) {

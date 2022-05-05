@@ -161,7 +161,7 @@ public class GameController {
       return null;
     }
 
-    // TODO if misc is there don't place one. need a function like ladder.
+    if (this.gameStore.getTurret(coordinates) != null) return this.gameStore.getTurret(coordinates);
 
     Turret turret = entityFactory.createTurret(coordinates);
     this.gameStore.addEntity(turret);
@@ -213,6 +213,10 @@ public class GameController {
     Ladder removeLadder = this.gameStore.getLadder(target.coordinates);
     if (removeLadder != null) {
       this.removeEntity(removeLadder.getUuid());
+    }
+    Turret removeTurret = this.gameStore.getTurret(target.coordinates);
+    if (removeTurret != null) {
+      this.removeEntity(removeTurret.getUuid());
     }
     // put this into a post update event
     this.eventService.queuePostUpdateEvent(
