@@ -11,7 +11,6 @@ public class EntityProjectileContact implements ContactWrapper {
 
   @Override
   public void beginContact(CollisionPoint source, CollisionPoint target) {
-    System.out.println("ENTITY PROJECTILE HIT");
     gameController.removeEntity(source.getEntity().getUuid());
   }
 

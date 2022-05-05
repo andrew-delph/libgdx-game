@@ -10,13 +10,20 @@ import networking.events.EventTypeFactory;
 
 public class ProjectileController extends EntityController {
 
+  Coordinates startPosition;
+  float distanceRange;
+
   public ProjectileController(
       GameController gameController,
       EntityActionFactory entityActionFactory,
       EventService eventService,
       EventTypeFactory eventTypeFactory,
-      Entity entity) {
+      Entity entity,
+      Coordinates startPosition,
+      float distanceRange) {
     super(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+    this.startPosition = startPosition;
+    this.distanceRange = distanceRange;
   }
 
   @Override
@@ -30,6 +37,11 @@ public class ProjectileController extends EntityController {
         new Coordinates(
             this.entity.getBodyPosition().x / GameSettings.PHYSICS_SCALE,
             this.entity.getBodyPosition().y / GameSettings.PHYSICS_SCALE);
+    // if distance traveled goes over max. destroy it
+    if (moveTo.calcDistance(this.startPosition) > distanceRange) {
+      gameController.removeEntity(this.entity.getUuid());
+      return;
+    }
     if (!this.entity.coordinates.equals(moveTo))
       gameController.moveEntity(this.entity.getUuid(), moveTo);
   }

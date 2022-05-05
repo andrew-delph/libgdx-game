@@ -3,6 +3,7 @@ package entity.controllers;
 import app.GameController;
 import com.google.inject.Inject;
 import common.Clock;
+import common.Coordinates;
 import common.GameStore;
 import common.events.EventService;
 import entity.Entity;
@@ -43,9 +44,16 @@ public class EntityControllerFactory {
         target);
   }
 
-  public ProjectileController createProjectileController(Entity entity) {
+  public ProjectileController createProjectileController(
+      Entity entity, Coordinates startPosition, float travelDistance) {
     return new ProjectileController(
-        gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+        gameController,
+        entityActionFactory,
+        eventService,
+        eventTypeFactory,
+        entity,
+        startPosition,
+        travelDistance);
   }
 
   public TurretController createTurretController(Entity entity) {
