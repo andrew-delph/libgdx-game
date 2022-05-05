@@ -2,7 +2,6 @@ package entity.controllers;
 
 import app.GameController;
 import common.Clock;
-import common.Coordinates;
 import common.GameStore;
 import common.Tick;
 import common.Util;
@@ -62,12 +61,6 @@ public class TurretController extends EntityController {
       rayCastEntities.remove(next);
 
       if (rayCastEntities.size() == 0) {
-        Coordinates start = entity.coordinates;
-        Coordinates end = next.coordinates;
-        // calc slope
-        float m = (end.getYReal() - start.getYReal()) / (end.getXReal() - start.getXReal());
-        float b = (start.getYReal()) - (m * start.getXReal());
-        // fire projectile
         gameController.createProjectile(
             entity.coordinates, Util.calcVelocity(entity.coordinates, next.coordinates, 5));
         tick = clock.getCurrentTick();

@@ -11,7 +11,6 @@ public class BlockProjectileContact implements ContactWrapper {
 
   @Override
   public void beginContact(CollisionPoint source, CollisionPoint target) {
-    System.out.println("BLOCK PROJECTILE HIT: " + target.getEntity());
     gameController.removeEntity(source.getEntity().getUuid());
   }
 
