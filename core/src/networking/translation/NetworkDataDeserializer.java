@@ -21,6 +21,7 @@ import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.block.StoneBlock;
 import entity.misc.Ladder;
+import entity.misc.Projectile;
 import entity.misc.Turret;
 import java.util.LinkedList;
 import java.util.List;
@@ -313,6 +314,8 @@ public class NetworkDataDeserializer {
       entity = entityFactory.createLadder(new Coordinates(0, 0));
     } else if (classString.equals(Turret.class.getName())) {
       entity = entityFactory.createTurret(new Coordinates(0, 0));
+    } else if (classString.equals(Projectile.class.getName())) {
+      entity = entityFactory.createProjectile(new Coordinates(0, 0));
     } else if (classString.equals(Entity.class.getName())) {
       entity = entityFactory.createEntity(new Coordinates(0, 0));
     } else {
