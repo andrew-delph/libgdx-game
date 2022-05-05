@@ -149,6 +149,10 @@ public class GameController {
     return projectile;
   }
 
+  public void triggerCreateTurret(Coordinates coordinates) {
+    this.eventService.queuePostUpdateEvent(EventTypeFactory.createTurretEventType(coordinates));
+  }
+
   public Turret createTurret(Coordinates coordinates) throws ChunkNotFound {
 
     try {

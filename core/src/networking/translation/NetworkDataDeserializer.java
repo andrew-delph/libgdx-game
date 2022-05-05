@@ -11,6 +11,7 @@ import com.sun.tools.javac.util.Pair;
 import common.Coordinates;
 import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
+import common.events.types.CreateTurretEventType;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
@@ -21,6 +22,8 @@ import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.block.StoneBlock;
 import entity.misc.Ladder;
+import entity.misc.Projectile;
+import entity.misc.Turret;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -272,6 +275,22 @@ public class NetworkDataDeserializer {
     return EventTypeFactory.createPingResponseIncomingEventType(user, pingID, time);
   }
 
+  public static CreateTurretEventType createCreateTurretEventType(
+      NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+    Coordinates coordinates = null;
+
+    for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+      switch (child.getKey()) {
+        case COORDINATES:
+          coordinates = createCoordinates(child);
+          break;
+      }
+    }
+    if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
+
+    return EventTypeFactory.createTurretEventType(coordinates);
+  }
+
   public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {
     Pair<ChunkRange, List<Entity>> chunkData = this.createChunkData(networkData);
     Chunk chunkToCreate = chunkFactory.create(chunkData.fst);
@@ -310,6 +329,10 @@ public class NetworkDataDeserializer {
       entity = blockFactory.createStone(new Coordinates(0, 0));
     } else if (classString.equals(Ladder.class.getName())) {
       entity = entityFactory.createLadder(new Coordinates(0, 0));
+    } else if (classString.equals(Turret.class.getName())) {
+      entity = entityFactory.createTurret(new Coordinates(0, 0));
+    } else if (classString.equals(Projectile.class.getName())) {
+      entity = entityFactory.createProjectile(new Coordinates(0, 0));
     } else if (classString.equals(Entity.class.getName())) {
       entity = entityFactory.createEntity(new Coordinates(0, 0));
     } else {

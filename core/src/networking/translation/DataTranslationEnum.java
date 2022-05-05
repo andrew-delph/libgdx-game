@@ -15,4 +15,5 @@ public class DataTranslationEnum {
   public static final String AUTH = "AUTH";
   public static final String REQUEST_PING = "REQUEST_PING";
   public static final String RESPONSE_PING = "RESPONSE_PING";
+  public static final String CREATE_TURRET = "CREATE_TURRET";
 }
