@@ -15,6 +15,7 @@ import entity.Entity;
 import entity.block.Block;
 import entity.collision.EntityContactListenerFactory;
 import entity.misc.Ladder;
+import entity.misc.Turret;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -252,6 +253,18 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
           && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
 
         return (Ladder) entity;
+      }
+    }
+    return null;
+  }
+
+  public Turret getTurret(Coordinates coordinates) {
+    List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
+    for (Entity entity : entityList) {
+      if (entity instanceof Turret
+          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+
+        return (Turret) entity;
       }
     }
     return null;
