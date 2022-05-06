@@ -1,5 +1,6 @@
 package app;
 
+import app.user.User;
 import chunk.ChunkRange;
 import chunk.world.exceptions.BodyNotFound;
 import chunk.world.exceptions.DestroyBodyException;
@@ -11,6 +12,7 @@ import common.GameStore;
 import common.events.EventService;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
+import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.Block;
@@ -18,7 +20,10 @@ import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.EmptyBlock;
 import entity.block.SkyBlock;
+import entity.controllers.EntityControllerFactory;
 import entity.misc.Ladder;
+import entity.misc.Projectile;
+import entity.misc.Turret;
 import java.util.UUID;
 import networking.events.EventTypeFactory;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
@@ -33,6 +38,9 @@ public class GameController {
   @Inject EventService eventService;
   @Inject EventTypeFactory eventTypeFactory;
   @Inject BlockFactory blockFactory;
+  @Inject EntityControllerFactory entityControllerFactory;
+  @Inject User user;
+  @Inject ActiveEntityManager activeEntityManager;
 
   public Entity addEntity(Entity entity) throws ChunkNotFound {
     triggerAddEntity(entity);
@@ -126,6 +134,50 @@ public class GameController {
     return entity;
   }
 
+  public Projectile createProjectile(Coordinates coordinates, Vector2 velocity)
+      throws ChunkNotFound, BodyNotFound {
+    Projectile projectile = entityFactory.createProjectile(coordinates);
+    this.gameStore.addEntity(projectile);
+    projectile.setBodyVelocity(velocity);
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
+        EventTypeFactory.createCreateEntityOutgoingEvent(
+            projectile.toNetworkData(), new ChunkRange(coordinates));
+    this.eventService.fireEvent(createEntityOutgoingEvent);
+    projectile.setEntityController(
+        entityControllerFactory.createProjectileController(projectile, coordinates, 5));
+    activeEntityManager.registerActiveEntity(user.getUserID(), projectile.getUuid());
+    return projectile;
+  }
+
+  public void triggerCreateTurret(Coordinates coordinates) {
+    this.eventService.queuePostUpdateEvent(EventTypeFactory.createTurretEventType(coordinates));
+  }
+
+  public Turret createTurret(Coordinates coordinates) throws ChunkNotFound {
+
+    try {
+      if (!(this.gameStore.getBlock(coordinates) instanceof EmptyBlock)) {
+        LOGGER.debug("Did not find EmptyBlock");
+        return null;
+      }
+    } catch (EntityNotFound e) {
+      LOGGER.error("Could not create Ladder");
+      return null;
+    }
+
+    if (this.gameStore.getTurret(coordinates) != null) return this.gameStore.getTurret(coordinates);
+
+    Turret turret = entityFactory.createTurret(coordinates);
+    this.gameStore.addEntity(turret);
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
+        EventTypeFactory.createCreateEntityOutgoingEvent(
+            turret.toNetworkData(), new ChunkRange(coordinates));
+    this.eventService.fireEvent(createEntityOutgoingEvent);
+    turret.setEntityController(entityControllerFactory.createTurretController(turret));
+    activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
+    return turret;
+  }
+
   public void moveEntity(UUID uuid, Coordinates coordinates) throws EntityNotFound {
     Entity entity = this.gameStore.getEntity(uuid);
     Coordinates preCoordinates = entity.coordinates;
@@ -165,6 +217,10 @@ public class GameController {
     Ladder removeLadder = this.gameStore.getLadder(target.coordinates);
     if (removeLadder != null) {
       this.removeEntity(removeLadder.getUuid());
+    }
+    Turret removeTurret = this.gameStore.getTurret(target.coordinates);
+    if (removeTurret != null) {
+      this.removeEntity(removeTurret.getUuid());
     }
     // put this into a post update event
     this.eventService.queuePostUpdateEvent(

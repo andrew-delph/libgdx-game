@@ -2,9 +2,13 @@ package entity.controllers;
 
 import app.GameController;
 import com.google.inject.Inject;
+import common.Clock;
+import common.Coordinates;
+import common.GameStore;
 import common.events.EventService;
 import entity.Entity;
 import entity.EntityFactory;
+import entity.collision.RayCastService;
 import entity.controllers.actions.EntityActionFactory;
 import entity.pathfinding.PathGuiderFactory;
 import networking.events.EventTypeFactory;
@@ -16,6 +20,9 @@ public class EntityControllerFactory {
   @Inject EventService eventService;
   @Inject EntityFactory entityFactory;
   @Inject EventTypeFactory eventTypeFactory;
+  @Inject GameStore gameStore;
+  @Inject Clock clock;
+  @Inject RayCastService rayCastService;
 
   @Inject
   public EntityControllerFactory() {}
@@ -35,5 +42,29 @@ public class EntityControllerFactory {
         entityFactory,
         source,
         target);
+  }
+
+  public ProjectileController createProjectileController(
+      Entity entity, Coordinates startPosition, float travelDistance) {
+    return new ProjectileController(
+        gameController,
+        entityActionFactory,
+        eventService,
+        eventTypeFactory,
+        entity,
+        startPosition,
+        travelDistance);
+  }
+
+  public TurretController createTurretController(Entity entity) {
+    return new TurretController(
+        gameController,
+        entityActionFactory,
+        eventService,
+        eventTypeFactory,
+        clock,
+        gameStore,
+        rayCastService,
+        entity);
   }
 }

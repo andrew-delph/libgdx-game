@@ -1,20 +1,20 @@
 package entity.collision;
 
 import chunk.ChunkRange;
-import java.util.UUID;
+import entity.Entity;
 
 public abstract class CollisionPoint {
 
-  private final UUID uuid;
+  private final Entity entity;
   private final ChunkRange chunkRange;
 
-  public CollisionPoint(UUID uuid, ChunkRange chunkRange) {
-    this.uuid = uuid;
+  public CollisionPoint(Entity entity, ChunkRange chunkRange) {
+    this.entity = entity;
     this.chunkRange = chunkRange;
   }
 
-  public UUID getUuid() {
-    return uuid;
+  public Entity getEntity() {
+    return entity;
   }
 
   public ChunkRange getChunkRange() {

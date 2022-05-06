@@ -5,6 +5,7 @@ import app.game.Game;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import chunk.world.exceptions.BodyNotFound;
+import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Coordinates;
@@ -24,6 +25,7 @@ import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.misc.Ladder;
+import entity.misc.Turret;
 import generation.ChunkBuilderFactory;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -334,6 +336,85 @@ public class testDoubleClient {
     assert serverGameStore.getEntity(clientLadder.getUuid()).equals(clientLadder);
     assert client_a_GameStore.getEntity(clientLadder.getUuid()).equals(clientLadder);
     assert client_b_GameStore.getEntity(clientLadder.getUuid()).equals(clientLadder);
+  }
+
+  @Test
+  public void testDoubleClientCreateTurret() throws Exception {
+    GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
+    GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
+    GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory client_a_ChunkFactory = client_a_Injector.getInstance(ChunkFactory.class);
+
+    ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
+
+    Coordinates coordinates = new Coordinates(0, 1);
+    ChunkRange chunkRange = new ChunkRange(coordinates);
+    serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
+    client_a_GameStore.addChunk(client_a_NetworkHandle.requestChunkBlocking(chunkRange));
+    client_b_GameStore.addChunk(client_b_NetworkHandle.requestChunkBlocking(chunkRange));
+
+    List<ChunkRange> chunkRangeList = new LinkedList<>();
+    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
+    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
+    for (ChunkRange subChunkRange : chunkRangeList) {
+      client_b_GameStore.addChunk(client_a_ChunkFactory.create(subChunkRange));
+    }
+
+    EventTypeFactory client_b_EventTypeFactory =
+        client_b_Injector.getInstance(EventTypeFactory.class);
+    client_b_NetworkHandle.send(
+        client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+
+    TimeUnit.SECONDS.sleep(1);
+    client_a_GameController.triggerCreateTurret(coordinates);
+    TimeUnit.SECONDS.sleep(1);
+
+    Turret clientTurret = client_a_GameStore.getTurret(coordinates);
+
+    assert clientTurret != null;
+
+    assert serverGameStore.getEntity(clientTurret.getUuid()).equals(clientTurret);
+    assert client_a_GameStore.getEntity(clientTurret.getUuid()).equals(clientTurret);
+    assert client_b_GameStore.getEntity(clientTurret.getUuid()).equals(clientTurret);
+  }
+
+  @Test
+  public void testDoubleClientCreateProjectile() throws Exception {
+    GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
+    GameStore client_a_GameStore = client_a_Injector.getInstance(GameStore.class);
+    GameStore client_b_GameStore = client_b_Injector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory client_a_ChunkFactory = client_a_Injector.getInstance(ChunkFactory.class);
+
+    ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
+
+    Coordinates coordinates = new Coordinates(0, 1);
+    ChunkRange chunkRange = new ChunkRange(coordinates);
+    serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
+    client_a_GameStore.addChunk(client_a_NetworkHandle.requestChunkBlocking(chunkRange));
+    client_b_GameStore.addChunk(client_b_NetworkHandle.requestChunkBlocking(chunkRange));
+
+    List<ChunkRange> chunkRangeList = new LinkedList<>();
+    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
+    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
+    for (ChunkRange subChunkRange : chunkRangeList) {
+      client_b_GameStore.addChunk(client_a_ChunkFactory.create(subChunkRange));
+    }
+
+    EventTypeFactory client_b_EventTypeFactory =
+        client_b_Injector.getInstance(EventTypeFactory.class);
+    client_b_NetworkHandle.send(
+        client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
+
+    TimeUnit.SECONDS.sleep(1);
+    Entity clientProjectile =
+        client_a_GameController.createProjectile(coordinates, new Vector2(0, 0));
+    TimeUnit.SECONDS.sleep(1);
+
+    assert serverGameStore.getEntity(clientProjectile.getUuid()).equals(clientProjectile);
+    assert client_a_GameStore.getEntity(clientProjectile.getUuid()).equals(clientProjectile);
+    assert client_b_GameStore.getEntity(clientProjectile.getUuid()).equals(clientProjectile);
   }
 
   @Test

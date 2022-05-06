@@ -61,6 +61,9 @@ public class NetworkEventHandler extends EventConsumer {
       } else if (event.equals(DataTranslationEnum.RESPONSE_PING)) {
         eventService.fireEvent(
             NetworkDataDeserializer.createPingResponseIncomingEventType(networkEvent));
+      } else if (event.equals(DataTranslationEnum.CREATE_TURRET)) {
+        eventService.queuePostUpdateEvent(
+            delay, NetworkDataDeserializer.createCreateTurretEventType(networkEvent));
       }
     } catch (Exception e) {
       LOGGER.error(e);

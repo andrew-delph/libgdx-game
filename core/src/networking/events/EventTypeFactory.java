@@ -5,6 +5,7 @@ import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
+import common.events.types.CreateTurretEventType;
 import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceEntityEventType;
 import entity.Entity;
@@ -39,10 +40,12 @@ import networking.translation.NetworkDataDeserializer;
 
 public class EventTypeFactory {
 
-  @Inject NetworkDataDeserializer entitySerializationConverter;
-
   @Inject
   EventTypeFactory() {}
+
+  public static CreateTurretEventType createTurretEventType(Coordinates coordinates) {
+    return new CreateTurretEventType(coordinates);
+  }
 
   public static CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(
       NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {

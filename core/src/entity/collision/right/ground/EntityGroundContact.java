@@ -1,4 +1,4 @@
-package entity.collision.ground;
+package entity.collision.right.ground;
 
 import com.google.inject.Inject;
 import common.exceptions.ChunkNotFound;
