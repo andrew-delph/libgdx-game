@@ -3,7 +3,7 @@ package main;
 public class Test {
 
   public static void main(String[] args) throws InterruptedException {
-    // diff 6
+    // diff 7
     Long x = 100l;
     x = (long) (x * 1.11111111111111111111);
     System.out.println(x);
