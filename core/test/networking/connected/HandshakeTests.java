@@ -153,7 +153,7 @@ public class HandshakeTests {
 
     serverNetworkHandle.initHandshake(clientUser.getUserID(), chunkRangeToTest);
     AtomicReference<Boolean> serverHandshakeLocked = new AtomicReference<>(false);
-    serverClock.addTaskOnTick(
+    serverClock.addTaskOnTickTime(
         1,
         () -> {
           serverHandshakeLocked.set(
@@ -164,7 +164,7 @@ public class HandshakeTests {
 
     assert serverHandshakeLocked.get();
 
-    serverClock.addTaskOnTick(
+    serverClock.addTaskOnTickTime(
         GameSettings.HANDSHAKE_TIMEOUT,
         () -> {
           serverHandshakeLocked.set(
@@ -229,7 +229,7 @@ public class HandshakeTests {
     clientNetworkHandle.initHandshake(chunkRangeToTest);
 
     AtomicReference<Boolean> clientHandshakeLocked = new AtomicReference<>(false);
-    clientClock.addTaskOnTick(
+    clientClock.addTaskOnTickTime(
         1,
         () -> {
           clientHandshakeLocked.set(
@@ -240,7 +240,7 @@ public class HandshakeTests {
 
     assert clientHandshakeLocked.get();
 
-    clientClock.addTaskOnTick(
+    clientClock.addTaskOnTickTime(
         GameSettings.HANDSHAKE_TIMEOUT,
         () -> {
           clientHandshakeLocked.set(

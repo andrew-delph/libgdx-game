@@ -49,9 +49,10 @@ public class GameStore {
 
   public Entity removeEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
     ChunkRange chunkRange = this.entityMap.get(uuid);
-    if (chunkRange == null) throw new EntityNotFound("UUID not found in entityMap");
+    if (chunkRange == null) throw new EntityNotFound("UUID: " + uuid + " not found in entityMap");
     Chunk chunk = this.chunkClockMap.get(chunkRange);
-    if (chunk == null) throw new EntityNotFound("UUID not found in entityMap");
+    if (chunk == null)
+      throw new EntityNotFound("UUID: " + uuid + " chunkRange not found in chunkClockMap");
     Entity entity = chunk.removeEntity(uuid);
     this.entityMap.remove(uuid);
     return entity;
