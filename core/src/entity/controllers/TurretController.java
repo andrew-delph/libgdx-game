@@ -7,6 +7,7 @@ import common.Tick;
 import common.Util;
 import common.events.EventService;
 import entity.Entity;
+import entity.block.SolidBlock;
 import entity.collision.RayCastService;
 import entity.controllers.actions.EntityActionFactory;
 import java.util.Comparator;
@@ -45,9 +46,9 @@ public class TurretController extends EntityController {
   public void afterWorldUpdate() throws Exception {
     // get entities surrounding. let's say 7 coordinates in space.
     // if the entity is of type Entity. ray cast and check if we can shoot it.
-    if (tick != null && clock.getCurrentTick().time - tick.time < 10) return;
+    if (tick != null && clock.getCurrentTick().time - tick.time < 50) return;
 
-    List<Entity> closeEntities = gameStore.getEntityInRange(entity.coordinates, 6);
+    List<Entity> closeEntities = gameStore.getEntityInRange(entity.coordinates, 15);
 
     // filter out entities
 
@@ -59,6 +60,8 @@ public class TurretController extends EntityController {
       if (!next.getClass().equals(Entity.class)) continue;
       rayCastEntities.remove(entity);
       rayCastEntities.remove(next);
+
+      rayCastEntities.removeIf(e -> !(e instanceof SolidBlock));
 
       if (rayCastEntities.size() == 0) {
         gameController.createProjectile(
