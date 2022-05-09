@@ -46,6 +46,7 @@ public class EventConsumer {
         event -> {
           RemoveEntityEventType realEvent = (RemoveEntityEventType) event;
           try {
+            System.out.println("realEvent.getEntityUUID() " + realEvent.getEntityUUID());
             this.gameStore.removeEntity(realEvent.getEntityUUID());
             activeEntityManager.removeActiveEntity(user.getUserID(), realEvent.getEntityUUID());
           } catch (EntityNotFound | DestroyBodyException e) {

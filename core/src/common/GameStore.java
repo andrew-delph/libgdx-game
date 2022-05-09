@@ -30,7 +30,6 @@ public class GameStore {
   @Inject ChunkClockMap chunkClockMap;
   @Inject EventService eventService;
 
-  @Inject
   GameStore() {}
 
   public void addEntity(Entity entity) throws ChunkNotFound {

@@ -27,6 +27,7 @@ public class ProjectileContact implements ContactWrapper {
 
   @Override
   public void beginContact(CollisionPoint source, CollisionPoint target) {
+    if (source.getEntity().getEntityController() == null) return;
     try {
       if (!target.getChunkRange().equals(target.getEntity().getChunk().chunkRange)) {
         return;
