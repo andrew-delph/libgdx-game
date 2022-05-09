@@ -9,6 +9,7 @@ import common.events.EventService;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.collision.RayCastService;
+import entity.collision.projectile.ProjectileContact;
 import entity.controllers.actions.EntityActionFactory;
 import entity.pathfinding.PathGuiderFactory;
 import networking.events.EventTypeFactory;
@@ -23,8 +24,8 @@ public class EntityControllerFactory {
   @Inject GameStore gameStore;
   @Inject Clock clock;
   @Inject RayCastService rayCastService;
+  @Inject ProjectileContact projectileContact;
 
-  @Inject
   public EntityControllerFactory() {}
 
   public EntityUserController createEntityUserController(Entity entity) {
@@ -52,6 +53,7 @@ public class EntityControllerFactory {
         eventService,
         eventTypeFactory,
         entity,
+        projectileContact,
         startPosition,
         travelDistance);
   }
@@ -66,5 +68,10 @@ public class EntityControllerFactory {
         gameStore,
         rayCastService,
         entity);
+  }
+
+  public RemoteBodyController createRemoteBodyController(Entity entity) {
+    return new RemoteBodyController(
+        gameController, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 }

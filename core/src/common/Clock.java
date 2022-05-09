@@ -1,10 +1,13 @@
 package common;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Clock {
   Map<Integer, Lockable> tickLockable = new ConcurrentHashMap();
+  List<Runnable> tickRunnableList = new LinkedList<>();
   private Tick currentTick;
 
   Clock() {
@@ -27,6 +30,9 @@ public class Clock {
     this.setCurrentTick(new Tick(currentTick.time + 1));
     tickLockable.putIfAbsent(currentTick.time, new Lockable());
     tickLockable.get(currentTick.time).unlock();
+    for (Runnable task : tickRunnableList) {
+      task.run();
+    }
   }
 
   public void waitForTick() throws InterruptedException {
@@ -51,9 +57,13 @@ public class Clock {
     }
   }
 
-  public void addTaskOnTick(int time, Runnable task) {
+  public void addTaskOnTickTime(int time, Runnable task) {
     int nextTick = this.getCurrentTick().time + time;
     tickLockable.putIfAbsent(nextTick, new Lockable());
     tickLockable.get(nextTick).addTaskToUnlock(task);
+  }
+
+  public void addTaskOnTick(Runnable task) {
+    tickRunnableList.add(task);
   }
 }

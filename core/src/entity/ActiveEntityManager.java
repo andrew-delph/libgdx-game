@@ -52,7 +52,7 @@ public class ActiveEntityManager {
       try {
         temp = this.gameStore.getEntityChunkRange(entityID);
       } catch (EntityNotFound e) {
-        LOGGER.error(e);
+        LOGGER.error(e, e);
         continue;
       }
       allActiveChunkRange.add(temp);

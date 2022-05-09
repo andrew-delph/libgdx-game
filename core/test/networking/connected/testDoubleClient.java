@@ -389,7 +389,7 @@ public class testDoubleClient {
 
     ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
 
-    Coordinates coordinates = new Coordinates(0, 1);
+    Coordinates coordinates = new Coordinates(2, 2);
     ChunkRange chunkRange = new ChunkRange(coordinates);
     serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
     client_a_GameStore.addChunk(client_a_NetworkHandle.requestChunkBlocking(chunkRange));
@@ -408,13 +408,12 @@ public class testDoubleClient {
         client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
     TimeUnit.SECONDS.sleep(1);
-    Entity clientProjectile =
-        client_a_GameController.createProjectile(coordinates, new Vector2(0, 0));
+    Entity projectile = serverGameController.createProjectile(coordinates, new Vector2(0, 0));
     TimeUnit.SECONDS.sleep(1);
 
-    assert serverGameStore.getEntity(clientProjectile.getUuid()).equals(clientProjectile);
-    assert client_a_GameStore.getEntity(clientProjectile.getUuid()).equals(clientProjectile);
-    assert client_b_GameStore.getEntity(clientProjectile.getUuid()).equals(clientProjectile);
+    assert serverGameStore.getEntity(projectile.getUuid()).equals(projectile);
+    assert client_a_GameStore.getEntity(projectile.getUuid()).equals(projectile);
+    assert client_b_GameStore.getEntity(projectile.getUuid()).equals(projectile);
   }
 
   @Test

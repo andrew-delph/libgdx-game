@@ -5,8 +5,7 @@ import entity.collision.ladder.EntityLadderContact;
 import entity.collision.ladder.LadderSensor;
 import entity.collision.left.EntityLeftContact;
 import entity.collision.left.LeftSensor;
-import entity.collision.projectile.BlockProjectileContact;
-import entity.collision.projectile.EntityProjectileContact;
+import entity.collision.projectile.ProjectileContact;
 import entity.collision.projectile.ProjectileSensor;
 import entity.collision.right.EntityRightContact;
 import entity.collision.right.RightSensor;
@@ -25,8 +24,7 @@ public class CollisionService {
   @Inject EntityLadderContact entityLadderContact;
   @Inject EntityLeftContact entityLeftContact;
   @Inject EntityRightContact entityRightContact;
-  @Inject BlockProjectileContact blockProjectileContact;
-  @Inject EntityProjectileContact entityProjectileContact;
+  @Inject ProjectileContact projectileContact;
 
   @Inject
   public CollisionService() {
@@ -37,15 +35,15 @@ public class CollisionService {
     this.addCollisionConsumer(
         new CollisionPair(EntityFeetSensor.class, GroundSensor.class), entityGroundContact);
     this.addCollisionConsumer(
-        new CollisionPair(EntityPoint.class, LadderSensor.class), entityLadderContact);
+        new CollisionPair(EntitySensor.class, LadderSensor.class), entityLadderContact);
     this.addCollisionConsumer(
         new CollisionPair(LeftSensor.class, GroundSensor.class), entityLeftContact);
     this.addCollisionConsumer(
         new CollisionPair(RightSensor.class, GroundSensor.class), entityRightContact);
     this.addCollisionConsumer(
-        new CollisionPair(ProjectileSensor.class, GroundSensor.class), blockProjectileContact);
+        new CollisionPair(ProjectileSensor.class, GroundSensor.class), projectileContact);
     this.addCollisionConsumer(
-        new CollisionPair(ProjectileSensor.class, EntityPoint.class), entityProjectileContact);
+        new CollisionPair(ProjectileSensor.class, EntitySensor.class), projectileContact);
   }
 
   public void addCollisionConsumer(CollisionPair collisionPair, ContactWrapper contactWrapper) {

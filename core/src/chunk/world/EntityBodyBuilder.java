@@ -13,7 +13,7 @@ import com.sun.tools.javac.util.Pair;
 import common.GameSettings;
 import entity.Entity;
 import entity.block.Block;
-import entity.collision.EntityPoint;
+import entity.collision.EntitySensor;
 import entity.collision.ladder.LadderSensor;
 import entity.collision.left.LeftSensor;
 import entity.collision.projectile.ProjectileSensor;
@@ -74,7 +74,7 @@ public class EntityBodyBuilder {
     mainFixtureDef.restitution = 0;
     mainFixture = theBody.createFixture(mainFixtureDef);
     mainFixture.setFilterData(entityFilter());
-    mainFixture.setUserData(new EntityPoint(entity, chunkRange));
+    mainFixture.setUserData(new EntitySensor(entity, chunkRange));
 
     // create the smooth
     Vector2[] smoothVertices = new Vector2[3];

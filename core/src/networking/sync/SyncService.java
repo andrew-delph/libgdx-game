@@ -20,7 +20,7 @@ public class SyncService {
     if (this.isHandshakeLocked(userID, chunkRange)) return false;
     handshakeLock.putIfAbsent(userID, Sets.newConcurrentHashSet());
     handshakeLock.get(userID).add(chunkRange);
-    clock.addTaskOnTick(
+    clock.addTaskOnTickTime(
         existsForTicks,
         () -> {
           this.removeHandshakeLock(userID, chunkRange);

@@ -25,7 +25,6 @@ public class CreateTurretIncomingConsumerServer implements Consumer<EventType> {
     CreateTurretEventType realEvent = (CreateTurretEventType) eventType;
     try {
       Turret turret = gameController.createTurret(realEvent.getCoordinates());
-      activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
     } catch (ChunkNotFound e) {
       LOGGER.error(e, e);
     }
