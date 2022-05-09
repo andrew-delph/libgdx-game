@@ -9,6 +9,7 @@ import common.exceptions.ChunkNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.ActiveEntityManager;
 import entity.Entity;
+import entity.controllers.EntityControllerFactory;
 import java.util.function.Consumer;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
@@ -23,6 +24,7 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
   @Inject ServerNetworkHandle serverNetworkHandle;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject ActiveChunkManager activeChunkManager;
+  @Inject EntityControllerFactory entityControllerFactory;
 
   @Override
   public void accept(EventType eventType) {
@@ -32,6 +34,7 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
       entity =
           gameController.triggerAddEntity(
               entitySerializationConverter.createEntity(incoming.getData()));
+      entity.setEntityController(entityControllerFactory.createRemoteBodyController(entity));
     } catch (SerializationDataMissing | ChunkNotFound e) {
       e.printStackTrace();
       return;

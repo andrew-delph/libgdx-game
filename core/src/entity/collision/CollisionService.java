@@ -40,7 +40,6 @@ public class CollisionService {
         new CollisionPair(LeftSensor.class, GroundSensor.class), entityLeftContact);
     this.addCollisionConsumer(
         new CollisionPair(RightSensor.class, GroundSensor.class), entityRightContact);
-    projectileContact.init();
     this.addCollisionConsumer(
         new CollisionPair(ProjectileSensor.class, GroundSensor.class), projectileContact);
     this.addCollisionConsumer(

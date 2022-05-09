@@ -1,47 +1,23 @@
 package entity.collision.projectile;
 
-import app.GameController;
-import com.google.inject.Inject;
-import common.Clock;
-import common.exceptions.ChunkNotFound;
 import entity.collision.CollisionPoint;
 import entity.collision.ContactWrapper;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ProjectileContact implements ContactWrapper {
 
-  @Inject GameController gameController;
-  @Inject Clock clock;
-  Set<UUID> removedAlready = new HashSet<>();
+  Set<UUID> projectileCollision = ConcurrentHashMap.newKeySet();
 
-  public void init() {
-    clock.addTaskOnTick(
-        () -> {
-          synchronized (ProjectileContact.class) {
-            removedAlready = new HashSet<>();
-          }
-        });
+  public boolean isCollision(UUID uuid) {
+    return projectileCollision.contains(uuid);
   }
 
   @Override
   public void beginContact(CollisionPoint source, CollisionPoint target) {
-    if (source.getEntity().getEntityController() == null) return;
-    try {
-      if (!target.getChunkRange().equals(target.getEntity().getChunk().chunkRange)) {
-        return;
-      }
-    } catch (ChunkNotFound e) {
-      e.printStackTrace();
-    }
-    synchronized (ProjectileContact.class) {
-      if (removedAlready.contains(source.getEntity().getUuid())) {
-        return;
-      }
-      removedAlready.add(source.getEntity().getUuid());
-    }
-    gameController.removeEntity(source.getEntity().getUuid());
+    projectileCollision.add(source.getEntity().getUuid());
+    projectileCollision.add(target.getEntity().getUuid());
   }
 
   @Override
