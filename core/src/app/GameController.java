@@ -144,7 +144,7 @@ public class GameController {
             projectile.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     projectile.setEntityController(
-        entityControllerFactory.createProjectileController(projectile, coordinates, 5));
+        entityControllerFactory.createProjectileController(projectile, coordinates, 15));
     activeEntityManager.registerActiveEntity(user.getUserID(), projectile.getUuid());
     return projectile;
   }
