@@ -3,7 +3,6 @@ package networking.events.consumer.server.incoming;
 import app.GameController;
 import app.user.User;
 import com.google.inject.Inject;
-import common.Coordinates;
 import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.EventType;
@@ -12,6 +11,7 @@ import common.exceptions.EntityNotFound;
 import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
+import entity.attributes.Coordinates;
 import entity.controllers.EntityControllerFactory;
 import java.util.function.Consumer;
 

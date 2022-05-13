@@ -1,8 +1,8 @@
 package networking.translation;
 
-import common.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import common.exceptions.SerializationDataMissing;
+import entity.attributes.Coordinates;
 import java.util.UUID;
 import networking.events.EventTypeFactory;
 import org.junit.Test;

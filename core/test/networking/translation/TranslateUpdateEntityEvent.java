@@ -3,11 +3,11 @@ package networking.translation;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.Coordinates;
 import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
+import entity.attributes.Coordinates;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
 import networking.events.types.outgoing.UpdateEntityOutgoingEventType;
@@ -27,12 +27,12 @@ public class TranslateUpdateEntityEvent {
     Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
 
     UpdateEntityOutgoingEventType outgoing =
-        EventTypeFactory.createUpdateEntityOutgoingEvent(entity.toNetworkData(), chunkRange);
+        EventTypeFactory.createUpdateEntityOutgoingEvent(coordinates, chunkRange, entity.getUuid());
     UpdateEntityIncomingEventType incoming =
         NetworkDataDeserializer.createUpdateEntityIncomingEvent(
             NetworkDataSerializer.createUpdateEntityOutgoingEventType(outgoing));
 
     assert outgoing.getChunkRange().equals(incoming.getChunkRange());
-    assert outgoing.getEntityData().equals(incoming.getData());
+    assert outgoing.getAttributeList().equals(incoming.getAttributeList());
   }
 }

@@ -1,7 +1,7 @@
 package networking.translation;
 
 import chunk.ChunkRange;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

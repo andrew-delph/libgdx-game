@@ -5,11 +5,11 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.Coordinates;
 import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
+import entity.attributes.Coordinates;
 import org.junit.Test;
 
 public class testChunkSerialization {

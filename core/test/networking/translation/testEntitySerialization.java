@@ -4,21 +4,19 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;
 import common.events.EventService;
-import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
+import entity.attributes.Coordinates;
 import entity.block.BlockFactory;
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import networking.NetworkObjects;
 import networking.events.EventTypeFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,18 +58,6 @@ public class testEntitySerialization {
     Entity entityRead = entitySerializationConverter.createEntity(entityWrite.toNetworkData());
     assert entityWrite.coordinates.equals(entityRead.coordinates);
     assert entityWrite.getUuid().equals(entityRead.getUuid());
-  }
-
-  @Test
-  public void testUpdateEntitySerialization()
-      throws EntityNotFound, SerializationDataMissing, ChunkNotFound {
-    Entity entityWrite = entityFactory.createEntity(new Coordinates(2, 3));
-    gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
-    gameStore.addEntity(entityWrite);
-    NetworkObjects.NetworkData networkData = entityWrite.toNetworkData();
-    entityWrite.coordinates = null;
-    entitySerializationConverter.updateEntity(networkData);
-    assert entityWrite.coordinates.equals(new Coordinates(2, 3));
   }
 
   @Test

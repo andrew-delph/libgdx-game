@@ -8,14 +8,14 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import com.sun.tools.javac.util.Pair;
-import common.Coordinates;
 import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;
-import common.exceptions.EntityNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import entity.EntityFactory;
+import entity.attributes.Attribute;
+import entity.attributes.Coordinates;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
@@ -43,7 +43,6 @@ public class NetworkDataDeserializer {
   @Inject BlockFactory blockFactory;
   @Inject ChunkFactory chunkFactory;
   @Inject GameStore gameStore;
-  @Inject EventTypeFactory eventTypeFactory;
 
   public static ChunkRange createChunkRange(NetworkObjects.NetworkData networkData) {
     // TODO put in translations
@@ -99,9 +98,10 @@ public class NetworkDataDeserializer {
 
   public static UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
       NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+    List<Attribute> attributeList = new LinkedList<>();
+    UUID uuid = null;
     UserID user = null;
     ChunkRange chunkRange = null;
-    NetworkObjects.NetworkData networkData = null;
 
     if (!networkEvent.getUser().isEmpty()) {
       user = UserID.createUserID(networkEvent.getUser());
@@ -110,14 +110,16 @@ public class NetworkDataDeserializer {
     for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
       if (DataTranslationEnum.CHUNK_RANGE.equals(child.getKey())) {
         chunkRange = createChunkRange(child);
-      } else {
-        networkData = child;
+      } else if (DataTranslationEnum.UUID.equals(child.getKey())) {
+        uuid = createUUID(child);
+      } else if (COORDINATES.equals(child.getKey())) {
+        attributeList.add(createCoordinates(child));
       }
     }
     if (chunkRange == null) throw new SerializationDataMissing("Missing chunkRange");
-    if (networkData == null) throw new SerializationDataMissing("Missing networkData");
+    if (uuid == null) throw new SerializationDataMissing("Missing uuid");
 
-    return EventTypeFactory.createUpdateEntityIncomingEvent(user, networkData, chunkRange);
+    return EventTypeFactory.createUpdateEntityIncomingEvent(user, attributeList, chunkRange, uuid);
   }
 
   public static CreateEntityIncomingEventType createCreateEntityIncomingEventType(
@@ -349,25 +351,6 @@ public class NetworkDataDeserializer {
     if (uuid == null) throw new SerializationDataMissing("Missing UUID");
     if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
     entity.setUuid(uuid);
-    entity.coordinates = coordinates;
-    return entity;
-  }
-
-  public Entity updateEntity(NetworkObjects.NetworkData networkData)
-      throws EntityNotFound, SerializationDataMissing {
-    Coordinates coordinates = null;
-    UUID uuid = null;
-    for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
-      if (networkDataChild.getKey().equals(COORDINATES)) {
-        coordinates = createCoordinates(networkDataChild);
-      } else if (networkDataChild.getKey().equals(UUID.class.getName())) {
-        uuid = UUID.fromString(networkDataChild.getValue());
-      }
-    }
-
-    if (uuid == null) throw new SerializationDataMissing("Missing UUID");
-    if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
-    Entity entity = this.gameStore.getEntity(uuid);
     entity.coordinates = coordinates;
     return entity;
   }

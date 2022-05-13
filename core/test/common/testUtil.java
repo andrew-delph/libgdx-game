@@ -1,6 +1,7 @@
 package common;
 
 import com.badlogic.gdx.math.Vector2;
+import entity.attributes.Coordinates;
 import org.junit.Test;
 
 public class testUtil {

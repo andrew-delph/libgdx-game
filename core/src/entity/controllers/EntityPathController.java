@@ -1,10 +1,10 @@
 package entity.controllers;
 
 import app.GameController;
-import common.Coordinates;
 import common.events.EventService;
 import entity.Entity;
 import entity.EntityFactory;
+import entity.attributes.Coordinates;
 import entity.controllers.actions.EntityActionFactory;
 import entity.pathfinding.PathGuider;
 import entity.pathfinding.PathGuiderFactory;

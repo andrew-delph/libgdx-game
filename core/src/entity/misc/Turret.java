@@ -8,8 +8,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.sun.tools.javac.util.Pair;
 import common.Clock;
-import common.Coordinates;
 import entity.Entity;
+import entity.attributes.Coordinates;
 import java.util.UUID;
 
 public class Turret extends Entity {

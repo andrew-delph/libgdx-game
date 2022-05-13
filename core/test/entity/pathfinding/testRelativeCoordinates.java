@@ -1,6 +1,6 @@
 package entity.pathfinding;
 
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import org.junit.Test;
 
 public class testRelativeCoordinates {

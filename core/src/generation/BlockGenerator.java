@@ -1,9 +1,9 @@
 package generation;
 
 import com.google.inject.Inject;
-import common.Coordinates;
 import common.exceptions.ChunkNotFound;
 import entity.Entity;
+import entity.attributes.Coordinates;
 import entity.block.BlockFactory;
 
 public class BlockGenerator {

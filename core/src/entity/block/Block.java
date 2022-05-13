@@ -3,9 +3,9 @@ package entity.block;
 import app.screen.BaseAssetManager;
 import chunk.world.EntityBodyBuilder;
 import common.Clock;
-import common.Coordinates;
 import common.GameSettings;
 import entity.Entity;
+import entity.attributes.Coordinates;
 
 public abstract class Block extends Entity {
 

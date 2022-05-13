@@ -1,14 +1,14 @@
-package common;
+package entity.attributes;
 
 import static networking.translation.NetworkDataSerializer.createCoordinates;
 
 import com.badlogic.gdx.math.Vector2;
+import common.GameSettings;
 import java.util.LinkedList;
 import java.util.List;
 import networking.NetworkObjects;
-import networking.events.interfaces.SerializeNetworkData;
 
-public class Coordinates implements SerializeNetworkData {
+public class Coordinates implements Attribute {
   float x;
   float y;
 
@@ -121,5 +121,10 @@ public class Coordinates implements SerializeNetworkData {
   @Override
   public NetworkObjects.NetworkData toNetworkData() {
     return createCoordinates(this);
+  }
+
+  @Override
+  public AttributeType getType() {
+    return AttributeType.COORDINATES;
   }
 }

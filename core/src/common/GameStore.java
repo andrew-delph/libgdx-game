@@ -8,6 +8,7 @@ import common.events.EventService;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
+import entity.attributes.Coordinates;
 import entity.block.Block;
 import entity.misc.Ladder;
 import entity.misc.Turret;
