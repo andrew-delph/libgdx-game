@@ -3,7 +3,7 @@ package entity.block;
 import app.screen.BaseAssetManager;
 import chunk.world.EntityBodyBuilder;
 import common.Clock;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 
 public class StoneBlock extends SolidBlock {
   public StoneBlock(

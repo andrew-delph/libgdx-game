@@ -3,7 +3,7 @@ package networking.events;
 import app.user.UserID;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;
 import common.events.types.RemoveEntityEventType;

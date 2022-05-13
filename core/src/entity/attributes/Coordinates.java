@@ -1,8 +1,9 @@
-package common;
+package entity.attributes;
 
 import static networking.translation.NetworkDataSerializer.createCoordinates;
 
 import com.badlogic.gdx.math.Vector2;
+import common.GameSettings;
 import java.util.LinkedList;
 import java.util.List;
 import networking.NetworkObjects;

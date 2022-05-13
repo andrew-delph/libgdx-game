@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.sun.tools.javac.util.Pair;
 import common.Clock;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import entity.Entity;
 import java.util.UUID;

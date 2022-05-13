@@ -2,7 +2,7 @@ package common.events.types;
 
 import static networking.translation.NetworkDataSerializer.serializeCreateTurretEventType;
 
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import networking.NetworkObjects.NetworkEvent;
 import networking.events.interfaces.SerializeNetworkEvent;
 

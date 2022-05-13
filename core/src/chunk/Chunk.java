@@ -6,7 +6,7 @@ import chunk.world.exceptions.BodyNotFound;
 import chunk.world.exceptions.DestroyBodyException;
 import com.badlogic.gdx.physics.box2d.World;
 import common.Clock;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameStore;
 import common.Tick;
 import common.exceptions.ChunkNotFound;

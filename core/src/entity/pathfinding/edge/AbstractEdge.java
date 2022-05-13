@@ -2,7 +2,7 @@ package entity.pathfinding.edge;
 
 import static app.screen.GameScreen.pathDebugRender;
 
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import entity.Entity;
 import entity.pathfinding.EntityStructure;

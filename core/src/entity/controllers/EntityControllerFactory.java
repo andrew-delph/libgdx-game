@@ -3,7 +3,7 @@ package entity.controllers;
 import app.GameController;
 import com.google.inject.Inject;
 import common.Clock;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameStore;
 import common.events.EventService;
 import entity.Entity;

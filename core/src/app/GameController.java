@@ -6,7 +6,7 @@ import chunk.world.exceptions.BodyNotFound;
 import chunk.world.exceptions.DestroyBodyException;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.Direction;
 import common.GameStore;
 import common.events.EventService;

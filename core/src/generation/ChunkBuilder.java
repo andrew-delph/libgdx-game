@@ -5,7 +5,7 @@ import chunk.Chunk;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameStore;
 import entity.Entity;
 import java.util.concurrent.Callable;

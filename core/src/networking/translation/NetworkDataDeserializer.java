@@ -8,7 +8,7 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import com.sun.tools.javac.util.Pair;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;

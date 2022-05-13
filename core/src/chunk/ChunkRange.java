@@ -1,6 +1,6 @@
 package chunk;
 
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import java.util.HashSet;
 import java.util.LinkedList;

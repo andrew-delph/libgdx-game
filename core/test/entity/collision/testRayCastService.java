@@ -4,7 +4,7 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameStore;
 import common.exceptions.ChunkNotFound;
 import configuration.StandAloneConfig;

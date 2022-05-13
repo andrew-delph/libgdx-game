@@ -1,7 +1,7 @@
 package networking.translation;
 
 import chunk.ChunkRange;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;
 import entity.Entity;

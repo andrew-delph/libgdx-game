@@ -16,7 +16,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import common.GameStore;
 import common.exceptions.ChunkNotFound;

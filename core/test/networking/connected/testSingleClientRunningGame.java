@@ -13,7 +13,7 @@ import com.google.inject.Injector;
 import com.google.inject.util.Modules;
 import com.google.inject.util.Providers;
 import common.ChunkClockMap;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameStore;
 import common.events.EventService;
 import common.events.types.EventType;

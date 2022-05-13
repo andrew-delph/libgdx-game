@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.block.Block;

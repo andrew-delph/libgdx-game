@@ -3,7 +3,7 @@ package generation;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import common.GameStore;
 import configuration.BaseServerConfig;

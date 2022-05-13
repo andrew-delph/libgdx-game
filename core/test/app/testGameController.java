@@ -5,7 +5,7 @@ import chunk.ChunkRange;
 import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameStore;
 import common.events.EventConsumer;
 import common.events.EventService;

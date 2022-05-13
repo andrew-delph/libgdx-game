@@ -10,7 +10,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.util.Modules;
 import com.google.inject.util.Providers;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import common.GameStore;
 import common.events.EventConsumer;

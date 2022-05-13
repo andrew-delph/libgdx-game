@@ -3,7 +3,7 @@ package entity.block;
 import app.screen.BaseAssetManager;
 import chunk.world.EntityBodyBuilder;
 import common.Clock;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import entity.Entity;
 

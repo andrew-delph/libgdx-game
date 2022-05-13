@@ -5,7 +5,7 @@ import chunk.ChunkRange;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import common.GameStore;
 import entity.Entity;

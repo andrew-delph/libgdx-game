@@ -2,7 +2,7 @@ package entity;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import configuration.ClientConfig;
 import java.util.HashSet;
 import java.util.Set;

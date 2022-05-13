@@ -4,7 +4,7 @@ import app.user.UserID;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import configuration.ClientConfig;
 import java.util.LinkedList;
 import java.util.List;

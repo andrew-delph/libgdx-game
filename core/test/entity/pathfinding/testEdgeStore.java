@@ -3,7 +3,7 @@ package entity.pathfinding;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameStore;
 import configuration.StandAloneConfig;
 import entity.Entity;

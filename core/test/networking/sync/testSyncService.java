@@ -5,7 +5,7 @@ import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Clock;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import configuration.ClientConfig;
 import org.junit.Before;
 import org.junit.Test;

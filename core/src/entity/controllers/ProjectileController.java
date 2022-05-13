@@ -1,7 +1,7 @@
 package entity.controllers;
 
 import app.GameController;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import common.events.EventService;
 import entity.Entity;

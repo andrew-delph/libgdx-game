@@ -3,7 +3,7 @@ package app.screen;
 import chunk.ChunkRange;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.google.inject.Inject;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import java.util.HashSet;
 import java.util.Set;

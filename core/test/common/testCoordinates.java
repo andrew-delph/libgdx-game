@@ -1,5 +1,6 @@
 package common;
 
+import entity.attributes.Coordinates;
 import org.junit.Test;
 
 public class testCoordinates {

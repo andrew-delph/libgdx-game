@@ -4,7 +4,7 @@ import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import configuration.StandAloneConfig;
 import entity.pathfinding.edge.AbstractEdge;
 import org.junit.Test;

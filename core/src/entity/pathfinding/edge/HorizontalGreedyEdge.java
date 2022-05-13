@@ -5,7 +5,7 @@ import static app.screen.GameScreen.pathDebugRender;
 import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import entity.Entity;

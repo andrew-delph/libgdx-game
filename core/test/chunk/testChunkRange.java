@@ -1,6 +1,6 @@
 package chunk;
 
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import java.util.List;
 import org.junit.Test;
 

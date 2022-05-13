@@ -1,7 +1,7 @@
 package common.events;
 
 import com.google.inject.Inject;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.events.types.EventType;
 
 public class CoordinatesEventType extends EventType {

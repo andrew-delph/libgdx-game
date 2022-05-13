@@ -1,7 +1,7 @@
 package generation;
 
 import com.google.inject.Inject;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.exceptions.ChunkNotFound;
 import entity.Entity;
 import entity.block.BlockFactory;

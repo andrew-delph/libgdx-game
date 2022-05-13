@@ -4,7 +4,7 @@ import static org.junit.Assert.fail;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.exceptions.EntityNotFound;
 import configuration.ClientConfig;
 import entity.Entity;

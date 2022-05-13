@@ -4,7 +4,7 @@ import static app.screen.GameScreen.pathDebugRender;
 
 import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.graphics.Color;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import common.exceptions.ChunkNotFound;
 import entity.Entity;

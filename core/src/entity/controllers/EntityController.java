@@ -4,7 +4,7 @@ import app.GameController;
 import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameSettings;
 import common.events.EventService;
 import common.exceptions.ChunkNotFound;

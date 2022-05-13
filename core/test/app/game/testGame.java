@@ -5,7 +5,7 @@ import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Clock;
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.GameStore;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.SerializationDataMissing;

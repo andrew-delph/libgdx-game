@@ -1,6 +1,6 @@
 package networking.translation;
 
-import common.Coordinates;
+import entity.attributes.Coordinates;
 import common.events.types.CreateTurretEventType;
 import common.exceptions.SerializationDataMissing;
 import networking.events.EventTypeFactory;
