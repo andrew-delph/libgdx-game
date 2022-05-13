@@ -35,7 +35,7 @@ public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
       return;
     }
 
-    for(Attribute attr: incoming.getAttributeList()){
+    for (Attribute attr : incoming.getAttributeList()) {
       entity.updateAttribute(attr);
     }
 
