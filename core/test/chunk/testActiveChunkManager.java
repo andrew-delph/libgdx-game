@@ -3,8 +3,8 @@ package chunk;
 import app.user.UserID;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import entity.attributes.Coordinates;
 import configuration.BaseServerConfig;
+import entity.attributes.Coordinates;
 import org.junit.Before;
 import org.junit.Test;
 
