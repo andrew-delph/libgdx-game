@@ -7,9 +7,8 @@ import common.GameSettings;
 import java.util.LinkedList;
 import java.util.List;
 import networking.NetworkObjects;
-import networking.events.interfaces.SerializeNetworkData;
 
-public class Coordinates implements SerializeNetworkData {
+public class Coordinates implements Attribute {
   float x;
   float y;
 

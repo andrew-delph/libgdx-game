@@ -1,9 +1,8 @@
 package entity.attributes;
 
 import networking.NetworkObjects.NetworkData;
-import networking.events.interfaces.SerializeNetworkData;
 
-public class Health implements SerializeNetworkData {
+public class Health implements Attribute {
 
   float health;
 
