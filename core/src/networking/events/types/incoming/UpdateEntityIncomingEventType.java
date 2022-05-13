@@ -4,28 +4,34 @@ import static networking.events.types.NetworkEventTypeEnum.UPDATE_ENTITY_INCOMIN
 
 import app.user.UserID;
 import chunk.ChunkRange;
-import com.google.inject.Inject;
 import common.events.types.EventType;
-import networking.NetworkObjects;
+import entity.attributes.Attribute;
+import java.util.List;
+import java.util.UUID;
 
 public class UpdateEntityIncomingEventType extends EventType {
 
   public static String type = UPDATE_ENTITY_INCOMING;
 
   UserID userID;
-  NetworkObjects.NetworkData networkData;
   ChunkRange chunkRange;
+  List<Attribute> attributeList;
+  UUID uuid;
 
-  @Inject
   public UpdateEntityIncomingEventType(
-      UserID userID, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
-    this.networkData = networkData;
+      UserID userID, List<Attribute> attributeList, ChunkRange chunkRange, UUID uuid) {
+    this.attributeList = attributeList;
     this.chunkRange = chunkRange;
     this.userID = userID;
+    this.uuid = uuid;
   }
 
-  public NetworkObjects.NetworkData getData() {
-    return this.networkData;
+  public List<Attribute> getAttributeList() {
+    return attributeList;
+  }
+
+  public UUID getUuid() {
+    return uuid;
   }
 
   public ChunkRange getChunkRange() {

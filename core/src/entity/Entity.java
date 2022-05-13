@@ -14,6 +14,8 @@ import com.sun.tools.javac.util.Pair;
 import common.Clock;
 import common.GameSettings;
 import common.exceptions.ChunkNotFound;
+import entity.attributes.Attribute;
+import entity.attributes.AttributeType;
 import entity.attributes.Coordinates;
 import entity.attributes.Health;
 import entity.controllers.EntityController;
@@ -32,8 +34,8 @@ public class Entity implements SerializeNetworkData {
   public int zindex = 3;
   public EntityBodyBuilder entityBodyBuilder;
   public Sprite sprite;
+  public Health health;
   BaseAssetManager baseAssetManager;
-  private Health health;
   private UUID uuid;
   private Chunk chunk;
   private EntityController entityController;
@@ -53,6 +55,16 @@ public class Entity implements SerializeNetworkData {
     this.coordinates = coordinates;
     this.uuid = UUID.randomUUID();
     this.health = new Health(100);
+  }
+
+  public void updateAttribute(Attribute attr) {
+    if (attr.getType().equals(AttributeType.COORDINATES)) {
+      this.coordinates = (Coordinates) attr;
+      return;
+    } else if (attr.getType().equals(AttributeType.HEALTH)) {
+      this.health = (Health) attr;
+      return;
+    }
   }
 
   public Chunk getChunk() throws ChunkNotFound {

@@ -8,8 +8,10 @@ import common.events.types.CreateTurretEventType;
 import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceEntityEventType;
 import entity.Entity;
+import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
 import entity.block.Block;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -59,13 +61,23 @@ public class EventTypeFactory {
   }
 
   public static UpdateEntityOutgoingEventType createUpdateEntityOutgoingEvent(
-      NetworkObjects.NetworkData entityData, ChunkRange chunkRange) {
-    return new UpdateEntityOutgoingEventType(entityData, chunkRange);
+      List<Attribute> attributeList, ChunkRange chunkRange, UUID uuid) {
+    return new UpdateEntityOutgoingEventType(attributeList, chunkRange, uuid);
+  }
+
+  public static UpdateEntityOutgoingEventType createUpdateEntityOutgoingEvent(
+      Attribute attribute, ChunkRange chunkRange, UUID uuid) {
+    return new UpdateEntityOutgoingEventType(Arrays.asList(attribute), chunkRange, uuid);
   }
 
   public static UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
-      UserID user, NetworkObjects.NetworkData networkData, ChunkRange chunkRange) {
-    return new UpdateEntityIncomingEventType(user, networkData, chunkRange);
+      UserID userID, List<Attribute> attributeList, ChunkRange chunkRange, UUID uuid) {
+    return new UpdateEntityIncomingEventType(userID, attributeList, chunkRange, uuid);
+  }
+
+  public static UpdateEntityIncomingEventType createUpdateEntityIncomingEvent(
+      UserID userID, Attribute attribute, ChunkRange chunkRange, UUID uuid) {
+    return new UpdateEntityIncomingEventType(userID, Arrays.asList(attribute), chunkRange, uuid);
   }
 
   public static RemoveEntityIncomingEventType createRemoveEntityIncomingEvent(

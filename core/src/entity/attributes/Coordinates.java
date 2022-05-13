@@ -122,4 +122,9 @@ public class Coordinates implements Attribute {
   public NetworkObjects.NetworkData toNetworkData() {
     return createCoordinates(this);
   }
+
+  @Override
+  public AttributeType getType() {
+    return AttributeType.COORDINATES;
+  }
 }

@@ -184,7 +184,7 @@ public class GameController {
     entity.coordinates = coordinates;
     this.eventService.fireEvent(
         EventTypeFactory.createUpdateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(preCoordinates)));
+            coordinates, new ChunkRange(preCoordinates), uuid));
   }
 
   public void placeBlock(Entity entity, Direction direction, Class blockClass)

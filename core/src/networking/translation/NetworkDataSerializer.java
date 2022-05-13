@@ -4,6 +4,7 @@ import chunk.ChunkRange;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;
 import entity.Entity;
+import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
 import java.util.LinkedList;
 import java.util.List;
@@ -90,8 +91,11 @@ public class NetworkDataSerializer {
     NetworkObjects.NetworkData.Builder dataListBuilder = NetworkObjects.NetworkData.newBuilder();
 
     dataListBuilder.addChildren(createChunkRange(updateEntityOutgoingEventType.getChunkRange()));
-    dataListBuilder.addChildren(updateEntityOutgoingEventType.getEntityData());
+    dataListBuilder.addChildren(createUUID(updateEntityOutgoingEventType.getUuid()));
 
+    for (Attribute attr : updateEntityOutgoingEventType.getAttributeList()) {
+      dataListBuilder.addChildren(attr.toNetworkData());
+    }
     return eventBuilder.setData(dataListBuilder).build();
   }
 
