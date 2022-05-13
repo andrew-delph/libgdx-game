@@ -4,11 +4,11 @@ import static org.junit.Assert.fail;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import entity.attributes.Coordinates;
 import common.exceptions.EntityNotFound;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
+import entity.attributes.Coordinates;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import org.junit.Test;

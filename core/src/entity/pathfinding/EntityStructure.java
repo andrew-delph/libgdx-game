@@ -1,8 +1,8 @@
 package entity.pathfinding;
 
-import entity.attributes.Coordinates;
 import common.GameStore;
 import entity.Entity;
+import entity.attributes.Coordinates;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;

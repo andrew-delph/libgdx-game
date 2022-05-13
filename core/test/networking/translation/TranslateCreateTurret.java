@@ -1,8 +1,8 @@
 package networking.translation;
 
-import entity.attributes.Coordinates;
 import common.events.types.CreateTurretEventType;
 import common.exceptions.SerializationDataMissing;
+import entity.attributes.Coordinates;
 import networking.events.EventTypeFactory;
 import org.junit.Test;
 

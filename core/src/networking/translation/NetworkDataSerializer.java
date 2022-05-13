@@ -1,10 +1,10 @@
 package networking.translation;
 
 import chunk.ChunkRange;
-import entity.attributes.Coordinates;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;
 import entity.Entity;
+import entity.attributes.Coordinates;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;

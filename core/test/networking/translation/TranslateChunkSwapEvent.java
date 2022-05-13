@@ -1,8 +1,8 @@
 package networking.translation;
 
 import chunk.ChunkRange;
-import entity.attributes.Coordinates;
 import common.exceptions.SerializationDataMissing;
+import entity.attributes.Coordinates;
 import java.util.UUID;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ChunkSwapIncomingEventType;

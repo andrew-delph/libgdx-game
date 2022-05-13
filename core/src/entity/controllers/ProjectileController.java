@@ -1,10 +1,10 @@
 package entity.controllers;
 
 import app.GameController;
-import entity.attributes.Coordinates;
 import common.GameSettings;
 import common.events.EventService;
 import entity.Entity;
+import entity.attributes.Coordinates;
 import entity.collision.projectile.ProjectileContact;
 import entity.controllers.actions.EntityActionFactory;
 import networking.events.EventTypeFactory;

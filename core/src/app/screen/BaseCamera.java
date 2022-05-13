@@ -3,8 +3,8 @@ package app.screen;
 import chunk.ChunkRange;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.google.inject.Inject;
-import entity.attributes.Coordinates;
 import common.GameSettings;
+import entity.attributes.Coordinates;
 import java.util.HashSet;
 import java.util.Set;
 
