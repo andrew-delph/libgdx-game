@@ -12,9 +12,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.sun.tools.javac.util.Pair;
 import common.Clock;
-import entity.attributes.Coordinates;
 import common.GameSettings;
 import common.exceptions.ChunkNotFound;
+import entity.attributes.Coordinates;
+import entity.attributes.Health;
 import entity.controllers.EntityController;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -32,6 +33,7 @@ public class Entity implements SerializeNetworkData {
   public EntityBodyBuilder entityBodyBuilder;
   public Sprite sprite;
   BaseAssetManager baseAssetManager;
+  private Health health;
   private UUID uuid;
   private Chunk chunk;
   private EntityController entityController;
@@ -50,6 +52,7 @@ public class Entity implements SerializeNetworkData {
     this.entityBodyBuilder = entityBodyBuilder;
     this.coordinates = coordinates;
     this.uuid = UUID.randomUUID();
+    this.health = new Health(100);
   }
 
   public Chunk getChunk() throws ChunkNotFound {
