@@ -10,7 +10,7 @@ public class InventoryBag {
   public InventoryBag(int size) {
     this.size = size;
     for (int i = 0; i < size; i++) {
-      inventoryItemList.add(new EmptyInventoryItem(i)); // TODO add empty item
+      inventoryItemList.add(new EmptyInventoryItem(i));
     }
   }
 
