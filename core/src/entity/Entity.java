@@ -18,6 +18,7 @@ import entity.attributes.Attribute;
 import entity.attributes.AttributeType;
 import entity.attributes.Coordinates;
 import entity.attributes.Health;
+import entity.attributes.inventory.InventoryBag;
 import entity.controllers.EntityController;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -35,6 +36,7 @@ public class Entity implements SerializeNetworkData {
   public EntityBodyBuilder entityBodyBuilder;
   public Sprite sprite;
   public Health health;
+  public InventoryBag bag;
   BaseAssetManager baseAssetManager;
   private UUID uuid;
   private Chunk chunk;
@@ -55,6 +57,7 @@ public class Entity implements SerializeNetworkData {
     this.coordinates = coordinates;
     this.uuid = UUID.randomUUID();
     this.health = new Health(100);
+    this.bag = new InventoryBag(20);
   }
 
   public void updateAttribute(Attribute attr) {
