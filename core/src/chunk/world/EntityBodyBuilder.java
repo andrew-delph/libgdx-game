@@ -4,6 +4,7 @@ import chunk.ChunkRange;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -248,12 +249,13 @@ public class EntityBodyBuilder {
 
   public static Pair<UUID, Body> createOrb(World world, ChunkRange chunkRange, Entity entity) {
     BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyDef.BodyType.StaticBody;
+    bodyDef.type = BodyType.DynamicBody;
     bodyDef.position.set(
         entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
         entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
 
     Body theBody = world.createBody(bodyDef);
+    theBody.setFixedRotation(true);
 
     PolygonShape shape = new PolygonShape();
     shape.setAsBox(
@@ -261,12 +263,12 @@ public class EntityBodyBuilder {
         (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
-    fixtureDef.density = 0f;
+    fixtureDef.density = 1f;
     fixtureDef.restitution = 0;
-    fixtureDef.isSensor = true;
+    //    fixtureDef.isSensor = true;
     Fixture blockFixture = theBody.createFixture(fixtureDef);
 
-    blockFixture.setFilterData(ladderFilter());
+    blockFixture.setFilterData(entityFilter());
     //    blockFixture.setUserData(new LadderSensor(entity, chunkRange));
 
     return new Pair<>(entity.getUuid(), theBody);

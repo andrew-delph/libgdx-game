@@ -20,6 +20,7 @@ public class BaseAssetManager extends AssetManager {
     this.load("ladder.png", Texture.class);
     this.load("bullet.png", Texture.class);
     this.load("turret.png", Texture.class);
+    this.load("orb.png", Texture.class);
     this.update();
     this.finishLoading();
     this.loaded = true;

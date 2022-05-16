@@ -74,4 +74,8 @@ public class EntityControllerFactory {
     return new RemoteBodyController(
         gameController, entityActionFactory, eventService, eventTypeFactory, entity);
   }
+
+  public OrbController createOrbController(Entity entity){
+    return new OrbController(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+  }
 }
