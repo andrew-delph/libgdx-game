@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import common.Clock;
 import entity.attributes.Coordinates;
 import entity.misc.Ladder;
+import entity.misc.Orb;
 import entity.misc.Projectile;
 import entity.misc.Turret;
 
@@ -36,5 +37,10 @@ public class EntityFactory {
   public Turret createTurret(Coordinates coordinates) {
     Turret turret = new Turret(clock, baseAssetManager, entityBodyBuilder, coordinates);
     return turret;
+  }
+
+  public Orb createOrb(Coordinates coordinates) {
+    Orb orb = new Orb(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    return orb;
   }
 }

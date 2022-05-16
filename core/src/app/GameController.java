@@ -22,6 +22,7 @@ import entity.block.EmptyBlock;
 import entity.block.SkyBlock;
 import entity.controllers.EntityControllerFactory;
 import entity.misc.Ladder;
+import entity.misc.Orb;
 import entity.misc.Projectile;
 import entity.misc.Turret;
 import java.util.UUID;
@@ -151,6 +152,12 @@ public class GameController {
 
   public void triggerCreateTurret(Coordinates coordinates) {
     this.eventService.queuePostUpdateEvent(EventTypeFactory.createTurretEventType(coordinates));
+  }
+
+  public void createOrb(Coordinates coordinates) throws ChunkNotFound {
+    Orb orb = entityFactory.createOrb(coordinates);
+    orb.setEntityController(entityControllerFactory.createOrbController(orb));
+    this.gameStore.addEntity(orb);
   }
 
   public Turret createTurret(Coordinates coordinates) throws ChunkNotFound {
