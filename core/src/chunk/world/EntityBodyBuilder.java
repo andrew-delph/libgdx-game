@@ -246,6 +246,32 @@ public class EntityBodyBuilder {
     return new Pair<>(entity.getUuid(), theBody);
   }
 
+  public static Pair<UUID, Body> createOrb(World world, ChunkRange chunkRange, Entity entity) {
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyDef.BodyType.StaticBody;
+    bodyDef.position.set(
+        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+
+    Body theBody = world.createBody(bodyDef);
+
+    PolygonShape shape = new PolygonShape();
+    shape.setAsBox(
+        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.0f,
+        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
+    FixtureDef fixtureDef = new FixtureDef();
+    fixtureDef.shape = shape;
+    fixtureDef.density = 0f;
+    fixtureDef.restitution = 0;
+    fixtureDef.isSensor = true;
+    Fixture blockFixture = theBody.createFixture(fixtureDef);
+
+    blockFixture.setFilterData(ladderFilter());
+    //    blockFixture.setUserData(new LadderSensor(entity, chunkRange));
+
+    return new Pair<>(entity.getUuid(), theBody);
+  }
+
   public static Filter entityFilter() {
     // entity collides with blocks
     Filter filter = new Filter();
