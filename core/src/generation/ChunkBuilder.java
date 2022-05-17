@@ -6,7 +6,6 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.GameStore;
-import entity.Entity;
 import entity.attributes.Coordinates;
 import java.util.concurrent.Callable;
 
@@ -48,8 +47,7 @@ public class ChunkBuilder implements Callable<Chunk> {
       }
       for (int i = chunkRange.bottom_x; i < chunkRange.top_x; i++) {
         for (int j = chunkRange.bottom_y; j < chunkRange.top_y; j++) {
-          Entity block = blockGenerator.generate(new Coordinates(i, j));
-          gameController.triggerAddEntity(block);
+          blockGenerator.generate(new Coordinates(i, j));
         }
       }
 

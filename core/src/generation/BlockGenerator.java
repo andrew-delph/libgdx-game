@@ -1,25 +1,31 @@
 package generation;
 
+import app.GameController;
 import com.google.inject.Inject;
 import common.exceptions.ChunkNotFound;
-import entity.Entity;
+import entity.EntityFactory;
 import entity.attributes.Coordinates;
 import entity.block.BlockFactory;
 
 public class BlockGenerator {
 
   @Inject BlockFactory blockFactory;
+  @Inject EntityFactory entityFactory;
+  @Inject GameController gameController;
 
   @Inject
   BlockGenerator() {}
 
-  public Entity generate(Coordinates coordinates) throws ChunkNotFound {
+  public void generate(Coordinates coordinates) throws ChunkNotFound {
     if (coordinates.getY() > 0) {
-      return blockFactory.createSky(coordinates);
+      gameController.triggerAddEntity(blockFactory.createSky(coordinates));
     } else if (Math.random() < 0.1) {
-      return blockFactory.createStone(coordinates);
+      gameController.triggerAddEntity(blockFactory.createStone(coordinates));
+    } else if (Math.random() < 0.1) {
+      gameController.triggerAddEntity(entityFactory.createOrb(coordinates));
+      gameController.triggerAddEntity(blockFactory.createSky(coordinates));
     } else {
-      return blockFactory.createDirt(coordinates);
+      gameController.triggerAddEntity(blockFactory.createDirt(coordinates));
     }
   }
 }

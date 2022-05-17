@@ -227,6 +227,28 @@ public class testSingleClientRunningGame {
   }
 
   @Test
+  public void testClientCreateOrb() throws InterruptedException, EntityNotFound, ChunkNotFound {
+    GameController clientGameController = clientInjector.getInstance(GameController.class);
+    GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
+    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+    TimeUnit.SECONDS.sleep(1);
+
+    Entity clientEntity = clientGameController.createOrb(new Coordinates(0, 0));
+    TimeUnit.SECONDS.sleep(1);
+
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
+        .coordinates
+        .equals(clientEntity.coordinates);
+  }
+
+  @Test
   public void testClientCreateUpdateBlock()
       throws IOException, InterruptedException, EntityNotFound, ChunkNotFound {
 

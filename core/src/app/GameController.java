@@ -154,10 +154,15 @@ public class GameController {
     this.eventService.queuePostUpdateEvent(EventTypeFactory.createTurretEventType(coordinates));
   }
 
-  public void createOrb(Coordinates coordinates) throws ChunkNotFound {
+  public Orb createOrb(Coordinates coordinates) throws ChunkNotFound {
     Orb orb = entityFactory.createOrb(coordinates);
     orb.setEntityController(entityControllerFactory.createOrbController(orb));
     this.gameStore.addEntity(orb);
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
+        EventTypeFactory.createCreateEntityOutgoingEvent(
+            orb.toNetworkData(), new ChunkRange(coordinates));
+    this.eventService.fireEvent(createEntityOutgoingEvent);
+    return orb;
   }
 
   public Turret createTurret(Coordinates coordinates) throws ChunkNotFound {
