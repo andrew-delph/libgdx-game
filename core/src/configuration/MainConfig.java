@@ -20,6 +20,7 @@ import entity.collision.EntityContactListenerFactory;
 import entity.collision.RayCastService;
 import entity.collision.ladder.EntityLadderContact;
 import entity.collision.left.EntityLeftContact;
+import entity.collision.orb.OrbContact;
 import entity.collision.projectile.ProjectileContact;
 import entity.collision.right.EntityRightContact;
 import entity.collision.right.ground.EntityGroundContact;
@@ -76,5 +77,6 @@ public abstract class MainConfig extends AbstractModule {
     bind(SyncService.class).asEagerSingleton();
     bind(RayCastService.class).asEagerSingleton();
     bind(ProjectileContact.class).asEagerSingleton();
+    bind(OrbContact.class).asEagerSingleton();
   }
 }
