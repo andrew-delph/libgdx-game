@@ -5,6 +5,8 @@ import entity.collision.ladder.EntityLadderContact;
 import entity.collision.ladder.LadderSensor;
 import entity.collision.left.EntityLeftContact;
 import entity.collision.left.LeftSensor;
+import entity.collision.orb.OrbContact;
+import entity.collision.orb.OrbSensor;
 import entity.collision.projectile.ProjectileContact;
 import entity.collision.projectile.ProjectileSensor;
 import entity.collision.right.EntityRightContact;
@@ -25,6 +27,7 @@ public class CollisionService {
   @Inject EntityLeftContact entityLeftContact;
   @Inject EntityRightContact entityRightContact;
   @Inject ProjectileContact projectileContact;
+  @Inject OrbContact orbContact;
 
   @Inject
   public CollisionService() {
@@ -44,6 +47,7 @@ public class CollisionService {
         new CollisionPair(ProjectileSensor.class, GroundSensor.class), projectileContact);
     this.addCollisionConsumer(
         new CollisionPair(ProjectileSensor.class, EntitySensor.class), projectileContact);
+    this.addCollisionConsumer(new CollisionPair(OrbSensor.class, EntitySensor.class), orbContact);
   }
 
   public void addCollisionConsumer(CollisionPair collisionPair, ContactWrapper contactWrapper) {
