@@ -9,6 +9,7 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Coordinates;
 import entity.collision.RayCastService;
+import entity.collision.orb.OrbContact;
 import entity.collision.projectile.ProjectileContact;
 import entity.controllers.actions.EntityActionFactory;
 import entity.pathfinding.PathGuiderFactory;
@@ -25,6 +26,7 @@ public class EntityControllerFactory {
   @Inject Clock clock;
   @Inject RayCastService rayCastService;
   @Inject ProjectileContact projectileContact;
+  @Inject OrbContact orbContact;
 
   public EntityControllerFactory() {}
 
@@ -77,6 +79,6 @@ public class EntityControllerFactory {
 
   public OrbController createOrbController(Entity entity) {
     return new OrbController(
-        gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+        gameController, entityActionFactory, eventService, eventTypeFactory, orbContact, entity);
   }
 }

@@ -76,7 +76,7 @@ public class EntityUserController extends EntityController {
     }
 
     if (Gdx.input.isKeyJustPressed(Keys.F3)) {
-      gameController.createOrb(this.entity.coordinates.getBase());
+      gameController.createOrb(this.entity.coordinates.getBase().getRight().getRight());
     }
 
     if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {

@@ -17,6 +17,7 @@ import entity.block.Block;
 import entity.collision.EntitySensor;
 import entity.collision.ladder.LadderSensor;
 import entity.collision.left.LeftSensor;
+import entity.collision.orb.OrbSensor;
 import entity.collision.projectile.ProjectileSensor;
 import entity.collision.right.RightSensor;
 import entity.collision.right.ground.EntityFeetSensor;
@@ -257,19 +258,31 @@ public class EntityBodyBuilder {
     Body theBody = world.createBody(bodyDef);
     theBody.setFixedRotation(true);
 
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox(
-        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.0f,
-        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
-    FixtureDef fixtureDef = new FixtureDef();
-    fixtureDef.shape = shape;
-    fixtureDef.density = 1f;
-    fixtureDef.restitution = 0;
+    PolygonShape blockingShape = new PolygonShape();
+    blockingShape.setAsBox(
+        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.1f,
+        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2.1f);
+    FixtureDef blockingFixtureDef = new FixtureDef();
+    blockingFixtureDef.shape = blockingShape;
+    blockingFixtureDef.density = 1f;
+    blockingFixtureDef.restitution = 0;
     //    fixtureDef.isSensor = true;
-    Fixture blockFixture = theBody.createFixture(fixtureDef);
+    Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
+    orbFixture.setFilterData(projectileFilter());
 
-    blockFixture.setFilterData(entityFilter());
-    //    blockFixture.setUserData(new LadderSensor(entity, chunkRange));
+    PolygonShape sensorShape = new PolygonShape();
+    sensorShape.setAsBox(
+        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
+        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
+    FixtureDef sensorFixtureDef = new FixtureDef();
+    sensorFixtureDef.shape = sensorShape;
+    sensorFixtureDef.density = 1f;
+    sensorFixtureDef.restitution = 0;
+    sensorFixtureDef.isSensor = true;
+
+    Fixture sensorFixture = theBody.createFixture(sensorFixtureDef);
+    sensorFixture.setUserData(new OrbSensor(entity, chunkRange));
+    sensorFixture.setFilterData(projectileFilter());
 
     return new Pair<>(entity.getUuid(), theBody);
   }
@@ -278,7 +291,7 @@ public class EntityBodyBuilder {
     // entity collides with blocks
     Filter filter = new Filter();
     filter.categoryBits = 0b1;
-    filter.maskBits = 0b110;
+    filter.maskBits = 0b1110;
     return filter;
   }
 
@@ -286,7 +299,7 @@ public class EntityBodyBuilder {
     // blocks collide with everything
     Filter filter = new Filter();
     filter.categoryBits = 0b10;
-    filter.maskBits = 0b101;
+    filter.maskBits = 0b1101;
     return filter;
   }
 
