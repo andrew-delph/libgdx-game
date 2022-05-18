@@ -28,6 +28,11 @@ public class Orb extends Entity {
   }
 
   @Override
+  public synchronized int getUpdateTimeout() {
+    return Integer.MAX_VALUE;
+  }
+
+  @Override
   public synchronized CreateBodyCallable addWorld(Chunk chunk) {
 
     Orb myOrb = this;

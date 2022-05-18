@@ -1,6 +1,7 @@
 package app;
 
 import app.user.User;
+import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import chunk.world.exceptions.BodyNotFound;
 import chunk.world.exceptions.DestroyBodyException;
@@ -42,6 +43,7 @@ public class GameController {
   @Inject EntityControllerFactory entityControllerFactory;
   @Inject User user;
   @Inject ActiveEntityManager activeEntityManager;
+  @Inject ChunkFactory chunkFactory;
 
   public Entity addEntity(Entity entity) throws ChunkNotFound {
     triggerAddEntity(entity);
@@ -154,10 +156,15 @@ public class GameController {
     this.eventService.queuePostUpdateEvent(EventTypeFactory.createTurretEventType(coordinates));
   }
 
-  public void createOrb(Coordinates coordinates) throws ChunkNotFound {
+  public Orb createOrb(Coordinates coordinates) throws ChunkNotFound {
     Orb orb = entityFactory.createOrb(coordinates);
     orb.setEntityController(entityControllerFactory.createOrbController(orb));
     this.gameStore.addEntity(orb);
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
+        EventTypeFactory.createCreateEntityOutgoingEvent(
+            orb.toNetworkData(), new ChunkRange(coordinates));
+    this.eventService.fireEvent(createEntityOutgoingEvent);
+    return orb;
   }
 
   public Turret createTurret(Coordinates coordinates) throws ChunkNotFound {

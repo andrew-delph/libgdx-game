@@ -2,6 +2,7 @@ package entity.controllers;
 
 import app.GameController;
 import common.GameSettings;
+import common.GameStore;
 import common.events.EventService;
 import entity.Entity;
 import entity.attributes.Coordinates;
@@ -10,6 +11,7 @@ import entity.controllers.actions.EntityActionFactory;
 import networking.events.EventTypeFactory;
 
 public class OrbController extends EntityController {
+  GameStore gameStore;
   OrbContact orbContact;
 
   public OrbController(
@@ -17,10 +19,12 @@ public class OrbController extends EntityController {
       EntityActionFactory entityActionFactory,
       EventService eventService,
       EventTypeFactory eventTypeFactory,
+      GameStore gameStore,
       OrbContact orbContact,
       Entity entity) {
     super(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
     this.orbContact = orbContact;
+    this.gameStore = gameStore;
   }
 
   @Override
@@ -30,6 +34,13 @@ public class OrbController extends EntityController {
       gameController.removeEntity(this.entity.getUuid());
       return;
     }
+
+    if (!gameStore.doesChunkExist(entity.getChunk().chunkRange.getDown())) {
+      /* If the chunk below doesn't exist. Don't move down. It could cause a problem */
+      entity.setBodyPosition(entity.getBodyPosition());
+      return;
+    }
+
     Coordinates moveTo =
         new Coordinates(
             this.entity.getBodyPosition().x / GameSettings.PHYSICS_SCALE,

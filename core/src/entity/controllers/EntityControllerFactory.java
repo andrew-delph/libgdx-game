@@ -79,6 +79,12 @@ public class EntityControllerFactory {
 
   public OrbController createOrbController(Entity entity) {
     return new OrbController(
-        gameController, entityActionFactory, eventService, eventTypeFactory, orbContact, entity);
+        gameController,
+        entityActionFactory,
+        eventService,
+        eventTypeFactory,
+        gameStore,
+        orbContact,
+        entity);
   }
 }
