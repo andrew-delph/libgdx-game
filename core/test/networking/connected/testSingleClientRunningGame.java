@@ -118,8 +118,6 @@ public class testSingleClientRunningGame {
 
   @After
   public void cleanup() {
-    assert !mockHandshakeIncomingConsumerClient.getCalled();
-
     try {
       clientGame.stop();
     } catch (Exception e) {
@@ -130,6 +128,7 @@ public class testSingleClientRunningGame {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    assert !mockHandshakeIncomingConsumerClient.getCalled();
   }
 
   @Test
