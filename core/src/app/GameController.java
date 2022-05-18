@@ -258,9 +258,6 @@ public class GameController {
       velocity = removeEntity.getBodyVelocity();
     }
     this.gameStore.removeEntity(removeEntity.getUuid());
-    if (!this.gameStore.doesChunkExist(new ChunkRange(replacementEntity.coordinates))) {
-      this.gameStore.addChunk(chunkFactory.create(new ChunkRange(replacementEntity.coordinates)));
-    }
     this.gameStore.addEntity(replacementEntity);
 
     if (swapVelocity) {
