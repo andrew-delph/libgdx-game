@@ -43,6 +43,7 @@ public class Entity implements SerializeNetworkData {
   private EntityController entityController;
   private int width;
   private int height;
+
   public Entity(
       Clock clock,
       BaseAssetManager baseAssetManager,
