@@ -36,14 +36,13 @@ public class Entity implements SerializeNetworkData {
   public EntityBodyBuilder entityBodyBuilder;
   public Sprite sprite;
   public Health health;
-  public InventoryBag bag;
   BaseAssetManager baseAssetManager;
+  private InventoryBag bag;
   private UUID uuid;
   private Chunk chunk;
   private EntityController entityController;
   private int width;
   private int height;
-
   public Entity(
       Clock clock,
       BaseAssetManager baseAssetManager,
@@ -58,6 +57,10 @@ public class Entity implements SerializeNetworkData {
     this.uuid = UUID.randomUUID();
     this.health = new Health(100);
     this.bag = new InventoryBag(20);
+  }
+
+  public InventoryBag getBag() {
+    return bag;
   }
 
   public void updateAttribute(Attribute attr) {
@@ -108,12 +111,11 @@ public class Entity implements SerializeNetworkData {
   }
 
   public CreateBodyCallable addWorld(Chunk chunk) {
-    Entity myEntity = this;
     return new CreateBodyCallable() {
       @Override
       protected Pair<UUID, Body> addWorld(World world) {
         return EntityBodyBuilder.createEntityBody(
-            world, chunk.chunkRange, myEntity); // TODO test with Entity.this
+            world, chunk.chunkRange, Entity.this); // TODO test with Entity.this
       }
     };
   }
