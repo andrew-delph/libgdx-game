@@ -1,6 +1,7 @@
 package app;
 
 import app.user.User;
+import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import chunk.world.exceptions.BodyNotFound;
 import chunk.world.exceptions.DestroyBodyException;
@@ -42,6 +43,7 @@ public class GameController {
   @Inject EntityControllerFactory entityControllerFactory;
   @Inject User user;
   @Inject ActiveEntityManager activeEntityManager;
+  @Inject ChunkFactory chunkFactory;
 
   public Entity addEntity(Entity entity) throws ChunkNotFound {
     triggerAddEntity(entity);
@@ -256,6 +258,9 @@ public class GameController {
       velocity = removeEntity.getBodyVelocity();
     }
     this.gameStore.removeEntity(removeEntity.getUuid());
+    if (!this.gameStore.doesChunkExist(new ChunkRange(replacementEntity.coordinates))) {
+      this.gameStore.addChunk(chunkFactory.create(new ChunkRange(replacementEntity.coordinates)));
+    }
     this.gameStore.addEntity(replacementEntity);
 
     if (swapVelocity) {
