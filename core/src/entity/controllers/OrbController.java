@@ -6,6 +6,8 @@ import common.GameStore;
 import common.events.EventService;
 import entity.Entity;
 import entity.attributes.Coordinates;
+import entity.attributes.inventory.FullBagException;
+import entity.attributes.inventory.OrbInventoryItem;
 import entity.collision.orb.OrbContact;
 import entity.controllers.actions.EntityActionFactory;
 import java.util.UUID;
@@ -35,6 +37,11 @@ public class OrbController extends EntityController {
       for (UUID contact : orbContact.getCollisions(this.entity.getUuid())) {
         Entity entity = gameStore.getEntity(contact);
         if (entity.getBag().freeSpace() > 0) {
+          try {
+            entity.getBag().appendItem(new OrbInventoryItem(0));
+          } catch (FullBagException e) {
+            continue;
+          }
           gameController.removeEntity(this.entity.getUuid());
           return;
         }
