@@ -115,8 +115,7 @@ public class Entity implements SerializeNetworkData {
     return new CreateBodyCallable() {
       @Override
       protected Pair<UUID, Body> addWorld(World world) {
-        return EntityBodyBuilder.createEntityBody(
-            world, chunk.chunkRange, Entity.this); // TODO test with Entity.this
+        return EntityBodyBuilder.createEntityBody(world, chunk.chunkRange, Entity.this);
       }
     };
   }
