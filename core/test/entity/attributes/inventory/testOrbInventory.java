@@ -81,9 +81,7 @@ public class testOrbInventory {
     }
     clock.waitForTick(10);
     assert gameStore.getChunk(new ChunkRange(new Coordinates(0, 0))).getEntityList().stream()
-            .filter((e) -> e instanceof Orb)
-            .count()
-        == 0;
+        .noneMatch((e) -> e instanceof Orb);
 
     for (int i = 0; i < 40; i++) {
       gameController.createOrb(new Coordinates(1, 1));
