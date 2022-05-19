@@ -42,7 +42,6 @@ public class testOrbInventory {
     for (int i = 0; i < 5; i++) {
       gameController.createOrb(new Coordinates(1, 1));
     }
-    assert entity1.getBag().freeSpace() == 20;
     clock.waitForTick(10);
     assert entity1.getBag().freeSpace() == 15;
 
