@@ -8,6 +8,7 @@ import entity.Entity;
 import entity.attributes.Coordinates;
 import entity.collision.orb.OrbContact;
 import entity.controllers.actions.EntityActionFactory;
+import java.util.UUID;
 import networking.events.EventTypeFactory;
 
 public class OrbController extends EntityController {
@@ -31,7 +32,13 @@ public class OrbController extends EntityController {
   public void afterWorldUpdate() throws Exception {
 
     if (orbContact.isCollision(this.entity.getUuid())) {
-      gameController.removeEntity(this.entity.getUuid());
+      for (UUID contact : orbContact.getCollisions(this.entity.getUuid())) {
+        Entity entity = gameStore.getEntity(contact);
+        if (entity.getBag().freeSpace() > 0) {
+          gameController.removeEntity(this.entity.getUuid());
+          return;
+        }
+      }
       return;
     }
 
