@@ -268,7 +268,7 @@ public class EntityBodyBuilder {
     blockingFixtureDef.restitution = 0;
     //    fixtureDef.isSensor = true;
     Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
-    orbFixture.setFilterData(projectileFilter());
+    orbFixture.setFilterData(entityFilter());
 
     PolygonShape sensorShape = new PolygonShape();
     sensorShape.setAsBox(
