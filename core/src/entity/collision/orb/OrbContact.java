@@ -23,8 +23,8 @@ public class OrbContact implements ContactWrapper {
     return mapCollisionOrder.containsKey(orbID);
   }
 
-  public List<UUID> getCollisions(UUID orbID) {
-    return mapCollisionOrder.get(orbID);
+  public synchronized List<UUID> getCollisions(UUID orbID) {
+    return new LinkedList<>(mapCollisionOrder.get(orbID));
   }
 
   @Override

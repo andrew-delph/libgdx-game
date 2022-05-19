@@ -22,7 +22,8 @@ public class InventoryBag {
 
   public synchronized void appendItem(AbstractInventoryItem item) throws FullBagException {
     if (freeSpace() == 0) throw new FullBagException();
-    inventoryItemList[getNextFreeIndex()] = item;
+    item.setIndex(getNextFreeIndex());
+    this.updateItem(item);
   }
 
   public synchronized void updateItem(AbstractInventoryItem item) throws FullBagException {
