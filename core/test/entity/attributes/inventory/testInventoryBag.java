@@ -25,7 +25,6 @@ public class testInventoryBag {
 
     assert error;
 
-
     bag.updateItem(new EmptyInventoryItem(3));
 
     assert bag.freeSpace() == 1;
