@@ -186,7 +186,7 @@ public class testClientServerAttributes {
 
     TimeUnit.SECONDS.sleep(1);
     assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
-    //    assert clientGameStore.getEntity(serverEntity.getUuid()).health.equals(h2);
+    assert clientGameStore.getEntity(serverEntity.getUuid()).health.equals(h2);
   }
 
   // test connect with entity, inventory is the same

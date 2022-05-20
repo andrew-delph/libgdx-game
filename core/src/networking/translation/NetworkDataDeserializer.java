@@ -118,8 +118,10 @@ public class NetworkDataDeserializer {
         chunkRange = createChunkRange(child);
       } else if (DataTranslationEnum.UUID.equals(child.getKey())) {
         uuid = createUUID(child);
-      } else if (COORDINATES.equals(child.getKey())) {
+      } else if (DataTranslationEnum.COORDINATES.equals(child.getKey())) {
         attributeList.add(createCoordinates(child));
+      } else if (DataTranslationEnum.HEALTH.equals(child.getKey())) {
+        attributeList.add(createHealth(child));
       }
     }
     if (chunkRange == null) throw new SerializationDataMissing("Missing chunkRange");
