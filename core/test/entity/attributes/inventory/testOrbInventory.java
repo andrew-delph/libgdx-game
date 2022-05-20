@@ -94,4 +94,20 @@ public class testOrbInventory {
             .count()
         == 5;
   }
+
+  @Test
+  public void testEqual() {
+    OrbInventoryItem o1 = new OrbInventoryItem(1);
+    OrbInventoryItem o2 = new OrbInventoryItem(1);
+
+    assert o1.equals(o2);
+  }
+
+  @Test
+  public void testNotEqual() {
+    OrbInventoryItem o1 = new OrbInventoryItem(1);
+    OrbInventoryItem o2 = new OrbInventoryItem(2);
+
+    assert !o1.equals(o2);
+  }
 }

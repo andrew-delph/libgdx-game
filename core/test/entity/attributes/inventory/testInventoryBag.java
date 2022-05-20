@@ -31,4 +31,34 @@ public class testInventoryBag {
 
     assert bag.getNextFreeIndex() == 3;
   }
+
+  @Test
+  public void testEqual1() {
+
+    int size = 10;
+
+    InventoryBag b1 = new InventoryBag(size);
+
+    InventoryBag b2 = new InventoryBag(size);
+
+    assert b1.equals(b2);
+  }
+
+  @Test
+  public void testEqual2() {
+
+    int size = 10;
+
+    InventoryBag b1 = new InventoryBag(size);
+
+    b1.updateItem(new OrbInventoryItem(2));
+
+    InventoryBag b2 = new InventoryBag(size);
+
+    assert !b1.equals(b2);
+
+    b2.updateItem(new OrbInventoryItem(2));
+
+    assert b1.equals(b2);
+  }
 }
