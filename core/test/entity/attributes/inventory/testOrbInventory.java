@@ -14,6 +14,7 @@ import common.exceptions.WrongVersion;
 import configuration.StandAloneConfig;
 import entity.Entity;
 import entity.attributes.Coordinates;
+import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.misc.Orb;
 import java.io.IOException;
 import org.junit.Test;
@@ -93,5 +94,21 @@ public class testOrbInventory {
             .filter((e) -> e instanceof Orb)
             .count()
         == 5;
+  }
+
+  @Test
+  public void testEqual() {
+    OrbInventoryItem o1 = new OrbInventoryItem(1);
+    OrbInventoryItem o2 = new OrbInventoryItem(1);
+
+    assert o1.equals(o2);
+  }
+
+  @Test
+  public void testNotEqual() {
+    OrbInventoryItem o1 = new OrbInventoryItem(1);
+    OrbInventoryItem o2 = new OrbInventoryItem(2);
+
+    assert !o1.equals(o2);
   }
 }

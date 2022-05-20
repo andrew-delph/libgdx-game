@@ -6,10 +6,16 @@ import common.events.types.CreateTurretEventType;
 import entity.Entity;
 import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
+import entity.attributes.Health;
+import entity.attributes.inventory.item.EmptyInventoryItem;
+import entity.attributes.inventory.item.OrbInventoryItem;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import networking.NetworkObjects;
+import networking.NetworkObjects.NetworkData;
 import networking.events.types.outgoing.ChunkSwapOutgoingEventType;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.events.types.outgoing.PingRequestOutgoingEventType;
@@ -26,11 +32,19 @@ public class NetworkDataSerializer {
             .setKey(UUID.class.getName())
             .setValue(entity.getUuid().toString())
             .build();
+
+    List<NetworkData> bagData =
+        Arrays.stream(entity.getBag().getItemList())
+            .map((item) -> item.toNetworkData())
+            .collect(Collectors.toList());
+
     return NetworkObjects.NetworkData.newBuilder()
         .setKey("class")
         .setValue(entity.getClass().getName())
         .addChildren(entity.coordinates.toNetworkData())
         .addChildren(uuid)
+        .addAllChildren(bagData)
+        .addChildren(entity.health.toNetworkData())
         .build();
   }
 
@@ -49,6 +63,13 @@ public class NetworkDataSerializer {
     return NetworkObjects.NetworkData.newBuilder()
         .setKey(DataTranslationEnum.UUID)
         .setValue(uuid.toString())
+        .build();
+  }
+
+  public static NetworkObjects.NetworkData createHealth(Health health) {
+    return NetworkObjects.NetworkData.newBuilder()
+        .setKey(DataTranslationEnum.HEALTH)
+        .setValue(String.valueOf(health.getHealth()))
         .build();
   }
 
@@ -112,6 +133,26 @@ public class NetworkDataSerializer {
     return eventBuilder.setData(dataListBuilder).build();
   }
 
+  public static NetworkObjects.NetworkData serializeEmptyInventoryItem(EmptyInventoryItem item) {
+
+    NetworkObjects.NetworkData.Builder emptyItem =
+        NetworkObjects.NetworkData.newBuilder().setKey(DataTranslationEnum.EMPTY_ITEM);
+
+    emptyItem.addChildren(createIndex(item.getIndex()));
+
+    return emptyItem.build();
+  }
+
+  public static NetworkObjects.NetworkData serializeOrbInventoryItem(OrbInventoryItem item) {
+
+    NetworkObjects.NetworkData.Builder orbData =
+        NetworkObjects.NetworkData.newBuilder().setKey(DataTranslationEnum.ORB_ITEM);
+
+    orbData.addChildren(createIndex(item.getIndex()));
+
+    return orbData.build();
+  }
+
   public static NetworkObjects.NetworkEvent createRemoveEntityOutgoingEventType(
       RemoveEntityOutgoingEventType removeEntityOutgoingEventType) {
     NetworkObjects.NetworkEvent.Builder eventBuilder =
@@ -137,6 +178,13 @@ public class NetworkDataSerializer {
         .setKey(DataTranslationEnum.COORDINATES)
         .addChildren(x)
         .addChildren(y)
+        .build();
+  }
+
+  public static NetworkObjects.NetworkData createIndex(Integer index) {
+    return NetworkObjects.NetworkData.newBuilder()
+        .setKey(DataTranslationEnum.INDEX)
+        .setValue(String.valueOf(index))
         .build();
   }
 
