@@ -413,7 +413,7 @@ public class NetworkDataDeserializer {
     entity.coordinates = coordinates;
     entity.health = health;
 
-    for(Attribute attr: attributeList){
+    for (Attribute attr : attributeList) {
       entity.updateAttribute(attr);
     }
 
