@@ -1,5 +1,8 @@
 package entity.attributes.inventory;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class InventoryBag {
   final AbstractInventoryItem[] inventoryItemList;
   int size;
@@ -26,7 +29,26 @@ public class InventoryBag {
     this.updateItem(item);
   }
 
-  public synchronized void updateItem(AbstractInventoryItem item) throws FullBagException {
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    InventoryBag that = (InventoryBag) o;
+    return size == that.size && Arrays.equals(inventoryItemList, that.inventoryItemList);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = Objects.hash(size);
+    result = 31 * result + Arrays.hashCode(inventoryItemList);
+    return result;
+  }
+
+  public synchronized void updateItem(AbstractInventoryItem item) {
     int index = item.getIndex();
     inventoryItemList[index] = item;
   }

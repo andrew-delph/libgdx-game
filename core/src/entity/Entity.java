@@ -173,7 +173,10 @@ public class Entity implements SerializeNetworkData {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     Entity other = (Entity) obj;
-    return this.uuid.equals(other.uuid) && this.coordinates.equals(other.coordinates);
+    return this.uuid.equals(other.uuid)
+        && this.coordinates.equals(other.coordinates)
+        && this.health.equals(other.health)
+        && this.bag.equals(other.bag);
   }
 
   public Coordinates getCenter() {

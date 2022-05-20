@@ -1,4 +1,4 @@
-package entity.attributes;
+package networking.connected;
 
 import app.GameController;
 import app.game.Game;
@@ -21,7 +21,7 @@ import networking.sync.SyncService;
 import org.junit.Before;
 import org.junit.Test;
 
-public class testMultiplayer {
+public class testClientServerAttributes {
 
   Injector clientInjector;
   Injector serverInjector;
