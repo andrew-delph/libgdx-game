@@ -66,7 +66,7 @@ public class InventoryBag {
     throw new FullBagException();
   }
 
-  public AbstractInventoryItem[] getItemList() {
+  public synchronized AbstractInventoryItem[] getItemList() {
     return Arrays.copyOf(this.inventoryItemList, inventoryItemList.length);
   }
 }
