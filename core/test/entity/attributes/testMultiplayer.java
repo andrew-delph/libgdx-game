@@ -103,7 +103,6 @@ public class testMultiplayer {
   // test connect with entity, inventory is the same
   // test connect with entity where inventory non default
 
-
   /*
   update tests:
   - all empty - > all orbs
