@@ -2,6 +2,7 @@ package entity.attributes;
 
 import com.google.common.base.Objects;
 import networking.NetworkObjects.NetworkData;
+import networking.translation.NetworkDataSerializer;
 
 public class Health implements Attribute {
 
@@ -9,6 +10,10 @@ public class Health implements Attribute {
 
   public Health(float health) {
     this.health = health;
+  }
+
+  public float getHealth() {
+    return health;
   }
 
   @Override
@@ -30,7 +35,7 @@ public class Health implements Attribute {
 
   @Override
   public NetworkData toNetworkData() {
-    return null;
+    return NetworkDataSerializer.createHealth(this);
   }
 
   @Override

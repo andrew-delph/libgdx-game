@@ -16,6 +16,7 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
+import entity.attributes.Health;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
@@ -63,6 +64,10 @@ public class NetworkDataDeserializer {
 
   public static UUID createUUID(NetworkObjects.NetworkData networkData) {
     return UUID.fromString(networkData.getValue());
+  }
+
+  public static Health createHealth(NetworkObjects.NetworkData networkData) {
+    return new Health(Float.parseFloat(networkData.getValue()));
   }
 
   public static List<UUID> createUUIDList(NetworkObjects.NetworkData networkData) {
@@ -323,6 +328,7 @@ public class NetworkDataDeserializer {
     Entity entity;
     Coordinates coordinates = null;
     UUID uuid = null;
+    Health health = null;
 
     if (classString.equals(DirtBlock.class.getName())) {
       entity = blockFactory.createDirt(new Coordinates(0, 0));
@@ -344,17 +350,21 @@ public class NetworkDataDeserializer {
       throw new SerializationDataMissing("classString not recognized");
     }
     for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
-      if (networkDataChild.getKey().equals(COORDINATES)) {
+      if (networkDataChild.getKey().equals(DataTranslationEnum.COORDINATES)) {
         coordinates = createCoordinates(networkDataChild);
       } else if (networkDataChild.getKey().equals(UUID.class.getName())) {
         uuid = UUID.fromString(networkDataChild.getValue());
+      } else if (networkDataChild.getKey().equals(DataTranslationEnum.HEALTH)) {
+        health = createHealth(networkDataChild);
       }
     }
 
     if (uuid == null) throw new SerializationDataMissing("Missing UUID");
     if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
+    if (health == null) throw new SerializationDataMissing("Missing health");
     entity.setUuid(uuid);
     entity.coordinates = coordinates;
+    entity.health = health;
     return entity;
   }
 

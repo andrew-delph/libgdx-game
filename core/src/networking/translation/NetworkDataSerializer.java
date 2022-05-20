@@ -6,6 +6,7 @@ import common.events.types.CreateTurretEventType;
 import entity.Entity;
 import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
+import entity.attributes.Health;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -26,11 +27,13 @@ public class NetworkDataSerializer {
             .setKey(UUID.class.getName())
             .setValue(entity.getUuid().toString())
             .build();
+
     return NetworkObjects.NetworkData.newBuilder()
         .setKey("class")
         .setValue(entity.getClass().getName())
         .addChildren(entity.coordinates.toNetworkData())
         .addChildren(uuid)
+        .addChildren(entity.health.toNetworkData())
         .build();
   }
 
@@ -49,6 +52,13 @@ public class NetworkDataSerializer {
     return NetworkObjects.NetworkData.newBuilder()
         .setKey(DataTranslationEnum.UUID)
         .setValue(uuid.toString())
+        .build();
+  }
+
+  public static NetworkObjects.NetworkData createHealth(Health health) {
+    return NetworkObjects.NetworkData.newBuilder()
+        .setKey(DataTranslationEnum.HEALTH)
+        .setValue(String.valueOf(health.getHealth()))
         .build();
   }
 

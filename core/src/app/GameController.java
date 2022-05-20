@@ -15,6 +15,7 @@ import common.exceptions.EntityNotFound;
 import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
+import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
 import entity.block.Block;
 import entity.block.BlockFactory;
@@ -199,6 +200,15 @@ public class GameController {
     this.eventService.fireEvent(
         EventTypeFactory.createUpdateEntityOutgoingEvent(
             coordinates, new ChunkRange(preCoordinates), uuid));
+  }
+
+  public void updateEntityAttribute(UUID uuid, Attribute attribute) throws EntityNotFound {
+    Entity entity = this.gameStore.getEntity(uuid);
+    Coordinates preCoordinates = entity.coordinates;
+    entity.updateAttribute(attribute);
+    this.eventService.fireEvent(
+        EventTypeFactory.createUpdateEntityOutgoingEvent(
+            attribute, new ChunkRange(preCoordinates), uuid));
   }
 
   public void placeBlock(Entity entity, Direction direction, Class blockClass)
