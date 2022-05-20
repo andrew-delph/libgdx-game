@@ -9,10 +9,13 @@ import entity.attributes.Coordinates;
 import entity.attributes.Health;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import networking.NetworkObjects;
+import networking.NetworkObjects.NetworkData;
 import networking.events.types.outgoing.ChunkSwapOutgoingEventType;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.events.types.outgoing.PingRequestOutgoingEventType;
@@ -30,11 +33,17 @@ public class NetworkDataSerializer {
             .setValue(entity.getUuid().toString())
             .build();
 
+    List<NetworkData> bagData =
+        Arrays.stream(entity.getBag().getItemList())
+            .map((item) -> item.toNetworkData())
+            .collect(Collectors.toList());
+
     return NetworkObjects.NetworkData.newBuilder()
         .setKey("class")
         .setValue(entity.getClass().getName())
         .addChildren(entity.coordinates.toNetworkData())
         .addChildren(uuid)
+        .addAllChildren(bagData)
         .addChildren(entity.health.toNetworkData())
         .build();
   }

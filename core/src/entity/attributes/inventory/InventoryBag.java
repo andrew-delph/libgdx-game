@@ -55,10 +55,18 @@ public class InventoryBag {
     inventoryItemList[index] = item;
   }
 
+  public synchronized AbstractInventoryItem getItem(Integer index) {
+    return inventoryItemList[index];
+  }
+
   public synchronized int getNextFreeIndex() throws FullBagException {
     for (AbstractInventoryItem item : inventoryItemList) {
       if (item instanceof EmptyInventoryItem) return item.getIndex();
     }
     throw new FullBagException();
+  }
+
+  public AbstractInventoryItem[] getItemList() {
+    return Arrays.copyOf(this.inventoryItemList, inventoryItemList.length);
   }
 }

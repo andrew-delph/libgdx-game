@@ -19,6 +19,7 @@ import entity.attributes.AttributeType;
 import entity.attributes.Coordinates;
 import entity.attributes.Health;
 import entity.attributes.inventory.InventoryBag;
+import entity.attributes.inventory.item.AbstractInventoryItem;
 import entity.controllers.EntityController;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -71,6 +72,8 @@ public class Entity implements SerializeNetworkData {
     } else if (attr.getType().equals(AttributeType.HEALTH)) {
       this.health = (Health) attr;
       return;
+    } else if (attr.getType().equals(AttributeType.ITEM)) {
+      this.getBag().updateItem((AbstractInventoryItem) attr);
     }
   }
 

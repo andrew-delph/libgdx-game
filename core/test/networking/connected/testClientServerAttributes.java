@@ -22,6 +22,7 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Coordinates;
 import entity.attributes.Health;
+import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import generation.ChunkGenerationService;
 import java.io.IOException;
@@ -209,7 +210,10 @@ public class testClientServerAttributes {
         clientUser.getUserID(), new ChunkRange(new Coordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
+    Entity clientEntity = clientGameStore.getEntity(serverEntity.getUuid());
+
     assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
+    assert clientEntity.getBag().getItem(3) instanceof EmptyInventoryItem;
 
     OrbInventoryItem orb2 = new OrbInventoryItem(3);
 
@@ -217,5 +221,7 @@ public class testClientServerAttributes {
 
     TimeUnit.SECONDS.sleep(1);
     assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
+
+    assert clientEntity.getBag().getItem(3) instanceof OrbInventoryItem;
   }
 }

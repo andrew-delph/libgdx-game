@@ -28,6 +28,7 @@ import entity.misc.Ladder;
 import entity.misc.Orb;
 import entity.misc.Projectile;
 import entity.misc.Turret;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -390,6 +391,8 @@ public class NetworkDataDeserializer {
     } else {
       throw new SerializationDataMissing("classString not recognized");
     }
+
+    List<Attribute> attributeList = new LinkedList<>();
     for (NetworkObjects.NetworkData networkDataChild : networkData.getChildrenList()) {
       if (networkDataChild.getKey().equals(DataTranslationEnum.COORDINATES)) {
         coordinates = createCoordinates(networkDataChild);
@@ -397,6 +400,9 @@ public class NetworkDataDeserializer {
         uuid = UUID.fromString(networkDataChild.getValue());
       } else if (networkDataChild.getKey().equals(DataTranslationEnum.HEALTH)) {
         health = createHealth(networkDataChild);
+      } else if (Arrays.asList(DataTranslationEnum.ITEM_TYPES)
+          .contains(networkDataChild.getKey())) {
+        attributeList.add(createAttribute(networkDataChild));
       }
     }
 
@@ -406,6 +412,11 @@ public class NetworkDataDeserializer {
     entity.setUuid(uuid);
     entity.coordinates = coordinates;
     entity.health = health;
+
+    for(Attribute attr: attributeList){
+      entity.updateAttribute(attr);
+    }
+
     return entity;
   }
 
