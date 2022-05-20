@@ -1,5 +1,7 @@
 package entity.attributes.inventory;
 
+import entity.attributes.inventory.item.AbstractInventoryItem;
+import entity.attributes.inventory.item.EmptyInventoryItem;
 import java.util.Arrays;
 import java.util.Objects;
 

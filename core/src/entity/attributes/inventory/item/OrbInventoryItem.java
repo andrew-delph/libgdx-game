@@ -1,7 +1,7 @@
-package entity.attributes.inventory;
+package entity.attributes.inventory.item;
 
-import entity.attributes.AttributeType;
 import networking.NetworkObjects.NetworkData;
+import networking.translation.NetworkDataSerializer;
 
 public class OrbInventoryItem extends AbstractInventoryItem {
 
@@ -10,12 +10,7 @@ public class OrbInventoryItem extends AbstractInventoryItem {
   }
 
   @Override
-  public AttributeType getType() {
-    return null;
-  }
-
-  @Override
   public NetworkData toNetworkData() {
-    return null;
+    return NetworkDataSerializer.serializeOrbInventoryItem(this);
   }
 }

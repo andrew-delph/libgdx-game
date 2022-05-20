@@ -1,5 +1,7 @@
 package entity.attributes.inventory;
 
+import entity.attributes.inventory.item.EmptyInventoryItem;
+import entity.attributes.inventory.item.OrbInventoryItem;
 import org.junit.Test;
 
 public class testInventoryBag {

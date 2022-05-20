@@ -17,6 +17,8 @@ import entity.EntityFactory;
 import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
 import entity.attributes.Health;
+import entity.attributes.inventory.item.EmptyInventoryItem;
+import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
@@ -30,6 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import networking.NetworkObjects;
+import networking.NetworkObjects.NetworkData;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.ChunkSwapIncomingEventType;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
@@ -118,16 +121,52 @@ public class NetworkDataDeserializer {
         chunkRange = createChunkRange(child);
       } else if (DataTranslationEnum.UUID.equals(child.getKey())) {
         uuid = createUUID(child);
-      } else if (DataTranslationEnum.COORDINATES.equals(child.getKey())) {
-        attributeList.add(createCoordinates(child));
-      } else if (DataTranslationEnum.HEALTH.equals(child.getKey())) {
-        attributeList.add(createHealth(child));
+      } else {
+        attributeList.add(createAttribute(child));
+        // it will be another attribute
       }
     }
     if (chunkRange == null) throw new SerializationDataMissing("Missing chunkRange");
     if (uuid == null) throw new SerializationDataMissing("Missing uuid");
 
     return EventTypeFactory.createUpdateEntityIncomingEvent(user, attributeList, chunkRange, uuid);
+  }
+
+  public static Attribute createAttribute(NetworkData networkData) throws SerializationDataMissing {
+    if (DataTranslationEnum.COORDINATES.equals(networkData.getKey())) {
+      return createCoordinates(networkData);
+    } else if (DataTranslationEnum.HEALTH.equals(networkData.getKey())) {
+      return createHealth(networkData);
+    } else if (DataTranslationEnum.EMPTY_ITEM.equals(networkData.getKey())) {
+      return createEmptyItem(networkData);
+    } else if (DataTranslationEnum.ORB_ITEM.equals(networkData.getKey())) {
+      return createOrbItem(networkData);
+    }
+    return null;
+  }
+
+  public static EmptyInventoryItem createEmptyItem(NetworkData networkData)
+      throws SerializationDataMissing {
+    Integer index = null;
+    for (NetworkObjects.NetworkData child : networkData.getChildrenList()) {
+      if (DataTranslationEnum.INDEX.equals(child.getKey())) {
+        index = Integer.valueOf(child.getValue());
+      }
+    }
+    if (index == null) throw new SerializationDataMissing("Missing index");
+    return new EmptyInventoryItem(index);
+  }
+
+  public static OrbInventoryItem createOrbItem(NetworkData networkData)
+      throws SerializationDataMissing {
+    Integer index = null;
+    for (NetworkObjects.NetworkData child : networkData.getChildrenList()) {
+      if (DataTranslationEnum.INDEX.equals(child.getKey())) {
+        index = Integer.valueOf(child.getValue());
+      }
+    }
+    if (index == null) throw new SerializationDataMissing("Missing index");
+    return new OrbInventoryItem(index);
   }
 
   public static CreateEntityIncomingEventType createCreateEntityIncomingEventType(

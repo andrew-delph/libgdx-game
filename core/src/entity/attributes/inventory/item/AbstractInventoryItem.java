@@ -1,6 +1,7 @@
-package entity.attributes.inventory;
+package entity.attributes.inventory.item;
 
 import entity.attributes.Attribute;
+import entity.attributes.AttributeType;
 import java.util.Objects;
 
 public abstract class AbstractInventoryItem implements Attribute {
@@ -33,5 +34,10 @@ public abstract class AbstractInventoryItem implements Attribute {
 
   public void setIndex(int index) {
     this.index = index;
+  }
+
+  @Override
+  public AttributeType getType() {
+    return AttributeType.ITEM;
   }
 }

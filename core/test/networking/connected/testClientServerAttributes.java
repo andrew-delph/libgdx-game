@@ -22,6 +22,7 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Coordinates;
 import entity.attributes.Health;
+import entity.attributes.inventory.item.OrbInventoryItem;
 import generation.ChunkGenerationService;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -189,8 +190,34 @@ public class testClientServerAttributes {
     assert clientGameStore.getEntity(serverEntity.getUuid()).health.equals(h2);
   }
 
-  // test connect with entity, inventory is the same
-  // test connect with entity where inventory non default
+  @Test
+  public void testInventoryUpdate()
+      throws ChunkNotFound, InterruptedException, EntityNotFound, WrongVersion,
+          SerializationDataMissing, IOException, BodyNotFound {
+    // test inventory is no default
+
+    Entity serverEntity = serverGameController.createEntity(new Coordinates(1, 1));
+    OrbInventoryItem orb1 = new OrbInventoryItem(2);
+
+    serverGameController.updateEntityAttribute(serverEntity.getUuid(), orb1);
+
+    serverClock.waitForTick();
+
+    clientGame.start();
+
+    serverActiveChunkManager.addUserChunkSubscriptions(
+        clientUser.getUserID(), new ChunkRange(new Coordinates(0, 0)));
+
+    TimeUnit.SECONDS.sleep(1);
+    assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
+
+    OrbInventoryItem orb2 = new OrbInventoryItem(3);
+
+    serverGameController.updateEntityAttribute(serverEntity.getUuid(), orb2);
+
+    TimeUnit.SECONDS.sleep(1);
+    assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
+  }
 
   /*
   update tests:
