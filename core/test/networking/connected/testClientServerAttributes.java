@@ -218,10 +218,4 @@ public class testClientServerAttributes {
     TimeUnit.SECONDS.sleep(1);
     assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
   }
-
-  /*
-  update tests:
-  - all empty - > all orbs
-  - 1 orb -> 2 orbs
-   */
 }
