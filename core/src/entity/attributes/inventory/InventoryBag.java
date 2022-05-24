@@ -60,10 +60,20 @@ public class InventoryBag {
   }
 
   public synchronized int getNextFreeIndex() throws FullBagException {
-    for (AbstractInventoryItem item : inventoryItemList) {
-      if (item instanceof EmptyInventoryItem) return item.getIndex();
+    try {
+      return getClassIndex(EmptyInventoryItem.class);
+    } catch (ItemNotFoundException e) {
+      throw new FullBagException();
     }
-    throw new FullBagException();
+  }
+
+  public synchronized int getClassIndex(Class<? extends AbstractInventoryItem> itemClass)
+      throws ItemNotFoundException {
+    for (AbstractInventoryItem item : inventoryItemList) {
+
+      if (item.getClass().isAssignableFrom(itemClass)) return item.getIndex();
+    }
+    throw new ItemNotFoundException();
   }
 
   public synchronized AbstractInventoryItem[] getItemList() {
