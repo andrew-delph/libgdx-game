@@ -17,6 +17,7 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
+import entity.attributes.inventory.item.AbstractInventoryItem;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
@@ -153,10 +154,6 @@ public class GameController {
     return projectile;
   }
 
-  public void triggerCreateTurret(Coordinates coordinates) {
-    this.eventService.queuePostUpdateEvent(EventTypeFactory.createTurretEventType(coordinates));
-  }
-
   public Orb createOrb(Coordinates coordinates) throws ChunkNotFound {
     Orb orb = entityFactory.createOrb(coordinates);
     orb.setEntityController(entityControllerFactory.createOrbController(orb));
@@ -166,6 +163,10 @@ public class GameController {
             orb.toNetworkData(), new ChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return orb;
+  }
+
+  public void triggerCreateTurret(Coordinates coordinates) {
+    this.eventService.queuePostUpdateEvent(EventTypeFactory.createTurretEventType(coordinates));
   }
 
   public Turret createTurret(Coordinates coordinates) throws ChunkNotFound {
@@ -280,4 +281,6 @@ public class GameController {
     this.eventService.queuePostUpdateEvent(
         EventTypeFactory.createAIEntityEventType(new Coordinates(0, 2), target));
   }
+
+  public void swapInventory(Entity entity, AbstractInventoryItem item) {}
 }
