@@ -45,9 +45,10 @@ public class SoloEventConsumer extends EventConsumer {
         event -> {
           CreateTurretEventType realEvent = (CreateTurretEventType) event;
           try {
-            Turret turret = gameController.createTurret(realEvent.getCoordinates());
+            Entity entity = gameStore.getEntity(realEvent.getEntityUUID());
+            Turret turret = gameController.createTurret(entity, realEvent.getCoordinates());
             activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
-          } catch (ChunkNotFound e) {
+          } catch (ChunkNotFound | EntityNotFound e) {
             LOGGER.error(e, e);
           }
         });

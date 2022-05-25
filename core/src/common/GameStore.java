@@ -41,7 +41,6 @@ public class GameStore {
       chunk = this.chunkClockMap.get(entityChunkRange);
       chunk.addEntity(entity);
     } catch (NullPointerException e) {
-      e.printStackTrace();
       throw new ChunkNotFound("addEntity cannot find chunk: " + entityChunkRange + " " + entity);
     }
     entity.setChunk(chunk);
