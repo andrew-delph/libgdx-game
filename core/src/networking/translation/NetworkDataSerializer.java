@@ -204,6 +204,7 @@ public class NetworkDataSerializer {
         NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.CREATE_TURRET);
     NetworkObjects.NetworkData.Builder dataListBuilder = NetworkObjects.NetworkData.newBuilder();
     dataListBuilder.addChildren(createCoordinates(createTurretEventType.getCoordinates()));
+    dataListBuilder.addChildren(createUUID(createTurretEventType.getEntityUUID()));
     return eventBuilder.setData(dataListBuilder).build();
   }
 

@@ -328,17 +328,22 @@ public class NetworkDataDeserializer {
   public static CreateTurretEventType createCreateTurretEventType(
       NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
     Coordinates coordinates = null;
+    UUID uuid = null;
 
     for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
       switch (child.getKey()) {
         case COORDINATES:
           coordinates = createCoordinates(child);
           break;
+        case DataTranslationEnum.UUID:
+          uuid = createUUID(child);
+          break;
       }
     }
     if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
+    if (uuid == null) throw new SerializationDataMissing("Missing uuid");
 
-    return EventTypeFactory.createTurretEventType(coordinates);
+    return EventTypeFactory.createTurretEventType(uuid, coordinates);
   }
 
   public Chunk createChunk(NetworkObjects.NetworkData networkData) throws SerializationDataMissing {

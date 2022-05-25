@@ -20,6 +20,7 @@ import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Coordinates;
+import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
@@ -366,8 +367,12 @@ public class testDoubleClient {
     client_b_NetworkHandle.send(
         client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
+    Entity serverEntity = serverGameController.createEntity(new Coordinates(1, 1));
+    serverEntity.getBag().updateItem(new OrbInventoryItem(1));
+
     TimeUnit.SECONDS.sleep(1);
-    client_a_GameController.triggerCreateTurret(coordinates);
+    assert null != client_a_GameStore.getEntity(serverEntity.getUuid());
+    client_a_GameController.triggerCreateTurret(serverEntity, coordinates);
     TimeUnit.SECONDS.sleep(1);
 
     Turret clientTurret = client_a_GameStore.getTurret(coordinates);

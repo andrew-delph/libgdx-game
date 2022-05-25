@@ -17,6 +17,8 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
+import entity.attributes.inventory.ItemNotFoundException;
+import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
@@ -153,10 +155,6 @@ public class GameController {
     return projectile;
   }
 
-  public void triggerCreateTurret(Coordinates coordinates) {
-    this.eventService.queuePostUpdateEvent(EventTypeFactory.createTurretEventType(coordinates));
-  }
-
   public Orb createOrb(Coordinates coordinates) throws ChunkNotFound {
     Orb orb = entityFactory.createOrb(coordinates);
     orb.setEntityController(entityControllerFactory.createOrbController(orb));
@@ -168,7 +166,12 @@ public class GameController {
     return orb;
   }
 
-  public Turret createTurret(Coordinates coordinates) throws ChunkNotFound {
+  public void triggerCreateTurret(Entity entity, Coordinates coordinates) {
+    this.eventService.queuePostUpdateEvent(
+        EventTypeFactory.createTurretEventType(entity.getUuid(), coordinates));
+  }
+
+  public Turret createTurret(Entity entity, Coordinates coordinates) throws ChunkNotFound {
 
     try {
       if (!(this.gameStore.getBlock(coordinates) instanceof EmptyBlock)) {
@@ -176,11 +179,21 @@ public class GameController {
         return null;
       }
     } catch (EntityNotFound e) {
-      LOGGER.error("Could not create Ladder");
+      LOGGER.error(e);
       return null;
     }
 
     if (this.gameStore.getTurret(coordinates) != null) return this.gameStore.getTurret(coordinates);
+
+    synchronized (entity.getBag()) {
+      int orbIndex;
+      try {
+        orbIndex = entity.getBag().getClassIndex(OrbInventoryItem.class);
+      } catch (ItemNotFoundException e) {
+        return null;
+      }
+      entity.getBag().removeItem(orbIndex);
+    }
 
     Turret turret = entityFactory.createTurret(coordinates);
     this.gameStore.addEntity(turret);

@@ -45,8 +45,9 @@ public class EventTypeFactory {
   @Inject
   EventTypeFactory() {}
 
-  public static CreateTurretEventType createTurretEventType(Coordinates coordinates) {
-    return new CreateTurretEventType(coordinates);
+  public static CreateTurretEventType createTurretEventType(
+      UUID entityUUID, Coordinates coordinates) {
+    return new CreateTurretEventType(entityUUID, coordinates);
   }
 
   public static CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(

@@ -55,15 +55,30 @@ public class InventoryBag {
     inventoryItemList[index] = item;
   }
 
+  public synchronized void removeItem(int index) {
+    // TODO create test.
+    inventoryItemList[index] = new EmptyInventoryItem(index);
+  }
+
   public synchronized AbstractInventoryItem getItem(Integer index) {
     return inventoryItemList[index];
   }
 
   public synchronized int getNextFreeIndex() throws FullBagException {
-    for (AbstractInventoryItem item : inventoryItemList) {
-      if (item instanceof EmptyInventoryItem) return item.getIndex();
+    try {
+      return getClassIndex(EmptyInventoryItem.class);
+    } catch (ItemNotFoundException e) {
+      throw new FullBagException();
     }
-    throw new FullBagException();
+  }
+
+  public synchronized int getClassIndex(Class<? extends AbstractInventoryItem> itemClass)
+      throws ItemNotFoundException {
+    for (AbstractInventoryItem item : inventoryItemList) {
+
+      if (item.getClass().isAssignableFrom(itemClass)) return item.getIndex();
+    }
+    throw new ItemNotFoundException();
   }
 
   public synchronized AbstractInventoryItem[] getItemList() {

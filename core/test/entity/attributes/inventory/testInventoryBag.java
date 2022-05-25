@@ -63,4 +63,25 @@ public class testInventoryBag {
 
     assert b1.equals(b2);
   }
+
+  @Test
+  public void testGetClassIndex() throws ItemNotFoundException {
+
+    int size = 10;
+
+    InventoryBag b1 = new InventoryBag(size);
+
+    b1.updateItem(new OrbInventoryItem(3));
+
+    assert 3 == b1.getClassIndex(OrbInventoryItem.class);
+  }
+
+  @Test(expected = ItemNotFoundException.class)
+  public void testGetClassIndexFail() throws ItemNotFoundException {
+
+    int size = 10;
+
+    InventoryBag b1 = new InventoryBag(size);
+    b1.getClassIndex(OrbInventoryItem.class);
+  }
 }
