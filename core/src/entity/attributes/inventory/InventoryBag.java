@@ -55,6 +55,11 @@ public class InventoryBag {
     inventoryItemList[index] = item;
   }
 
+  public synchronized void removeItem(int index) {
+    // TODO create test.
+    inventoryItemList[index] = new EmptyInventoryItem(index);
+  }
+
   public synchronized AbstractInventoryItem getItem(Integer index) {
     return inventoryItemList[index];
   }

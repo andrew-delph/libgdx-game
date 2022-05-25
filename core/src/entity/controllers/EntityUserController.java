@@ -67,16 +67,16 @@ public class EntityUserController extends EntityController {
       }
     }
 
-    if (Gdx.input.isKeyJustPressed(Keys.F1)) {
+    if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
       gameController.createProjectile(this.entity.coordinates.getMiddle(), new Vector2(10, 0));
     }
 
-    if (Gdx.input.isKeyJustPressed(Keys.F2)) {
+    if (Gdx.input.isKeyJustPressed(Keys.NUM_2)) {
       gameController.triggerCreateTurret(this.entity.coordinates.getBase());
     }
 
-    if (Gdx.input.isKeyJustPressed(Keys.F3)) {
-      gameController.createOrb(this.entity.coordinates.getBase().getRight().getRight());
+    if (Gdx.input.isKeyJustPressed(Keys.NUM_3)) {
+      gameController.createOrb(this.entity.coordinates.getBase());
     }
 
     if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {

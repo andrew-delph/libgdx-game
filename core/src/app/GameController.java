@@ -17,7 +17,6 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
-import entity.attributes.inventory.item.AbstractInventoryItem;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
@@ -281,6 +280,4 @@ public class GameController {
     this.eventService.queuePostUpdateEvent(
         EventTypeFactory.createAIEntityEventType(new Coordinates(0, 2), target));
   }
-
-  public void swapInventory(Entity entity, AbstractInventoryItem item) {}
 }
