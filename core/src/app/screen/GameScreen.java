@@ -46,6 +46,7 @@ public class GameScreen extends ApplicationAdapter {
   @Inject EntityControllerFactory entityControllerFactory;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject User user;
+  @Inject GameSettings gameSettings;
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
   Entity myEntity;
@@ -84,6 +85,7 @@ public class GameScreen extends ApplicationAdapter {
     debugRenderer = new Box2DDebugRenderer();
     pathDebugRender = new ShapeRenderer();
     pathDebugRender.setColor(Color.RED);
+    Gdx.graphics.setTitle("" + gameSettings.getVersion());
   }
 
   @Override
