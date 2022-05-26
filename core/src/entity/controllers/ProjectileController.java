@@ -2,17 +2,23 @@ package entity.controllers;
 
 import app.GameController;
 import common.GameSettings;
+import common.GameStore;
 import common.events.EventService;
+import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.attributes.Coordinates;
+import entity.attributes.Health;
+import entity.block.Block;
 import entity.collision.projectile.ProjectileContact;
 import entity.controllers.actions.EntityActionFactory;
+import java.util.UUID;
 import networking.events.EventTypeFactory;
 
 public class ProjectileController extends EntityController {
 
   Coordinates startPosition;
   ProjectileContact projectileContact;
+  GameStore gameStore;
   float distanceRange;
 
   public ProjectileController(
@@ -20,6 +26,7 @@ public class ProjectileController extends EntityController {
       EntityActionFactory entityActionFactory,
       EventService eventService,
       EventTypeFactory eventTypeFactory,
+      GameStore gameStore,
       Entity entity,
       ProjectileContact projectileContact,
       Coordinates startPosition,
@@ -28,6 +35,7 @@ public class ProjectileController extends EntityController {
     this.startPosition = startPosition;
     this.distanceRange = distanceRange;
     this.projectileContact = projectileContact;
+    this.gameStore = gameStore;
   }
 
   @Override
@@ -49,6 +57,30 @@ public class ProjectileController extends EntityController {
     if (projectileContact.isCollision(this.entity.getUuid())) {
 
       gameController.removeEntity(this.entity.getUuid());
+
+      for (UUID uuid :
+          projectileContact.getCollisions(
+              this.entity.getUuid())) { // TODO this is not a good way to change the health -_-
+        Entity hitEntity = null;
+        try {
+          hitEntity = gameStore.getEntity(uuid); // TODO everything about this is gross.
+        } catch (EntityNotFound e) {
+          continue;
+        }
+        if (!(hitEntity instanceof Block)) {
+          synchronized (
+              hitEntity) { // TODO this isnt working i dont think. does it globally lock the entity?
+            Health newHealth = new Health(hitEntity.getHealth().getHealth() - 5);
+            System.out.println(newHealth.getHealth());
+            if (newHealth.getHealth() < 0) {
+              gameController.removeEntity(hitEntity.getUuid());
+            } else {
+              gameController.updateEntityAttribute(hitEntity.getUuid(), newHealth);
+            }
+          }
+          return;
+        }
+      }
     }
     if (!this.entity.coordinates.equals(moveTo))
       gameController.moveEntity(this.entity.getUuid(), moveTo);

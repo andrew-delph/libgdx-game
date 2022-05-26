@@ -54,6 +54,7 @@ public class EntityControllerFactory {
         entityActionFactory,
         eventService,
         eventTypeFactory,
+        gameStore,
         entity,
         projectileContact,
         startPosition,
