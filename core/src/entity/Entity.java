@@ -31,6 +31,7 @@ public class Entity implements SerializeNetworkData {
   public static float staticHeight = 0.8f;
   public static float staticWidth = 0.8f;
   private final Clock clock;
+  private final InventoryBag bag;
   public Animation animation;
   public Coordinates coordinates;
   public int zindex = 3;
@@ -38,7 +39,6 @@ public class Entity implements SerializeNetworkData {
   public Sprite sprite;
   public Health health;
   BaseAssetManager baseAssetManager;
-  private InventoryBag bag;
   private UUID uuid;
   private Chunk chunk;
   private EntityController entityController;
@@ -59,6 +59,10 @@ public class Entity implements SerializeNetworkData {
     this.uuid = UUID.randomUUID();
     this.health = new Health(100);
     this.bag = new InventoryBag(20);
+  }
+
+  public Health getHealth() {
+    return health;
   }
 
   public InventoryBag getBag() {
