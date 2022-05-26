@@ -47,6 +47,7 @@ public class ProjectileController extends EntityController {
       return;
     }
     if (projectileContact.isCollision(this.entity.getUuid())) {
+
       gameController.removeEntity(this.entity.getUuid());
     }
     if (!this.entity.coordinates.equals(moveTo))

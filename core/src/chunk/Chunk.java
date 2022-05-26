@@ -188,7 +188,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     }
   }
 
-  synchronized void update() throws Exception {
+  synchronized void update() throws Exception { // TODO this shouldnt throw all Exceptions
 
     this.updateNeighbors();
 

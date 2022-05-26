@@ -47,6 +47,7 @@ public class CollisionService {
         new CollisionPair(ProjectileSensor.class, GroundSensor.class), projectileContact);
     this.addCollisionConsumer(
         new CollisionPair(ProjectileSensor.class, EntitySensor.class), projectileContact);
+    projectileContact.init();
     this.addCollisionConsumer(new CollisionPair(OrbSensor.class, EntitySensor.class), orbContact);
     orbContact.init();
   }
