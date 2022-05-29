@@ -7,7 +7,7 @@ The roadmap is a collection of major feature for each release.
 - [x] Entity inventory
 - [x] Entity statistics (health)
 - [ ] Entity fall dmg
-- [ ] Turrets
+- [x] Turrets
 - [ ] Water, Sand
 - [ ] Entity Attack
 - [ ] Animations
