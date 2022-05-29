@@ -28,6 +28,10 @@ public class testGroupService {
 
     assert groupService.getGroup(uuid) == Group.PLAYER_GROUP;
 
+    assert groupService.getInGroup(Group.PLAYER_GROUP).size() == 1;
+
+    assert groupService.getInGroup(Group.PLAYER_GROUP).contains(uuid);
+
     groupService.removeEntity(uuid);
 
     assert groupService.getGroup(uuid) == null;

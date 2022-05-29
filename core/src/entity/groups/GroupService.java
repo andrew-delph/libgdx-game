@@ -4,6 +4,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class GroupService {
@@ -18,6 +19,10 @@ public class GroupService {
     removeEntity(uuid);
     groupMap.put(group, uuid);
     uuidMap.put(uuid, group);
+  }
+
+  public Set<UUID> getInGroup(Group group){
+    return groupMap.get(group);
   }
 
   public void removeEntity(UUID uuid) {
