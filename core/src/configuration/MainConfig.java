@@ -26,6 +26,7 @@ import entity.collision.right.EntityRightContact;
 import entity.collision.right.ground.EntityGroundContact;
 import entity.controllers.EntityControllerFactory;
 import entity.controllers.actions.EntityActionFactory;
+import entity.groups.GroupService;
 import entity.pathfinding.EdgeStore;
 import generation.BlockGenerator;
 import generation.ChunkBuilderFactory;
@@ -78,5 +79,6 @@ public abstract class MainConfig extends AbstractModule {
     bind(RayCastService.class).asEagerSingleton();
     bind(ProjectileContact.class).asEagerSingleton();
     bind(OrbContact.class).asEagerSingleton();
+    bind(GroupService.class).asEagerSingleton();
   }
 }
