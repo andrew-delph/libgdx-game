@@ -10,9 +10,12 @@ import entity.Entity;
 import entity.block.SolidBlock;
 import entity.collision.RayCastService;
 import entity.controllers.actions.EntityActionFactory;
+import entity.groups.Group;
+import entity.groups.GroupService;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import networking.events.EventTypeFactory;
 
 public class TurretController extends EntityController {
@@ -21,6 +24,7 @@ public class TurretController extends EntityController {
   GameStore gameStore;
   Clock clock;
   RayCastService rayCastService;
+  GroupService groupService;
 
   public TurretController(
       GameController gameController,
@@ -30,11 +34,13 @@ public class TurretController extends EntityController {
       Clock clock,
       GameStore gameStore,
       RayCastService rayCastService,
+      GroupService groupService,
       Entity entity) {
     super(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
     this.gameStore = gameStore;
     this.clock = clock;
     this.rayCastService = rayCastService;
+    this.groupService = groupService;
   }
 
   @Override
@@ -51,6 +57,11 @@ public class TurretController extends EntityController {
     List<Entity> closeEntities = gameStore.getEntityInRange(entity.coordinates, 15);
 
     // filter out entities
+
+    closeEntities =
+        closeEntities.stream()
+            .filter((e) -> groupService.getGroup(e.getUuid()) == Group.AI_GROUP)
+            .collect(Collectors.toList());
 
     closeEntities.sort(
         Comparator.comparingDouble((Entity o) -> o.coordinates.calcDistance(entity.coordinates)));

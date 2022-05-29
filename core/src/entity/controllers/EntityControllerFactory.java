@@ -12,6 +12,7 @@ import entity.collision.RayCastService;
 import entity.collision.orb.OrbContact;
 import entity.collision.projectile.ProjectileContact;
 import entity.controllers.actions.EntityActionFactory;
+import entity.groups.GroupService;
 import entity.pathfinding.PathGuiderFactory;
 import networking.events.EventTypeFactory;
 
@@ -27,6 +28,7 @@ public class EntityControllerFactory {
   @Inject RayCastService rayCastService;
   @Inject ProjectileContact projectileContact;
   @Inject OrbContact orbContact;
+  @Inject GroupService groupService;
 
   public EntityControllerFactory() {}
 
@@ -70,6 +72,7 @@ public class EntityControllerFactory {
         clock,
         gameStore,
         rayCastService,
+        groupService,
         entity);
   }
 

@@ -7,6 +7,8 @@ import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.controllers.EntityControllerFactory;
+import entity.groups.Group;
+import entity.groups.GroupService;
 import entity.misc.Turret;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +17,7 @@ public class SoloEventConsumer extends EventConsumer {
 
   final Logger LOGGER = LogManager.getLogger();
   @Inject EntityControllerFactory entityControllerFactory;
+  @Inject GroupService groupService;
 
   @Override
   public void init() {
@@ -33,6 +36,8 @@ public class SoloEventConsumer extends EventConsumer {
 
             aiEntity.setEntityController(
                 entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
+
+            groupService.registerEntityGroup(aiEntity.getUuid(), Group.AI_GROUP);
 
           } catch (EntityNotFound e) {
             e.printStackTrace();
