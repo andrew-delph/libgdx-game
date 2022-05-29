@@ -26,6 +26,8 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Coordinates;
 import entity.controllers.EntityControllerFactory;
+import entity.groups.Group;
+import entity.groups.GroupService;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
@@ -47,6 +49,7 @@ public class GameScreen extends ApplicationAdapter {
   @Inject ActiveEntityManager activeEntityManager;
   @Inject User user;
   @Inject GameSettings gameSettings;
+  @Inject GroupService groupService;
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
   Entity myEntity;
@@ -81,6 +84,7 @@ public class GameScreen extends ApplicationAdapter {
     }
     LOGGER.info("my entity " + myEntity.getUuid());
     myEntity.setEntityController(entityControllerFactory.createEntityUserController(myEntity));
+    groupService.registerEntityGroup(myEntity.getUuid(), Group.PLAYER_GROUP);
     activeEntityManager.registerActiveEntity(user.getUserID(), myEntity.getUuid());
     debugRenderer = new Box2DDebugRenderer();
     pathDebugRender = new ShapeRenderer();

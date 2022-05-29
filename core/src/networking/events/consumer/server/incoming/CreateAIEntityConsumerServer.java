@@ -13,6 +13,8 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Coordinates;
 import entity.controllers.EntityControllerFactory;
+import entity.groups.Group;
+import entity.groups.GroupService;
 import java.util.function.Consumer;
 
 public class CreateAIEntityConsumerServer implements Consumer<EventType> {
@@ -23,6 +25,7 @@ public class CreateAIEntityConsumerServer implements Consumer<EventType> {
   @Inject GameStore gameStore;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject User user;
+  @Inject GroupService groupService;
 
   @Override
   public void accept(EventType eventType) {
@@ -35,6 +38,7 @@ public class CreateAIEntityConsumerServer implements Consumer<EventType> {
       gameController.addEntity(aiEntity);
       aiEntity.setEntityController(
           entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
+      groupService.registerEntityGroup(aiEntity.getUuid(), Group.AI_GROUP);
     } catch (EntityNotFound | ChunkNotFound e) {
       e.printStackTrace();
     }

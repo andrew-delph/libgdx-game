@@ -10,6 +10,8 @@ import common.exceptions.SerializationDataMissing;
 import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.controllers.EntityControllerFactory;
+import entity.groups.Group;
+import entity.groups.GroupService;
 import java.util.function.Consumer;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
@@ -25,6 +27,7 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
   @Inject ActiveEntityManager activeEntityManager;
   @Inject ActiveChunkManager activeChunkManager;
   @Inject EntityControllerFactory entityControllerFactory;
+  @Inject GroupService groupService;
 
   @Override
   public void accept(EventType eventType) {
@@ -35,6 +38,7 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
           gameController.triggerAddEntity(
               entitySerializationConverter.createEntity(incoming.getData()));
       entity.setEntityController(entityControllerFactory.createRemoteBodyController(entity));
+      groupService.registerEntityGroup(entity.getUuid(), Group.PLAYER_GROUP);
     } catch (SerializationDataMissing | ChunkNotFound e) {
       e.printStackTrace();
       return;
