@@ -21,7 +21,7 @@ public class GroupService {
     uuidMap.put(uuid, group);
   }
 
-  public Set<UUID> getInGroup(Group group){
+  public Set<UUID> getInGroup(Group group) {
     return groupMap.get(group);
   }
 
