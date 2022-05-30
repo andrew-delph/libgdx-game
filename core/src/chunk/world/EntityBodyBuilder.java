@@ -15,13 +15,13 @@ import common.GameSettings;
 import entity.Entity;
 import entity.block.Block;
 import entity.collision.EntitySensor;
+import entity.collision.ground.EntityFeetSensor;
+import entity.collision.ground.GroundSensor;
 import entity.collision.ladder.LadderSensor;
 import entity.collision.left.LeftSensor;
 import entity.collision.orb.OrbSensor;
 import entity.collision.projectile.ProjectileSensor;
 import entity.collision.right.RightSensor;
-import entity.collision.right.ground.EntityFeetSensor;
-import entity.collision.right.ground.GroundSensor;
 import entity.misc.Projectile;
 import java.util.UUID;
 
