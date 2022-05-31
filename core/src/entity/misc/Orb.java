@@ -14,6 +14,8 @@ import java.util.UUID;
 
 public class Orb extends Entity {
 
+  boolean isLive = false;
+
   public Orb(
       Clock clock,
       BaseAssetManager baseAssetManager,
@@ -27,8 +29,16 @@ public class Orb extends Entity {
     return "orb.png";
   }
 
+  public void needsUpdate() {
+    isLive = true;
+  }
+
   @Override
   public synchronized int getUpdateTimeout() {
+    if (isLive) {
+      isLive = false;
+      return 1;
+    }
     return Integer.MAX_VALUE;
   }
 

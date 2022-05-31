@@ -10,6 +10,7 @@ import entity.attributes.inventory.FullBagException;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.collision.orb.OrbContact;
 import entity.controllers.actions.EntityActionFactory;
+import entity.misc.Orb;
 import java.util.UUID;
 import networking.events.EventTypeFactory;
 
@@ -51,7 +52,7 @@ public class OrbController extends EntityController {
 
     if (!gameStore.doesChunkExist(entity.getChunk().chunkRange.getDown())) {
       /* If the chunk below doesn't exist. Don't move down. It could cause a problem */
-      entity.setBodyPosition(entity.getBodyPosition());
+      entity.setBodyPosition(entity.coordinates.toVector2());
       return;
     }
 
@@ -59,7 +60,9 @@ public class OrbController extends EntityController {
         new Coordinates(
             this.entity.getBodyPosition().x / GameSettings.PHYSICS_SCALE,
             this.entity.getBodyPosition().y / GameSettings.PHYSICS_SCALE);
-    if (!this.entity.coordinates.equals(moveTo))
+    if (!this.entity.coordinates.equals(moveTo)) {
       gameController.moveEntity(this.entity.getUuid(), moveTo);
+      ((Orb) this.entity).needsUpdate();
+    }
   }
 }
