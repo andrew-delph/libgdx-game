@@ -62,7 +62,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     return worldWrapper;
   }
 
-  void nextTick(int timeout) {
+  public void nextTick(int timeout) {
     this.updateTick = new Tick(clock.getCurrentTick().time + timeout);
   }
 
@@ -189,7 +189,6 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
   }
 
   synchronized void update() throws Exception { // TODO this shouldnt throw all Exceptions
-
     this.updateNeighbors();
 
     int tickTimeout = Integer.MAX_VALUE;
@@ -201,17 +200,17 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       } catch (EntityNotFound e) {
         LOGGER.error(e);
       }
-
-      int entityTick = entity.getUpdateTimeout();
-      if (entityTick < tickTimeout) {
-        tickTimeout = entityTick;
-      }
     }
 
     worldWrapper.tick();
 
     for (Entity entity : this.chunkMap.values()) {
       if (entity.getEntityController() != null) entity.getEntityController().afterWorldUpdate();
+
+      int entityTick = entity.getUpdateTimeout();
+      if (entityTick < tickTimeout) {
+        tickTimeout = entityTick;
+      }
     }
     this.nextTick(tickTimeout);
   }
