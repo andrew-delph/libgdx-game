@@ -43,7 +43,7 @@ public class UpdateEntityIncomingEventType extends EventType {
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return type;
   }
 }

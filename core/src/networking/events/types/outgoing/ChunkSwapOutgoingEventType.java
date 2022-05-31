@@ -34,7 +34,7 @@ public class ChunkSwapOutgoingEventType extends EventType implements SerializeNe
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return CHUNK_SWAP_OUTGOING;
   }
 

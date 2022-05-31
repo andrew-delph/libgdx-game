@@ -19,7 +19,7 @@ public class RemoveEntityEventType extends EventType {
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return type;
   }
 }

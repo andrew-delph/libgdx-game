@@ -34,7 +34,7 @@ public class CreateEntityIncomingEventType extends EventType {
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return type;
   }
 }

@@ -27,7 +27,7 @@ public class CreateTurretEventType extends EventType implements SerializeNetwork
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return type;
   }
 

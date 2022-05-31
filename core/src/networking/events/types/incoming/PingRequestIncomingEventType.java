@@ -24,7 +24,7 @@ public class PingRequestIncomingEventType extends EventType {
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return PING_REQUEST_INCOMING;
   }
 }

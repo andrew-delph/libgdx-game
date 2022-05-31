@@ -30,7 +30,7 @@ public class HandshakeOutgoingEventType extends EventType implements SerializeNe
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return HANDSHAKE_OUTGOING;
   }
 

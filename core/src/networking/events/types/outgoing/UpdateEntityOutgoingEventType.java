@@ -33,7 +33,7 @@ public class UpdateEntityOutgoingEventType extends EventType implements Serializ
     return attributeList;
   }
 
-  public String getType() {
+  public String getEventType() {
     return type;
   }
 

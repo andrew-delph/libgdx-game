@@ -28,7 +28,7 @@ public class CreateAIEntityEventType extends EventType implements SerializeNetwo
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return type;
   }
 

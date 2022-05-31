@@ -19,7 +19,7 @@ public class DisconnectionIncomingEventType extends EventType {
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return type;
   }
 }

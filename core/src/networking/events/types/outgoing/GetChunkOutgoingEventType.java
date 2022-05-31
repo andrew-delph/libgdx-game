@@ -21,7 +21,7 @@ public class GetChunkOutgoingEventType extends EventType implements SerializeNet
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return type;
   }
 
