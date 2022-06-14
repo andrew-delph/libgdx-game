@@ -1,14 +1,25 @@
 package entity.collision.ground;
 
 import com.google.inject.Inject;
+import common.events.EventService;
 import common.exceptions.ChunkNotFound;
 import entity.Entity;
+import entity.attributes.Coordinates;
 import entity.collision.CollisionPoint;
 import entity.collision.ContactWrapperCounter;
+import entity.controllers.events.types.EntityEventTypeFactory;
+import entity.controllers.events.types.FallDamageEventType;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class EntityGroundContact extends ContactWrapperCounter {
 
-  @Inject
+  Map<UUID, Coordinates> uuidCoordinatesMap = new HashMap<>();
+
+  @Inject EventService eventService;
+  @Inject EntityEventTypeFactory entityEventTypeFactory;
+
   public EntityGroundContact() {}
 
   @Override
@@ -17,6 +28,21 @@ public class EntityGroundContact extends ContactWrapperCounter {
      EntityFeetSensor.class, GroundSensor.class
      if the sensor is on its main. Update the last ground contact for that entity.
     */
+    try {
+      if (source.getChunkRange().equals(source.getEntity().getChunk().chunkRange)) {
+        if (uuidCoordinatesMap.get(source.getEntity().getUuid()) != null) {
+          Coordinates oldPos = uuidCoordinatesMap.get(source.getEntity().getUuid());
+          Coordinates newPos = source.getEntity().coordinates;
+          FallDamageEventType fallEvent =
+              entityEventTypeFactory.createFallDamageEventType(oldPos, newPos, source.getEntity());
+          eventService.fireEvent(fallEvent);
+        }
+        uuidCoordinatesMap.put(source.getEntity().getUuid(), source.getEntity().coordinates);
+      }
+    } catch (ChunkNotFound e) {
+      e.printStackTrace();
+    }
+
     super.beginContact(source, target);
   }
 

@@ -11,6 +11,8 @@ import entity.Entity;
 import entity.attributes.Coordinates;
 import entity.controllers.actions.EntityAction;
 import entity.controllers.actions.EntityActionFactory;
+import entity.controllers.events.consumers.EntityEventConsumer;
+import entity.controllers.events.types.AbstractEntityEventType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -21,7 +23,8 @@ public class EntityController {
   EventService eventService;
   EventTypeFactory eventTypeFactory;
   Entity entity;
-  Map<String, EntityAction> actionMap;
+  Map<String, EntityAction> actionMap = new HashMap<>();
+  Map<String, EntityEventConsumer> consumerMap = new HashMap<>();
 
   public EntityController(
       GameController gameController,
@@ -33,7 +36,6 @@ public class EntityController {
     this.eventService = eventService;
     this.eventTypeFactory = eventTypeFactory;
     this.entity = entity;
-    this.actionMap = new HashMap<>();
 
     this.registerAction("left", entityActionFactory.createHorizontalMovementAction(-5));
     this.registerAction("right", entityActionFactory.createHorizontalMovementAction(5));
@@ -45,6 +47,10 @@ public class EntityController {
 
   public void registerAction(String type, EntityAction action) {
     this.actionMap.put(type, action);
+  }
+
+  public void registerEntityEventConsumer(String type, EntityEventConsumer consumer) {
+    consumerMap.put(type, consumer);
   }
 
   public void applyAction(String type, Entity entity) throws ChunkNotFound, BodyNotFound {
@@ -89,6 +95,11 @@ public class EntityController {
           });
       this.entity.setBodyVelocity(new Vector2(0, this.entity.getBodyVelocity().y));
     }
+  }
+
+  public void fireEvent(AbstractEntityEventType event) {
+    if (consumerMap.get(event.getEntityEventType()) != null)
+      consumerMap.get(event.getEntityEventType()).accept(event);
   }
 
   public void render() {}

@@ -12,6 +12,8 @@ import entity.collision.RayCastService;
 import entity.collision.orb.OrbContact;
 import entity.collision.projectile.ProjectileContact;
 import entity.controllers.actions.EntityActionFactory;
+import entity.controllers.events.consumers.FallDamageConsumer;
+import entity.controllers.events.types.FallDamageEventType;
 import entity.groups.GroupService;
 import entity.pathfinding.PathGuiderFactory;
 import networking.events.EventTypeFactory;
@@ -30,11 +32,16 @@ public class EntityControllerFactory {
   @Inject OrbContact orbContact;
   @Inject GroupService groupService;
 
+  @Inject FallDamageConsumer fallDamageConsumer;
+
   public EntityControllerFactory() {}
 
   public EntityUserController createEntityUserController(Entity entity) {
-    return new EntityUserController(
-        gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+    EntityUserController controller =
+        new EntityUserController(
+            gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+    controller.registerEntityEventConsumer(FallDamageEventType.type, fallDamageConsumer);
+    return controller;
   }
 
   public EntityPathController createEntityPathController(Entity source, Entity target) {
