@@ -1,4 +1,4 @@
-package entity.controllers;
+package entity.controllers.factories;
 
 import app.GameController;
 import com.google.inject.Inject;
@@ -11,6 +11,12 @@ import entity.attributes.Coordinates;
 import entity.collision.RayCastService;
 import entity.collision.orb.OrbContact;
 import entity.collision.projectile.ProjectileContact;
+import entity.controllers.EntityPathController;
+import entity.controllers.EntityUserController;
+import entity.controllers.OrbController;
+import entity.controllers.ProjectileController;
+import entity.controllers.RemoteBodyController;
+import entity.controllers.TurretController;
 import entity.controllers.actions.EntityActionFactory;
 import entity.controllers.events.consumers.FallDamageConsumer;
 import entity.controllers.events.types.FallDamageEventType;
@@ -18,7 +24,7 @@ import entity.groups.GroupService;
 import entity.pathfinding.PathGuiderFactory;
 import networking.events.EventTypeFactory;
 
-public class EntityControllerFactory {
+public abstract class EntityControllerFactory {
   @Inject GameController gameController;
   @Inject EntityActionFactory entityActionFactory;
   @Inject PathGuiderFactory pathGuiderFactory;

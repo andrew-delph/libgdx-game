@@ -9,6 +9,8 @@ import app.update.ClientUpdateTask;
 import app.update.UpdateTask;
 import com.google.inject.Singleton;
 import common.events.EventConsumer;
+import entity.controllers.factories.ClientEntityControllerFactory;
+import entity.controllers.factories.EntityControllerFactory;
 import networking.client.ClientNetworkHandle;
 import networking.events.consumer.client.ClientEventConsumer;
 
@@ -22,5 +24,6 @@ public class ClientConfig extends MainConfig {
     bind(Game.class).to(ClientGame.class).in(Singleton.class);
     bind(BaseCamera.class).asEagerSingleton();
     bind(GameScreen.class).to(ClientGameScreen.class).asEagerSingleton();
+    bind(EntityControllerFactory.class).to(ClientEntityControllerFactory.class).asEagerSingleton();
   }
 }

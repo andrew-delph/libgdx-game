@@ -6,7 +6,7 @@ import common.exceptions.ChunkNotFound;
 import entity.EntityFactory;
 import entity.attributes.Coordinates;
 import entity.block.BlockFactory;
-import entity.controllers.EntityControllerFactory;
+import entity.controllers.factories.EntityControllerFactory;
 import entity.misc.Orb;
 
 public class BlockGenerator {

@@ -24,7 +24,6 @@ import entity.collision.left.EntityLeftContact;
 import entity.collision.orb.OrbContact;
 import entity.collision.projectile.ProjectileContact;
 import entity.collision.right.EntityRightContact;
-import entity.controllers.EntityControllerFactory;
 import entity.controllers.actions.EntityActionFactory;
 import entity.groups.GroupService;
 import entity.pathfinding.EdgeStore;
@@ -54,8 +53,6 @@ public abstract class MainConfig extends AbstractModule {
     bind(BlockFactory.class).asEagerSingleton();
 
     bind(ChunkBuilderFactory.class).asEagerSingleton();
-
-    bind(EntityControllerFactory.class).asEagerSingleton();
 
     bind(EntityActionFactory.class).asEagerSingleton();
     bind(EntityContactListenerFactory.class).asEagerSingleton();

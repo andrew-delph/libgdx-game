@@ -5,6 +5,8 @@ import app.game.ServerGame;
 import app.update.ServerUpdateTask;
 import app.update.UpdateTask;
 import common.events.EventConsumer;
+import entity.controllers.factories.EntityControllerFactory;
+import entity.controllers.factories.ServerEntityControllerFactory;
 import networking.events.consumer.server.ServerEventConsumer;
 import networking.server.ServerNetworkHandle;
 
@@ -16,5 +18,6 @@ public class BaseServerConfig extends MainConfig {
     bind(Game.class).to(ServerGame.class).asEagerSingleton();
     bind(ServerNetworkHandle.class).asEagerSingleton();
     bind(UpdateTask.class).to(ServerUpdateTask.class).asEagerSingleton();
+    bind(EntityControllerFactory.class).to(ServerEntityControllerFactory.class).asEagerSingleton();
   }
 }

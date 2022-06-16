@@ -24,7 +24,7 @@ import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.EmptyBlock;
 import entity.block.SkyBlock;
-import entity.controllers.EntityControllerFactory;
+import entity.controllers.factories.EntityControllerFactory;
 import entity.misc.Ladder;
 import entity.misc.Orb;
 import entity.misc.Projectile;
