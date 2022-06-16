@@ -45,12 +45,14 @@ public class EntityController {
     this.registerAction("climbDown", entityActionFactory.createClimbDownMovementAction());
   }
 
-  public void registerAction(String type, EntityAction action) {
+  public EntityController registerAction(String type, EntityAction action) {
     this.actionMap.put(type, action);
+    return this;
   }
 
-  public void registerEntityEventConsumer(String type, EntityEventConsumer consumer) {
+  public EntityController registerEntityEventConsumer(String type, EntityEventConsumer consumer) {
     consumerMap.put(type, consumer);
+    return this;
   }
 
   public void applyAction(String type, Entity entity) throws ChunkNotFound, BodyNotFound {

@@ -11,6 +11,7 @@ import entity.attributes.Coordinates;
 import entity.collision.RayCastService;
 import entity.collision.orb.OrbContact;
 import entity.collision.projectile.ProjectileContact;
+import entity.controllers.EntityController;
 import entity.controllers.EntityPathController;
 import entity.controllers.EntityUserController;
 import entity.controllers.OrbController;
@@ -18,10 +19,6 @@ import entity.controllers.ProjectileController;
 import entity.controllers.RemoteBodyController;
 import entity.controllers.TurretController;
 import entity.controllers.actions.EntityActionFactory;
-import entity.controllers.events.consumers.ChangedHealthConsumer;
-import entity.controllers.events.consumers.FallDamageConsumer;
-import entity.controllers.events.types.ChangeHealthEventType;
-import entity.controllers.events.types.FallDamageEventType;
 import entity.groups.GroupService;
 import entity.pathfinding.PathGuiderFactory;
 import networking.events.EventTypeFactory;
@@ -40,37 +37,26 @@ public abstract class EntityControllerFactory {
   @Inject OrbContact orbContact;
   @Inject GroupService groupService;
 
-  @Inject FallDamageConsumer fallDamageConsumer;
-  @Inject ChangedHealthConsumer changeHealthConsumer;
-
   public EntityControllerFactory() {}
 
-  public EntityUserController createEntityUserController(Entity entity) {
-    EntityUserController controller =
-        new EntityUserController(
-            gameController, entityActionFactory, eventService, eventTypeFactory, entity);
-    controller.registerEntityEventConsumer(FallDamageEventType.type, fallDamageConsumer);
-    controller.registerEntityEventConsumer(ChangeHealthEventType.type, changeHealthConsumer);
-    return controller;
+  public EntityController createEntityUserController(Entity entity) {
+    return new EntityUserController(
+        gameController, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 
-  public EntityPathController createEntityPathController(Entity source, Entity target) {
-    EntityPathController controller =
-        new EntityPathController(
-            gameController,
-            entityActionFactory,
-            pathGuiderFactory,
-            eventService,
-            eventTypeFactory,
-            entityFactory,
-            source,
-            target);
-    controller.registerEntityEventConsumer(FallDamageEventType.type, fallDamageConsumer);
-    controller.registerEntityEventConsumer(ChangeHealthEventType.type, changeHealthConsumer);
-    return controller;
+  public EntityController createEntityPathController(Entity source, Entity target) {
+    return (new EntityPathController(
+        gameController,
+        entityActionFactory,
+        pathGuiderFactory,
+        eventService,
+        eventTypeFactory,
+        entityFactory,
+        source,
+        target));
   }
 
-  public ProjectileController createProjectileController(
+  public EntityController createProjectileController(
       Entity entity, Coordinates startPosition, float travelDistance) {
     return new ProjectileController(
         gameController,
@@ -84,7 +70,7 @@ public abstract class EntityControllerFactory {
         travelDistance);
   }
 
-  public TurretController createTurretController(Entity entity) {
+  public EntityController createTurretController(Entity entity) {
     return new TurretController(
         gameController,
         entityActionFactory,
@@ -97,12 +83,12 @@ public abstract class EntityControllerFactory {
         entity);
   }
 
-  public RemoteBodyController createRemoteBodyController(Entity entity) {
+  public EntityController createRemoteBodyController(Entity entity) {
     return new RemoteBodyController(
         gameController, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 
-  public OrbController createOrbController(Entity entity) {
+  public EntityController createOrbController(Entity entity) {
     return new OrbController(
         gameController,
         entityActionFactory,

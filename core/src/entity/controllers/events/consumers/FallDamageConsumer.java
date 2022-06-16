@@ -16,8 +16,6 @@ public class FallDamageConsumer implements EntityEventConsumer {
 
     int diff = event.getLast_position().getY() - event.getNew_position().getY();
 
-    System.out.println(diff);
-
     if (diff > 5) {
       try {
         gameController.updateEntityAttribute(
