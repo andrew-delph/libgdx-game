@@ -16,7 +16,7 @@ public class Health implements Attribute {
     return new Health(this.health + diff);
   }
 
-  public float getHealth() {
+  public float getValue() {
     return health;
   }
 

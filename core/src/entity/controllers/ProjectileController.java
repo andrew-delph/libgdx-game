@@ -70,12 +70,8 @@ public class ProjectileController extends EntityController {
         if (!(hitEntity instanceof Block)) {
           synchronized (
               hitEntity) { // TODO this isnt working i dont think. does it globally lock the entity?
-            Health newHealth = new Health(hitEntity.getHealth().getHealth() - 5);
-            if (newHealth.getHealth() < 0) {
-              gameController.removeEntity(hitEntity.getUuid());
-            } else {
-              gameController.updateEntityAttribute(hitEntity.getUuid(), newHealth);
-            }
+            Health newHealth = new Health(hitEntity.getHealth().getValue() - 5);
+            gameController.updateEntityAttribute(hitEntity.getUuid(), newHealth);
           }
           return;
         }

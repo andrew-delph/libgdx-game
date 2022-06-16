@@ -24,6 +24,7 @@ import entity.block.BlockFactory;
 import entity.block.DirtBlock;
 import entity.block.EmptyBlock;
 import entity.block.SkyBlock;
+import entity.controllers.events.types.AbstractEntityEventType;
 import entity.controllers.factories.EntityControllerFactory;
 import entity.misc.Ladder;
 import entity.misc.Orb;
@@ -218,7 +219,8 @@ public class GameController {
   public void updateEntityAttribute(UUID uuid, Attribute attribute) throws EntityNotFound {
     Entity entity = this.gameStore.getEntity(uuid);
     Coordinates preCoordinates = entity.coordinates;
-    entity.updateAttribute(attribute);
+    AbstractEntityEventType entityAttributeEvent = entity.updateAttribute(attribute);
+    eventService.fireEvent(entityAttributeEvent);
     this.eventService.fireEvent(
         EventTypeFactory.createUpdateEntityOutgoingEvent(
             attribute, new ChunkRange(preCoordinates), uuid));

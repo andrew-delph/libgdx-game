@@ -69,7 +69,7 @@ public class NetworkDataSerializer {
   public static NetworkObjects.NetworkData createHealth(Health health) {
     return NetworkObjects.NetworkData.newBuilder()
         .setKey(DataTranslationEnum.HEALTH)
-        .setValue(String.valueOf(health.getHealth()))
+        .setValue(String.valueOf(health.getValue()))
         .build();
   }
 

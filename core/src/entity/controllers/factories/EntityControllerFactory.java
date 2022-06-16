@@ -18,7 +18,9 @@ import entity.controllers.ProjectileController;
 import entity.controllers.RemoteBodyController;
 import entity.controllers.TurretController;
 import entity.controllers.actions.EntityActionFactory;
+import entity.controllers.events.consumers.ChangedHealthConsumer;
 import entity.controllers.events.consumers.FallDamageConsumer;
+import entity.controllers.events.types.ChangeHealthEventType;
 import entity.controllers.events.types.FallDamageEventType;
 import entity.groups.GroupService;
 import entity.pathfinding.PathGuiderFactory;
@@ -39,6 +41,7 @@ public abstract class EntityControllerFactory {
   @Inject GroupService groupService;
 
   @Inject FallDamageConsumer fallDamageConsumer;
+  @Inject ChangedHealthConsumer changeHealthConsumer;
 
   public EntityControllerFactory() {}
 
@@ -47,19 +50,24 @@ public abstract class EntityControllerFactory {
         new EntityUserController(
             gameController, entityActionFactory, eventService, eventTypeFactory, entity);
     controller.registerEntityEventConsumer(FallDamageEventType.type, fallDamageConsumer);
+    controller.registerEntityEventConsumer(ChangeHealthEventType.type, changeHealthConsumer);
     return controller;
   }
 
   public EntityPathController createEntityPathController(Entity source, Entity target) {
-    return new EntityPathController(
-        gameController,
-        entityActionFactory,
-        pathGuiderFactory,
-        eventService,
-        eventTypeFactory,
-        entityFactory,
-        source,
-        target);
+    EntityPathController controller =
+        new EntityPathController(
+            gameController,
+            entityActionFactory,
+            pathGuiderFactory,
+            eventService,
+            eventTypeFactory,
+            entityFactory,
+            source,
+            target);
+    controller.registerEntityEventConsumer(FallDamageEventType.type, fallDamageConsumer);
+    controller.registerEntityEventConsumer(ChangeHealthEventType.type, changeHealthConsumer);
+    return controller;
   }
 
   public ProjectileController createProjectileController(
