@@ -26,7 +26,7 @@ public class AuthenticationIncomingEventType extends EventType {
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return AUTH_INCOMING;
   }
 }

@@ -1,4 +1,4 @@
-package entity.controllers;
+package entity.controllers.factories;
 
 import app.GameController;
 import com.google.inject.Inject;
@@ -11,12 +11,19 @@ import entity.attributes.Coordinates;
 import entity.collision.RayCastService;
 import entity.collision.orb.OrbContact;
 import entity.collision.projectile.ProjectileContact;
+import entity.controllers.EntityController;
+import entity.controllers.EntityPathController;
+import entity.controllers.EntityUserController;
+import entity.controllers.OrbController;
+import entity.controllers.ProjectileController;
+import entity.controllers.RemoteBodyController;
+import entity.controllers.TurretController;
 import entity.controllers.actions.EntityActionFactory;
 import entity.groups.GroupService;
 import entity.pathfinding.PathGuiderFactory;
 import networking.events.EventTypeFactory;
 
-public class EntityControllerFactory {
+public abstract class EntityControllerFactory {
   @Inject GameController gameController;
   @Inject EntityActionFactory entityActionFactory;
   @Inject PathGuiderFactory pathGuiderFactory;
@@ -32,13 +39,13 @@ public class EntityControllerFactory {
 
   public EntityControllerFactory() {}
 
-  public EntityUserController createEntityUserController(Entity entity) {
+  public EntityController createEntityUserController(Entity entity) {
     return new EntityUserController(
         gameController, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 
-  public EntityPathController createEntityPathController(Entity source, Entity target) {
-    return new EntityPathController(
+  public EntityController createEntityPathController(Entity source, Entity target) {
+    return (new EntityPathController(
         gameController,
         entityActionFactory,
         pathGuiderFactory,
@@ -46,10 +53,10 @@ public class EntityControllerFactory {
         eventTypeFactory,
         entityFactory,
         source,
-        target);
+        target));
   }
 
-  public ProjectileController createProjectileController(
+  public EntityController createProjectileController(
       Entity entity, Coordinates startPosition, float travelDistance) {
     return new ProjectileController(
         gameController,
@@ -63,7 +70,7 @@ public class EntityControllerFactory {
         travelDistance);
   }
 
-  public TurretController createTurretController(Entity entity) {
+  public EntityController createTurretController(Entity entity) {
     return new TurretController(
         gameController,
         entityActionFactory,
@@ -76,12 +83,12 @@ public class EntityControllerFactory {
         entity);
   }
 
-  public RemoteBodyController createRemoteBodyController(Entity entity) {
+  public EntityController createRemoteBodyController(Entity entity) {
     return new RemoteBodyController(
         gameController, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 
-  public OrbController createOrbController(Entity entity) {
+  public EntityController createOrbController(Entity entity) {
     return new OrbController(
         gameController,
         entityActionFactory,

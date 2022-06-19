@@ -11,6 +11,7 @@ import common.events.types.ReplaceEntityEventType;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.ActiveEntityManager;
+import entity.controllers.events.types.AbstractEntityEventType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -51,6 +52,13 @@ public class EventConsumer {
           } catch (EntityNotFound | DestroyBodyException e) {
             LOGGER.error(e, e);
           }
+        });
+    this.eventService.addListener(
+        AbstractEntityEventType.type,
+        event -> {
+          AbstractEntityEventType entityEvent = (AbstractEntityEventType) event;
+          if (entityEvent.getEntity().getEntityController() != null)
+            entityEvent.getEntity().getEntityController().fireEvent(entityEvent);
         });
   }
 }

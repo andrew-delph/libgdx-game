@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import common.exceptions.ChunkNotFound;
 import entity.Entity;
-import entity.collision.right.ground.EntityGroundContact;
+import entity.collision.ground.EntityGroundContact;
 
 public class JumpMovementAction implements EntityAction {
 

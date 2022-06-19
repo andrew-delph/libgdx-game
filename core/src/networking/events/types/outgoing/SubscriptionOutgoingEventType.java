@@ -42,7 +42,7 @@ public class SubscriptionOutgoingEventType extends EventType implements Serializ
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return type;
   }
 }

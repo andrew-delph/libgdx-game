@@ -9,7 +9,7 @@ import common.exceptions.ChunkNotFound;
 import common.exceptions.SerializationDataMissing;
 import entity.ActiveEntityManager;
 import entity.Entity;
-import entity.controllers.EntityControllerFactory;
+import entity.controllers.factories.EntityControllerFactory;
 import entity.groups.Group;
 import entity.groups.GroupService;
 import java.util.function.Consumer;

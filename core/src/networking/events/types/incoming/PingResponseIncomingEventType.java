@@ -31,7 +31,7 @@ public class PingResponseIncomingEventType extends EventType {
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return PING_RESPONSE_INCOMING;
   }
 }

@@ -6,7 +6,7 @@ import common.events.types.CreateTurretEventType;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
-import entity.controllers.EntityControllerFactory;
+import entity.controllers.factories.EntityControllerFactory;
 import entity.groups.Group;
 import entity.groups.GroupService;
 import entity.misc.Turret;

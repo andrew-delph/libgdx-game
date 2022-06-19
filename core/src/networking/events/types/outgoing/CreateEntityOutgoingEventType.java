@@ -32,7 +32,7 @@ public class CreateEntityOutgoingEventType extends EventType implements Serializ
     return entityData;
   }
 
-  public String getType() {
+  public String getEventType() {
     return type;
   }
 }

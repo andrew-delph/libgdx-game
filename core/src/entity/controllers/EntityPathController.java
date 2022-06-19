@@ -20,7 +20,7 @@ public class EntityPathController extends EntityController {
   Entity target;
   Coordinates beforeUpdateCoordinates = null;
 
-  EntityPathController(
+  public EntityPathController(
       GameController gameController,
       EntityActionFactory entityActionFactory,
       PathGuiderFactory pathGuiderFactory,

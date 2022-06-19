@@ -31,7 +31,7 @@ public class ChunkSwapIncomingEventType extends EventType {
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return CHUNK_SWAP_INCOMING;
   }
 }

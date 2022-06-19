@@ -1,6 +1,9 @@
 package entity.collision;
 
 import com.google.inject.Inject;
+import entity.collision.ground.EntityFeetSensor;
+import entity.collision.ground.EntityGroundContact;
+import entity.collision.ground.GroundSensor;
 import entity.collision.ladder.EntityLadderContact;
 import entity.collision.ladder.LadderSensor;
 import entity.collision.left.EntityLeftContact;
@@ -11,9 +14,6 @@ import entity.collision.projectile.ProjectileContact;
 import entity.collision.projectile.ProjectileSensor;
 import entity.collision.right.EntityRightContact;
 import entity.collision.right.RightSensor;
-import entity.collision.right.ground.EntityFeetSensor;
-import entity.collision.right.ground.EntityGroundContact;
-import entity.collision.right.ground.GroundSensor;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;

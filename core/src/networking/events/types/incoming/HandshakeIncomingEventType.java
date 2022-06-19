@@ -33,7 +33,7 @@ public class HandshakeIncomingEventType extends EventType {
   }
 
   @Override
-  public String getType() {
+  public String getEventType() {
     return NetworkEventTypeEnum.HANDSHAKE_INCOMING;
   }
 }

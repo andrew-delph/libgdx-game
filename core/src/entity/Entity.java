@@ -21,6 +21,8 @@ import entity.attributes.Health;
 import entity.attributes.inventory.InventoryBag;
 import entity.attributes.inventory.item.AbstractInventoryItem;
 import entity.controllers.EntityController;
+import entity.controllers.events.types.AbstractEntityEventType;
+import entity.controllers.events.types.EntityEventTypeFactory;
 import java.util.UUID;
 import java.util.function.Consumer;
 import networking.NetworkObjects;
@@ -69,16 +71,16 @@ public class Entity implements SerializeNetworkData {
     return bag;
   }
 
-  public void updateAttribute(Attribute attr) {
+  public AbstractEntityEventType updateAttribute(Attribute attr) {
     if (attr.getType().equals(AttributeType.COORDINATES)) {
       this.coordinates = (Coordinates) attr;
-      return;
     } else if (attr.getType().equals(AttributeType.HEALTH)) {
       this.health = (Health) attr;
-      return;
+      return EntityEventTypeFactory.createChangeHealthEventType(this);
     } else if (attr.getType().equals(AttributeType.ITEM)) {
       this.getBag().updateItem((AbstractInventoryItem) attr);
     }
+    return null;
   }
 
   public Chunk getChunk() throws ChunkNotFound {

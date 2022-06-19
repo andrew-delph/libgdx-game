@@ -30,9 +30,13 @@ public class EventService {
   }
 
   public void fireEvent(common.events.types.EventType eventType) {
-    if (this.eventListeners.get(eventType.getType()) != null) {
+    if (eventType == null) {
+      LOGGER.error("eventType is null.");
+      return;
+    }
+    if (this.eventListeners.get(eventType.getEventType()) != null) {
       this.eventListeners
-          .get(eventType.getType())
+          .get(eventType.getEventType())
           .forEach(eventConsumer -> eventConsumer.accept(eventType));
     }
   }
@@ -45,7 +49,7 @@ public class EventService {
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
-          if (this.eventListeners.get(eventType.getType()) != null) {
+          if (this.eventListeners.get(eventType.getEventType()) != null) {
             fireEvent(eventType);
           }
         });
@@ -76,10 +80,10 @@ public class EventService {
   public synchronized void firePostUpdateEvents() {
     while (postUpdateQueue.size() > 0) {
       EventType eventType = postUpdateQueue.poll();
-      if (this.eventPostUpdateListeners.get(eventType.getType()) != null) {
+      if (this.eventPostUpdateListeners.get(eventType.getEventType()) != null) {
         try {
           this.eventPostUpdateListeners
-              .get(eventType.getType())
+              .get(eventType.getEventType())
               .forEach(eventConsumer -> eventConsumer.accept(eventType));
         } catch (Exception e) {
           LOGGER.error("Error with " + eventType, e);
