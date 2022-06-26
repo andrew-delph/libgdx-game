@@ -10,9 +10,7 @@ public class OrbInventoryItem extends AbstractInventoryItem {
   }
 
   @Override
-  public void activate() {
-
-  }
+  public void activate() {}
 
   @Override
   public NetworkData toNetworkData() {
