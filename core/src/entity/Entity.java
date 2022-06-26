@@ -18,6 +18,7 @@ import entity.attributes.Attribute;
 import entity.attributes.AttributeType;
 import entity.attributes.Coordinates;
 import entity.attributes.Health;
+import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.InventoryBag;
 import entity.attributes.inventory.item.AbstractInventoryItem;
 import entity.controllers.EntityController;
@@ -79,6 +80,8 @@ public class Entity implements SerializeNetworkData {
       return EntityEventTypeFactory.createChangeHealthEventType(this);
     } else if (attr.getType().equals(AttributeType.ITEM)) {
       this.getBag().updateItem((AbstractInventoryItem) attr);
+    } else if (attr.getType().equals(AttributeType.EQUIPPED)) {
+      this.getBag().setEquipped((Equipped) attr);
     }
     return null;
   }

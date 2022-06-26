@@ -7,14 +7,24 @@ import java.util.Objects;
 
 public class InventoryBag {
   final AbstractInventoryItem[] inventoryItemList;
-  int size;
+  final int size;
+  private Equipped equipped;
 
   public InventoryBag(int size) {
     this.size = size;
+    equipped = new Equipped(0, size);
     inventoryItemList = new AbstractInventoryItem[size];
     for (int i = 0; i < size; i++) {
       inventoryItemList[i] = new EmptyInventoryItem(i);
     }
+  }
+
+  public void setEquipped(Equipped equipped) {
+    this.equipped = equipped;
+  }
+
+  public AbstractInventoryItem getEquippedItem() {
+    return this.getItem(equipped.getIndex());
   }
 
   public synchronized int freeSpace() {
@@ -56,7 +66,6 @@ public class InventoryBag {
   }
 
   public synchronized void removeItem(int index) {
-    // TODO create test.
     inventoryItemList[index] = new EmptyInventoryItem(index);
   }
 
