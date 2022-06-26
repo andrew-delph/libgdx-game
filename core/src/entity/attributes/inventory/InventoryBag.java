@@ -1,20 +1,33 @@
 package entity.attributes.inventory;
 
+import com.google.common.base.Objects;
 import entity.attributes.inventory.item.AbstractInventoryItem;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class InventoryBag {
+  static final int size = 20;
   final AbstractInventoryItem[] inventoryItemList;
-  int size;
+  private Equipped equipped;
 
-  public InventoryBag(int size) {
-    this.size = size;
+  public InventoryBag() {
+    equipped = new Equipped(0);
     inventoryItemList = new AbstractInventoryItem[size];
     for (int i = 0; i < size; i++) {
       inventoryItemList[i] = new EmptyInventoryItem(i);
     }
+  }
+
+  public Equipped getEquipped() {
+    return equipped;
+  }
+
+  public void setEquipped(Equipped equipped) {
+    this.equipped = equipped;
+  }
+
+  public AbstractInventoryItem getEquippedItem() {
+    return this.getItem(equipped.getIndex());
   }
 
   public synchronized int freeSpace() {
@@ -40,14 +53,13 @@ public class InventoryBag {
       return false;
     }
     InventoryBag that = (InventoryBag) o;
-    return size == that.size && Arrays.equals(inventoryItemList, that.inventoryItemList);
+    return Objects.equal(inventoryItemList, that.inventoryItemList)
+        && Objects.equal(equipped, that.equipped);
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(size);
-    result = 31 * result + Arrays.hashCode(inventoryItemList);
-    return result;
+    return Objects.hashCode(inventoryItemList, equipped);
   }
 
   public synchronized void updateItem(AbstractInventoryItem item) {
@@ -56,7 +68,6 @@ public class InventoryBag {
   }
 
   public synchronized void removeItem(int index) {
-    // TODO create test.
     inventoryItemList[index] = new EmptyInventoryItem(index);
   }
 

@@ -8,12 +8,11 @@ public class testInventoryBag {
 
   @Test
   public void test() throws FullBagException {
-    int size = 10;
-    InventoryBag bag = new InventoryBag(size);
+    InventoryBag bag = new InventoryBag();
 
-    assert bag.freeSpace() == size;
+    assert bag.freeSpace() == InventoryBag.size;
 
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < InventoryBag.size; i++) {
       bag.appendItem(new OrbInventoryItem(bag.getNextFreeIndex()));
     }
 
@@ -37,11 +36,9 @@ public class testInventoryBag {
   @Test
   public void testEqual1() {
 
-    int size = 10;
+    InventoryBag b1 = new InventoryBag();
 
-    InventoryBag b1 = new InventoryBag(size);
-
-    InventoryBag b2 = new InventoryBag(size);
+    InventoryBag b2 = new InventoryBag();
 
     assert b1.equals(b2);
   }
@@ -49,13 +46,11 @@ public class testInventoryBag {
   @Test
   public void testEqual2() {
 
-    int size = 10;
-
-    InventoryBag b1 = new InventoryBag(size);
+    InventoryBag b1 = new InventoryBag();
 
     b1.updateItem(new OrbInventoryItem(2));
 
-    InventoryBag b2 = new InventoryBag(size);
+    InventoryBag b2 = new InventoryBag();
 
     assert !b1.equals(b2);
 
@@ -67,9 +62,7 @@ public class testInventoryBag {
   @Test
   public void testGetClassIndex() throws ItemNotFoundException {
 
-    int size = 10;
-
-    InventoryBag b1 = new InventoryBag(size);
+    InventoryBag b1 = new InventoryBag();
 
     b1.updateItem(new OrbInventoryItem(3));
 
@@ -79,9 +72,7 @@ public class testInventoryBag {
   @Test(expected = ItemNotFoundException.class)
   public void testGetClassIndexFail() throws ItemNotFoundException {
 
-    int size = 10;
-
-    InventoryBag b1 = new InventoryBag(size);
+    InventoryBag b1 = new InventoryBag();
     b1.getClassIndex(OrbInventoryItem.class);
   }
 }

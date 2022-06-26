@@ -2,7 +2,7 @@ package entity.attributes;
 
 import org.junit.Test;
 
-public class testHealth {
+public class testEqual {
 
   @Test
   public void testHealthEqual() {

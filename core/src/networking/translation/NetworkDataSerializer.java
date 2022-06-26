@@ -7,6 +7,7 @@ import entity.Entity;
 import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
 import entity.attributes.Health;
+import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import java.util.Arrays;
@@ -70,6 +71,13 @@ public class NetworkDataSerializer {
     return NetworkObjects.NetworkData.newBuilder()
         .setKey(DataTranslationEnum.HEALTH)
         .setValue(String.valueOf(health.getValue()))
+        .build();
+  }
+
+  public static NetworkObjects.NetworkData createEquipped(Equipped equipped) {
+    return NetworkObjects.NetworkData.newBuilder()
+        .setKey(DataTranslationEnum.EQUIPPED)
+        .setValue(String.valueOf(equipped.getIndex()))
         .build();
   }
 

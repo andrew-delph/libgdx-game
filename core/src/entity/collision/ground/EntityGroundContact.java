@@ -34,7 +34,7 @@ public class EntityGroundContact extends ContactWrapperCounter {
           Coordinates oldPos = uuidCoordinatesMap.get(source.getEntity().getUuid());
           Coordinates newPos = source.getEntity().coordinates;
           FallDamageEventType fallEvent =
-              entityEventTypeFactory.createFallDamageEventType(oldPos, newPos, source.getEntity());
+              EntityEventTypeFactory.createFallDamageEventType(oldPos, newPos, source.getEntity());
           eventService.fireEvent(fallEvent);
         }
         uuidCoordinatesMap.put(source.getEntity().getUuid(), source.getEntity().coordinates);
