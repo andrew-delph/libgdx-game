@@ -22,5 +22,6 @@ public class DataTranslationEnum {
 
   public static final String EMPTY_ITEM = "EMPTY_ITEM";
   public static final String ORB_ITEM = "ORB_ITEM";
+  public static final String SWORD_ITEM = "SWORD_ITEM";
   public static final String[] ITEM_TYPES = {EMPTY_ITEM, ORB_ITEM}; // THIS IS GROSS
 }

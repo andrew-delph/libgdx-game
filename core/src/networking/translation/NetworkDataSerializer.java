@@ -10,6 +10,7 @@ import entity.attributes.Health;
 import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
+import entity.attributes.inventory.item.SwordInventoryItem;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -159,6 +160,16 @@ public class NetworkDataSerializer {
     orbData.addChildren(createIndex(item.getIndex()));
 
     return orbData.build();
+  }
+
+  public static NetworkObjects.NetworkData serializeSwordInventoryItem(SwordInventoryItem item) {
+
+    NetworkObjects.NetworkData.Builder swordData =
+        NetworkObjects.NetworkData.newBuilder().setKey(DataTranslationEnum.SWORD_ITEM);
+
+    swordData.addChildren(createIndex(item.getIndex()));
+
+    return swordData.build();
   }
 
   public static NetworkObjects.NetworkEvent createRemoveEntityOutgoingEventType(

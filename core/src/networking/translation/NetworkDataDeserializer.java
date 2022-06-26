@@ -20,6 +20,7 @@ import entity.attributes.Health;
 import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
+import entity.attributes.inventory.item.SwordInventoryItem;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
@@ -147,6 +148,8 @@ public class NetworkDataDeserializer {
       return createEmptyItem(networkData);
     } else if (DataTranslationEnum.ORB_ITEM.equals(networkData.getKey())) {
       return createOrbItem(networkData);
+    } else if (DataTranslationEnum.SWORD_ITEM.equals(networkData.getKey())) {
+      return createSwordItem(networkData);
     } else if (DataTranslationEnum.EQUIPPED.equals(networkData.getKey())) {
       return createEquipped(networkData);
     }
@@ -175,6 +178,18 @@ public class NetworkDataDeserializer {
     }
     if (index == null) throw new SerializationDataMissing("Missing index");
     return new OrbInventoryItem(index);
+  }
+
+  public static SwordInventoryItem createSwordItem(NetworkData networkData)
+      throws SerializationDataMissing {
+    Integer index = null;
+    for (NetworkObjects.NetworkData child : networkData.getChildrenList()) {
+      if (DataTranslationEnum.INDEX.equals(child.getKey())) {
+        index = Integer.valueOf(child.getValue());
+      }
+    }
+    if (index == null) throw new SerializationDataMissing("Missing index");
+    return new SwordInventoryItem(index);
   }
 
   public static CreateEntityIncomingEventType createCreateEntityIncomingEventType(
