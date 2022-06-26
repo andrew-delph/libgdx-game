@@ -1,20 +1,33 @@
 package entity.attributes.inventory;
 
+import com.google.common.base.Objects;
 import entity.attributes.Attribute;
 import entity.attributes.AttributeType;
 import networking.NetworkObjects.NetworkData;
+import networking.translation.NetworkDataSerializer;
 
 public class Equipped implements Attribute {
   private int index;
-  private int size;
 
-  public Equipped(int index, int size) {
+  public Equipped(int index) {
     this.index = index;
-    this.size = size;
   }
 
-  public int getSize() {
-    return size;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Equipped equipped = (Equipped) o;
+    return index == equipped.index;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(index);
   }
 
   public int getIndex() {
@@ -30,16 +43,16 @@ public class Equipped implements Attribute {
   }
 
   public int getRightIndex() {
-    return Math.min(index + 1, size);
+    return Math.min(index + 1, InventoryBag.size);
   }
 
   @Override
   public AttributeType getType() {
-    return null;
+    return AttributeType.EQUIPPED;
   }
 
   @Override
   public NetworkData toNetworkData() {
-    return null;
+    return NetworkDataSerializer.createEquipped(this);
   }
 }

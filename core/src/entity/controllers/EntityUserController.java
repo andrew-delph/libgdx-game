@@ -11,6 +11,8 @@ import common.events.EventService;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
+import entity.attributes.inventory.Equipped;
+import entity.attributes.inventory.InventoryBag;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.controllers.actions.EntityActionFactory;
@@ -69,6 +71,23 @@ public class EntityUserController extends EntityController {
 
     if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
       gameController.createProjectile(this.entity.coordinates.getMiddle(), new Vector2(10, 0));
+    }
+
+    InventoryBag inventoryBag = entity.getBag();
+    if (Gdx.input.isKeyJustPressed(Keys.RIGHT) && Gdx.input.isKeyJustPressed(Keys.LEFT)) {
+    } else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) {
+
+      Equipped oldEquipped = inventoryBag.getEquipped();
+      Equipped newEquipped = new Equipped(oldEquipped.getLeftIndex());
+
+      gameController.updateEntityAttribute(entity.getUuid(), newEquipped);
+
+    } else if (Gdx.input.isKeyJustPressed(Keys.LEFT)) {
+
+      Equipped oldEquipped = inventoryBag.getEquipped();
+      Equipped newEquipped = new Equipped(oldEquipped.getRightIndex());
+
+      gameController.updateEntityAttribute(entity.getUuid(), newEquipped);
     }
 
     if (Gdx.input.isKeyJustPressed(Keys.NUM_2)) {

@@ -17,6 +17,7 @@ import entity.EntityFactory;
 import entity.attributes.Attribute;
 import entity.attributes.Coordinates;
 import entity.attributes.Health;
+import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.block.Block;
@@ -72,6 +73,10 @@ public class NetworkDataDeserializer {
 
   public static Health createHealth(NetworkObjects.NetworkData networkData) {
     return new Health(Float.parseFloat(networkData.getValue()));
+  }
+
+  public static Equipped createEquipped(NetworkObjects.NetworkData networkData) {
+    return new Equipped(Integer.parseInt(networkData.getValue()));
   }
 
   public static List<UUID> createUUIDList(NetworkObjects.NetworkData networkData) {
@@ -142,6 +147,8 @@ public class NetworkDataDeserializer {
       return createEmptyItem(networkData);
     } else if (DataTranslationEnum.ORB_ITEM.equals(networkData.getKey())) {
       return createOrbItem(networkData);
+    } else if (DataTranslationEnum.EQUIPPED.equals(networkData.getKey())) {
+      return createEquipped(networkData);
     }
     return null;
   }

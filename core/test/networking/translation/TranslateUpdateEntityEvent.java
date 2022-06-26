@@ -8,6 +8,7 @@ import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Coordinates;
+import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import networking.events.EventTypeFactory;
@@ -82,5 +83,29 @@ public class TranslateUpdateEntityEvent {
 
     assert outgoing.getChunkRange().equals(incoming.getChunkRange());
     assert outgoing.getAttributeList().equals(incoming.getAttributeList());
+  }
+
+  @Test
+  public void testTranslateUpdateEntityEventEquipped() throws SerializationDataMissing {
+    Injector injector = Guice.createInjector(new ClientConfig());
+
+    EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
+
+    Coordinates coordinates = new Coordinates(0, 1);
+    ChunkRange chunkRange = new ChunkRange(coordinates);
+    Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
+
+    Equipped item = new Equipped(2);
+
+    UpdateEntityOutgoingEventType outgoing =
+        EventTypeFactory.createUpdateEntityOutgoingEvent(item, chunkRange, entity.getUuid());
+    UpdateEntityIncomingEventType incoming =
+        NetworkDataDeserializer.createUpdateEntityIncomingEvent(
+            NetworkDataSerializer.createUpdateEntityOutgoingEventType(outgoing));
+
+    assert outgoing.getChunkRange().equals(incoming.getChunkRange());
+    assert outgoing.getAttributeList().equals(incoming.getAttributeList());
+
+    assert incoming.getAttributeList().size() == 1;
   }
 }

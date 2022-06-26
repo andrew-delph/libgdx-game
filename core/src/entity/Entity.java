@@ -61,7 +61,7 @@ public class Entity implements SerializeNetworkData {
     this.coordinates = coordinates;
     this.uuid = UUID.randomUUID();
     this.health = new Health(100);
-    this.bag = new InventoryBag(20);
+    this.bag = new InventoryBag();
   }
 
   public Health getHealth() {

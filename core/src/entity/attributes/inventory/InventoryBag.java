@@ -6,17 +6,20 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class InventoryBag {
+  static final int size = 20;
   final AbstractInventoryItem[] inventoryItemList;
-  final int size;
   private Equipped equipped;
 
-  public InventoryBag(int size) {
-    this.size = size;
-    equipped = new Equipped(0, size);
+  public InventoryBag() {
+    equipped = new Equipped(0);
     inventoryItemList = new AbstractInventoryItem[size];
     for (int i = 0; i < size; i++) {
       inventoryItemList[i] = new EmptyInventoryItem(i);
     }
+  }
+
+  public Equipped getEquipped() {
+    return equipped;
   }
 
   public void setEquipped(Equipped equipped) {
@@ -50,7 +53,7 @@ public class InventoryBag {
       return false;
     }
     InventoryBag that = (InventoryBag) o;
-    return size == that.size && Arrays.equals(inventoryItemList, that.inventoryItemList);
+    return size == size && Arrays.equals(inventoryItemList, that.inventoryItemList);
   }
 
   @Override
