@@ -1,9 +1,9 @@
 package entity.attributes.inventory;
 
+import com.google.common.base.Objects;
 import entity.attributes.inventory.item.AbstractInventoryItem;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class InventoryBag {
   static final int size = 20;
@@ -53,14 +53,13 @@ public class InventoryBag {
       return false;
     }
     InventoryBag that = (InventoryBag) o;
-    return size == size && Arrays.equals(inventoryItemList, that.inventoryItemList);
+    return Objects.equal(inventoryItemList, that.inventoryItemList)
+        && Objects.equal(equipped, that.equipped);
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(size);
-    result = 31 * result + Arrays.hashCode(inventoryItemList);
-    return result;
+    return Objects.hashCode(inventoryItemList, equipped);
   }
 
   public synchronized void updateItem(AbstractInventoryItem item) {

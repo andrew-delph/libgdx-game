@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import configuration.BaseServerConfig;
 import entity.Entity;
 import entity.EntityFactory;
+import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import org.junit.Before;
@@ -43,6 +44,19 @@ public class testEntityUpdates {
     entity.updateAttribute(newHealth);
 
     assert entity.health.equals(newHealth);
+  }
+
+  @Test
+  public void testEquippedUpdate() {
+    Entity entity = entityFactory.createEntity(new Coordinates(0, 1));
+
+    Equipped newEquipped = new Equipped(3);
+
+    assert !entity.getBag().getEquipped().equals(newEquipped);
+
+    entity.updateAttribute(newEquipped);
+
+    assert entity.getBag().getEquipped().equals(newEquipped);
   }
 
   @Test

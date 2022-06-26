@@ -26,6 +26,7 @@ import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Coordinates;
+import entity.attributes.inventory.Equipped;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
@@ -201,6 +202,77 @@ public class testSingleClientRunningGame {
         .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
+  }
+
+  @Test
+  public void testClientCreateUpdateEntityEquipped()
+      throws InterruptedException, EntityNotFound, ChunkNotFound {
+    GameController clientGameController = clientInjector.getInstance(GameController.class);
+    GameController serverGameController = clientInjector.getInstance(GameController.class);
+    GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
+    GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
+    ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
+    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+
+    TimeUnit.SECONDS.sleep(1);
+
+    EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
+    Entity clientEntity =
+        clientGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
+    TimeUnit.SECONDS.sleep(1);
+
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
+        .coordinates
+        .equals(clientEntity.coordinates);
+
+    Equipped equipped = new Equipped(2);
+
+    assert !serverGameStore
+        .getEntity(clientEntity.getUuid())
+        .getBag()
+        .getEquipped()
+        .equals(equipped);
+    clientGameController.updateEntityAttribute(clientEntity.getUuid(), equipped);
+
+    TimeUnit.SECONDS.sleep(1);
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
+        .coordinates
+        .equals(clientEntity.coordinates);
+
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
+        .getBag()
+        .getEquipped()
+        .equals(equipped);
+
+    equipped = new Equipped(4);
+
+    serverGameController.updateEntityAttribute(clientEntity.getUuid(), equipped);
+
+    TimeUnit.SECONDS.sleep(2);
+
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
+        .getUuid()
+        .equals(clientEntity.getUuid());
+
+    assert serverGameStore
+        .getEntity(clientEntity.getUuid())
+        .coordinates
+        .equals(clientEntity.coordinates);
+
+    assert clientEntity.getBag().getEquipped().equals(equipped);
   }
 
   @Test
