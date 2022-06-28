@@ -3,7 +3,7 @@ package entity.block;
 import app.screen.BaseAssetManager;
 import chunk.world.EntityBodyBuilder;
 import common.Clock;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 
 public class SkyBlock extends EmptyBlock {
   public SkyBlock(

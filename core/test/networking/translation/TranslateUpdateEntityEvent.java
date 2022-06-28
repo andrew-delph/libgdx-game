@@ -7,7 +7,7 @@ import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;

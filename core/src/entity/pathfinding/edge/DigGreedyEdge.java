@@ -10,7 +10,7 @@ import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.SkyBlock;

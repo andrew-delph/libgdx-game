@@ -10,11 +10,6 @@ public class OrbInventoryItem extends AbstractInventoryItem {
   }
 
   @Override
-  public void activate() {
-
-  }
-
-  @Override
   public NetworkData toNetworkData() {
     return NetworkDataSerializer.serializeOrbInventoryItem(this);
   }

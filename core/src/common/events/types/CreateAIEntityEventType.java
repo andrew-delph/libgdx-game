@@ -2,7 +2,7 @@ package common.events.types;
 
 import static networking.translation.NetworkDataSerializer.createCreateAIEntityEventType;
 
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.util.UUID;
 import networking.NetworkObjects;
 import networking.events.interfaces.SerializeNetworkEvent;

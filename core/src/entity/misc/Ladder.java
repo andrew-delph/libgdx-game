@@ -10,7 +10,7 @@ import com.sun.tools.javac.util.Pair;
 import common.Clock;
 import common.GameSettings;
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.util.UUID;
 
 public class Ladder extends Entity {

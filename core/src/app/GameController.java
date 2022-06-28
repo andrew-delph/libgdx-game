@@ -16,7 +16,7 @@ import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Attribute;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.attributes.inventory.ItemNotFoundException;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.block.Block;

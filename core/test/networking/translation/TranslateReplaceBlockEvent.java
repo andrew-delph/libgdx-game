@@ -5,7 +5,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import java.util.UUID;

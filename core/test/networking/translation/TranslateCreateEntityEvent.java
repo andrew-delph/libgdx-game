@@ -7,7 +7,7 @@ import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.CreateEntityIncomingEventType;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;

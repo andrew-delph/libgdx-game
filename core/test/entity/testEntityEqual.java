@@ -3,7 +3,7 @@ package entity;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.ClientConfig;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.Test;

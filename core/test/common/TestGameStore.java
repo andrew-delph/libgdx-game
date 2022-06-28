@@ -11,7 +11,7 @@ import common.exceptions.EntityNotFound;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;

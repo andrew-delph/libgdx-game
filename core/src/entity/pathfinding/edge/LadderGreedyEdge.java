@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.misc.Ladder;
 import entity.pathfinding.EntityStructure;
 import entity.pathfinding.PathGameStoreOverride;

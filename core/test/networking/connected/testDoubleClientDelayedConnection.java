@@ -15,7 +15,7 @@ import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;

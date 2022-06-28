@@ -5,7 +5,7 @@ import common.GameSettings;
 import common.GameStore;
 import common.events.EventService;
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.attributes.inventory.FullBagException;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.collision.orb.OrbContact;

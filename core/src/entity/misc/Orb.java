@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.sun.tools.javac.util.Pair;
 import common.Clock;
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.util.UUID;
 
 public class Orb extends Entity {

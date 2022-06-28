@@ -10,7 +10,7 @@ import common.GameStore;
 import common.events.EventConsumer;
 import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.collision.CollisionService;
 import java.io.IOException;
 import java.util.Timer;

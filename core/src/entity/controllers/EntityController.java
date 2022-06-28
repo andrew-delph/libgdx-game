@@ -8,7 +8,7 @@ import common.GameSettings;
 import common.events.EventService;
 import common.exceptions.ChunkNotFound;
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.controllers.actions.EntityAction;
 import entity.controllers.actions.EntityActionFactory;
 import entity.controllers.events.consumers.EntityEventConsumer;

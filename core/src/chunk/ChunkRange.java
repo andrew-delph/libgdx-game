@@ -1,7 +1,7 @@
 package chunk;
 
 import common.GameSettings;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;

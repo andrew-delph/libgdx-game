@@ -9,7 +9,7 @@ import common.exceptions.SerializationDataMissing;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import org.junit.Test;
 
 public class testChunkSerialization {

@@ -40,6 +40,4 @@ public abstract class AbstractInventoryItem implements Attribute {
   public AttributeType getType() {
     return AttributeType.ITEM;
   }
-
-  public abstract void activate();
 }

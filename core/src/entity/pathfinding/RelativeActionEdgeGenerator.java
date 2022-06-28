@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.EmptyBlock;

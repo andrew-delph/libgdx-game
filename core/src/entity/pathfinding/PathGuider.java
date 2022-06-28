@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.pathfinding.edge.EdgeStepper;
 import java.util.LinkedList;
 import java.util.Queue;

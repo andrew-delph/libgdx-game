@@ -19,7 +19,7 @@ import configuration.BaseServerConfig;
 import configuration.ClientConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.block.Block;
 import entity.block.BlockFactory;

@@ -10,9 +10,6 @@ public class SwordInventoryItem extends AbstractInventoryItem {
   }
 
   @Override
-  public void activate() {}
-
-  @Override
   public NetworkData toNetworkData() {
     return NetworkDataSerializer.serializeSwordInventoryItem(this);
   }

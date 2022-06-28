@@ -1,7 +1,7 @@
 package entity.controllers.events.types;
 
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 
 public class EntityEventTypeFactory {
   public static FallDamageEventType createFallDamageEventType(

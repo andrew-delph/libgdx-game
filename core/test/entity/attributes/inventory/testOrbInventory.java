@@ -13,7 +13,7 @@ import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
 import configuration.StandAloneConfig;
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.misc.Orb;
 import java.io.IOException;

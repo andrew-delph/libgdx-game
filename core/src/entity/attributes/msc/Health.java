@@ -1,6 +1,8 @@
-package entity.attributes;
+package entity.attributes.msc;
 
 import com.google.common.base.Objects;
+import entity.attributes.Attribute;
+import entity.attributes.AttributeType;
 import networking.NetworkObjects.NetworkData;
 import networking.translation.NetworkDataSerializer;
 
