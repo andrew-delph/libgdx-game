@@ -1,5 +1,3 @@
 package entity.attributes.actions;
 
-public class AttributeActionService {
-
-}
+public class AttributeActionService {}
