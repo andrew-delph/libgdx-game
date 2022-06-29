@@ -1,7 +1,7 @@
 package networking.connected;
 
-import app.game.GameController;
 import app.game.Game;
+import app.game.GameController;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import chunk.world.exceptions.BodyNotFound;
