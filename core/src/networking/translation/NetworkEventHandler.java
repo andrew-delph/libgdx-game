@@ -64,6 +64,9 @@ public class NetworkEventHandler extends EventConsumer {
       } else if (event.equals(DataTranslationEnum.CREATE_TURRET)) {
         eventService.queuePostUpdateEvent(
             delay, NetworkDataDeserializer.createCreateTurretEventType(networkEvent));
+      } else if (event.equals(DataTranslationEnum.ITEM_ACTION)) {
+        eventService.queuePostUpdateEvent(
+            delay, NetworkDataDeserializer.createItemActionEventType(networkEvent));
       }
     } catch (Exception e) {
       LOGGER.error(e);

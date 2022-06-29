@@ -3,9 +3,11 @@ package common.events;
 import com.google.inject.Inject;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;
+import common.events.types.ItemActionEventType;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
+import entity.attributes.inventory.item.comsumers.ItemActionService;
 import entity.controllers.factories.EntityControllerFactory;
 import entity.groups.Group;
 import entity.groups.GroupService;
@@ -18,6 +20,7 @@ public class SoloEventConsumer extends EventConsumer {
   final Logger LOGGER = LogManager.getLogger();
   @Inject EntityControllerFactory entityControllerFactory;
   @Inject GroupService groupService;
+  @Inject ItemActionService itemActionService;
 
   @Override
   public void init() {
@@ -56,6 +59,17 @@ public class SoloEventConsumer extends EventConsumer {
               activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
           } catch (ChunkNotFound | EntityNotFound e) {
             LOGGER.error(e, e);
+          }
+        });
+
+    this.eventService.addPostUpdateListener(
+        ItemActionEventType.type,
+        event -> {
+          ItemActionEventType realEvent = (ItemActionEventType) event;
+          try {
+            itemActionService.use(realEvent.getItemActionType(), realEvent.getControleeUUID());
+          } catch (EntityNotFound e) {
+            e.printStackTrace();
           }
         });
   }

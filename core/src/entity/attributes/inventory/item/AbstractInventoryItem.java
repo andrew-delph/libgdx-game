@@ -11,6 +11,10 @@ public abstract class AbstractInventoryItem implements Attribute {
     this.index = index;
   }
 
+  public ItemActionType getItemActionType() {
+    return ItemActionType.DEFAULT;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

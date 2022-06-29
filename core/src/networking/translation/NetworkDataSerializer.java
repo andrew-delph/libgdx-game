@@ -3,6 +3,7 @@ package networking.translation;
 import chunk.ChunkRange;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;
+import common.events.types.ItemActionEventType;
 import entity.Entity;
 import entity.attributes.Attribute;
 import entity.attributes.inventory.Equipped;
@@ -200,6 +201,13 @@ public class NetworkDataSerializer {
         .build();
   }
 
+  public static NetworkObjects.NetworkData createType(String type) {
+    return NetworkObjects.NetworkData.newBuilder()
+        .setKey(DataTranslationEnum.TYPE)
+        .setValue(type)
+        .build();
+  }
+
   public static NetworkObjects.NetworkData createIndex(Integer index) {
     return NetworkObjects.NetworkData.newBuilder()
         .setKey(DataTranslationEnum.INDEX)
@@ -224,6 +232,20 @@ public class NetworkDataSerializer {
     NetworkObjects.NetworkData.Builder dataListBuilder = NetworkObjects.NetworkData.newBuilder();
     dataListBuilder.addChildren(createCoordinates(createTurretEventType.getCoordinates()));
     dataListBuilder.addChildren(createUUID(createTurretEventType.getEntityUUID()));
+    return eventBuilder.setData(dataListBuilder).build();
+  }
+
+  public static NetworkObjects.NetworkEvent serializeItemActionEventType(
+      ItemActionEventType itemActionEventType) {
+
+    NetworkObjects.NetworkEvent.Builder eventBuilder =
+        NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.ITEM_ACTION);
+
+    NetworkObjects.NetworkData.Builder dataListBuilder = NetworkObjects.NetworkData.newBuilder();
+
+    dataListBuilder.addChildren(createType(itemActionEventType.getItemActionType().name()));
+    dataListBuilder.addChildren(createUUID(itemActionEventType.getControleeUUID()));
+
     return eventBuilder.setData(dataListBuilder).build();
   }
 

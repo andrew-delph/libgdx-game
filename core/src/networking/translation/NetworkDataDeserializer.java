@@ -11,12 +11,14 @@ import com.sun.tools.javac.util.Pair;
 import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;
+import common.events.types.ItemActionEventType;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Attribute;
 import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
+import entity.attributes.inventory.item.ItemActionType;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.attributes.inventory.item.SwordInventoryItem;
 import entity.attributes.msc.Coordinates;
@@ -190,6 +192,22 @@ public class NetworkDataDeserializer {
     }
     if (index == null) throw new SerializationDataMissing("Missing index");
     return new SwordInventoryItem(index);
+  }
+
+  public static ItemActionEventType createItemActionEventType(
+      NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+    UUID controleeUUID = null;
+    ItemActionType itemActionType = null;
+    for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+      if (DataTranslationEnum.TYPE.equals(child.getKey())) {
+        itemActionType = ItemActionType.valueOf(child.getValue());
+      } else if (DataTranslationEnum.UUID.equals(child.getKey())) {
+        controleeUUID = createUUID(child);
+      }
+    }
+    if (controleeUUID == null) throw new SerializationDataMissing("Missing controleeUUID");
+    if (itemActionType == null) throw new SerializationDataMissing("Missing itemActionType");
+    return new ItemActionEventType(itemActionType, controleeUUID);
   }
 
   public static CreateEntityIncomingEventType createCreateEntityIncomingEventType(

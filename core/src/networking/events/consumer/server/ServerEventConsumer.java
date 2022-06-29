@@ -5,12 +5,14 @@ import common.events.EventConsumer;
 import common.events.EventService;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;
+import common.events.types.ItemActionEventType;
 import networking.events.consumer.server.incoming.AuthenticationIncomingConsumerServer;
 import networking.events.consumer.server.incoming.CreateAIEntityConsumerServer;
 import networking.events.consumer.server.incoming.CreateEntityIncomingConsumerServer;
 import networking.events.consumer.server.incoming.CreateTurretIncomingConsumerServer;
 import networking.events.consumer.server.incoming.DisconnectionIncomingConsumerServer;
 import networking.events.consumer.server.incoming.HandshakeIncomingConsumerServer;
+import networking.events.consumer.server.incoming.ItemActionIncomingConsumerServer;
 import networking.events.consumer.server.incoming.PingRequestIncomingConsumerServer;
 import networking.events.consumer.server.incoming.PingResponseIncomingConsumerServer;
 import networking.events.consumer.server.incoming.RemoveEntityIncomingConsumerServer;
@@ -54,6 +56,7 @@ public class ServerEventConsumer extends EventConsumer {
   @Inject PingRequestIncomingConsumerServer pingRequestIncomingConsumerServer;
   @Inject PingResponseIncomingConsumerServer pingResponseIncomingConsumerServer;
   @Inject CreateTurretIncomingConsumerServer createTurretIncomingConsumerServer;
+  @Inject ItemActionIncomingConsumerServer itemActionIncomingConsumerServer;
 
   public void init() {
     super.init();
@@ -93,5 +96,7 @@ public class ServerEventConsumer extends EventConsumer {
         NetworkEventTypeEnum.PING_RESPONSE_INCOMING, pingResponseIncomingConsumerServer);
     this.eventService.addPostUpdateListener(
         CreateTurretEventType.type, createTurretIncomingConsumerServer);
+    this.eventService.addPostUpdateListener(
+        ItemActionEventType.type, itemActionIncomingConsumerServer);
   }
 }
