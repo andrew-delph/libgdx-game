@@ -1,6 +1,6 @@
 package chunk;
 
-import app.GameController;
+import app.game.GameController;
 import chunk.world.WorldWrapper;
 import chunk.world.exceptions.BodyNotFound;
 import chunk.world.exceptions.DestroyBodyException;

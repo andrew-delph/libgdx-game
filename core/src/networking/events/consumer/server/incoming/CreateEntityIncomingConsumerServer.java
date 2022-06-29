@@ -1,6 +1,6 @@
 package networking.events.consumer.server.incoming;
 
-import app.GameController;
+import app.game.GameController;
 import app.user.UserID;
 import chunk.ActiveChunkManager;
 import com.google.inject.Inject;

@@ -1,6 +1,6 @@
 package entity.controllers;
 
-import app.GameController;
+import app.game.GameController;
 import common.GameSettings;
 import common.GameStore;
 import common.events.EventService;

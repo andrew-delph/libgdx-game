@@ -1,5 +1,6 @@
 package app;
 
+import app.game.GameController;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import chunk.world.exceptions.BodyNotFound;

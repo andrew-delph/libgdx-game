@@ -1,6 +1,6 @@
 package entity.controllers;
 
-import app.GameController;
+import app.game.GameController;
 import app.game.Game;
 import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Guice;

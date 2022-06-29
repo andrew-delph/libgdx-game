@@ -1,6 +1,6 @@
 package entity.controllers.events.consumers;
 
-import app.GameController;
+import app.game.GameController;
 import com.google.inject.Inject;
 import entity.controllers.events.types.AbstractEntityEventType;
 import entity.controllers.events.types.ChangeHealthEventType;

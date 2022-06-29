@@ -1,4 +1,4 @@
-package app;
+package app.game;
 
 import app.user.User;
 import chunk.ChunkFactory;

@@ -1,6 +1,6 @@
 package entity.controllers;
 
-import app.GameController;
+import app.game.GameController;
 import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

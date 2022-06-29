@@ -1,6 +1,6 @@
 package entity.attributes.inventory;
 
-import app.GameController;
+import app.game.GameController;
 import app.game.Game;
 import chunk.ChunkRange;
 import chunk.world.exceptions.BodyNotFound;

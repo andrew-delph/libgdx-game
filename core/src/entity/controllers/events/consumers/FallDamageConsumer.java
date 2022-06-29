@@ -1,6 +1,6 @@
 package entity.controllers.events.consumers;
 
-import app.GameController;
+import app.game.GameController;
 import com.google.inject.Inject;
 import common.exceptions.EntityNotFound;
 import entity.controllers.events.types.AbstractEntityEventType;

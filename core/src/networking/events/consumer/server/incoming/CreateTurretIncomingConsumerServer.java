@@ -1,6 +1,6 @@
 package networking.events.consumer.server.incoming;
 
-import app.GameController;
+import app.game.GameController;
 import app.user.User;
 import com.google.inject.Inject;
 import common.GameStore;

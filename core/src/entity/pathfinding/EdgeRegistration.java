@@ -1,6 +1,6 @@
 package entity.pathfinding;
 
-import app.GameController;
+import app.game.GameController;
 import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;

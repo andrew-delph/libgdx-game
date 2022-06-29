@@ -1,6 +1,6 @@
 package generation;
 
-import app.GameController;
+import app.game.GameController;
 import com.google.inject.Inject;
 import common.exceptions.ChunkNotFound;
 import entity.EntityFactory;

@@ -2,7 +2,7 @@ package entity.pathfinding.edge;
 
 import static app.screen.GameScreen.pathDebugRender;
 
-import app.GameController;
+import app.game.GameController;
 import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.graphics.Color;
 import common.GameStore;

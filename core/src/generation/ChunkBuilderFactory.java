@@ -1,6 +1,6 @@
 package generation;
 
-import app.GameController;
+import app.game.GameController;
 import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;

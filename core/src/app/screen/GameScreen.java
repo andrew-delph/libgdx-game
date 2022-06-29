@@ -1,6 +1,6 @@
 package app.screen;
 
-import app.GameController;
+import app.game.GameController;
 import app.game.Game;
 import app.user.User;
 import chunk.Chunk;
