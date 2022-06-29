@@ -1,7 +1,7 @@
 package networking.connected;
 
-import app.game.GameController;
 import app.game.Game;
+import app.game.GameController;
 import app.screen.BaseCamera;
 import app.user.User;
 import chunk.ActiveChunkManager;
