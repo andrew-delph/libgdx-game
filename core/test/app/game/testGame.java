@@ -1,6 +1,5 @@
 package app.game;
 
-import app.GameController;
 import chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Guice;
 import com.google.inject.Injector;

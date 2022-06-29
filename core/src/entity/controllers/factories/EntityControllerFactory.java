@@ -1,6 +1,6 @@
 package entity.controllers.factories;
 
-import app.GameController;
+import app.game.GameController;
 import com.google.inject.Inject;
 import common.Clock;
 import common.GameStore;

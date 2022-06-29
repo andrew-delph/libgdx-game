@@ -1,6 +1,6 @@
 package common.events;
 
-import app.GameController;
+import app.game.GameController;
 import app.user.User;
 import chunk.world.exceptions.BodyNotFound;
 import chunk.world.exceptions.DestroyBodyException;

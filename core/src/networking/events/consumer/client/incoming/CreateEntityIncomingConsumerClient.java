@@ -1,6 +1,6 @@
 package networking.events.consumer.client.incoming;
 
-import app.GameController;
+import app.game.GameController;
 import com.google.inject.Inject;
 import common.events.types.EventType;
 import common.exceptions.ChunkNotFound;

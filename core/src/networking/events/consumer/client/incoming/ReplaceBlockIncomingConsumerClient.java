@@ -1,6 +1,6 @@
 package networking.events.consumer.client.incoming;
 
-import app.GameController;
+import app.game.GameController;
 import chunk.world.exceptions.BodyNotFound;
 import chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
