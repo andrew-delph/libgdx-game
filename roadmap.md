@@ -9,8 +9,8 @@ The roadmap is a collection of major feature for each release.
 - [x] Entity fall dmg
 - [x] Turrets
 - [ ] Entity Attack
-- [ ] Water, Sand
 - [ ] Animations
+- [ ] Water, Sand
 
 ## 0.3.x
 

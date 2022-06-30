@@ -12,6 +12,7 @@ import java.util.UUID;
 public class ItemActionService {
 
   @Inject GameStore gameStore;
+  @Inject DefaultItemAction defaultItemAction;
 
   Map<ItemActionType, ItemActionInterface> consumerMap = new HashMap<>();
 
@@ -25,7 +26,7 @@ public class ItemActionService {
     if (consumerMap.containsKey(actionType)) {
       consumerMap.get(actionType).use(controlee);
     } else {
-      consumerMap.get(ItemActionType.DEFAULT).use(controlee);
+      defaultItemAction.use(controlee);
     }
   }
 }
