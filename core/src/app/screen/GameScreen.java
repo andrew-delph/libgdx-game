@@ -1,7 +1,7 @@
 package app.screen;
 
-import app.game.GameController;
 import app.game.Game;
+import app.game.GameController;
 import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkRange;

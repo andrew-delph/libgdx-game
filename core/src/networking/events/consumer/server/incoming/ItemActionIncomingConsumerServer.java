@@ -9,8 +9,7 @@ import java.util.function.Consumer;
 
 public class ItemActionIncomingConsumerServer implements Consumer<EventType> {
 
-  @Inject
-  ItemActionService itemActionService;
+  @Inject ItemActionService itemActionService;
 
   @Override
   public void accept(EventType eventType) {
