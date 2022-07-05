@@ -14,6 +14,11 @@ public class Health implements Attribute {
     this.health = health;
   }
 
+  @Override
+  public String toString() {
+    return "Health{" + "health=" + health + '}';
+  }
+
   public Health applyDiff(float diff) {
     return new Health(this.health + diff);
   }
