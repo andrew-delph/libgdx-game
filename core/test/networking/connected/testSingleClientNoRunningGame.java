@@ -18,7 +18,7 @@ import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
 import configuration.BaseServerConfig;
 import configuration.ClientConfig;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import generation.ChunkGenerationService;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

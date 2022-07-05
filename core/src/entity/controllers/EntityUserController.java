@@ -68,6 +68,9 @@ public class EntityUserController extends EntityController {
         this.gameController.createLadder(this.entity.coordinates.getMiddle().getUp().getBase());
       }
     }
+    if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+      gameController.useItem(this.entity);
+    }
 
     if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
       gameController.createProjectile(this.entity.coordinates.getMiddle(), new Vector2(10, 0));

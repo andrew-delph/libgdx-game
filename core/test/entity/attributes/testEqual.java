@@ -1,5 +1,6 @@
 package entity.attributes;
 
+import entity.attributes.msc.Health;
 import org.junit.Test;
 
 public class testEqual {

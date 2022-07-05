@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.StandAloneConfig;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.pathfinding.edge.AbstractEdge;
 import org.junit.Test;
 

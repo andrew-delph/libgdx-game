@@ -7,7 +7,7 @@ import common.GameStore;
 import configuration.StandAloneConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.pathfinding.edge.AbstractEdge;
 import generation.ChunkBuilderFactory;
 import org.junit.Test;

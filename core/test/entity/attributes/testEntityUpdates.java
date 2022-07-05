@@ -8,6 +8,8 @@ import entity.EntityFactory;
 import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
+import entity.attributes.msc.Coordinates;
+import entity.attributes.msc.Health;
 import org.junit.Before;
 import org.junit.Test;
 

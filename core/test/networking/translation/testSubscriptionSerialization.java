@@ -5,7 +5,7 @@ import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.ClientConfig;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.util.LinkedList;
 import java.util.List;
 import networking.events.types.incoming.SubscriptionIncomingEventType;

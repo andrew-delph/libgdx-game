@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EdgeStepperException;
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.pathfinding.EntityStructure;
 import entity.pathfinding.RelativeCoordinates;
 import entity.pathfinding.RelativePathNode;

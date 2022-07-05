@@ -9,7 +9,7 @@ import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import configuration.StandAloneConfig;
 import entity.EntityFactory;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.EmptyBlock;

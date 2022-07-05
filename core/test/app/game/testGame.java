@@ -10,7 +10,7 @@ import common.exceptions.SerializationDataMissing;
 import common.exceptions.WrongVersion;
 import configuration.StandAloneConfig;
 import entity.ActiveEntityManager;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Before;

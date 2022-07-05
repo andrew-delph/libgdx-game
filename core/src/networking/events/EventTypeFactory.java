@@ -9,7 +9,7 @@ import common.events.types.RemoveEntityEventType;
 import common.events.types.ReplaceEntityEventType;
 import entity.Entity;
 import entity.attributes.Attribute;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.block.Block;
 import java.util.Arrays;
 import java.util.LinkedList;

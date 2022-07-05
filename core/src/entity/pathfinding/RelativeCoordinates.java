@@ -2,7 +2,7 @@ package entity.pathfinding;
 
 import com.badlogic.gdx.math.Vector2;
 import common.GameSettings;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 
 public class RelativeCoordinates {
   float relativeX;

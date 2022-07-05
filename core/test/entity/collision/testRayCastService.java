@@ -9,7 +9,7 @@ import common.exceptions.ChunkNotFound;
 import configuration.StandAloneConfig;
 import entity.Entity;
 import entity.EntityFactory;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.block.BlockFactory;
 import java.util.Arrays;
 import java.util.HashSet;

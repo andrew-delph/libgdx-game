@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 import common.GameSettings;
 import common.GameStore;
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;

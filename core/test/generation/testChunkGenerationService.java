@@ -6,7 +6,7 @@ import com.google.inject.Injector;
 import common.GameSettings;
 import common.GameStore;
 import configuration.BaseServerConfig;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import entity.block.Block;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;

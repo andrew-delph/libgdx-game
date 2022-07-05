@@ -6,7 +6,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import common.Clock;
 import configuration.ClientConfig;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import org.junit.Before;
 import org.junit.Test;
 

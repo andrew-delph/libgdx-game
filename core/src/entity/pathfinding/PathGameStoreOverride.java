@@ -1,7 +1,7 @@
 package entity.pathfinding;
 
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;

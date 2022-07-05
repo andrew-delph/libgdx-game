@@ -1,9 +1,11 @@
-package entity.attributes;
+package entity.attributes.msc;
 
 import static networking.translation.NetworkDataSerializer.createCoordinates;
 
 import com.badlogic.gdx.math.Vector2;
 import common.GameSettings;
+import entity.attributes.Attribute;
+import entity.attributes.AttributeType;
 import java.util.LinkedList;
 import java.util.List;
 import networking.NetworkObjects;

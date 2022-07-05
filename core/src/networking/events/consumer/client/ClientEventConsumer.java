@@ -5,6 +5,7 @@ import common.events.EventConsumer;
 import common.events.EventService;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;
+import common.events.types.ItemActionEventType;
 import networking.events.consumer.client.incoming.AuthenticationIncomingConsumerClient;
 import networking.events.consumer.client.incoming.ChunkSwapIncomingConsumerClient;
 import networking.events.consumer.client.incoming.CreateEntityIncomingConsumerClient;
@@ -18,6 +19,7 @@ import networking.events.consumer.client.outgoing.CreateAIEntityConsumerClient;
 import networking.events.consumer.client.outgoing.CreateEntityOutgoingConsumerClient;
 import networking.events.consumer.client.outgoing.CreateTurretOutgoingConsumerClient;
 import networking.events.consumer.client.outgoing.HandshakeOutgoingConsumerClient;
+import networking.events.consumer.client.outgoing.ItemActionOutgoingConsumerClient;
 import networking.events.consumer.client.outgoing.PingRequestOutgoingConsumerClient;
 import networking.events.consumer.client.outgoing.RemoveEntityOutgoingConsumerClient;
 import networking.events.consumer.client.outgoing.ReplaceBlockOutgoingConsumerClient;
@@ -52,6 +54,7 @@ public class ClientEventConsumer extends EventConsumer {
   @Inject PingRequestIncomingConsumerClient pingRequestIncomingConsumerClient;
   @Inject PingResponseIncomingConsumerClient pingResponseIncomingConsumerClient;
   @Inject CreateTurretOutgoingConsumerClient createTurretOutgoingConsumerClient;
+  @Inject ItemActionOutgoingConsumerClient itemActionOutgoingConsumerClient;
 
   @Inject
   protected ClientEventConsumer() {}
@@ -87,5 +90,8 @@ public class ClientEventConsumer extends EventConsumer {
         NetworkEventTypeEnum.PING_RESPONSE_INCOMING, pingResponseIncomingConsumerClient);
     this.eventService.addPostUpdateListener(
         CreateTurretEventType.type, createTurretOutgoingConsumerClient);
+
+    this.eventService.addPostUpdateListener(
+        ItemActionEventType.type, itemActionOutgoingConsumerClient);
   }
 }

@@ -11,15 +11,18 @@ import com.sun.tools.javac.util.Pair;
 import common.GameStore;
 import common.events.types.CreateAIEntityEventType;
 import common.events.types.CreateTurretEventType;
+import common.events.types.ItemActionEventType;
 import common.exceptions.SerializationDataMissing;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Attribute;
-import entity.attributes.Coordinates;
-import entity.attributes.Health;
 import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
+import entity.attributes.inventory.item.ItemActionType;
 import entity.attributes.inventory.item.OrbInventoryItem;
+import entity.attributes.inventory.item.SwordInventoryItem;
+import entity.attributes.msc.Coordinates;
+import entity.attributes.msc.Health;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
@@ -147,6 +150,8 @@ public class NetworkDataDeserializer {
       return createEmptyItem(networkData);
     } else if (DataTranslationEnum.ORB_ITEM.equals(networkData.getKey())) {
       return createOrbItem(networkData);
+    } else if (DataTranslationEnum.SWORD_ITEM.equals(networkData.getKey())) {
+      return createSwordItem(networkData);
     } else if (DataTranslationEnum.EQUIPPED.equals(networkData.getKey())) {
       return createEquipped(networkData);
     }
@@ -175,6 +180,34 @@ public class NetworkDataDeserializer {
     }
     if (index == null) throw new SerializationDataMissing("Missing index");
     return new OrbInventoryItem(index);
+  }
+
+  public static SwordInventoryItem createSwordItem(NetworkData networkData)
+      throws SerializationDataMissing {
+    Integer index = null;
+    for (NetworkObjects.NetworkData child : networkData.getChildrenList()) {
+      if (DataTranslationEnum.INDEX.equals(child.getKey())) {
+        index = Integer.valueOf(child.getValue());
+      }
+    }
+    if (index == null) throw new SerializationDataMissing("Missing index");
+    return new SwordInventoryItem(index);
+  }
+
+  public static ItemActionEventType createItemActionEventType(
+      NetworkObjects.NetworkEvent networkEvent) throws SerializationDataMissing {
+    UUID controleeUUID = null;
+    ItemActionType itemActionType = null;
+    for (NetworkObjects.NetworkData child : networkEvent.getData().getChildrenList()) {
+      if (DataTranslationEnum.TYPE.equals(child.getKey())) {
+        itemActionType = ItemActionType.valueOf(child.getValue());
+      } else if (DataTranslationEnum.UUID.equals(child.getKey())) {
+        controleeUUID = createUUID(child);
+      }
+    }
+    if (controleeUUID == null) throw new SerializationDataMissing("Missing controleeUUID");
+    if (itemActionType == null) throw new SerializationDataMissing("Missing itemActionType");
+    return new ItemActionEventType(itemActionType, controleeUUID);
   }
 
   public static CreateEntityIncomingEventType createCreateEntityIncomingEventType(

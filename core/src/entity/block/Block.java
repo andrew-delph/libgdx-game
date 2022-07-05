@@ -5,7 +5,7 @@ import chunk.world.EntityBodyBuilder;
 import common.Clock;
 import common.GameSettings;
 import entity.Entity;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 
 public abstract class Block extends Entity {
 

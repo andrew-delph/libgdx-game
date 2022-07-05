@@ -10,15 +10,17 @@ import com.google.inject.Inject;
 import common.Direction;
 import common.GameStore;
 import common.events.EventService;
+import common.events.types.ItemActionEventType;
 import common.exceptions.ChunkNotFound;
 import common.exceptions.EntityNotFound;
 import entity.ActiveEntityManager;
 import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.Attribute;
-import entity.attributes.Coordinates;
 import entity.attributes.inventory.ItemNotFoundException;
+import entity.attributes.inventory.item.ItemActionType;
 import entity.attributes.inventory.item.OrbInventoryItem;
+import entity.attributes.msc.Coordinates;
 import entity.block.Block;
 import entity.block.BlockFactory;
 import entity.block.DirtBlock;
@@ -294,5 +296,13 @@ public class GameController {
   public void createAI(UUID target) {
     this.eventService.queuePostUpdateEvent(
         EventTypeFactory.createAIEntityEventType(new Coordinates(0, 2), target));
+  }
+
+  public void useItem(Entity entity) {
+    int index = entity.getBag().getEquipped().getIndex();
+    ItemActionType type = entity.getBag().getItem(index).getItemActionType();
+    ItemActionEventType itemActionEventType = new ItemActionEventType(type, entity.getUuid());
+
+    eventService.queuePostUpdateEvent(itemActionEventType);
   }
 }

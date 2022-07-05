@@ -6,7 +6,7 @@ import chunk.ChunkFactory;
 import chunk.ChunkRange;
 import com.google.inject.Inject;
 import common.GameStore;
-import entity.attributes.Coordinates;
+import entity.attributes.msc.Coordinates;
 import java.util.concurrent.Callable;
 
 public class ChunkBuilder implements Callable<Chunk> {
