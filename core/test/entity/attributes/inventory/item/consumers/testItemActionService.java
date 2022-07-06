@@ -60,5 +60,6 @@ public class testItemActionService {
     itemActionService.use(ItemActionType.DEFAULT, entity1.getUuid());
 
     assert entity2.getHealth().getValue() < 100;
+    assert entity1.getHealth().getValue() == 100;
   }
 }
