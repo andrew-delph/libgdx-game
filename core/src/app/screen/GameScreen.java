@@ -106,7 +106,7 @@ public class GameScreen extends ApplicationAdapter {
   @Override
   public void render() {
 
-    if (!myEntity.getHealth().isAlive()){
+    if (!myEntity.getHealth().isAlive()) {
       createMyEntity();
     }
 
