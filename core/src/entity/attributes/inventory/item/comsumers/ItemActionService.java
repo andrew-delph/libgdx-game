@@ -1,6 +1,8 @@
 package entity.attributes.inventory.item.comsumers;
 
 import com.google.inject.Inject;
+import common.Clock;
+import common.GameSettings;
 import common.GameStore;
 import common.exceptions.EntityNotFound;
 import entity.Entity;
@@ -13,8 +15,11 @@ public class ItemActionService {
 
   @Inject GameStore gameStore;
   @Inject DefaultItemAction defaultItemAction;
+  @Inject Clock clock;
 
   Map<ItemActionType, ItemActionInterface> consumerMap = new HashMap<>();
+
+  Map<UUID, Integer> gcdMap = new HashMap<>();
 
   public void registerAttributeAction(
       ItemActionType actionType, ItemActionInterface actionConsumer) {
@@ -28,5 +33,19 @@ public class ItemActionService {
     } else {
       defaultItemAction.use(controlee);
     }
+  }
+
+  public boolean checkTriggerGCD(UUID controleeUUID) {
+    Integer currentTick = clock.getCurrentTick().time;
+
+    Boolean trigger =
+        !gcdMap.containsKey(controleeUUID)
+            || gcdMap.get(controleeUUID) < currentTick - GameSettings.GCD_TIMEOUT;
+
+    if (trigger) {
+      gcdMap.put(controleeUUID, currentTick);
+    }
+
+    return trigger;
   }
 }

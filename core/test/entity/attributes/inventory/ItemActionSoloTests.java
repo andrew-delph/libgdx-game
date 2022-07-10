@@ -64,6 +64,8 @@ public class ItemActionSoloTests {
     entityControllerFactory = injector.getInstance(EntityControllerFactory.class);
     itemActionService = injector.getInstance(ItemActionService.class);
 
+    injector.injectMembers(itemActionService);
+
     game.start();
   }
 
@@ -81,6 +83,6 @@ public class ItemActionSoloTests {
 
     TimeUnit.SECONDS.sleep(1);
 
-    verify(itemActionService, times(2)).use(anyObject(), anyObject());
+    verify(itemActionService, times(1)).use(anyObject(), anyObject());
   }
 }

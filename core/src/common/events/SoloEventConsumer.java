@@ -67,9 +67,11 @@ public class SoloEventConsumer extends EventConsumer {
         event -> {
           ItemActionEventType realEvent = (ItemActionEventType) event;
           try {
+            Boolean gcd = itemActionService.checkTriggerGCD(realEvent.getControleeUUID());
+            if (!gcd) return;
             itemActionService.use(realEvent.getItemActionType(), realEvent.getControleeUUID());
           } catch (EntityNotFound e) {
-            e.printStackTrace();
+            LOGGER.error(e, e);
           }
         });
   }

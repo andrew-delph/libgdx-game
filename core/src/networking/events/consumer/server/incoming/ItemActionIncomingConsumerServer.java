@@ -14,6 +14,13 @@ public class ItemActionIncomingConsumerServer implements Consumer<EventType> {
   @Override
   public void accept(EventType eventType) {
     ItemActionEventType realEvent = (ItemActionEventType) eventType;
+
+    Boolean gcd = itemActionService.checkTriggerGCD(realEvent.getControleeUUID());
+    if (!gcd) {
+      // TODO trigger stop animation
+      return;
+    }
+
     try {
       itemActionService.use(realEvent.getItemActionType(), realEvent.getControleeUUID());
     } catch (EntityNotFound e) {
