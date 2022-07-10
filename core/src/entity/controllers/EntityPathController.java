@@ -53,9 +53,8 @@ public class EntityPathController extends EntityController {
     if (this.pathGuider == null) {
       this.pathGuider = pathGuiderFactory.createPathGuider(entity);
     }
-    if (this.entity.coordinates.getBase().equals(target.coordinates.getBase())) {
-      gameController.removeEntity(entity.getUuid());
-      return;
+    if (this.entity.coordinates.getBase().calcDistance(target.coordinates) < 2) {
+      gameController.useItem(entity);
     }
     try {
       this.pathGuider.followPath(target.coordinates);

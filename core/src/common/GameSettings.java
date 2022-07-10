@@ -24,7 +24,7 @@ public class GameSettings {
   public static final int PING_INTERVAL = 5000;
 
   public static final int HANDSHAKE_TIMEOUT = 75;
-  public static final Integer GCD_TIMEOUT = 5;
+  public static final Integer GCD_TIMEOUT = 50;
   private static final String HOST_KEY = "host";
   private static final String PORT_KEY = "port";
   private Properties properties;
