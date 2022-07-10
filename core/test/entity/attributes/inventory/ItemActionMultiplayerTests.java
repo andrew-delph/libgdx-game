@@ -153,7 +153,6 @@ public class ItemActionMultiplayerTests {
     doNothing().when(serverItemActionService).use(anyObject(), anyObject());
     doNothing().when(clientItemActionService).use(anyObject(), anyObject());
 
-
     Entity entity1 = serverGameController.createEntity(new Coordinates(0, 0));
 
     TimeUnit.SECONDS.sleep(1);
