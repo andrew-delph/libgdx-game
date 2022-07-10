@@ -4,6 +4,7 @@ import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import app.game.Game;
 import app.game.GameController;
@@ -100,6 +101,9 @@ public class ItemActionMultiplayerTests {
     serverItemActionService = serverInjector.getInstance(ItemActionService.class);
     clientItemActionService = clientInjector.getInstance(ItemActionService.class);
 
+    serverInjector.injectMembers(serverItemActionService);
+    clientInjector.injectMembers(clientItemActionService);
+
     clientEntityControllerFactory = clientInjector.getInstance(EntityControllerFactory.class);
 
     serverGame.start();
@@ -127,6 +131,9 @@ public class ItemActionMultiplayerTests {
     doNothing().when(serverItemActionService).use(anyObject(), anyObject());
     doNothing().when(clientItemActionService).use(anyObject(), anyObject());
 
+    when(serverItemActionService.checkTriggerGCD(anyObject())).thenReturn(true);
+    when(clientItemActionService.checkTriggerGCD(anyObject())).thenReturn(true);
+
     Entity entity1 = serverGameController.createEntity(new Coordinates(0, 0));
 
     TimeUnit.SECONDS.sleep(1);
@@ -141,11 +148,33 @@ public class ItemActionMultiplayerTests {
   }
 
   @Test
+  public void TestClientGcdTimeout() throws ChunkNotFound, InterruptedException, EntityNotFound {
+
+    doNothing().when(serverItemActionService).use(anyObject(), anyObject());
+    doNothing().when(clientItemActionService).use(anyObject(), anyObject());
+
+    Entity entity1 = serverGameController.createEntity(new Coordinates(0, 0));
+
+    TimeUnit.SECONDS.sleep(1);
+
+    clientGameController.useItem(entity1);
+    clientGameController.useItem(entity1);
+
+    TimeUnit.SECONDS.sleep(1);
+
+    verify(serverItemActionService, times(1)).use(anyObject(), anyObject());
+    verify(clientItemActionService, times(0)).use(anyObject(), anyObject());
+  }
+
+  @Test
   public void TestServerUsesDefaultItem()
       throws InterruptedException, ChunkNotFound, EntityNotFound {
 
     doNothing().when(serverItemActionService).use(anyObject(), anyObject());
     doNothing().when(clientItemActionService).use(anyObject(), anyObject());
+    when(serverItemActionService.checkTriggerGCD(anyObject())).thenReturn(true);
+    when(clientItemActionService.checkTriggerGCD(anyObject())).thenReturn(true);
+    // when check  GCD return true
 
     Entity entity1 = serverGameController.createEntity(new Coordinates(0, 0));
 

@@ -20,6 +20,7 @@ import entity.attributes.Attribute;
 import entity.attributes.inventory.ItemNotFoundException;
 import entity.attributes.inventory.item.ItemActionType;
 import entity.attributes.inventory.item.OrbInventoryItem;
+import entity.attributes.inventory.item.comsumers.ItemActionService;
 import entity.attributes.msc.Coordinates;
 import entity.block.Block;
 import entity.block.BlockFactory;
@@ -50,6 +51,7 @@ public class GameController {
   @Inject User user;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject ChunkFactory chunkFactory;
+  @Inject ItemActionService itemActionService;
 
   public Entity addEntity(Entity entity) throws ChunkNotFound {
     triggerAddEntity(entity);
