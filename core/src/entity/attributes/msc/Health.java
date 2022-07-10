@@ -53,4 +53,8 @@ public class Health implements Attribute {
   public AttributeType getType() {
     return AttributeType.HEALTH;
   }
+
+  public Boolean isAlive() {
+    return this.health > 0;
+  }
 }

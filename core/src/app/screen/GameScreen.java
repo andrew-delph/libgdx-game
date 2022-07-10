@@ -75,6 +75,17 @@ public class GameScreen extends ApplicationAdapter {
     batch = new SpriteBatch();
     batch.enableBlending();
 
+    createMyEntity();
+
+    groupService.registerEntityGroup(myEntity.getUuid(), Group.PLAYER_GROUP);
+    activeEntityManager.registerActiveEntity(user.getUserID(), myEntity.getUuid());
+    debugRenderer = new Box2DDebugRenderer();
+    pathDebugRender = new ShapeRenderer();
+    pathDebugRender.setColor(Color.RED);
+    Gdx.graphics.setTitle("" + gameSettings.getVersion());
+  }
+
+  private void createMyEntity() {
     myEntity = entityFactory.createEntity(new Coordinates(0, 2));
     try {
       myEntity = gameController.addEntity(myEntity);
@@ -84,12 +95,6 @@ public class GameScreen extends ApplicationAdapter {
     }
     LOGGER.info("my entity " + myEntity.getUuid());
     myEntity.setEntityController(entityControllerFactory.createEntityUserController(myEntity));
-    groupService.registerEntityGroup(myEntity.getUuid(), Group.PLAYER_GROUP);
-    activeEntityManager.registerActiveEntity(user.getUserID(), myEntity.getUuid());
-    debugRenderer = new Box2DDebugRenderer();
-    pathDebugRender = new ShapeRenderer();
-    pathDebugRender.setColor(Color.RED);
-    Gdx.graphics.setTitle("" + gameSettings.getVersion());
   }
 
   @Override
@@ -100,6 +105,11 @@ public class GameScreen extends ApplicationAdapter {
 
   @Override
   public void render() {
+
+    if (!myEntity.getHealth().isAlive()) {
+      createMyEntity();
+    }
+
     debugMatrix =
         batch
             .getProjectionMatrix()
