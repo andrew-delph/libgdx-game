@@ -13,6 +13,7 @@ import common.GameStore;
 import generation.ChunkGenerationService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.Status;
 import io.grpc.protobuf.services.ProtoReflectionService;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
@@ -110,6 +111,9 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
   @Override
   public void health(Empty request, StreamObserver<NetworkObjects.Health> responseObserver) {
+
+    responseObserver.onError(Status.NOT_FOUND.withDescription("unhealth").asException());
+
     NetworkObjects.Health healthData =
         NetworkObjects.Health.newBuilder()
             .setHealthy(true)
