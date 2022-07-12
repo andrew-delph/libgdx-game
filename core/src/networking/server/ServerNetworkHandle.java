@@ -46,6 +46,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Inject GameSettings gameSettings;
   @Inject PingService pingService;
   @Inject SyncService syncService;
+  @Inject Clock clock;
   private Server server;
 
   @Inject
@@ -112,7 +113,10 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Override
   public void health(Empty request, StreamObserver<NetworkObjects.Health> responseObserver) {
 
-    responseObserver.onError(Status.NOT_FOUND.withDescription("unhealth").asException());
+    if (clock.getCurrentTick().time > 16000) { // Error after 4 mins
+      responseObserver.onError(Status.NOT_FOUND.withDescription("unhealth").asException());
+      return;
+    }
 
     NetworkObjects.Health healthData =
         NetworkObjects.Health.newBuilder()
