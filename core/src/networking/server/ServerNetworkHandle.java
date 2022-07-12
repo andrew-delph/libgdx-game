@@ -113,7 +113,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Override
   public void health(Empty request, StreamObserver<NetworkObjects.Health> responseObserver) {
 
-    if (clock.getCurrentTick().time > 16000) { // Error after 4 mins
+    if (clock.getCurrentTick().time > 64000) { // Error after 16 mins
       responseObserver.onError(Status.NOT_FOUND.withDescription("unhealth").asException());
       return;
     }
