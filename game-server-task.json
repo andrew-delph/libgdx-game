@@ -37,13 +37,21 @@
       "memoryReservation": null,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "andrewdelph/game:server",
+      "image": "309026503458.dkr.ecr.us-east-1.amazonaws.com/game:0.2.29",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
       "disableNetworking": null,
       "interactive": null,
-      "healthCheck": null,
+      "healthCheck": {
+        "retries": 3,
+        "command": [
+          "grpcurl -plaintext localhost:99 NetworkObjectService/health || exit 1"
+        ],
+        "timeout": 5,
+        "interval": 30,
+        "startPeriod": 60
+      },
       "essential": true,
       "links": null,
       "hostname": null,
@@ -64,7 +72,7 @@
     "EC2",
     "FARGATE"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:309026503458:task-definition/game-task:5",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:309026503458:task-definition/game-task:143",
   "family": "game-task",
   "requiresAttributes": [
     {
@@ -83,6 +91,12 @@
       "targetId": null,
       "targetType": null,
       "value": null,
+      "name": "com.amazonaws.ecs.capability.ecr-auth"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
       "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
     },
     {
@@ -95,6 +109,18 @@
       "targetId": null,
       "targetType": null,
       "value": null,
+      "name": "ecs.capability.container-health-check"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.execution-role-ecr-pull"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
       "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
     },
     {
@@ -102,6 +128,12 @@
       "targetType": null,
       "value": null,
       "name": "ecs.capability.task-eni"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
     }
   ],
   "pidMode": null,
@@ -111,7 +143,7 @@
   "networkMode": "awsvpc",
   "runtimePlatform": null,
   "cpu": "1024",
-  "revision": 5,
+  "revision": 143,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
