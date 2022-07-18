@@ -50,6 +50,7 @@ public class NetworkDataSerializer {
         .addChildren(uuid)
         .addAllChildren(bagData)
         .addChildren(entity.health.toNetworkData())
+        .addChildren(entity.getAnimationStateWrapper().toNetworkData())
         .build();
   }
 

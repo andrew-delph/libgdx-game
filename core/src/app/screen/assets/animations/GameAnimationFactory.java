@@ -22,6 +22,11 @@ public class GameAnimationFactory {
       }
     }
 
+    walkSheet = new Texture(Gdx.files.internal("sprite-animation4.png"));
+    tmp =
+        TextureRegion.split(
+            walkSheet, walkSheet.getWidth() / FRAME_COLS, walkSheet.getHeight() / FRAME_ROWS);
+
     TextureRegion[] walkLeftFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
     index = 0;
     for (int i = 0; i < FRAME_ROWS; i++) {

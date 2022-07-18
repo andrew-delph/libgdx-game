@@ -457,6 +457,8 @@ public class NetworkDataDeserializer {
       } else if (Arrays.asList(DataTranslationEnum.ITEM_TYPES)
           .contains(networkDataChild.getKey())) {
         attributeList.add(createAttribute(networkDataChild));
+      } else if (DataTranslationEnum.ANIMATION_STATE.equals(networkDataChild.getKey())) {
+        attributeList.add(createAnimationStateWrapper(networkDataChild));
       }
     }
 

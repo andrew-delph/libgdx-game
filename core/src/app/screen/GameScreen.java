@@ -4,7 +4,6 @@ import app.game.Game;
 import app.game.GameController;
 import app.screen.assets.BaseAssetManager;
 import app.screen.assets.animations.AnimationManager;
-import app.screen.assets.animations.AnimationState;
 import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkRange;
@@ -162,7 +161,7 @@ public class GameScreen extends ApplicationAdapter {
           batch.draw(
               animationManager
                   .getGameAnimation(entity.getClass())
-                  .getAnimation(AnimationState.DEFAULT)
+                  .getAnimation(entity.getAnimationStateWrapper().getAnimationState())
                   .getKeyFrame(stateTime, true),
               v2.x,
               v2.y,
