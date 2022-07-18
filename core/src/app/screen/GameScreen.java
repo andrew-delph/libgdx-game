@@ -41,8 +41,6 @@ import org.apache.logging.log4j.Logger;
 
 public class GameScreen extends ApplicationAdapter {
 
-  // Constant rows and columns of the sprite sheet
-  private static final int FRAME_COLS = 6, FRAME_ROWS = 5;
   public static ShapeRenderer pathDebugRender;
   final Logger LOGGER = LogManager.getLogger();
   @Inject Game game;
