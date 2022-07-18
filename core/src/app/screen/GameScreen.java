@@ -2,6 +2,9 @@ package app.screen;
 
 import app.game.Game;
 import app.game.GameController;
+import app.screen.assets.BaseAssetManager;
+import app.screen.assets.animations.AnimationManager;
+import app.screen.assets.animations.AnimationState;
 import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkRange;
@@ -10,9 +13,13 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
@@ -37,6 +44,8 @@ import org.apache.logging.log4j.Logger;
 
 public class GameScreen extends ApplicationAdapter {
 
+  // Constant rows and columns of the sprite sheet
+  private static final int FRAME_COLS = 6, FRAME_ROWS = 5;
   public static ShapeRenderer pathDebugRender;
   final Logger LOGGER = LogManager.getLogger();
   @Inject Game game;
@@ -50,17 +59,53 @@ public class GameScreen extends ApplicationAdapter {
   @Inject User user;
   @Inject GameSettings gameSettings;
   @Inject GroupService groupService;
+  @Inject AnimationManager animationManager;
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
   Entity myEntity;
   SpriteBatch batch;
 
+  // Objects used
+  Animation<TextureRegion> walkAnimation; // Must declare frame type (TextureRegion)
+  Texture walkSheet;
+
+  // A variable for tracking elapsed time for the animation
+  float stateTime;
+
   @Inject
   public GameScreen() {}
+
+  private void createAnimation() {
+    walkSheet = new Texture(Gdx.files.internal("sprite-animation4.png"));
+
+    // Use the split utility method to create a 2D array of TextureRegions. This is
+    // possible because this sprite sheet contains frames of equal size and they are
+    // all aligned.
+    TextureRegion[][] tmp =
+        TextureRegion.split(
+            walkSheet, walkSheet.getWidth() / FRAME_COLS, walkSheet.getHeight() / FRAME_ROWS);
+
+    // Place the regions into a 1D array in the correct order, starting from the top
+    // left, going across first. The Animation constructor requires a 1D array.
+    TextureRegion[] walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+    int index = 0;
+    for (int i = 0; i < FRAME_ROWS; i++) {
+      for (int j = 0; j < FRAME_COLS; j++) {
+        walkFrames[index++] = tmp[i][j];
+      }
+    }
+
+    // Initialize the Animation with the frame interval and array of frames
+    walkAnimation = new Animation<TextureRegion>(0.025f, walkFrames);
+
+    // time to 0
+    stateTime = 0f;
+  }
 
   @Override
   public void create() {
     baseAssetManager.init();
+    animationManager.init();
     baseCamera.init();
     try {
       game.start();
@@ -83,6 +128,7 @@ public class GameScreen extends ApplicationAdapter {
     pathDebugRender = new ShapeRenderer();
     pathDebugRender.setColor(Color.RED);
     Gdx.graphics.setTitle("" + gameSettings.getVersion());
+    createAnimation();
   }
 
   private void createMyEntity() {
@@ -105,6 +151,9 @@ public class GameScreen extends ApplicationAdapter {
 
   @Override
   public void render() {
+
+    stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+    TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
 
     if (!myEntity.getHealth().isAlive()) {
       createMyEntity();
@@ -146,13 +195,27 @@ public class GameScreen extends ApplicationAdapter {
     for (Entity entity : renderList) {
       // render entity
       try {
-        entity.renderSync();
-        entity.sprite.draw(batch);
+        Vector2 v2 = entity.coordinates.toRenderVector2();
+        if (animationManager.getGameAnimation(entity.getClass()) != null) {
+          batch.draw(
+              animationManager
+                  .getGameAnimation(entity.getClass())
+                  .getAnimation(AnimationState.DEFAULT)
+                  .getKeyFrame(stateTime, true),
+              v2.x,
+              v2.y,
+              entity.getWidth(),
+              entity.getHeight());
+        } else {
+          entity.renderSync();
+          entity.sprite.draw(batch);
+        }
         if (entity.getEntityController() != null) entity.getEntityController().render();
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
+
     batch.end();
 
     if (GameSettings.RENDER_DEBUG) {

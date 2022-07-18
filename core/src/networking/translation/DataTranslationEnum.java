@@ -7,6 +7,7 @@ public class DataTranslationEnum {
   public static final String COORDINATES = "COORDINATES";
   public static final String HEALTH = "HEALTH";
   public static final String EQUIPPED = "EQUIPPED";
+  public static final String ANIMATION_STATE = "ANIMATION_STATE";
   public static final String REPLACE_BLOCK = "REPLACE_BLOCK";
   public static final String CREATE_ENTITY = "CREATE_ENTITY";
   public static final String UPDATE_ENTITY = "UPDATE_ENTITY";

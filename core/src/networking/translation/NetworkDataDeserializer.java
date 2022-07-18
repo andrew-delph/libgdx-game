@@ -2,6 +2,7 @@ package networking.translation;
 
 import static networking.translation.DataTranslationEnum.COORDINATES;
 
+import app.screen.assets.animations.AnimationState;
 import app.user.UserID;
 import chunk.Chunk;
 import chunk.ChunkFactory;
@@ -21,6 +22,7 @@ import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.ItemActionType;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.attributes.inventory.item.SwordInventoryItem;
+import entity.attributes.msc.AnimationStateWrapper;
 import entity.attributes.msc.Coordinates;
 import entity.attributes.msc.Health;
 import entity.block.Block;
@@ -80,6 +82,11 @@ public class NetworkDataDeserializer {
 
   public static Equipped createEquipped(NetworkObjects.NetworkData networkData) {
     return new Equipped(Integer.parseInt(networkData.getValue()));
+  }
+
+  public static AnimationStateWrapper createAnimationStateWrapper(
+      NetworkObjects.NetworkData networkData) {
+    return new AnimationStateWrapper(AnimationState.valueOf(networkData.getValue()));
   }
 
   public static List<UUID> createUUIDList(NetworkObjects.NetworkData networkData) {
@@ -154,6 +161,8 @@ public class NetworkDataDeserializer {
       return createSwordItem(networkData);
     } else if (DataTranslationEnum.EQUIPPED.equals(networkData.getKey())) {
       return createEquipped(networkData);
+    } else if (DataTranslationEnum.ANIMATION_STATE.equals(networkData.getKey())) {
+      return createAnimationStateWrapper(networkData);
     }
     return null;
   }

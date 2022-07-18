@@ -1,5 +1,6 @@
 package networking.translation;
 
+import app.screen.assets.animations.AnimationState;
 import chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -11,6 +12,7 @@ import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.attributes.inventory.item.SwordInventoryItem;
+import entity.attributes.msc.AnimationStateWrapper;
 import entity.attributes.msc.Coordinates;
 import networking.events.EventTypeFactory;
 import networking.events.types.incoming.UpdateEntityIncomingEventType;
@@ -132,5 +134,35 @@ public class TranslateUpdateEntityEvent {
     assert outgoing.getAttributeList().equals(incoming.getAttributeList());
 
     assert incoming.getAttributeList().size() == 1;
+
+    assert incoming.getAttributeList().get(0).equals(item);
+  }
+
+  @Test
+  public void testTranslateUpdateEntityAnimationStateWrapper() throws SerializationDataMissing {
+    Injector injector = Guice.createInjector(new ClientConfig());
+
+    EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
+
+    Coordinates coordinates = new Coordinates(0, 1);
+    ChunkRange chunkRange = new ChunkRange(coordinates);
+    Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
+
+    AnimationStateWrapper animationStateWrapper =
+        new AnimationStateWrapper(AnimationState.ATTACKING);
+
+    UpdateEntityOutgoingEventType outgoing =
+        EventTypeFactory.createUpdateEntityOutgoingEvent(
+            animationStateWrapper, chunkRange, entity.getUuid());
+    UpdateEntityIncomingEventType incoming =
+        NetworkDataDeserializer.createUpdateEntityIncomingEvent(
+            NetworkDataSerializer.createUpdateEntityOutgoingEventType(outgoing));
+
+    assert outgoing.getChunkRange().equals(incoming.getChunkRange());
+    assert outgoing.getAttributeList().equals(incoming.getAttributeList());
+
+    assert incoming.getAttributeList().size() == 1;
+
+    assert incoming.getAttributeList().get(0).equals(animationStateWrapper);
   }
 }

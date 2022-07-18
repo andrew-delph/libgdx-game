@@ -2,7 +2,7 @@ package util.mock;
 
 import static org.junit.Assert.assertTrue;
 
-import app.screen.BaseAssetManager;
+import app.screen.assets.BaseAssetManager;
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Guice;
 import com.google.inject.Injector;

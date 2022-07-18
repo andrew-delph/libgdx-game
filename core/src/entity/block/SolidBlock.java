@@ -1,6 +1,6 @@
 package entity.block;
 
-import app.screen.BaseAssetManager;
+import app.screen.assets.BaseAssetManager;
 import chunk.Chunk;
 import chunk.world.CreateBodyCallable;
 import chunk.world.EntityBodyBuilder;

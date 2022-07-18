@@ -54,7 +54,7 @@ class HorizontalEdgeStepper extends EdgeStepper {
     }
 
     if (relativePathNode.getEndPosition().calcDistance(entity.coordinates) < 0.3) {
-      Vector2 setBodyPosition = relativePathNode.getEndPosition().toVector2();
+      Vector2 setBodyPosition = relativePathNode.getEndPosition().toPhysicsVector2();
       entity.setBodyPosition(setBodyPosition);
       this.finish();
       return;

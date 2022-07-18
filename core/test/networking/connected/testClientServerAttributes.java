@@ -3,6 +3,7 @@ package networking.connected;
 import app.game.Game;
 import app.game.GameController;
 import app.screen.BaseCamera;
+import app.screen.assets.animations.AnimationState;
 import app.user.User;
 import chunk.ActiveChunkManager;
 import chunk.ChunkFactory;
@@ -22,6 +23,7 @@ import entity.Entity;
 import entity.EntityFactory;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
+import entity.attributes.msc.AnimationStateWrapper;
 import entity.attributes.msc.Coordinates;
 import entity.attributes.msc.Health;
 import generation.ChunkGenerationService;
@@ -223,5 +225,47 @@ public class testClientServerAttributes {
     assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
 
     assert clientEntity.getBag().getItem(3) instanceof OrbInventoryItem;
+  }
+
+  @Test
+  public void testAnimationStateUpdate()
+      throws ChunkNotFound, InterruptedException, EntityNotFound, WrongVersion,
+          SerializationDataMissing, IOException, BodyNotFound {
+    // test inventory is no default
+
+    Entity serverEntity = serverGameController.createEntity(new Coordinates(1, 1));
+    AnimationStateWrapper animationStateWrapper =
+        new AnimationStateWrapper(AnimationState.ATTACKING);
+
+    serverGameController.updateEntityAttribute(serverEntity.getUuid(), animationStateWrapper);
+
+    serverClock.waitForTick();
+
+    clientGame.start();
+
+    serverActiveChunkManager.addUserChunkSubscriptions(
+        clientUser.getUserID(), new ChunkRange(new Coordinates(0, 0)));
+
+    TimeUnit.SECONDS.sleep(1);
+    Entity clientEntity = clientGameStore.getEntity(serverEntity.getUuid());
+
+    assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
+    assert clientEntity
+        .getAnimationStateWrapper()
+        .getAnimationState()
+        .equals(AnimationState.ATTACKING);
+
+    AnimationStateWrapper animationStateWrapper2 =
+        new AnimationStateWrapper(AnimationState.FALLING);
+
+    serverGameController.updateEntityAttribute(serverEntity.getUuid(), animationStateWrapper2);
+
+    TimeUnit.SECONDS.sleep(1);
+    assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
+
+    assert clientEntity
+        .getAnimationStateWrapper()
+        .getAnimationState()
+        .equals(AnimationState.FALLING);
   }
 }

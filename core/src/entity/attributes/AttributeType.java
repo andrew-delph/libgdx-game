@@ -4,5 +4,6 @@ public enum AttributeType {
   COORDINATES,
   HEALTH,
   ITEM,
-  EQUIPPED
+  EQUIPPED,
+  ANIMATION_STATE
 }

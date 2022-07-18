@@ -45,7 +45,7 @@ public class RayCastService {
                       return 1;
                     };
 
-                world.rayCast(rayCastCallback, start.toVector2(), end.toVector2());
+                world.rayCast(rayCastCallback, start.toPhysicsVector2(), end.toPhysicsVector2());
               });
     }
     return rayCastCollisions;
