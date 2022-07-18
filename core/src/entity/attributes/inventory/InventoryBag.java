@@ -53,7 +53,7 @@ public class InventoryBag {
       return false;
     }
     InventoryBag that = (InventoryBag) o;
-    return Objects.equal(inventoryItemList, that.inventoryItemList)
+    return Arrays.equals(inventoryItemList, that.inventoryItemList)
         && Objects.equal(equipped, that.equipped);
   }
 

@@ -10,6 +10,7 @@ import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
 import entity.attributes.inventory.item.SwordInventoryItem;
+import entity.attributes.msc.AnimationStateWrapper;
 import entity.attributes.msc.Coordinates;
 import entity.attributes.msc.Health;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import networking.NetworkObjects;
 import networking.NetworkObjects.NetworkData;
+import networking.events.interfaces.SerializeNetworkData;
 import networking.events.types.outgoing.ChunkSwapOutgoingEventType;
 import networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import networking.events.types.outgoing.PingRequestOutgoingEventType;
@@ -38,7 +40,7 @@ public class NetworkDataSerializer {
 
     List<NetworkData> bagData =
         Arrays.stream(entity.getBag().getItemList())
-            .map((item) -> item.toNetworkData())
+            .map(SerializeNetworkData::toNetworkData)
             .collect(Collectors.toList());
 
     return NetworkObjects.NetworkData.newBuilder()
@@ -48,6 +50,7 @@ public class NetworkDataSerializer {
         .addChildren(uuid)
         .addAllChildren(bagData)
         .addChildren(entity.health.toNetworkData())
+        .addChildren(entity.getAnimationStateWrapper().toNetworkData())
         .build();
   }
 
@@ -73,6 +76,14 @@ public class NetworkDataSerializer {
     return NetworkObjects.NetworkData.newBuilder()
         .setKey(DataTranslationEnum.HEALTH)
         .setValue(String.valueOf(health.getValue()))
+        .build();
+  }
+
+  public static NetworkObjects.NetworkData createAnimationStateWrapper(
+      AnimationStateWrapper animationStateWrapper) {
+    return NetworkObjects.NetworkData.newBuilder()
+        .setKey(DataTranslationEnum.ANIMATION_STATE)
+        .setValue(String.valueOf(animationStateWrapper.getAnimationState()))
         .build();
   }
 

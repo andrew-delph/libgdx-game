@@ -75,7 +75,7 @@ public class TemplateEdge extends AbstractEdge {
             actionEdge.getFrom().getRelativeCoordinates().applyRelativeCoordinates(position);
         Coordinates end =
             actionEdge.getTo().getRelativeCoordinates().applyRelativeCoordinates(position);
-        pathDebugRender.line(start.toVector2(), end.toVector2());
+        pathDebugRender.line(start.toPhysicsVector2(), end.toPhysicsVector2());
       }
     }
   }

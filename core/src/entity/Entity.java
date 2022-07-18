@@ -1,6 +1,7 @@
 package entity;
 
-import app.screen.BaseAssetManager;
+import app.screen.assets.BaseAssetManager;
+import app.screen.assets.animations.AnimationState;
 import chunk.Chunk;
 import chunk.world.CreateBodyCallable;
 import chunk.world.EntityBodyBuilder;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.google.common.base.Objects;
 import com.sun.tools.javac.util.Pair;
 import common.Clock;
 import common.GameSettings;
@@ -19,6 +21,7 @@ import entity.attributes.AttributeType;
 import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.InventoryBag;
 import entity.attributes.inventory.item.AbstractInventoryItem;
+import entity.attributes.msc.AnimationStateWrapper;
 import entity.attributes.msc.Coordinates;
 import entity.attributes.msc.Health;
 import entity.controllers.EntityController;
@@ -47,6 +50,8 @@ public class Entity implements SerializeNetworkData {
   private EntityController entityController;
   private int width;
   private int height;
+  private AnimationStateWrapper animationStateWrapper =
+      new AnimationStateWrapper(AnimationState.DEFAULT);
 
   public Entity(
       Clock clock,
@@ -62,6 +67,14 @@ public class Entity implements SerializeNetworkData {
     this.uuid = UUID.randomUUID();
     this.health = new Health(100);
     this.bag = new InventoryBag();
+  }
+
+  public AnimationStateWrapper getAnimationStateWrapper() {
+    return animationStateWrapper;
+  }
+
+  public void setAnimationStateWrapper(AnimationStateWrapper animationStateWrapper) {
+    this.animationStateWrapper = animationStateWrapper;
   }
 
   public Health getHealth() {
@@ -82,6 +95,9 @@ public class Entity implements SerializeNetworkData {
       this.getBag().updateItem((AbstractInventoryItem) attr);
     } else if (attr.getType().equals(AttributeType.EQUIPPED)) {
       this.getBag().setEquipped((Equipped) attr);
+    } else if (attr.getType().equals(AttributeType.ANIMATION_STATE)) {
+      this.setAnimationStateWrapper((AnimationStateWrapper) attr);
+      return null;
     }
     return null;
   }
@@ -175,20 +191,24 @@ public class Entity implements SerializeNetworkData {
   }
 
   @Override
-  public int hashCode() {
-    return (this.uuid).hashCode();
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Entity entity = (Entity) o;
+    return Objects.equal(coordinates, entity.coordinates)
+        && Objects.equal(health, entity.health)
+        && Objects.equal(uuid, entity.uuid)
+        && Objects.equal(bag, entity.bag)
+        && Objects.equal(animationStateWrapper, entity.animationStateWrapper);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
-    Entity other = (Entity) obj;
-    return this.uuid.equals(other.uuid)
-        && this.coordinates.equals(other.coordinates)
-        && this.health.equals(other.health)
-        && this.bag.equals(other.bag);
+  public int hashCode() {
+    return Objects.hashCode(uuid);
   }
 
   public Coordinates getCenter() {

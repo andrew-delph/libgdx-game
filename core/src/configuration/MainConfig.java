@@ -1,7 +1,8 @@
 package configuration;
 
-import app.screen.BaseAssetManager;
 import app.screen.BaseCamera;
+import app.screen.assets.BaseAssetManager;
+import app.screen.assets.animations.AnimationManager;
 import app.user.User;
 import chunk.ActiveChunkManager;
 import chunk.ChunkFactory;
@@ -40,6 +41,7 @@ public abstract class MainConfig extends AbstractModule {
   @Override
   protected void configure() {
     bind(BaseAssetManager.class).in(Singleton.class);
+    bind(AnimationManager.class).asEagerSingleton();
     bind(BaseCamera.class).in(Singleton.class);
     bind(Clock.class).asEagerSingleton();
     bind(GameStore.class).asEagerSingleton();

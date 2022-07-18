@@ -1,6 +1,7 @@
 package entity.controllers;
 
 import app.game.GameController;
+import app.screen.assets.animations.AnimationState;
 import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -13,6 +14,7 @@ import common.exceptions.EntityNotFound;
 import entity.Entity;
 import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.InventoryBag;
+import entity.attributes.msc.AnimationStateWrapper;
 import entity.block.DirtBlock;
 import entity.block.SkyBlock;
 import entity.controllers.actions.EntityActionFactory;
@@ -121,11 +123,15 @@ public class EntityUserController extends EntityController {
     if (Gdx.input.isKeyPressed(Input.Keys.A)) {
       if (this.getAction("left").isValid(entity)) {
         this.applyAction("left", entity);
+        this.gameController.updateEntityAttribute(
+            this.entity.getUuid(), new AnimationStateWrapper(AnimationState.WALKING_LEFT));
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.D)) {
       if (this.getAction("right").isValid(entity)) {
         this.applyAction("right", entity);
+        this.gameController.updateEntityAttribute(
+            this.entity.getUuid(), new AnimationStateWrapper(AnimationState.WALKING_RIGHT));
       }
     }
   }

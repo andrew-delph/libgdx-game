@@ -115,9 +115,14 @@ public class Coordinates implements Attribute {
     return this.getXReal() + "," + this.getYReal();
   }
 
-  public Vector2 toVector2() {
+  public Vector2 toPhysicsVector2() {
     return new Vector2(
         this.getXReal() * GameSettings.PHYSICS_SCALE, this.getYReal() * GameSettings.PHYSICS_SCALE);
+  }
+
+  public Vector2 toRenderVector2() {
+    return new Vector2(
+        this.getXReal() * GameSettings.PIXEL_SCALE, this.getYReal() * GameSettings.PIXEL_SCALE);
   }
 
   @Override

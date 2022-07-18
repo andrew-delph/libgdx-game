@@ -2,6 +2,8 @@ package app.screen;
 
 import app.game.Game;
 import app.game.GameController;
+import app.screen.assets.BaseAssetManager;
+import app.screen.assets.animations.AnimationManager;
 import app.user.User;
 import chunk.Chunk;
 import chunk.ChunkRange;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
@@ -50,10 +53,14 @@ public class GameScreen extends ApplicationAdapter {
   @Inject User user;
   @Inject GameSettings gameSettings;
   @Inject GroupService groupService;
+  @Inject AnimationManager animationManager;
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
   Entity myEntity;
   SpriteBatch batch;
+
+  // A variable for tracking elapsed time for the animation
+  float stateTime;
 
   @Inject
   public GameScreen() {}
@@ -61,6 +68,7 @@ public class GameScreen extends ApplicationAdapter {
   @Override
   public void create() {
     baseAssetManager.init();
+    animationManager.init();
     baseCamera.init();
     try {
       game.start();
@@ -106,6 +114,8 @@ public class GameScreen extends ApplicationAdapter {
   @Override
   public void render() {
 
+    stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+
     if (!myEntity.getHealth().isAlive()) {
       createMyEntity();
     }
@@ -146,13 +156,27 @@ public class GameScreen extends ApplicationAdapter {
     for (Entity entity : renderList) {
       // render entity
       try {
-        entity.renderSync();
-        entity.sprite.draw(batch);
+        Vector2 v2 = entity.coordinates.toRenderVector2();
+        if (animationManager.getGameAnimation(entity.getClass()) != null) {
+          batch.draw(
+              animationManager
+                  .getGameAnimation(entity.getClass())
+                  .getAnimation(entity.getAnimationStateWrapper().getAnimationState())
+                  .getKeyFrame(stateTime, true),
+              v2.x,
+              v2.y,
+              entity.getWidth(),
+              entity.getHeight());
+        } else {
+          entity.renderSync();
+          entity.sprite.draw(batch);
+        }
         if (entity.getEntityController() != null) entity.getEntityController().render();
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
+
     batch.end();
 
     if (GameSettings.RENDER_DEBUG) {

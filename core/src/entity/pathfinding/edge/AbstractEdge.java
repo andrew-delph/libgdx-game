@@ -87,7 +87,8 @@ public abstract class AbstractEdge {
 
   public void render(Coordinates position) {
     if (GameSettings.RENDER_DEBUG) {
-      pathDebugRender.line(position.toVector2(), this.applyTransition(position).toVector2());
+      pathDebugRender.line(
+          position.toPhysicsVector2(), this.applyTransition(position).toPhysicsVector2());
     }
   }
 }

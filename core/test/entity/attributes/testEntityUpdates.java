@@ -1,5 +1,6 @@
 package entity.attributes;
 
+import app.screen.assets.animations.AnimationState;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import configuration.BaseServerConfig;
@@ -8,6 +9,7 @@ import entity.EntityFactory;
 import entity.attributes.inventory.Equipped;
 import entity.attributes.inventory.item.EmptyInventoryItem;
 import entity.attributes.inventory.item.OrbInventoryItem;
+import entity.attributes.msc.AnimationStateWrapper;
 import entity.attributes.msc.Coordinates;
 import entity.attributes.msc.Health;
 import org.junit.Before;
@@ -72,5 +74,19 @@ public class testEntityUpdates {
     entity.updateAttribute(orb1);
 
     assert entity.getBag().getItem(3) instanceof OrbInventoryItem;
+  }
+
+  @Test
+  public void testAnimationStateUpdate() {
+    Entity entity = entityFactory.createEntity(new Coordinates(0, 1));
+
+    AnimationStateWrapper animationStateWrapper =
+        new AnimationStateWrapper(AnimationState.ATTACKING);
+
+    assert entity.getAnimationStateWrapper().getAnimationState().equals(AnimationState.DEFAULT);
+
+    entity.updateAttribute(animationStateWrapper);
+
+    assert entity.getAnimationStateWrapper().getAnimationState().equals(AnimationState.ATTACKING);
   }
 }

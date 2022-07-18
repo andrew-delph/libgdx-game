@@ -1,4 +1,4 @@
-package app.screen;
+package app.screen.assets;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,6 +21,7 @@ public class BaseAssetManager extends AssetManager {
     this.load("bullet.png", Texture.class);
     this.load("turret.png", Texture.class);
     this.load("orb.png", Texture.class);
+    this.load("sprite-animation4.png", Texture.class);
     this.update();
     this.finishLoading();
     this.loaded = true;

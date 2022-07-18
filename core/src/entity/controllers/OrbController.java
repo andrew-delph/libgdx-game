@@ -52,7 +52,7 @@ public class OrbController extends EntityController {
 
     if (!gameStore.doesChunkExist(entity.getChunk().chunkRange.getDown())) {
       /* If the chunk below doesn't exist. Don't move down. It could cause a problem */
-      entity.setBodyPosition(entity.coordinates.toVector2());
+      entity.setBodyPosition(entity.coordinates.toPhysicsVector2());
       return;
     }
 

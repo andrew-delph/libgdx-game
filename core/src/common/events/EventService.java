@@ -31,7 +31,7 @@ public class EventService {
 
   public void fireEvent(common.events.types.EventType eventType) {
     if (eventType == null) {
-      LOGGER.error("eventType is null.");
+      LOGGER.debug("eventType is null.");
       return;
     }
     if (this.eventListeners.get(eventType.getEventType()) != null) {

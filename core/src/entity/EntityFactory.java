@@ -1,6 +1,6 @@
 package entity;
 
-import app.screen.BaseAssetManager;
+import app.screen.assets.BaseAssetManager;
 import chunk.world.EntityBodyBuilder;
 import com.google.inject.Inject;
 import common.Clock;

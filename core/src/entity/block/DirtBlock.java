@@ -1,6 +1,6 @@
 package entity.block;
 
-import app.screen.BaseAssetManager;
+import app.screen.assets.BaseAssetManager;
 import chunk.world.EntityBodyBuilder;
 import common.Clock;
 import entity.attributes.msc.Coordinates;

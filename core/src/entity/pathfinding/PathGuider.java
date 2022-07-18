@@ -51,7 +51,7 @@ public class PathGuider {
       } else {
         // start using a new path
         this.currentEdgeStepper = currentPathNode.edge.getEdgeStepper(entity, currentPathNode);
-        this.entity.setBodyPosition(this.currentPathNode.startPosition.toVector2());
+        this.entity.setBodyPosition(this.currentPathNode.startPosition.toPhysicsVector2());
         this.entity.coordinates = this.currentPathNode.startPosition;
         this.currentPathNode.start();
       }
