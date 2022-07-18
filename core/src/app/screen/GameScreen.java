@@ -13,10 +13,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -65,42 +62,11 @@ public class GameScreen extends ApplicationAdapter {
   Entity myEntity;
   SpriteBatch batch;
 
-  // Objects used
-  Animation<TextureRegion> walkAnimation; // Must declare frame type (TextureRegion)
-  Texture walkSheet;
-
   // A variable for tracking elapsed time for the animation
   float stateTime;
 
   @Inject
   public GameScreen() {}
-
-  private void createAnimation() {
-    walkSheet = new Texture(Gdx.files.internal("sprite-animation4.png"));
-
-    // Use the split utility method to create a 2D array of TextureRegions. This is
-    // possible because this sprite sheet contains frames of equal size and they are
-    // all aligned.
-    TextureRegion[][] tmp =
-        TextureRegion.split(
-            walkSheet, walkSheet.getWidth() / FRAME_COLS, walkSheet.getHeight() / FRAME_ROWS);
-
-    // Place the regions into a 1D array in the correct order, starting from the top
-    // left, going across first. The Animation constructor requires a 1D array.
-    TextureRegion[] walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-    int index = 0;
-    for (int i = 0; i < FRAME_ROWS; i++) {
-      for (int j = 0; j < FRAME_COLS; j++) {
-        walkFrames[index++] = tmp[i][j];
-      }
-    }
-
-    // Initialize the Animation with the frame interval and array of frames
-    walkAnimation = new Animation<TextureRegion>(0.025f, walkFrames);
-
-    // time to 0
-    stateTime = 0f;
-  }
 
   @Override
   public void create() {
@@ -128,7 +94,6 @@ public class GameScreen extends ApplicationAdapter {
     pathDebugRender = new ShapeRenderer();
     pathDebugRender.setColor(Color.RED);
     Gdx.graphics.setTitle("" + gameSettings.getVersion());
-    createAnimation();
   }
 
   private void createMyEntity() {
@@ -153,7 +118,6 @@ public class GameScreen extends ApplicationAdapter {
   public void render() {
 
     stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
-    TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
 
     if (!myEntity.getHealth().isAlive()) {
       createMyEntity();
