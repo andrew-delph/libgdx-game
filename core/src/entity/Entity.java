@@ -208,7 +208,7 @@ public class Entity implements SerializeNetworkData {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(coordinates, health, uuid, animationStateWrapper);
+    return Objects.hashCode(uuid);
   }
 
   public Coordinates getCenter() {
