@@ -33,6 +33,7 @@ public class Clock {
     for (Runnable task : tickRunnableList) {
       task.run();
     }
+    tickLockable.remove(currentTick.time);
   }
 
   public void waitForTick() throws InterruptedException {
