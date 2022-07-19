@@ -2,12 +2,12 @@ package core.networking.events.consumer.server.incoming;
 
 import com.google.inject.Inject;
 import core.common.events.types.EventType;
-import core.networking.events.types.incoming.PingRequestIncomingEventType;
-import core.networking.translation.NetworkDataSerializer;
-import java.util.function.Consumer;
 import core.networking.events.EventTypeFactory;
+import core.networking.events.types.incoming.PingRequestIncomingEventType;
 import core.networking.events.types.outgoing.PingResponseOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
+import core.networking.translation.NetworkDataSerializer;
+import java.util.function.Consumer;
 
 public class PingRequestIncomingConsumerServer implements Consumer<EventType> {
 

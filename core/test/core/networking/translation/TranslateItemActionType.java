@@ -3,7 +3,6 @@ package core.networking.translation;
 import core.common.events.types.ItemActionEventType;
 import core.common.exceptions.SerializationDataMissing;
 import core.entity.attributes.inventory.item.ItemActionType;
-import core.networking.translation.NetworkDataDeserializer;
 import java.util.UUID;
 import org.junit.Test;
 

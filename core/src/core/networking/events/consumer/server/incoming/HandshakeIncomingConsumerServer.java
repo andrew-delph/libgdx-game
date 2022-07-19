@@ -1,19 +1,19 @@
 package core.networking.events.consumer.server.incoming;
 
+import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.chunk.ChunkRange;
-import com.google.inject.Inject;
 import core.common.GameStore;
 import core.common.events.types.EventType;
-import core.networking.events.types.incoming.HandshakeIncomingEventType;
 import core.entity.Entity;
+import core.networking.events.EventTypeFactory;
+import core.networking.events.types.incoming.HandshakeIncomingEventType;
+import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import core.networking.server.ServerNetworkHandle;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
-import core.networking.events.EventTypeFactory;
-import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
-import core.networking.server.ServerNetworkHandle;
 
 public class HandshakeIncomingConsumerServer implements Consumer<EventType> {
 

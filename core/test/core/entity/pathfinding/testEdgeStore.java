@@ -1,15 +1,13 @@
 package core.entity.pathfinding;
 
-import core.chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.chunk.ChunkRange;
 import core.common.GameStore;
 import core.configuration.StandAloneConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;
 import core.entity.attributes.msc.Coordinates;
-import core.entity.pathfinding.EdgeRegistration;
-import core.entity.pathfinding.EdgeStore;
 import core.entity.pathfinding.edge.AbstractEdge;
 import core.generation.ChunkBuilderFactory;
 import org.junit.Test;

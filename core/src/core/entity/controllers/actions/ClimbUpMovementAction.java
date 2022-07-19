@@ -3,8 +3,8 @@ package core.entity.controllers.actions;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import core.common.exceptions.ChunkNotFound;
-import core.entity.collision.ladder.EntityLadderContact;
 import core.entity.Entity;
+import core.entity.collision.ladder.EntityLadderContact;
 
 public class ClimbUpMovementAction implements EntityAction {
   EntityLadderContact entityLadderContact;

@@ -5,14 +5,14 @@ import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.exceptions.EntityNotFound;
-import core.entity.block.Block;
 import core.entity.Entity;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.attributes.msc.Health;
+import core.entity.block.Block;
 import core.entity.collision.projectile.ProjectileContact;
 import core.entity.controllers.actions.EntityActionFactory;
-import java.util.UUID;
 import core.networking.events.EventTypeFactory;
+import java.util.UUID;
 
 public class ProjectileController extends EntityController {
 

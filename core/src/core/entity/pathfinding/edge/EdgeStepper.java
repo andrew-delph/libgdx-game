@@ -3,8 +3,8 @@ package core.entity.pathfinding.edge;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EdgeStepperException;
-import core.entity.pathfinding.RelativePathNode;
 import core.entity.Entity;
+import core.entity.pathfinding.RelativePathNode;
 
 public abstract class EdgeStepper {
 

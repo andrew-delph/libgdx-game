@@ -1,8 +1,8 @@
 package core.networking.translation;
 
-import core.chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.chunk.ChunkRange;
 import core.common.exceptions.SerializationDataMissing;
 import core.configuration.ClientConfig;
 import core.entity.Entity;
@@ -11,8 +11,6 @@ import core.entity.attributes.msc.Coordinates;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.CreateEntityIncomingEventType;
 import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
-import core.networking.translation.NetworkDataDeserializer;
-import core.networking.translation.NetworkDataSerializer;
 import org.junit.Test;
 
 public class TranslateCreateEntityEvent {

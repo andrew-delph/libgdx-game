@@ -1,20 +1,19 @@
 package core.app.game;
 
+import com.google.inject.Inject;
 import core.app.screen.BaseCamera;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
-import com.google.inject.Inject;
 import core.common.exceptions.SerializationDataMissing;
 import core.common.exceptions.WrongVersion;
-import java.io.IOException;
 import core.networking.client.ClientNetworkHandle;
+import java.io.IOException;
 
 public class ClientGame extends Game {
 
   @Inject ClientNetworkHandle clientNetworkHandle;
 
-  @Inject
-  BaseCamera baseCamera;
+  @Inject BaseCamera baseCamera;
 
   @Inject
   public ClientGame() throws Exception {
@@ -30,7 +29,7 @@ public class ClientGame extends Game {
   @Override
   public void start()
       throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
-      BodyNotFound {
+          BodyNotFound {
     super.start();
   }
 

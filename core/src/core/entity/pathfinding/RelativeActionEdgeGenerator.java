@@ -1,21 +1,21 @@
 package core.entity.pathfinding;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
+import com.google.inject.Inject;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.chunk.world.WorldWrapper;
 import core.chunk.world.exceptions.BodyNotFound;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
-import com.google.inject.Inject;
+import core.entity.Entity;
+import core.entity.EntityFactory;
+import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.block.EmptyBlock;
 import core.entity.block.SolidBlock;
-import core.entity.Entity;
-import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.controllers.actions.EntityAction;
 import core.entity.controllers.actions.EntityActionFactory;
 import java.util.Map;
@@ -27,8 +27,7 @@ public class RelativeActionEdgeGenerator {
   Entity entity;
 
   @Inject EntityActionFactory entityActionFactory;
-  @Inject
-  BlockFactory blockFactory;
+  @Inject BlockFactory blockFactory;
   @Inject ChunkFactory chunkFactory;
   @Inject EntityFactory entityFactory;
 

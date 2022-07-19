@@ -5,9 +5,9 @@ import static core.networking.translation.NetworkDataSerializer.createChunkSwapO
 
 import core.chunk.ChunkRange;
 import core.common.events.types.EventType;
+import core.networking.events.interfaces.SerializeNetworkEvent;
 import java.util.UUID;
 import networking.NetworkObjects;
-import core.networking.events.interfaces.SerializeNetworkEvent;
 
 public class ChunkSwapOutgoingEventType extends EventType implements SerializeNetworkEvent {
 

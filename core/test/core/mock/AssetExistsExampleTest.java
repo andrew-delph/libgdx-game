@@ -2,10 +2,10 @@ package core.mock;
 
 import static org.junit.Assert.assertTrue;
 
-import core.app.screen.assets.BaseAssetManager;
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.app.screen.assets.BaseAssetManager;
 import core.configuration.ClientConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;

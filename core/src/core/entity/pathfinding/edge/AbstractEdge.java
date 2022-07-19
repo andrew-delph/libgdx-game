@@ -3,12 +3,12 @@ package core.entity.pathfinding.edge;
 import static core.app.screen.GameScreen.pathDebugRender;
 
 import core.common.GameSettings;
+import core.entity.Entity;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.pathfinding.EntityStructure;
 import core.entity.pathfinding.PathGameStoreOverride;
 import core.entity.pathfinding.RelativePathNode;
 import core.entity.pathfinding.RelativeVertex;
-import core.entity.Entity;
 
 public abstract class AbstractEdge {
 

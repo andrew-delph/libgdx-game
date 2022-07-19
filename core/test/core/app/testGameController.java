@@ -1,11 +1,11 @@
 package core.app;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import core.app.game.GameController;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import core.common.GameStore;
 import core.common.events.EventConsumer;
 import core.common.events.EventService;

@@ -1,8 +1,8 @@
 package core.entity.collision.left;
 
 import core.common.exceptions.ChunkNotFound;
-import core.entity.collision.ContactWrapperCounter;
 import core.entity.Entity;
+import core.entity.collision.ContactWrapperCounter;
 
 public class EntityLeftContact extends ContactWrapperCounter {
 

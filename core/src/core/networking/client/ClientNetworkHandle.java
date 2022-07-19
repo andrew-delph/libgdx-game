@@ -1,18 +1,21 @@
 package core.networking.client;
 
+import com.google.inject.Inject;
+import com.google.protobuf.Empty;
+import com.sun.tools.javac.util.Pair;
 import core.app.user.User;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
-import com.google.inject.Inject;
-import com.google.protobuf.Empty;
-import com.sun.tools.javac.util.Pair;
 import core.common.Clock;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.SerializationDataMissing;
 import core.common.exceptions.WrongVersion;
+import core.entity.Entity;
+import core.networking.ObserverFactory;
+import core.networking.RequestNetworkEventObserver;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.outgoing.GetChunkOutgoingEventType;
 import core.networking.events.types.outgoing.HandshakeOutgoingEventType;
@@ -20,7 +23,6 @@ import core.networking.ping.PingService;
 import core.networking.sync.SyncService;
 import core.networking.translation.DataTranslationEnum;
 import core.networking.translation.NetworkDataDeserializer;
-import core.entity.Entity;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -29,8 +31,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
-import core.networking.ObserverFactory;
-import core.networking.RequestNetworkEventObserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,18 +41,14 @@ public class ClientNetworkHandle {
   public int port = 99;
   RequestNetworkEventObserver requestNetworkEventObserver;
   @Inject ObserverFactory observerFactory;
-  @Inject
-  EventTypeFactory eventTypeFactory;
-  @Inject
-  NetworkDataDeserializer entitySerializationConverter;
+  @Inject EventTypeFactory eventTypeFactory;
+  @Inject NetworkDataDeserializer entitySerializationConverter;
   @Inject GameStore gameStore;
   @Inject ChunkFactory chunkFactory;
   @Inject User user;
   @Inject GameSettings gameSettings;
-  @Inject
-  PingService pingService;
-  @Inject
-  SyncService syncService;
+  @Inject PingService pingService;
+  @Inject SyncService syncService;
 
   private ManagedChannel channel;
   private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;

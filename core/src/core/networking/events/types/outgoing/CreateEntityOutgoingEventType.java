@@ -2,10 +2,10 @@ package core.networking.events.types.outgoing;
 
 import core.chunk.ChunkRange;
 import core.common.events.types.EventType;
+import core.networking.events.interfaces.SerializeNetworkEvent;
 import core.networking.events.types.NetworkEventTypeEnum;
 import core.networking.translation.NetworkDataSerializer;
 import networking.NetworkObjects;
-import core.networking.events.interfaces.SerializeNetworkEvent;
 
 public class CreateEntityOutgoingEventType extends EventType implements SerializeNetworkEvent {
 

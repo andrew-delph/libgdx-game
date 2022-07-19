@@ -1,23 +1,23 @@
 package core.networking.events.consumer.server.incoming;
 
+import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.chunk.ActiveChunkManager;
 import core.chunk.ChunkRange;
-import com.google.inject.Inject;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.events.types.EventType;
 import core.common.exceptions.EntityNotFound;
 import core.entity.ActiveEntityManager;
 import core.entity.Entity;
-import java.util.UUID;
-import java.util.function.Consumer;
-import java.util.logging.Logger;
 import core.networking.ConnectionStore;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.DisconnectionIncomingEventType;
 import core.networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
+import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 public class DisconnectionIncomingConsumerServer implements Consumer<EventType> {
 

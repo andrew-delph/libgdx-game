@@ -4,9 +4,6 @@ import static org.junit.Assert.fail;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import core.chunk.Chunk;
-import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.common.exceptions.EntityNotFound;
 import core.configuration.ClientConfig;
 import core.entity.Entity;

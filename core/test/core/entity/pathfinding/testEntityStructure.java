@@ -1,9 +1,9 @@
 package core.entity.pathfinding;
 
-import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.chunk.ChunkFactory;
+import core.chunk.ChunkRange;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
@@ -15,10 +15,6 @@ import core.entity.block.BlockFactory;
 import core.entity.block.EmptyBlock;
 import core.entity.block.SolidBlock;
 import core.entity.misc.Ladder;
-import core.entity.pathfinding.EntityStructure;
-import core.entity.pathfinding.EntityStructureFactory;
-import core.entity.pathfinding.PathGameStoreOverride;
-import core.entity.pathfinding.RelativeCoordinates;
 import org.junit.Test;
 
 public class testEntityStructure {

@@ -1,9 +1,9 @@
 package core.entity.controllers;
 
-import core.app.game.GameController;
-import core.chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import core.app.game.GameController;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.GameSettings;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
@@ -13,10 +13,10 @@ import core.entity.controllers.actions.EntityAction;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.controllers.events.consumers.EntityEventConsumer;
 import core.entity.controllers.events.types.AbstractEntityEventType;
+import core.networking.events.EventTypeFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import core.networking.events.EventTypeFactory;
 
 public class EntityController {
   GameController gameController;

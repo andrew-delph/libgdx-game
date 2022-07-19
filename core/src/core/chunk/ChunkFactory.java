@@ -1,23 +1,20 @@
 package core.chunk;
 
-import core.app.game.GameController;
 import com.google.inject.Inject;
+import core.app.game.GameController;
 import core.common.Clock;
 import core.common.GameStore;
 import core.entity.collision.EntityContactListenerFactory;
 
 public class ChunkFactory {
 
-  @Inject
-  Clock clock;
+  @Inject Clock clock;
 
-  @Inject
-  GameStore gameStore;
+  @Inject GameStore gameStore;
 
   @Inject EntityContactListenerFactory entityContactListenerFactory;
 
-  @Inject
-  GameController gameController;
+  @Inject GameController gameController;
 
   @Inject
   ChunkFactory() {}

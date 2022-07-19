@@ -1,9 +1,9 @@
 package core.networking.translation;
 
-import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.chunk.ChunkFactory;
+import core.chunk.ChunkRange;
 import core.common.GameStore;
 import core.common.events.EventConsumer;
 import core.common.events.EventService;
@@ -14,12 +14,10 @@ import core.entity.Entity;
 import core.entity.EntityFactory;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.block.BlockFactory;
-import core.networking.translation.NetworkDataDeserializer;
-import core.networking.translation.NetworkEventHandler;
+import core.networking.events.EventTypeFactory;
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import core.networking.events.EventTypeFactory;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,14 +1,14 @@
 package core.networking.events.types.outgoing;
 
-import core.chunk.ChunkRange;
 import com.google.inject.Inject;
+import core.chunk.ChunkRange;
 import core.common.events.types.EventType;
+import core.entity.Entity;
+import core.networking.events.interfaces.SerializeNetworkEvent;
 import core.networking.events.types.NetworkEventTypeEnum;
 import core.networking.translation.NetworkDataSerializer;
-import core.entity.Entity;
 import java.util.UUID;
 import networking.NetworkObjects;
-import core.networking.events.interfaces.SerializeNetworkEvent;
 
 public class ReplaceBlockOutgoingEventType extends EventType implements SerializeNetworkEvent {
 

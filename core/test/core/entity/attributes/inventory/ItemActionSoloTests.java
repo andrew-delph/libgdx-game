@@ -5,14 +5,14 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import core.app.game.Game;
-import core.app.game.GameController;
-import core.chunk.world.exceptions.BodyNotFound;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.util.Modules;
 import com.google.inject.util.Providers;
+import core.app.game.Game;
+import core.app.game.GameController;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;

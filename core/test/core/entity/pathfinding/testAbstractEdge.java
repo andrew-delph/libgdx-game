@@ -5,9 +5,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.common.GameStore;
 import core.configuration.StandAloneConfig;
-import core.entity.pathfinding.EntityStructure;
-import core.entity.pathfinding.RelativeCoordinates;
-import core.entity.pathfinding.RelativeVertex;
 import core.entity.pathfinding.edge.HorizontalGreedyEdge;
 import org.junit.Test;
 

@@ -1,8 +1,8 @@
 package core.app.game;
 
-import core.chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;

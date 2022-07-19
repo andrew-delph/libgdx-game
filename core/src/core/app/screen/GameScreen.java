@@ -1,13 +1,5 @@
 package core.app.screen;
 
-import core.app.game.Game;
-import core.app.game.GameController;
-import core.app.screen.assets.BaseAssetManager;
-import core.app.screen.assets.animations.AnimationManager;
-import core.app.user.User;
-import core.chunk.Chunk;
-import core.chunk.ChunkRange;
-import core.chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -19,6 +11,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
+import core.app.game.Game;
+import core.app.game.GameController;
+import core.app.screen.assets.BaseAssetManager;
+import core.app.screen.assets.animations.AnimationManager;
+import core.app.user.User;
+import core.chunk.Chunk;
+import core.chunk.ChunkRange;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
@@ -45,18 +45,15 @@ public class GameScreen extends ApplicationAdapter {
   @Inject Game game;
   @Inject GameStore gameStore;
   @Inject EntityFactory entityFactory;
-  @Inject
-  BaseAssetManager baseAssetManager;
+  @Inject BaseAssetManager baseAssetManager;
   @Inject BaseCamera baseCamera;
-  @Inject
-  GameController gameController;
+  @Inject GameController gameController;
   @Inject EntityControllerFactory entityControllerFactory;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject User user;
   @Inject GameSettings gameSettings;
   @Inject GroupService groupService;
-  @Inject
-  AnimationManager animationManager;
+  @Inject AnimationManager animationManager;
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
   Entity myEntity;

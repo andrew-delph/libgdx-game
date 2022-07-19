@@ -3,12 +3,12 @@ package core.networking.events.types.outgoing;
 import core.chunk.ChunkRange;
 import core.common.events.types.EventType;
 import core.entity.attributes.Attribute;
+import core.networking.events.interfaces.SerializeNetworkEvent;
 import core.networking.events.types.NetworkEventTypeEnum;
 import core.networking.translation.NetworkDataSerializer;
 import java.util.List;
 import java.util.UUID;
 import networking.NetworkObjects;
-import core.networking.events.interfaces.SerializeNetworkEvent;
 
 public class UpdateEntityOutgoingEventType extends EventType implements SerializeNetworkEvent {
   public static String type = NetworkEventTypeEnum.UPDATE_ENTITY_OUTGOING;

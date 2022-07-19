@@ -2,15 +2,13 @@ package core.networking.translation;
 
 import core.chunk.ChunkRange;
 import core.entity.attributes.msc.Coordinates;
-import core.networking.translation.NetworkDataDeserializer;
-import core.networking.translation.NetworkDataSerializer;
+import core.networking.events.EventTypeFactory;
+import core.networking.events.types.incoming.HandshakeIncomingEventType;
+import core.networking.events.types.outgoing.HandshakeOutgoingEventType;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import core.networking.events.EventTypeFactory;
-import core.networking.events.types.incoming.HandshakeIncomingEventType;
-import core.networking.events.types.outgoing.HandshakeOutgoingEventType;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,9 +1,9 @@
 package core.entity.pathfinding;
 
-import core.app.game.GameController;
-import core.chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
+import core.app.game.GameController;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.GameStore;
 import core.entity.block.BlockFactory;
 import core.entity.block.EmptyBlock;
@@ -20,8 +20,7 @@ public class EdgeRegistration extends EdgeRegistrationBase {
   @Inject TemplateEdgeGeneratorFactory templateEdgeGeneratorFactory;
   @Inject GameController gameController;
   @Inject GameStore gameStore;
-  @Inject
-  BlockFactory blockFactory;
+  @Inject BlockFactory blockFactory;
 
   @Inject
   EdgeRegistration() {}

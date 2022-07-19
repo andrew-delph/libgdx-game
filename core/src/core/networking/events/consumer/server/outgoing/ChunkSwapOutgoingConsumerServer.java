@@ -1,21 +1,21 @@
 package core.networking.events.consumer.server.outgoing;
 
+import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.chunk.ActiveChunkManager;
 import core.chunk.ChunkRange;
-import com.google.inject.Inject;
 import core.common.GameStore;
 import core.common.events.types.EventType;
 import core.common.exceptions.EntityNotFound;
-import core.networking.events.types.outgoing.ChunkSwapOutgoingEventType;
 import core.entity.Entity;
+import core.networking.events.EventTypeFactory;
+import core.networking.events.types.outgoing.ChunkSwapOutgoingEventType;
+import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import core.networking.server.ServerNetworkHandle;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 import networking.NetworkObjects;
-import core.networking.events.EventTypeFactory;
-import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
-import core.networking.server.ServerNetworkHandle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

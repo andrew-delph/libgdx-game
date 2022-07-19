@@ -1,13 +1,13 @@
 package core.configuration;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import core.app.screen.BaseCamera;
 import core.app.screen.assets.BaseAssetManager;
 import core.app.screen.assets.animations.AnimationManager;
 import core.app.user.User;
 import core.chunk.ActiveChunkManager;
 import core.chunk.ChunkFactory;
-import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
 import core.common.ChunkClockMap;
 import core.common.Clock;
 import core.common.GameSettings;

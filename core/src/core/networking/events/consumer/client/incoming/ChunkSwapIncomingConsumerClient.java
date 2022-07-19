@@ -1,7 +1,7 @@
 package core.networking.events.consumer.client.incoming;
 
-import core.chunk.world.exceptions.DestroyBodyException;
 import com.google.inject.Inject;
+import core.chunk.world.exceptions.DestroyBodyException;
 import core.common.GameStore;
 import core.common.events.types.EventType;
 import core.common.exceptions.EntityNotFound;

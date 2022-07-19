@@ -1,10 +1,8 @@
 package core.chunk;
 
-import core.app.user.UserID;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import core.chunk.ActiveChunkManager;
-import core.chunk.ChunkRange;
+import core.app.user.UserID;
 import core.configuration.BaseServerConfig;
 import core.entity.attributes.msc.Coordinates;
 import org.junit.Before;

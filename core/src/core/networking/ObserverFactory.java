@@ -6,12 +6,10 @@ import core.networking.events.EventTypeFactory;
 import core.networking.translation.NetworkEventHandler;
 
 public class ObserverFactory {
-  @Inject
-  NetworkEventHandler networkEventHandler;
+  @Inject NetworkEventHandler networkEventHandler;
   @Inject ConnectionStore connectionStore;
   @Inject EventService eventService;
-  @Inject
-  EventTypeFactory eventTypeFactory;
+  @Inject EventTypeFactory eventTypeFactory;
 
   @Inject
   ObserverFactory() {}

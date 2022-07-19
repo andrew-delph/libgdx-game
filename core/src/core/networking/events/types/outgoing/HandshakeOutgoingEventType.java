@@ -2,13 +2,13 @@ package core.networking.events.types.outgoing;
 
 import core.chunk.ChunkRange;
 import core.common.events.types.EventType;
+import core.networking.events.interfaces.SerializeNetworkEvent;
 import core.networking.events.types.NetworkEventTypeEnum;
 import core.networking.translation.DataTranslationEnum;
 import core.networking.translation.NetworkDataSerializer;
 import java.util.List;
 import java.util.UUID;
 import networking.NetworkObjects;
-import core.networking.events.interfaces.SerializeNetworkEvent;
 
 public class HandshakeOutgoingEventType extends EventType implements SerializeNetworkEvent {
 

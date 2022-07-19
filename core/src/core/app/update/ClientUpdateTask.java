@@ -1,29 +1,28 @@
 package core.app.update;
 
+import com.google.inject.Inject;
 import core.app.screen.BaseCamera;
 import core.chunk.Chunk;
 import core.chunk.ChunkRange;
-import com.google.inject.Inject;
 import core.common.Clock;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.entity.ActiveEntityManager;
+import core.networking.client.ClientNetworkHandle;
+import core.networking.events.EventTypeFactory;
+import core.networking.events.types.outgoing.SubscriptionOutgoingEventType;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import core.networking.client.ClientNetworkHandle;
-import core.networking.events.EventTypeFactory;
-import core.networking.events.types.outgoing.SubscriptionOutgoingEventType;
 
 public class ClientUpdateTask extends UpdateTask {
   @Inject public Clock clock;
   @Inject public GameStore gameStore;
   public ExecutorService executor;
   @Inject EventService eventService;
-  @Inject
-  BaseCamera baseCamera;
+  @Inject BaseCamera baseCamera;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject ClientNetworkHandle clientNetworkHandle;
   @Inject EventTypeFactory eventTypeFactory;

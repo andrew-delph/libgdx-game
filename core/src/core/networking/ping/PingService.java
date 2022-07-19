@@ -1,10 +1,12 @@
 package core.networking.ping;
 
-import core.app.user.UserID;
 import com.google.inject.Inject;
+import core.app.user.UserID;
 import core.common.Clock;
 import core.common.GameSettings;
 import core.common.events.EventService;
+import core.networking.ConnectionStore;
+import core.networking.events.EventTypeFactory;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,8 +17,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import core.networking.ConnectionStore;
-import core.networking.events.EventTypeFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

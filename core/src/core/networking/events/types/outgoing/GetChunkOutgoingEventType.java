@@ -3,8 +3,8 @@ package core.networking.events.types.outgoing;
 import core.app.user.UserID;
 import core.chunk.ChunkRange;
 import core.common.events.types.EventType;
-import networking.NetworkObjects;
 import core.networking.events.interfaces.SerializeNetworkEvent;
+import networking.NetworkObjects;
 
 public class GetChunkOutgoingEventType extends EventType implements SerializeNetworkEvent {
   static String type = "get_chunk";

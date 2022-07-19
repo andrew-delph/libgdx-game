@@ -3,10 +3,8 @@ package core.networking.translation;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.exceptions.SerializationDataMissing;
 import core.entity.attributes.msc.Coordinates;
-import core.networking.translation.NetworkDataDeserializer;
-import core.networking.translation.NetworkDataSerializer;
-import java.util.UUID;
 import core.networking.events.EventTypeFactory;
+import java.util.UUID;
 import org.junit.Test;
 
 public class TranslateCreateAIEvent {

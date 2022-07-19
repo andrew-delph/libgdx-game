@@ -1,16 +1,16 @@
 package core.networking.events.consumer.server.incoming;
 
+import com.google.inject.Inject;
 import core.chunk.ActiveChunkManager;
 import core.chunk.ChunkRange;
-import com.google.inject.Inject;
 import core.common.events.types.EventType;
 import core.generation.ChunkGenerationService;
+import core.networking.events.types.incoming.SubscriptionIncomingEventType;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import core.networking.events.types.incoming.SubscriptionIncomingEventType;
 
 public class SubscriptionIncomingConsumerServer implements Consumer<EventType> {
 

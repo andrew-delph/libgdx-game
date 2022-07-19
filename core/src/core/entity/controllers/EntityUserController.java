@@ -1,22 +1,22 @@
 package core.entity.controllers;
 
-import core.app.game.GameController;
-import core.app.screen.assets.animations.AnimationState;
-import core.chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
+import core.app.game.GameController;
+import core.app.screen.assets.animations.AnimationState;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Direction;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
-import core.entity.block.DirtBlock;
-import core.entity.block.SkyBlock;
 import core.entity.Entity;
 import core.entity.attributes.inventory.Equipped;
 import core.entity.attributes.inventory.InventoryBag;
 import core.entity.attributes.msc.AnimationStateWrapper;
+import core.entity.block.DirtBlock;
+import core.entity.block.SkyBlock;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.networking.events.EventTypeFactory;
 import org.apache.logging.log4j.LogManager;

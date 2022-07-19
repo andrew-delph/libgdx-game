@@ -1,7 +1,5 @@
 package core.entity.collision;
 
-import core.entity.collision.CollisionPair;
-import core.entity.collision.EntitySensor;
 import core.entity.collision.ground.GroundSensor;
 import org.junit.Test;
 

@@ -1,13 +1,13 @@
 package core.networking.events.consumer.server.outgoing;
 
+import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.chunk.ActiveChunkManager;
-import com.google.inject.Inject;
 import core.common.events.types.EventType;
-import java.util.function.Consumer;
-import networking.NetworkObjects;
 import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
+import java.util.function.Consumer;
+import networking.NetworkObjects;
 
 public class CreateEntityOutgoingConsumerServer implements Consumer<EventType> {
 

@@ -1,8 +1,8 @@
 package core.entity.controllers.factories;
 
 import com.google.inject.Inject;
-import core.entity.controllers.EntityController;
 import core.entity.Entity;
+import core.entity.controllers.EntityController;
 import core.entity.controllers.events.consumers.ChangedHealthConsumer;
 import core.entity.controllers.events.consumers.FallDamageConsumer;
 import core.entity.controllers.events.types.ChangeHealthEventType;

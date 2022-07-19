@@ -6,25 +6,25 @@ import core.common.events.EventService;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.CreateTurretEventType;
 import core.common.events.types.ItemActionEventType;
-import core.networking.events.consumer.server.incoming.CreateEntityIncomingConsumerServer;
-import core.networking.events.consumer.server.incoming.DisconnectionIncomingConsumerServer;
-import core.networking.events.consumer.server.incoming.ReplaceBlockIncomingConsumerServer;
-import core.networking.events.consumer.server.incoming.SubscriptionIncomingConsumerServer;
-import core.networking.events.consumer.server.outgoing.ChunkSwapOutgoingConsumerServer;
-import core.networking.events.consumer.server.outgoing.CreateEntityOutgoingConsumerServer;
-import core.networking.events.consumer.server.outgoing.ReplaceBlockOutgoingConsumerServer;
-import core.networking.events.consumer.server.outgoing.UpdateEntityOutgoingConsumerServer;
 import core.networking.events.consumer.server.incoming.AuthenticationIncomingConsumerServer;
 import core.networking.events.consumer.server.incoming.CreateAIEntityConsumerServer;
+import core.networking.events.consumer.server.incoming.CreateEntityIncomingConsumerServer;
 import core.networking.events.consumer.server.incoming.CreateTurretIncomingConsumerServer;
+import core.networking.events.consumer.server.incoming.DisconnectionIncomingConsumerServer;
 import core.networking.events.consumer.server.incoming.HandshakeIncomingConsumerServer;
 import core.networking.events.consumer.server.incoming.ItemActionIncomingConsumerServer;
 import core.networking.events.consumer.server.incoming.PingRequestIncomingConsumerServer;
 import core.networking.events.consumer.server.incoming.PingResponseIncomingConsumerServer;
 import core.networking.events.consumer.server.incoming.RemoveEntityIncomingConsumerServer;
+import core.networking.events.consumer.server.incoming.ReplaceBlockIncomingConsumerServer;
+import core.networking.events.consumer.server.incoming.SubscriptionIncomingConsumerServer;
 import core.networking.events.consumer.server.incoming.UpdateEntityIncomingConsumerServer;
+import core.networking.events.consumer.server.outgoing.ChunkSwapOutgoingConsumerServer;
+import core.networking.events.consumer.server.outgoing.CreateEntityOutgoingConsumerServer;
 import core.networking.events.consumer.server.outgoing.PingRequestOutgoingConsumerServer;
 import core.networking.events.consumer.server.outgoing.RemoveEntityOutgoingConsumerServer;
+import core.networking.events.consumer.server.outgoing.ReplaceBlockOutgoingConsumerServer;
+import core.networking.events.consumer.server.outgoing.UpdateEntityOutgoingConsumerServer;
 import core.networking.events.types.NetworkEventTypeEnum;
 import core.networking.events.types.incoming.CreateEntityIncomingEventType;
 import core.networking.events.types.incoming.DisconnectionIncomingEventType;
@@ -38,27 +38,19 @@ import core.networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 public class ServerEventConsumer extends EventConsumer {
   @Inject EventService eventService;
 
-  @Inject
-  SubscriptionIncomingConsumerServer subscriptionIncomingConsumerServer;
-  @Inject
-  DisconnectionIncomingConsumerServer disconnectionIncomingConsumerServer;
-  @Inject
-  CreateEntityIncomingConsumerServer createEntityIncomingConsumerServer;
+  @Inject SubscriptionIncomingConsumerServer subscriptionIncomingConsumerServer;
+  @Inject DisconnectionIncomingConsumerServer disconnectionIncomingConsumerServer;
+  @Inject CreateEntityIncomingConsumerServer createEntityIncomingConsumerServer;
   @Inject UpdateEntityIncomingConsumerServer updateEntityIncomingConsumerServer;
-  @Inject
-  ReplaceBlockIncomingConsumerServer replaceBlockIncomingConsumerServer;
-  @Inject
-  CreateEntityOutgoingConsumerServer createEntityOutgoingConsumerServer;
-  @Inject
-  UpdateEntityOutgoingConsumerServer updateEntityOutgoingConsumerServer;
-  @Inject
-  ReplaceBlockOutgoingConsumerServer replaceBlockOutgoingConsumerServer;
+  @Inject ReplaceBlockIncomingConsumerServer replaceBlockIncomingConsumerServer;
+  @Inject CreateEntityOutgoingConsumerServer createEntityOutgoingConsumerServer;
+  @Inject UpdateEntityOutgoingConsumerServer updateEntityOutgoingConsumerServer;
+  @Inject ReplaceBlockOutgoingConsumerServer replaceBlockOutgoingConsumerServer;
   @Inject CreateAIEntityConsumerServer createAIEntityConsumerServer;
   @Inject HandshakeIncomingConsumerServer handshakeIncomingConsumerServer;
   @Inject RemoveEntityIncomingConsumerServer removeEntityIncomingConsumerServer;
   @Inject RemoveEntityOutgoingConsumerServer removeEntityOutgoingConsumerServer;
-  @Inject
-  ChunkSwapOutgoingConsumerServer chunkSwapOutgoingConsumerServer;
+  @Inject ChunkSwapOutgoingConsumerServer chunkSwapOutgoingConsumerServer;
   @Inject AuthenticationIncomingConsumerServer authenticationIncomingConsumerServer;
   @Inject PingRequestOutgoingConsumerServer pingRequestOutgoingConsumerServer;
   @Inject PingRequestIncomingConsumerServer pingRequestIncomingConsumerServer;

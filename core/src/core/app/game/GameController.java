@@ -1,12 +1,12 @@
 package core.app.game;
 
+import com.badlogic.gdx.math.Vector2;
+import com.google.inject.Inject;
 import core.app.user.User;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
-import com.badlogic.gdx.math.Vector2;
-import com.google.inject.Inject;
 import core.common.Direction;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -33,9 +33,9 @@ import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
 import core.entity.misc.Turret;
-import java.util.UUID;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

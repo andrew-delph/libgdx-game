@@ -3,9 +3,9 @@ package core.common.events.types;
 import static core.networking.translation.NetworkDataSerializer.createCreateAIEntityEventType;
 
 import core.entity.attributes.msc.Coordinates;
+import core.networking.events.interfaces.SerializeNetworkEvent;
 import java.util.UUID;
 import networking.NetworkObjects;
-import core.networking.events.interfaces.SerializeNetworkEvent;
 
 public class CreateAIEntityEventType extends EventType implements SerializeNetworkEvent {
 

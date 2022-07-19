@@ -1,12 +1,12 @@
 package core.networking.server;
 
+import com.google.inject.Inject;
+import com.google.protobuf.Empty;
 import core.app.user.User;
 import core.app.user.UserID;
 import core.chunk.ActiveChunkManager;
 import core.chunk.Chunk;
 import core.chunk.ChunkRange;
-import com.google.inject.Inject;
-import com.google.protobuf.Empty;
 import core.common.Clock;
 import core.common.GameSettings;
 import core.common.GameStore;
@@ -36,22 +36,16 @@ import org.apache.logging.log4j.Logger;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
   final Logger LOGGER = LogManager.getLogger();
-  @Inject
-  ObserverFactory observerFactory;
-  @Inject
-  ConnectionStore connectionStore;
+  @Inject ObserverFactory observerFactory;
+  @Inject ConnectionStore connectionStore;
   @Inject GameStore gameStore;
-  @Inject
-  EventTypeFactory eventTypeFactory;
+  @Inject EventTypeFactory eventTypeFactory;
   @Inject ActiveChunkManager activeChunkManager;
   @Inject User user;
-  @Inject
-  ChunkGenerationService chunkGenerationService;
+  @Inject ChunkGenerationService chunkGenerationService;
   @Inject GameSettings gameSettings;
-  @Inject
-  PingService pingService;
-  @Inject
-  SyncService syncService;
+  @Inject PingService pingService;
+  @Inject SyncService syncService;
   @Inject Clock clock;
   private Server server;
 

@@ -9,8 +9,7 @@ import java.util.function.Consumer;
 
 public class PingResponseIncomingConsumerClient implements Consumer<EventType> {
 
-  @Inject
-  PingService pingService;
+  @Inject PingService pingService;
 
   @Override
   public void accept(EventType eventType) {

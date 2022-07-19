@@ -1,8 +1,8 @@
 package core.entity.block;
 
+import com.google.inject.Inject;
 import core.app.screen.assets.BaseAssetManager;
 import core.chunk.world.EntityBodyBuilder;
-import com.google.inject.Inject;
 import core.common.Clock;
 import core.entity.attributes.msc.Coordinates;
 

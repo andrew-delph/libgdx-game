@@ -1,10 +1,10 @@
 package core.common.events;
 
+import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.app.user.User;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
-import com.google.inject.Inject;
 import core.common.GameStore;
 import core.common.events.types.RemoveEntityEventType;
 import core.common.events.types.ReplaceEntityEventType;
@@ -20,8 +20,7 @@ public class EventConsumer {
   final Logger LOGGER = LogManager.getLogger();
 
   @Inject EventService eventService;
-  @Inject
-  GameController gameController;
+  @Inject GameController gameController;
   @Inject GameStore gameStore;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject User user;

@@ -1,6 +1,5 @@
 package core.app.user;
 
-import core.app.user.UserID;
 import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Test;

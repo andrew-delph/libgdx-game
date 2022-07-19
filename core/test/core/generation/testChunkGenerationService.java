@@ -1,14 +1,13 @@
 package core.generation;
 
-import core.chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.chunk.ChunkRange;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.configuration.BaseServerConfig;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
-import core.generation.ChunkGenerationService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.junit.Assert;

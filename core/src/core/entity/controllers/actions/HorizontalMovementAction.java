@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
 import core.common.exceptions.ChunkNotFound;
+import core.entity.Entity;
 import core.entity.collision.left.EntityLeftContact;
 import core.entity.collision.right.EntityRightContact;
-import core.entity.Entity;
 
 public class HorizontalMovementAction implements EntityAction {
 

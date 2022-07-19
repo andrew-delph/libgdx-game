@@ -1,9 +1,9 @@
 package core.entity.collision;
 
-import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.chunk.ChunkFactory;
+import core.chunk.ChunkRange;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.configuration.StandAloneConfig;
@@ -11,7 +11,6 @@ import core.entity.Entity;
 import core.entity.EntityFactory;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.block.BlockFactory;
-import core.entity.collision.RayCastService;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

@@ -4,7 +4,6 @@ import core.chunk.ChunkRange;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.CreateTurretEventType;
 import core.common.events.types.ItemActionEventType;
-import core.networking.events.types.outgoing.ChunkSwapOutgoingEventType;
 import core.entity.Entity;
 import core.entity.attributes.Attribute;
 import core.entity.attributes.inventory.Equipped;
@@ -14,6 +13,14 @@ import core.entity.attributes.inventory.item.SwordInventoryItem;
 import core.entity.attributes.msc.AnimationStateWrapper;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.attributes.msc.Health;
+import core.networking.events.interfaces.SerializeNetworkData;
+import core.networking.events.types.outgoing.ChunkSwapOutgoingEventType;
+import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import core.networking.events.types.outgoing.PingRequestOutgoingEventType;
+import core.networking.events.types.outgoing.PingResponseOutgoingEventType;
+import core.networking.events.types.outgoing.RemoveEntityOutgoingEventType;
+import core.networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
+import core.networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,13 +28,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import networking.NetworkObjects;
 import networking.NetworkObjects.NetworkData;
-import core.networking.events.interfaces.SerializeNetworkData;
-import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
-import core.networking.events.types.outgoing.PingRequestOutgoingEventType;
-import core.networking.events.types.outgoing.PingResponseOutgoingEventType;
-import core.networking.events.types.outgoing.RemoveEntityOutgoingEventType;
-import core.networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
-import core.networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 
 public class NetworkDataSerializer {
 

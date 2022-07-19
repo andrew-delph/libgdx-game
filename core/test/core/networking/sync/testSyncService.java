@@ -1,13 +1,12 @@
 package core.networking.sync;
 
-import core.app.user.User;
-import core.chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.app.user.User;
+import core.chunk.ChunkRange;
 import core.common.Clock;
 import core.configuration.ClientConfig;
 import core.entity.attributes.msc.Coordinates;
-import core.networking.sync.SyncService;
 import org.junit.Before;
 import org.junit.Test;
 

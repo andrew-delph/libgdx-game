@@ -1,16 +1,15 @@
 package core.networking.translation;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import core.common.exceptions.SerializationDataMissing;
 import core.configuration.ClientConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;
 import core.entity.attributes.msc.Coordinates;
-import core.networking.translation.NetworkDataDeserializer;
 import org.junit.Test;
 
 public class testChunkSerialization {

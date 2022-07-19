@@ -1,7 +1,7 @@
 package core.entity.controllers.events.consumers;
 
-import core.app.game.GameController;
 import com.google.inject.Inject;
+import core.app.game.GameController;
 import core.common.exceptions.EntityNotFound;
 import core.entity.controllers.events.types.AbstractEntityEventType;
 import core.entity.controllers.events.types.FallDamageEventType;

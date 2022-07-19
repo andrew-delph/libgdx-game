@@ -1,33 +1,31 @@
 package core.networking.events.consumer.server.incoming;
 
+import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.app.user.User;
-import com.google.inject.Inject;
 import core.common.GameStore;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.EventType;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
+import core.entity.ActiveEntityManager;
+import core.entity.Entity;
+import core.entity.EntityFactory;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.groups.Group;
 import core.entity.groups.GroupService;
-import core.entity.ActiveEntityManager;
-import core.entity.Entity;
-import core.entity.EntityFactory;
 import java.util.function.Consumer;
 
 public class CreateAIEntityConsumerServer implements Consumer<EventType> {
 
   @Inject EntityFactory entityFactory;
   @Inject GameController gameController;
-  @Inject
-  EntityControllerFactory entityControllerFactory;
+  @Inject EntityControllerFactory entityControllerFactory;
   @Inject GameStore gameStore;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject User user;
-  @Inject
-  GroupService groupService;
+  @Inject GroupService groupService;
 
   @Override
   public void accept(EventType eventType) {

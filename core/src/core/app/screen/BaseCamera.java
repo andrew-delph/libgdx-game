@@ -1,8 +1,8 @@
 package core.app.screen;
 
-import core.chunk.ChunkRange;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.google.inject.Inject;
+import core.chunk.ChunkRange;
 import core.common.GameSettings;
 import core.entity.attributes.msc.Coordinates;
 import java.util.HashSet;

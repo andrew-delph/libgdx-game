@@ -1,21 +1,21 @@
 package core.entity.controllers.factories;
 
-import core.app.game.GameController;
 import com.google.inject.Inject;
+import core.app.game.GameController;
 import core.common.Clock;
 import core.common.GameStore;
 import core.common.events.EventService;
-import core.entity.collision.RayCastService;
-import core.entity.controllers.EntityController;
-import core.entity.controllers.EntityPathController;
-import core.entity.controllers.EntityUserController;
-import core.entity.controllers.ProjectileController;
 import core.entity.Entity;
 import core.entity.EntityFactory;
 import core.entity.attributes.msc.Coordinates;
+import core.entity.collision.RayCastService;
 import core.entity.collision.orb.OrbContact;
 import core.entity.collision.projectile.ProjectileContact;
+import core.entity.controllers.EntityController;
+import core.entity.controllers.EntityPathController;
+import core.entity.controllers.EntityUserController;
 import core.entity.controllers.OrbController;
+import core.entity.controllers.ProjectileController;
 import core.entity.controllers.RemoteBodyController;
 import core.entity.controllers.TurretController;
 import core.entity.controllers.actions.EntityActionFactory;
@@ -32,8 +32,7 @@ public abstract class EntityControllerFactory {
   @Inject EventTypeFactory eventTypeFactory;
   @Inject GameStore gameStore;
   @Inject Clock clock;
-  @Inject
-  RayCastService rayCastService;
+  @Inject RayCastService rayCastService;
   @Inject ProjectileContact projectileContact;
   @Inject OrbContact orbContact;
   @Inject GroupService groupService;

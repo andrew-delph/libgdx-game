@@ -1,8 +1,8 @@
 package core.entity.collision.right;
 
 import core.common.exceptions.ChunkNotFound;
-import core.entity.collision.ContactWrapperCounter;
 import core.entity.Entity;
+import core.entity.collision.ContactWrapperCounter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

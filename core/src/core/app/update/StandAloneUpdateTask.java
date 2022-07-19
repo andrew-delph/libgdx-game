@@ -1,8 +1,8 @@
 package core.app.update;
 
+import com.google.inject.Inject;
 import core.app.screen.BaseCamera;
 import core.chunk.ChunkRange;
-import com.google.inject.Inject;
 import core.common.Clock;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -20,8 +20,7 @@ public class StandAloneUpdateTask extends UpdateTask {
   @Inject public Clock clock;
   @Inject public GameStore gameStore;
   @Inject EventService eventService;
-  @Inject
-  BaseCamera baseCamera;
+  @Inject BaseCamera baseCamera;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject ChunkGenerationService chunkGenerationService;
 

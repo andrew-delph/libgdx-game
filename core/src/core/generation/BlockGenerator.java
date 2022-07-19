@@ -1,22 +1,20 @@
 package core.generation;
 
-import core.app.game.GameController;
 import com.google.inject.Inject;
+import core.app.game.GameController;
 import core.common.exceptions.ChunkNotFound;
+import core.entity.EntityFactory;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.block.BlockFactory;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.misc.Orb;
-import core.entity.EntityFactory;
 
 public class BlockGenerator {
 
-  @Inject
-  BlockFactory blockFactory;
+  @Inject BlockFactory blockFactory;
   @Inject EntityFactory entityFactory;
   @Inject GameController gameController;
-  @Inject
-  EntityControllerFactory entityControllerFactory;
+  @Inject EntityControllerFactory entityControllerFactory;
 
   @Inject
   BlockGenerator() {}

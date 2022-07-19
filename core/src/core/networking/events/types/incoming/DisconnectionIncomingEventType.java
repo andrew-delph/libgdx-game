@@ -1,7 +1,7 @@
 package core.networking.events.types.incoming;
 
-import core.app.user.UserID;
 import com.google.inject.Inject;
+import core.app.user.UserID;
 import core.common.events.types.EventType;
 
 public class DisconnectionIncomingEventType extends EventType {

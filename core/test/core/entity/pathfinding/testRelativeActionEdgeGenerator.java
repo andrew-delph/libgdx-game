@@ -1,17 +1,11 @@
 package core.entity.pathfinding;
 
-import core.chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.configuration.StandAloneConfig;
 import core.entity.block.SolidBlock;
-import core.entity.pathfinding.EntityStructure;
-import core.entity.pathfinding.EntityStructureFactory;
-import core.entity.pathfinding.RelativeActionEdge;
-import core.entity.pathfinding.RelativeActionEdgeGenerator;
-import core.entity.pathfinding.RelativeCoordinates;
-import core.entity.pathfinding.RelativeVertex;
 import org.junit.Test;
 
 public class testRelativeActionEdgeGenerator {

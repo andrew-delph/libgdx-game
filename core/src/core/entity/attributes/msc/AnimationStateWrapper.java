@@ -1,7 +1,7 @@
 package core.entity.attributes.msc;
 
-import core.app.screen.assets.animations.AnimationState;
 import com.google.common.base.Objects;
+import core.app.screen.assets.animations.AnimationState;
 import core.entity.attributes.Attribute;
 import core.entity.attributes.AttributeType;
 import core.networking.translation.NetworkDataSerializer;

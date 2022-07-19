@@ -7,14 +7,10 @@ import core.entity.collision.left.EntityLeftContact;
 import core.entity.collision.right.EntityRightContact;
 
 public class EntityActionFactory {
-  @Inject
-  EntityGroundContact entityGroundContact;
-  @Inject
-  EntityLadderContact entityLadderContact;
-  @Inject
-  EntityLeftContact entityLeftContact;
-  @Inject
-  EntityRightContact entityRightContact;
+  @Inject EntityGroundContact entityGroundContact;
+  @Inject EntityLadderContact entityLadderContact;
+  @Inject EntityLeftContact entityLeftContact;
+  @Inject EntityRightContact entityRightContact;
 
   @Inject
   EntityActionFactory() {}

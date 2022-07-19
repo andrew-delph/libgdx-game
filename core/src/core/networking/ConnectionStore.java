@@ -1,7 +1,7 @@
 package core.networking;
 
-import core.app.user.UserID;
 import com.google.inject.Inject;
+import core.app.user.UserID;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;

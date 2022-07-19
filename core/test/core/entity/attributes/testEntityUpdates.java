@@ -1,8 +1,8 @@
 package core.entity.attributes;
 
-import core.app.screen.assets.animations.AnimationState;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.app.screen.assets.animations.AnimationState;
 import core.configuration.BaseServerConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;

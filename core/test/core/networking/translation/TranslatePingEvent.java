@@ -2,14 +2,12 @@ package core.networking.translation;
 
 import core.app.user.UserID;
 import core.common.exceptions.SerializationDataMissing;
-import core.networking.translation.NetworkDataDeserializer;
-import core.networking.translation.NetworkDataSerializer;
-import java.util.UUID;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.PingRequestIncomingEventType;
 import core.networking.events.types.incoming.PingResponseIncomingEventType;
 import core.networking.events.types.outgoing.PingRequestOutgoingEventType;
 import core.networking.events.types.outgoing.PingResponseOutgoingEventType;
+import java.util.UUID;
 import org.junit.Test;
 
 public class TranslatePingEvent {

@@ -6,17 +6,17 @@ import core.common.GameStore;
 import core.common.Tick;
 import core.common.Util;
 import core.common.events.EventService;
+import core.entity.Entity;
 import core.entity.block.SolidBlock;
 import core.entity.collision.RayCastService;
-import core.entity.Entity;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.groups.Group;
 import core.entity.groups.GroupService;
+import core.networking.events.EventTypeFactory;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import core.networking.events.EventTypeFactory;
 
 public class TurretController extends EntityController {
 

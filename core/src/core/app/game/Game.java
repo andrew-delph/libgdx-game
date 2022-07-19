@@ -1,10 +1,10 @@
 package core.app.game;
 
+import com.google.inject.Inject;
 import core.app.update.UpdateTask;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
-import com.google.inject.Inject;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventConsumer;
@@ -17,15 +17,11 @@ import java.util.Timer;
 
 public class Game {
 
-  @Inject
-  UpdateTask updateTask;
+  @Inject UpdateTask updateTask;
   @Inject CollisionService collisionService;
-  @Inject
-  EventConsumer eventConsumer;
-  @Inject
-  ChunkFactory chunkFactory;
-  @Inject
-  GameStore gameStore;
+  @Inject EventConsumer eventConsumer;
+  @Inject ChunkFactory chunkFactory;
+  @Inject GameStore gameStore;
 
   Timer timer;
 
@@ -34,7 +30,7 @@ public class Game {
 
   public void start()
       throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
-      BodyNotFound {
+          BodyNotFound {
     init();
     timer = new Timer(true);
     timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);

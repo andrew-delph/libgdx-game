@@ -1,10 +1,10 @@
 package core.chunk;
 
+import com.badlogic.gdx.physics.box2d.World;
 import core.app.game.GameController;
 import core.chunk.world.WorldWrapper;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
-import com.badlogic.gdx.physics.box2d.World;
 import core.common.Clock;
 import core.common.GameStore;
 import core.common.Tick;
@@ -16,6 +16,7 @@ import core.entity.block.Block;
 import core.entity.collision.EntityContactListenerFactory;
 import core.entity.misc.Ladder;
 import core.entity.misc.Turret;
+import core.networking.events.interfaces.SerializeNetworkData;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +26,6 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import networking.NetworkObjects;
-import core.networking.events.interfaces.SerializeNetworkData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

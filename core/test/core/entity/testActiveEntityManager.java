@@ -1,10 +1,9 @@
 package core.entity;
 
-import core.app.user.UserID;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.app.user.UserID;
 import core.configuration.BaseServerConfig;
-import core.entity.ActiveEntityManager;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;

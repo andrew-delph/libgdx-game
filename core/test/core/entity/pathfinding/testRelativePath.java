@@ -1,18 +1,13 @@
 package core.entity.pathfinding;
 
-import core.chunk.ChunkRange;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.chunk.ChunkRange;
 import core.common.GameStore;
 import core.configuration.StandAloneConfig;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
-import core.entity.pathfinding.EdgeRegistration;
-import core.entity.pathfinding.PathGameStoreOverride;
-import core.entity.pathfinding.RelativePath;
-import core.entity.pathfinding.RelativePathFactory;
-import core.entity.pathfinding.RelativePathNode;
 import core.generation.ChunkBuilderFactory;
 import java.util.Map;
 import org.junit.Test;

@@ -1,10 +1,10 @@
 package core.networking.connected;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import core.app.game.GameController;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import core.common.GameStore;
 import core.common.events.EventConsumer;
 import core.common.exceptions.ChunkNotFound;
@@ -16,17 +16,17 @@ import core.configuration.ClientConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;
 import core.entity.attributes.msc.Coordinates;
+import core.mock.GdxTestRunner;
+import core.networking.client.ClientNetworkHandle;
+import core.networking.server.ServerNetworkHandle;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import core.networking.client.ClientNetworkHandle;
-import core.networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import core.mock.GdxTestRunner;
 
 @RunWith(GdxTestRunner.class)
 public class testDoubleClientDelayedConnection {

@@ -1,7 +1,7 @@
 package core.entity.pathfinding;
 
-import core.chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Inject;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EdgeStepperException;
 import core.entity.Entity;

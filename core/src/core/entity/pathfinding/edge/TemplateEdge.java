@@ -2,17 +2,17 @@ package core.entity.pathfinding.edge;
 
 import static core.app.screen.GameScreen.pathDebugRender;
 
-import core.chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.graphics.Color;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.GameSettings;
 import core.common.exceptions.ChunkNotFound;
+import core.entity.Entity;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.pathfinding.EntityStructure;
 import core.entity.pathfinding.PathGameStoreOverride;
 import core.entity.pathfinding.RelativeActionEdge;
 import core.entity.pathfinding.RelativePathNode;
 import core.entity.pathfinding.RelativeVertex;
-import core.entity.Entity;
 import java.util.List;
 
 public class TemplateEdge extends AbstractEdge {

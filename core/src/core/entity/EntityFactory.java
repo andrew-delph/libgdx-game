@@ -1,14 +1,14 @@
 package core.entity;
 
+import com.google.inject.Inject;
 import core.app.screen.assets.BaseAssetManager;
 import core.chunk.world.EntityBodyBuilder;
-import com.google.inject.Inject;
 import core.common.Clock;
 import core.entity.attributes.msc.Coordinates;
+import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
 import core.entity.misc.Turret;
-import core.entity.misc.Ladder;
 
 public class EntityFactory {
 

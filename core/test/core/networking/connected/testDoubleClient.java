@@ -1,13 +1,13 @@
 package core.networking.connected;
 
+import com.badlogic.gdx.math.Vector2;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import core.app.game.Game;
 import core.app.game.GameController;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
-import com.badlogic.gdx.math.Vector2;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -28,19 +28,19 @@ import core.entity.block.SkyBlock;
 import core.entity.misc.Ladder;
 import core.entity.misc.Turret;
 import core.generation.ChunkBuilderFactory;
+import core.mock.GdxTestRunner;
+import core.networking.client.ClientNetworkHandle;
+import core.networking.events.EventTypeFactory;
+import core.networking.server.ServerNetworkHandle;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import core.networking.client.ClientNetworkHandle;
-import core.networking.events.EventTypeFactory;
-import core.networking.server.ServerNetworkHandle;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import core.mock.GdxTestRunner;
 
 @RunWith(GdxTestRunner.class)
 public class testDoubleClient {

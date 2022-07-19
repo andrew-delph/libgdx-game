@@ -1,5 +1,10 @@
 package core.networking.connected;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.util.Modules;
+import com.google.inject.util.Providers;
 import core.app.game.Game;
 import core.app.game.GameController;
 import core.app.user.User;
@@ -7,11 +12,6 @@ import core.chunk.ActiveChunkManager;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.util.Modules;
-import com.google.inject.util.Providers;
 import core.common.ChunkClockMap;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -33,20 +33,20 @@ import core.entity.block.DirtBlock;
 import core.entity.block.SkyBlock;
 import core.generation.ChunkBuilderFactory;
 import core.generation.ChunkGenerationService;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.concurrent.TimeUnit;
+import core.mock.GdxTestRunner;
 import core.networking.ConnectionStore;
 import core.networking.client.ClientNetworkHandle;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.consumer.client.incoming.HandshakeIncomingConsumerClient;
 import core.networking.server.ServerNetworkHandle;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import core.mock.GdxTestRunner;
 
 class MockHandshakeIncomingConsumerClient extends HandshakeIncomingConsumerClient {
 

@@ -1,6 +1,5 @@
 package core.common;
 
-import core.common.Tick;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.Test;

@@ -4,11 +4,11 @@ import com.google.inject.Inject;
 import core.common.GameStore;
 import core.common.events.types.EventType;
 import core.common.exceptions.EntityNotFound;
-import core.entity.attributes.Attribute;
 import core.entity.Entity;
-import java.util.function.Consumer;
+import core.entity.attributes.Attribute;
 import core.networking.client.ClientNetworkHandle;
 import core.networking.events.types.incoming.UpdateEntityIncomingEventType;
+import java.util.function.Consumer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

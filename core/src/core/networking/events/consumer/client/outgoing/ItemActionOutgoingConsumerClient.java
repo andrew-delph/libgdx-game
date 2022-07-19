@@ -4,8 +4,8 @@ import com.google.inject.Inject;
 import core.common.events.types.EventType;
 import core.common.events.types.ItemActionEventType;
 import core.entity.attributes.inventory.item.comsumers.ItemActionService;
-import java.util.function.Consumer;
 import core.networking.client.ClientNetworkHandle;
+import java.util.function.Consumer;
 
 public class ItemActionOutgoingConsumerClient implements Consumer<EventType> {
 

@@ -55,8 +55,7 @@ public class EventService {
         });
   }
 
-  public void addPostUpdateListener(
-      String type, Consumer<EventType> eventConsumer) {
+  public void addPostUpdateListener(String type, Consumer<EventType> eventConsumer) {
     this.eventPostUpdateListeners.computeIfAbsent(type, k -> new ArrayList<>());
     this.eventPostUpdateListeners.get(type).add(eventConsumer);
   }

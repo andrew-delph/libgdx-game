@@ -1,10 +1,10 @@
 package core.generation;
 
+import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
-import com.google.inject.Inject;
 import core.common.GameStore;
 import core.entity.attributes.msc.Coordinates;
 import java.util.concurrent.Callable;

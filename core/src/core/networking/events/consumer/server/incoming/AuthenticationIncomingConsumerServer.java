@@ -4,11 +4,11 @@ import static core.networking.translation.DataTranslationEnum.AUTH;
 
 import com.google.inject.Inject;
 import core.common.events.types.EventType;
-import java.util.function.Consumer;
 import core.networking.ConnectionStore;
-import networking.NetworkObjects;
 import core.networking.events.types.incoming.AuthenticationIncomingEventType;
 import core.networking.server.ServerNetworkHandle;
+import java.util.function.Consumer;
+import networking.NetworkObjects;
 
 public class AuthenticationIncomingConsumerServer implements Consumer<EventType> {
 

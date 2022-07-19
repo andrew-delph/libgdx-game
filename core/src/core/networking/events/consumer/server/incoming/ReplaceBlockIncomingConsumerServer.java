@@ -1,19 +1,19 @@
 package core.networking.events.consumer.server.incoming;
 
+import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.app.user.UserID;
 import core.chunk.ActiveChunkManager;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
-import com.google.inject.Inject;
 import core.common.events.types.EventType;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
-import java.util.function.Consumer;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import core.networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
+import java.util.function.Consumer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

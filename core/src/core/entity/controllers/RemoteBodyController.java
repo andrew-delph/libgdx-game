@@ -1,7 +1,7 @@
 package core.entity.controllers;
 
-import core.app.game.GameController;
 import com.badlogic.gdx.physics.box2d.Body;
+import core.app.game.GameController;
 import core.common.events.EventService;
 import core.entity.Entity;
 import core.entity.controllers.actions.EntityActionFactory;

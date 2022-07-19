@@ -3,9 +3,9 @@ package core.common.events.types;
 import static core.networking.translation.NetworkDataSerializer.serializeItemActionEventType;
 
 import core.entity.attributes.inventory.item.ItemActionType;
+import core.networking.events.interfaces.SerializeNetworkEvent;
 import java.util.UUID;
 import networking.NetworkObjects.NetworkEvent;
-import core.networking.events.interfaces.SerializeNetworkEvent;
 
 public class ItemActionEventType extends EventType implements SerializeNetworkEvent {
 

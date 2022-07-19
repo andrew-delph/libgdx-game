@@ -2,9 +2,9 @@ package core.networking.events.consumer.client.outgoing;
 
 import com.google.inject.Inject;
 import core.common.events.types.EventType;
-import java.util.function.Consumer;
 import core.networking.client.ClientNetworkHandle;
 import core.networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
+import java.util.function.Consumer;
 
 public class ReplaceBlockOutgoingConsumerClient implements Consumer<EventType> {
 

@@ -1,15 +1,17 @@
 package core.networking.events;
 
+import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.chunk.ChunkRange;
-import com.google.inject.Inject;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.CreateTurretEventType;
 import core.common.events.types.RemoveEntityEventType;
 import core.common.events.types.ReplaceEntityEventType;
+import core.entity.Entity;
 import core.entity.attributes.Attribute;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
+import core.networking.RequestNetworkEventObserver;
 import core.networking.events.types.incoming.AuthenticationIncomingEventType;
 import core.networking.events.types.incoming.ChunkSwapIncomingEventType;
 import core.networking.events.types.incoming.CreateEntityIncomingEventType;
@@ -32,13 +34,11 @@ import core.networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import core.networking.events.types.outgoing.SubscriptionOutgoingEventType;
 import core.networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 import core.networking.translation.NetworkDataDeserializer;
-import core.entity.Entity;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import networking.NetworkObjects;
-import core.networking.RequestNetworkEventObserver;
 
 public class EventTypeFactory {
 

@@ -2,17 +2,17 @@ package core.entity.pathfinding.edge;
 
 import static core.app.screen.GameScreen.pathDebugRender;
 
-import core.chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EdgeStepperException;
+import core.entity.Entity;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.pathfinding.EntityStructure;
 import core.entity.pathfinding.RelativeCoordinates;
 import core.entity.pathfinding.RelativePathNode;
 import core.entity.pathfinding.RelativeVertex;
-import core.entity.Entity;
 
 public class HorizontalGreedyEdge extends AbstractEdge {
   RelativeCoordinates currentRelativeCoordinates;

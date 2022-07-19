@@ -1,12 +1,12 @@
 package core.entity.attributes.inventory.item.comsumers;
 
-import core.app.game.GameController;
 import com.google.inject.Inject;
+import core.app.game.GameController;
 import core.common.exceptions.EntityNotFound;
+import core.entity.Entity;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.attributes.msc.Health;
 import core.entity.collision.RayCastService;
-import core.entity.Entity;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -15,8 +15,7 @@ import org.apache.logging.log4j.Logger;
 public class DefaultItemAction implements ItemActionInterface {
 
   final Logger LOGGER = LogManager.getLogger();
-  @Inject
-  RayCastService rayCastService;
+  @Inject RayCastService rayCastService;
   @Inject GameController gameController;
 
   @Override

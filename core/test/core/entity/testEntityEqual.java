@@ -3,8 +3,6 @@ package core.entity;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.configuration.ClientConfig;
-import core.entity.Entity;
-import core.entity.EntityFactory;
 import core.entity.attributes.msc.Coordinates;
 import java.util.HashSet;
 import java.util.Set;

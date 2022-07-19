@@ -1,11 +1,11 @@
 package core.entity.attributes.inventory;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import core.app.game.Game;
 import core.app.game.GameController;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import core.common.Clock;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;

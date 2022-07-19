@@ -1,8 +1,5 @@
 package core.entity.attributes.inventory;
 
-import core.entity.attributes.inventory.FullBagException;
-import core.entity.attributes.inventory.InventoryBag;
-import core.entity.attributes.inventory.ItemNotFoundException;
 import core.entity.attributes.inventory.item.EmptyInventoryItem;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
 import org.junit.Test;

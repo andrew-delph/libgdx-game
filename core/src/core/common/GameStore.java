@@ -1,9 +1,9 @@
 package core.common;
 
+import com.google.inject.Inject;
 import core.chunk.Chunk;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.DestroyBodyException;
-import com.google.inject.Inject;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
@@ -12,6 +12,7 @@ import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
 import core.entity.misc.Ladder;
 import core.entity.misc.Turret;
+import core.networking.events.EventTypeFactory;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -20,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import core.networking.events.EventTypeFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

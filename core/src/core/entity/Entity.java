@@ -1,11 +1,5 @@
 package core.entity;
 
-import core.app.screen.assets.BaseAssetManager;
-import core.app.screen.assets.animations.AnimationState;
-import core.chunk.Chunk;
-import core.chunk.world.CreateBodyCallable;
-import core.chunk.world.EntityBodyBuilder;
-import core.chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -13,6 +7,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.base.Objects;
 import com.sun.tools.javac.util.Pair;
+import core.app.screen.assets.BaseAssetManager;
+import core.app.screen.assets.animations.AnimationState;
+import core.chunk.Chunk;
+import core.chunk.world.CreateBodyCallable;
+import core.chunk.world.EntityBodyBuilder;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
 import core.common.GameSettings;
 import core.common.exceptions.ChunkNotFound;

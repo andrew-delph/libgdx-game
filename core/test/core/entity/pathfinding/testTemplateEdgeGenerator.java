@@ -1,18 +1,11 @@
 package core.entity.pathfinding;
 
-import core.chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.configuration.StandAloneConfig;
 import core.entity.attributes.msc.Coordinates;
-import core.entity.pathfinding.EdgeStore;
-import core.entity.pathfinding.EntityStructureFactory;
-import core.entity.pathfinding.PathGameStoreOverride;
-import core.entity.pathfinding.RelativeCoordinates;
-import core.entity.pathfinding.RelativeVertex;
-import core.entity.pathfinding.TemplateEdgeGenerator;
-import core.entity.pathfinding.TemplateEdgeGeneratorFactory;
 import core.entity.pathfinding.edge.AbstractEdge;
 import org.junit.Test;
 

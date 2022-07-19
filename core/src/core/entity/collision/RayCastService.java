@@ -1,10 +1,10 @@
 package core.entity.collision;
 
-import core.chunk.Chunk;
-import core.chunk.ChunkRange;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
+import core.chunk.Chunk;
+import core.chunk.ChunkRange;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.entity.Entity;

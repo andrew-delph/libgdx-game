@@ -1,21 +1,21 @@
 package core.networking.events.consumer.client.incoming;
 
+import com.google.inject.Inject;
 import core.chunk.Chunk;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.DestroyBodyException;
-import com.google.inject.Inject;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.events.types.EventType;
 import core.common.exceptions.EntityNotFound;
-import core.networking.events.types.incoming.HandshakeIncomingEventType;
 import core.entity.ActiveEntityManager;
+import core.networking.events.EventTypeFactory;
+import core.networking.events.types.incoming.HandshakeIncomingEventType;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
-import core.networking.events.EventTypeFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

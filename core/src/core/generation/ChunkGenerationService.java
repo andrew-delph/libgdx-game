@@ -1,8 +1,8 @@
 package core.generation;
 
+import com.google.inject.Inject;
 import core.chunk.Chunk;
 import core.chunk.ChunkRange;
-import com.google.inject.Inject;
 import core.common.GameSettings;
 import java.util.Collection;
 import java.util.LinkedList;

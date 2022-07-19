@@ -1,12 +1,10 @@
 package core.common;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import core.common.ChunkClockMap;
-import core.common.Tick;
 import core.configuration.ClientConfig;
 import core.entity.attributes.msc.Coordinates;
 import java.io.IOException;

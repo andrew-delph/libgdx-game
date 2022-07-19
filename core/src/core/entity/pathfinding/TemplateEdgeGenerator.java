@@ -1,7 +1,7 @@
 package core.entity.pathfinding;
 
-import core.chunk.world.exceptions.BodyNotFound;
 import com.google.inject.Inject;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.entity.block.EmptyBlock;
 import core.entity.block.SolidBlock;
 import core.entity.pathfinding.edge.TemplateEdge;
