@@ -1,0 +1,66 @@
+package core.generation;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import core.chunk.ChunkRange;
+import core.common.GameSettings;
+import core.common.GameStore;
+import core.configuration.BaseServerConfig;
+import core.entity.attributes.msc.Coordinates;
+import core.entity.block.Block;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+public class testChunkGenerationService {
+
+  ChunkGenerationService chunkGenerationService;
+  Injector injector;
+  GameStore gameStore;
+
+  @Before
+  public void setup() {
+    injector = Guice.createInjector(new BaseServerConfig());
+    chunkGenerationService = injector.getInstance(ChunkGenerationService.class);
+    gameStore = injector.getInstance(GameStore.class);
+  }
+
+  @Test
+  public void testQueueChunkGenerationService() throws InterruptedException {
+    ChunkRange chunkRangeToTest = new ChunkRange(new Coordinates(0, 0));
+    Assert.assertFalse(gameStore.doesChunkExist(chunkRangeToTest));
+
+    chunkGenerationService.queueChunkRangeToGenerate(chunkRangeToTest);
+    chunkGenerationService.queueChunkRangeToGenerate(chunkRangeToTest);
+    chunkGenerationService.queueChunkRangeToGenerate(chunkRangeToTest);
+    TimeUnit.SECONDS.sleep(1);
+
+    Assert.assertTrue(gameStore.doesChunkExist(chunkRangeToTest));
+    Assert.assertEquals(
+        GameSettings.CHUNK_SIZE * GameSettings.CHUNK_SIZE,
+        gameStore.getChunk(chunkRangeToTest).getEntityList().stream()
+            .filter(entity -> entity instanceof Block)
+            .collect(Collectors.toList())
+            .size());
+  }
+
+  @Test
+  public void testBlockedChunkGenerationService() throws Exception {
+    ChunkRange chunkRangeToTest = new ChunkRange(new Coordinates(0, 0));
+    Assert.assertFalse(gameStore.doesChunkExist(chunkRangeToTest));
+
+    chunkGenerationService.blockedChunkRangeToGenerate(chunkRangeToTest);
+    chunkGenerationService.blockedChunkRangeToGenerate(chunkRangeToTest);
+    chunkGenerationService.blockedChunkRangeToGenerate(chunkRangeToTest);
+
+    Assert.assertTrue(gameStore.doesChunkExist(chunkRangeToTest));
+    Assert.assertEquals(
+        GameSettings.CHUNK_SIZE * GameSettings.CHUNK_SIZE,
+        gameStore.getChunk(chunkRangeToTest).getEntityList().stream()
+            .filter(entity -> entity instanceof Block)
+            .collect(Collectors.toList())
+            .size());
+  }
+}

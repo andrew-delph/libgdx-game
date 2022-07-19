@@ -1,13 +1,13 @@
 package main;
 
-import app.screen.GameScreen;
-import chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configuration.StandAloneConfig;
-import entity.pathfinding.EdgeRegistration;
+import core.app.screen.GameScreen;
+import core.chunk.world.exceptions.BodyNotFound;
+import core.configuration.StandAloneConfig;
+import core.entity.pathfinding.EdgeRegistration;
 
 public class GameMainWithPathing {
   public static void main(String[] arg) throws BodyNotFound {

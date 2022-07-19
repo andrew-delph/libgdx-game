@@ -1,11 +1,11 @@
 package main;
 
-import app.screen.GameScreen;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import configuration.StandAloneConfig;
+import core.app.screen.GameScreen;
+import core.configuration.StandAloneConfig;
 
 public class GameMain {
   public static void main(String[] arg) {
