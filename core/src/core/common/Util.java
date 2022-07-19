@@ -25,4 +25,22 @@ public class Util {
 
     return new Vector2((float) a, (float) b);
   }
+
+  public static int calcTicksFromUnits(int hours, int minutes, int seconds) {
+    return calcTicksFromHours(hours)
+        + calcTicksFromMinutes(minutes)
+        + calcTicksFromSeconds(seconds);
+  }
+
+  public static int calcTicksFromSeconds(int seconds) {
+    return seconds * 1000 / GameSettings.UPDATE_INTERVAL;
+  }
+
+  public static int calcTicksFromMinutes(int minutes) {
+    return minutes * calcTicksFromSeconds(60);
+  }
+
+  public static int calcTicksFromHours(int hours) {
+    return hours * calcTicksFromMinutes(60);
+  }
 }
