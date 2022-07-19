@@ -78,10 +78,7 @@ public class WorldWrapper {
   }
 
   public synchronized Boolean hasBody(Entity entity) {
-    try {
-      getBody(entity);
-    } catch (BodyNotFound e) {
-      uuidBodyMap.remove(entity.getUuid());
+    if (uuidBodyMap.get(entity.getUuid()) == null) {
       return false;
     }
     return true;
