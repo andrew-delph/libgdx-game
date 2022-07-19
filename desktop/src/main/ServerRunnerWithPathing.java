@@ -1,15 +1,15 @@
 package main;
 
-import app.game.Game;
-import chunk.world.exceptions.BodyNotFound;
+import core.app.game.Game;
+import core.chunk.world.exceptions.BodyNotFound;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import common.exceptions.SerializationDataMissing;
-import common.exceptions.WrongVersion;
-import configuration.MainBaseServerConfig;
+import core.common.exceptions.SerializationDataMissing;
+import core.common.exceptions.WrongVersion;
+import core.configuration.MainBaseServerConfig;
 import java.io.IOException;
 
 public class ServerRunnerWithPathing {
