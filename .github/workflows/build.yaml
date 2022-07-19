@@ -58,7 +58,19 @@ jobs:
           run: |
             ./gradlew '-Pexclude.android=true' '-PENV=prod' zipit  
 
-      - name: Upload game.zip file to bucket
+      - name: Upload game.zip file to bucket(path)
+        uses: zdurham/s3-upload-github-action@master
+        with:
+          args: --acl public-read
+        env:
+          FILE: ./game.zip
+          AWS_REGION: 'us-east-1'
+          S3_BUCKET: ${{ secrets.AWSS3BUCKET }}
+          S3_KEY: windows/${{ steps.version_file.outputs.content }}.zip
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWSACCESSKEYID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWSSECRETKEY }}
+
+      - name: Upload game.zip file to bucket (game.zip)
         uses: zdurham/s3-upload-github-action@master
         with:
           args: --acl public-read
