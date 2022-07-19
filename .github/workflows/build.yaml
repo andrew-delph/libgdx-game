@@ -78,6 +78,6 @@ jobs:
           FILE: ./game.zip
           AWS_REGION: 'us-east-1'
           S3_BUCKET: ${{ secrets.AWSS3BUCKET }}
-          S3_KEY: windows/${{ steps.version_file.outputs.content }}.zip
+          S3_KEY: windows/game.zip
           AWS_ACCESS_KEY_ID: ${{ secrets.AWSACCESSKEYID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWSSECRETKEY }}
