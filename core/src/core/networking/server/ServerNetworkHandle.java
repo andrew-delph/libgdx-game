@@ -1,5 +1,7 @@
 package core.networking.server;
 
+import static core.common.Util.calcTicksFromHours;
+
 import com.google.inject.Inject;
 import com.google.protobuf.Empty;
 import core.app.user.User;
@@ -113,7 +115,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Override
   public void health(Empty request, StreamObserver<NetworkObjects.Health> responseObserver) {
 
-    if (clock.getCurrentTick().time > 64000 / 16 * 2 * 60) { // 2 hours
+    if (clock.getCurrentTick().time > calcTicksFromHours(24)) {
       responseObserver.onError(Status.NOT_FOUND.withDescription("unhealth").asException());
       return;
     }
