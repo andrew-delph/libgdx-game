@@ -13,6 +13,7 @@ import core.common.Clock;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
+import core.entity.AIManager;
 import core.entity.ActiveEntityManager;
 import core.entity.EntityFactory;
 import core.entity.block.BlockFactory;
@@ -79,5 +80,6 @@ public abstract class MainConfig extends AbstractModule {
     bind(ProjectileContact.class).asEagerSingleton();
     bind(OrbContact.class).asEagerSingleton();
     bind(GroupService.class).asEagerSingleton();
+    bind(AIManager.class).asEagerSingleton();
   }
 }

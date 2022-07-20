@@ -38,7 +38,6 @@ public class Entity implements SerializeNetworkData {
   public static float staticWidth = 0.8f;
   private final Clock clock;
   private final InventoryBag bag;
-  public Animation animation;
   public Coordinates coordinates;
   public int zindex = 3;
   public EntityBodyBuilder entityBodyBuilder;

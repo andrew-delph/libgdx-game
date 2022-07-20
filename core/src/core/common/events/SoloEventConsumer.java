@@ -1,16 +1,15 @@
 package core.common.events;
 
 import com.google.inject.Inject;
+import core.app.user.User;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.CreateTurretEventType;
 import core.common.events.types.ItemActionEventType;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
+import core.entity.AIManager;
 import core.entity.Entity;
 import core.entity.attributes.inventory.item.comsumers.ItemActionService;
-import core.entity.controllers.factories.EntityControllerFactory;
-import core.entity.groups.Group;
-import core.entity.groups.GroupService;
 import core.entity.misc.Turret;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,9 +17,9 @@ import org.apache.logging.log4j.Logger;
 public class SoloEventConsumer extends EventConsumer {
 
   final Logger LOGGER = LogManager.getLogger();
-  @Inject EntityControllerFactory entityControllerFactory;
-  @Inject GroupService groupService;
   @Inject ItemActionService itemActionService;
+  @Inject AIManager aiManager;
+  @Inject User user;
 
   @Override
   public void init() {
@@ -33,14 +32,8 @@ public class SoloEventConsumer extends EventConsumer {
             CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
             LOGGER.info("CREATE AI " + realEvent.getCoordinates());
 
-            Entity aiEntity = gameController.createEntity(realEvent.getCoordinates());
-
-            Entity aiTarget = gameStore.getEntity(realEvent.getTarget());
-
-            aiEntity.setEntityController(
-                entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
-
-            groupService.registerEntityGroup(aiEntity.getUuid(), Group.AI_GROUP);
+            aiManager.requestCreateAI(
+                user.getUserID(), realEvent.getCoordinates(), realEvent.getTarget());
 
           } catch (EntityNotFound e) {
             e.printStackTrace();

@@ -10,6 +10,8 @@ import java.util.Properties;
 public class GameSettings {
   public static final boolean RENDER_DEBUG = false;
 
+  public static final int AI_LIMIT = 10;
+
   public static final int UPDATE_INTERVAL = 15;
   public static final float WORLD_TIME_STEP = 1 / 5f;
   public static final int WORLD_VELOCITY_ITERATIONS = 6;
