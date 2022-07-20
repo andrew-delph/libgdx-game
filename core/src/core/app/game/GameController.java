@@ -29,6 +29,7 @@ import core.entity.block.EmptyBlock;
 import core.entity.block.SkyBlock;
 import core.entity.controllers.events.types.AbstractEntityEventType;
 import core.entity.controllers.factories.EntityControllerFactory;
+import core.entity.groups.GroupService;
 import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
@@ -52,6 +53,7 @@ public class GameController {
   @Inject ActiveEntityManager activeEntityManager;
   @Inject ChunkFactory chunkFactory;
   @Inject ItemActionService itemActionService;
+  @Inject GroupService groupService;
 
   public Entity addEntity(Entity entity) throws ChunkNotFound {
     triggerAddEntity(entity);
@@ -82,6 +84,8 @@ public class GameController {
   }
 
   public Entity triggerRemoveEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
+    groupService.removeEntity(uuid);
+    activeEntityManager.removeActiveEntity(user.getUserID(), uuid);
     return this.gameStore.removeEntity(uuid);
   }
 

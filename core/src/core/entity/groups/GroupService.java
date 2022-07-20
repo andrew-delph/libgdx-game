@@ -27,7 +27,9 @@ public class GroupService {
 
   public void removeEntity(UUID uuid) {
     Group targetGroup = uuidMap.remove(uuid);
-    if (targetGroup == null) return;
+    if (targetGroup == null) {
+      return;
+    }
     groupMap.remove(targetGroup, uuid);
   }
 }
