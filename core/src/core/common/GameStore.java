@@ -34,7 +34,7 @@ public class GameStore {
   GameStore() {}
 
   public void addEntity(Entity entity) throws ChunkNotFound {
-    ChunkRange entityChunkRange = new ChunkRange(entity.coordinates);
+    ChunkRange entityChunkRange = CommonFactory.createChunkRange(entity.coordinates);
     this.entityMap.put(entity.getUuid(), entityChunkRange);
     Chunk chunk;
     try {
@@ -142,17 +142,21 @@ public class GameStore {
   }
 
   public Block getBlock(Coordinates coordinates) throws EntityNotFound {
-    Chunk chunk = this.chunkClockMap.get(new ChunkRange(coordinates));
+    Chunk chunk = this.chunkClockMap.get(CommonFactory.createChunkRange(coordinates));
     if (chunk == null) throw new EntityNotFound("Chunk not found");
     return chunk.getBlock(coordinates.getBase());
   }
 
   public Ladder getLadder(Coordinates coordinates) {
-    return this.chunkClockMap.get(new ChunkRange(coordinates)).getLadder(coordinates.getBase());
+    return this.chunkClockMap
+        .get(CommonFactory.createChunkRange(coordinates))
+        .getLadder(coordinates.getBase());
   }
 
   public Turret getTurret(Coordinates coordinates) {
-    return this.chunkClockMap.get(new ChunkRange(coordinates)).getTurret(coordinates.getBase());
+    return this.chunkClockMap
+        .get(CommonFactory.createChunkRange(coordinates))
+        .getTurret(coordinates.getBase());
   }
 
   public List<Entity> getEntityInRange(Coordinates coordinates, int range) {
@@ -182,7 +186,7 @@ public class GameStore {
   public List<Entity> getEntityListBaseCoordinates(Coordinates coordinates) {
     coordinates = coordinates.getBase();
     return this.chunkClockMap
-        .get(new ChunkRange(coordinates))
+        .get(CommonFactory.createChunkRange(coordinates))
         .getEntityListBaseCoordinates(coordinates);
   }
 
@@ -199,7 +203,7 @@ public class GameStore {
   public synchronized void syncEntity(Entity entity) throws EntityNotFound {
     UUID target = entity.getUuid();
     ChunkRange from = this.getEntityChunkRange(entity.getUuid());
-    ChunkRange to = new ChunkRange(entity.coordinates);
+    ChunkRange to = CommonFactory.createChunkRange(entity.coordinates);
     if (!from.equals(to)) {
       this.eventService.queuePostUpdateEvent(
           EventTypeFactory.createReplaceEntityEvent(entity.getUuid(), entity, true, to));

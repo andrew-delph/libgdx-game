@@ -53,7 +53,7 @@ public class testOrbInventory {
     assert entity1.getBag().freeSpace() == 0;
 
     assert gameStore
-            .getChunk(new ChunkRange(CommonFactory.createCoordinates(0, 0)))
+            .getChunk(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
             .getEntityList()
             .stream()
             .filter((e) -> e instanceof Orb)
@@ -84,7 +84,7 @@ public class testOrbInventory {
     }
     clock.waitForTick(10);
     assert gameStore
-        .getChunk(new ChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .getChunk(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
         .getEntityList()
         .stream()
         .noneMatch((e) -> e instanceof Orb);
@@ -97,7 +97,7 @@ public class testOrbInventory {
     assert entity2.getBag().freeSpace() == 0;
 
     assert gameStore
-            .getChunk(new ChunkRange(CommonFactory.createCoordinates(0, 0)))
+            .getChunk(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
             .getEntityList()
             .stream()
             .filter((e) -> e instanceof Orb)

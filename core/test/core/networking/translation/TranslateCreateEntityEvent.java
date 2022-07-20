@@ -24,7 +24,7 @@ public class TranslateCreateEntityEvent {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     CreateEntityOutgoingEventType outgoing =

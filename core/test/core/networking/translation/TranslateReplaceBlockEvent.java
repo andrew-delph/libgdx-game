@@ -27,7 +27,7 @@ public class TranslateReplaceBlockEvent {
     UUID uuidToRemove = UUID.randomUUID();
     Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
     Block blockReplacement = blockFactory.createDirt(coordinates);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
 
     ReplaceBlockOutgoingEventType outgoing =
         EventTypeFactory.createReplaceBlockOutgoingEvent(

@@ -15,7 +15,7 @@ public class TranslateRemoveEntityEvent {
   @Test
   public void testTranslateRemoveEntityEvent() throws SerializationDataMissing {
     Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     UUID target = UUID.randomUUID();
 
     RemoveEntityOutgoingEventType outgoing =

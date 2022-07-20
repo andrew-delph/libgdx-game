@@ -14,8 +14,8 @@ public class TranslateChunkSwapEvent {
 
   @Test
   public void testTranslateChunkSwapEvent() throws SerializationDataMissing {
-    ChunkRange from = new ChunkRange(CommonFactory.createCoordinates(0, 0));
-    ChunkRange to = new ChunkRange(CommonFactory.createCoordinates(-1, 0));
+    ChunkRange from = CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0));
+    ChunkRange to = CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0));
     UUID target = UUID.randomUUID();
 
     ChunkSwapOutgoingEventType outgoing =

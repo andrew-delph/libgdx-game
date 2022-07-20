@@ -3,7 +3,7 @@ package core.networking.events.consumer.server.incoming;
 import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.chunk.ActiveChunkManager;
-import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.events.types.EventType;
@@ -50,10 +50,11 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
 
       RemoveEntityOutgoingEventType removeEntityOutgoingEvent =
           EventTypeFactory.createRemoveEntityOutgoingEvent(
-              entity.getUuid(), new ChunkRange(entity.coordinates));
+              entity.getUuid(), CommonFactory.createChunkRange(entity.coordinates));
 
       for (UserID subscriptionUserID :
-          activeChunkManager.getChunkRangeUsers(new ChunkRange(entity.coordinates))) {
+          activeChunkManager.getChunkRangeUsers(
+              CommonFactory.createChunkRange(entity.coordinates))) {
         serverNetworkHandle.send(subscriptionUserID, removeEntityOutgoingEvent.toNetworkEvent());
       }
       activeEntityManager.deregisterUser(realEvent.getUserID());

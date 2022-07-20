@@ -54,8 +54,8 @@ public class RayCastService {
 
   public Set<ChunkRange> getChunkRangesOnLine(Coordinates start, Coordinates end) {
     Set<ChunkRange> chunkRanges = new HashSet<>();
-    chunkRanges.add(new ChunkRange(start));
-    chunkRanges.add(new ChunkRange(end));
+    chunkRanges.add(CommonFactory.createChunkRange(start));
+    chunkRanges.add(CommonFactory.createChunkRange(end));
 
     float m = (end.getYReal() - start.getYReal()) / (end.getXReal() - start.getXReal());
     float b = (start.getYReal()) - (m * start.getXReal());
@@ -66,13 +66,13 @@ public class RayCastService {
     for (int x : intersectionInRange(start.getXReal(), end.getXReal(), GameSettings.CHUNK_SIZE)) {
       float y = calcY.apply((float) x);
       Coordinates tCoordinates = CommonFactory.createCoordinates(x, y);
-      chunkRanges.add(new ChunkRange(tCoordinates));
+      chunkRanges.add(CommonFactory.createChunkRange(tCoordinates));
     }
 
     for (int y : intersectionInRange(start.getYReal(), end.getYReal(), GameSettings.CHUNK_SIZE)) {
       float x = calcX.apply((float) y);
       Coordinates tCoordinates = CommonFactory.createCoordinates(x, y);
-      chunkRanges.add(new ChunkRange(tCoordinates));
+      chunkRanges.add(CommonFactory.createChunkRange(tCoordinates));
     }
 
     return chunkRanges;

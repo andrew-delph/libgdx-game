@@ -51,10 +51,10 @@ public class testRayCastService {
     Set<ChunkRange> answer =
         new HashSet<>(
             Arrays.asList(
-                new ChunkRange(CommonFactory.createCoordinates(0, 0)),
-                new ChunkRange(CommonFactory.createCoordinates(5, 0)),
-                new ChunkRange(CommonFactory.createCoordinates(10, 0)),
-                new ChunkRange(CommonFactory.createCoordinates(10, 5))));
+                CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)),
+                CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0)),
+                CommonFactory.createChunkRange(CommonFactory.createCoordinates(10, 0)),
+                CommonFactory.createChunkRange(CommonFactory.createCoordinates(10, 5))));
 
     Assert.assertEquals(
         answer,
@@ -71,7 +71,8 @@ public class testRayCastService {
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
     RayCastService rayCastService = injector.getInstance(RayCastService.class);
 
-    gameStore.addChunk(chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))));
+    gameStore.addChunk(
+        chunkFactory.create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0))));
 
     Entity dirt = blockFactory.createDirt(CommonFactory.createCoordinates(2, 1));
     Entity stone = blockFactory.createStone(CommonFactory.createCoordinates(4, 1));
@@ -97,7 +98,8 @@ public class testRayCastService {
     assert rayCastResult.contains(stone);
     assert rayCastResult.size() == 1;
 
-    gameStore.addChunk(chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))));
+    gameStore.addChunk(
+        chunkFactory.create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0))));
 
     Entity dirt2 = blockFactory.createDirt(CommonFactory.createCoordinates(7, 1));
     gameStore.addEntity(dirt2);

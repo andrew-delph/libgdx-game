@@ -21,7 +21,8 @@ public class testChunkSerialization {
   public void testChunkSerialization() throws SerializationDataMissing {
     networkDataSerialization = injector.getInstance(NetworkDataDeserializer.class);
     ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
-    Chunk chunk1 = chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+    Chunk chunk1 =
+        chunkFactory.create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     for (int i = 0; i < 10; i++) {
@@ -39,10 +40,10 @@ public class testChunkSerialization {
 
     networkDataSerialization = injector.getInstance(NetworkDataDeserializer.class);
 
-    ChunkRange chunkRange = new ChunkRange(CommonFactory.createCoordinates(0, 0));
+    ChunkRange chunkRange = CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0));
     assert chunkRange.equals(NetworkDataDeserializer.createChunkRange(chunkRange.toNetworkData()));
 
-    ChunkRange chunkRange2 = new ChunkRange(CommonFactory.createCoordinates(-1, 0));
+    ChunkRange chunkRange2 = CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0));
     assert chunkRange2.equals(
         NetworkDataDeserializer.createChunkRange(chunkRange2.toNetworkData()));
   }

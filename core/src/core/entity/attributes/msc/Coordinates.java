@@ -11,8 +11,8 @@ import java.util.List;
 import networking.NetworkObjects;
 
 public class Coordinates implements Attribute {
-  float x = 1;
-  float y = 1;
+  final float x;
+  final float y;
 
   public Coordinates(float x, float y) {
     this.x = x;

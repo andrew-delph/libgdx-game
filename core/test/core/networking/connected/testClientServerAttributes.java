@@ -112,7 +112,7 @@ public class testClientServerAttributes {
     //    clientGame.start();
 
     serverChunkGenerationService.blockedChunkRangeToGenerate(
-        new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
   }
 
@@ -179,7 +179,8 @@ public class testClientServerAttributes {
     clientGame.start();
 
     serverActiveChunkManager.addUserChunkSubscriptions(
-        clientUser.getUserID(), new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+        clientUser.getUserID(),
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
     assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
@@ -210,7 +211,8 @@ public class testClientServerAttributes {
     clientGame.start();
 
     serverActiveChunkManager.addUserChunkSubscriptions(
-        clientUser.getUserID(), new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+        clientUser.getUserID(),
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
     Entity clientEntity = clientGameStore.getEntity(serverEntity.getUuid());
@@ -245,7 +247,8 @@ public class testClientServerAttributes {
     clientGame.start();
 
     serverActiveChunkManager.addUserChunkSubscriptions(
-        clientUser.getUserID(), new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+        clientUser.getUserID(),
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
     Entity clientEntity = clientGameStore.getEntity(serverEntity.getUuid());

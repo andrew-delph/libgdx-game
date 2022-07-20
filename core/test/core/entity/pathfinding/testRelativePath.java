@@ -23,14 +23,30 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(10, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 5)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-6, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1)))
+        .call();
 
     System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
@@ -92,15 +108,33 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(6, -1))).call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(10, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 5)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-6, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(6, -1)))
+        .call();
 
     //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
@@ -148,15 +182,33 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(6, -1))).call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(10, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 5)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-6, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(6, -1)))
+        .call();
 
     //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
@@ -214,15 +266,33 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(6, -1))).call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(10, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 5)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-6, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(6, -1)))
+        .call();
 
     //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
@@ -266,16 +336,36 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 6))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(6, -1))).call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 6)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(10, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 5)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-6, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(6, -1)))
+        .call();
 
     //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
@@ -320,16 +410,36 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 6))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(6, -1))).call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 6)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(10, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 5)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-6, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(6, -1)))
+        .call();
 
     //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 

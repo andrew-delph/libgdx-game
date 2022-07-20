@@ -111,7 +111,7 @@ public class testSingleClientNoRunningGame {
     // make sure it worked
 
     Coordinates coordinatesToTest = CommonFactory.createCoordinates(-100, -100);
-    ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
+    ChunkRange chunkRangeToTest = CommonFactory.createChunkRange(coordinatesToTest);
 
     Assert.assertEquals(false, serverGameStore.doesChunkExist(chunkRangeToTest));
     Assert.assertEquals(false, clientGameStore.doesChunkExist(chunkRangeToTest));
@@ -138,7 +138,7 @@ public class testSingleClientNoRunningGame {
     // async request the chunk on the client
     // make sure it worked
     Coordinates coordinatesToTest = CommonFactory.createCoordinates(-100, -100);
-    ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
+    ChunkRange chunkRangeToTest = CommonFactory.createChunkRange(coordinatesToTest);
 
     Assert.assertEquals(false, serverGameStore.doesChunkExist(chunkRangeToTest));
     Assert.assertEquals(false, clientGameStore.doesChunkExist(chunkRangeToTest));
@@ -160,7 +160,7 @@ public class testSingleClientNoRunningGame {
       throws SerializationDataMissing, EntityNotFound, InterruptedException {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     Coordinates coordinates = CommonFactory.createCoordinates(-1, 0);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     Chunk clientChunk = clientNetworkHandle.requestChunkBlocking(chunkRange);
     Chunk serverChunk = serverGameStore.getChunk(chunkRange);
     assert clientChunk.equals(serverChunk);
@@ -174,7 +174,7 @@ public class testSingleClientNoRunningGame {
   public void testRequestChunkBlockingGenerated() throws Exception {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     Coordinates coordinates = CommonFactory.createCoordinates(-1, 0);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     serverChunkGenerationService.blockedChunkRangeToGenerate(chunkRange);
     Chunk clientChunk = clientNetworkHandle.requestChunkBlocking(chunkRange);
     Chunk serverChunk = serverGameStore.getChunk(chunkRange);

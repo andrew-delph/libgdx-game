@@ -23,7 +23,7 @@ public class testActiveChunkManager {
   public void testActiveEntityManager() {
     UserID testUserID = UserID.createUserID();
     Coordinates testCoordinates = CommonFactory.createCoordinates(0, 0);
-    ChunkRange testChunkRange = new ChunkRange(testCoordinates);
+    ChunkRange testChunkRange = CommonFactory.createChunkRange(testCoordinates);
 
     activeChunkManager.addUserChunkSubscriptions(testUserID, testChunkRange);
 

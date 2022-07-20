@@ -181,7 +181,8 @@ public class GameScreen extends ApplicationAdapter {
 
     if (GameSettings.RENDER_DEBUG) {
 
-      Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
+      Chunk mainChunk =
+          this.gameStore.getChunk((CommonFactory.createChunkRange(myEntity.coordinates)));
 
       mainChunk
           .getWorldWrapper()
@@ -191,9 +192,13 @@ public class GameScreen extends ApplicationAdapter {
               });
       pathDebugRender.end();
 
-      Chunk lowerChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getDown());
-      Chunk leftChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getLeft());
-      Chunk rightChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getRight());
+      Chunk lowerChunk =
+          this.gameStore.getChunk((CommonFactory.createChunkRange(myEntity.coordinates)).getDown());
+      Chunk leftChunk =
+          this.gameStore.getChunk((CommonFactory.createChunkRange(myEntity.coordinates)).getLeft());
+      Chunk rightChunk =
+          this.gameStore.getChunk(
+              (CommonFactory.createChunkRange(myEntity.coordinates)).getRight());
 
       if (lowerChunk == null) return;
       debugMatrix =

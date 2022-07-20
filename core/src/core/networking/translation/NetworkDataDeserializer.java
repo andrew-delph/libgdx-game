@@ -70,7 +70,7 @@ public class NetworkDataDeserializer {
           break;
       }
     }
-    return new ChunkRange(CommonFactory.createCoordinates(x, y));
+    return CommonFactory.createChunkRange(CommonFactory.createCoordinates(x, y));
   }
 
   public static UUID createUUID(NetworkObjects.NetworkData networkData) {

@@ -44,7 +44,7 @@ public class testGameController {
   @Test
   public void testEntitySync() throws EntityNotFound, ChunkNotFound, BodyNotFound {
     eventConsumer.init();
-    ChunkRange chunkRange1 = new ChunkRange(CommonFactory.createCoordinates(0, 0));
+    ChunkRange chunkRange1 = CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0));
     ChunkRange chunkRange2 = chunkRange1.getRight();
     this.gameStore.addChunk(this.chunkFactory.create(chunkRange1));
     this.gameStore.addChunk(this.chunkFactory.create(chunkRange2));

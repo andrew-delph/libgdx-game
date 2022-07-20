@@ -27,7 +27,8 @@ public class testSyncService {
 
   @Test
   public void testHandshakeLocking() {
-    ChunkRange testChunkRange = new ChunkRange(CommonFactory.createCoordinates(0, 0));
+    ChunkRange testChunkRange =
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0));
     clock.tick();
     syncService.lockHandshake(user.getUserID(), testChunkRange, 4);
     assert syncService.isHandshakeLocked(user.getUserID(), testChunkRange);

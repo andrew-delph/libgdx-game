@@ -25,12 +25,24 @@ public class testEdgeStore {
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
     GameStore gameStore = injector.getInstance(GameStore.class);
 
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 5)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1)))
+        .call();
 
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0.5f, 1));
     gameStore.addEntity(entity);

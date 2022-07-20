@@ -19,7 +19,8 @@ public class testChunk {
   public void testGetBlock() throws EntityNotFound {
     Injector injector = Guice.createInjector(new ClientConfig());
     ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
-    Chunk chunk = chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+    Chunk chunk =
+        chunkFactory.create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
@@ -40,8 +41,10 @@ public class testChunk {
   public void testChunkEquals() {
     Injector injector = Guice.createInjector(new ClientConfig());
     ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
-    Chunk chunk1 = chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
-    Chunk chunk2 = chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+    Chunk chunk1 =
+        chunkFactory.create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
+    Chunk chunk2 =
+        chunkFactory.create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     for (int i = 0; i < 10; i++) {

@@ -29,7 +29,8 @@ public class testChunkGenerationService {
 
   @Test
   public void testQueueChunkGenerationService() throws InterruptedException {
-    ChunkRange chunkRangeToTest = new ChunkRange(CommonFactory.createCoordinates(0, 0));
+    ChunkRange chunkRangeToTest =
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0));
     Assert.assertFalse(gameStore.doesChunkExist(chunkRangeToTest));
 
     chunkGenerationService.queueChunkRangeToGenerate(chunkRangeToTest);
@@ -48,7 +49,8 @@ public class testChunkGenerationService {
 
   @Test
   public void testBlockedChunkGenerationService() throws Exception {
-    ChunkRange chunkRangeToTest = new ChunkRange(CommonFactory.createCoordinates(0, 0));
+    ChunkRange chunkRangeToTest =
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0));
     Assert.assertFalse(gameStore.doesChunkExist(chunkRangeToTest));
 
     chunkGenerationService.blockedChunkRangeToGenerate(chunkRangeToTest);

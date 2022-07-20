@@ -30,7 +30,7 @@ public class TranslateUpdateEntityEvent {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     UpdateEntityOutgoingEventType outgoing =
@@ -51,7 +51,7 @@ public class TranslateUpdateEntityEvent {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     OrbInventoryItem orb = new OrbInventoryItem(3);
@@ -74,7 +74,7 @@ public class TranslateUpdateEntityEvent {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     EmptyInventoryItem item = new EmptyInventoryItem(3);
@@ -96,7 +96,7 @@ public class TranslateUpdateEntityEvent {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     Equipped item = new Equipped(2);
@@ -120,7 +120,7 @@ public class TranslateUpdateEntityEvent {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     SwordInventoryItem item = new SwordInventoryItem(2);
@@ -146,7 +146,7 @@ public class TranslateUpdateEntityEvent {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     AnimationStateWrapper animationStateWrapper =

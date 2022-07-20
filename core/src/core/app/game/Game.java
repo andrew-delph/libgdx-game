@@ -49,7 +49,8 @@ public class Game {
   }
 
   public void preStartInit() throws SerializationDataMissing {
-    gameStore.addChunk(chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))));
+    gameStore.addChunk(
+        chunkFactory.create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0))));
   }
 
   public void postStartInit()

@@ -38,15 +38,20 @@ public class TestGameStore {
   public void testEntityExistence() throws EntityNotFound, ChunkNotFound {
     Entity testEntity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
     this.gameStore.addChunk(
-        this.chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))));
+        this.chunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0))));
     gameStore.addEntity(testEntity);
     assert testEntity == gameStore.getEntity(testEntity.getUuid());
   }
 
   @Test
   public void testChunkExistence() {
-    Chunk chunk = this.chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+    Chunk chunk =
+        this.chunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
     this.gameStore.addChunk(chunk);
-    assert chunk == gameStore.getChunk(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+    assert chunk
+        == gameStore.getChunk(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
   }
 }

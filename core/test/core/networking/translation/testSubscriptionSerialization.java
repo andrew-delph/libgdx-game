@@ -26,8 +26,8 @@ public class testSubscriptionSerialization {
   @Test
   public void testHandleSubscriptionEvent() {
     List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(0, 1)));
-    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(-2, 1)));
+    chunkRangeList.add(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 1)));
+    chunkRangeList.add(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-2, 1)));
     SubscriptionOutgoingEventType subscriptionOutgoingEvent =
         new SubscriptionOutgoingEventType(chunkRangeList);
     UserID userID = UserID.createUserID();
