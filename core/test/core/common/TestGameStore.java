@@ -5,7 +5,6 @@ import com.google.inject.Injector;
 import core.app.game.GameController;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
 import core.configuration.ClientConfig;

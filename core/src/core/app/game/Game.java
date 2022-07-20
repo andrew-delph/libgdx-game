@@ -3,7 +3,6 @@ package core.app.game;
 import com.google.inject.Inject;
 import core.app.update.UpdateTask;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.CommonFactory;
 import core.common.GameSettings;

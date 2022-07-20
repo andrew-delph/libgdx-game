@@ -9,7 +9,6 @@ import core.app.screen.assets.animations.AnimationState;
 import core.app.user.User;
 import core.chunk.ActiveChunkManager;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
 import core.common.CommonFactory;

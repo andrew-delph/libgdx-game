@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 import core.app.user.User;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
 import core.common.CommonFactory;

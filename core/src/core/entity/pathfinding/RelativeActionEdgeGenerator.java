@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.chunk.world.WorldWrapper;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.CommonFactory;

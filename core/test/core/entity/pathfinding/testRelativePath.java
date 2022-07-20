@@ -2,7 +2,6 @@ package core.entity.pathfinding;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import core.chunk.ChunkRange;
 import core.common.CommonFactory;
 import core.common.GameStore;
 import core.configuration.StandAloneConfig;

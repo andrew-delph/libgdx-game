@@ -17,7 +17,6 @@ import core.app.screen.assets.BaseAssetManager;
 import core.app.screen.assets.animations.AnimationManager;
 import core.app.user.User;
 import core.chunk.Chunk;
-import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.CommonFactory;
 import core.common.GameSettings;
