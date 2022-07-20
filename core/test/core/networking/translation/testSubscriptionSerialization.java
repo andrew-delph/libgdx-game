@@ -4,8 +4,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.app.user.UserID;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.configuration.ClientConfig;
-import core.entity.attributes.msc.Coordinates;
 import core.networking.events.types.incoming.SubscriptionIncomingEventType;
 import core.networking.events.types.outgoing.SubscriptionOutgoingEventType;
 import java.util.LinkedList;
@@ -26,8 +26,8 @@ public class testSubscriptionSerialization {
   @Test
   public void testHandleSubscriptionEvent() {
     List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 1)));
-    chunkRangeList.add(new ChunkRange(new Coordinates(-2, 1)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(0, 1)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(-2, 1)));
     SubscriptionOutgoingEventType subscriptionOutgoingEvent =
         new SubscriptionOutgoingEventType(chunkRangeList);
     UserID userID = UserID.createUserID();

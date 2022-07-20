@@ -1,6 +1,7 @@
 package core.entity.pathfinding;
 
 import com.badlogic.gdx.math.Vector2;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.entity.attributes.msc.Coordinates;
 
@@ -31,7 +32,7 @@ public class RelativeCoordinates {
   }
 
   public Coordinates applyRelativeCoordinates(Coordinates coordinates) {
-    return new Coordinates(
+    return CommonFactory.createCoordinates(
         coordinates.getXReal() + this.relativeX, coordinates.getYReal() + this.relativeY);
   }
 

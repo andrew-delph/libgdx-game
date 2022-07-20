@@ -1,8 +1,8 @@
 package core.networking.translation;
 
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.exceptions.SerializationDataMissing;
-import core.entity.attributes.msc.Coordinates;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.ChunkSwapIncomingEventType;
 import core.networking.events.types.outgoing.ChunkSwapOutgoingEventType;
@@ -14,8 +14,8 @@ public class TranslateChunkSwapEvent {
 
   @Test
   public void testTranslateChunkSwapEvent() throws SerializationDataMissing {
-    ChunkRange from = new ChunkRange(new Coordinates(0, 0));
-    ChunkRange to = new ChunkRange(new Coordinates(-1, 0));
+    ChunkRange from = new ChunkRange(CommonFactory.createCoordinates(0, 0));
+    ChunkRange to = new ChunkRange(CommonFactory.createCoordinates(-1, 0));
     UUID target = UUID.randomUUID();
 
     ChunkSwapOutgoingEventType outgoing =

@@ -10,6 +10,7 @@ import com.google.inject.util.Providers;
 import core.app.user.User;
 import core.chunk.Chunk;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventConsumer;
@@ -109,7 +110,7 @@ public class testSingleClientNoRunningGame {
     // async request the chunk on the client
     // make sure it worked
 
-    Coordinates coordinatesToTest = new Coordinates(-100, -100);
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(-100, -100);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
     Assert.assertEquals(false, serverGameStore.doesChunkExist(chunkRangeToTest));
@@ -136,7 +137,7 @@ public class testSingleClientNoRunningGame {
     // make sure there is NOT a chunk generated on the server
     // async request the chunk on the client
     // make sure it worked
-    Coordinates coordinatesToTest = new Coordinates(-100, -100);
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(-100, -100);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
     Assert.assertEquals(false, serverGameStore.doesChunkExist(chunkRangeToTest));
@@ -158,7 +159,7 @@ public class testSingleClientNoRunningGame {
   public void testRequestChunkBlockingNotGenerated()
       throws SerializationDataMissing, EntityNotFound, InterruptedException {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
-    Coordinates coordinates = new Coordinates(-1, 0);
+    Coordinates coordinates = CommonFactory.createCoordinates(-1, 0);
     ChunkRange chunkRange = new ChunkRange(coordinates);
     Chunk clientChunk = clientNetworkHandle.requestChunkBlocking(chunkRange);
     Chunk serverChunk = serverGameStore.getChunk(chunkRange);
@@ -172,7 +173,7 @@ public class testSingleClientNoRunningGame {
   @Test
   public void testRequestChunkBlockingGenerated() throws Exception {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
-    Coordinates coordinates = new Coordinates(-1, 0);
+    Coordinates coordinates = CommonFactory.createCoordinates(-1, 0);
     ChunkRange chunkRange = new ChunkRange(coordinates);
     serverChunkGenerationService.blockedChunkRangeToGenerate(chunkRange);
     Chunk clientChunk = clientNetworkHandle.requestChunkBlocking(chunkRange);

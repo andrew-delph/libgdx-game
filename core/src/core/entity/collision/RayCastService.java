@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import core.chunk.Chunk;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.entity.Entity;
@@ -64,13 +65,13 @@ public class RayCastService {
 
     for (int x : intersectionInRange(start.getXReal(), end.getXReal(), GameSettings.CHUNK_SIZE)) {
       float y = calcY.apply((float) x);
-      Coordinates tCoordinates = new Coordinates(x, y);
+      Coordinates tCoordinates = CommonFactory.createCoordinates(x, y);
       chunkRanges.add(new ChunkRange(tCoordinates));
     }
 
     for (int y : intersectionInRange(start.getYReal(), end.getYReal(), GameSettings.CHUNK_SIZE)) {
       float x = calcX.apply((float) y);
-      Coordinates tCoordinates = new Coordinates(x, y);
+      Coordinates tCoordinates = CommonFactory.createCoordinates(x, y);
       chunkRanges.add(new ChunkRange(tCoordinates));
     }
 

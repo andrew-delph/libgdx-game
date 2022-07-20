@@ -9,6 +9,7 @@ import core.app.user.UserID;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.CreateTurretEventType;
@@ -69,7 +70,7 @@ public class NetworkDataDeserializer {
           break;
       }
     }
-    return new ChunkRange(new Coordinates(x, y));
+    return new ChunkRange(CommonFactory.createCoordinates(x, y));
   }
 
   public static UUID createUUID(NetworkObjects.NetworkData networkData) {
@@ -278,7 +279,7 @@ public class NetworkDataDeserializer {
           break;
       }
     }
-    return new Coordinates(x, y);
+    return CommonFactory.createCoordinates(x, y);
   }
 
   public static CreateAIEntityEventType createCreateAIEntityEventType(
@@ -427,21 +428,21 @@ public class NetworkDataDeserializer {
     Health health = null;
 
     if (classString.equals(DirtBlock.class.getName())) {
-      entity = blockFactory.createDirt(new Coordinates(0, 0));
+      entity = blockFactory.createDirt(CommonFactory.createCoordinates(0, 0));
     } else if (classString.equals(SkyBlock.class.getName())) {
-      entity = blockFactory.createSky(new Coordinates(0, 0));
+      entity = blockFactory.createSky(CommonFactory.createCoordinates(0, 0));
     } else if (classString.equals(StoneBlock.class.getName())) {
-      entity = blockFactory.createStone(new Coordinates(0, 0));
+      entity = blockFactory.createStone(CommonFactory.createCoordinates(0, 0));
     } else if (classString.equals(Ladder.class.getName())) {
-      entity = entityFactory.createLadder(new Coordinates(0, 0));
+      entity = entityFactory.createLadder(CommonFactory.createCoordinates(0, 0));
     } else if (classString.equals(Turret.class.getName())) {
-      entity = entityFactory.createTurret(new Coordinates(0, 0));
+      entity = entityFactory.createTurret(CommonFactory.createCoordinates(0, 0));
     } else if (classString.equals(Projectile.class.getName())) {
-      entity = entityFactory.createProjectile(new Coordinates(0, 0));
+      entity = entityFactory.createProjectile(CommonFactory.createCoordinates(0, 0));
     } else if (classString.equals(Orb.class.getName())) {
-      entity = entityFactory.createOrb(new Coordinates(0, 0));
+      entity = entityFactory.createOrb(CommonFactory.createCoordinates(0, 0));
     } else if (classString.equals(Entity.class.getName())) {
-      entity = entityFactory.createEntity(new Coordinates(0, 0));
+      entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
     } else {
       throw new SerializationDataMissing("classString not recognized: " + classString);
     }

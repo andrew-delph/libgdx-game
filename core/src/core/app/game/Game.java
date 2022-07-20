@@ -5,12 +5,12 @@ import core.app.update.UpdateTask;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventConsumer;
 import core.common.exceptions.SerializationDataMissing;
 import core.common.exceptions.WrongVersion;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.collision.CollisionService;
 import java.io.IOException;
 import java.util.Timer;
@@ -49,7 +49,7 @@ public class Game {
   }
 
   public void preStartInit() throws SerializationDataMissing {
-    gameStore.addChunk(chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
+    gameStore.addChunk(chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))));
   }
 
   public void postStartInit()

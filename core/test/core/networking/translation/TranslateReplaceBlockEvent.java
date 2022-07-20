@@ -3,6 +3,7 @@ package core.networking.translation;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.exceptions.SerializationDataMissing;
 import core.configuration.ClientConfig;
 import core.entity.attributes.msc.Coordinates;
@@ -24,7 +25,7 @@ public class TranslateReplaceBlockEvent {
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
 
     UUID uuidToRemove = UUID.randomUUID();
-    Coordinates coordinates = new Coordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
     Block blockReplacement = blockFactory.createDirt(coordinates);
     ChunkRange chunkRange = new ChunkRange(coordinates);
 

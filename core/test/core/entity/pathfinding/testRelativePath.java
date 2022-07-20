@@ -3,6 +3,7 @@ package core.entity.pathfinding;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.configuration.StandAloneConfig;
 import core.entity.attributes.msc.Coordinates;
@@ -22,30 +23,30 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
 
-    System.out.println(gameStore.getBlock(new Coordinates(2, 1)).getClass());
+    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
     EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
     edgeRegistration.edgeRegistration();
 
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
 
-    //    Coordinates replacementCoordinates = new Coordinates(4, 1);
+    //    Coordinates replacementCoordinates = CommonFactory.createCoordinates(4, 1);
     //    Block removeBlock = gameStore.getBlock(replacementCoordinates);
     //    Block replacementBlock = blockFactory.createDirt();
     //    replacementBlock.coordinates = removeBlock.coordinates;
     //    gameStore.removeEntity(removeBlock.uuid);
     //    gameStore.addEntity(replacementBlock);
     //
-    //    Coordinates replacementCoordinates2 = new Coordinates(5, 2);
+    //    Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(5, 2);
     //    Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
     //    Block replacementBlock2 = blockFactory.createDirt();
     //    replacementBlock2.coordinates = removeBlock2.coordinates;
@@ -54,10 +55,14 @@ public class testRelativePath {
     //    System.out.println(gameStore.getBlock(replacementCoordinates).getClass());
     //
     RelativePath relativePath =
-        relativePathFactory.create(new Coordinates(0.5f, 1), new Coordinates(6, 1));
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(0.5f, 1), CommonFactory.createCoordinates(6, 1));
 
     System.out.println(
-        ">>>>>>>>" + gameStore.getBlock(new Coordinates(4.0742702f, 0.5821669f)).getClass());
+        ">>>>>>>>"
+            + gameStore
+                .getBlock(CommonFactory.createCoordinates(4.0742702f, 0.5821669f))
+                .getClass());
 
     relativePath.search();
     System.out.println("1");
@@ -87,31 +92,31 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(6, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(6, -1))).call();
 
-    //    System.out.println(gameStore.getBlock(new Coordinates(2, 1)).getClass());
+    //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
     EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
     edgeRegistration.edgeRegistration();
 
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
 
-    Coordinates replacementCoordinates = new Coordinates(4, 0);
+    Coordinates replacementCoordinates = CommonFactory.createCoordinates(4, 0);
     Block removeBlock = gameStore.getBlock(replacementCoordinates);
     Block replacementBlock = blockFactory.createSky(removeBlock.coordinates);
     gameStore.removeEntity(removeBlock.getUuid());
     gameStore.addEntity(replacementBlock);
     System.out.println("1" + gameStore.getBlock(replacementCoordinates).getClass());
     //
-    //    Coordinates replacementCoordinates2 = new Coordinates(4, -1);
+    //    Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(4, -1);
     //    Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
     //    Block replacementBlock2 = blockFactory.createSky();
     //    replacementBlock2.coordinates = removeBlock2.coordinates;
@@ -120,7 +125,8 @@ public class testRelativePath {
     //    System.out.println("2" + gameStore.getBlock(replacementCoordinates2).getClass());
 
     RelativePath relativePath =
-        relativePathFactory.create(new Coordinates(0, 1), new Coordinates(5, 1));
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(5, 1));
 
     relativePath.search();
     System.out.println("1");
@@ -142,38 +148,38 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(6, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(6, -1))).call();
 
-    //    System.out.println(gameStore.getBlock(new Coordinates(2, 1)).getClass());
+    //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
     EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
     edgeRegistration.horizontalGreedyRegisterEdges();
 
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
 
-    Coordinates replacementCoordinates = new Coordinates(2, 0);
+    Coordinates replacementCoordinates = CommonFactory.createCoordinates(2, 0);
     Block removeBlock = gameStore.getBlock(replacementCoordinates);
     Block replacementBlock = blockFactory.createSky(removeBlock.coordinates);
     gameStore.removeEntity(removeBlock.getUuid());
     gameStore.addEntity(replacementBlock);
     System.out.println("1" + gameStore.getBlock(replacementCoordinates).getClass());
     //
-    Coordinates replacementCoordinates2 = new Coordinates(2, -1);
+    Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(2, -1);
     Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
     Block replacementBlock2 = blockFactory.createSky(removeBlock2.coordinates);
     gameStore.removeEntity(removeBlock2.getUuid());
     gameStore.addEntity(replacementBlock2);
     System.out.println("2" + gameStore.getBlock(replacementCoordinates2).getClass());
 
-    Coordinates replacementCoordinates3 = new Coordinates(2, -2);
+    Coordinates replacementCoordinates3 = CommonFactory.createCoordinates(2, -2);
     Block removeBlock3 = gameStore.getBlock(replacementCoordinates3);
     Block replacementBlock3 = blockFactory.createSky(removeBlock3.coordinates);
     gameStore.removeEntity(removeBlock3.getUuid());
@@ -181,7 +187,8 @@ public class testRelativePath {
     System.out.println("3" + gameStore.getBlock(replacementCoordinates3).getClass());
 
     RelativePath relativePath =
-        relativePathFactory.create(new Coordinates(0, 1), new Coordinates(2, -2));
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(2, -2));
 
     relativePath.search();
     System.out.println(relativePath.finalPathNode.getEndPosition());
@@ -207,17 +214,17 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(6, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(6, -1))).call();
 
-    //    System.out.println(gameStore.getBlock(new Coordinates(2, 1)).getClass());
+    //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
     EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
     edgeRegistration.horizontalGreedyRegisterEdges();
@@ -226,7 +233,8 @@ public class testRelativePath {
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
 
     RelativePath relativePath =
-        relativePathFactory.create(new Coordinates(0, 1), new Coordinates(2, 6));
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(2, 6));
 
     relativePath.search();
     System.out.println(relativePath.finalPathNode.getEndPosition());
@@ -258,18 +266,18 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 6))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(6, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 6))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(6, -1))).call();
 
-    //    System.out.println(gameStore.getBlock(new Coordinates(2, 1)).getClass());
+    //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
     EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
     edgeRegistration.horizontalGreedyRegisterEdges();
@@ -278,7 +286,7 @@ public class testRelativePath {
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
 
     for (int i = 0; i < 5; i++) {
-      Coordinates replacementCoordinates2 = new Coordinates(2, i);
+      Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(2, i);
       Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
       Block replacementBlock2 = blockFactory.createDirt(removeBlock2.coordinates);
       gameStore.removeEntity(removeBlock2.getUuid());
@@ -287,11 +295,12 @@ public class testRelativePath {
     }
 
     RelativePath relativePath =
-        relativePathFactory.create(new Coordinates(0, 1), new Coordinates(2, 5));
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(2, 5));
 
     System.out.println("^^^^^^^^^^^^^^");
-    System.out.println(gameStore.getBlock(new Coordinates(2, 5)).getClass());
-    System.out.println(gameStore.getBlock(new Coordinates(2, 4)).getClass());
+    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 5)).getClass());
+    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 4)).getClass());
     System.out.println("^^^^^^^^^^^^^^");
 
     relativePath.search();
@@ -311,18 +320,18 @@ public class testRelativePath {
     GameStore gameStore = injector.getInstance(GameStore.class);
 
     ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 6))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(5, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(10, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, 5))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(0, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-6, 0))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(-1, -1))).call();
-    chunkBuilderFactory.create(new ChunkRange(new Coordinates(6, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 6))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(5, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(10, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 5))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-6, 0))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(-1, -1))).call();
+    chunkBuilderFactory.create(new ChunkRange(CommonFactory.createCoordinates(6, -1))).call();
 
-    //    System.out.println(gameStore.getBlock(new Coordinates(2, 1)).getClass());
+    //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
     EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
     edgeRegistration.horizontalGreedyRegisterEdges();
@@ -331,7 +340,7 @@ public class testRelativePath {
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
 
     for (int i = 0; i < 5; i++) {
-      Coordinates replacementCoordinates2 = new Coordinates(2, i);
+      Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(2, i);
       Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
       Block replacementBlock2 = blockFactory.createDirt(removeBlock2.coordinates);
       gameStore.removeEntity(removeBlock2.getUuid());
@@ -340,7 +349,8 @@ public class testRelativePath {
     }
 
     RelativePath relativePath =
-        relativePathFactory.create(new Coordinates(0, 1), new Coordinates(5, 1));
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(5, 1));
 
     relativePath.search();
 

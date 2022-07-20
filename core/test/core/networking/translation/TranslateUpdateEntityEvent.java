@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.app.screen.assets.animations.AnimationState;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.exceptions.SerializationDataMissing;
 import core.configuration.ClientConfig;
 import core.entity.Entity;
@@ -28,9 +29,9 @@ public class TranslateUpdateEntityEvent {
         injector.getInstance(NetworkDataDeserializer.class);
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
-    Coordinates coordinates = new Coordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
     ChunkRange chunkRange = new ChunkRange(coordinates);
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     UpdateEntityOutgoingEventType outgoing =
         EventTypeFactory.createUpdateEntityOutgoingEvent(coordinates, chunkRange, entity.getUuid());
@@ -49,9 +50,9 @@ public class TranslateUpdateEntityEvent {
         injector.getInstance(NetworkDataDeserializer.class);
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
-    Coordinates coordinates = new Coordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
     ChunkRange chunkRange = new ChunkRange(coordinates);
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     OrbInventoryItem orb = new OrbInventoryItem(3);
 
@@ -72,9 +73,9 @@ public class TranslateUpdateEntityEvent {
         injector.getInstance(NetworkDataDeserializer.class);
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
-    Coordinates coordinates = new Coordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
     ChunkRange chunkRange = new ChunkRange(coordinates);
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     EmptyInventoryItem item = new EmptyInventoryItem(3);
 
@@ -94,9 +95,9 @@ public class TranslateUpdateEntityEvent {
 
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
-    Coordinates coordinates = new Coordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
     ChunkRange chunkRange = new ChunkRange(coordinates);
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     Equipped item = new Equipped(2);
 
@@ -118,9 +119,9 @@ public class TranslateUpdateEntityEvent {
 
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
-    Coordinates coordinates = new Coordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
     ChunkRange chunkRange = new ChunkRange(coordinates);
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     SwordInventoryItem item = new SwordInventoryItem(2);
 
@@ -144,9 +145,9 @@ public class TranslateUpdateEntityEvent {
 
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
-    Coordinates coordinates = new Coordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
     ChunkRange chunkRange = new ChunkRange(coordinates);
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     AnimationStateWrapper animationStateWrapper =
         new AnimationStateWrapper(AnimationState.ATTACKING);

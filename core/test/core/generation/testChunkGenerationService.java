@@ -3,10 +3,10 @@ package core.generation;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.configuration.BaseServerConfig;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -29,7 +29,7 @@ public class testChunkGenerationService {
 
   @Test
   public void testQueueChunkGenerationService() throws InterruptedException {
-    ChunkRange chunkRangeToTest = new ChunkRange(new Coordinates(0, 0));
+    ChunkRange chunkRangeToTest = new ChunkRange(CommonFactory.createCoordinates(0, 0));
     Assert.assertFalse(gameStore.doesChunkExist(chunkRangeToTest));
 
     chunkGenerationService.queueChunkRangeToGenerate(chunkRangeToTest);
@@ -48,7 +48,7 @@ public class testChunkGenerationService {
 
   @Test
   public void testBlockedChunkGenerationService() throws Exception {
-    ChunkRange chunkRangeToTest = new ChunkRange(new Coordinates(0, 0));
+    ChunkRange chunkRangeToTest = new ChunkRange(CommonFactory.createCoordinates(0, 0));
     Assert.assertFalse(gameStore.doesChunkExist(chunkRangeToTest));
 
     chunkGenerationService.blockedChunkRangeToGenerate(chunkRangeToTest);

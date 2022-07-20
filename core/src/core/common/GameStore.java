@@ -157,8 +157,9 @@ public class GameStore {
 
   public List<Entity> getEntityInRange(Coordinates coordinates, int range) {
     Coordinates bottomLeft =
-        new Coordinates(coordinates.getX() - range, coordinates.getY() - range);
-    Coordinates topRight = new Coordinates(coordinates.getX() + range, coordinates.getY() + range);
+        CommonFactory.createCoordinates(coordinates.getX() - range, coordinates.getY() - range);
+    Coordinates topRight =
+        CommonFactory.createCoordinates(coordinates.getX() + range, coordinates.getY() + range);
     return this.getEntityInRange(bottomLeft, topRight);
   }
 

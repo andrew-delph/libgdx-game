@@ -3,6 +3,7 @@ package core.entity.attributes;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.app.screen.assets.animations.AnimationState;
+import core.common.CommonFactory;
 import core.configuration.BaseServerConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;
@@ -26,9 +27,9 @@ public class testEntityUpdates {
 
   @Test
   public void testCoordinatesUpdate() {
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 1));
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 1));
 
-    Coordinates newCoords = new Coordinates(2, 2);
+    Coordinates newCoords = CommonFactory.createCoordinates(2, 2);
 
     assert !entity.coordinates.equals(newCoords);
 
@@ -39,7 +40,7 @@ public class testEntityUpdates {
 
   @Test
   public void testHealthUpdate() {
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 1));
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 1));
 
     Health newHealth = new Health(22);
 
@@ -52,7 +53,7 @@ public class testEntityUpdates {
 
   @Test
   public void testEquippedUpdate() {
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 1));
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 1));
 
     Equipped newEquipped = new Equipped(3);
 
@@ -65,7 +66,7 @@ public class testEntityUpdates {
 
   @Test
   public void testItemUpdate() {
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 1));
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 1));
 
     OrbInventoryItem orb1 = new OrbInventoryItem(3);
 
@@ -78,7 +79,7 @@ public class testEntityUpdates {
 
   @Test
   public void testAnimationStateUpdate() {
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 1));
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 1));
 
     AnimationStateWrapper animationStateWrapper =
         new AnimationStateWrapper(AnimationState.ATTACKING);

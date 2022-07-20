@@ -8,6 +8,7 @@ import core.app.game.GameController;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -118,13 +119,13 @@ public class testDoubleClient {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory client_a_ChunkFactory = client_a_Injector.getInstance(ChunkFactory.class);
     client_a_GameStore.addChunk(
-        client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+        client_a_ChunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(2, 3))));
 
     EntityFactory clientEntityFactory = client_a_Injector.getInstance(EntityFactory.class);
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
-    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(-1, 0)));
     for (ChunkRange chunkRange : chunkRangeList) {
       client_b_GameStore.addChunk(client_a_ChunkFactory.create(chunkRange));
     }
@@ -138,7 +139,8 @@ public class testDoubleClient {
     TimeUnit.SECONDS.sleep(1);
 
     Entity clientEntity =
-        client_a_GameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
+        client_a_GameController.addEntity(
+            clientEntityFactory.createEntity(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(3);
 
@@ -171,13 +173,13 @@ public class testDoubleClient {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory client_a_ChunkFactory = client_a_Injector.getInstance(ChunkFactory.class);
     client_a_GameStore.addChunk(
-        client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+        client_a_ChunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(2, 3))));
 
     EntityFactory clientEntityFactory = client_a_Injector.getInstance(EntityFactory.class);
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
-    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(-1, 0)));
     for (ChunkRange chunkRange : chunkRangeList) {
       client_b_GameStore.addChunk(client_a_ChunkFactory.create(chunkRange));
     }
@@ -191,7 +193,8 @@ public class testDoubleClient {
     TimeUnit.SECONDS.sleep(1);
 
     Entity clientEntity =
-        client_a_GameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
+        client_a_GameController.addEntity(
+            clientEntityFactory.createEntity(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -213,11 +216,12 @@ public class testDoubleClient {
         .coordinates
         .equals(clientEntity.coordinates);
 
-    client_a_GameController.moveEntity(clientEntity.getUuid(), new Coordinates(0, 1));
+    client_a_GameController.moveEntity(
+        clientEntity.getUuid(), CommonFactory.createCoordinates(0, 1));
 
     TimeUnit.SECONDS.sleep(1);
 
-    assert clientEntity.coordinates.equals(new Coordinates(0, 1));
+    assert clientEntity.coordinates.equals(CommonFactory.createCoordinates(0, 1));
 
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
@@ -250,13 +254,13 @@ public class testDoubleClient {
 
     ChunkFactory client_a_ChunkFactory = client_a_Injector.getInstance(ChunkFactory.class);
     client_a_GameStore.addChunk(
-        client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+        client_a_ChunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(2, 3))));
 
     EntityFactory clientEntityFactory = client_a_Injector.getInstance(EntityFactory.class);
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
-    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(-1, 0)));
     for (ChunkRange chunkRange : chunkRangeList) {
       client_b_GameStore.addChunk(client_a_ChunkFactory.create(chunkRange));
     }
@@ -270,7 +274,8 @@ public class testDoubleClient {
     TimeUnit.SECONDS.sleep(1);
 
     Entity clientEntity =
-        client_a_GameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
+        client_a_GameController.addEntity(
+            clientEntityFactory.createEntity(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -312,15 +317,15 @@ public class testDoubleClient {
 
     ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
 
-    Coordinates coordinates = new Coordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
     ChunkRange chunkRange = new ChunkRange(coordinates);
     serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
     client_a_GameStore.addChunk(client_a_NetworkHandle.requestChunkBlocking(chunkRange));
     client_b_GameStore.addChunk(client_b_NetworkHandle.requestChunkBlocking(chunkRange));
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
-    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(-1, 0)));
     for (ChunkRange subChunkRange : chunkRangeList) {
       client_b_GameStore.addChunk(client_a_ChunkFactory.create(subChunkRange));
     }
@@ -349,15 +354,15 @@ public class testDoubleClient {
 
     ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
 
-    Coordinates coordinates = new Coordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
     ChunkRange chunkRange = new ChunkRange(coordinates);
     serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
     client_a_GameStore.addChunk(client_a_NetworkHandle.requestChunkBlocking(chunkRange));
     client_b_GameStore.addChunk(client_b_NetworkHandle.requestChunkBlocking(chunkRange));
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
-    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(-1, 0)));
     for (ChunkRange subChunkRange : chunkRangeList) {
       client_b_GameStore.addChunk(client_a_ChunkFactory.create(subChunkRange));
     }
@@ -367,7 +372,7 @@ public class testDoubleClient {
     client_b_NetworkHandle.send(
         client_b_EventTypeFactory.createSubscriptionOutgoingEvent(chunkRangeList).toNetworkEvent());
 
-    Entity serverEntity = serverGameController.createEntity(new Coordinates(1, 1));
+    Entity serverEntity = serverGameController.createEntity(CommonFactory.createCoordinates(1, 1));
     serverEntity.getBag().updateItem(new OrbInventoryItem(1));
 
     TimeUnit.SECONDS.sleep(1);
@@ -394,15 +399,15 @@ public class testDoubleClient {
 
     ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
 
-    Coordinates coordinates = new Coordinates(2, 2);
+    Coordinates coordinates = CommonFactory.createCoordinates(2, 2);
     ChunkRange chunkRange = new ChunkRange(coordinates);
     serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
     client_a_GameStore.addChunk(client_a_NetworkHandle.requestChunkBlocking(chunkRange));
     client_b_GameStore.addChunk(client_b_NetworkHandle.requestChunkBlocking(chunkRange));
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
-    chunkRangeList.add(new ChunkRange(new Coordinates(-1, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(-1, 0)));
     for (ChunkRange subChunkRange : chunkRangeList) {
       client_b_GameStore.addChunk(client_a_ChunkFactory.create(subChunkRange));
     }
@@ -430,7 +435,7 @@ public class testDoubleClient {
     GameController serverGameController = serverInjector.getInstance(GameController.class);
     GameController client_a_GameController = client_a_Injector.getInstance(GameController.class);
 
-    Entity myEntity = serverGameController.createEntity(new Coordinates(0, 0));
+    Entity myEntity = serverGameController.createEntity(CommonFactory.createCoordinates(0, 0));
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
@@ -455,7 +460,7 @@ public class testDoubleClient {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     GameController serverGameController = serverInjector.getInstance(GameController.class);
 
-    Entity myEntity = serverGameController.createEntity(new Coordinates(0, 0));
+    Entity myEntity = serverGameController.createEntity(CommonFactory.createCoordinates(0, 0));
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
@@ -480,7 +485,7 @@ public class testDoubleClient {
 
     BlockFactory client_a_BlockFactory = client_a_Injector.getInstance(BlockFactory.class);
 
-    Coordinates coordinatesToTest = new Coordinates(0, 1);
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(0, 1);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
     // make sure everyone has the same chunks.

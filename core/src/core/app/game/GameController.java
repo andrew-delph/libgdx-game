@@ -7,6 +7,7 @@ import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
+import core.common.CommonFactory;
 import core.common.Direction;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -301,7 +302,7 @@ public class GameController {
 
   public void createAI(UUID target) {
     this.eventService.queuePostUpdateEvent(
-        EventTypeFactory.createAIEntityEventType(new Coordinates(0, 2), target));
+        EventTypeFactory.createAIEntityEventType(CommonFactory.createCoordinates(0, 2), target));
   }
 
   public void useItem(Entity entity) {

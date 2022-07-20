@@ -6,7 +6,6 @@ import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.configuration.ClientConfig;
-import core.entity.attributes.msc.Coordinates;
 import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,16 +27,16 @@ public class testChunkClockMap {
 
   @Test
   public void testExistence() {
-    Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(2, 1)));
+    Chunk chunk = chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(2, 1)));
 
     chunkClockMap.add(chunk);
 
-    assert chunk == chunkClockMap.get(new ChunkRange(new Coordinates(2, 1)));
+    assert chunk == chunkClockMap.get(new ChunkRange(CommonFactory.createCoordinates(2, 1)));
   }
 
   @Test
   public void testGetChunksOnTick() {
-    Chunk chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
+    Chunk chunk = chunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
     chunkClockMap.add(chunk);
     assert chunkClockMap.getChunksOnTick(new Tick(1)).size() == 1;
     assert chunkClockMap.getChunksOnTick(new Tick(2)).size() == 0;

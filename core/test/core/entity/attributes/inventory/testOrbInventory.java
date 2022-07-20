@@ -7,6 +7,7 @@ import core.app.game.GameController;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.SerializationDataMissing;
@@ -14,7 +15,6 @@ import core.common.exceptions.WrongVersion;
 import core.configuration.StandAloneConfig;
 import core.entity.Entity;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.misc.Orb;
 import java.io.IOException;
 import org.junit.Test;
@@ -39,20 +39,23 @@ public class testOrbInventory {
     game.start();
     clock.waitForTick(10);
 
-    Entity entity1 = gameController.createEntity(new Coordinates(1, 1));
+    Entity entity1 = gameController.createEntity(CommonFactory.createCoordinates(1, 1));
     for (int i = 0; i < 5; i++) {
-      gameController.createOrb(new Coordinates(1, 1));
+      gameController.createOrb(CommonFactory.createCoordinates(1, 1));
     }
     clock.waitForTick(10);
     assert entity1.getBag().freeSpace() == 15;
 
     for (int i = 0; i < 20; i++) {
-      gameController.createOrb(new Coordinates(1, 1));
+      gameController.createOrb(CommonFactory.createCoordinates(1, 1));
     }
     clock.waitForTick(10);
     assert entity1.getBag().freeSpace() == 0;
 
-    assert gameStore.getChunk(new ChunkRange(new Coordinates(0, 0))).getEntityList().stream()
+    assert gameStore
+            .getChunk(new ChunkRange(CommonFactory.createCoordinates(0, 0)))
+            .getEntityList()
+            .stream()
             .filter((e) -> e instanceof Orb)
             .count()
         == 5;
@@ -74,23 +77,29 @@ public class testOrbInventory {
     game.start();
     clock.waitForTick(10);
 
-    Entity entity1 = gameController.createEntity(new Coordinates(1, 1));
-    Entity entity2 = gameController.createEntity(new Coordinates(1, 1));
+    Entity entity1 = gameController.createEntity(CommonFactory.createCoordinates(1, 1));
+    Entity entity2 = gameController.createEntity(CommonFactory.createCoordinates(1, 1));
     for (int i = 0; i < 5; i++) {
-      gameController.createOrb(new Coordinates(1, 1));
+      gameController.createOrb(CommonFactory.createCoordinates(1, 1));
     }
     clock.waitForTick(10);
-    assert gameStore.getChunk(new ChunkRange(new Coordinates(0, 0))).getEntityList().stream()
+    assert gameStore
+        .getChunk(new ChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .getEntityList()
+        .stream()
         .noneMatch((e) -> e instanceof Orb);
 
     for (int i = 0; i < 40; i++) {
-      gameController.createOrb(new Coordinates(1, 1));
+      gameController.createOrb(CommonFactory.createCoordinates(1, 1));
     }
     clock.waitForTick(10);
     assert entity1.getBag().freeSpace() == 0;
     assert entity2.getBag().freeSpace() == 0;
 
-    assert gameStore.getChunk(new ChunkRange(new Coordinates(0, 0))).getEntityList().stream()
+    assert gameStore
+            .getChunk(new ChunkRange(CommonFactory.createCoordinates(0, 0)))
+            .getEntityList()
+            .stream()
             .filter((e) -> e instanceof Orb)
             .count()
         == 5;

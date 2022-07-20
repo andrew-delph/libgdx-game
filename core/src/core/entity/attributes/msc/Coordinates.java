@@ -1,6 +1,7 @@
 package core.entity.attributes.msc;
 
 import com.badlogic.gdx.math.Vector2;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.entity.attributes.Attribute;
 import core.entity.attributes.AttributeType;
@@ -10,18 +11,18 @@ import java.util.List;
 import networking.NetworkObjects;
 
 public class Coordinates implements Attribute {
-  final float x;
-  final float y;
+  float x = 1;
+  float y = 1;
 
   public Coordinates(float x, float y) {
     this.x = x;
     this.y = y;
   }
-
-  public Coordinates(Vector2 vector2) {
-    this.x = vector2.x / GameSettings.PHYSICS_SCALE;
-    this.y = vector2.y / GameSettings.PHYSICS_SCALE;
-  }
+  //
+  //  public Coordinates(Vector2 vector2) {
+  //    this.x = vector2.x / GameSettings.PHYSICS_SCALE;
+  //    this.y = vector2.y / GameSettings.PHYSICS_SCALE;
+  //  }
 
   public static Boolean isInRange(
       Coordinates bottomLeft, Coordinates topRight, Coordinates target) {
@@ -34,14 +35,16 @@ public class Coordinates implements Attribute {
   public static List<Coordinates> getInRangeList(Coordinates bottomLeft, Coordinates topRight) {
     List<Coordinates> coordinatesList = new LinkedList<>();
 
-    Coordinates topLeftCoordinates = new Coordinates(bottomLeft.getXReal(), topRight.getYReal());
+    Coordinates topLeftCoordinates =
+        CommonFactory.createCoordinates(bottomLeft.getXReal(), topRight.getYReal());
 
     Coordinates root = bottomLeft;
     Coordinates current;
     while (!root.equals(topLeftCoordinates.getUp())) {
       root = root.getUp();
       current = root;
-      Coordinates rowRightCoordinates = new Coordinates(topRight.getXReal(), current.getYReal());
+      Coordinates rowRightCoordinates =
+          CommonFactory.createCoordinates(topRight.getXReal(), current.getYReal());
       while (!current.equals(rowRightCoordinates.getRight())) {
         coordinatesList.add(current);
         current = current.getRight();
@@ -51,7 +54,7 @@ public class Coordinates implements Attribute {
   }
 
   public Coordinates getBase() {
-    return new Coordinates(this.getX(), this.getY());
+    return CommonFactory.createCoordinates(this.getX(), this.getY());
   }
 
   public int getX() {
@@ -71,23 +74,23 @@ public class Coordinates implements Attribute {
   }
 
   public synchronized Coordinates getUp() {
-    return new Coordinates(this.getX(), this.getY() + 1);
+    return CommonFactory.createCoordinates(this.getX(), this.getY() + 1);
   }
 
   public synchronized Coordinates getDown() {
-    return new Coordinates(this.getX(), this.getY() - 1);
+    return CommonFactory.createCoordinates(this.getX(), this.getY() - 1);
   }
 
   public synchronized Coordinates getLeft() {
-    return new Coordinates(this.getX() - 1, this.getY());
+    return CommonFactory.createCoordinates(this.getX() - 1, this.getY());
   }
 
   public synchronized Coordinates getRight() {
-    return new Coordinates(this.getX() + 1, this.getY());
+    return CommonFactory.createCoordinates(this.getX() + 1, this.getY());
   }
 
   public synchronized Coordinates getMiddle() {
-    return new Coordinates(this.getX() + 0.5f, this.getY() + 0.5f);
+    return CommonFactory.createCoordinates(this.getX() + 0.5f, this.getY() + 0.5f);
   }
 
   public double calcDistance(Coordinates other) {

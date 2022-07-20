@@ -2,8 +2,8 @@ package core.entity;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.common.CommonFactory;
 import core.configuration.ClientConfig;
-import core.entity.attributes.msc.Coordinates;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.Test;
@@ -14,8 +14,8 @@ public class testEntityEqual {
     Injector injector = Guice.createInjector(new ClientConfig());
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
-    Entity entity1 = entityFactory.createEntity(new Coordinates(0, 0));
-    Entity entity2 = entityFactory.createEntity(new Coordinates(0, 0));
+    Entity entity1 = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
+    Entity entity2 = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     assert !entity1.equals(entity2);
 
@@ -29,8 +29,8 @@ public class testEntityEqual {
     Injector injector = Guice.createInjector(new ClientConfig());
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
-    Entity entity1 = entityFactory.createEntity(new Coordinates(0, 0));
-    Entity entity2 = entityFactory.createEntity(new Coordinates(0, 0));
+    Entity entity1 = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
+    Entity entity2 = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     Set<Entity> entitySet = new HashSet<>();
 

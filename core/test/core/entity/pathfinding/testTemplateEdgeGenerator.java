@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.CommonFactory;
 import core.configuration.StandAloneConfig;
 import core.entity.attributes.msc.Coordinates;
 import core.entity.pathfinding.edge.AbstractEdge;
@@ -34,10 +35,12 @@ public class testTemplateEdgeGenerator {
     System.out.println(edgeStore.getEdgeList().size());
 
     for (AbstractEdge edge : edgeStore.getEdgeList()) {
-      if (edge.isAvailable(new PathGameStoreOverride(), new Coordinates(0, 0))
+      if (edge.isAvailable(new PathGameStoreOverride(), CommonFactory.createCoordinates(0, 0))
           && edge.getTo().getRelativeCoordinates().getRelativeY() < 0) {
         Coordinates to =
-            edge.getTo().getRelativeCoordinates().applyRelativeCoordinates(new Coordinates(0, 0));
+            edge.getTo()
+                .getRelativeCoordinates()
+                .applyRelativeCoordinates(CommonFactory.createCoordinates(0, 0));
         System.out.println(to);
 
         //        System.out.println(edge);

@@ -10,6 +10,7 @@ import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.common.Clock;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -128,7 +129,7 @@ public class HandshakeTests {
   @Test
   public void testServerInitServerExtra() throws InterruptedException, ChunkNotFound {
     // THIS TEST ONLY VERIFIES THE CLIENT REMOVED THE EXTRA
-    Coordinates coordinatesToTest = new Coordinates(0, 0);
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(0, 0);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
     serverGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
@@ -180,7 +181,7 @@ public class HandshakeTests {
 
   @Test
   public void testServerInitServer() throws InterruptedException, ChunkNotFound {
-    Coordinates coordinatesToTest = new Coordinates(0, 0);
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(0, 0);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
     serverGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
@@ -207,7 +208,7 @@ public class HandshakeTests {
 
   @Test
   public void testServerInitClient() throws InterruptedException, ChunkNotFound {
-    Coordinates coordinatesToTest = new Coordinates(0, 0);
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(0, 0);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
     serverGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
@@ -257,8 +258,8 @@ public class HandshakeTests {
   public void testServerInitUpdateHandshake()
       throws InterruptedException, EntityNotFound, ChunkNotFound {
     // client updates an entity that doesn't exist
-    Coordinates coordinatesToTest = new Coordinates(0, 0);
-    Coordinates coordinatesToMove = new Coordinates(1, 1);
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(0, 0);
+    Coordinates coordinatesToMove = CommonFactory.createCoordinates(1, 1);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
     serverGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
@@ -289,7 +290,7 @@ public class HandshakeTests {
       throws InterruptedException, ChunkNotFound, EntityNotFound {
     // client replaces an entity that doesn't exist on the server
     BlockFactory blockFactory = clientInjector.getInstance(BlockFactory.class);
-    Coordinates coordinatesToTest = new Coordinates(0, 0);
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(0, 0);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
 
     serverGameStore.addChunk(chunkFactory.create(chunkRangeToTest));
@@ -324,8 +325,8 @@ public class HandshakeTests {
   public void testClientInitUpdateHandshake()
       throws InterruptedException, EntityNotFound, ChunkNotFound {
     // server updates an entity that doesn't exist on client
-    Coordinates coordinatesToTest = new Coordinates(0, 0);
-    Coordinates coordinatesToMove = new Coordinates(1, 1);
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(0, 0);
+    Coordinates coordinatesToMove = CommonFactory.createCoordinates(1, 1);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
     ActiveChunkManager serverActiveChunkManager =
         serverInjector.getInstance(ActiveChunkManager.class);
@@ -360,7 +361,7 @@ public class HandshakeTests {
           ChunkNotFound {
     // server updates an entity that doesn't exist on client
     BlockFactory blockFactory = clientInjector.getInstance(BlockFactory.class);
-    Coordinates coordinatesToTest = new Coordinates(0, 0);
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(0, 0);
     ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
     ActiveChunkManager serverActiveChunkManager =
         serverInjector.getInstance(ActiveChunkManager.class);

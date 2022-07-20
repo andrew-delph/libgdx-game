@@ -19,6 +19,7 @@ import core.app.user.User;
 import core.chunk.Chunk;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
@@ -27,7 +28,6 @@ import core.common.exceptions.WrongVersion;
 import core.entity.ActiveEntityManager;
 import core.entity.Entity;
 import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.groups.Group;
 import core.entity.groups.GroupService;
@@ -94,7 +94,7 @@ public class GameScreen extends ApplicationAdapter {
   }
 
   private void createMyEntity() {
-    myEntity = entityFactory.createEntity(new Coordinates(0, 2));
+    myEntity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 2));
     try {
       myEntity = gameController.addEntity(myEntity);
     } catch (ChunkNotFound e) {

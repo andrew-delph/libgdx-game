@@ -1,5 +1,6 @@
 package core.networking.translation;
 
+import core.common.CommonFactory;
 import core.common.events.types.CreateTurretEventType;
 import core.common.exceptions.SerializationDataMissing;
 import core.entity.attributes.msc.Coordinates;
@@ -11,7 +12,7 @@ public class TranslateCreateTurret {
 
   @Test
   public void testTranslateCreateEntityEvent() throws SerializationDataMissing {
-    Coordinates coordinates = new Coordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
     UUID uuid = UUID.randomUUID();
 
     CreateTurretEventType outgoing = EventTypeFactory.createTurretEventType(uuid, coordinates);

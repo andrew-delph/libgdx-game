@@ -14,6 +14,7 @@ import core.chunk.world.CreateBodyCallable;
 import core.chunk.world.EntityBodyBuilder;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.attributes.Attribute;
@@ -211,7 +212,8 @@ public class Entity implements SerializeNetworkData {
   }
 
   public Coordinates getCenter() {
-    return new Coordinates(this.coordinates.getXReal() + 0.5f, this.coordinates.getYReal() + 0.5f);
+    return CommonFactory.createCoordinates(
+        this.coordinates.getXReal() + 0.5f, this.coordinates.getYReal() + 0.5f);
   }
 
   @Override

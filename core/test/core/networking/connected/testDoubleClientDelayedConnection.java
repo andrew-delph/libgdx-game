@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import core.app.game.GameController;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.events.EventConsumer;
 import core.common.exceptions.ChunkNotFound;
@@ -15,7 +16,6 @@ import core.configuration.BaseServerConfig;
 import core.configuration.ClientConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
 import core.mock.GdxTestRunner;
 import core.networking.client.ClientNetworkHandle;
 import core.networking.server.ServerNetworkHandle;
@@ -81,17 +81,19 @@ public class testDoubleClientDelayedConnection {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory client_a_ChunkFactory = client_a_Injector.getInstance(ChunkFactory.class);
     client_a_GameStore.addChunk(
-        client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+        client_a_ChunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(2, 3))));
 
-    serverGameStore.addChunk(client_a_ChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+    serverGameStore.addChunk(
+        client_a_ChunkFactory.create(new ChunkRange(CommonFactory.createCoordinates(2, 3))));
 
     EntityFactory clientEntityFactory = client_a_Injector.getInstance(EntityFactory.class);
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();
-    chunkRangeList.add(new ChunkRange(new Coordinates(0, 0)));
+    chunkRangeList.add(new ChunkRange(CommonFactory.createCoordinates(0, 0)));
 
     Entity clientEntity =
-        client_a_GameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
+        client_a_GameController.addEntity(
+            clientEntityFactory.createEntity(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
 

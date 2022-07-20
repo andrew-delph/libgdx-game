@@ -6,6 +6,7 @@ import core.app.game.Game;
 import core.app.game.GameController;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
@@ -15,7 +16,6 @@ import core.configuration.StandAloneConfig;
 import core.entity.Entity;
 import core.entity.attributes.inventory.item.ItemActionType;
 import core.entity.attributes.inventory.item.comsumers.ItemActionService;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.controllers.factories.EntityControllerFactory;
 import java.io.IOException;
 import org.junit.Before;
@@ -52,8 +52,8 @@ public class testItemActionService {
   @Test
   public void testActionItemService() throws ChunkNotFound, EntityNotFound, InterruptedException {
 
-    Entity entity1 = gameController.createEntity(new Coordinates(0, 0));
-    Entity entity2 = gameController.createEntity(new Coordinates(1, 0));
+    Entity entity1 = gameController.createEntity(CommonFactory.createCoordinates(0, 0));
+    Entity entity2 = gameController.createEntity(CommonFactory.createCoordinates(1, 0));
 
     assert entity2.getHealth().getValue() == 100;
 
