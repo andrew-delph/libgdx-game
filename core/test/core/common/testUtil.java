@@ -13,29 +13,29 @@ public class testUtil {
     Coordinates end;
     Vector2 velocity;
 
-    start = new Coordinates(0, 0);
-    end = new Coordinates(10, 10);
+    start = CommonFactory.createCoordinates(0, 0);
+    end = CommonFactory.createCoordinates(10, 10);
     velocity = Util.calcVelocity(start, end, 2);
     System.out.println(velocity);
     assert velocity.x > 0;
     assert velocity.y > 0;
 
-    start = new Coordinates(0, 0);
-    end = new Coordinates(-10, 10);
+    start = CommonFactory.createCoordinates(0, 0);
+    end = CommonFactory.createCoordinates(-10, 10);
     velocity = Util.calcVelocity(start, end, 2);
     System.out.println(velocity);
     assert velocity.x < 0;
     assert velocity.y > 0;
 
-    start = new Coordinates(0, 0);
-    end = new Coordinates(-10, -10);
+    start = CommonFactory.createCoordinates(0, 0);
+    end = CommonFactory.createCoordinates(-10, -10);
     velocity = Util.calcVelocity(start, end, 2);
     System.out.println(velocity);
     assert velocity.x < 0;
     assert velocity.y < 0;
 
-    start = new Coordinates(0, 0);
-    end = new Coordinates(10, -10);
+    start = CommonFactory.createCoordinates(0, 0);
+    end = CommonFactory.createCoordinates(10, -10);
     velocity = Util.calcVelocity(start, end, 2);
     System.out.println(velocity);
     assert velocity.x > 0;

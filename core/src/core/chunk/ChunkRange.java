@@ -1,5 +1,6 @@
 package core.chunk;
 
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.entity.attributes.msc.Coordinates;
 import core.networking.events.interfaces.SerializeNetworkData;
@@ -30,16 +31,18 @@ public class ChunkRange implements SerializeNetworkData {
         y = Float.parseFloat(child.getValue());
       }
     }
-    this.fromCoordinates(new Coordinates(x, y));
+    this.fromCoordinates(CommonFactory.createCoordinates(x, y));
   }
 
   public static List<ChunkRange> getChunkRangeListTwoPoints(
       Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates) {
-    ChunkRange bottomLeftChunkRange = new ChunkRange(bottomLeftCoordinates);
-    ChunkRange topRightChunkRange = new ChunkRange(topRightCoordinates);
+    ChunkRange bottomLeftChunkRange = CommonFactory.createChunkRange(bottomLeftCoordinates);
+    ChunkRange topRightChunkRange = CommonFactory.createChunkRange(topRightCoordinates);
     ChunkRange topLeftChunkRange =
-        new ChunkRange(new Coordinates(bottomLeftChunkRange.bottom_x, topRightChunkRange.bottom_y));
-    //    ChunkRange bottomRightChunkRange = new ChunkRange(new
+        CommonFactory.createChunkRange(
+            CommonFactory.createCoordinates(
+                bottomLeftChunkRange.bottom_x, topRightChunkRange.bottom_y));
+    //    ChunkRange bottomRightChunkRange = CommonFactory.createChunkRange(new
     // Coordinates(topRightChunkRange.bottom_x,bottomLeftChunkRange.bottom_y));
 
     List<ChunkRange> chunkRangeList = new LinkedList<>();
@@ -50,7 +53,8 @@ public class ChunkRange implements SerializeNetworkData {
       current = root;
       root = root.getUp();
       ChunkRange rowRightChunkRange =
-          new ChunkRange(new Coordinates(topRightChunkRange.bottom_x, current.bottom_y));
+          CommonFactory.createChunkRange(
+              CommonFactory.createCoordinates(topRightChunkRange.bottom_x, current.bottom_y));
       while (!current.equals(rowRightChunkRange.getRight())) {
         chunkRangeList.add(current);
         current = current.getRight();
@@ -63,8 +67,8 @@ public class ChunkRange implements SerializeNetworkData {
       Coordinates coordinates, int chunkRangeRadius) {
     Set<ChunkRange> chunkRangeSet = new HashSet<>();
 
-    ChunkRange bottomLeftChunkRange = new ChunkRange(coordinates);
-    ChunkRange topRightChunkRange = new ChunkRange(coordinates);
+    ChunkRange bottomLeftChunkRange = CommonFactory.createChunkRange(coordinates);
+    ChunkRange topRightChunkRange = CommonFactory.createChunkRange(coordinates);
 
     for (int i = 0; i < chunkRangeRadius; i++) {
       bottomLeftChunkRange = bottomLeftChunkRange.getLeft().getDown();
@@ -72,8 +76,9 @@ public class ChunkRange implements SerializeNetworkData {
     }
 
     return ChunkRange.getChunkRangeListTwoPoints(
-        new Coordinates(bottomLeftChunkRange.bottom_x, bottomLeftChunkRange.bottom_y),
-        new Coordinates(topRightChunkRange.bottom_x, topRightChunkRange.bottom_y));
+        CommonFactory.createCoordinates(
+            bottomLeftChunkRange.bottom_x, bottomLeftChunkRange.bottom_y),
+        CommonFactory.createCoordinates(topRightChunkRange.bottom_x, topRightChunkRange.bottom_y));
   }
 
   private void fromCoordinates(Coordinates coordinates) {
@@ -98,19 +103,23 @@ public class ChunkRange implements SerializeNetworkData {
   }
 
   public synchronized ChunkRange getUp() {
-    return new ChunkRange(new Coordinates(this.bottom_x, this.top_y + 1));
+    return CommonFactory.createChunkRange(
+        CommonFactory.createCoordinates(this.bottom_x, this.top_y + 1));
   }
 
   public synchronized ChunkRange getDown() {
-    return new ChunkRange(new Coordinates(this.bottom_x, this.bottom_y - 1));
+    return CommonFactory.createChunkRange(
+        CommonFactory.createCoordinates(this.bottom_x, this.bottom_y - 1));
   }
 
   public synchronized ChunkRange getLeft() {
-    return new ChunkRange(new Coordinates(this.bottom_x - 1, this.bottom_y));
+    return CommonFactory.createChunkRange(
+        CommonFactory.createCoordinates(this.bottom_x - 1, this.bottom_y));
   }
 
   public synchronized ChunkRange getRight() {
-    return new ChunkRange(new Coordinates(this.top_x + 1, this.bottom_y));
+    return CommonFactory.createChunkRange(
+        CommonFactory.createCoordinates(this.top_x + 1, this.bottom_y));
   }
 
   @Override

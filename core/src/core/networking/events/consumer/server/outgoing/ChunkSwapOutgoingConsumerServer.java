@@ -3,7 +3,7 @@ package core.networking.events.consumer.server.outgoing;
 import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.chunk.ActiveChunkManager;
-import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.events.types.EventType;
 import core.common.exceptions.EntityNotFound;
@@ -66,7 +66,8 @@ public class ChunkSwapOutgoingConsumerServer implements Consumer<EventType> {
 
     CreateEntityOutgoingEventType createEntityOutgoingEventType =
         EventTypeFactory.createCreateEntityOutgoingEvent(
-            entityToCreate.toNetworkData(), new ChunkRange(entityToCreate.coordinates));
+            entityToCreate.toNetworkData(),
+            CommonFactory.createChunkRange(entityToCreate.coordinates));
 
     NetworkObjects.NetworkEvent createEntityOutgoingNetworkEvent =
         createEntityOutgoingEventType.toNetworkEvent();

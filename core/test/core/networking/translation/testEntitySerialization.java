@@ -3,7 +3,7 @@ package core.networking.translation;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.events.EventConsumer;
 import core.common.events.EventService;
@@ -12,7 +12,6 @@ import core.common.exceptions.SerializationDataMissing;
 import core.configuration.ClientConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.block.BlockFactory;
 import core.networking.events.EventTypeFactory;
 import java.io.IOException;
@@ -54,7 +53,7 @@ public class testEntitySerialization {
 
   @Test
   public void testCreateEntitySerialization() throws SerializationDataMissing {
-    Entity entityWrite = entityFactory.createEntity(new Coordinates(2, 3));
+    Entity entityWrite = entityFactory.createEntity(CommonFactory.createCoordinates(2, 3));
     Entity entityRead = entitySerializationConverter.createEntity(entityWrite.toNetworkData());
     assert entityWrite.coordinates.equals(entityRead.coordinates);
     assert entityWrite.getUuid().equals(entityRead.getUuid());
@@ -62,12 +61,14 @@ public class testEntitySerialization {
 
   @Test
   public void testCreateEntityNetworkEvent() throws EntityNotFound, InterruptedException {
-    Entity entityWrite = entityFactory.createEntity(new Coordinates(0, 0));
+    Entity entityWrite = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
     UUID uuid = entityWrite.getUuid();
-    gameStore.addChunk(chunkFactory.create(new ChunkRange(entityWrite.coordinates)));
+    gameStore.addChunk(
+        chunkFactory.create(CommonFactory.createChunkRange(entityWrite.coordinates)));
     networkEventHandler.handleNetworkEvent(
         EventTypeFactory.createCreateEntityOutgoingEvent(
-                entityWrite.toNetworkData(), new ChunkRange(entityWrite.coordinates))
+                entityWrite.toNetworkData(),
+                CommonFactory.createChunkRange(entityWrite.coordinates))
             .toNetworkEvent());
     TimeUnit.SECONDS.sleep(1);
     assert uuid.equals(gameStore.getEntity(uuid).getUuid());
@@ -75,12 +76,12 @@ public class testEntitySerialization {
 
   @Test
   public void testBlockWrite() throws EntityNotFound, InterruptedException {
-    Entity block = blockFactory.createDirt(new Coordinates(0, 0));
+    Entity block = blockFactory.createDirt(CommonFactory.createCoordinates(0, 0));
     UUID uuid = block.getUuid();
-    gameStore.addChunk(chunkFactory.create(new ChunkRange(block.coordinates)));
+    gameStore.addChunk(chunkFactory.create(CommonFactory.createChunkRange(block.coordinates)));
     networkEventHandler.handleNetworkEvent(
         EventTypeFactory.createCreateEntityOutgoingEvent(
-                block.toNetworkData(), new ChunkRange(block.coordinates))
+                block.toNetworkData(), CommonFactory.createChunkRange(block.coordinates))
             .toNetworkEvent());
     TimeUnit.SECONDS.sleep(1);
     assert uuid.equals(gameStore.getEntity(uuid).getUuid());

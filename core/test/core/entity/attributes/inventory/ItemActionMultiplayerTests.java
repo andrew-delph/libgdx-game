@@ -14,6 +14,7 @@ import com.google.inject.util.Providers;
 import core.app.game.Game;
 import core.app.game.GameController;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
@@ -23,7 +24,6 @@ import core.configuration.BaseServerConfig;
 import core.configuration.ClientConfig;
 import core.entity.Entity;
 import core.entity.attributes.inventory.item.comsumers.ItemActionService;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.mock.GdxTestRunner;
 import core.networking.client.ClientNetworkHandle;
@@ -134,7 +134,7 @@ public class ItemActionMultiplayerTests {
     when(serverItemActionService.checkTriggerGCD(anyObject())).thenReturn(true);
     when(clientItemActionService.checkTriggerGCD(anyObject())).thenReturn(true);
 
-    Entity entity1 = serverGameController.createEntity(new Coordinates(0, 0));
+    Entity entity1 = serverGameController.createEntity(CommonFactory.createCoordinates(0, 0));
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -153,7 +153,7 @@ public class ItemActionMultiplayerTests {
     doNothing().when(serverItemActionService).use(anyObject(), anyObject());
     doNothing().when(clientItemActionService).use(anyObject(), anyObject());
 
-    Entity entity1 = serverGameController.createEntity(new Coordinates(0, 0));
+    Entity entity1 = serverGameController.createEntity(CommonFactory.createCoordinates(0, 0));
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -176,7 +176,7 @@ public class ItemActionMultiplayerTests {
     when(clientItemActionService.checkTriggerGCD(anyObject())).thenReturn(true);
     // when check  GCD return true
 
-    Entity entity1 = serverGameController.createEntity(new Coordinates(0, 0));
+    Entity entity1 = serverGameController.createEntity(CommonFactory.createCoordinates(0, 0));
 
     TimeUnit.SECONDS.sleep(1);
 

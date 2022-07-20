@@ -1,7 +1,7 @@
 package core.networking.translation;
 
 import core.chunk.ChunkRange;
-import core.entity.attributes.msc.Coordinates;
+import core.common.CommonFactory;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.HandshakeIncomingEventType;
 import core.networking.events.types.outgoing.HandshakeOutgoingEventType;
@@ -35,7 +35,7 @@ public class testTranslation {
 
   @Test
   public void testHandshake() {
-    ChunkRange chunkRange = new ChunkRange(new Coordinates(-1, -1));
+    ChunkRange chunkRange = CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1));
     List<UUID> uuidList = new ArrayList<>();
     uuidList.add(UUID.randomUUID());
     uuidList.add(UUID.randomUUID());

@@ -3,6 +3,7 @@ package core.networking.events.types.incoming;
 import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.events.types.EventType;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class SubscriptionIncomingEventType extends EventType {
     this.userID = UserID.createUserID(networkEvent.getUser());
     this.chunkRangeList = new LinkedList<>();
     for (NetworkObjects.NetworkData child : data.getChildrenList()) {
-      chunkRangeList.add(new ChunkRange(child));
+      chunkRangeList.add(CommonFactory.createChunkRange(child));
     }
   }
 

@@ -3,6 +3,7 @@ package core.networking.translation;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.exceptions.SerializationDataMissing;
 import core.configuration.ClientConfig;
 import core.entity.Entity;
@@ -22,9 +23,9 @@ public class TranslateCreateEntityEvent {
         injector.getInstance(NetworkDataDeserializer.class);
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
-    Coordinates coordinates = new Coordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
-    Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
+    Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     CreateEntityOutgoingEventType outgoing =
         EventTypeFactory.createCreateEntityOutgoingEvent(entity.toNetworkData(), chunkRange);

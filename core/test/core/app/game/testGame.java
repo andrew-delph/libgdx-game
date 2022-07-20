@@ -4,13 +4,13 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.SerializationDataMissing;
 import core.common.exceptions.WrongVersion;
 import core.configuration.StandAloneConfig;
 import core.entity.ActiveEntityManager;
-import core.entity.attributes.msc.Coordinates;
 import core.mock.GdxTestRunner;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
@@ -50,7 +50,7 @@ public class testGame {
           check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 0);
         });
     assert check.get();
-    gameController.createEntity(new Coordinates(0, 0));
+    gameController.createEntity(CommonFactory.createCoordinates(0, 0));
     clock.waitForTick(
         3,
         () -> {

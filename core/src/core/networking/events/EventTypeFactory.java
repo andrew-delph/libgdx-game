@@ -3,6 +3,7 @@ package core.networking.events;
 import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.CreateTurretEventType;
 import core.common.events.types.RemoveEntityEventType;
@@ -126,7 +127,7 @@ public class EventTypeFactory {
   }
 
   public static CreateAIEntityEventType createAIEntityEventType(UUID target) {
-    return new CreateAIEntityEventType(new Coordinates(0, 0), target);
+    return new CreateAIEntityEventType(CommonFactory.createCoordinates(0, 0), target);
   }
 
   public static ChunkSwapIncomingEventType createChunkSwapIncomingEventType(

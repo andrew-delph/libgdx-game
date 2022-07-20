@@ -1,6 +1,7 @@
 package core.networking.translation;
 
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.exceptions.SerializationDataMissing;
 import core.entity.attributes.msc.Coordinates;
 import core.networking.events.EventTypeFactory;
@@ -13,8 +14,8 @@ public class TranslateRemoveEntityEvent {
 
   @Test
   public void testTranslateRemoveEntityEvent() throws SerializationDataMissing {
-    Coordinates coordinates = new Coordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     UUID target = UUID.randomUUID();
 
     RemoveEntityOutgoingEventType outgoing =

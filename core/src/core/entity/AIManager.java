@@ -3,6 +3,7 @@ package core.entity;
 import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.app.user.UserID;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
@@ -34,7 +35,7 @@ public class AIManager {
       return null;
     }
 
-    Entity aiEntity = entityFactory.createEntity(new Coordinates(0, 0));
+    Entity aiEntity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
     activeEntityManager.registerActiveEntity(userID, aiEntity.getUuid());
 
     Entity aiTarget = gameStore.getEntity(target);

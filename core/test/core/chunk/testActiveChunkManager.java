@@ -3,6 +3,7 @@ package core.chunk;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.app.user.UserID;
+import core.common.CommonFactory;
 import core.configuration.BaseServerConfig;
 import core.entity.attributes.msc.Coordinates;
 import org.junit.Before;
@@ -21,8 +22,8 @@ public class testActiveChunkManager {
   @Test
   public void testActiveEntityManager() {
     UserID testUserID = UserID.createUserID();
-    Coordinates testCoordinates = new Coordinates(0, 0);
-    ChunkRange testChunkRange = new ChunkRange(testCoordinates);
+    Coordinates testCoordinates = CommonFactory.createCoordinates(0, 0);
+    ChunkRange testChunkRange = CommonFactory.createChunkRange(testCoordinates);
 
     activeChunkManager.addUserChunkSubscriptions(testUserID, testChunkRange);
 

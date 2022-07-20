@@ -5,13 +5,11 @@ import com.google.inject.Injector;
 import core.app.game.GameController;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
 import core.configuration.ClientConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
 import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,16 +35,22 @@ public class TestGameStore {
 
   @Test
   public void testEntityExistence() throws EntityNotFound, ChunkNotFound {
-    Entity testEntity = entityFactory.createEntity(new Coordinates(0, 0));
-    this.gameStore.addChunk(this.chunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
+    Entity testEntity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
+    this.gameStore.addChunk(
+        this.chunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0))));
     gameStore.addEntity(testEntity);
     assert testEntity == gameStore.getEntity(testEntity.getUuid());
   }
 
   @Test
   public void testChunkExistence() {
-    Chunk chunk = this.chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
+    Chunk chunk =
+        this.chunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
     this.gameStore.addChunk(chunk);
-    assert chunk == gameStore.getChunk(new ChunkRange(new Coordinates(0, 0)));
+    assert chunk
+        == gameStore.getChunk(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
   }
 }

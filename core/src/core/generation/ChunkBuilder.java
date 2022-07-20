@@ -5,8 +5,8 @@ import core.app.game.GameController;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.GameStore;
-import core.entity.attributes.msc.Coordinates;
 import java.util.concurrent.Callable;
 
 public class ChunkBuilder implements Callable<Chunk> {
@@ -47,7 +47,7 @@ public class ChunkBuilder implements Callable<Chunk> {
       }
       for (int i = chunkRange.bottom_x; i < chunkRange.top_x; i++) {
         for (int j = chunkRange.bottom_y; j < chunkRange.top_y; j++) {
-          blockGenerator.generate(new Coordinates(i, j));
+          blockGenerator.generate(CommonFactory.createCoordinates(i, j));
         }
       }
 

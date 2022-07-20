@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 import core.app.user.User;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
+import core.common.CommonFactory;
 import core.common.Direction;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -59,7 +59,7 @@ public class GameController {
     triggerAddEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(entity.coordinates));
+            entity.toNetworkData(), CommonFactory.createChunkRange(entity.coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -80,7 +80,7 @@ public class GameController {
     eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(uuid));
     eventService.fireEvent(
         EventTypeFactory.createRemoveEntityOutgoingEvent(
-            entity.getUuid(), new ChunkRange(entity.coordinates)));
+            entity.getUuid(), CommonFactory.createChunkRange(entity.coordinates)));
   }
 
   public Entity triggerRemoveEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
@@ -94,7 +94,7 @@ public class GameController {
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(coordinates));
+            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -104,7 +104,7 @@ public class GameController {
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(coordinates));
+            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -114,7 +114,7 @@ public class GameController {
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(coordinates));
+            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -124,7 +124,7 @@ public class GameController {
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(coordinates));
+            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -144,7 +144,7 @@ public class GameController {
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), new ChunkRange(coordinates));
+            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -156,7 +156,7 @@ public class GameController {
     projectile.setBodyVelocity(velocity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
-            projectile.toNetworkData(), new ChunkRange(coordinates));
+            projectile.toNetworkData(), CommonFactory.createChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     projectile.setEntityController(
         entityControllerFactory.createProjectileController(projectile, coordinates, 15));
@@ -170,7 +170,7 @@ public class GameController {
     this.gameStore.addEntity(orb);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
-            orb.toNetworkData(), new ChunkRange(coordinates));
+            orb.toNetworkData(), CommonFactory.createChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return orb;
   }
@@ -208,7 +208,7 @@ public class GameController {
     this.gameStore.addEntity(turret);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
-            turret.toNetworkData(), new ChunkRange(coordinates));
+            turret.toNetworkData(), CommonFactory.createChunkRange(coordinates));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     turret.setEntityController(entityControllerFactory.createTurretController(turret));
     activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
@@ -221,7 +221,7 @@ public class GameController {
     entity.coordinates = coordinates;
     this.eventService.fireEvent(
         EventTypeFactory.createUpdateEntityOutgoingEvent(
-            coordinates, new ChunkRange(preCoordinates), uuid));
+            coordinates, CommonFactory.createChunkRange(preCoordinates), uuid));
   }
 
   public void updateEntityAttribute(UUID uuid, Attribute attribute) throws EntityNotFound {
@@ -231,7 +231,7 @@ public class GameController {
     eventService.fireEvent(entityAttributeEvent);
     this.eventService.fireEvent(
         EventTypeFactory.createUpdateEntityOutgoingEvent(
-            attribute, new ChunkRange(preCoordinates), uuid));
+            attribute, CommonFactory.createChunkRange(preCoordinates), uuid));
   }
 
   public void placeBlock(Entity entity, Direction direction, Class blockClass)
@@ -272,10 +272,15 @@ public class GameController {
     // put this into a post update event
     this.eventService.queuePostUpdateEvent(
         EventTypeFactory.createReplaceEntityEvent(
-            target.getUuid(), replacementBlock, false, new ChunkRange(target.coordinates)));
+            target.getUuid(),
+            replacementBlock,
+            false,
+            CommonFactory.createChunkRange(target.coordinates)));
     this.eventService.fireEvent(
         EventTypeFactory.createReplaceBlockOutgoingEvent(
-            target.getUuid(), replacementBlock, new ChunkRange(target.coordinates)));
+            target.getUuid(),
+            replacementBlock,
+            CommonFactory.createChunkRange(target.coordinates)));
   }
 
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity)
@@ -301,7 +306,7 @@ public class GameController {
 
   public void createAI(UUID target) {
     this.eventService.queuePostUpdateEvent(
-        EventTypeFactory.createAIEntityEventType(new Coordinates(0, 2), target));
+        EventTypeFactory.createAIEntityEventType(CommonFactory.createCoordinates(0, 2), target));
   }
 
   public void useItem(Entity entity) {

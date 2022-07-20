@@ -6,12 +6,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.chunk.world.WorldWrapper;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.CommonFactory;
 import core.entity.Entity;
 import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.block.EmptyBlock;
@@ -92,8 +91,10 @@ public class RelativeActionEdgeGenerator {
 
   private void setupWorld(EntityStructure entityStructure, RelativeVertex relativeVertex)
       throws BodyNotFound {
-    this.worldWrapper = new WorldWrapper(new ChunkRange(new Coordinates(0, 0)));
-    this.chunk = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
+    this.worldWrapper =
+        new WorldWrapper(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
+    this.chunk =
+        chunkFactory.create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
 
     for (Map.Entry<RelativeCoordinates, Class<? extends Entity>> relativeBlockMapEntry :
         entityStructure.getRelativeEntityMapEntrySet()) {
@@ -102,7 +103,8 @@ public class RelativeActionEdgeGenerator {
       if (entityClass.isInstance(SolidBlock.class)) {
         Block block =
             blockFactory.createDirt(
-                blockRelativeCoordinates.applyRelativeCoordinates(new Coordinates(0, 0)));
+                blockRelativeCoordinates.applyRelativeCoordinates(
+                    CommonFactory.createCoordinates(0, 0)));
         block.addWorld(chunk);
       }
     }
@@ -111,7 +113,7 @@ public class RelativeActionEdgeGenerator {
         entityFactory.createEntity(
             relativeVertex
                 .getRelativeCoordinates()
-                .applyRelativeCoordinates(new Coordinates(0, 0)));
+                .applyRelativeCoordinates(CommonFactory.createCoordinates(0, 0)));
     worldWrapper.addEntity(entity.addWorld(chunk));
     worldWrapper.setVelocity(entity, relativeVertex.velocity);
   }

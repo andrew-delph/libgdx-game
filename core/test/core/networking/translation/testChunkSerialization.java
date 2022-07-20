@@ -5,11 +5,11 @@ import com.google.inject.Injector;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
+import core.common.CommonFactory;
 import core.common.exceptions.SerializationDataMissing;
 import core.configuration.ClientConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
 import org.junit.Test;
 
 public class testChunkSerialization {
@@ -21,11 +21,12 @@ public class testChunkSerialization {
   public void testChunkSerialization() throws SerializationDataMissing {
     networkDataSerialization = injector.getInstance(NetworkDataDeserializer.class);
     ChunkFactory chunkFactory = injector.getInstance(ChunkFactory.class);
-    Chunk chunk1 = chunkFactory.create(new ChunkRange(new Coordinates(0, 0)));
+    Chunk chunk1 =
+        chunkFactory.create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
 
     for (int i = 0; i < 10; i++) {
-      Entity entity = entityFactory.createEntity(new Coordinates(0, 0));
+      Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
       chunk1.addEntity(entity);
     }
 
@@ -39,10 +40,10 @@ public class testChunkSerialization {
 
     networkDataSerialization = injector.getInstance(NetworkDataDeserializer.class);
 
-    ChunkRange chunkRange = new ChunkRange(new Coordinates(0, 0));
+    ChunkRange chunkRange = CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0));
     assert chunkRange.equals(NetworkDataDeserializer.createChunkRange(chunkRange.toNetworkData()));
 
-    ChunkRange chunkRange2 = new ChunkRange(new Coordinates(-1, 0));
+    ChunkRange chunkRange2 = CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0));
     assert chunkRange2.equals(
         NetworkDataDeserializer.createChunkRange(chunkRange2.toNetworkData()));
   }

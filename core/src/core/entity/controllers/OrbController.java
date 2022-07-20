@@ -1,6 +1,7 @@
 package core.entity.controllers;
 
 import core.app.game.GameController;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -57,7 +58,7 @@ public class OrbController extends EntityController {
     }
 
     Coordinates moveTo =
-        new Coordinates(
+        CommonFactory.createCoordinates(
             this.entity.getBodyPosition().x / GameSettings.PHYSICS_SCALE,
             this.entity.getBodyPosition().y / GameSettings.PHYSICS_SCALE);
     if (!this.entity.coordinates.equals(moveTo)) {

@@ -14,6 +14,7 @@ import core.app.game.Game;
 import core.app.game.GameController;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
@@ -22,7 +23,6 @@ import core.common.exceptions.WrongVersion;
 import core.configuration.StandAloneConfig;
 import core.entity.Entity;
 import core.entity.attributes.inventory.item.comsumers.ItemActionService;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.controllers.factories.EntityControllerFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -74,7 +74,7 @@ public class ItemActionSoloTests {
 
     doNothing().when(itemActionService).use(anyObject(), anyObject());
 
-    Entity entity1 = gameController.createEntity(new Coordinates(0, 0));
+    Entity entity1 = gameController.createEntity(CommonFactory.createCoordinates(0, 0));
 
     TimeUnit.SECONDS.sleep(1);
 

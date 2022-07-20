@@ -6,6 +6,7 @@ import core.chunk.world.WorldWrapper;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
 import core.common.Clock;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.Tick;
 import core.common.exceptions.ChunkNotFound;
@@ -139,13 +140,13 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     Set<Entity> currentNeighborEntitySet = new HashSet<>();
 
     Coordinates neighborBottomLeft =
-        (new Coordinates(this.chunkRange.bottom_x, this.chunkRange.bottom_y))
+        (CommonFactory.createCoordinates(this.chunkRange.bottom_x, this.chunkRange.bottom_y))
             .getLeft()
             .getLeft()
             .getDown()
             .getDown();
     Coordinates neighborTopRight =
-        (new Coordinates(this.chunkRange.top_x, this.chunkRange.top_y))
+        (CommonFactory.createCoordinates(this.chunkRange.top_x, this.chunkRange.top_y))
             .getRight()
             .getRight()
             .getUp()

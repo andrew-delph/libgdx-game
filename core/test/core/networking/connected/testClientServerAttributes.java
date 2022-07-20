@@ -9,9 +9,9 @@ import core.app.screen.assets.animations.AnimationState;
 import core.app.user.User;
 import core.chunk.ActiveChunkManager;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
@@ -24,7 +24,6 @@ import core.entity.EntityFactory;
 import core.entity.attributes.inventory.item.EmptyInventoryItem;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
 import core.entity.attributes.msc.AnimationStateWrapper;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.attributes.msc.Health;
 import core.generation.ChunkGenerationService;
 import core.mock.GdxTestRunner;
@@ -111,7 +110,8 @@ public class testClientServerAttributes {
     serverGame.start();
     //    clientGame.start();
 
-    serverChunkGenerationService.blockedChunkRangeToGenerate(new ChunkRange(new Coordinates(0, 0)));
+    serverChunkGenerationService.blockedChunkRangeToGenerate(
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
   }
 
@@ -139,7 +139,7 @@ public class testClientServerAttributes {
 
     clientGame.start();
     TimeUnit.SECONDS.sleep(1);
-    Entity serverEntity = serverGameController.createEntity(new Coordinates(1, 1));
+    Entity serverEntity = serverGameController.createEntity(CommonFactory.createCoordinates(1, 1));
     TimeUnit.SECONDS.sleep(1);
     assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
   }
@@ -150,7 +150,7 @@ public class testClientServerAttributes {
           InterruptedException, BodyNotFound, EntityNotFound {
     // create entity, health is not default
 
-    Entity serverEntity = serverGameController.createEntity(new Coordinates(1, 1));
+    Entity serverEntity = serverGameController.createEntity(CommonFactory.createCoordinates(1, 1));
     serverEntity.health = new Health(50);
 
     TimeUnit.SECONDS.sleep(1);
@@ -166,7 +166,7 @@ public class testClientServerAttributes {
           SerializationDataMissing, IOException, BodyNotFound {
     // update health
 
-    Entity serverEntity = serverGameController.createEntity(new Coordinates(1, 1));
+    Entity serverEntity = serverGameController.createEntity(CommonFactory.createCoordinates(1, 1));
     Health h1 = new Health(50);
 
     serverGameController.updateEntityAttribute(serverEntity.getUuid(), h1);
@@ -178,7 +178,8 @@ public class testClientServerAttributes {
     clientGame.start();
 
     serverActiveChunkManager.addUserChunkSubscriptions(
-        clientUser.getUserID(), new ChunkRange(new Coordinates(0, 0)));
+        clientUser.getUserID(),
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
     assert clientGameStore.getEntity(serverEntity.getUuid()).equals(serverEntity);
@@ -199,7 +200,7 @@ public class testClientServerAttributes {
           SerializationDataMissing, IOException, BodyNotFound {
     // test inventory is no default
 
-    Entity serverEntity = serverGameController.createEntity(new Coordinates(1, 1));
+    Entity serverEntity = serverGameController.createEntity(CommonFactory.createCoordinates(1, 1));
     OrbInventoryItem orb1 = new OrbInventoryItem(2);
 
     serverGameController.updateEntityAttribute(serverEntity.getUuid(), orb1);
@@ -209,7 +210,8 @@ public class testClientServerAttributes {
     clientGame.start();
 
     serverActiveChunkManager.addUserChunkSubscriptions(
-        clientUser.getUserID(), new ChunkRange(new Coordinates(0, 0)));
+        clientUser.getUserID(),
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
     Entity clientEntity = clientGameStore.getEntity(serverEntity.getUuid());
@@ -233,7 +235,7 @@ public class testClientServerAttributes {
           SerializationDataMissing, IOException, BodyNotFound {
     // test inventory is no default
 
-    Entity serverEntity = serverGameController.createEntity(new Coordinates(1, 1));
+    Entity serverEntity = serverGameController.createEntity(CommonFactory.createCoordinates(1, 1));
     AnimationStateWrapper animationStateWrapper =
         new AnimationStateWrapper(AnimationState.ATTACKING);
 
@@ -244,7 +246,8 @@ public class testClientServerAttributes {
     clientGame.start();
 
     serverActiveChunkManager.addUserChunkSubscriptions(
-        clientUser.getUserID(), new ChunkRange(new Coordinates(0, 0)));
+        clientUser.getUserID(),
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
     Entity clientEntity = clientGameStore.getEntity(serverEntity.getUuid());

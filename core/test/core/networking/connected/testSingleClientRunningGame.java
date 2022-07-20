@@ -13,6 +13,7 @@ import core.chunk.ChunkFactory;
 import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.ChunkClockMap;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.events.types.EventType;
@@ -147,13 +148,16 @@ public class testSingleClientRunningGame {
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
-    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+    clientGameStore.addChunk(
+        clientChunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(2, 3))));
 
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
     TimeUnit.SECONDS.sleep(1);
 
     Entity clientEntity =
-        clientGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
+        clientGameController.addEntity(
+            clientEntityFactory.createEntity(CommonFactory.createCoordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
@@ -173,13 +177,16 @@ public class testSingleClientRunningGame {
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
-    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+    clientGameStore.addChunk(
+        clientChunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(2, 3))));
 
     TimeUnit.SECONDS.sleep(1);
 
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
     Entity clientEntity =
-        clientGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
+        clientGameController.addEntity(
+            clientEntityFactory.createEntity(CommonFactory.createCoordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
@@ -190,7 +197,7 @@ public class testSingleClientRunningGame {
         .getEntity(clientEntity.getUuid())
         .coordinates
         .equals(clientEntity.coordinates);
-    clientGameController.moveEntity(clientEntity.getUuid(), new Coordinates(0, 1));
+    clientGameController.moveEntity(clientEntity.getUuid(), CommonFactory.createCoordinates(0, 1));
 
     TimeUnit.SECONDS.sleep(1);
     assert serverGameStore
@@ -212,13 +219,16 @@ public class testSingleClientRunningGame {
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
-    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+    clientGameStore.addChunk(
+        clientChunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(2, 3))));
 
     TimeUnit.SECONDS.sleep(1);
 
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
     Entity clientEntity =
-        clientGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
+        clientGameController.addEntity(
+            clientEntityFactory.createEntity(CommonFactory.createCoordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
@@ -281,10 +291,13 @@ public class testSingleClientRunningGame {
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
-    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+    clientGameStore.addChunk(
+        clientChunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(2, 3))));
     TimeUnit.SECONDS.sleep(1);
 
-    Entity clientEntity = clientGameController.createDirtBlock(new Coordinates(0, 0));
+    Entity clientEntity =
+        clientGameController.createDirtBlock(CommonFactory.createCoordinates(0, 0));
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
@@ -303,10 +316,12 @@ public class testSingleClientRunningGame {
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
-    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+    clientGameStore.addChunk(
+        clientChunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(2, 3))));
     TimeUnit.SECONDS.sleep(1);
 
-    Entity clientEntity = clientGameController.createOrb(new Coordinates(0, 0));
+    Entity clientEntity = clientGameController.createOrb(CommonFactory.createCoordinates(0, 0));
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
@@ -327,10 +342,13 @@ public class testSingleClientRunningGame {
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
-    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+    clientGameStore.addChunk(
+        clientChunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(2, 3))));
     TimeUnit.SECONDS.sleep(1);
 
-    Entity clientEntity = clientGameController.createDirtBlock(new Coordinates(0, 0));
+    Entity clientEntity =
+        clientGameController.createDirtBlock(CommonFactory.createCoordinates(0, 0));
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
@@ -342,7 +360,7 @@ public class testSingleClientRunningGame {
         .coordinates
         .equals(clientEntity.coordinates);
 
-    clientGameController.moveEntity(clientEntity.getUuid(), new Coordinates(0, 1));
+    clientGameController.moveEntity(clientEntity.getUuid(), CommonFactory.createCoordinates(0, 1));
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
@@ -384,7 +402,8 @@ public class testSingleClientRunningGame {
         new HashSet<>(serverActiveChunkManager.getUserChunkRanges(clientUser.getUserID())));
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
     Entity serverEntity =
-        serverGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
+        serverGameController.addEntity(
+            clientEntityFactory.createEntity(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
     assert serverEntity
@@ -411,14 +430,15 @@ public class testSingleClientRunningGame {
         new HashSet<>(serverActiveChunkManager.getUserChunkRanges(clientUser.getUserID())));
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
     Entity serverEntity =
-        serverGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
+        serverGameController.addEntity(
+            clientEntityFactory.createEntity(CommonFactory.createCoordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
     assert serverEntity
         .getUuid()
         .equals(clientGameStore.getEntity(serverEntity.getUuid()).getUuid());
     assert serverEntity.coordinates.equals(
         clientGameStore.getEntity(serverEntity.getUuid()).coordinates);
-    serverGameController.moveEntity(serverEntity.getUuid(), new Coordinates(0, 1));
+    serverGameController.moveEntity(serverEntity.getUuid(), CommonFactory.createCoordinates(0, 1));
     TimeUnit.SECONDS.sleep(1);
     assert serverEntity
         .getUuid()
@@ -434,11 +454,14 @@ public class testSingleClientRunningGame {
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkFactory clientChunkFactory = clientInjector.getInstance(ChunkFactory.class);
-    clientGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(2, 3))));
+    clientGameStore.addChunk(
+        clientChunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(2, 3))));
     EntityFactory clientEntityFactory = clientInjector.getInstance(EntityFactory.class);
     TimeUnit.SECONDS.sleep(1);
     Entity clientEntity =
-        clientGameController.addEntity(clientEntityFactory.createEntity(new Coordinates(0, 0)));
+        clientGameController.addEntity(
+            clientEntityFactory.createEntity(CommonFactory.createCoordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
@@ -460,18 +483,23 @@ public class testSingleClientRunningGame {
     GameController serverGameController = serverInjector.getInstance(GameController.class);
     BlockFactory serverBlockFactory = serverInjector.getInstance(BlockFactory.class);
     EventService clientEventService = clientInjector.getInstance(EventService.class);
-    serverGameStore.addChunk(clientChunkFactory.create(new ChunkRange(new Coordinates(0, 0))));
-    serverGameController.addEntity(serverBlockFactory.createDirt(new Coordinates(0, 0)));
-    assert serverGameStore.getBlock(new Coordinates(0, 0)).getClass() == DirtBlock.class;
+    serverGameStore.addChunk(
+        clientChunkFactory.create(
+            CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0))));
+    serverGameController.addEntity(
+        serverBlockFactory.createDirt(CommonFactory.createCoordinates(0, 0)));
+    assert serverGameStore.getBlock(CommonFactory.createCoordinates(0, 0)).getClass()
+        == DirtBlock.class;
     TimeUnit.SECONDS.sleep(1);
-    Block clientBlock = serverGameStore.getBlock(new Coordinates(0, 0));
+    Block clientBlock = serverGameStore.getBlock(CommonFactory.createCoordinates(0, 0));
     clientEventService.fireEvent(
         EventTypeFactory.createReplaceBlockOutgoingEvent(
             clientBlock.getUuid(),
             serverBlockFactory.createSky(clientBlock.coordinates),
-            new ChunkRange(clientBlock.coordinates)));
+            CommonFactory.createChunkRange(clientBlock.coordinates)));
     TimeUnit.SECONDS.sleep(1);
-    assert serverGameStore.getBlock(new Coordinates(0, 0)).getClass() == SkyBlock.class;
+    assert serverGameStore.getBlock(CommonFactory.createCoordinates(0, 0)).getClass()
+        == SkyBlock.class;
   }
 
   @Test
@@ -486,21 +514,26 @@ public class testSingleClientRunningGame {
 
     ChunkGenerationService chunkGenerationService =
         serverInjector.getInstance(ChunkGenerationService.class);
-    chunkGenerationService.queueChunkRangeToGenerate(new ChunkRange(new Coordinates(0, 0)));
+    chunkGenerationService.queueChunkRangeToGenerate(
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
     TimeUnit.SECONDS.sleep(1);
-    clientGameStore.getBlock(new Coordinates(0, 0));
+    clientGameStore.getBlock(CommonFactory.createCoordinates(0, 0));
 
-    Block serverBlockOriginal = serverGameStore.getBlock(new Coordinates(0, 0));
+    Block serverBlockOriginal = serverGameStore.getBlock(CommonFactory.createCoordinates(0, 0));
     assert serverBlockOriginal != null;
     serverGameController.addEntity(serverBlockOriginal);
-    Block serverBlockReplacement = serverBlockFactory.createSky(new Coordinates(0, 0));
+    Block serverBlockReplacement =
+        serverBlockFactory.createSky(CommonFactory.createCoordinates(0, 0));
     serverGameController.replaceBlock(serverBlockOriginal, serverBlockReplacement);
     TimeUnit.SECONDS.sleep(1);
-    assert clientGameStore.getBlock(new Coordinates(0, 0)).equals(serverBlockReplacement);
+    assert clientGameStore
+        .getBlock(CommonFactory.createCoordinates(0, 0))
+        .equals(serverBlockReplacement);
     TimeUnit.SECONDS.sleep(1);
     clientEventService.firePostUpdateEvents();
     serverEventService.firePostUpdateEvents();
-    Assert.assertEquals(clientGameStore.getBlock(new Coordinates(0, 0)).getClass(), SkyBlock.class);
+    Assert.assertEquals(
+        clientGameStore.getBlock(CommonFactory.createCoordinates(0, 0)).getClass(), SkyBlock.class);
   }
 
   @Test
@@ -508,8 +541,8 @@ public class testSingleClientRunningGame {
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
-    Coordinates coordinates = new Coordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     clientNetworkHandle.requestChunkBlocking(chunkRange);
     TimeUnit.SECONDS.sleep(1);
     Entity clientEntity = clientGameController.createLadder(coordinates);
@@ -525,8 +558,8 @@ public class testSingleClientRunningGame {
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
-    Coordinates coordinates = new Coordinates(0, 1);
-    ChunkRange chunkRange = new ChunkRange(coordinates);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
+    ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
     clientGameStore.addChunk(clientNetworkHandle.requestChunkBlocking(chunkRange));
     Entity clientEntity = serverGameController.createLadder(coordinates);
@@ -543,7 +576,7 @@ public class testSingleClientRunningGame {
         serverInjector.getInstance(ActiveEntityManager.class);
     GameController serverGameController = serverInjector.getInstance(GameController.class);
 
-    Entity target = serverGameController.createEntity(new Coordinates(0, 0));
+    Entity target = serverGameController.createEntity(CommonFactory.createCoordinates(0, 0));
     Assert.assertEquals(0, serverActiveEntityManager.getActiveEntities().size());
 
     clientGameController.createAI(target.getUuid());
@@ -560,7 +593,7 @@ public class testSingleClientRunningGame {
     GameController serverGameController = serverInjector.getInstance(GameController.class);
     GameController clientGameController = clientInjector.getInstance(GameController.class);
 
-    Entity myEntity = serverGameController.createEntity(new Coordinates(0, 0));
+    Entity myEntity = serverGameController.createEntity(CommonFactory.createCoordinates(0, 0));
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore
@@ -583,10 +616,11 @@ public class testSingleClientRunningGame {
         serverInjector.getInstance(ActiveChunkManager.class);
     User clientUser = clientInjector.getInstance(User.class);
 
-    Entity myEntity = serverGameController.createEntity(new Coordinates(0, 0));
+    Entity myEntity = serverGameController.createEntity(CommonFactory.createCoordinates(0, 0));
 
     serverActiveChunkManager.addUserChunkSubscriptions(
-        clientUser.getUserID(), new ChunkRange(new Coordinates(0, 0)));
+        clientUser.getUserID(),
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
 
     TimeUnit.SECONDS.sleep(1);
     assert serverGameStore
@@ -614,10 +648,11 @@ public class testSingleClientRunningGame {
     assert serverConnectionStore.getConnection(clientUser.getUserID()) != null;
 
     serverActiveChunkManager.addUserChunkSubscriptions(
-        clientUser.getUserID(), new ChunkRange(new Coordinates(0, 0)));
-    Entity myEntity = serverGameController.createEntity(new Coordinates(0, 0));
-    Coordinates coordinatesToTest = new Coordinates(-1000, 1000);
-    ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
+        clientUser.getUserID(),
+        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
+    Entity myEntity = serverGameController.createEntity(CommonFactory.createCoordinates(0, 0));
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(-1000, 1000);
+    ChunkRange chunkRangeToTest = CommonFactory.createChunkRange(coordinatesToTest);
 
     TimeUnit.SECONDS.sleep(1);
 
@@ -638,7 +673,7 @@ public class testSingleClientRunningGame {
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore.doesEntityExist(myEntity.getUuid());
-    assert (new ChunkRange(myEntity.coordinates)).equals(chunkRangeToTest);
+    assert (CommonFactory.createChunkRange(myEntity.coordinates)).equals(chunkRangeToTest);
     assert !clientGameStore.doesEntityExist(myEntity.getUuid());
   }
 
@@ -657,22 +692,23 @@ public class testSingleClientRunningGame {
     User clientUser = clientInjector.getInstance(User.class);
     assert serverConnectionStore.getConnection(clientUser.getUserID()) != null;
 
-    Coordinates coordinatesInit = new Coordinates(-1000, 1000);
+    Coordinates coordinatesInit = CommonFactory.createCoordinates(-1000, 1000);
 
-    serverGameStore.addChunk(serverChunkFactory.create(new ChunkRange(coordinatesInit)));
+    serverGameStore.addChunk(
+        serverChunkFactory.create(CommonFactory.createChunkRange(coordinatesInit)));
 
-    Coordinates coordinatesToTest = new Coordinates(0, 0);
-    ChunkRange chunkRangeToTest = new ChunkRange(coordinatesToTest);
+    Coordinates coordinatesToTest = CommonFactory.createCoordinates(0, 0);
+    ChunkRange chunkRangeToTest = CommonFactory.createChunkRange(coordinatesToTest);
 
     serverActiveChunkManager.addUserChunkSubscriptions(
-        clientUser.getUserID(), new ChunkRange(coordinatesToTest));
+        clientUser.getUserID(), CommonFactory.createChunkRange(coordinatesToTest));
     Entity myEntity = serverGameController.createEntity(coordinatesInit);
 
     TimeUnit.SECONDS.sleep(1);
 
     // assert client doesn't have chunk
     // assert client doesnt have entity
-    assert !clientGameStore.doesChunkExist(new ChunkRange(coordinatesInit));
+    assert !clientGameStore.doesChunkExist(CommonFactory.createChunkRange(coordinatesInit));
     assert !clientGameStore.doesEntityExist(myEntity.getUuid());
 
     serverGameController.moveEntity(myEntity.getUuid(), coordinatesToTest);
@@ -680,7 +716,7 @@ public class testSingleClientRunningGame {
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore.doesEntityExist(myEntity.getUuid());
-    assert (new ChunkRange(myEntity.coordinates)).equals(chunkRangeToTest);
+    assert (CommonFactory.createChunkRange(myEntity.coordinates)).equals(chunkRangeToTest);
     assert clientGameStore.doesEntityExist(myEntity.getUuid());
   }
 }

@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import core.app.game.Game;
 import core.app.game.GameController;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
@@ -13,7 +14,6 @@ import core.common.exceptions.WrongVersion;
 import core.configuration.BaseServerConfig;
 import core.configuration.ClientConfig;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.attributes.msc.Health;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.mock.GdxTestRunner;
@@ -88,7 +88,7 @@ public class MultiplayerTests {
   @Test
   public void testClientUpdateHealthNoKill()
       throws ChunkNotFound, InterruptedException, EntityNotFound {
-    Entity client_entity = clientGameController.createEntity(new Coordinates(0, 0));
+    Entity client_entity = clientGameController.createEntity(CommonFactory.createCoordinates(0, 0));
     client_entity.setEntityController(
         clientEntityControllerFactory.createEntityUserController(client_entity));
 
@@ -114,7 +114,7 @@ public class MultiplayerTests {
   @Test
   public void testServerUpdateHealthKill()
       throws ChunkNotFound, InterruptedException, EntityNotFound {
-    Entity client_entity = clientGameController.createEntity(new Coordinates(0, 0));
+    Entity client_entity = clientGameController.createEntity(CommonFactory.createCoordinates(0, 0));
     client_entity.setEntityController(
         clientEntityControllerFactory.createEntityUserController(client_entity));
 

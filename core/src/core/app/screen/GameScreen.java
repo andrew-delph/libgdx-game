@@ -17,8 +17,8 @@ import core.app.screen.assets.BaseAssetManager;
 import core.app.screen.assets.animations.AnimationManager;
 import core.app.user.User;
 import core.chunk.Chunk;
-import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
@@ -27,7 +27,6 @@ import core.common.exceptions.WrongVersion;
 import core.entity.ActiveEntityManager;
 import core.entity.Entity;
 import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.groups.Group;
 import core.entity.groups.GroupService;
@@ -94,7 +93,7 @@ public class GameScreen extends ApplicationAdapter {
   }
 
   private void createMyEntity() {
-    myEntity = entityFactory.createEntity(new Coordinates(0, 2));
+    myEntity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 2));
     try {
       myEntity = gameController.addEntity(myEntity);
     } catch (ChunkNotFound e) {
@@ -181,7 +180,8 @@ public class GameScreen extends ApplicationAdapter {
 
     if (GameSettings.RENDER_DEBUG) {
 
-      Chunk mainChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)));
+      Chunk mainChunk =
+          this.gameStore.getChunk((CommonFactory.createChunkRange(myEntity.coordinates)));
 
       mainChunk
           .getWorldWrapper()
@@ -191,9 +191,13 @@ public class GameScreen extends ApplicationAdapter {
               });
       pathDebugRender.end();
 
-      Chunk lowerChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getDown());
-      Chunk leftChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getLeft());
-      Chunk rightChunk = this.gameStore.getChunk((new ChunkRange(myEntity.coordinates)).getRight());
+      Chunk lowerChunk =
+          this.gameStore.getChunk((CommonFactory.createChunkRange(myEntity.coordinates)).getDown());
+      Chunk leftChunk =
+          this.gameStore.getChunk((CommonFactory.createChunkRange(myEntity.coordinates)).getLeft());
+      Chunk rightChunk =
+          this.gameStore.getChunk(
+              (CommonFactory.createChunkRange(myEntity.coordinates)).getRight());
 
       if (lowerChunk == null) return;
       debugMatrix =
