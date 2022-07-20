@@ -1,6 +1,7 @@
 package core.entity.controllers;
 
 import core.app.game.GameController;
+import core.common.GameStore;
 import core.common.events.EventService;
 import core.entity.Entity;
 import core.entity.EntityFactory;
@@ -22,6 +23,7 @@ public class EntityPathController extends EntityController {
 
   public EntityPathController(
       GameController gameController,
+      GameStore gameStore,
       EntityActionFactory entityActionFactory,
       PathGuiderFactory pathGuiderFactory,
       EventService eventService,
@@ -29,7 +31,7 @@ public class EntityPathController extends EntityController {
       EntityFactory entityFactory,
       Entity entity,
       Entity target) {
-    super(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+    super(gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
     this.pathGuiderFactory = pathGuiderFactory;
     this.eventService = eventService;
     this.target = target;
@@ -50,6 +52,10 @@ public class EntityPathController extends EntityController {
   @Override
   public void beforeWorldUpdate() {
     this.beforeUpdateCoordinates = this.entity.coordinates;
+    if (!gameStore.doesEntityExist(target.getUuid())) {
+      gameController.removeEntity(entity.getUuid());
+      return;
+    }
     if (this.pathGuider == null) {
       this.pathGuider = pathGuiderFactory.createPathGuider(entity);
     }

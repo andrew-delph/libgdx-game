@@ -20,13 +20,13 @@ public class OrbController extends EntityController {
 
   public OrbController(
       GameController gameController,
+      GameStore gameStore,
       EntityActionFactory entityActionFactory,
       EventService eventService,
       EventTypeFactory eventTypeFactory,
-      GameStore gameStore,
       OrbContact orbContact,
       Entity entity) {
-    super(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+    super(gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
     this.orbContact = orbContact;
     this.gameStore = gameStore;
   }
