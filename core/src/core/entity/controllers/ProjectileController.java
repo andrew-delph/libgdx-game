@@ -23,15 +23,15 @@ public class ProjectileController extends EntityController {
 
   public ProjectileController(
       GameController gameController,
+      GameStore gameStore,
       EntityActionFactory entityActionFactory,
       EventService eventService,
       EventTypeFactory eventTypeFactory,
-      GameStore gameStore,
       Entity entity,
       ProjectileContact projectileContact,
       Coordinates startPosition,
       float distanceRange) {
-    super(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+    super(gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
     this.startPosition = startPosition;
     this.distanceRange = distanceRange;
     this.projectileContact = projectileContact;

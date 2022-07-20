@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import core.app.game.GameController;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.GameSettings;
+import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
@@ -20,6 +21,7 @@ import java.util.Set;
 
 public class EntityController {
   GameController gameController;
+  GameStore gameStore;
   EventService eventService;
   EventTypeFactory eventTypeFactory;
   Entity entity;
@@ -28,11 +30,13 @@ public class EntityController {
 
   public EntityController(
       GameController gameController,
+      GameStore gameStore,
       EntityActionFactory entityActionFactory,
       EventService eventService,
       EventTypeFactory eventTypeFactory,
       Entity entity) {
     this.gameController = gameController;
+    this.gameStore = gameStore;
     this.eventService = eventService;
     this.eventTypeFactory = eventTypeFactory;
     this.entity = entity;

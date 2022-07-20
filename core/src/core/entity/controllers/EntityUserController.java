@@ -8,6 +8,7 @@ import core.app.game.GameController;
 import core.app.screen.assets.animations.AnimationState;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Direction;
+import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
@@ -28,11 +29,12 @@ public class EntityUserController extends EntityController {
 
   public EntityUserController(
       GameController gameController,
+      GameStore gameStore,
       EntityActionFactory entityActionFactory,
       EventService eventService,
       EventTypeFactory eventTypeFactory,
       Entity entity) {
-    super(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+    super(gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 
   @Override

@@ -2,6 +2,7 @@ package core.entity.controllers;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import core.app.game.GameController;
+import core.common.GameStore;
 import core.common.events.EventService;
 import core.entity.Entity;
 import core.entity.controllers.actions.EntityActionFactory;
@@ -11,11 +12,12 @@ public class RemoteBodyController extends EntityController {
 
   public RemoteBodyController(
       GameController gameController,
+      GameStore gameStore,
       EntityActionFactory entityActionFactory,
       EventService eventService,
       EventTypeFactory eventTypeFactory,
       Entity entity) {
-    super(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+    super(gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 
   @Override

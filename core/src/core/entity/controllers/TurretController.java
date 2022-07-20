@@ -28,15 +28,15 @@ public class TurretController extends EntityController {
 
   public TurretController(
       GameController gameController,
+      GameStore gameStore,
       EntityActionFactory entityActionFactory,
       EventService eventService,
       EventTypeFactory eventTypeFactory,
       Clock clock,
-      GameStore gameStore,
       RayCastService rayCastService,
       GroupService groupService,
       Entity entity) {
-    super(gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+    super(gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
     this.gameStore = gameStore;
     this.clock = clock;
     this.rayCastService = rayCastService;

@@ -41,12 +41,13 @@ public abstract class EntityControllerFactory {
 
   public EntityController createEntityUserController(Entity entity) {
     return new EntityUserController(
-        gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+        gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 
   public EntityController createEntityPathController(Entity source, Entity target) {
     return (new EntityPathController(
         gameController,
+        gameStore,
         entityActionFactory,
         pathGuiderFactory,
         eventService,
@@ -60,10 +61,10 @@ public abstract class EntityControllerFactory {
       Entity entity, Coordinates startPosition, float travelDistance) {
     return new ProjectileController(
         gameController,
+        gameStore,
         entityActionFactory,
         eventService,
         eventTypeFactory,
-        gameStore,
         entity,
         projectileContact,
         startPosition,
@@ -73,11 +74,11 @@ public abstract class EntityControllerFactory {
   public EntityController createTurretController(Entity entity) {
     return new TurretController(
         gameController,
+        gameStore,
         entityActionFactory,
         eventService,
         eventTypeFactory,
         clock,
-        gameStore,
         rayCastService,
         groupService,
         entity);
@@ -85,16 +86,16 @@ public abstract class EntityControllerFactory {
 
   public EntityController createRemoteBodyController(Entity entity) {
     return new RemoteBodyController(
-        gameController, entityActionFactory, eventService, eventTypeFactory, entity);
+        gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 
   public EntityController createOrbController(Entity entity) {
     return new OrbController(
         gameController,
+        gameStore,
         entityActionFactory,
         eventService,
         eventTypeFactory,
-        gameStore,
         orbContact,
         entity);
   }
