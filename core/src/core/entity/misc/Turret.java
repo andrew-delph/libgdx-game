@@ -38,4 +38,9 @@ public class Turret extends Entity {
   public String getTextureName() {
     return "turret.png";
   }
+
+  @Override
+  public synchronized int getUpdateTimeout() {
+    return Integer.MAX_VALUE;
+  }
 }

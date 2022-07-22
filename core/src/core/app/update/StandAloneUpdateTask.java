@@ -2,6 +2,7 @@ package core.app.update;
 
 import com.google.inject.Inject;
 import core.app.screen.BaseCamera;
+import core.chunk.Chunk;
 import core.chunk.ChunkRange;
 import core.common.Clock;
 import core.common.GameStore;
@@ -12,8 +13,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class StandAloneUpdateTask extends UpdateTask {
+
+  static final Logger LOGGER = LogManager.getLogger();
 
   private final ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -45,6 +50,8 @@ public class StandAloneUpdateTask extends UpdateTask {
     chunkGenerationService.queueChunkRangeToGenerate(requiredChunkRanges);
 
     try {
+      Set<Chunk> chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
+      LOGGER.debug("Updating " + chunksOnTick.size() + " chunks.");
       executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.getCurrentTick()));
     } catch (InterruptedException e) {
       e.printStackTrace();

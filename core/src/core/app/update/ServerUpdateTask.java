@@ -1,15 +1,21 @@
 package core.app.update;
 
 import com.google.inject.Inject;
+import core.chunk.Chunk;
 import core.common.Clock;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.entity.ActiveEntityManager;
 import core.generation.ChunkGenerationService;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ServerUpdateTask extends UpdateTask {
+
+  static final Logger LOGGER = LogManager.getLogger();
 
   public final ExecutorService executor = Executors.newCachedThreadPool();
   @Inject public Clock clock;
@@ -33,7 +39,10 @@ public class ServerUpdateTask extends UpdateTask {
 
     // update all active chunks
     try {
-      executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.getCurrentTick()));
+      Set<Chunk> chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
+      LOGGER.debug("Updating " + chunksOnTick.size() + " chunks.");
+
+      executor.invokeAll(chunksOnTick);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

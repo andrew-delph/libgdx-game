@@ -16,8 +16,12 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ClientUpdateTask extends UpdateTask {
+
+  static final Logger LOGGER = LogManager.getLogger();
   @Inject public Clock clock;
   @Inject public GameStore gameStore;
   public ExecutorService executor;
@@ -79,6 +83,7 @@ public class ClientUpdateTask extends UpdateTask {
 
     try {
       Set<Chunk> listChunk = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
+      LOGGER.debug("Updating " + listChunk.size() + " chunks.");
       executor.invokeAll(listChunk);
     } catch (InterruptedException e) {
       e.printStackTrace();
