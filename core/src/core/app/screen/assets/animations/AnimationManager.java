@@ -2,6 +2,7 @@ package core.app.screen.assets.animations;
 
 import com.google.inject.Inject;
 import core.entity.Entity;
+import core.entity.misc.Orb;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ public class AnimationManager {
 
   public void init() {
     animationCollectionMap.put(Entity.class, gameAnimationFactory.createEntityAnimation());
+    animationCollectionMap.put(Orb.class, gameAnimationFactory.createOrbAnimation());
   }
 
   public GameAnimation getGameAnimation(Class class_type) {
