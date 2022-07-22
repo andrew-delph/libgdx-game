@@ -22,6 +22,8 @@ public class BlockGenerator {
   public void generate(Coordinates coordinates) throws ChunkNotFound {
     if (coordinates.getY() > 0) {
       gameController.triggerAddEntity(blockFactory.createSky(coordinates));
+    } else if (coordinates.getY() == 0) {
+      gameController.triggerAddEntity(blockFactory.createStone(coordinates));
     } else if (Math.random() < 0.1) {
       gameController.triggerAddEntity(blockFactory.createStone(coordinates));
     } else if (Math.random() < 0.1) {
