@@ -13,8 +13,14 @@ import core.common.exceptions.WrongVersion;
 import core.entity.collision.CollisionService;
 import java.io.IOException;
 import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Game {
+
+  final Logger LOGGER = LogManager.getLogger();
 
   @Inject UpdateTask updateTask;
   @Inject CollisionService collisionService;
@@ -33,6 +39,17 @@ public class Game {
     init();
     timer = new Timer(true);
     timer.scheduleAtFixedRate(updateTask, 0, GameSettings.UPDATE_INTERVAL);
+    timer.scheduleAtFixedRate(
+        new TimerTask() {
+
+          @Override
+          public void run() {
+            LOGGER.info("RUN GARBAGE COLLECTOR");
+            System.gc();
+          }
+        },
+        0,
+        TimeUnit.MINUTES.toMillis(2));
   }
 
   public void init()
