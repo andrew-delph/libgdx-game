@@ -1,8 +1,8 @@
 package core.common.events;
 
 import com.google.inject.Inject;
-import core.common.events.types.EventType;
 import core.common.Coordinates;
+import core.common.events.types.EventType;
 
 public class CoordinatesEventType extends EventType {
 

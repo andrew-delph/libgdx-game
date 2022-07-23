@@ -2,10 +2,10 @@ package core.entity.pathfinding;
 
 import com.google.inject.Inject;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.Coordinates;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EdgeStepperException;
 import core.entity.Entity;
-import core.common.Coordinates;
 import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.pathfinding.edge.EdgeStepper;
 import java.util.LinkedList;

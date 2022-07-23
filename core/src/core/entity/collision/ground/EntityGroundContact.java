@@ -1,10 +1,10 @@
 package core.entity.collision.ground;
 
 import com.google.inject.Inject;
+import core.common.Coordinates;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
-import core.common.Coordinates;
 import core.entity.collision.CollisionPoint;
 import core.entity.collision.ContactWrapperCounter;
 import core.entity.controllers.events.types.EntityEventTypeFactory;

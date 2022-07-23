@@ -5,8 +5,8 @@ import com.google.inject.Injector;
 import core.app.user.UserID;
 import core.common.ChunkRange;
 import core.common.CommonFactory;
-import core.configuration.BaseServerConfig;
 import core.common.Coordinates;
+import core.configuration.BaseServerConfig;
 import org.junit.Before;
 import org.junit.Test;
 

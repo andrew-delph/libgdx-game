@@ -1,11 +1,11 @@
 package core.entity.controllers;
 
 import core.app.game.GameController;
+import core.common.Coordinates;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.entity.Entity;
 import core.entity.EntityFactory;
-import core.common.Coordinates;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.pathfinding.PathGuider;
 import core.entity.pathfinding.PathGuiderFactory;

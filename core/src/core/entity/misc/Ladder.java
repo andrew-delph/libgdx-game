@@ -8,9 +8,9 @@ import core.chunk.Chunk;
 import core.chunk.world.CreateBodyCallable;
 import core.chunk.world.EntityBodyBuilder;
 import core.common.Clock;
+import core.common.Coordinates;
 import core.common.GameSettings;
 import core.entity.Entity;
-import core.common.Coordinates;
 import java.util.UUID;
 
 public class Ladder extends Entity {

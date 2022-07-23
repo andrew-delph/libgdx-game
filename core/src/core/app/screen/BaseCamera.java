@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.google.inject.Inject;
 import core.common.ChunkRange;
 import core.common.CommonFactory;
-import core.common.GameSettings;
 import core.common.Coordinates;
+import core.common.GameSettings;
 import java.util.HashSet;
 import java.util.Set;
 
