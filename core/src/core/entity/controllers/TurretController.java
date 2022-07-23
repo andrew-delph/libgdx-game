@@ -54,7 +54,8 @@ public class TurretController extends EntityController {
     // if the entity is of type Entity. ray cast and check if we can shoot it.
     if (tick != null && clock.getCurrentTick().time - tick.time < 50) return;
 
-    List<Entity> closeEntities = gameStore.getEntityInRange(entity.coordinates, 15);
+    List<Entity> closeEntities =
+        gameStore.getEntityInRange(entity.getCoordinatesWrapper().getCoordinates(), 15);
 
     // filter out entities
 
@@ -64,10 +65,17 @@ public class TurretController extends EntityController {
             .collect(Collectors.toList());
 
     closeEntities.sort(
-        Comparator.comparingDouble((Entity o) -> o.coordinates.calcDistance(entity.coordinates)));
+        Comparator.comparingDouble(
+            (Entity o) ->
+                o.getCoordinatesWrapper()
+                    .getCoordinates()
+                    .calcDistance(entity.getCoordinatesWrapper().getCoordinates())));
 
     for (Entity next : closeEntities) {
-      Set<Entity> rayCastEntities = rayCastService.rayCast(entity.coordinates, next.coordinates);
+      Set<Entity> rayCastEntities =
+          rayCastService.rayCast(
+              entity.getCoordinatesWrapper().getCoordinates(),
+              next.getCoordinatesWrapper().getCoordinates());
       if (!next.getClass().equals(Entity.class)) continue;
       rayCastEntities.remove(entity);
       rayCastEntities.remove(next);
@@ -76,7 +84,11 @@ public class TurretController extends EntityController {
 
       if (rayCastEntities.size() == 0) {
         gameController.createProjectile(
-            entity.coordinates, Util.calcVelocity(entity.coordinates, next.coordinates, 5));
+            entity.getCoordinatesWrapper().getCoordinates(),
+            Util.calcVelocity(
+                entity.getCoordinatesWrapper().getCoordinates(),
+                next.getCoordinatesWrapper().getCoordinates(),
+                5));
         tick = clock.getCurrentTick();
         return;
       }

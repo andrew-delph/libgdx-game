@@ -1,6 +1,6 @@
 package core.common.events.types;
 
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.entity.Entity;
 import java.util.UUID;
 

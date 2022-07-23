@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
 import core.common.GameStore;
 import java.util.concurrent.Callable;

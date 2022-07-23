@@ -2,6 +2,7 @@ package core.chunk;
 
 import com.google.inject.Inject;
 import core.app.game.GameController;
+import core.common.ChunkRange;
 import core.common.Clock;
 import core.common.GameStore;
 import core.entity.collision.EntityContactListenerFactory;

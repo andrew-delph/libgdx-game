@@ -1,7 +1,7 @@
 package core.entity.pathfinding;
 
 import com.google.inject.Inject;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 
 public class RelativePathFactory {
 

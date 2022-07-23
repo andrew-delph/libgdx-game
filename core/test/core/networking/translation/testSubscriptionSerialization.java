@@ -3,7 +3,7 @@ package core.networking.translation;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.app.user.UserID;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
 import core.configuration.ClientConfig;
 import core.networking.events.types.incoming.SubscriptionIncomingEventType;

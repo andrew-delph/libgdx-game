@@ -10,10 +10,11 @@ import core.app.game.GameController;
 import core.app.user.User;
 import core.chunk.ActiveChunkManager;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.ChunkClockMap;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.events.types.EventType;
@@ -27,7 +28,6 @@ import core.entity.ActiveEntityManager;
 import core.entity.Entity;
 import core.entity.EntityFactory;
 import core.entity.attributes.inventory.Equipped;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.block.DirtBlock;
@@ -166,8 +166,9 @@ public class testSingleClientRunningGame {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
   }
 
   @Test
@@ -195,8 +196,9 @@ public class testSingleClientRunningGame {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
     clientGameController.moveEntity(clientEntity.getUuid(), CommonFactory.createCoordinates(0, 1));
 
     TimeUnit.SECONDS.sleep(1);
@@ -207,8 +209,9 @@ public class testSingleClientRunningGame {
 
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
   }
 
   @Test
@@ -237,8 +240,9 @@ public class testSingleClientRunningGame {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     Equipped equipped = new Equipped(2);
 
@@ -257,8 +261,9 @@ public class testSingleClientRunningGame {
 
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
@@ -279,8 +284,9 @@ public class testSingleClientRunningGame {
 
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     assert clientEntity.getBag().getEquipped().equals(equipped);
   }
@@ -306,8 +312,9 @@ public class testSingleClientRunningGame {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
   }
 
   @Test
@@ -330,8 +337,9 @@ public class testSingleClientRunningGame {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
   }
 
   @Test
@@ -357,8 +365,9 @@ public class testSingleClientRunningGame {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     clientGameController.moveEntity(clientEntity.getUuid(), CommonFactory.createCoordinates(0, 1));
     TimeUnit.SECONDS.sleep(1);
@@ -369,8 +378,9 @@ public class testSingleClientRunningGame {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
   }
 
   @Test
@@ -409,8 +419,14 @@ public class testSingleClientRunningGame {
     assert serverEntity
         .getUuid()
         .equals(clientGameStore.getEntity(serverEntity.getUuid()).getUuid());
-    assert serverEntity.coordinates.equals(
-        clientGameStore.getEntity(serverEntity.getUuid()).coordinates);
+    assert serverEntity
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(
+            clientGameStore
+                .getEntity(serverEntity.getUuid())
+                .getCoordinatesWrapper()
+                .getCoordinates());
   }
 
   @Test
@@ -436,15 +452,27 @@ public class testSingleClientRunningGame {
     assert serverEntity
         .getUuid()
         .equals(clientGameStore.getEntity(serverEntity.getUuid()).getUuid());
-    assert serverEntity.coordinates.equals(
-        clientGameStore.getEntity(serverEntity.getUuid()).coordinates);
+    assert serverEntity
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(
+            clientGameStore
+                .getEntity(serverEntity.getUuid())
+                .getCoordinatesWrapper()
+                .getCoordinates());
     serverGameController.moveEntity(serverEntity.getUuid(), CommonFactory.createCoordinates(0, 1));
     TimeUnit.SECONDS.sleep(1);
     assert serverEntity
         .getUuid()
         .equals(clientGameStore.getEntity(serverEntity.getUuid()).getUuid());
-    assert serverEntity.coordinates.equals(
-        clientGameStore.getEntity(serverEntity.getUuid()).coordinates);
+    assert serverEntity
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(
+            clientGameStore
+                .getEntity(serverEntity.getUuid())
+                .getCoordinatesWrapper()
+                .getCoordinates());
   }
 
   @Test
@@ -469,8 +497,9 @@ public class testSingleClientRunningGame {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
     this.clientNetworkHandle.close();
     TimeUnit.SECONDS.sleep(1);
     assert !serverGameStore.doesEntityExist(clientEntity.getUuid());
@@ -495,8 +524,8 @@ public class testSingleClientRunningGame {
     clientEventService.fireEvent(
         EventTypeFactory.createReplaceBlockOutgoingEvent(
             clientBlock.getUuid(),
-            serverBlockFactory.createSky(clientBlock.coordinates),
-            CommonFactory.createChunkRange(clientBlock.coordinates)));
+            serverBlockFactory.createSky(clientBlock.getCoordinatesWrapper().getCoordinates()),
+            CommonFactory.createChunkRange(clientBlock.getCoordinatesWrapper().getCoordinates())));
     TimeUnit.SECONDS.sleep(1);
     assert serverGameStore.getBlock(CommonFactory.createCoordinates(0, 0)).getClass()
         == SkyBlock.class;
@@ -673,7 +702,8 @@ public class testSingleClientRunningGame {
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore.doesEntityExist(myEntity.getUuid());
-    assert (CommonFactory.createChunkRange(myEntity.coordinates)).equals(chunkRangeToTest);
+    assert (CommonFactory.createChunkRange(myEntity.getCoordinatesWrapper().getCoordinates()))
+        .equals(chunkRangeToTest);
     assert !clientGameStore.doesEntityExist(myEntity.getUuid());
   }
 
@@ -716,7 +746,8 @@ public class testSingleClientRunningGame {
     TimeUnit.SECONDS.sleep(1);
 
     assert serverGameStore.doesEntityExist(myEntity.getUuid());
-    assert (CommonFactory.createChunkRange(myEntity.coordinates)).equals(chunkRangeToTest);
+    assert (CommonFactory.createChunkRange(myEntity.getCoordinatesWrapper().getCoordinates()))
+        .equals(chunkRangeToTest);
     assert clientGameStore.doesEntityExist(myEntity.getUuid());
   }
 }

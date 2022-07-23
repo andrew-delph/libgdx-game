@@ -7,6 +7,7 @@ import core.chunk.ChunkFactory;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.Direction;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -21,7 +22,7 @@ import core.entity.attributes.inventory.ItemNotFoundException;
 import core.entity.attributes.inventory.item.ItemActionType;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
 import core.entity.attributes.inventory.item.comsumers.ItemActionService;
-import core.entity.attributes.msc.Coordinates;
+import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.block.DirtBlock;
@@ -59,7 +60,8 @@ public class GameController {
     triggerAddEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), CommonFactory.createChunkRange(entity.coordinates));
+            entity.toNetworkData(),
+            CommonFactory.createChunkRange(entity.getCoordinatesWrapper().getCoordinates()));
     this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
@@ -80,7 +82,8 @@ public class GameController {
     eventService.queuePostUpdateEvent(eventTypeFactory.createRemoveEntityEvent(uuid));
     eventService.fireEvent(
         EventTypeFactory.createRemoveEntityOutgoingEvent(
-            entity.getUuid(), CommonFactory.createChunkRange(entity.coordinates)));
+            entity.getUuid(),
+            CommonFactory.createChunkRange(entity.getCoordinatesWrapper().getCoordinates())));
   }
 
   public Entity triggerRemoveEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
@@ -217,16 +220,17 @@ public class GameController {
 
   public void moveEntity(UUID uuid, Coordinates coordinates) throws EntityNotFound {
     Entity entity = this.gameStore.getEntity(uuid);
-    Coordinates preCoordinates = entity.coordinates;
-    entity.coordinates = coordinates;
+    Coordinates preCoordinates = entity.getCoordinatesWrapper().getCoordinates();
+    CoordinatesWrapper coordinatesWrapper = new CoordinatesWrapper(coordinates);
+    entity.setCoordinatesWrapper(coordinatesWrapper);
     this.eventService.fireEvent(
         EventTypeFactory.createUpdateEntityOutgoingEvent(
-            coordinates, CommonFactory.createChunkRange(preCoordinates), uuid));
+            coordinatesWrapper, CommonFactory.createChunkRange(preCoordinates), uuid));
   }
 
   public void updateEntityAttribute(UUID uuid, Attribute attribute) throws EntityNotFound {
     Entity entity = this.gameStore.getEntity(uuid);
-    Coordinates preCoordinates = entity.coordinates;
+    Coordinates preCoordinates = entity.getCoordinatesWrapper().getCoordinates();
     AbstractEntityEventType entityAttributeEvent = entity.updateAttribute(attribute);
     eventService.fireEvent(entityAttributeEvent);
     this.eventService.fireEvent(
@@ -251,9 +255,11 @@ public class GameController {
 
     Block replacementBlock;
     if (blockClass == SkyBlock.class) {
-      replacementBlock = blockFactory.createSky(removeBlock.coordinates);
+      replacementBlock =
+          blockFactory.createSky(removeBlock.getCoordinatesWrapper().getCoordinates());
     } else if (blockClass == DirtBlock.class) {
-      replacementBlock = blockFactory.createDirt(removeBlock.coordinates);
+      replacementBlock =
+          blockFactory.createDirt(removeBlock.getCoordinatesWrapper().getCoordinates());
     } else {
       return;
     }
@@ -261,11 +267,11 @@ public class GameController {
   }
 
   public void replaceBlock(Block target, Block replacementBlock) {
-    Ladder removeLadder = this.gameStore.getLadder(target.coordinates);
+    Ladder removeLadder = this.gameStore.getLadder(target.getCoordinatesWrapper().getCoordinates());
     if (removeLadder != null) {
       this.removeEntity(removeLadder.getUuid());
     }
-    Turret removeTurret = this.gameStore.getTurret(target.coordinates);
+    Turret removeTurret = this.gameStore.getTurret(target.getCoordinatesWrapper().getCoordinates());
     if (removeTurret != null) {
       this.removeEntity(removeTurret.getUuid());
     }
@@ -275,12 +281,12 @@ public class GameController {
             target.getUuid(),
             replacementBlock,
             false,
-            CommonFactory.createChunkRange(target.coordinates)));
+            CommonFactory.createChunkRange(target.getCoordinatesWrapper().getCoordinates())));
     this.eventService.fireEvent(
         EventTypeFactory.createReplaceBlockOutgoingEvent(
             target.getUuid(),
             replacementBlock,
-            CommonFactory.createChunkRange(target.coordinates)));
+            CommonFactory.createChunkRange(target.getCoordinatesWrapper().getCoordinates())));
   }
 
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity)

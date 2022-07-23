@@ -1,9 +1,9 @@
 package core.networking.translation;
 
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.exceptions.SerializationDataMissing;
-import core.entity.attributes.msc.Coordinates;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.RemoveEntityIncomingEventType;
 import core.networking.events.types.outgoing.RemoveEntityOutgoingEventType;

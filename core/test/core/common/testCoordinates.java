@@ -1,6 +1,5 @@
 package core.common;
 
-import core.entity.attributes.msc.Coordinates;
 import org.junit.Test;
 
 public class testCoordinates {

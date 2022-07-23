@@ -8,8 +8,9 @@ import core.app.screen.assets.animations.AnimationState;
 import core.app.user.UserID;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.GameStore;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.CreateTurretEventType;
@@ -24,7 +25,7 @@ import core.entity.attributes.inventory.item.ItemActionType;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
 import core.entity.attributes.inventory.item.SwordInventoryItem;
 import core.entity.attributes.msc.AnimationStateWrapper;
-import core.entity.attributes.msc.Coordinates;
+import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.attributes.msc.Health;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
@@ -151,7 +152,7 @@ public class NetworkDataDeserializer {
 
   public static Attribute createAttribute(NetworkData networkData) throws SerializationDataMissing {
     if (DataTranslationEnum.COORDINATES.equals(networkData.getKey())) {
-      return createCoordinates(networkData);
+      return new CoordinatesWrapper(createCoordinates(networkData));
     } else if (DataTranslationEnum.HEALTH.equals(networkData.getKey())) {
       return createHealth(networkData);
     } else if (DataTranslationEnum.EMPTY_ITEM.equals(networkData.getKey())) {
@@ -467,7 +468,7 @@ public class NetworkDataDeserializer {
     if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
     if (health == null) throw new SerializationDataMissing("Missing health");
     entity.setUuid(uuid);
-    entity.coordinates = coordinates;
+    entity.setCoordinatesWrapper(new CoordinatesWrapper(coordinates));
     entity.health = health;
 
     for (Attribute attr : attributeList) {

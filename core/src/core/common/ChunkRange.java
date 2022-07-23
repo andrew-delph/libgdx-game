@@ -1,8 +1,5 @@
-package core.chunk;
+package core.common;
 
-import core.common.CommonFactory;
-import core.common.GameSettings;
-import core.entity.attributes.msc.Coordinates;
 import core.networking.events.interfaces.SerializeNetworkData;
 import core.networking.translation.NetworkDataSerializer;
 import java.util.HashSet;

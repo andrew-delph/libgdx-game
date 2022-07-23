@@ -1,9 +1,9 @@
 package core.networking.translation;
 
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.exceptions.SerializationDataMissing;
-import core.entity.attributes.msc.Coordinates;
 import core.networking.events.EventTypeFactory;
 import java.util.UUID;
 import org.junit.Test;

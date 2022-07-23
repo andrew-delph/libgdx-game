@@ -2,10 +2,11 @@ package core.entity.pathfinding;
 
 import com.google.inject.Inject;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.Coordinates;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EdgeStepperException;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
+import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.pathfinding.edge.EdgeStepper;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -36,7 +37,7 @@ public class PathGuider {
     if (this.currentPath != null && this.currentPath.isSearching()) {
       return;
     } else if (this.currentPath == null) {
-      this.findPath(entity.coordinates, coordinates);
+      this.findPath(entity.getCoordinatesWrapper().getCoordinates(), coordinates);
       return;
     }
     if (!this.currentPath.isSearching() && this.pathNodeQueue == null) {
@@ -46,13 +47,14 @@ public class PathGuider {
     if (this.currentPathNode == null || this.currentEdgeStepper.isFinished()) {
       this.currentPathNode = this.pathNodeQueue.poll();
       if (this.currentPathNode == null) {
-        this.findPath(entity.coordinates, coordinates);
+        this.findPath(entity.getCoordinatesWrapper().getCoordinates(), coordinates);
         return;
       } else {
         // start using a new path
         this.currentEdgeStepper = currentPathNode.edge.getEdgeStepper(entity, currentPathNode);
         this.entity.setBodyPosition(this.currentPathNode.startPosition.toPhysicsVector2());
-        this.entity.coordinates = this.currentPathNode.startPosition;
+        this.entity.setCoordinatesWrapper(
+            new CoordinatesWrapper(this.currentPathNode.startPosition));
         this.currentPathNode.start();
       }
     }

@@ -5,14 +5,15 @@ import core.app.game.GameController;
 import core.chunk.world.WorldWrapper;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
+import core.common.ChunkRange;
 import core.common.Clock;
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.GameStore;
 import core.common.Tick;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
 import core.entity.collision.EntityContactListenerFactory;
 import core.entity.misc.Ladder;
@@ -222,7 +223,10 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     List<Entity> entityList = new LinkedList<>();
 
     for (Entity entity : this.getEntityList()) {
-      if (Coordinates.isInRange(bottomLeftCoordinates, topRightCoordinates, entity.coordinates)) {
+      if (Coordinates.isInRange(
+          bottomLeftCoordinates,
+          topRightCoordinates,
+          entity.getCoordinatesWrapper().getCoordinates())) {
         entityList.add(entity);
       }
     }
@@ -234,7 +238,8 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
     for (Entity entity : entityList) {
       if (entity instanceof Block
-          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+          && Coordinates.isInRange(
+              coordinates, coordinates, entity.getCoordinatesWrapper().getCoordinates())) {
         return (Block) entity;
       }
     }
@@ -250,7 +255,8 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
     for (Entity entity : entityList) {
       if (entity instanceof Ladder
-          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+          && Coordinates.isInRange(
+              coordinates, coordinates, entity.getCoordinatesWrapper().getCoordinates())) {
 
         return (Ladder) entity;
       }
@@ -262,7 +268,8 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
     for (Entity entity : entityList) {
       if (entity instanceof Turret
-          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+          && Coordinates.isInRange(
+              coordinates, coordinates, entity.getCoordinatesWrapper().getCoordinates())) {
 
         return (Turret) entity;
       }

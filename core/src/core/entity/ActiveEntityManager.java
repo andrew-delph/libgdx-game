@@ -2,7 +2,7 @@ package core.entity;
 
 import com.google.inject.Inject;
 import core.app.user.UserID;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.GameStore;
 import core.common.exceptions.EntityNotFound;
 import java.util.HashMap;

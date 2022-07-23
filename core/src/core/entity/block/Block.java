@@ -3,9 +3,9 @@ package core.entity.block;
 import core.app.screen.assets.BaseAssetManager;
 import core.chunk.world.EntityBodyBuilder;
 import core.common.Clock;
+import core.common.Coordinates;
 import core.common.GameSettings;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
 
 public abstract class Block extends Entity {
 

@@ -2,12 +2,12 @@ package core.entity.controllers;
 
 import core.app.game.GameController;
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.attributes.msc.Health;
 import core.entity.block.Block;
 import core.entity.collision.projectile.ProjectileContact;
@@ -78,7 +78,7 @@ public class ProjectileController extends EntityController {
         }
       }
     }
-    if (!this.entity.coordinates.equals(moveTo))
+    if (!this.entity.getCoordinatesWrapper().getCoordinates().equals(moveTo))
       gameController.moveEntity(this.entity.getUuid(), moveTo);
   }
 }

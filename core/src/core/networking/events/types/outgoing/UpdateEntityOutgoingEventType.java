@@ -1,6 +1,6 @@
 package core.networking.events.types.outgoing;
 
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.events.types.EventType;
 import core.entity.attributes.Attribute;
 import core.networking.events.interfaces.SerializeNetworkEvent;

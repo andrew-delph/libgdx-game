@@ -1,7 +1,7 @@
 package core.networking.events.types.incoming;
 
 import core.app.user.UserID;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.events.types.EventType;
 import core.networking.events.types.NetworkEventTypeEnum;
 import networking.NetworkObjects;

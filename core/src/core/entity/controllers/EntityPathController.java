@@ -1,11 +1,11 @@
 package core.entity.controllers;
 
 import core.app.game.GameController;
+import core.common.Coordinates;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.entity.Entity;
 import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.pathfinding.PathGuider;
 import core.entity.pathfinding.PathGuiderFactory;
@@ -51,7 +51,7 @@ public class EntityPathController extends EntityController {
 
   @Override
   public void beforeWorldUpdate() {
-    this.beforeUpdateCoordinates = this.entity.coordinates;
+    this.beforeUpdateCoordinates = this.entity.getCoordinatesWrapper().getCoordinates();
     if (!gameStore.doesEntityExist(target.getUuid())) {
       gameController.removeEntity(entity.getUuid());
       return;
@@ -59,11 +59,16 @@ public class EntityPathController extends EntityController {
     if (this.pathGuider == null) {
       this.pathGuider = pathGuiderFactory.createPathGuider(entity);
     }
-    if (this.entity.coordinates.getBase().calcDistance(target.coordinates) < 2) {
+    if (this.entity
+            .getCoordinatesWrapper()
+            .getCoordinates()
+            .getBase()
+            .calcDistance(target.getCoordinatesWrapper().getCoordinates())
+        < 2) {
       gameController.useItem(entity);
     }
     try {
-      this.pathGuider.followPath(target.coordinates);
+      this.pathGuider.followPath(target.getCoordinatesWrapper().getCoordinates());
     } catch (Exception e) {
       e.printStackTrace();
     }

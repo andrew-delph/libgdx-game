@@ -4,7 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.app.game.GameController;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.events.EventConsumer;
@@ -105,8 +105,9 @@ public class testDoubleClientDelayedConnection {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     client_b_NetworkHandle.connect();
 
@@ -126,7 +127,8 @@ public class testDoubleClientDelayedConnection {
         .equals(clientEntity.getUuid());
     assert client_b_GameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
   }
 }

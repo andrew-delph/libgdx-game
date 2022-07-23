@@ -1,7 +1,7 @@
 package core.entity.controllers.events.types;
 
+import core.common.Coordinates;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
 
 public class FallDamageEventType extends AbstractEntityEventType {
 

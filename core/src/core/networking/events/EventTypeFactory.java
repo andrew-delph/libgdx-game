@@ -2,15 +2,15 @@ package core.networking.events;
 
 import com.google.inject.Inject;
 import core.app.user.UserID;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.CreateTurretEventType;
 import core.common.events.types.RemoveEntityEventType;
 import core.common.events.types.ReplaceEntityEventType;
 import core.entity.Entity;
 import core.entity.attributes.Attribute;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
 import core.networking.RequestNetworkEventObserver;
 import core.networking.events.types.incoming.AuthenticationIncomingEventType;

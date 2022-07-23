@@ -2,7 +2,7 @@ package core.networking.events.consumer.server.incoming;
 
 import com.google.inject.Inject;
 import core.app.user.UserID;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.GameStore;
 import core.common.events.types.EventType;
 import core.entity.Entity;

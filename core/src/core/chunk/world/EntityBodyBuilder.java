@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.sun.tools.javac.util.Pair;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.GameSettings;
 import core.entity.Entity;
 import core.entity.block.Block;
@@ -60,8 +60,8 @@ public class EntityBodyBuilder {
     // create the body
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(
-        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
-        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+        entity.getCoordinatesWrapper().getCoordinates().getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.getCoordinatesWrapper().getCoordinates().getYReal() * GameSettings.PHYSICS_SCALE);
     theBody = world.createBody(bodyDef);
     theBody.setFixedRotation(true);
 
@@ -139,8 +139,8 @@ public class EntityBodyBuilder {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
-        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
-        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+        entity.getCoordinatesWrapper().getCoordinates().getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.getCoordinatesWrapper().getCoordinates().getYReal() * GameSettings.PHYSICS_SCALE);
 
     Body theBody = world.createBody(bodyDef);
 
@@ -170,8 +170,8 @@ public class EntityBodyBuilder {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
-        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
-        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+        entity.getCoordinatesWrapper().getCoordinates().getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.getCoordinatesWrapper().getCoordinates().getYReal() * GameSettings.PHYSICS_SCALE);
 
     Body theBody = world.createBody(bodyDef);
 
@@ -197,8 +197,8 @@ public class EntityBodyBuilder {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(
-        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
-        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+        entity.getCoordinatesWrapper().getCoordinates().getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.getCoordinatesWrapper().getCoordinates().getYReal() * GameSettings.PHYSICS_SCALE);
 
     Body theBody = world.createBody(bodyDef);
 
@@ -226,8 +226,8 @@ public class EntityBodyBuilder {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     bodyDef.position.set(
-        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
-        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+        entity.getCoordinatesWrapper().getCoordinates().getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.getCoordinatesWrapper().getCoordinates().getYReal() * GameSettings.PHYSICS_SCALE);
 
     Body theBody = world.createBody(bodyDef);
 
@@ -252,8 +252,8 @@ public class EntityBodyBuilder {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyType.DynamicBody;
     bodyDef.position.set(
-        entity.coordinates.getXReal() * GameSettings.PHYSICS_SCALE,
-        entity.coordinates.getYReal() * GameSettings.PHYSICS_SCALE);
+        entity.getCoordinatesWrapper().getCoordinates().getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.getCoordinatesWrapper().getCoordinates().getYReal() * GameSettings.PHYSICS_SCALE);
 
     Body theBody = world.createBody(bodyDef);
     theBody.setFixedRotation(true);

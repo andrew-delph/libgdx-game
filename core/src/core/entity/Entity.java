@@ -15,6 +15,7 @@ import core.chunk.world.EntityBodyBuilder;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.GameSettings;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.attributes.Attribute;
@@ -23,7 +24,7 @@ import core.entity.attributes.inventory.Equipped;
 import core.entity.attributes.inventory.InventoryBag;
 import core.entity.attributes.inventory.item.AbstractInventoryItem;
 import core.entity.attributes.msc.AnimationStateWrapper;
-import core.entity.attributes.msc.Coordinates;
+import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.attributes.msc.Health;
 import core.entity.controllers.EntityController;
 import core.entity.controllers.events.types.AbstractEntityEventType;
@@ -39,12 +40,13 @@ public class Entity implements SerializeNetworkData {
   public static float staticWidth = 0.8f;
   private final Clock clock;
   private final InventoryBag bag;
-  public Coordinates coordinates;
+  //  public Coordinates coordinates;
   public int zindex = 3;
   public EntityBodyBuilder entityBodyBuilder;
   public Sprite sprite;
   public Health health;
   BaseAssetManager baseAssetManager;
+  private CoordinatesWrapper coordinatesWrapper;
   private UUID uuid;
   private Chunk chunk;
   private EntityController entityController;
@@ -63,7 +65,8 @@ public class Entity implements SerializeNetworkData {
     this.clock = clock;
     this.baseAssetManager = baseAssetManager;
     this.entityBodyBuilder = entityBodyBuilder;
-    this.coordinates = coordinates;
+    //    this.coordinates = coordinates;
+    this.coordinatesWrapper = new CoordinatesWrapper(coordinates);
     this.uuid = UUID.randomUUID();
     this.health = new Health(100);
     this.bag = new InventoryBag();
@@ -87,7 +90,7 @@ public class Entity implements SerializeNetworkData {
 
   public AbstractEntityEventType updateAttribute(Attribute attr) {
     if (attr.getType().equals(AttributeType.COORDINATES)) {
-      this.coordinates = (Coordinates) attr;
+      this.setCoordinatesWrapper((CoordinatesWrapper) attr);
     } else if (attr.getType().equals(AttributeType.HEALTH)) {
       this.health = (Health) attr;
       return EntityEventTypeFactory.createChangeHealthEventType(this);
@@ -100,6 +103,14 @@ public class Entity implements SerializeNetworkData {
       return null;
     }
     return null;
+  }
+
+  public CoordinatesWrapper getCoordinatesWrapper() {
+    return coordinatesWrapper;
+  }
+
+  public void setCoordinatesWrapper(CoordinatesWrapper coordinatesWrapper) {
+    this.coordinatesWrapper = coordinatesWrapper;
   }
 
   public Chunk getChunk() throws ChunkNotFound {
@@ -154,8 +165,8 @@ public class Entity implements SerializeNetworkData {
       this.sprite.setSize(this.getWidth(), this.getHeight());
     }
     this.sprite.setPosition(
-        this.coordinates.getXReal() * GameSettings.PIXEL_SCALE,
-        this.coordinates.getYReal() * GameSettings.PIXEL_SCALE);
+        this.getCoordinatesWrapper().getCoordinates().getXReal() * GameSettings.PIXEL_SCALE,
+        this.getCoordinatesWrapper().getCoordinates().getYReal() * GameSettings.PIXEL_SCALE);
   }
 
   public synchronized void setZindex(int zindex) {
@@ -199,7 +210,9 @@ public class Entity implements SerializeNetworkData {
       return false;
     }
     Entity entity = (Entity) o;
-    return Objects.equal(coordinates, entity.coordinates)
+    return Objects.equal(
+            this.getCoordinatesWrapper().getCoordinates(),
+            entity.getCoordinatesWrapper().getCoordinates())
         && Objects.equal(health, entity.health)
         && Objects.equal(uuid, entity.uuid)
         && Objects.equal(bag, entity.bag)
@@ -213,12 +226,19 @@ public class Entity implements SerializeNetworkData {
 
   public Coordinates getCenter() {
     return CommonFactory.createCoordinates(
-        this.coordinates.getXReal() + 0.5f, this.coordinates.getYReal() + 0.5f);
+        this.getCoordinatesWrapper().getCoordinates().getXReal() + 0.5f,
+        this.getCoordinatesWrapper().getCoordinates().getYReal() + 0.5f);
   }
 
   @Override
   public String toString() {
-    return this.getClass().getName() + "{" + "uuid=" + uuid + ", coordinates=" + coordinates + '}';
+    return this.getClass().getName()
+        + "{"
+        + "uuid="
+        + uuid
+        + ", coordinates="
+        + this.getCoordinatesWrapper().getCoordinates()
+        + '}';
   }
 
   public UUID getUuid() {

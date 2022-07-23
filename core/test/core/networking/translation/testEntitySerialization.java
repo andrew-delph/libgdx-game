@@ -55,7 +55,10 @@ public class testEntitySerialization {
   public void testCreateEntitySerialization() throws SerializationDataMissing {
     Entity entityWrite = entityFactory.createEntity(CommonFactory.createCoordinates(2, 3));
     Entity entityRead = entitySerializationConverter.createEntity(entityWrite.toNetworkData());
-    assert entityWrite.coordinates.equals(entityRead.coordinates);
+    assert entityWrite
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(entityRead.getCoordinatesWrapper().getCoordinates());
     assert entityWrite.getUuid().equals(entityRead.getUuid());
   }
 
@@ -64,11 +67,13 @@ public class testEntitySerialization {
     Entity entityWrite = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
     UUID uuid = entityWrite.getUuid();
     gameStore.addChunk(
-        chunkFactory.create(CommonFactory.createChunkRange(entityWrite.coordinates)));
+        chunkFactory.create(
+            CommonFactory.createChunkRange(entityWrite.getCoordinatesWrapper().getCoordinates())));
     networkEventHandler.handleNetworkEvent(
         EventTypeFactory.createCreateEntityOutgoingEvent(
                 entityWrite.toNetworkData(),
-                CommonFactory.createChunkRange(entityWrite.coordinates))
+                CommonFactory.createChunkRange(
+                    entityWrite.getCoordinatesWrapper().getCoordinates()))
             .toNetworkEvent());
     TimeUnit.SECONDS.sleep(1);
     assert uuid.equals(gameStore.getEntity(uuid).getUuid());
@@ -78,10 +83,13 @@ public class testEntitySerialization {
   public void testBlockWrite() throws EntityNotFound, InterruptedException {
     Entity block = blockFactory.createDirt(CommonFactory.createCoordinates(0, 0));
     UUID uuid = block.getUuid();
-    gameStore.addChunk(chunkFactory.create(CommonFactory.createChunkRange(block.coordinates)));
+    gameStore.addChunk(
+        chunkFactory.create(
+            CommonFactory.createChunkRange(block.getCoordinatesWrapper().getCoordinates())));
     networkEventHandler.handleNetworkEvent(
         EventTypeFactory.createCreateEntityOutgoingEvent(
-                block.toNetworkData(), CommonFactory.createChunkRange(block.coordinates))
+                block.toNetworkData(),
+                CommonFactory.createChunkRange(block.getCoordinatesWrapper().getCoordinates()))
             .toNetworkEvent());
     TimeUnit.SECONDS.sleep(1);
     assert uuid.equals(gameStore.getEntity(uuid).getUuid());

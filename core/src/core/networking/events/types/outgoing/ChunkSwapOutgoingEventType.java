@@ -3,7 +3,7 @@ package core.networking.events.types.outgoing;
 import static core.networking.events.types.NetworkEventTypeEnum.CHUNK_SWAP_OUTGOING;
 import static core.networking.translation.NetworkDataSerializer.createChunkSwapOutgoingEventType;
 
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.events.types.EventType;
 import core.networking.events.interfaces.SerializeNetworkEvent;
 import java.util.UUID;

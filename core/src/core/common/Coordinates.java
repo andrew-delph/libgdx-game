@@ -1,16 +1,13 @@
-package core.entity.attributes.msc;
+package core.common;
 
 import com.badlogic.gdx.math.Vector2;
-import core.common.CommonFactory;
-import core.common.GameSettings;
-import core.entity.attributes.Attribute;
-import core.entity.attributes.AttributeType;
+import core.networking.events.interfaces.SerializeNetworkData;
 import core.networking.translation.NetworkDataSerializer;
 import java.util.LinkedList;
 import java.util.List;
-import networking.NetworkObjects;
+import networking.NetworkObjects.NetworkData;
 
-public class Coordinates implements Attribute {
+public class Coordinates implements SerializeNetworkData {
   final float x;
   final float y;
 
@@ -18,11 +15,6 @@ public class Coordinates implements Attribute {
     this.x = x;
     this.y = y;
   }
-  //
-  //  public Coordinates(Vector2 vector2) {
-  //    this.x = vector2.x / GameSettings.PHYSICS_SCALE;
-  //    this.y = vector2.y / GameSettings.PHYSICS_SCALE;
-  //  }
 
   public static Boolean isInRange(
       Coordinates bottomLeft, Coordinates topRight, Coordinates target) {
@@ -128,12 +120,7 @@ public class Coordinates implements Attribute {
   }
 
   @Override
-  public NetworkObjects.NetworkData toNetworkData() {
+  public NetworkData toNetworkData() {
     return NetworkDataSerializer.createCoordinates(this);
-  }
-
-  @Override
-  public AttributeType getType() {
-    return AttributeType.COORDINATES;
   }
 }

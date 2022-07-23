@@ -24,7 +24,10 @@ public class testChunk {
     EntityFactory entityFactory = injector.getInstance(EntityFactory.class);
     BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
-    assert entity.coordinates.equals(CommonFactory.createCoordinates(0, 0));
+    assert entity
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(CommonFactory.createCoordinates(0, 0));
     chunk.addEntity(entity);
     try {
       assert chunk.getBlock(CommonFactory.createCoordinates(0, 0)) == null;
@@ -32,7 +35,10 @@ public class testChunk {
     } catch (Exception ignored) {
     }
     Block dirtBlock = blockFactory.createDirt(CommonFactory.createCoordinates(0, 0));
-    assert dirtBlock.coordinates.equals(CommonFactory.createCoordinates(0, 0));
+    assert dirtBlock
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(CommonFactory.createCoordinates(0, 0));
     chunk.addEntity(dirtBlock);
     assert chunk.getBlock(CommonFactory.createCoordinates(0, 0)).equals(dirtBlock);
   }

@@ -3,7 +3,7 @@ package core.generation;
 import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.GameStore;
 
 public class ChunkBuilderFactory {

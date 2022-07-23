@@ -2,8 +2,8 @@ package core.app.game;
 
 import com.google.inject.Inject;
 import core.app.screen.BaseCamera;
-import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.ChunkRange;
 import core.common.exceptions.SerializationDataMissing;
 import core.common.exceptions.WrongVersion;
 import core.networking.client.ClientNetworkHandle;

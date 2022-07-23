@@ -1,6 +1,6 @@
 package core.entity.collision.ladder;
 
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.entity.Entity;
 import core.entity.collision.CollisionPoint;
 

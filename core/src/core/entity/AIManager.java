@@ -4,11 +4,12 @@ import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.app.user.UserID;
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
-import core.entity.attributes.msc.Coordinates;
+import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.groups.Group;
 import core.entity.groups.GroupService;
@@ -39,7 +40,7 @@ public class AIManager {
     activeEntityManager.registerActiveEntity(userID, aiEntity.getUuid());
 
     Entity aiTarget = gameStore.getEntity(target);
-    aiEntity.coordinates = coordinates;
+    aiEntity.setCoordinatesWrapper(new CoordinatesWrapper(coordinates));
     gameController.addEntity(aiEntity);
 
     aiEntity.setEntityController(

@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import core.app.screen.assets.BaseAssetManager;
 import core.chunk.world.EntityBodyBuilder;
 import core.common.Clock;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 
 public class BlockFactory {
   @Inject Clock clock;

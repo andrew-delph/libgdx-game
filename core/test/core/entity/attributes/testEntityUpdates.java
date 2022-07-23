@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.app.screen.assets.animations.AnimationState;
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.configuration.BaseServerConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;
@@ -11,7 +12,7 @@ import core.entity.attributes.inventory.Equipped;
 import core.entity.attributes.inventory.item.EmptyInventoryItem;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
 import core.entity.attributes.msc.AnimationStateWrapper;
-import core.entity.attributes.msc.Coordinates;
+import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.attributes.msc.Health;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,11 +32,11 @@ public class testEntityUpdates {
 
     Coordinates newCoords = CommonFactory.createCoordinates(2, 2);
 
-    assert !entity.coordinates.equals(newCoords);
+    assert !entity.getCoordinatesWrapper().getCoordinates().equals(newCoords);
 
-    entity.updateAttribute(newCoords);
+    entity.updateAttribute(new CoordinatesWrapper(newCoords));
 
-    assert entity.coordinates.equals(newCoords);
+    assert entity.getCoordinatesWrapper().getCoordinates().equals(newCoords);
   }
 
   @Test

@@ -2,7 +2,7 @@ package core.generation;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
 import core.common.GameSettings;
 import core.common.GameStore;

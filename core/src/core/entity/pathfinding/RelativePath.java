@@ -3,7 +3,7 @@ package core.entity.pathfinding;
 import static core.common.GameSettings.PATHING_THREADS;
 
 import com.google.inject.Inject;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.pathfinding.edge.AbstractEdge;
 import java.util.Collections;
 import java.util.HashSet;

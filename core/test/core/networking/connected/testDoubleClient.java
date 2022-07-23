@@ -6,9 +6,10 @@ import com.google.inject.Injector;
 import core.app.game.Game;
 import core.app.game.GameController;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -21,7 +22,6 @@ import core.configuration.ClientConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.block.DirtBlock;
@@ -151,8 +151,9 @@ public class testDoubleClient {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     assert client_b_GameStore
         .getEntity(clientEntity.getUuid())
@@ -160,8 +161,9 @@ public class testDoubleClient {
         .equals(clientEntity.getUuid());
     assert client_b_GameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
   }
 
   @Test
@@ -206,8 +208,9 @@ public class testDoubleClient {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     assert client_b_GameStore
         .getEntity(clientEntity.getUuid())
@@ -215,15 +218,19 @@ public class testDoubleClient {
         .equals(clientEntity.getUuid());
     assert client_b_GameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     client_a_GameController.moveEntity(
         clientEntity.getUuid(), CommonFactory.createCoordinates(0, 1));
 
     TimeUnit.SECONDS.sleep(1);
 
-    assert clientEntity.coordinates.equals(CommonFactory.createCoordinates(0, 1));
+    assert clientEntity
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(CommonFactory.createCoordinates(0, 1));
 
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
@@ -231,8 +238,9 @@ public class testDoubleClient {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     assert client_b_GameStore
         .getEntity(clientEntity.getUuid())
@@ -240,8 +248,9 @@ public class testDoubleClient {
         .equals(clientEntity.getUuid());
     assert client_b_GameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
   }
 
   @Test
@@ -288,8 +297,9 @@ public class testDoubleClient {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     assert client_b_GameStore
         .getEntity(clientEntity.getUuid())
@@ -297,8 +307,9 @@ public class testDoubleClient {
         .equals(clientEntity.getUuid());
     assert client_b_GameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     client_a_NetworkHandle.close();
 

@@ -8,8 +8,8 @@ import core.chunk.Chunk;
 import core.chunk.world.CreateBodyCallable;
 import core.chunk.world.EntityBodyBuilder;
 import core.common.Clock;
+import core.common.Coordinates;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
 import java.util.UUID;
 
 public abstract class SolidBlock extends Block {

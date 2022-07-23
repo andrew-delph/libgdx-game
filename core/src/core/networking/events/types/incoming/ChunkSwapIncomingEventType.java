@@ -2,7 +2,7 @@ package core.networking.events.types.incoming;
 
 import static core.networking.events.types.NetworkEventTypeEnum.CHUNK_SWAP_INCOMING;
 
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.events.types.EventType;
 import java.util.UUID;
 
