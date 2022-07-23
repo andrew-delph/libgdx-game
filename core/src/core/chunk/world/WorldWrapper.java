@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.sun.tools.javac.util.Pair;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
 import core.common.GameSettings;

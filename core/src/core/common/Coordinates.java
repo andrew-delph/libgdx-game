@@ -1,8 +1,6 @@
-package core.entity.attributes.msc;
+package core.common;
 
 import com.badlogic.gdx.math.Vector2;
-import core.common.CommonFactory;
-import core.common.GameSettings;
 import core.networking.events.interfaces.SerializeNetworkData;
 import core.networking.translation.NetworkDataSerializer;
 import java.util.LinkedList;

@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.collision.CollisionPoint;
 import core.entity.collision.ContactWrapperCounter;
 import core.entity.controllers.events.types.EntityEventTypeFactory;

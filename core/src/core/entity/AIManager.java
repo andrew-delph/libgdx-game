@@ -8,7 +8,7 @@ import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.groups.Group;

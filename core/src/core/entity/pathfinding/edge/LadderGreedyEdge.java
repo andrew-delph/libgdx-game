@@ -8,7 +8,7 @@ import core.chunk.world.exceptions.BodyNotFound;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EdgeStepperException;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.misc.Ladder;
 import core.entity.pathfinding.EntityStructure;
 import core.entity.pathfinding.PathGameStoreOverride;

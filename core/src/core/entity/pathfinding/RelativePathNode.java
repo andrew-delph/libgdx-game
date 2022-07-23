@@ -1,6 +1,6 @@
 package core.entity.pathfinding;
 
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.pathfinding.edge.AbstractEdge;
 
 public class RelativePathNode {

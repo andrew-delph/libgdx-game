@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.attributes.msc.Health;
 import core.entity.collision.RayCastService;
 import java.util.LinkedList;

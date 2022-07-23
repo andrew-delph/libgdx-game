@@ -4,7 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.app.game.GameController;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.CommonFactory;
 import core.common.GameStore;

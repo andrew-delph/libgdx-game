@@ -2,7 +2,7 @@ package core.common.events;
 
 import com.google.inject.Inject;
 import core.common.events.types.EventType;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 
 public class CoordinatesEventType extends EventType {
 

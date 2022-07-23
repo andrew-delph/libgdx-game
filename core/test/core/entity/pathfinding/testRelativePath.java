@@ -5,7 +5,7 @@ import com.google.inject.Injector;
 import core.common.CommonFactory;
 import core.common.GameStore;
 import core.configuration.StandAloneConfig;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.generation.ChunkBuilderFactory;

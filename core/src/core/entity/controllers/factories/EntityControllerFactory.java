@@ -7,7 +7,7 @@ import core.common.GameStore;
 import core.common.events.EventService;
 import core.entity.Entity;
 import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.collision.RayCastService;
 import core.entity.collision.orb.OrbContact;
 import core.entity.collision.projectile.ProjectileContact;

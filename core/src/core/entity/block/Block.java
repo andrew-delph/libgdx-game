@@ -5,7 +5,7 @@ import core.chunk.world.EntityBodyBuilder;
 import core.common.Clock;
 import core.common.GameSettings;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 
 public abstract class Block extends Entity {
 

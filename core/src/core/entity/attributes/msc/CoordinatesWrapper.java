@@ -1,6 +1,7 @@
 package core.entity.attributes.msc;
 
 import com.google.common.base.Objects;
+import core.common.Coordinates;
 import core.entity.attributes.Attribute;
 import core.entity.attributes.AttributeType;
 import networking.NetworkObjects.NetworkData;

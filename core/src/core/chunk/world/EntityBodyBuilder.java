@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.sun.tools.javac.util.Pair;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.GameSettings;
 import core.entity.Entity;
 import core.entity.block.Block;

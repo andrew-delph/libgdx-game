@@ -4,8 +4,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.sun.tools.javac.util.Pair;
-import core.chunk.ChunkRange;
-import core.entity.attributes.msc.Coordinates;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import networking.NetworkObjects;

@@ -10,7 +10,7 @@ import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.controllers.actions.EntityAction;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.controllers.events.consumers.EntityEventConsumer;

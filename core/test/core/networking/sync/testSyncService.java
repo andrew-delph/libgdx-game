@@ -3,7 +3,7 @@ package core.networking.sync;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.app.user.User;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.Clock;
 import core.common.CommonFactory;
 import core.configuration.ClientConfig;

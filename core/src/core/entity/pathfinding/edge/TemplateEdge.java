@@ -7,7 +7,7 @@ import core.chunk.world.exceptions.BodyNotFound;
 import core.common.GameSettings;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.pathfinding.EntityStructure;
 import core.entity.pathfinding.PathGameStoreOverride;
 import core.entity.pathfinding.RelativeActionEdge;

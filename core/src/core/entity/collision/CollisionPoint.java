@@ -1,6 +1,6 @@
 package core.entity.collision;
 
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.entity.Entity;
 
 public abstract class CollisionPoint {

@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.block.BlockFactory;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.misc.Orb;

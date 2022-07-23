@@ -21,7 +21,7 @@ import core.entity.attributes.inventory.ItemNotFoundException;
 import core.entity.attributes.inventory.item.ItemActionType;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
 import core.entity.attributes.inventory.item.comsumers.ItemActionService;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;

@@ -1,6 +1,6 @@
 package core.networking.translation;
 
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.CreateTurretEventType;
 import core.common.events.types.ItemActionEventType;
@@ -11,7 +11,7 @@ import core.entity.attributes.inventory.item.EmptyInventoryItem;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
 import core.entity.attributes.inventory.item.SwordInventoryItem;
 import core.entity.attributes.msc.AnimationStateWrapper;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.attributes.msc.Health;
 import core.networking.events.interfaces.SerializeNetworkData;
 import core.networking.events.types.outgoing.ChunkSwapOutgoingEventType;

@@ -23,7 +23,7 @@ import core.entity.attributes.inventory.Equipped;
 import core.entity.attributes.inventory.InventoryBag;
 import core.entity.attributes.inventory.item.AbstractInventoryItem;
 import core.entity.attributes.msc.AnimationStateWrapper;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.attributes.msc.Health;
 import core.entity.controllers.EntityController;

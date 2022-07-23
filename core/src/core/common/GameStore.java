@@ -2,13 +2,11 @@ package core.common;
 
 import com.google.inject.Inject;
 import core.chunk.Chunk;
-import core.chunk.ChunkRange;
 import core.chunk.world.exceptions.DestroyBodyException;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
 import core.entity.block.Block;
 import core.entity.misc.Ladder;
 import core.entity.misc.Turret;

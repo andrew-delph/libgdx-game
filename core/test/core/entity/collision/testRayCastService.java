@@ -3,7 +3,7 @@ package core.entity.collision;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.chunk.ChunkFactory;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;

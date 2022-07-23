@@ -1,9 +1,5 @@
-package core.chunk;
+package core.common;
 
-import core.common.CommonFactory;
-import core.common.GameSettings;
-import core.entity.attributes.msc.Coordinates;
-import core.networking.events.interfaces.SerializeNetworkData;
 import core.networking.translation.NetworkDataSerializer;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -11,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import networking.NetworkObjects;
 
-public class ChunkRange implements SerializeNetworkData {
+public class git adChunkRange implements SerializeNetworkData {
   public static final int size = GameSettings.CHUNK_SIZE;
   public final int bottom_x;
   public final int bottom_y;

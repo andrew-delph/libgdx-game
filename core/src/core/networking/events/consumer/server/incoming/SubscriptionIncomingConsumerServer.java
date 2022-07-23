@@ -2,7 +2,7 @@ package core.networking.events.consumer.server.incoming;
 
 import com.google.inject.Inject;
 import core.chunk.ActiveChunkManager;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.events.types.EventType;
 import core.generation.ChunkGenerationService;
 import core.networking.events.types.incoming.SubscriptionIncomingEventType;

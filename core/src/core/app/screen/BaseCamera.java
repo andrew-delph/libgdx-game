@@ -2,10 +2,10 @@ package core.app.screen;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.google.inject.Inject;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
 import core.common.GameSettings;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import java.util.HashSet;
 import java.util.Set;
 

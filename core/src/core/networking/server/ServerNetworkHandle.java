@@ -8,7 +8,7 @@ import core.app.user.User;
 import core.app.user.UserID;
 import core.chunk.ActiveChunkManager;
 import core.chunk.Chunk;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.Clock;
 import core.common.GameSettings;
 import core.common.GameStore;

@@ -3,7 +3,7 @@ package core.networking.sync;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import core.app.user.UserID;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.Clock;
 import java.util.Map;
 import java.util.Set;

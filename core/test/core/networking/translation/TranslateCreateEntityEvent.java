@@ -2,13 +2,13 @@ package core.networking.translation;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
 import core.common.exceptions.SerializationDataMissing;
 import core.configuration.ClientConfig;
 import core.entity.Entity;
 import core.entity.EntityFactory;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.CreateEntityIncomingEventType;
 import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;

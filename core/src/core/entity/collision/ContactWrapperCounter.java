@@ -2,7 +2,7 @@ package core.entity.collision;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import java.util.UUID;
 
 public abstract class ContactWrapperCounter implements ContactWrapper {

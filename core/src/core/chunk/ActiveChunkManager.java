@@ -1,6 +1,7 @@
 package core.chunk;
 
 import core.app.user.UserID;
+import core.common.ChunkRange;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;

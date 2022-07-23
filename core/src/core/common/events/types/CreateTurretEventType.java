@@ -2,7 +2,7 @@ package core.common.events.types;
 
 import static core.networking.translation.NetworkDataSerializer.serializeCreateTurretEventType;
 
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.networking.events.interfaces.SerializeNetworkEvent;
 import java.util.UUID;
 import networking.NetworkObjects.NetworkEvent;

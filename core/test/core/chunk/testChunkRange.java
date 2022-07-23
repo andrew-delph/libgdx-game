@@ -1,5 +1,6 @@
 package core.chunk;
 
+import core.common.ChunkRange;
 import core.common.CommonFactory;
 import java.util.List;
 import org.junit.Test;

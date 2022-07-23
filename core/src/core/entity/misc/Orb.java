@@ -9,7 +9,7 @@ import core.chunk.world.CreateBodyCallable;
 import core.chunk.world.EntityBodyBuilder;
 import core.common.Clock;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import java.util.UUID;
 
 public class Orb extends Entity {

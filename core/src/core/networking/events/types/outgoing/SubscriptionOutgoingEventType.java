@@ -1,7 +1,7 @@
 package core.networking.events.types.outgoing;
 
 import com.google.inject.Inject;
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.events.types.EventType;
 import core.networking.events.interfaces.SerializeNetworkEvent;
 import java.util.List;

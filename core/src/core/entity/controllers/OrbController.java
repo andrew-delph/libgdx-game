@@ -8,7 +8,7 @@ import core.common.events.EventService;
 import core.entity.Entity;
 import core.entity.attributes.inventory.FullBagException;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.collision.orb.OrbContact;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.misc.Orb;

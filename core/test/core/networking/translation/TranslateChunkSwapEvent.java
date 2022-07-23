@@ -1,6 +1,6 @@
 package core.networking.translation;
 
-import core.chunk.ChunkRange;
+import core.common.ChunkRange;
 import core.common.CommonFactory;
 import core.common.exceptions.SerializationDataMissing;
 import core.networking.events.EventTypeFactory;

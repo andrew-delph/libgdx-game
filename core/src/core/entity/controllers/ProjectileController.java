@@ -7,7 +7,7 @@ import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.attributes.msc.Health;
 import core.entity.block.Block;
 import core.entity.collision.projectile.ProjectileContact;

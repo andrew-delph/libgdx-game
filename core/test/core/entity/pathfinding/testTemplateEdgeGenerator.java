@@ -6,7 +6,7 @@ import com.google.inject.Injector;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.CommonFactory;
 import core.configuration.StandAloneConfig;
-import core.entity.attributes.msc.Coordinates;
+import core.common.Coordinates;
 import core.entity.pathfinding.edge.AbstractEdge;
 import org.junit.Test;
 
