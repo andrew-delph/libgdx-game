@@ -15,7 +15,7 @@ public class ChunkRange implements SerializeNetworkData {
   public final int top_x;
   public final int top_y;
 
-  public ChunkRange(Coordinates coordinates) {
+  protected ChunkRange(Coordinates coordinates) {
     if (coordinates.getXReal() < 0) {
       this.bottom_x = ((((coordinates.getX() + 1) / size)) * size) - size;
     } else {

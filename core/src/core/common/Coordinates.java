@@ -11,7 +11,7 @@ public class Coordinates implements SerializeNetworkData {
   final float x;
   final float y;
 
-  public Coordinates(float x, float y) {
+  protected Coordinates(float x, float y) {
     this.x = x;
     this.y = y;
   }
