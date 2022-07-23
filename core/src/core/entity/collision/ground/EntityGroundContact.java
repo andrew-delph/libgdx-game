@@ -22,6 +22,10 @@ public class EntityGroundContact extends ContactWrapperCounter {
 
   public EntityGroundContact() {}
 
+  public void setGroundPosition(UUID uuid, Coordinates coordinates) {
+    uuidCoordinatesMap.put(uuid, coordinates);
+  }
+
   @Override
   public synchronized void beginContact(CollisionPoint source, CollisionPoint target) {
     /*
@@ -37,7 +41,7 @@ public class EntityGroundContact extends ContactWrapperCounter {
               EntityEventTypeFactory.createFallDamageEventType(oldPos, newPos, source.getEntity());
           eventService.fireEvent(fallEvent);
         }
-        uuidCoordinatesMap.put(source.getEntity().getUuid(), source.getEntity().coordinates);
+        setGroundPosition(source.getEntity().getUuid(), source.getEntity().coordinates);
       }
     } catch (ChunkNotFound e) {
       e.printStackTrace();
