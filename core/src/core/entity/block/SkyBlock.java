@@ -16,7 +16,7 @@ public class SkyBlock extends EmptyBlock {
 
   @Override
   public String getTextureName() {
-    if (this.coordinates.getY() < 0) {
+    if (this.getCoordinatesWrapper().getCoordinates().getY() < 0) {
       return "dirty.png";
     } else return "sky.png";
   }

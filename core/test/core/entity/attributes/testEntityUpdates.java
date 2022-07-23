@@ -12,6 +12,7 @@ import core.entity.attributes.inventory.item.EmptyInventoryItem;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
 import core.entity.attributes.msc.AnimationStateWrapper;
 import core.entity.attributes.msc.Coordinates;
+import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.attributes.msc.Health;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,11 +32,11 @@ public class testEntityUpdates {
 
     Coordinates newCoords = CommonFactory.createCoordinates(2, 2);
 
-    assert !entity.coordinates.equals(newCoords);
+    assert !entity.getCoordinatesWrapper().getCoordinates().equals(newCoords);
 
-    entity.updateAttribute(newCoords);
+    entity.updateAttribute(new CoordinatesWrapper(newCoords));
 
-    assert entity.coordinates.equals(newCoords);
+    assert entity.getCoordinatesWrapper().getCoordinates().equals(newCoords);
   }
 
   @Test

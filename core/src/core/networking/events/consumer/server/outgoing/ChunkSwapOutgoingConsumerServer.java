@@ -67,7 +67,8 @@ public class ChunkSwapOutgoingConsumerServer implements Consumer<EventType> {
     CreateEntityOutgoingEventType createEntityOutgoingEventType =
         EventTypeFactory.createCreateEntityOutgoingEvent(
             entityToCreate.toNetworkData(),
-            CommonFactory.createChunkRange(entityToCreate.coordinates));
+            CommonFactory.createChunkRange(
+                entityToCreate.getCoordinatesWrapper().getCoordinates()));
 
     NetworkObjects.NetworkEvent createEntityOutgoingNetworkEvent =
         createEntityOutgoingEventType.toNetworkEvent();

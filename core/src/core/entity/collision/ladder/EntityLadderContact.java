@@ -14,7 +14,7 @@ public class EntityLadderContact extends ContactWrapperCounter {
   public synchronized void beginContact(CollisionPoint source, CollisionPoint target) {
     super.beginContact(source, target);
     entityGroundContact.setGroundPosition(
-        source.getEntity().getUuid(), target.getEntity().coordinates);
+        source.getEntity().getUuid(), target.getEntity().getCoordinatesWrapper().getCoordinates());
   }
 
   public boolean isOnLadder(Entity entity) throws ChunkNotFound {

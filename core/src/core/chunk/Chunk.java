@@ -222,7 +222,10 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     List<Entity> entityList = new LinkedList<>();
 
     for (Entity entity : this.getEntityList()) {
-      if (Coordinates.isInRange(bottomLeftCoordinates, topRightCoordinates, entity.coordinates)) {
+      if (Coordinates.isInRange(
+          bottomLeftCoordinates,
+          topRightCoordinates,
+          entity.getCoordinatesWrapper().getCoordinates())) {
         entityList.add(entity);
       }
     }
@@ -234,7 +237,8 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
     for (Entity entity : entityList) {
       if (entity instanceof Block
-          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+          && Coordinates.isInRange(
+              coordinates, coordinates, entity.getCoordinatesWrapper().getCoordinates())) {
         return (Block) entity;
       }
     }
@@ -250,7 +254,8 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
     for (Entity entity : entityList) {
       if (entity instanceof Ladder
-          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+          && Coordinates.isInRange(
+              coordinates, coordinates, entity.getCoordinatesWrapper().getCoordinates())) {
 
         return (Ladder) entity;
       }
@@ -262,7 +267,8 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
     for (Entity entity : entityList) {
       if (entity instanceof Turret
-          && Coordinates.isInRange(coordinates, coordinates, entity.coordinates)) {
+          && Coordinates.isInRange(
+              coordinates, coordinates, entity.getCoordinatesWrapper().getCoordinates())) {
 
         return (Turret) entity;
       }

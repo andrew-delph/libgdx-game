@@ -24,7 +24,8 @@ public class RemoteBodyController extends EntityController {
   public void beforeWorldUpdate() throws Exception {
     this.entity.applyBody(
         (Body body) -> {
-          body.setTransform(this.entity.coordinates.toPhysicsVector2(), 0);
+          body.setTransform(
+              this.entity.getCoordinatesWrapper().getCoordinates().toPhysicsVector2(), 0);
         });
   }
 

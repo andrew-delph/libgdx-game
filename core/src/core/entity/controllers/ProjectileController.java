@@ -78,7 +78,7 @@ public class ProjectileController extends EntityController {
         }
       }
     }
-    if (!this.entity.coordinates.equals(moveTo))
+    if (!this.entity.getCoordinatesWrapper().getCoordinates().equals(moveTo))
       gameController.moveEntity(this.entity.getUuid(), moveTo);
   }
 }

@@ -36,12 +36,14 @@ public class EntityGroundContact extends ContactWrapperCounter {
       if (source.getChunkRange().equals(source.getEntity().getChunk().chunkRange)) {
         if (uuidCoordinatesMap.get(source.getEntity().getUuid()) != null) {
           Coordinates oldPos = uuidCoordinatesMap.get(source.getEntity().getUuid());
-          Coordinates newPos = source.getEntity().coordinates;
+          Coordinates newPos = source.getEntity().getCoordinatesWrapper().getCoordinates();
           FallDamageEventType fallEvent =
               EntityEventTypeFactory.createFallDamageEventType(oldPos, newPos, source.getEntity());
           eventService.fireEvent(fallEvent);
         }
-        setGroundPosition(source.getEntity().getUuid(), source.getEntity().coordinates);
+        setGroundPosition(
+            source.getEntity().getUuid(),
+            source.getEntity().getCoordinatesWrapper().getCoordinates());
       }
     } catch (ChunkNotFound e) {
       e.printStackTrace();

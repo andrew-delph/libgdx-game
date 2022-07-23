@@ -46,7 +46,7 @@ public class NetworkDataSerializer {
     return NetworkObjects.NetworkData.newBuilder()
         .setKey("class")
         .setValue(entity.getClass().getName())
-        .addChildren(entity.coordinates.toNetworkData())
+        .addChildren(entity.getCoordinatesWrapper().getCoordinates().toNetworkData())
         .addChildren(uuid)
         .addAllChildren(bagData)
         .addChildren(entity.health.toNetworkData())

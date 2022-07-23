@@ -86,7 +86,7 @@ public class EntityController {
         CommonFactory.createCoordinates(
             this.entity.getBodyPosition().x / GameSettings.PHYSICS_SCALE,
             this.entity.getBodyPosition().y / GameSettings.PHYSICS_SCALE);
-    if (!this.entity.coordinates.equals(moveTo))
+    if (!this.entity.getCoordinatesWrapper().getCoordinates().equals(moveTo))
       gameController.moveEntity(this.entity.getUuid(), moveTo);
 
     if (this.getAction("climbUp").isValid(entity)) {

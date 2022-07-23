@@ -50,11 +50,12 @@ public class DisconnectionIncomingConsumerServer implements Consumer<EventType> 
 
       RemoveEntityOutgoingEventType removeEntityOutgoingEvent =
           EventTypeFactory.createRemoveEntityOutgoingEvent(
-              entity.getUuid(), CommonFactory.createChunkRange(entity.coordinates));
+              entity.getUuid(),
+              CommonFactory.createChunkRange(entity.getCoordinatesWrapper().getCoordinates()));
 
       for (UserID subscriptionUserID :
           activeChunkManager.getChunkRangeUsers(
-              CommonFactory.createChunkRange(entity.coordinates))) {
+              CommonFactory.createChunkRange(entity.getCoordinatesWrapper().getCoordinates()))) {
         serverNetworkHandle.send(subscriptionUserID, removeEntityOutgoingEvent.toNetworkEvent());
       }
       activeEntityManager.deregisterUser(realEvent.getUserID());

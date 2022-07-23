@@ -63,13 +63,17 @@ public class EntityUserController extends EntityController {
     }
     if (Gdx.input.isKeyPressed(Input.Keys.E)) {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-        this.gameController.createLadder(this.entity.coordinates.getMiddle().getLeft().getBase());
+        this.gameController.createLadder(
+            this.entity.getCoordinatesWrapper().getCoordinates().getMiddle().getLeft().getBase());
       } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-        this.gameController.createLadder(this.entity.coordinates.getMiddle().getRight().getBase());
+        this.gameController.createLadder(
+            this.entity.getCoordinatesWrapper().getCoordinates().getMiddle().getRight().getBase());
       } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-        this.gameController.createLadder(this.entity.coordinates.getMiddle().getDown().getBase());
+        this.gameController.createLadder(
+            this.entity.getCoordinatesWrapper().getCoordinates().getMiddle().getDown().getBase());
       } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-        this.gameController.createLadder(this.entity.coordinates.getMiddle().getUp().getBase());
+        this.gameController.createLadder(
+            this.entity.getCoordinatesWrapper().getCoordinates().getMiddle().getUp().getBase());
       }
     }
     if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
@@ -77,7 +81,8 @@ public class EntityUserController extends EntityController {
     }
 
     if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
-      gameController.createProjectile(this.entity.coordinates.getMiddle(), new Vector2(10, 0));
+      gameController.createProjectile(
+          this.entity.getCoordinatesWrapper().getCoordinates().getMiddle(), new Vector2(10, 0));
     }
 
     InventoryBag inventoryBag = entity.getBag();
@@ -98,11 +103,12 @@ public class EntityUserController extends EntityController {
     }
 
     if (Gdx.input.isKeyJustPressed(Keys.NUM_2)) {
-      gameController.triggerCreateTurret(this.entity, this.entity.coordinates.getBase());
+      gameController.triggerCreateTurret(
+          this.entity, this.entity.getCoordinatesWrapper().getCoordinates().getBase());
     }
 
     if (Gdx.input.isKeyJustPressed(Keys.NUM_3)) {
-      gameController.createOrb(this.entity.coordinates.getBase());
+      gameController.createOrb(this.entity.getCoordinatesWrapper().getCoordinates().getBase());
     }
 
     if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {

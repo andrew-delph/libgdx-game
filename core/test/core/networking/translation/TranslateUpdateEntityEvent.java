@@ -15,6 +15,7 @@ import core.entity.attributes.inventory.item.OrbInventoryItem;
 import core.entity.attributes.inventory.item.SwordInventoryItem;
 import core.entity.attributes.msc.AnimationStateWrapper;
 import core.entity.attributes.msc.Coordinates;
+import core.entity.attributes.msc.CoordinatesWrapper;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.UpdateEntityIncomingEventType;
 import core.networking.events.types.outgoing.UpdateEntityOutgoingEventType;
@@ -34,7 +35,8 @@ public class TranslateUpdateEntityEvent {
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     UpdateEntityOutgoingEventType outgoing =
-        EventTypeFactory.createUpdateEntityOutgoingEvent(coordinates, chunkRange, entity.getUuid());
+        EventTypeFactory.createUpdateEntityOutgoingEvent(
+            new CoordinatesWrapper(coordinates), chunkRange, entity.getUuid());
     UpdateEntityIncomingEventType incoming =
         NetworkDataDeserializer.createUpdateEntityIncomingEvent(
             NetworkDataSerializer.createUpdateEntityOutgoingEventType(outgoing));

@@ -47,36 +47,55 @@ class HorizontalEdgeStepper extends EdgeStepper {
       throws EdgeStepperException, ChunkNotFound, BodyNotFound {
     String actionKey;
 
-    if (!entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase().getDown())
-        && !entity.coordinates.getBase().equals(relativePathNode.startPosition.getBase())
-        && !entity.coordinates.getBase().equals(relativePathNode.getEndPosition().getBase())) {
+    if (!entity
+            .getCoordinatesWrapper()
+            .getCoordinates()
+            .getBase()
+            .equals(relativePathNode.startPosition.getBase().getDown())
+        && !entity
+            .getCoordinatesWrapper()
+            .getCoordinates()
+            .getBase()
+            .equals(relativePathNode.startPosition.getBase())
+        && !entity
+            .getCoordinatesWrapper()
+            .getCoordinates()
+            .getBase()
+            .equals(relativePathNode.getEndPosition().getBase())) {
       throw new EdgeStepperException("not on track");
     }
 
-    if (relativePathNode.getEndPosition().calcDistance(entity.coordinates) < 0.3) {
+    if (relativePathNode
+            .getEndPosition()
+            .calcDistance(entity.getCoordinatesWrapper().getCoordinates())
+        < 0.3) {
       Vector2 setBodyPosition = relativePathNode.getEndPosition().toPhysicsVector2();
       entity.setBodyPosition(setBodyPosition);
       this.finish();
       return;
     }
 
-    if (relativePathNode.getEndPosition().getXReal() + 0.1 > entity.coordinates.getXReal()) {
+    if (relativePathNode.getEndPosition().getXReal() + 0.1
+        > entity.getCoordinatesWrapper().getCoordinates().getXReal()) {
       actionKey = "right";
       if (entity.getEntityController().isActionValid(actionKey, entity)) {
         entity.getEntityController().applyAction(actionKey, entity);
       }
-    } else if (relativePathNode.getEndPosition().getXReal() < entity.coordinates.getXReal()) {
+    } else if (relativePathNode.getEndPosition().getXReal()
+        < entity.getCoordinatesWrapper().getCoordinates().getXReal()) {
       actionKey = "left";
       if (entity.getEntityController().isActionValid(actionKey, entity)) {
         entity.getEntityController().applyAction(actionKey, entity);
       }
     }
-    if (relativePathNode.getEndPosition().getYReal() > entity.coordinates.getYReal()) {
+    if (relativePathNode.getEndPosition().getYReal()
+        > entity.getCoordinatesWrapper().getCoordinates().getYReal()) {
       actionKey = "climbUp";
       if (entity.getEntityController().isActionValid(actionKey, entity)) {
         entity.getEntityController().applyAction(actionKey, entity);
       }
-    } else if (relativePathNode.getEndPosition().getYReal() < entity.coordinates.getYReal() - 0.1) {
+    } else if (relativePathNode.getEndPosition().getYReal()
+        < entity.getCoordinatesWrapper().getCoordinates().getYReal() - 0.1) {
       actionKey = "climbDown";
       if (entity.getEntityController().isActionValid(actionKey, entity)) {
         entity.getEntityController().applyAction(actionKey, entity);

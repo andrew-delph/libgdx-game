@@ -51,7 +51,7 @@ public class EntityPathController extends EntityController {
 
   @Override
   public void beforeWorldUpdate() {
-    this.beforeUpdateCoordinates = this.entity.coordinates;
+    this.beforeUpdateCoordinates = this.entity.getCoordinatesWrapper().getCoordinates();
     if (!gameStore.doesEntityExist(target.getUuid())) {
       gameController.removeEntity(entity.getUuid());
       return;
@@ -59,11 +59,16 @@ public class EntityPathController extends EntityController {
     if (this.pathGuider == null) {
       this.pathGuider = pathGuiderFactory.createPathGuider(entity);
     }
-    if (this.entity.coordinates.getBase().calcDistance(target.coordinates) < 2) {
+    if (this.entity
+            .getCoordinatesWrapper()
+            .getCoordinates()
+            .getBase()
+            .calcDistance(target.getCoordinatesWrapper().getCoordinates())
+        < 2) {
       gameController.useItem(entity);
     }
     try {
-      this.pathGuider.followPath(target.coordinates);
+      this.pathGuider.followPath(target.getCoordinatesWrapper().getCoordinates());
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -105,8 +105,9 @@ public class testDoubleClientDelayedConnection {
         .equals(clientEntity.getUuid());
     assert serverGameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
 
     client_b_NetworkHandle.connect();
 
@@ -126,7 +127,8 @@ public class testDoubleClientDelayedConnection {
         .equals(clientEntity.getUuid());
     assert client_b_GameStore
         .getEntity(clientEntity.getUuid())
-        .coordinates
-        .equals(clientEntity.coordinates);
+        .getCoordinatesWrapper()
+        .getCoordinates()
+        .equals(clientEntity.getCoordinatesWrapper().getCoordinates());
   }
 }
