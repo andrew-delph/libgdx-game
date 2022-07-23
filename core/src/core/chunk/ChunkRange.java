@@ -13,25 +13,26 @@ import networking.NetworkObjects;
 
 public class ChunkRange implements SerializeNetworkData {
   public static final int size = GameSettings.CHUNK_SIZE;
-  public int bottom_x;
-  public int bottom_y;
-  public int top_x;
-  public int top_y;
+  public final int bottom_x;
+  public final int bottom_y;
+  public final int top_x;
+  public final int top_y;
 
   public ChunkRange(Coordinates coordinates) {
-    this.fromCoordinates(coordinates);
-  }
-
-  public ChunkRange(NetworkObjects.NetworkData networkData) {
-    float x = 0, y = 0;
-    for (NetworkObjects.NetworkData child : networkData.getChildrenList()) {
-      if (child.getKey().equals("x")) {
-        x = Float.parseFloat(child.getValue());
-      } else if (child.getKey().equals("y")) {
-        y = Float.parseFloat(child.getValue());
-      }
+    if (coordinates.getXReal() < 0) {
+      this.bottom_x = ((((coordinates.getX() + 1) / size)) * size) - size;
+    } else {
+      this.bottom_x = ((coordinates.getX() / size)) * size;
     }
-    this.fromCoordinates(CommonFactory.createCoordinates(x, y));
+
+    if (coordinates.getYReal() < 0) {
+      this.bottom_y = ((((coordinates.getY() + 1) / size)) * size) - size;
+    } else {
+      this.bottom_y = ((coordinates.getY() / size)) * size;
+    }
+
+    this.top_y = this.bottom_y + size;
+    this.top_x = this.bottom_x + size;
   }
 
   public static List<ChunkRange> getChunkRangeListTwoPoints(
@@ -79,23 +80,6 @@ public class ChunkRange implements SerializeNetworkData {
         CommonFactory.createCoordinates(
             bottomLeftChunkRange.bottom_x, bottomLeftChunkRange.bottom_y),
         CommonFactory.createCoordinates(topRightChunkRange.bottom_x, topRightChunkRange.bottom_y));
-  }
-
-  private void fromCoordinates(Coordinates coordinates) {
-    if (coordinates.getXReal() < 0) {
-      this.bottom_x = ((((coordinates.getX() + 1) / size)) * size) - size;
-    } else {
-      this.bottom_x = ((coordinates.getX() / size)) * size;
-    }
-
-    if (coordinates.getYReal() < 0) {
-      this.bottom_y = ((((coordinates.getY() + 1) / size)) * size) - size;
-    } else {
-      this.bottom_y = ((coordinates.getY() / size)) * size;
-    }
-
-    this.top_y = this.bottom_y + size;
-    this.top_x = this.bottom_x + size;
   }
 
   public NetworkObjects.NetworkData toNetworkData() {
