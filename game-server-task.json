@@ -37,7 +37,7 @@
       "memoryReservation": null,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "309026503458.dkr.ecr.us-east-1.amazonaws.com/game:0.2.42",
+      "image": "309026503458.dkr.ecr.us-east-1.amazonaws.com/game:0.2.53",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
@@ -58,13 +58,13 @@
     }
   ],
   "placementConstraints": [],
-  "memory": "2048",
+  "memory": "1024",
   "taskRoleArn": "arn:aws:iam::309026503458:role/ecsTaskExecutionRole",
   "compatibilities": [
     "EC2",
     "FARGATE"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:309026503458:task-definition/game-task:157",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:309026503458:task-definition/game-task:169",
   "family": "game-task",
   "requiresAttributes": [
     {
@@ -122,8 +122,8 @@
   ],
   "networkMode": "awsvpc",
   "runtimePlatform": null,
-  "cpu": "1024",
-  "revision": 157,
+  "cpu": "512",
+  "revision": 169,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
