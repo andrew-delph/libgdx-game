@@ -38,6 +38,7 @@ import core.entity.misc.Turret;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import java.util.UUID;
+import java.util.function.Consumer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -88,12 +89,20 @@ public class GameController {
 
   public Entity triggerRemoveEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
     groupService.removeEntity(uuid);
-    activeEntityManager.removeActiveEntity(user.getUserID(), uuid);
+    activeEntityManager.removeActiveEntity(uuid);
     return this.gameStore.removeEntity(uuid);
   }
 
   public Entity createEntity(Coordinates coordinates) throws ChunkNotFound {
+    return this.createEntity(coordinates, null);
+  }
+
+  public Entity createEntity(Coordinates coordinates, Consumer<Entity> consumer)
+      throws ChunkNotFound {
     Entity entity = entityFactory.createEntity(coordinates);
+    if (consumer != null) {
+      consumer.accept(entity);
+    }
     this.gameStore.addEntity(entity);
     CreateEntityOutgoingEventType createEntityOutgoingEvent =
         EventTypeFactory.createCreateEntityOutgoingEvent(

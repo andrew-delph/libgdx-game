@@ -31,7 +31,11 @@ public class ClientUpdateTask extends UpdateTask {
   @Inject ClientNetworkHandle clientNetworkHandle;
   @Inject EventTypeFactory eventTypeFactory;
 
+  Set<ChunkRange> chunkReserve = new HashSet<>();
+
   public ClientUpdateTask() {
+    super();
+
     executor = Executors.newCachedThreadPool();
   }
 
@@ -63,6 +67,7 @@ public class ClientUpdateTask extends UpdateTask {
 
     // delete all the not needed.
     for (ChunkRange toDelete : toDeleteSet) {
+      if (chunkReserve.contains(toDelete)) continue;
       gameStore.removeChunk(toDelete);
     }
 
@@ -90,5 +95,13 @@ public class ClientUpdateTask extends UpdateTask {
     }
 
     this.eventService.firePostUpdateEvents();
+  }
+
+  public void addChunkReserve(ChunkRange chunkRange) {
+    chunkReserve.add(chunkRange);
+  }
+
+  public void removeChunkReserve(ChunkRange chunkRange) {
+    chunkReserve.remove(chunkRange);
   }
 }

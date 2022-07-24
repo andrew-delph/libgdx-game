@@ -92,7 +92,7 @@ public class GameScreen extends ApplicationAdapter {
     Gdx.graphics.setTitle("" + gameSettings.getVersion());
   }
 
-  private void createMyEntity() {
+  protected void createMyEntity() {
     myEntity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 2));
     try {
       myEntity = gameController.addEntity(myEntity);

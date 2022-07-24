@@ -2,6 +2,7 @@ package core.networking.events.consumer.client.incoming;
 
 import com.google.inject.Inject;
 import core.app.game.GameController;
+import core.common.GameStore;
 import core.common.events.types.EventType;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.SerializationDataMissing;
@@ -17,6 +18,7 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
   final Logger LOGGER = LogManager.getLogger();
   @Inject GameController gameController;
   @Inject NetworkDataDeserializer entitySerializationConverter;
+  @Inject GameStore gameStore;
 
   @Override
   public void accept(EventType eventType) {
@@ -30,6 +32,10 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
       return;
     }
 
+    if (gameStore.doesEntityExist(entity.getUuid())) {
+      LOGGER.debug("Entity already exists: " + entity.getUuid());
+      return;
+    }
     try {
       gameController.triggerAddEntity(entity);
     } catch (ChunkNotFound e) {

@@ -8,6 +8,8 @@ import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
 import core.common.ChunkRange;
 import core.common.Clock;
+import core.common.CommonFactory;
+import core.common.Coordinates;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
@@ -31,6 +33,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
+import networking.NetworkObjects.NetworkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,7 +52,7 @@ public class ClientNetworkHandle {
   @Inject GameSettings gameSettings;
   @Inject PingService pingService;
   @Inject SyncService syncService;
-
+  @Inject NetworkDataDeserializer networkDataDeserializer;
   private ManagedChannel channel;
   private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
   private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
@@ -207,6 +210,24 @@ public class ClientNetworkHandle {
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange);
     this.send(handshakeOutgoing.toNetworkEvent());
     LOGGER.info("CLIENT INIT HANDSHAKE " + chunkRange);
+  }
+
+  public Entity getEntity(Coordinates coordinates) throws SerializationDataMissing, ChunkNotFound {
+    NetworkEvent entityNetworkEvent =
+        this.blockStub.getEntity(
+            NetworkObjects.NetworkEvent.newBuilder()
+                .setUser(user.getUserID().toString())
+                .setData(coordinates.toNetworkData())
+                .build());
+
+    Entity requestedEntity = networkDataDeserializer.createEntity(entityNetworkEvent.getData());
+
+    this.requestChunkBlocking(
+        CommonFactory.createChunkRange(requestedEntity.getCoordinatesWrapper().getCoordinates()));
+
+    gameStore.addEntity(requestedEntity);
+
+    return requestedEntity;
   }
 
   public void close() {

@@ -69,7 +69,7 @@ public class NetworkEventHandler extends EventConsumer {
             delay, NetworkDataDeserializer.createItemActionEventType(networkEvent));
       }
     } catch (Exception e) {
-      LOGGER.error(e);
+      LOGGER.error(networkEvent.toString(), e);
     }
   }
 }
