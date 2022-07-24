@@ -4,14 +4,22 @@ import static core.common.Util.calcTicksFromHours;
 
 import com.google.inject.Inject;
 import com.google.protobuf.Empty;
+import core.app.game.GameController;
 import core.app.user.User;
 import core.app.user.UserID;
 import core.chunk.ActiveChunkManager;
 import core.chunk.Chunk;
 import core.common.ChunkRange;
 import core.common.Clock;
+import core.common.Coordinates;
 import core.common.GameSettings;
 import core.common.GameStore;
+import core.common.exceptions.ChunkNotFound;
+import core.entity.ActiveEntityManager;
+import core.entity.Entity;
+import core.entity.controllers.factories.EntityControllerFactory;
+import core.entity.groups.Group;
+import core.entity.groups.GroupService;
 import core.generation.ChunkGenerationService;
 import core.networking.ConnectionStore;
 import core.networking.ObserverFactory;
@@ -21,6 +29,7 @@ import core.networking.events.types.outgoing.GetChunkOutgoingEventType;
 import core.networking.events.types.outgoing.HandshakeOutgoingEventType;
 import core.networking.ping.PingService;
 import core.networking.sync.SyncService;
+import core.networking.translation.NetworkDataDeserializer;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.Status;
@@ -49,6 +58,10 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Inject PingService pingService;
   @Inject SyncService syncService;
   @Inject Clock clock;
+  @Inject GameController gameController;
+  @Inject EntityControllerFactory entityControllerFactory;
+  @Inject GroupService groupService;
+  @Inject ActiveEntityManager activeEntityManager;
   private Server server;
 
   @Inject
@@ -108,7 +121,29 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   public void getEntity(
       NetworkObjects.NetworkEvent request,
       StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
-    responseObserver.onNext(request.toBuilder().setUser(user.getUserID().toString()).build());
+
+    UserID requestedUser = UserID.createUserID(request.getUser());
+
+    Coordinates coordinates = NetworkDataDeserializer.createCoordinates(request.getData());
+
+    Entity returnEntity = null;
+    try {
+      returnEntity =
+          gameController.createEntity(
+              coordinates,
+              (entity -> {
+                entity.setEntityController(
+                    entityControllerFactory.createRemoteBodyController(entity));
+
+                groupService.registerEntityGroup(entity.getUuid(), Group.PLAYER_GROUP);
+                activeEntityManager.registerActiveEntity(requestedUser, entity.getUuid());
+              }));
+    } catch (ChunkNotFound e) {
+      e.printStackTrace();
+      return;
+    }
+
+    responseObserver.onNext(request.toBuilder().setData(returnEntity.toNetworkData()).build());
     responseObserver.onCompleted();
   }
 
