@@ -2,7 +2,6 @@ package core.common;
 
 import com.google.inject.Inject;
 import core.chunk.Chunk;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,13 +44,13 @@ public class ChunkClockMap {
             .filter(chunk -> chunk.updateTick.time == tick.time)
             .collect(Collectors.toSet());
 
-    Set<Chunk> surroundingChunks = new HashSet<>();
-
-    for (Chunk onTick : onMyTick) {
-      surroundingChunks.addAll(onTick.getNeighborChunks());
-    }
-
-    onMyTick.addAll(surroundingChunks);
+    //    Set<Chunk> surroundingChunks = new HashSet<>();
+    //
+    //    for (Chunk onTick : onMyTick) {
+    //      surroundingChunks.addAll(onTick.getNeighborChunks());
+    //    }
+    //
+    //    onMyTick.addAll(surroundingChunks);
 
     return onMyTick;
   }
