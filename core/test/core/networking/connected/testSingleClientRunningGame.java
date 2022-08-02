@@ -32,6 +32,7 @@ import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.block.DirtBlock;
 import core.entity.block.SkyBlock;
+import core.entity.controllers.factories.EntityControllerFactory;
 import core.generation.ChunkBuilderFactory;
 import core.generation.ChunkGenerationService;
 import core.mock.GdxTestRunner;
@@ -673,13 +674,22 @@ public class testSingleClientRunningGame {
         serverInjector.getInstance(ActiveChunkManager.class);
     ConnectionStore serverConnectionStore = serverInjector.getInstance(ConnectionStore.class);
 
+    EntityControllerFactory serverEntityControllerFactory =
+        serverInjector.getInstance(EntityControllerFactory.class);
+
     User clientUser = clientInjector.getInstance(User.class);
     assert serverConnectionStore.getConnection(clientUser.getUserID()) != null;
 
     serverActiveChunkManager.addUserChunkSubscriptions(
         clientUser.getUserID(),
         CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
-    Entity myEntity = serverGameController.createEntity(CommonFactory.createCoordinates(0, 0));
+    Entity myEntity =
+        serverGameController.createEntity(
+            CommonFactory.createCoordinates(0, 0),
+            (entity -> {
+              entity.setEntityController(
+                  serverEntityControllerFactory.createRemoteBodyController(entity));
+            }));
     Coordinates coordinatesToTest = CommonFactory.createCoordinates(-1000, 1000);
     ChunkRange chunkRangeToTest = CommonFactory.createChunkRange(coordinatesToTest);
 
@@ -712,12 +722,14 @@ public class testSingleClientRunningGame {
       throws InterruptedException, EntityNotFound, ChunkNotFound {
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
-
     GameController serverGameController = serverInjector.getInstance(GameController.class);
     ChunkFactory serverChunkFactory = serverInjector.getInstance(ChunkFactory.class);
     ActiveChunkManager serverActiveChunkManager =
         serverInjector.getInstance(ActiveChunkManager.class);
     ConnectionStore serverConnectionStore = serverInjector.getInstance(ConnectionStore.class);
+
+    EntityControllerFactory serverEntityControllerFactory =
+        serverInjector.getInstance(EntityControllerFactory.class);
 
     User clientUser = clientInjector.getInstance(User.class);
     assert serverConnectionStore.getConnection(clientUser.getUserID()) != null;
@@ -732,7 +744,13 @@ public class testSingleClientRunningGame {
 
     serverActiveChunkManager.addUserChunkSubscriptions(
         clientUser.getUserID(), CommonFactory.createChunkRange(coordinatesToTest));
-    Entity myEntity = serverGameController.createEntity(coordinatesInit);
+    Entity myEntity =
+        serverGameController.createEntity(
+            coordinatesInit,
+            (entity -> {
+              entity.setEntityController(
+                  serverEntityControllerFactory.createRemoteBodyController(entity));
+            }));
 
     TimeUnit.SECONDS.sleep(1);
 
