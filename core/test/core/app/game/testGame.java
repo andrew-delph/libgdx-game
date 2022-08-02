@@ -11,6 +11,7 @@ import core.common.exceptions.SerializationDataMissing;
 import core.common.exceptions.WrongVersion;
 import core.configuration.StandAloneConfig;
 import core.entity.ActiveEntityManager;
+import core.entity.controllers.factories.EntityControllerFactory;
 import core.mock.GdxTestRunner;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
@@ -27,6 +28,7 @@ public class testGame {
   GameStore gameStore;
   ActiveEntityManager activeEntityManager;
   GameController gameController;
+  EntityControllerFactory entityControllerFactory;
 
   @Before
   public void setup()
@@ -38,6 +40,7 @@ public class testGame {
     gameStore = injector.getInstance(GameStore.class);
     activeEntityManager = injector.getInstance(ActiveEntityManager.class);
     gameController = injector.getInstance(GameController.class);
+    entityControllerFactory = injector.getInstance(EntityControllerFactory.class);
     game.start();
   }
 
@@ -50,16 +53,22 @@ public class testGame {
           check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 0);
         });
     assert check.get();
-    gameController.createEntity(CommonFactory.createCoordinates(0, 0));
+    gameController.createEntity(
+        CommonFactory.createCoordinates(0, 0),
+        (entity ->
+            entity.setEntityController(
+                entityControllerFactory.createRemoteBodyController(entity))));
     clock.waitForTick(
         3,
         () -> {
-          check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() > 1);
+          System.out.println("1:" + gameStore.getChunkOnClock(this.clock.getCurrentTick()).size());
+          check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 1);
         });
     assert check.get();
     clock.waitForTick(
         () -> {
-          check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() > 1);
+          System.out.println("2:" + gameStore.getChunkOnClock(this.clock.getCurrentTick()).size());
+          check.set(gameStore.getChunkOnClock(this.clock.getCurrentTick()).size() == 1);
         });
     assert check.get();
   }

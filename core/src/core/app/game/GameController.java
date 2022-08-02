@@ -306,15 +306,18 @@ public class GameController {
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity, Boolean swapVelocity)
       throws EntityNotFound, ChunkNotFound, BodyNotFound, DestroyBodyException {
     Vector2 velocity = null;
+    Vector2 position = null;
     Entity removeEntity = this.gameStore.getEntity(target);
     if (swapVelocity) {
       velocity = removeEntity.getBodyVelocity();
+      position = removeEntity.getBodyPosition();
     }
     this.gameStore.removeEntity(removeEntity.getUuid());
     this.gameStore.addEntity(replacementEntity);
 
     if (swapVelocity) {
       replacementEntity.setBodyVelocity(velocity);
+      replacementEntity.setBodyPosition(position);
     }
     return replacementEntity;
   }
