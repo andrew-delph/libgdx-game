@@ -4,6 +4,7 @@ import static core.app.screen.GameScreen.pathDebugRender;
 
 import com.badlogic.gdx.graphics.Color;
 import core.chunk.world.exceptions.BodyNotFound;
+import core.common.CommonFactory;
 import core.common.Coordinates;
 import core.common.GameSettings;
 import core.common.exceptions.ChunkNotFound;
@@ -32,7 +33,13 @@ public class TemplateEdge extends AbstractEdge {
 
   @Override
   public double getCost() {
-    return 1;
+    Coordinates start =
+        from.getRelativeCoordinates()
+            .applyRelativeCoordinates(CommonFactory.createCoordinates(0, 0));
+    Coordinates end =
+        to.getRelativeCoordinates().applyRelativeCoordinates(CommonFactory.createCoordinates(0, 0));
+
+    return 2 * start.calcDistance(end);
   }
 
   public List<RelativeActionEdge> getActionEdgeList() {
