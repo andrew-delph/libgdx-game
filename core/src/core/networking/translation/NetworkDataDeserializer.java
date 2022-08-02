@@ -32,6 +32,7 @@ import core.entity.block.BlockFactory;
 import core.entity.block.DirtBlock;
 import core.entity.block.SkyBlock;
 import core.entity.block.StoneBlock;
+import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
@@ -57,6 +58,7 @@ public class NetworkDataDeserializer {
   @Inject BlockFactory blockFactory;
   @Inject ChunkFactory chunkFactory;
   @Inject GameStore gameStore;
+  @Inject EntityControllerFactory entityControllerFactory;
 
   public static ChunkRange createChunkRange(NetworkObjects.NetworkData networkData) {
     // TODO put in translations
@@ -444,8 +446,13 @@ public class NetworkDataDeserializer {
       entity = entityFactory.createOrb(CommonFactory.createCoordinates(0, 0));
     } else if (classString.equals(Entity.class.getName())) {
       entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
+
     } else {
       throw new SerializationDataMissing("classString not recognized: " + classString);
+    }
+
+    if (!(entity instanceof Block)) {
+      entity.setEntityController(entityControllerFactory.createRemoteBodyController(entity));
     }
 
     List<Attribute> attributeList = new LinkedList<>();
