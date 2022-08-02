@@ -196,7 +196,8 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     int tickTimeout = Integer.MAX_VALUE;
 
     for (Entity entity : this.chunkMap.values()) {
-      if (entity.getEntityController() != null) entity.getEntityController().beforeWorldUpdate();
+      if (entity.getEntityController() == null) continue;
+      entity.getEntityController().beforeWorldUpdate();
       try {
         this.gameStore.syncEntity(entity);
       } catch (EntityNotFound e) {

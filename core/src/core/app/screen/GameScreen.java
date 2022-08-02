@@ -94,6 +94,7 @@ public class GameScreen extends ApplicationAdapter {
 
   protected void createMyEntity() {
     myEntity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 2));
+    myEntity.setEntityController(entityControllerFactory.createEntityUserController(myEntity));
     try {
       myEntity = gameController.addEntity(myEntity);
     } catch (ChunkNotFound e) {
@@ -101,7 +102,6 @@ public class GameScreen extends ApplicationAdapter {
       this.dispose();
     }
     LOGGER.info("my entity " + myEntity.getUuid());
-    myEntity.setEntityController(entityControllerFactory.createEntityUserController(myEntity));
   }
 
   @Override
