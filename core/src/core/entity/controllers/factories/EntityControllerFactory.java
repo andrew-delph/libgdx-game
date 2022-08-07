@@ -99,4 +99,9 @@ public abstract class EntityControllerFactory {
         orbContact,
         entity);
   }
+
+  public EntityController createEntityController(Entity entity) {
+    return new EntityController(
+        gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
+  }
 }

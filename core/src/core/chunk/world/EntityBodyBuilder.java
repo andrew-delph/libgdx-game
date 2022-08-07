@@ -287,6 +287,46 @@ public class EntityBodyBuilder {
     return new Pair<>(entity.getUuid(), theBody);
   }
 
+  public static Pair<UUID, Body> createWaterPosition(
+      World world, ChunkRange chunkRange, Entity entity) {
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyType.DynamicBody;
+    bodyDef.position.set(
+        entity.getCoordinatesWrapper().getCoordinates().getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.getCoordinatesWrapper().getCoordinates().getYReal() * GameSettings.PHYSICS_SCALE);
+
+    Body theBody = world.createBody(bodyDef);
+    theBody.setFixedRotation(true);
+
+    PolygonShape blockingShape = new PolygonShape();
+    blockingShape.setAsBox( //  set as circle
+        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.1f,
+        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2.1f);
+    FixtureDef blockingFixtureDef = new FixtureDef();
+    blockingFixtureDef.shape = blockingShape;
+    blockingFixtureDef.density = 1f;
+    blockingFixtureDef.restitution = 0;
+    //    fixtureDef.isSensor = true;
+    Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
+    orbFixture.setFilterData(entityFilter());
+
+    //    PolygonShape sensorShape = new PolygonShape();
+    //    sensorShape.setAsBox(
+    //        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
+    //        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
+    //    FixtureDef sensorFixtureDef = new FixtureDef();
+    //    sensorFixtureDef.shape = sensorShape;
+    //    sensorFixtureDef.density = 1f;
+    //    sensorFixtureDef.restitution = 0;
+    //    sensorFixtureDef.isSensor = true;
+
+    //    Fixture sensorFixture = theBody.createFixture(sensorFixtureDef);
+    //    sensorFixture.setUserData(new OrbSensor(entity, chunkRange));
+    //    sensorFixture.setFilterData(projectileFilter());
+
+    return new Pair<>(entity.getUuid(), theBody);
+  }
+
   public static Filter entityFilter() {
     // entity collides with blocks
     Filter filter = new Filter();
