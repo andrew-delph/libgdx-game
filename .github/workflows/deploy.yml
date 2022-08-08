@@ -42,13 +42,13 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: game-server-task.json
-          container-name: game-container
-          image: "${{ steps.login-ecr.outputs.registry }}/game:${{ steps.version_file.outputs.content }}"
+#      - name: Fill in the new image ID in the Amazon ECS task definition
+#        id: task-def
+#        uses: aws-actions/amazon-ecs-render-task-definition@v1
+#        with:
+#          task-definition: game-server-task.json
+#          container-name: game-container
+#          image: "${{ steps.login-ecr.outputs.registry }}/game:${{ steps.version_file.outputs.content }}"
 
 #      - name: Deploy Amazon ECS task definition
 #        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
