@@ -1,13 +1,13 @@
-name: Deploy
-
-on:
-  workflow_run:
-    workflows: [ Build ]
-    types: [ completed ]
-    branches: [ dev ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+#name: Deploy
+#
+#on:
+#  workflow_run:
+#    workflows: [ Build ]
+#    types: [ completed ]
+#    branches: [ dev ]
+#
+#  # Allows you to run this workflow manually from the Actions tab
+#  workflow_dispatch:
 
 #jobs:
 #  deploy-ecs:
