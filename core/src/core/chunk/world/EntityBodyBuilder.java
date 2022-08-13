@@ -306,23 +306,32 @@ public class EntityBodyBuilder {
     blockingFixtureDef.shape = blockingShape;
     blockingFixtureDef.density = 1f;
     blockingFixtureDef.restitution = 0;
-    //    fixtureDef.isSensor = true;
     Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
-    orbFixture.setFilterData(entityFilter());
+    orbFixture.setFilterData(waterPositionFilter());
 
-    //    PolygonShape sensorShape = new PolygonShape();
-    //    sensorShape.setAsBox(
-    //        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
-    //        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
-    //    FixtureDef sensorFixtureDef = new FixtureDef();
-    //    sensorFixtureDef.shape = sensorShape;
-    //    sensorFixtureDef.density = 1f;
-    //    sensorFixtureDef.restitution = 0;
-    //    sensorFixtureDef.isSensor = true;
+    return new Pair<>(entity.getUuid(), theBody);
+  }
 
-    //    Fixture sensorFixture = theBody.createFixture(sensorFixtureDef);
-    //    sensorFixture.setUserData(new OrbSensor(entity, chunkRange));
-    //    sensorFixture.setFilterData(projectileFilter());
+  public static Pair<UUID, Body> createWater(World world, ChunkRange chunkRange, Entity entity) {
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyType.StaticBody;
+    bodyDef.position.set(
+        entity.getCoordinatesWrapper().getCoordinates().getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.getCoordinatesWrapper().getCoordinates().getYReal() * GameSettings.PHYSICS_SCALE);
+
+    Body theBody = world.createBody(bodyDef);
+    theBody.setFixedRotation(true);
+
+    PolygonShape blockingShape = new PolygonShape();
+    blockingShape.setAsBox(
+        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.1f,
+        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2.1f);
+    FixtureDef blockingFixtureDef = new FixtureDef();
+    blockingFixtureDef.shape = blockingShape;
+    blockingFixtureDef.density = 1f;
+    blockingFixtureDef.restitution = 0;
+    Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
+    orbFixture.setFilterData(waterPositionFilter());
 
     return new Pair<>(entity.getUuid(), theBody);
   }
@@ -354,8 +363,16 @@ public class EntityBodyBuilder {
   public static Filter projectileFilter() {
     // collides with entities and blocks
     Filter filter = new Filter();
+    filter.categoryBits = 0b1000;
+    filter.maskBits = 0b1010;
+    return filter;
+  }
+
+  public static Filter waterPositionFilter() {
+    // collides with blocks and waterPosition
+    Filter filter = new Filter();
     filter.categoryBits = 0b100;
-    filter.maskBits = 0b11;
+    filter.maskBits = 0b110;
     return filter;
   }
 }

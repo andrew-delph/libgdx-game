@@ -35,7 +35,8 @@ import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
 import core.entity.misc.Turret;
-import core.entity.misc.WaterPosition;
+import core.entity.misc.water.Water;
+import core.entity.misc.water.WaterPosition;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import java.util.UUID;
@@ -142,9 +143,20 @@ public class GameController {
     return entity;
   }
 
-  public WaterPosition createWater(Coordinates coordinates) throws ChunkNotFound { // TODO remove
+  public WaterPosition createWaterPosition(Coordinates coordinates) throws ChunkNotFound {
     WaterPosition entity = entityFactory.createWaterPosition(coordinates);
-    entity.setEntityController(entityControllerFactory.createEntityController(entity));
+    entity.setEntityController(entityControllerFactory.createWaterPositionController(entity));
+    this.gameStore.addEntity(entity);
+    //    CreateEntityOutgoingEventType createEntityOutgoingEvent =
+    //        EventTypeFactory.createCreateEntityOutgoingEvent(
+    //            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
+    //    this.eventService.fireEvent(createEntityOutgoingEvent);
+    return entity;
+  }
+
+  public Water createWater(Coordinates coordinates) throws ChunkNotFound {
+    Water entity = entityFactory.createWater(coordinates.getBase());
+    entity.setEntityController(entityControllerFactory.createWaterController(entity));
     this.gameStore.addEntity(entity);
     //    CreateEntityOutgoingEventType createEntityOutgoingEvent =
     //        EventTypeFactory.createCreateEntityOutgoingEvent(

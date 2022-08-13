@@ -28,6 +28,7 @@ import core.entity.collision.projectile.ProjectileContact;
 import core.entity.collision.right.EntityRightContact;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.groups.GroupService;
+import core.entity.misc.water.WaterService;
 import core.entity.pathfinding.EdgeStore;
 import core.generation.BlockGenerator;
 import core.generation.ChunkBuilderFactory;
@@ -81,5 +82,6 @@ public abstract class MainConfig extends AbstractModule {
     bind(OrbContact.class).asEagerSingleton();
     bind(GroupService.class).asEagerSingleton();
     bind(AIManager.class).asEagerSingleton();
+    bind(WaterService.class).asEagerSingleton();
   }
 }
