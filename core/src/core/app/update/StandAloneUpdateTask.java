@@ -8,6 +8,7 @@ import core.common.Clock;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.entity.ActiveEntityManager;
+import core.entity.misc.water.WaterService;
 import core.generation.ChunkGenerationService;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +29,7 @@ public class StandAloneUpdateTask extends UpdateTask {
   @Inject BaseCamera baseCamera;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject ChunkGenerationService chunkGenerationService;
+  @Inject WaterService waterService;
 
   public StandAloneUpdateTask() {}
 
@@ -58,5 +60,7 @@ public class StandAloneUpdateTask extends UpdateTask {
     }
 
     this.eventService.firePostUpdateEvents();
+
+    waterService.reset();
   }
 }
