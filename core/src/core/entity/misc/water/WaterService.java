@@ -15,10 +15,10 @@ public class WaterService {
   }
 
   public void registerPosition(Coordinates coordinates) {
-    waterSet.add(coordinates);
+    waterSet.add(coordinates.getBase());
   }
 
   public boolean hasPosition(Coordinates coordinates) {
-    return waterSet.contains(coordinates);
+    return waterSet.contains(coordinates.getBase());
   }
 }
