@@ -61,6 +61,6 @@ public class StandAloneUpdateTask extends UpdateTask {
 
     this.eventService.firePostUpdateEvents();
 
-    waterService.reset();
+    if (clock.getCurrentTick().time % 5 == 0)  waterService.reset();
   }
 }

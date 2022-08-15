@@ -31,4 +31,9 @@ public class Water extends Entity {
       }
     };
   }
+
+  @Override
+  public String getTextureName() {
+    return "water.png";
+  }
 }

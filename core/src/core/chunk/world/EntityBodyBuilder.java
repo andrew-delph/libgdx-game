@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -298,12 +299,15 @@ public class EntityBodyBuilder {
     Body theBody = world.createBody(bodyDef);
     theBody.setFixedRotation(true);
 
+    CircleShape circleShape = new CircleShape();
+    circleShape.setRadius((Block.staticHeight * GameSettings.PHYSICS_SCALE) / 3.1f);
+
     PolygonShape blockingShape = new PolygonShape();
     blockingShape.setAsBox( //  set as circle
         (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.1f,
         (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2.1f);
     FixtureDef blockingFixtureDef = new FixtureDef();
-    blockingFixtureDef.shape = blockingShape;
+    blockingFixtureDef.shape = circleShape;
     blockingFixtureDef.density = 1f;
     blockingFixtureDef.restitution = 0;
     Fixture orbFixture = theBody.createFixture(blockingFixtureDef);

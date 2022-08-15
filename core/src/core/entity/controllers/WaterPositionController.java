@@ -35,11 +35,14 @@ public class WaterPositionController extends EntityController {
     super.afterWorldUpdate();
     // on this position create water and register it
     Coordinates coordinates = this.entity.getCoordinatesWrapper().getCoordinates();
+
+    // TODO create a list for each of 4 coordposition. create water for each corner
+
     boolean hasWater = waterService.hasPosition(coordinates);
 
     if (!hasWater) {
-      gameController.createWater(coordinates);
       waterService.registerPosition(coordinates);
+      gameController.createWater(coordinates);
     }
   }
 }
