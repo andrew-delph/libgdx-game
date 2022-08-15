@@ -9,6 +9,7 @@ import core.chunk.world.CreateBodyCallable;
 import core.chunk.world.EntityBodyBuilder;
 import core.common.Clock;
 import core.common.Coordinates;
+import core.common.GameSettings;
 import core.entity.Entity;
 import java.util.UUID;
 
@@ -20,6 +21,8 @@ public class WaterPosition extends Entity {
       EntityBodyBuilder entityBodyBuilder,
       Coordinates coordinates) {
     super(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    this.setWidth((int) (GameSettings.PIXEL_SCALE * 0.5));
+    this.setHeight((int) (GameSettings.PIXEL_SCALE * 0.5));
   }
 
   @Override

@@ -330,12 +330,12 @@ public class EntityBodyBuilder {
     blockingShape.setAsBox(
         (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.1f,
         (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2.1f);
+
     FixtureDef blockingFixtureDef = new FixtureDef();
+    blockingFixtureDef.isSensor = true;
     blockingFixtureDef.shape = blockingShape;
     blockingFixtureDef.density = 1f;
     blockingFixtureDef.restitution = 0;
-    Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
-    orbFixture.setFilterData(waterPositionFilter());
 
     return new Pair<>(entity.getUuid(), theBody);
   }

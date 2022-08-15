@@ -1,13 +1,17 @@
 package core.entity.controllers;
 
 import core.app.game.GameController;
+import core.common.CommonFactory;
 import core.common.Coordinates;
+import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.entity.Entity;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.misc.water.WaterService;
 import core.networking.events.EventTypeFactory;
+import java.util.LinkedList;
+import java.util.List;
 
 public class WaterPositionController extends EntityController {
 
@@ -38,11 +42,30 @@ public class WaterPositionController extends EntityController {
 
     // TODO create a list for each of 4 coordposition. create water for each corner
 
-    boolean hasWater = waterService.hasPosition(coordinates);
+    List<Coordinates> touching = new LinkedList<>();
 
-    if (!hasWater) {
-      waterService.registerPosition(coordinates);
-      gameController.createWater(coordinates);
+    float theSize = entity.getHeight() / (float) GameSettings.PIXEL_SCALE;
+
+    touching.add(coordinates); // bottom left
+    touching.add(
+        CommonFactory.createCoordinates(
+            coordinates.getXReal(), coordinates.getYReal() + theSize)); // top left
+    touching.add(
+        CommonFactory.createCoordinates(
+            coordinates.getXReal() + theSize, coordinates.getYReal() + theSize)); // top right
+    touching.add(
+        CommonFactory.createCoordinates(
+            coordinates.getXReal() + theSize, coordinates.getYReal())); // bottom right
+
+    for (Coordinates corner : touching) {
+      //      System.out.println(corner);
+      boolean hasWater = waterService.hasPosition(corner);
+      if (!hasWater) {
+        waterService.registerPosition(corner);
+        gameController.createWater(corner);
+      }
     }
+
+    //    System.out.println();
   }
 }
