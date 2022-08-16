@@ -297,7 +297,6 @@ public class EntityBodyBuilder {
         entity.getCoordinatesWrapper().getCoordinates().getYReal() * GameSettings.PHYSICS_SCALE);
 
     Body theBody = world.createBody(bodyDef);
-    theBody.setFixedRotation(true);
 
     CircleShape circleShape = new CircleShape();
     circleShape.setRadius((Block.staticHeight * GameSettings.PHYSICS_SCALE) / 3.1f);
@@ -330,12 +329,6 @@ public class EntityBodyBuilder {
     blockingShape.setAsBox(
         (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.1f,
         (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2.1f);
-
-    FixtureDef blockingFixtureDef = new FixtureDef();
-    blockingFixtureDef.isSensor = true;
-    blockingFixtureDef.shape = blockingShape;
-    blockingFixtureDef.density = 1f;
-    blockingFixtureDef.restitution = 0;
 
     return new Pair<>(entity.getUuid(), theBody);
   }
