@@ -18,7 +18,13 @@ public class WaterService {
     waterSet.add(coordinates.getBase());
   }
 
-  public boolean hasPosition(Coordinates coordinates) {
+  public synchronized boolean hasPosition(Coordinates coordinates) {
     return waterSet.contains(coordinates.getBase());
+  }
+
+  public synchronized boolean hasPosition(Coordinates coordinates, Runnable runnable) {
+    boolean hasWater = this.hasPosition(coordinates);
+    if (!hasWater) runnable.run();
+    return hasWater;
   }
 }

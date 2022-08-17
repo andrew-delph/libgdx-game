@@ -39,7 +39,7 @@ public class EntityUserController extends EntityController {
 
   @Override
   public void beforeWorldUpdate() throws EntityNotFound, ChunkNotFound, BodyNotFound {
-    if (Gdx.input.isKeyJustPressed(Keys.Y)) {
+    if (Gdx.input.isKeyPressed(Keys.Y)) {
       gameController.createWaterPosition(this.entity.getCenter());
     }
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {

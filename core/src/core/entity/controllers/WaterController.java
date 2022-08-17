@@ -35,8 +35,11 @@ public class WaterController extends EntityController {
     super.afterWorldUpdate();
     // if this position isnt register then delete this entity
     Coordinates coordinates = this.entity.getCoordinatesWrapper().getCoordinates();
-    if (!waterService.hasPosition(coordinates)) {
-      gameController.removeEntity(this.entity.getUuid());
-    }
+    waterService.hasPosition(
+        coordinates,
+        () -> {
+          gameController.removeEntity(this.entity.getUuid());
+          waterService.registerPosition(coordinates);
+        });
   }
 }

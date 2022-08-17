@@ -146,22 +146,14 @@ public class GameController {
   public WaterPosition createWaterPosition(Coordinates coordinates) throws ChunkNotFound {
     WaterPosition entity = entityFactory.createWaterPosition(coordinates);
     entity.setEntityController(entityControllerFactory.createWaterPositionController(entity));
-    this.gameStore.addEntity(entity);
-    //    CreateEntityOutgoingEventType createEntityOutgoingEvent =
-    //        EventTypeFactory.createCreateEntityOutgoingEvent(
-    //            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
-    //    this.eventService.fireEvent(createEntityOutgoingEvent);
+    eventService.queuePostUpdateEvent(EventTypeFactory.createCreateEntityEventType(entity));
     return entity;
   }
 
   public Water createWater(Coordinates coordinates) throws ChunkNotFound {
     Water entity = entityFactory.createWater(coordinates.getBase());
     entity.setEntityController(entityControllerFactory.createWaterController(entity));
-    this.gameStore.addEntity(entity);
-    //    CreateEntityOutgoingEventType createEntityOutgoingEvent =
-    //        EventTypeFactory.createCreateEntityOutgoingEvent(
-    //            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
-    //    this.eventService.fireEvent(createEntityOutgoingEvent);
+    eventService.queuePostUpdateEvent(EventTypeFactory.createCreateEntityEventType(entity));
     return entity;
   }
 
