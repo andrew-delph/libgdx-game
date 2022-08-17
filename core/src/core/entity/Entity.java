@@ -1,13 +1,16 @@
 package core.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.base.Objects;
 import com.sun.tools.javac.util.Pair;
 import core.app.screen.assets.BaseAssetManager;
+import core.app.screen.assets.animations.AnimationManager;
 import core.app.screen.assets.animations.AnimationState;
 import core.chunk.Chunk;
 import core.chunk.world.CreateBodyCallable;
@@ -32,6 +35,7 @@ import core.entity.controllers.events.types.EntityEventTypeFactory;
 import core.networking.events.interfaces.SerializeNetworkData;
 import core.networking.translation.NetworkDataSerializer;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import networking.NetworkObjects;
 
@@ -46,6 +50,7 @@ public class Entity implements SerializeNetworkData {
   public Sprite sprite;
   public Health health;
   BaseAssetManager baseAssetManager;
+  float stateTime;
   private CoordinatesWrapper coordinatesWrapper;
   private UUID uuid;
   private Chunk chunk;
@@ -70,6 +75,7 @@ public class Entity implements SerializeNetworkData {
     this.uuid = UUID.randomUUID();
     this.health = new Health(100);
     this.bag = new InventoryBag();
+    stateTime = (float) ThreadLocalRandom.current().nextDouble(0, 20);
   }
 
   public AnimationStateWrapper getAnimationStateWrapper() {
@@ -157,6 +163,26 @@ public class Entity implements SerializeNetworkData {
         return EntityBodyBuilder.createEntityBody(world, chunk.chunkRange, Entity.this);
       }
     };
+  }
+
+  public void render(AnimationManager animationManager, SpriteBatch batch) {
+    stateTime += Gdx.graphics.getDeltaTime();
+
+    Vector2 v2 = this.getCoordinatesWrapper().getCoordinates().toRenderVector2();
+    if (animationManager.getGameAnimation(this.getClass()) != null) {
+      batch.draw(
+          animationManager
+              .getGameAnimation(this.getClass())
+              .getAnimation(this.getAnimationStateWrapper().getAnimationState())
+              .getKeyFrame(stateTime, true),
+          v2.x,
+          v2.y,
+          this.getWidth(),
+          this.getHeight());
+    } else {
+      this.renderSync();
+      this.sprite.draw(batch);
+    }
   }
 
   public synchronized void renderSync() {
