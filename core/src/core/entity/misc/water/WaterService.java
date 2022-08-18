@@ -23,7 +23,7 @@ public class WaterService {
   }
 
   public synchronized boolean hasPosition(Coordinates coordinates, Runnable runnable) {
-    boolean hasWater = this.hasPosition(coordinates);
+    boolean hasWater = this.hasPosition(coordinates.getBase());
     if (!hasWater) runnable.run();
     return hasWater;
   }
