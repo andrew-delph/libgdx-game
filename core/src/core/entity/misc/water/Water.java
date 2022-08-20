@@ -31,7 +31,7 @@ public class Water extends Entity {
     if (this.sprite == null) {
       this.sprite = new Sprite((Texture) this.baseAssetManager.get(this.getTextureName()));
       this.sprite.setSize(GameSettings.PIXEL_SCALE, GameSettings.PIXEL_SCALE);
-      sprite.setAlpha(0.1f);
+      sprite.setAlpha(0.7f);
     }
     this.sprite.setPosition(
         this.getCoordinatesWrapper().getCoordinates().getXReal() * GameSettings.PIXEL_SCALE,

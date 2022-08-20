@@ -49,7 +49,7 @@ public class Entity implements SerializeNetworkData {
   public EntityBodyBuilder entityBodyBuilder;
   public Sprite sprite;
   public Health health;
-  BaseAssetManager baseAssetManager;
+  protected BaseAssetManager baseAssetManager;
   float stateTime;
   private CoordinatesWrapper coordinatesWrapper;
   private UUID uuid;

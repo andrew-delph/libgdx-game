@@ -7,6 +7,7 @@ import core.common.ChunkRange;
 import core.common.Clock;
 import core.common.GameStore;
 import core.common.events.EventService;
+import core.common.exceptions.ChunkNotFound;
 import core.entity.ActiveEntityManager;
 import core.entity.misc.water.WaterService;
 import core.generation.ChunkGenerationService;
@@ -61,6 +62,10 @@ public class StandAloneUpdateTask extends UpdateTask {
 
     this.eventService.firePostUpdateEvents();
 
-    if (clock.getCurrentTick().time % 5 == 0) waterService.reset();
+    try {
+      waterService.update();
+    } catch (ChunkNotFound e) {
+      e.printStackTrace();
+    }
   }
 }

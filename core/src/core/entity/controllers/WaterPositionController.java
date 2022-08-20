@@ -6,7 +6,6 @@ import core.common.Coordinates;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
-import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.misc.water.WaterService;
@@ -38,10 +37,7 @@ public class WaterPositionController extends EntityController {
   @Override
   public void afterWorldUpdate() throws Exception {
     super.afterWorldUpdate();
-    // on this position create water and register it
     Coordinates coordinates = this.entity.getCoordinatesWrapper().getCoordinates();
-
-    // TODO create a list for each of 4 coordposition. create water for each corner
 
     List<Coordinates> touching = new LinkedList<>();
 
@@ -60,20 +56,7 @@ public class WaterPositionController extends EntityController {
 
     for (Coordinates corner : touching) {
       corner = corner.getBase();
-      //      System.out.println(corner);
-      Coordinates finalCorner = corner;
-      waterService.hasPosition(
-          corner,
-          () -> {
-            waterService.registerPosition(finalCorner);
-            try {
-              gameController.createWater(finalCorner);
-            } catch (ChunkNotFound e) {
-              e.printStackTrace();
-            }
-          });
+      waterService.notifyPosition(corner);
     }
-
-    //    System.out.println();
   }
 }

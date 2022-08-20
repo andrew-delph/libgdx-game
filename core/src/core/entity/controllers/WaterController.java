@@ -1,7 +1,6 @@
 package core.entity.controllers;
 
 import core.app.game.GameController;
-import core.common.Coordinates;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.entity.Entity;
@@ -33,12 +32,5 @@ public class WaterController extends EntityController {
   @Override
   public void afterWorldUpdate() throws Exception {
     super.afterWorldUpdate();
-    // if this position isnt register then delete this entity
-    Coordinates coordinates = this.entity.getCoordinatesWrapper().getCoordinates().getBase();
-    waterService.hasPosition(
-        coordinates,
-        () -> {
-          gameController.removeEntity(this.entity.getUuid());
-        });
   }
 }
