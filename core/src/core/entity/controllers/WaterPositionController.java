@@ -37,7 +37,13 @@ public class WaterPositionController extends EntityController {
 
   @Override
   public void afterWorldUpdate() throws Exception {
-    super.afterWorldUpdate();
+    Coordinates moveTo =
+        CommonFactory.createCoordinates(
+            this.entity.getBodyPosition().x / GameSettings.PHYSICS_SCALE,
+            this.entity.getBodyPosition().y / GameSettings.PHYSICS_SCALE);
+    if (!this.entity.getCoordinatesWrapper().getCoordinates().equals(moveTo))
+      gameController.moveEntity(this.entity.getUuid(), moveTo);
+
     Coordinates coordinates = this.entity.getCoordinatesWrapper().getCoordinates();
 
     List<Coordinates> touching = new LinkedList<>();
