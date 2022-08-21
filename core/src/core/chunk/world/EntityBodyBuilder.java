@@ -266,7 +266,7 @@ public class EntityBodyBuilder {
     FixtureDef blockingFixtureDef = new FixtureDef();
     blockingFixtureDef.shape = blockingShape;
     blockingFixtureDef.density = 1f;
-    blockingFixtureDef.restitution = 0;
+    blockingFixtureDef.restitution = 1;
     //    fixtureDef.isSensor = true;
     Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
     orbFixture.setFilterData(entityFilter());
@@ -278,12 +278,15 @@ public class EntityBodyBuilder {
     FixtureDef sensorFixtureDef = new FixtureDef();
     sensorFixtureDef.shape = sensorShape;
     sensorFixtureDef.density = 1f;
-    sensorFixtureDef.restitution = 0;
+    sensorFixtureDef.restitution = 1;
     sensorFixtureDef.isSensor = true;
 
     Fixture sensorFixture = theBody.createFixture(sensorFixtureDef);
     sensorFixture.setUserData(new OrbSensor(entity, chunkRange));
     sensorFixture.setFilterData(projectileFilter());
+
+    theBody.setLinearDamping(0.1f);
+    theBody.setAngularDamping(0.1f);
 
     return new Pair<>(entity.getUuid(), theBody);
   }
