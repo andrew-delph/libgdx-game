@@ -32,6 +32,7 @@ public class WaterPositionController extends EntityController {
   @Override
   public void beforeWorldUpdate() throws Exception {
     super.beforeWorldUpdate();
+    //    entity.setBodyVelocity(entity.getBodyVelocity().scl(20, 1));
   }
 
   @Override

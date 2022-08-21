@@ -299,18 +299,17 @@ public class EntityBodyBuilder {
     Body theBody = world.createBody(bodyDef);
 
     CircleShape circleShape = new CircleShape();
-    circleShape.setRadius((Block.staticHeight * GameSettings.PHYSICS_SCALE) / 3.1f);
+    circleShape.setRadius((Block.staticHeight * GameSettings.PHYSICS_SCALE) / 10.1f);
 
-    PolygonShape blockingShape = new PolygonShape();
-    blockingShape.setAsBox( //  set as circle
-        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.1f,
-        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2.1f);
     FixtureDef blockingFixtureDef = new FixtureDef();
     blockingFixtureDef.shape = circleShape;
-    blockingFixtureDef.density = 1f;
+    blockingFixtureDef.density = 5f;
     blockingFixtureDef.restitution = 0;
     Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
     orbFixture.setFilterData(waterPositionFilter());
+
+    //    theBody.setGravityScale(0.1f);
+    theBody.resetMassData();
 
     return new Pair<>(entity.getUuid(), theBody);
   }

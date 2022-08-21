@@ -182,11 +182,13 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       neighborEntitySet.remove(entity);
     }
 
+    // update the neighbor body position and velocity
     for (Entity entity : currentNeighborEntitySet) {
       if (!worldWrapper.hasBody(entity)) {
         continue;
       }
       worldWrapper.setPosition(entity, entity.getBodyPosition());
+      worldWrapper.setVelocity(entity, entity.getBodyVelocity());
     }
   }
 
