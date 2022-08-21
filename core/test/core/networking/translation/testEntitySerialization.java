@@ -95,4 +95,23 @@ public class testEntitySerialization {
     assert uuid.equals(gameStore.getEntity(uuid).getUuid());
     assert gameStore.getEntity(uuid).getClass().getName().equals(block.getClass().getName());
   }
+
+  @Test
+  public void testCreateWater() throws EntityNotFound, InterruptedException {
+    Entity water = entityFactory.createWater(CommonFactory.createCoordinates(0, 0));
+    UUID uuid = water.getUuid();
+    gameStore.addChunk(
+        chunkFactory.create(
+            CommonFactory.createChunkRange(water.getCoordinatesWrapper().getCoordinates())));
+
+    networkEventHandler.handleNetworkEvent(
+        EventTypeFactory.createCreateEntityOutgoingEvent(
+                water.toNetworkData(),
+                CommonFactory.createChunkRange(water.getCoordinatesWrapper().getCoordinates()))
+            .toNetworkEvent());
+
+    TimeUnit.SECONDS.sleep(1);
+    assert uuid.equals(gameStore.getEntity(uuid).getUuid());
+    assert gameStore.getEntity(uuid).getClass().getName().equals(water.getClass().getName());
+  }
 }

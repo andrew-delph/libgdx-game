@@ -36,6 +36,7 @@ import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
 import core.entity.misc.Turret;
+import core.entity.misc.water.Water;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.ChunkSwapIncomingEventType;
 import core.networking.events.types.incoming.CreateEntityIncomingEventType;
@@ -444,6 +445,8 @@ public class NetworkDataDeserializer {
       entity = entityFactory.createOrb(CommonFactory.createCoordinates(0, 0));
     } else if (classString.equals(Entity.class.getName())) {
       entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
+    } else if (classString.equals(Water.class.getName())) {
+      entity = entityFactory.createWater(CommonFactory.createCoordinates(0, 0));
     } else {
       throw new SerializationDataMissing("classString not recognized: " + classString);
     }
