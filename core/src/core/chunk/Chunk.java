@@ -28,6 +28,7 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import networking.NetworkObjects;
+import networking.NetworkObjects.NetworkData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -289,6 +290,8 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
   public NetworkObjects.NetworkData toNetworkData() {
     NetworkObjects.NetworkData.Builder networkDataBuilder = NetworkObjects.NetworkData.newBuilder();
     for (Entity entity : this.getEntityList()) {
+      NetworkData networkData = entity.toNetworkData();
+      if (networkData == null) continue;
       networkDataBuilder.addChildren(entity.toNetworkData());
     }
     networkDataBuilder.addChildren(this.chunkRange.toNetworkData());

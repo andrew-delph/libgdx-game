@@ -5,7 +5,9 @@ import core.chunk.Chunk;
 import core.common.Clock;
 import core.common.GameStore;
 import core.common.events.EventService;
+import core.common.exceptions.ChunkNotFound;
 import core.entity.ActiveEntityManager;
+import core.entity.misc.water.WaterService;
 import core.generation.ChunkGenerationService;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -23,6 +25,8 @@ public class ServerUpdateTask extends UpdateTask {
   @Inject EventService eventService;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject ChunkGenerationService chunkGenerationService;
+
+  @Inject WaterService waterService;
 
   public ServerUpdateTask() {}
 
@@ -47,5 +51,11 @@ public class ServerUpdateTask extends UpdateTask {
       e.printStackTrace();
     }
     this.eventService.firePostUpdateEvents();
+
+    try {
+      waterService.update();
+    } catch (ChunkNotFound e) {
+      e.printStackTrace();
+    }
   }
 }

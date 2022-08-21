@@ -42,6 +42,9 @@ public class WaterPositionController extends EntityController {
             this.entity.getBodyPosition().x / GameSettings.PHYSICS_SCALE,
             this.entity.getBodyPosition().y / GameSettings.PHYSICS_SCALE);
     if (!this.entity.getCoordinatesWrapper().getCoordinates().equals(moveTo))
+      //      this.entity.setCoordinatesWrapper(
+      //          new CoordinatesWrapper(
+      //              moveTo)); // might not be the best way to avoid sending updates over network
       gameController.moveEntity(this.entity.getUuid(), moveTo);
 
     Coordinates coordinates = this.entity.getCoordinatesWrapper().getCoordinates();
