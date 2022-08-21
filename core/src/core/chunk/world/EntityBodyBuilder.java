@@ -275,6 +275,7 @@ public class EntityBodyBuilder {
     sensorShape.setAsBox(
         (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
         (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
+
     FixtureDef sensorFixtureDef = new FixtureDef();
     sensorFixtureDef.shape = sensorShape;
     sensorFixtureDef.density = 1f;
@@ -331,6 +332,16 @@ public class EntityBodyBuilder {
     blockingShape.setAsBox(
         (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.1f,
         (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2.1f);
+
+    FixtureDef fixtureDef = new FixtureDef();
+    fixtureDef.shape = blockingShape;
+    fixtureDef.density = 1f;
+    fixtureDef.restitution = 0;
+    fixtureDef.isSensor = true;
+    Fixture projectileFixture = theBody.createFixture(fixtureDef);
+
+    projectileFixture.setFilterData(ladderFilter());
+    projectileFixture.setUserData(new LadderSensor(entity, chunkRange));
 
     return new Pair<>(entity.getUuid(), theBody);
   }
