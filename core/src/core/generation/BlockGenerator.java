@@ -8,6 +8,7 @@ import core.entity.EntityFactory;
 import core.entity.block.BlockFactory;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.misc.Orb;
+import core.entity.misc.water.WaterPosition;
 
 public class BlockGenerator {
 
@@ -21,6 +22,11 @@ public class BlockGenerator {
 
   public void generate(Coordinates coordinates) throws ChunkNotFound {
     if (coordinates.getY() > 0) {
+      if (Math.random() < 0.1) {
+        WaterPosition water = entityFactory.createWaterPosition(coordinates);
+        water.setEntityController(entityControllerFactory.createWaterPositionController(water));
+        gameController.triggerAddEntity(water);
+      }
       gameController.triggerAddEntity(blockFactory.createSky(coordinates));
     } else if (coordinates.getY() == 0) {
       gameController.triggerAddEntity(blockFactory.createStone(coordinates));

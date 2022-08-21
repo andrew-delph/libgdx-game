@@ -153,7 +153,15 @@ public class GameController {
   public Water createWater(Coordinates coordinates) throws ChunkNotFound {
     Water entity = entityFactory.createWater(coordinates.getBase());
     entity.setEntityController(entityControllerFactory.createWaterController(entity));
+
+    // internal event
     eventService.queuePostUpdateEvent(EventTypeFactory.createCreateEntityEventType(entity));
+
+    // outgoing event
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
+        EventTypeFactory.createCreateEntityOutgoingEvent(
+            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
+    this.eventService.fireEvent(createEntityOutgoingEvent);
     return entity;
   }
 
