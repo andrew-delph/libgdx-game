@@ -57,7 +57,7 @@ public class StandAloneUpdateTask extends UpdateTask {
       Set<Chunk> chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
       LOGGER.info("Updating " + chunksOnTick.size() + " chunks.");
 
-      if(chunksOnTick.size() > 100){
+      if (chunksOnTick.size() > 100) {
         LOGGER.warn("Updating " + chunksOnTick.size() + " chunks.");
       }
       executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.getCurrentTick()));
