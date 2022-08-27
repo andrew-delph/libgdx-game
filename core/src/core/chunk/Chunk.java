@@ -82,9 +82,12 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
   public synchronized Entity removeEntity(UUID uuid) throws EntityNotFound, DestroyBodyException {
     Entity entity = this.getEntity(uuid);
     this.chunkMap.remove(uuid);
-    synchronized (worldWrapper) {
-      if (worldWrapper.hasBody(entity)) worldWrapper.destroyEntity(entity);
-    }
+    // updateNeighbors should clean this up
+
+    //    synchronized (worldWrapper) {
+    //      if (worldWrapper.hasBody(entity) && !neighborEntitySet.contains(entity))
+    //        worldWrapper.destroyEntity(entity);
+    //    }
     neighborEntitySet.add(entity);
     return entity;
   }
@@ -168,24 +171,27 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
     // add temp entity to set
     for (Entity entity : entityToAddSet) {
+      //      if (entity.getClass().equals(WaterPosition.class))
+      // System.out.println("waterposition");
       this.addBody(entity);
       neighborEntitySet.add(entity);
     }
 
     // remove temp entity from set
     for (Entity entity : entityToRemoveSet) {
+      neighborEntitySet.remove(entity);
       if (!worldWrapper.hasBody(entity)) continue;
       try {
         worldWrapper.destroyEntity(entity);
       } catch (DestroyBodyException e) {
         LOGGER.error(e);
       }
-      neighborEntitySet.remove(entity);
     }
 
     // update the neighbor body position and velocity
     for (Entity entity : currentNeighborEntitySet) {
       if (!worldWrapper.hasBody(entity)) {
+        //        System.out.println(entity.getClass());
         continue;
       }
       worldWrapper.setPosition(entity, entity.getBodyPosition());

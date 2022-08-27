@@ -47,22 +47,22 @@ public class WaterPositionController extends EntityController {
       //              moveTo)); // might not be the best way to avoid sending updates over network
       gameController.moveEntity(this.entity.getUuid(), moveTo);
 
-    Coordinates coordinates = this.entity.getCoordinatesWrapper().getCoordinates();
+    Coordinates coordinates = this.entity.getCoordinatesWrapper().getCoordinates().getUp();
 
     List<Coordinates> touching = new LinkedList<>();
 
     float theSize = entity.getHeight() / (float) GameSettings.PIXEL_SCALE;
 
     touching.add(coordinates); // bottom left
-    touching.add(
-        CommonFactory.createCoordinates(
-            coordinates.getXReal(), coordinates.getYReal() + theSize)); // top left
-    touching.add(
-        CommonFactory.createCoordinates(
-            coordinates.getXReal() + theSize, coordinates.getYReal() + theSize)); // top right
-    touching.add(
-        CommonFactory.createCoordinates(
-            coordinates.getXReal() + theSize, coordinates.getYReal())); // bottom right
+    //    touching.add(
+    //        CommonFactory.createCoordinates(
+    //            coordinates.getXReal(), coordinates.getYReal() + theSize)); // top left
+    //    touching.add(
+    //        CommonFactory.createCoordinates(
+    //            coordinates.getXReal() + theSize, coordinates.getYReal() + theSize)); // top right
+    //    touching.add(
+    //        CommonFactory.createCoordinates(
+    //            coordinates.getXReal() + theSize, coordinates.getYReal())); // bottom right
 
     for (Coordinates corner : touching) {
       corner = corner.getBase();
