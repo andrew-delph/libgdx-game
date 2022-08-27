@@ -47,7 +47,7 @@ public class WaterPositionController extends EntityController {
       //              moveTo)); // might not be the best way to avoid sending updates over network
       gameController.moveEntity(this.entity.getUuid(), moveTo);
 
-    Coordinates coordinates = this.entity.getCoordinatesWrapper().getCoordinates().getUp();
+    Coordinates coordinates = this.entity.getCenter();
 
     List<Coordinates> touching = new LinkedList<>();
 

@@ -24,6 +24,7 @@ import core.entity.collision.orb.OrbSensor;
 import core.entity.collision.projectile.ProjectileSensor;
 import core.entity.collision.right.RightSensor;
 import core.entity.misc.Projectile;
+import core.entity.misc.water.WaterPosition;
 import java.util.UUID;
 
 public class EntityBodyBuilder {
@@ -303,7 +304,7 @@ public class EntityBodyBuilder {
     Body theBody = world.createBody(bodyDef);
 
     CircleShape circleShape = new CircleShape();
-    circleShape.setRadius((Block.staticHeight * GameSettings.PHYSICS_SCALE) / 10.1f);
+    circleShape.setRadius((WaterPosition.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
 
     FixtureDef blockingFixtureDef = new FixtureDef();
     blockingFixtureDef.shape = circleShape;
