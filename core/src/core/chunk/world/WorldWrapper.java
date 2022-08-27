@@ -46,7 +46,7 @@ public class WorldWrapper {
 
     } catch (Exception e) {
       throw new DestroyBodyException(e.toString());
-    }finally{
+    } finally {
       uuidBodyMap.remove(entity.getUuid());
     }
   }
