@@ -13,7 +13,8 @@ public class GameMain {
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
     LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
     float ratio = 0.7f;
-    float size = 1300;
+    float size = 1700;
+    //    config.fullscreen = true;
     config.height = (int) (size * ratio);
     config.width = (int) size;
     new LwjglApplication(gameScreen, config);

@@ -47,6 +47,7 @@ public class StandAloneUpdateTask extends UpdateTask {
 
     // get the set of onscreen chunks
     requiredChunkRanges.addAll(baseCamera.getChunkRangeOnScreen());
+
     // get the set of active entities. get their chunks
     requiredChunkRanges.addAll(activeEntityManager.getActiveChunkRanges());
     // generate them all
@@ -54,7 +55,7 @@ public class StandAloneUpdateTask extends UpdateTask {
 
     try {
       Set<Chunk> chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
-      LOGGER.debug("Updating " + chunksOnTick.size() + " chunks.");
+      LOGGER.info("Updating " + chunksOnTick.size() + " chunks.");
       executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.getCurrentTick()));
     } catch (InterruptedException e) {
       e.printStackTrace();
