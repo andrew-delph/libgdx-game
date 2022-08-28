@@ -120,8 +120,9 @@ public class Entity implements SerializeNetworkData {
   }
 
   public Chunk getChunk() throws ChunkNotFound {
-    if (chunk == null) throw new ChunkNotFound(this.toString());
-    return chunk;
+    Chunk toReturn = chunk;
+    if (toReturn == null) throw new ChunkNotFound(this.toString());
+    return toReturn;
   }
 
   public void setChunk(Chunk chunk) {
@@ -225,6 +226,10 @@ public class Entity implements SerializeNetworkData {
 
   public void applyBody(Consumer<Body> applyFunction) throws ChunkNotFound, BodyNotFound {
     getChunk().getWorldWrapper().applyBody(this, applyFunction);
+  }
+
+  public boolean hasBody() throws ChunkNotFound {
+    return getChunk().getWorldWrapper().hasBody(this);
   }
 
   @Override

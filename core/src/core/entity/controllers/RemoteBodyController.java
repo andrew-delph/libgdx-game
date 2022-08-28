@@ -22,11 +22,12 @@ public class RemoteBodyController extends EntityController {
 
   @Override
   public void beforeWorldUpdate() throws Exception {
-    this.entity.applyBody(
-        (Body body) -> {
-          body.setTransform(
-              this.entity.getCoordinatesWrapper().getCoordinates().toPhysicsVector2(), 0);
-        });
+    if (this.entity.hasBody())
+      this.entity.applyBody(
+          (Body body) -> {
+            body.setTransform(
+                this.entity.getCoordinatesWrapper().getCoordinates().toPhysicsVector2(), 0);
+          });
   }
 
   @Override

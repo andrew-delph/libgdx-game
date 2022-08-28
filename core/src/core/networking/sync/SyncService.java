@@ -34,8 +34,8 @@ public class SyncService {
   }
 
   public synchronized Boolean isHandshakeLocked(UserID userID, ChunkRange chunkRange) {
-    return true;
-    //    handshakeLock.putIfAbsent(userID, Sets.newConcurrentHashSet());
-    //    return handshakeLock.get(userID).contains(chunkRange);
+    //    return true;
+    handshakeLock.putIfAbsent(userID, Sets.newConcurrentHashSet());
+    return handshakeLock.get(userID).contains(chunkRange);
   }
 }

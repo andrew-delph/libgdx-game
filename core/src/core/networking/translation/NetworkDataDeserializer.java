@@ -32,6 +32,7 @@ import core.entity.block.BlockFactory;
 import core.entity.block.DirtBlock;
 import core.entity.block.SkyBlock;
 import core.entity.block.StoneBlock;
+import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
@@ -59,6 +60,7 @@ public class NetworkDataDeserializer {
   @Inject BlockFactory blockFactory;
   @Inject ChunkFactory chunkFactory;
   @Inject GameStore gameStore;
+  @Inject EntityControllerFactory entityControllerFactory;
 
   public static ChunkRange createChunkRange(NetworkObjects.NetworkData networkData) {
     // TODO put in translations
@@ -480,6 +482,8 @@ public class NetworkDataDeserializer {
     for (Attribute attr : attributeList) {
       entity.updateAttribute(attr);
     }
+
+    entity.setEntityController(entityControllerFactory.createRemoteBodyController(entity));
 
     return entity;
   }
