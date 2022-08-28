@@ -152,13 +152,16 @@ public class EntityBodyBuilder {
         (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;
-    fixtureDef.density = 0f;
+    fixtureDef.density = 500f;
     fixtureDef.restitution = 0;
+    fixtureDef.friction = 0.1f;
     Fixture blockFixture = theBody.createFixture(fixtureDef);
 
     blockFixture.setFilterData(blockFilter());
-
     blockFixture.setUserData(new GroundSensor(entity, chunkRange));
+
+    //    theBody.resetMassData();
+
     return new Pair<>(entity.getUuid(), theBody);
   }
 
@@ -308,13 +311,15 @@ public class EntityBodyBuilder {
 
     FixtureDef blockingFixtureDef = new FixtureDef();
     blockingFixtureDef.shape = circleShape;
-    blockingFixtureDef.density = 5f;
+    //    blockingFixtureDef.density = 500f;
+    blockingFixtureDef.friction = 0.1f;
     blockingFixtureDef.restitution = 0;
+
     Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
     orbFixture.setFilterData(waterPositionFilter());
 
     //    theBody.setGravityScale(0.1f);
-    theBody.resetMassData();
+    //    theBody.resetMassData();
 
     return new Pair<>(entity.getUuid(), theBody);
   }
