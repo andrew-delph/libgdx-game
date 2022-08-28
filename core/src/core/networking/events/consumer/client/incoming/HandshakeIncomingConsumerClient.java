@@ -33,7 +33,7 @@ public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
     ChunkRange chunkRange = handshakeIncoming.getChunkRange();
     Chunk chunk = gameStore.getChunk(chunkRange);
 
-    if(chunk == null) {
+    if (chunk == null) {
       LOGGER.debug("HandshakeIncomingConsumerClient on null chunk.");
       return;
     }
