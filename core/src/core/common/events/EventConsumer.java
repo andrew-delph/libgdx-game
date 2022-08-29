@@ -6,6 +6,7 @@ import core.app.user.User;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
 import core.common.GameStore;
+import core.common.events.types.CreateEntityEventType;
 import core.common.events.types.RemoveEntityEventType;
 import core.common.events.types.ReplaceEntityEventType;
 import core.common.exceptions.ChunkNotFound;
@@ -58,6 +59,17 @@ public class EventConsumer {
           AbstractEntityEventType entityEvent = (AbstractEntityEventType) event;
           if (entityEvent.getEntity().getEntityController() != null)
             entityEvent.getEntity().getEntityController().fireEvent(entityEvent);
+        });
+
+    this.eventService.addPostUpdateListener(
+        CreateEntityEventType.type,
+        event -> {
+          CreateEntityEventType entityEvent = (CreateEntityEventType) event;
+          try {
+            gameController.addEntity(entityEvent.getEntity());
+          } catch (ChunkNotFound e) {
+            e.printStackTrace();
+          }
         });
   }
 }

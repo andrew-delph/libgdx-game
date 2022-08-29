@@ -9,6 +9,8 @@ import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
 import core.entity.misc.Turret;
+import core.entity.misc.water.Water;
+import core.entity.misc.water.WaterPosition;
 
 public class EntityFactory {
 
@@ -42,5 +44,16 @@ public class EntityFactory {
   public Orb createOrb(Coordinates coordinates) {
     Orb orb = new Orb(clock, baseAssetManager, entityBodyBuilder, coordinates);
     return orb;
+  }
+
+  public WaterPosition createWaterPosition(Coordinates coordinates) {
+    WaterPosition waterPosition =
+        new WaterPosition(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    return waterPosition;
+  }
+
+  public Water createWater(Coordinates coordinates) {
+    Water water = new Water(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    return water;
   }
 }

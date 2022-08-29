@@ -32,10 +32,13 @@ import core.entity.block.BlockFactory;
 import core.entity.block.DirtBlock;
 import core.entity.block.SkyBlock;
 import core.entity.block.StoneBlock;
+import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
 import core.entity.misc.Turret;
+import core.entity.misc.water.Water;
+import core.entity.misc.water.WaterPosition;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.ChunkSwapIncomingEventType;
 import core.networking.events.types.incoming.CreateEntityIncomingEventType;
@@ -57,6 +60,7 @@ public class NetworkDataDeserializer {
   @Inject BlockFactory blockFactory;
   @Inject ChunkFactory chunkFactory;
   @Inject GameStore gameStore;
+  @Inject EntityControllerFactory entityControllerFactory;
 
   public static ChunkRange createChunkRange(NetworkObjects.NetworkData networkData) {
     // TODO put in translations
@@ -444,6 +448,10 @@ public class NetworkDataDeserializer {
       entity = entityFactory.createOrb(CommonFactory.createCoordinates(0, 0));
     } else if (classString.equals(Entity.class.getName())) {
       entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
+    } else if (classString.equals(Water.class.getName())) {
+      entity = entityFactory.createWater(CommonFactory.createCoordinates(0, 0));
+    } else if (classString.equals(WaterPosition.class.getName())) {
+      entity = entityFactory.createWaterPosition(CommonFactory.createCoordinates(0, 0));
     } else {
       throw new SerializationDataMissing("classString not recognized: " + classString);
     }
@@ -474,6 +482,8 @@ public class NetworkDataDeserializer {
     for (Attribute attr : attributeList) {
       entity.updateAttribute(attr);
     }
+
+    entity.setEntityController(entityControllerFactory.createRemoteBodyController(entity));
 
     return entity;
   }

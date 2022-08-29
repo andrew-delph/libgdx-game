@@ -43,9 +43,11 @@ public class WorldWrapper {
   public synchronized void destroyEntity(Entity entity) throws DestroyBodyException {
     try {
       world.destroyBody(getBody(entity));
-      uuidBodyMap.remove(entity.getUuid());
+
     } catch (Exception e) {
       throw new DestroyBodyException(e.toString());
+    } finally {
+      uuidBodyMap.remove(entity.getUuid());
     }
   }
 

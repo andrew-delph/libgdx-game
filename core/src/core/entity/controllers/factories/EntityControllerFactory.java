@@ -18,8 +18,11 @@ import core.entity.controllers.OrbController;
 import core.entity.controllers.ProjectileController;
 import core.entity.controllers.RemoteBodyController;
 import core.entity.controllers.TurretController;
+import core.entity.controllers.WaterController;
+import core.entity.controllers.WaterPositionController;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.groups.GroupService;
+import core.entity.misc.water.WaterService;
 import core.entity.pathfinding.PathGuiderFactory;
 import core.networking.events.EventTypeFactory;
 
@@ -36,6 +39,7 @@ public abstract class EntityControllerFactory {
   @Inject ProjectileContact projectileContact;
   @Inject OrbContact orbContact;
   @Inject GroupService groupService;
+  @Inject WaterService waterService;
 
   public EntityControllerFactory() {}
 
@@ -97,6 +101,33 @@ public abstract class EntityControllerFactory {
         eventService,
         eventTypeFactory,
         orbContact,
+        entity);
+  }
+
+  public EntityController createEntityController(Entity entity) {
+    return new EntityController(
+        gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
+  }
+
+  public EntityController createWaterPositionController(Entity entity) {
+    return new WaterPositionController(
+        gameController,
+        gameStore,
+        entityActionFactory,
+        eventService,
+        eventTypeFactory,
+        waterService,
+        entity);
+  }
+
+  public EntityController createWaterController(Entity entity) {
+    return new WaterController(
+        gameController,
+        gameStore,
+        entityActionFactory,
+        eventService,
+        eventTypeFactory,
+        waterService,
         entity);
   }
 }

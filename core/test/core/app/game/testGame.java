@@ -41,7 +41,7 @@ public class testGame {
     game.start();
   }
 
-  @Test
+  @Test // This test sucks
   public void testChunksRunningStandAlone() throws InterruptedException, ChunkNotFound {
     clock.waitForTick(50); // TODO should change to wait for generation to be complete
     AtomicReference<Boolean> check = new AtomicReference<>(false);

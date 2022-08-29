@@ -33,6 +33,11 @@ public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
     ChunkRange chunkRange = handshakeIncoming.getChunkRange();
     Chunk chunk = gameStore.getChunk(chunkRange);
 
+    if (chunk == null) {
+      LOGGER.debug("HandshakeIncomingConsumerClient on null chunk.");
+      return;
+    }
+
     // get the missing uuid on the client
     List<UUID> missing = new LinkedList<>(handshakeIncoming.getListUUID());
     missing.removeAll(chunk.getEntityUUIDSet());

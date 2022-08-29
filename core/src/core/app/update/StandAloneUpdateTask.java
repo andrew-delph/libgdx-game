@@ -7,7 +7,9 @@ import core.common.ChunkRange;
 import core.common.Clock;
 import core.common.GameStore;
 import core.common.events.EventService;
+import core.common.exceptions.ChunkNotFound;
 import core.entity.ActiveEntityManager;
+import core.entity.misc.water.WaterService;
 import core.generation.ChunkGenerationService;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +30,7 @@ public class StandAloneUpdateTask extends UpdateTask {
   @Inject BaseCamera baseCamera;
   @Inject ActiveEntityManager activeEntityManager;
   @Inject ChunkGenerationService chunkGenerationService;
+  @Inject WaterService waterService;
 
   public StandAloneUpdateTask() {}
 
@@ -44,6 +47,7 @@ public class StandAloneUpdateTask extends UpdateTask {
 
     // get the set of onscreen chunks
     requiredChunkRanges.addAll(baseCamera.getChunkRangeOnScreen());
+
     // get the set of active entities. get their chunks
     requiredChunkRanges.addAll(activeEntityManager.getActiveChunkRanges());
     // generate them all
@@ -52,11 +56,21 @@ public class StandAloneUpdateTask extends UpdateTask {
     try {
       Set<Chunk> chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
       LOGGER.debug("Updating " + chunksOnTick.size() + " chunks.");
+
+      if (chunksOnTick.size() > 100) {
+        LOGGER.warn("Updating " + chunksOnTick.size() + " chunks.");
+      }
       executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.getCurrentTick()));
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
 
     this.eventService.firePostUpdateEvents();
+
+    try {
+      waterService.update();
+    } catch (ChunkNotFound e) {
+      e.printStackTrace();
+    }
   }
 }

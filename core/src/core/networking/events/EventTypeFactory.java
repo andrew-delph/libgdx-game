@@ -6,6 +6,7 @@ import core.common.ChunkRange;
 import core.common.CommonFactory;
 import core.common.Coordinates;
 import core.common.events.types.CreateAIEntityEventType;
+import core.common.events.types.CreateEntityEventType;
 import core.common.events.types.CreateTurretEventType;
 import core.common.events.types.RemoveEntityEventType;
 import core.common.events.types.ReplaceEntityEventType;
@@ -49,6 +50,10 @@ public class EventTypeFactory {
   public static CreateTurretEventType createTurretEventType(
       UUID entityUUID, Coordinates coordinates) {
     return new CreateTurretEventType(entityUUID, coordinates);
+  }
+
+  public static CreateEntityEventType createCreateEntityEventType(Entity entity) {
+    return new CreateEntityEventType(entity);
   }
 
   public static CreateEntityOutgoingEventType createCreateEntityOutgoingEvent(

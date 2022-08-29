@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
@@ -155,21 +154,7 @@ public class GameScreen extends ApplicationAdapter {
     for (Entity entity : renderList) {
       // render entity
       try {
-        Vector2 v2 = entity.getCoordinatesWrapper().getCoordinates().toRenderVector2();
-        if (animationManager.getGameAnimation(entity.getClass()) != null) {
-          batch.draw(
-              animationManager
-                  .getGameAnimation(entity.getClass())
-                  .getAnimation(entity.getAnimationStateWrapper().getAnimationState())
-                  .getKeyFrame(stateTime, true),
-              v2.x,
-              v2.y,
-              entity.getWidth(),
-              entity.getHeight());
-        } else {
-          entity.renderSync();
-          entity.sprite.draw(batch);
-        }
+        entity.render(animationManager, batch);
         if (entity.getEntityController() != null) entity.getEntityController().render();
       } catch (Exception e) {
         e.printStackTrace();

@@ -12,8 +12,11 @@ public class GameMain {
     Injector injector = Guice.createInjector(new StandAloneConfig());
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
     LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-    config.height = 500;
-    config.width = 500;
+    float ratio = 0.7f;
+    float size = 1700;
+    //    config.fullscreen = true;
+    config.height = (int) (size * ratio);
+    config.width = (int) size;
     new LwjglApplication(gameScreen, config);
   }
 }

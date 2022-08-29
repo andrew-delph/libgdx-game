@@ -30,6 +30,8 @@ public class BaseAssetManager extends AssetManager {
     this.load("orb/Blue/frame 1.png", Texture.class);
     this.load("orb/Blue/frame 1.png", Texture.class);
 
+    this.load("water.png", Texture.class); // TODO remove
+
     this.update();
     this.finishLoading();
     this.loaded = true;
