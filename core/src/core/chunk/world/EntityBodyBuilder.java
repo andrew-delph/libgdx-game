@@ -364,7 +364,7 @@ public class EntityBodyBuilder {
     // blocks collide with everything
     Filter filter = new Filter();
     filter.categoryBits = 0b10;
-    filter.maskBits = 0b1101;
+    filter.maskBits = 0b1111;
     return filter;
   }
 
@@ -379,8 +379,8 @@ public class EntityBodyBuilder {
   public static Filter projectileFilter() {
     // collides with entities and blocks
     Filter filter = new Filter();
-    filter.categoryBits = 0b1000;
-    filter.maskBits = 0b1010;
+    filter.categoryBits = 0b100;
+    filter.maskBits = 0b11;
     return filter;
   }
 
