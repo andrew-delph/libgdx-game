@@ -17,6 +17,7 @@ import core.entity.controllers.EntityUserController;
 import core.entity.controllers.OrbController;
 import core.entity.controllers.ProjectileController;
 import core.entity.controllers.RemoteBodyController;
+import core.entity.controllers.SandController;
 import core.entity.controllers.TurretController;
 import core.entity.controllers.WaterController;
 import core.entity.controllers.WaterPositionController;
@@ -129,5 +130,10 @@ public abstract class EntityControllerFactory {
         eventTypeFactory,
         waterService,
         entity);
+  }
+
+  public EntityController createSandController(Entity entity) {
+    return new SandController(
+        gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 }

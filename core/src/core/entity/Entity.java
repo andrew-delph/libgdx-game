@@ -65,8 +65,8 @@ public class Entity implements SerializeNetworkData {
       BaseAssetManager baseAssetManager,
       EntityBodyBuilder entityBodyBuilder,
       Coordinates coordinates) {
-    this.setHeight((int) (Entity.staticHeight * GameSettings.PIXEL_SCALE));
-    this.setWidth((int) (Entity.staticWidth * GameSettings.PIXEL_SCALE));
+    this.setHeight((int) (staticHeight * GameSettings.PIXEL_SCALE));
+    this.setWidth((int) (staticWidth * GameSettings.PIXEL_SCALE));
     this.clock = clock;
     this.baseAssetManager = baseAssetManager;
     this.entityBodyBuilder = entityBodyBuilder;

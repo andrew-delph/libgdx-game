@@ -34,6 +34,7 @@ import core.entity.groups.GroupService;
 import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
+import core.entity.misc.Sand;
 import core.entity.misc.Turret;
 import core.entity.misc.water.Water;
 import core.entity.misc.water.WaterPosition;
@@ -153,6 +154,21 @@ public class GameController {
   public Water createWater(Coordinates coordinates) throws ChunkNotFound {
     Water entity = entityFactory.createWater(coordinates.getBase());
     entity.setEntityController(entityControllerFactory.createWaterController(entity));
+
+    // internal event
+    eventService.queuePostUpdateEvent(EventTypeFactory.createCreateEntityEventType(entity));
+
+    // outgoing event
+    CreateEntityOutgoingEventType createEntityOutgoingEvent =
+        EventTypeFactory.createCreateEntityOutgoingEvent(
+            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
+    this.eventService.fireEvent(createEntityOutgoingEvent);
+    return entity;
+  }
+
+  public Sand createSand(Coordinates coordinates) throws ChunkNotFound {
+    Sand entity = entityFactory.createSand(coordinates.getBase());
+    entity.setEntityController(entityControllerFactory.createSandController(entity));
 
     // internal event
     eventService.queuePostUpdateEvent(EventTypeFactory.createCreateEntityEventType(entity));

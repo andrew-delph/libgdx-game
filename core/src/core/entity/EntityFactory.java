@@ -8,6 +8,7 @@ import core.common.Coordinates;
 import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
+import core.entity.misc.Sand;
 import core.entity.misc.Turret;
 import core.entity.misc.water.Water;
 import core.entity.misc.water.WaterPosition;
@@ -55,5 +56,10 @@ public class EntityFactory {
   public Water createWater(Coordinates coordinates) {
     Water water = new Water(clock, baseAssetManager, entityBodyBuilder, coordinates);
     return water;
+  }
+
+  public Sand createSand(Coordinates coordinates) {
+    Sand sand = new Sand(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    return sand;
   }
 }
