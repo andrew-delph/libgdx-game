@@ -58,7 +58,12 @@ public class StandAloneUpdateTask extends UpdateTask {
       LOGGER.debug("Updating " + chunksOnTick.size() + " chunks.");
 
       if (chunksOnTick.size() > 100) {
-        LOGGER.warn("Updating " + chunksOnTick.size() + " chunks.");
+        LOGGER.warn(
+            "Updating "
+                + chunksOnTick.size()
+                + " chunks."
+                + baseCamera.getChunkRangeOnScreen().size()
+                + " chunks on screen.");
       }
       executor.invokeAll(this.gameStore.getChunkOnClock(this.clock.getCurrentTick()));
     } catch (InterruptedException e) {
