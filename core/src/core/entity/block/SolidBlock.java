@@ -27,7 +27,7 @@ public abstract class SolidBlock extends Block {
     return new CreateBodyCallable() {
       @Override
       protected Pair<UUID, Body> addWorld(World world) {
-        return EntityBodyBuilder.createSolidBlockBody(
+        return EntityBodyBuilder.createStaticBlockBody(
             world, chunk.chunkRange, myEntity); // TODO test with Entity.this
       }
     };
