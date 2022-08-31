@@ -4,6 +4,7 @@ import static core.common.CommonFactory.createCoordinates;
 
 import core.common.ChunkRange;
 import core.common.CommonFactory;
+import java.util.HashSet;
 import java.util.List;
 import org.junit.Test;
 
@@ -68,7 +69,9 @@ public class testChunkRange {
             .size()
         == 2;
 
-    assert ChunkRange.getChunkRangeListTwoPoints(createCoordinates(-1, -1), createCoordinates(0, 0))
+    assert new HashSet<>(
+                ChunkRange.getChunkRangeListTwoPoints(
+                    createCoordinates(-1, -1), createCoordinates(0, 0)))
             .size()
         == 4;
   }
