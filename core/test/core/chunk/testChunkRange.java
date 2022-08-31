@@ -1,15 +1,18 @@
 package core.chunk;
 
+import static core.common.CommonFactory.createCoordinates;
+
 import core.common.ChunkRange;
 import core.common.CommonFactory;
+import java.util.HashSet;
 import java.util.List;
 import org.junit.Test;
 
 public class testChunkRange {
   @Test
   public void testHashEqual() {
-    ChunkRange chunkRange1 = CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0));
-    ChunkRange chunkRange2 = CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0));
+    ChunkRange chunkRange1 = CommonFactory.createChunkRange(createCoordinates(0, 0));
+    ChunkRange chunkRange2 = CommonFactory.createChunkRange(createCoordinates(0, 0));
     System.out.println(chunkRange1);
     System.out.println(chunkRange2);
     assert chunkRange1.equals(chunkRange2);
@@ -17,34 +20,28 @@ public class testChunkRange {
 
   @Test
   public void testRelative() {
-    ChunkRange chunkRange1 = CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0));
-    assert chunkRange1
-        .getLeft()
-        .equals(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0)));
+    ChunkRange chunkRange1 = CommonFactory.createChunkRange(createCoordinates(0, 0));
+    assert chunkRange1.getLeft().equals(CommonFactory.createChunkRange(createCoordinates(-1, 0)));
     assert chunkRange1
         .getRight()
-        .equals(
-            CommonFactory.createChunkRange(CommonFactory.createCoordinates(ChunkRange.size, 0)));
+        .equals(CommonFactory.createChunkRange(createCoordinates(ChunkRange.size, 0)));
     assert chunkRange1
         .getDown()
-        .equals(
-            CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, -ChunkRange.size)));
+        .equals(CommonFactory.createChunkRange(createCoordinates(0, -ChunkRange.size)));
     assert chunkRange1
         .getUp()
-        .equals(
-            CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, ChunkRange.size)));
+        .equals(CommonFactory.createChunkRange(createCoordinates(0, ChunkRange.size)));
   }
 
   @Test
   public void getChunkRangeListTwoPoints() {
 
-    ChunkRange root = CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0));
+    ChunkRange root = CommonFactory.createChunkRange(createCoordinates(0, 0));
     ChunkRange rightUpRoot = root.getRight().getUp();
 
     List<ChunkRange> chunkRangeList =
         ChunkRange.getChunkRangeListTwoPoints(
-            CommonFactory.createCoordinates(0, 0),
-            CommonFactory.createCoordinates(rightUpRoot.bottom_x, rightUpRoot.bottom_y));
+            createCoordinates(0, 0), createCoordinates(rightUpRoot.bottom_x, rightUpRoot.bottom_y));
 
     assert chunkRangeList.contains(root);
     assert chunkRangeList.contains(root.getUp());
@@ -56,28 +53,41 @@ public class testChunkRange {
 
     chunkRangeList =
         ChunkRange.getChunkRangeListTwoPoints(
-            CommonFactory.createCoordinates(0, 0),
-            CommonFactory.createCoordinates(rightUpRoot.bottom_x, rightUpRoot.bottom_y));
+            createCoordinates(0, 0), createCoordinates(rightUpRoot.bottom_x, rightUpRoot.bottom_y));
 
     assert chunkRangeList.size() == 9;
+
+    assert ChunkRange.getChunkRangeListTwoPoints(createCoordinates(0, 0), createCoordinates(1, 1))
+            .size()
+        == 1;
+
+    assert ChunkRange.getChunkRangeListTwoPoints(createCoordinates(0, 0), createCoordinates(0, 0))
+            .size()
+        == 1;
+
+    assert ChunkRange.getChunkRangeListTwoPoints(createCoordinates(-1, 0), createCoordinates(0, 0))
+            .size()
+        == 2;
+
+    assert new HashSet<>(
+                ChunkRange.getChunkRangeListTwoPoints(
+                    createCoordinates(-1, -1), createCoordinates(0, 0)))
+            .size()
+        == 4;
   }
 
   @Test
   public void testGetChunkRangeListAroundPoint() {
-    assert ChunkRange.getChunkRangeListAroundPoint(CommonFactory.createCoordinates(0, 0), 1).size()
-        == 9;
+    assert ChunkRange.getChunkRangeListAroundPoint(createCoordinates(0, 0), 1).size() == 9;
 
-    assert ChunkRange.getChunkRangeListAroundPoint(CommonFactory.createCoordinates(0, 0), 2).size()
-        == 25;
+    assert ChunkRange.getChunkRangeListAroundPoint(createCoordinates(0, 0), 2).size() == 25;
   }
 
   @Test
   public void testGetChunkRangeNegativeFloat() {
 
-    ChunkRange chunkRange =
-        CommonFactory.createChunkRange(CommonFactory.createCoordinates(-0.1f, 0));
+    ChunkRange chunkRange = CommonFactory.createChunkRange(createCoordinates(-0.1f, 0));
 
-    assert !chunkRange.equals(
-        CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)));
+    assert !chunkRange.equals(CommonFactory.createChunkRange(createCoordinates(0, 0)));
   }
 }

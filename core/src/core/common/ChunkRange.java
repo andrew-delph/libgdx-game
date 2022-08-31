@@ -1,5 +1,8 @@
 package core.common;
 
+import static core.common.CommonFactory.createChunkRange;
+import static core.common.CommonFactory.createCoordinates;
+
 import core.networking.events.interfaces.SerializeNetworkData;
 import core.networking.translation.NetworkDataSerializer;
 import java.util.HashSet;
@@ -34,12 +37,13 @@ public class ChunkRange implements SerializeNetworkData {
 
   public static List<ChunkRange> getChunkRangeListTwoPoints(
       Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates) {
-    ChunkRange bottomLeftChunkRange = CommonFactory.createChunkRange(bottomLeftCoordinates);
-    ChunkRange topRightChunkRange = CommonFactory.createChunkRange(topRightCoordinates);
+
+    ChunkRange bottomLeftChunkRange = createChunkRange(bottomLeftCoordinates);
+    ChunkRange topRightChunkRange = createChunkRange(topRightCoordinates);
+
     ChunkRange topLeftChunkRange =
-        CommonFactory.createChunkRange(
-            CommonFactory.createCoordinates(
-                bottomLeftChunkRange.bottom_x, topRightChunkRange.bottom_y));
+        createChunkRange(
+            createCoordinates(bottomLeftChunkRange.bottom_x, topRightChunkRange.bottom_y));
     //    ChunkRange bottomRightChunkRange = CommonFactory.createChunkRange(new
     // Coordinates(topRightChunkRange.bottom_x,bottomLeftChunkRange.bottom_y));
 
@@ -51,8 +55,7 @@ public class ChunkRange implements SerializeNetworkData {
       current = root;
       root = root.getUp();
       ChunkRange rowRightChunkRange =
-          CommonFactory.createChunkRange(
-              CommonFactory.createCoordinates(topRightChunkRange.bottom_x, current.bottom_y));
+          createChunkRange(createCoordinates(topRightChunkRange.bottom_x, current.bottom_y));
       while (!current.equals(rowRightChunkRange.getRight())) {
         chunkRangeList.add(current);
         current = current.getRight();
@@ -65,8 +68,8 @@ public class ChunkRange implements SerializeNetworkData {
       Coordinates coordinates, int chunkRangeRadius) {
     Set<ChunkRange> chunkRangeSet = new HashSet<>();
 
-    ChunkRange bottomLeftChunkRange = CommonFactory.createChunkRange(coordinates);
-    ChunkRange topRightChunkRange = CommonFactory.createChunkRange(coordinates);
+    ChunkRange bottomLeftChunkRange = createChunkRange(coordinates);
+    ChunkRange topRightChunkRange = createChunkRange(coordinates);
 
     for (int i = 0; i < chunkRangeRadius; i++) {
       bottomLeftChunkRange = bottomLeftChunkRange.getLeft().getDown();
@@ -74,9 +77,8 @@ public class ChunkRange implements SerializeNetworkData {
     }
 
     return ChunkRange.getChunkRangeListTwoPoints(
-        CommonFactory.createCoordinates(
-            bottomLeftChunkRange.bottom_x, bottomLeftChunkRange.bottom_y),
-        CommonFactory.createCoordinates(topRightChunkRange.bottom_x, topRightChunkRange.bottom_y));
+        createCoordinates(bottomLeftChunkRange.bottom_x, bottomLeftChunkRange.bottom_y),
+        createCoordinates(topRightChunkRange.bottom_x, topRightChunkRange.bottom_y));
   }
 
   public NetworkObjects.NetworkData toNetworkData() {
@@ -84,23 +86,19 @@ public class ChunkRange implements SerializeNetworkData {
   }
 
   public synchronized ChunkRange getUp() {
-    return CommonFactory.createChunkRange(
-        CommonFactory.createCoordinates(this.bottom_x, this.top_y + 1));
+    return createChunkRange(createCoordinates(this.bottom_x, this.top_y + 1));
   }
 
   public synchronized ChunkRange getDown() {
-    return CommonFactory.createChunkRange(
-        CommonFactory.createCoordinates(this.bottom_x, this.bottom_y - 1));
+    return createChunkRange(createCoordinates(this.bottom_x, this.bottom_y - 1));
   }
 
   public synchronized ChunkRange getLeft() {
-    return CommonFactory.createChunkRange(
-        CommonFactory.createCoordinates(this.bottom_x - 1, this.bottom_y));
+    return createChunkRange(createCoordinates(this.bottom_x - 1, this.bottom_y));
   }
 
   public synchronized ChunkRange getRight() {
-    return CommonFactory.createChunkRange(
-        CommonFactory.createCoordinates(this.top_x + 1, this.bottom_y));
+    return createChunkRange(createCoordinates(this.top_x + 1, this.bottom_y));
   }
 
   @Override
