@@ -36,6 +36,12 @@ public class SandController extends EntityController {
             this.entity.getCoordinatesWrapper().getCoordinates().getX(),
             this.entity.getBodyPosition().y / GameSettings.PHYSICS_SCALE);
 
+    if (!gameStore.doesChunkExist(entity.getChunk().chunkRange.getDown())) {
+      /* If the chunk below doesn't exist. Don't move down. It could cause a problem */
+      entity.setBodyPosition(entity.getCoordinatesWrapper().getCoordinates().toPhysicsVector2());
+      return;
+    }
+
     if (!this.entity.getCoordinatesWrapper().getCoordinates().equals(moveTo))
       gameController.moveEntity(this.entity.getUuid(), moveTo);
 
