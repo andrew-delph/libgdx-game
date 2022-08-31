@@ -32,9 +32,9 @@ public class EntityBodyBuilder {
   public static Pair<UUID, Body> createEntityBody(
       World world, ChunkRange chunkRange, Entity entity) {
     float center_x =
-        -(GameSettings.PHYSICS_SCALE - (Entity.staticWidth * GameSettings.PHYSICS_SCALE)) / 2f;
+        -(GameSettings.PHYSICS_SCALE - (entity.staticWidth * GameSettings.PHYSICS_SCALE)) / 2f;
     float center_y =
-        -(GameSettings.PHYSICS_SCALE - (Entity.staticHeight * GameSettings.PHYSICS_SCALE)) / 2f;
+        -(GameSettings.PHYSICS_SCALE - (entity.staticHeight * GameSettings.PHYSICS_SCALE)) / 2f;
 
     Body theBody;
     BodyDef bodyDef = new BodyDef();
@@ -69,8 +69,8 @@ public class EntityBodyBuilder {
 
     // create the main
     mainShape.setAsBox(
-        (Entity.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
-        (Entity.staticHeight * GameSettings.PHYSICS_SCALE) / 2f,
+        (entity.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
+        (entity.staticHeight * GameSettings.PHYSICS_SCALE) / 2f,
         new Vector2(center_x, center_y + 2),
         0);
     mainFixtureDef.shape = mainShape;
@@ -136,7 +136,7 @@ public class EntityBodyBuilder {
     return new Pair<>(entity.getUuid(), theBody);
   }
 
-  public static Pair<UUID, Body> createSolidBlockBody(
+  public static Pair<UUID, Body> createStaticBlockBody(
       World world, ChunkRange chunkRange, Entity entity) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -348,6 +348,34 @@ public class EntityBodyBuilder {
 
     projectileFixture.setFilterData(ladderFilter());
     projectileFixture.setUserData(new LadderSensor(entity, chunkRange));
+
+    return new Pair<>(entity.getUuid(), theBody);
+  }
+
+  public static Pair<UUID, Body> createSand(World world, ChunkRange chunkRange, Entity entity) {
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyType.DynamicBody;
+    bodyDef.position.set(
+        entity.getCoordinatesWrapper().getCoordinates().getXReal() * GameSettings.PHYSICS_SCALE,
+        entity.getCoordinatesWrapper().getCoordinates().getYReal() * GameSettings.PHYSICS_SCALE);
+
+    Body theBody = world.createBody(bodyDef);
+    theBody.setFixedRotation(true);
+
+    PolygonShape blockingShape = new PolygonShape();
+    blockingShape.setAsBox(
+        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.1f,
+        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2.1f);
+    FixtureDef blockingFixtureDef = new FixtureDef();
+    blockingFixtureDef.shape = blockingShape;
+    blockingFixtureDef.density = 1f;
+    //    blockingFixtureDef.restitution = 1;
+    //    fixtureDef.isSensor = true;
+    Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
+    orbFixture.setFilterData(blockFilter());
+
+    //    theBody.setLinearDamping(0.1f);
+    //    theBody.setAngularDamping(0.1f);
 
     return new Pair<>(entity.getUuid(), theBody);
   }

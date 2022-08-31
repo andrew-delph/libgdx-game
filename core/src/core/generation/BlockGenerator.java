@@ -8,6 +8,7 @@ import core.entity.EntityFactory;
 import core.entity.block.BlockFactory;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.misc.Orb;
+import core.entity.misc.Sand;
 import core.entity.misc.water.WaterPosition;
 
 public class BlockGenerator {
@@ -35,6 +36,11 @@ public class BlockGenerator {
       gameController.triggerAddEntity(blockFactory.createStone(coordinates));
     } else if (Math.random() < 0.1) {
       gameController.triggerAddEntity(blockFactory.createStone(coordinates));
+    } else if (Math.random() < 0.1) {
+      gameController.triggerAddEntity(blockFactory.createSky(coordinates));
+      Sand sand = entityFactory.createSand(coordinates);
+      sand.setEntityController(entityControllerFactory.createSandController(sand));
+      gameController.triggerAddEntity(sand);
     } else if (Math.random() < 0.1) {
       Orb orb = entityFactory.createOrb(coordinates);
       orb.setEntityController(entityControllerFactory.createOrbController(orb));
