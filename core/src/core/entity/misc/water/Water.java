@@ -49,6 +49,11 @@ public class Water extends Entity {
   }
 
   @Override
+  public synchronized int getUpdateTimeout() {
+    return Integer.MAX_VALUE;
+  }
+
+  @Override
   public String getTextureName() {
     return "water.png";
   }
