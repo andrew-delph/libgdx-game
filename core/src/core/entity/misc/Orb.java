@@ -35,10 +35,10 @@ public class Orb extends Entity {
 
   @Override
   public synchronized int getUpdateTimeout() {
-    if (isLive) {
-      isLive = false;
-      return 1;
-    }
+    //    if (isLive) {
+    //      isLive = false;
+    //      return 1;
+    //    }
     return Integer.MAX_VALUE;
   }
 

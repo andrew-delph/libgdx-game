@@ -40,6 +40,11 @@ public class Sand extends Entity {
   }
 
   @Override
+  public synchronized int getUpdateTimeout() {
+    return Integer.MAX_VALUE;
+  }
+
+  @Override
   public String getTextureName() {
     return "sand.png";
   }

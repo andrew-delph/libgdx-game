@@ -29,6 +29,11 @@ public class WaterPosition extends Entity {
   public void render(AnimationManager animationManager, SpriteBatch batch) {}
 
   @Override
+  public synchronized int getUpdateTimeout() {
+    return Integer.MAX_VALUE;
+  }
+
+  @Override
   public CreateBodyCallable addWorld(Chunk chunk) {
     return new CreateBodyCallable() {
       @Override
