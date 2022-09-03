@@ -17,6 +17,7 @@ The roadmap is a collection of major feature for each release.
 - [ ] Game menu
 - [ ] Game overlay
 - [ ] Android, IOS
+- [ ] AI spawner
 
 ## 0.4.x
 
