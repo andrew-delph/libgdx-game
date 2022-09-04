@@ -247,9 +247,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
   public SolidBlock getBlock(Coordinates coordinates) throws EntityNotFound {
     List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
     for (Entity entity : entityList) {
-      if (entity instanceof SolidBlock
-          && Coordinates.isInRange(
-              coordinates, coordinates, entity.getCoordinatesWrapper().getCoordinates())) {
+      if (entity instanceof SolidBlock) {
         return (SolidBlock) entity;
       }
     }
@@ -264,9 +262,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
   public Ladder getLadder(Coordinates coordinates) {
     List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
     for (Entity entity : entityList) {
-      if (entity instanceof Ladder
-          && Coordinates.isInRange(
-              coordinates, coordinates, entity.getCoordinatesWrapper().getCoordinates())) {
+      if (entity instanceof Ladder) {
 
         return (Ladder) entity;
       }

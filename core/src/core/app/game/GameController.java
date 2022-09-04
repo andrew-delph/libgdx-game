@@ -287,17 +287,17 @@ public class GameController {
     try {
       // just remove....
       if (direction == Direction.LEFT) {
-        targetCoordinates = entity.getCenter().getLeft();
-        removeBlock = this.gameStore.getBlock(entity.getCenter().getLeft());
+        targetCoordinates = entity.getCenter().getLeft().getBase();
+        removeBlock = this.gameStore.getBlock(targetCoordinates);
       } else if (direction == Direction.RIGHT) {
         targetCoordinates = entity.getCenter().getRight();
-        removeBlock = this.gameStore.getBlock(entity.getCenter().getRight());
+        removeBlock = this.gameStore.getBlock(targetCoordinates);
       } else if (direction == Direction.UP) {
         targetCoordinates = entity.getCenter().getUp();
-        removeBlock = this.gameStore.getBlock(entity.getCenter().getUp());
+        removeBlock = this.gameStore.getBlock(targetCoordinates);
       } else if (direction == Direction.DOWN) {
         targetCoordinates = entity.getCenter().getDown();
-        removeBlock = this.gameStore.getBlock(entity.getCenter().getDown());
+        removeBlock = this.gameStore.getBlock(targetCoordinates);
       }
     } catch (EntityNotFound e) {
       removeBlock = null;
@@ -321,44 +321,44 @@ public class GameController {
     this.replaceBlock(Optional.ofNullable(removeBlock), Optional.ofNullable(replacementBlock));
   }
 
-  public void replaceBlock(Optional<Block> target, Optional<Block> replacementBlock) {
+  public void replaceBlock(Optional<Block> toRemove, Optional<Block> toAdd) {
     // 1 both exist. replace
-    // 2 only target exists. remove it
-    // 3 only replacementBlock exists. add it
+    // 2 only toRemove exists. remove it
+    // 3 only toAdd exists. add it
 
-    if (target.isPresent()) {
+    if (toAdd.isPresent()) {
       Ladder removeLadder =
-          this.gameStore.getLadder(target.get().getCoordinatesWrapper().getCoordinates());
+          this.gameStore.getLadder(toAdd.get().getCoordinatesWrapper().getCoordinates());
       if (removeLadder != null) {
         this.removeEntity(removeLadder.getUuid());
       }
       Turret removeTurret =
-          this.gameStore.getTurret(target.get().getCoordinatesWrapper().getCoordinates());
+          this.gameStore.getTurret(toAdd.get().getCoordinatesWrapper().getCoordinates());
       if (removeTurret != null) {
         this.removeEntity(removeTurret.getUuid());
       }
     }
 
-    if (target.isPresent() && replacementBlock.isPresent()) {
+    if (toRemove.isPresent() && toAdd.isPresent()) {
       // put this into a post update event
       this.eventService.queuePostUpdateEvent(
           EventTypeFactory.createReplaceEntityEvent(
-              target.get().getUuid(),
-              replacementBlock.get(),
+              toRemove.get().getUuid(),
+              toAdd.get(),
               false,
               CommonFactory.createChunkRange(
-                  target.get().getCoordinatesWrapper().getCoordinates())));
+                  toRemove.get().getCoordinatesWrapper().getCoordinates())));
       this.eventService.fireEvent(
           EventTypeFactory.createReplaceBlockOutgoingEvent(
-              target.get().getUuid(),
-              replacementBlock.get(),
+              toRemove.get().getUuid(),
+              toAdd.get(),
               CommonFactory.createChunkRange(
-                  target.get().getCoordinatesWrapper().getCoordinates())));
-    } else if (target.isPresent()) {
-      this.removeEntity(target.get().getUuid());
-    } else if (replacementBlock.isPresent()) {
+                  toRemove.get().getCoordinatesWrapper().getCoordinates())));
+    } else if (toRemove.isPresent()) {
+      this.removeEntity(toRemove.get().getUuid());
+    } else if (toAdd.isPresent()) {
       try {
-        this.addEntity(replacementBlock.get());
+        this.addEntity(toAdd.get());
       } catch (ChunkNotFound e) {
         e.printStackTrace();
       }

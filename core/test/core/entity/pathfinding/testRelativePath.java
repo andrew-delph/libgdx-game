@@ -47,7 +47,7 @@ public class testRelativePath {
         .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1)))
         .call();
 
-    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
+    //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
 
     EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
     edgeRegistration.edgeRegistration();
@@ -84,12 +84,12 @@ public class testRelativePath {
     for (RelativePathNode pathNode : relativePath.getPathEdgeList()) {
       //      System.out.println(pathNode);
       //      System.out.println(pathNode.edge);
-      System.out.println(
-          pathNode.startPosition
-              + " , "
-              + pathNode.edge.applyTransition(pathNode.startPosition)
-              + ">>>"
-              + gameStore.getBlock(pathNode.edge.applyTransition(pathNode.startPosition)));
+      //      System.out.println(
+      //          pathNode.startPosition
+      //              + " , "
+      //              + pathNode.edge.applyTransition(pathNode.startPosition)
+      //              + ">>>"
+      //              + gameStore.getBlock(pathNode.edge.applyTransition(pathNode.startPosition)));
       System.out.println(
           "..."
               + pathNode.edge.entityStructure.verifyEntityStructure(
@@ -148,7 +148,7 @@ public class testRelativePath {
         blockFactory.createSky(removeBlock.getCoordinatesWrapper().getCoordinates());
     gameStore.removeEntity(removeBlock.getUuid());
     gameStore.addEntity(replacementBlock);
-    System.out.println("1" + gameStore.getBlock(replacementCoordinates).getClass());
+    //    System.out.println("1" + gameStore.getBlock(replacementCoordinates).getClass());
     //
     //    Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(4, -1);
     //    Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
@@ -223,7 +223,7 @@ public class testRelativePath {
         blockFactory.createSky(removeBlock.getCoordinatesWrapper().getCoordinates());
     gameStore.removeEntity(removeBlock.getUuid());
     gameStore.addEntity(replacementBlock);
-    System.out.println("1" + gameStore.getBlock(replacementCoordinates).getClass());
+    //    System.out.println("1" + gameStore.getBlock(replacementCoordinates).getClass());
     //
     Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(2, -1);
     Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
@@ -231,7 +231,7 @@ public class testRelativePath {
         blockFactory.createSky(removeBlock2.getCoordinatesWrapper().getCoordinates());
     gameStore.removeEntity(removeBlock2.getUuid());
     gameStore.addEntity(replacementBlock2);
-    System.out.println("2" + gameStore.getBlock(replacementCoordinates2).getClass());
+    //    System.out.println("2" + gameStore.getBlock(replacementCoordinates2).getClass());
 
     Coordinates replacementCoordinates3 = CommonFactory.createCoordinates(2, -2);
     Block removeBlock3 = gameStore.getBlock(replacementCoordinates3);
@@ -239,7 +239,7 @@ public class testRelativePath {
         blockFactory.createSky(removeBlock3.getCoordinatesWrapper().getCoordinates());
     gameStore.removeEntity(removeBlock3.getUuid());
     gameStore.addEntity(replacementBlock3);
-    System.out.println("3" + gameStore.getBlock(replacementCoordinates3).getClass());
+    //    System.out.println("3" + gameStore.getBlock(replacementCoordinates3).getClass());
 
     RelativePath relativePath =
         relativePathFactory.create(
@@ -380,10 +380,9 @@ public class testRelativePath {
 
     for (int i = 0; i < 5; i++) {
       Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(2, i);
-      Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
-      Block replacementBlock2 =
-          blockFactory.createDirt(removeBlock2.getCoordinatesWrapper().getCoordinates());
-      gameStore.removeEntity(removeBlock2.getUuid());
+      //      Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
+      Block replacementBlock2 = blockFactory.createDirt(replacementCoordinates2);
+      //      gameStore.removeEntity(removeBlock2.getUuid());
       gameStore.addEntity(replacementBlock2);
       System.out.println("2" + gameStore.getBlock(replacementCoordinates2).getClass());
     }
@@ -392,10 +391,10 @@ public class testRelativePath {
         relativePathFactory.create(
             CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(2, 5));
 
-    System.out.println("^^^^^^^^^^^^^^");
-    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 5)).getClass());
-    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 4)).getClass());
-    System.out.println("^^^^^^^^^^^^^^");
+    //    System.out.println("^^^^^^^^^^^^^^");
+    //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 5)).getClass());
+    //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 4)).getClass());
+    //    System.out.println("^^^^^^^^^^^^^^");
 
     relativePath.search();
 
@@ -455,10 +454,9 @@ public class testRelativePath {
 
     for (int i = 0; i < 5; i++) {
       Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(2, i);
-      Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
-      Block replacementBlock2 =
-          blockFactory.createDirt(removeBlock2.getCoordinatesWrapper().getCoordinates());
-      gameStore.removeEntity(removeBlock2.getUuid());
+      //      Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
+      Block replacementBlock2 = blockFactory.createDirt(replacementCoordinates2);
+      //      gameStore.removeEntity(removeBlock2.getUuid());
       gameStore.addEntity(replacementBlock2);
       System.out.println("2" + gameStore.getBlock(replacementCoordinates2).getClass());
     }

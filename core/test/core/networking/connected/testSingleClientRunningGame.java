@@ -33,7 +33,6 @@ import core.entity.attributes.inventory.Equipped;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.block.DirtBlock;
-import core.entity.block.SkyBlock;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.generation.ChunkBuilderFactory;
 import core.generation.ChunkGenerationService;
@@ -560,7 +559,7 @@ public class testSingleClientRunningGame {
     assert serverBlockOriginal != null;
     serverGameController.addEntity(serverBlockOriginal);
     Block serverBlockReplacement =
-        serverBlockFactory.createSky(CommonFactory.createCoordinates(0, 0));
+        serverBlockFactory.createDirt(CommonFactory.createCoordinates(0, 0));
     serverGameController.replaceBlock(
         Optional.of(serverBlockOriginal), Optional.ofNullable(serverBlockReplacement));
     TimeUnit.SECONDS.sleep(1);
@@ -570,8 +569,12 @@ public class testSingleClientRunningGame {
     TimeUnit.SECONDS.sleep(1);
     clientEventService.firePostUpdateEvents();
     serverEventService.firePostUpdateEvents();
-    Assert.assertEquals(
-        clientGameStore.getBlock(CommonFactory.createCoordinates(0, 0)).getClass(), SkyBlock.class);
+
+    try {
+      clientGameStore.getBlock(CommonFactory.createCoordinates(0, 0));
+    } catch (EntityNotFound e) {
+      fail();
+    }
   }
 
   @Test

@@ -1,5 +1,7 @@
 package core.entity.pathfinding;
 
+import static org.junit.Assert.fail;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.chunk.ChunkFactory;
@@ -34,7 +36,12 @@ public class testEntityStructure {
     Block block = blockFactory.createSky(CommonFactory.createCoordinates(0, 0));
     gameStore.addEntity(block);
 
-    assert gameStore.getBlock(CommonFactory.createCoordinates(0, 0)) != null;
+    try {
+      gameStore.getBlock(CommonFactory.createCoordinates(0, 0));
+      fail();
+    } catch (EntityNotFound e) {
+
+    }
 
     EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
     entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
@@ -84,7 +91,12 @@ public class testEntityStructure {
     Block block = blockFactory.createSky(CommonFactory.createCoordinates(0, 0));
     gameStore.addEntity(block);
 
-    assert gameStore.getBlock(CommonFactory.createCoordinates(0, 0)) != null;
+    try {
+      gameStore.getBlock(CommonFactory.createCoordinates(0, 0));
+      fail("should have failed.");
+    } catch (EntityNotFound e) {
+
+    }
 
     EntityStructure entityStructure = entityStructureFactory.createEntityStructure();
     entityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), SolidBlock.class);
