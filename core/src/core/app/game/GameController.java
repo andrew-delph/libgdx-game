@@ -26,8 +26,7 @@ import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.block.DirtBlock;
-import core.entity.block.EmptyBlock;
-import core.entity.block.SkyBlock;
+import core.entity.block.SolidBlock;
 import core.entity.controllers.events.types.AbstractEntityEventType;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.groups.GroupService;
@@ -40,6 +39,7 @@ import core.entity.misc.water.Water;
 import core.entity.misc.water.WaterPosition;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 import org.apache.logging.log4j.LogManager;
@@ -183,13 +183,9 @@ public class GameController {
 
   public Entity createLadder(Coordinates coordinates) throws ChunkNotFound {
     try {
-      if (!(this.gameStore.getBlock(coordinates) instanceof EmptyBlock)) {
-        LOGGER.debug("Did not find EmptyBlock");
-        return null;
-      }
-    } catch (EntityNotFound e) {
-      LOGGER.error("Could not create Ladder");
+      this.gameStore.getBlock(coordinates);
       return null;
+    } catch (EntityNotFound e) {
     }
     if (this.gameStore.getLadder(coordinates) != null) return this.gameStore.getLadder(coordinates);
     Entity entity = entityFactory.createLadder(coordinates);
@@ -235,13 +231,9 @@ public class GameController {
   public Turret createTurret(Entity entity, Coordinates coordinates) throws ChunkNotFound {
 
     try {
-      if (!(this.gameStore.getBlock(coordinates) instanceof EmptyBlock)) {
-        LOGGER.debug("Did not find EmptyBlock");
-        return null;
-      }
-    } catch (EntityNotFound e) {
-      LOGGER.error(e);
+      this.gameStore.getBlock(coordinates);
       return null;
+    } catch (EntityNotFound e) {
     }
 
     if (this.gameStore.getTurret(coordinates) != null) return this.gameStore.getTurret(coordinates);
@@ -287,55 +279,90 @@ public class GameController {
             attribute, CommonFactory.createChunkRange(preCoordinates), uuid));
   }
 
-  public void placeBlock(Entity entity, Direction direction, Class blockClass)
-      throws EntityNotFound {
+  public void placeBlock(
+      Entity entity, Direction direction, Optional<Class<? extends SolidBlock>> blockClass) {
     Block removeBlock = null;
-    if (direction == Direction.LEFT) {
-      removeBlock = this.gameStore.getBlock(entity.getCenter().getLeft());
-    } else if (direction == Direction.RIGHT) {
-      removeBlock = this.gameStore.getBlock(entity.getCenter().getRight());
-    } else if (direction == Direction.UP) {
-      removeBlock = this.gameStore.getBlock(entity.getCenter().getUp());
-    } else if (direction == Direction.DOWN) {
-      removeBlock = this.gameStore.getBlock(entity.getCenter().getDown());
+    Coordinates targetCoordinates = null;
+
+    try {
+      // just remove....
+      if (direction == Direction.LEFT) {
+        targetCoordinates = entity.getCenter().getLeft();
+        removeBlock = this.gameStore.getBlock(entity.getCenter().getLeft());
+      } else if (direction == Direction.RIGHT) {
+        targetCoordinates = entity.getCenter().getRight();
+        removeBlock = this.gameStore.getBlock(entity.getCenter().getRight());
+      } else if (direction == Direction.UP) {
+        targetCoordinates = entity.getCenter().getUp();
+        removeBlock = this.gameStore.getBlock(entity.getCenter().getUp());
+      } else if (direction == Direction.DOWN) {
+        targetCoordinates = entity.getCenter().getDown();
+        removeBlock = this.gameStore.getBlock(entity.getCenter().getDown());
+      }
+    } catch (EntityNotFound e) {
+      removeBlock = null;
     }
-    if (removeBlock == null) throw new EntityNotFound("Block to remove not found in direction.");
-    if (removeBlock.getClass() == blockClass) return;
+
+    if (removeBlock == null || removeBlock.getClass() != null) {}
+
+    //    if (removeBlock == null) throw new EntityNotFound("Block to remove not found in
+    // direction.");
+    //    if (removeBlock.getClass() == blockClass) return;
 
     Block replacementBlock;
-    if (blockClass == SkyBlock.class) {
-      replacementBlock =
-          blockFactory.createSky(removeBlock.getCoordinatesWrapper().getCoordinates());
-    } else if (blockClass == DirtBlock.class) {
-      replacementBlock =
-          blockFactory.createDirt(removeBlock.getCoordinatesWrapper().getCoordinates());
+    if (targetCoordinates != null
+        && blockClass.isPresent()
+        && blockClass.get() == DirtBlock.class) {
+      replacementBlock = blockFactory.createDirt(targetCoordinates);
     } else {
-      return;
+      replacementBlock = null;
     }
-    this.replaceBlock(removeBlock, replacementBlock);
+
+    this.replaceBlock(Optional.ofNullable(removeBlock), Optional.ofNullable(replacementBlock));
   }
 
-  public void replaceBlock(Block target, Block replacementBlock) {
-    Ladder removeLadder = this.gameStore.getLadder(target.getCoordinatesWrapper().getCoordinates());
-    if (removeLadder != null) {
-      this.removeEntity(removeLadder.getUuid());
+  public void replaceBlock(Optional<Block> target, Optional<Block> replacementBlock) {
+    // 1 both exist. replace
+    // 2 only target exists. remove it
+    // 3 only replacementBlock exists. add it
+
+    if (target.isPresent()) {
+      Ladder removeLadder =
+          this.gameStore.getLadder(target.get().getCoordinatesWrapper().getCoordinates());
+      if (removeLadder != null) {
+        this.removeEntity(removeLadder.getUuid());
+      }
+      Turret removeTurret =
+          this.gameStore.getTurret(target.get().getCoordinatesWrapper().getCoordinates());
+      if (removeTurret != null) {
+        this.removeEntity(removeTurret.getUuid());
+      }
     }
-    Turret removeTurret = this.gameStore.getTurret(target.getCoordinatesWrapper().getCoordinates());
-    if (removeTurret != null) {
-      this.removeEntity(removeTurret.getUuid());
+
+    if (target.isPresent() && replacementBlock.isPresent()) {
+      // put this into a post update event
+      this.eventService.queuePostUpdateEvent(
+          EventTypeFactory.createReplaceEntityEvent(
+              target.get().getUuid(),
+              replacementBlock.get(),
+              false,
+              CommonFactory.createChunkRange(
+                  target.get().getCoordinatesWrapper().getCoordinates())));
+      this.eventService.fireEvent(
+          EventTypeFactory.createReplaceBlockOutgoingEvent(
+              target.get().getUuid(),
+              replacementBlock.get(),
+              CommonFactory.createChunkRange(
+                  target.get().getCoordinatesWrapper().getCoordinates())));
+    } else if (target.isPresent()) {
+      this.removeEntity(target.get().getUuid());
+    } else if (replacementBlock.isPresent()) {
+      try {
+        this.addEntity(replacementBlock.get());
+      } catch (ChunkNotFound e) {
+        e.printStackTrace();
+      }
     }
-    // put this into a post update event
-    this.eventService.queuePostUpdateEvent(
-        EventTypeFactory.createReplaceEntityEvent(
-            target.getUuid(),
-            replacementBlock,
-            false,
-            CommonFactory.createChunkRange(target.getCoordinatesWrapper().getCoordinates())));
-    this.eventService.fireEvent(
-        EventTypeFactory.createReplaceBlockOutgoingEvent(
-            target.getUuid(),
-            replacementBlock,
-            CommonFactory.createChunkRange(target.getCoordinatesWrapper().getCoordinates())));
   }
 
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity)
@@ -345,6 +372,9 @@ public class GameController {
 
   public Entity triggerReplaceEntity(UUID target, Entity replacementEntity, Boolean swapVelocity)
       throws EntityNotFound, ChunkNotFound, BodyNotFound, DestroyBodyException {
+
+    if (replacementEntity == null) return null;
+
     Vector2 velocity = null;
     Entity removeEntity = this.gameStore.getEntity(target);
     if (swapVelocity) {

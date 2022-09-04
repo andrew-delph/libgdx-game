@@ -17,9 +17,9 @@ import core.entity.attributes.inventory.Equipped;
 import core.entity.attributes.inventory.InventoryBag;
 import core.entity.attributes.msc.AnimationStateWrapper;
 import core.entity.block.DirtBlock;
-import core.entity.block.SkyBlock;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.networking.events.EventTypeFactory;
+import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,24 +44,24 @@ public class EntityUserController extends EntityController {
     }
     if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-        this.gameController.placeBlock(this.entity, Direction.LEFT, SkyBlock.class);
+        this.gameController.placeBlock(this.entity, Direction.LEFT, Optional.empty());
       } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-        this.gameController.placeBlock(this.entity, Direction.RIGHT, SkyBlock.class);
+        this.gameController.placeBlock(this.entity, Direction.RIGHT, Optional.empty());
       } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-        this.gameController.placeBlock(this.entity, Direction.DOWN, SkyBlock.class);
+        this.gameController.placeBlock(this.entity, Direction.DOWN, Optional.empty());
       } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-        this.gameController.placeBlock(this.entity, Direction.UP, SkyBlock.class);
+        this.gameController.placeBlock(this.entity, Direction.UP, Optional.empty());
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-        this.gameController.placeBlock(this.entity, Direction.LEFT, DirtBlock.class);
+        this.gameController.placeBlock(this.entity, Direction.LEFT, Optional.of(DirtBlock.class));
       } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-        this.gameController.placeBlock(this.entity, Direction.RIGHT, DirtBlock.class);
+        this.gameController.placeBlock(this.entity, Direction.RIGHT, Optional.of(DirtBlock.class));
       } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-        this.gameController.placeBlock(this.entity, Direction.DOWN, DirtBlock.class);
+        this.gameController.placeBlock(this.entity, Direction.DOWN, Optional.of(DirtBlock.class));
       } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-        this.gameController.placeBlock(this.entity, Direction.UP, DirtBlock.class);
+        this.gameController.placeBlock(this.entity, Direction.UP, Optional.of(DirtBlock.class));
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.E)) {

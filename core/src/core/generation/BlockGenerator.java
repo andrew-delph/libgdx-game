@@ -22,6 +22,9 @@ public class BlockGenerator {
   BlockGenerator() {}
 
   public void generate(Coordinates coordinates) throws ChunkNotFound {
+
+    gameController.triggerAddEntity(blockFactory.createSky(coordinates));
+
     if (coordinates.getY() > 0) {
       if (coordinates.getY() == 5 && coordinates.getX() == 5) {
         for (int i = 0; i < 30; i++) {
@@ -31,7 +34,6 @@ public class BlockGenerator {
           gameController.triggerAddEntity(water);
         }
       }
-      gameController.triggerAddEntity(blockFactory.createSky(coordinates));
     } else if (coordinates.getY() == 0) {
       gameController.triggerAddEntity(blockFactory.createStone(coordinates));
     } else if (Math.random() < 0.1) {

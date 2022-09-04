@@ -30,6 +30,7 @@ import core.networking.client.ClientNetworkHandle;
 import core.networking.server.ServerNetworkHandle;
 import core.networking.sync.SyncService;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.After;
@@ -315,7 +316,8 @@ public class HandshakeTests {
     assert !serverChunk.equals(clientChunk);
 
     // this will trigger the handshake
-    clientGameController.replaceBlock(blockToRemove, blockToReplace);
+    clientGameController.replaceBlock(
+        Optional.of(blockToRemove), Optional.ofNullable(blockToReplace));
     tickClocks(1000, 0.1f);
     TimeUnit.SECONDS.sleep(1);
     assert serverChunk.equals(clientChunk);
@@ -386,7 +388,8 @@ public class HandshakeTests {
     TimeUnit.SECONDS.sleep(1);
     assert !serverChunk.equals(clientChunk);
 
-    serverGameController.replaceBlock(blockToRemove, blockToReplace);
+    serverGameController.replaceBlock(
+        Optional.of(blockToRemove), Optional.ofNullable(blockToReplace));
     TimeUnit.SECONDS.sleep(2);
     tickClocks(2000, 0.2f);
     assert serverChunk.equals(clientChunk);

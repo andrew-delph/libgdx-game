@@ -19,6 +19,7 @@ import core.entity.pathfinding.PathGameStoreOverride;
 import core.entity.pathfinding.RelativeCoordinates;
 import core.entity.pathfinding.RelativePathNode;
 import core.entity.pathfinding.RelativeVertex;
+import java.util.Optional;
 
 public class DigGreedyEdge extends HorizontalGreedyEdge {
   GameController gameController;
@@ -90,9 +91,10 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
             this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition));
     try {
       this.gameController.replaceBlock(
-          this.gameStore.getBlock(
-              this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition)),
-          targetBlock);
+          Optional.ofNullable(
+              this.gameStore.getBlock(
+                  this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))),
+          Optional.ofNullable(targetBlock));
     } catch (EntityNotFound e) {
       throw new EdgeStepperException(e.toString());
     }

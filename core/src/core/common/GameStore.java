@@ -7,7 +7,7 @@ import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
-import core.entity.block.Block;
+import core.entity.block.SolidBlock;
 import core.entity.misc.Ladder;
 import core.entity.misc.Turret;
 import core.networking.events.EventTypeFactory;
@@ -140,7 +140,7 @@ public class GameStore {
     return this.chunkClockMap.getChunksOnTick(tick);
   }
 
-  public Block getBlock(Coordinates coordinates) throws EntityNotFound {
+  public SolidBlock getBlock(Coordinates coordinates) throws EntityNotFound {
     Chunk chunk = this.chunkClockMap.get(CommonFactory.createChunkRange(coordinates));
     if (chunk == null) throw new EntityNotFound("Chunk not found");
     return chunk.getBlock(coordinates.getBase());

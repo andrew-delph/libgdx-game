@@ -14,7 +14,7 @@ import core.common.Tick;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
-import core.entity.block.Block;
+import core.entity.block.SolidBlock;
 import core.entity.collision.EntityContactListenerFactory;
 import core.entity.misc.Ladder;
 import core.entity.misc.Turret;
@@ -244,13 +244,13 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     return entityList;
   }
 
-  public Block getBlock(Coordinates coordinates) throws EntityNotFound {
+  public SolidBlock getBlock(Coordinates coordinates) throws EntityNotFound {
     List<Entity> entityList = this.getEntityInRange(coordinates, coordinates);
     for (Entity entity : entityList) {
-      if (entity instanceof Block
+      if (entity instanceof SolidBlock
           && Coordinates.isInRange(
               coordinates, coordinates, entity.getCoordinatesWrapper().getCoordinates())) {
-        return (Block) entity;
+        return (SolidBlock) entity;
       }
     }
     throw new EntityNotFound("could not find block at " + coordinates.toString());

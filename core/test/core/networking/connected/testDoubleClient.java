@@ -1,5 +1,7 @@
 package core.networking.connected;
 
+import static org.junit.Assert.fail;
+
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -36,6 +38,7 @@ import core.networking.server.ServerNetworkHandle;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Assert;
@@ -517,7 +520,13 @@ public class testDoubleClient {
     assert client_a_GameStore
         .getChunk(chunkRangeToTest)
         .equals(client_b_GameStore.getChunk(chunkRangeToTest));
-    assert serverGameStore.getBlock(coordinatesToTest).getClass() == SkyBlock.class;
+
+    try {
+      serverGameStore.getBlock(coordinatesToTest);
+      fail("no block should exist.");
+    } catch (EntityNotFound e) {
+
+    }
 
     Block blockToRemove = client_a_GameStore.getBlock(coordinatesToTest);
     Block blockAsReplacement = client_a_BlockFactory.createDirt(coordinatesToTest);
@@ -551,7 +560,8 @@ public class testDoubleClient {
         .getEntity(ladder.getUuid())
         .equals(serverGameStore.getEntity(ladder.getUuid()));
 
-    client_a_GameController.replaceBlock(blockToRemove, blockAsReplacement);
+    client_a_GameController.replaceBlock(
+        Optional.ofNullable(blockToRemove), Optional.ofNullable(blockAsReplacement));
     TimeUnit.SECONDS.sleep(1);
 
     // check block is equal

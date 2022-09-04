@@ -10,10 +10,10 @@ import core.chunk.world.EntityBodyBuilder;
 import core.common.Clock;
 import core.common.Coordinates;
 import core.common.GameSettings;
-import core.entity.Entity;
+import core.entity.block.SolidBlock;
 import java.util.UUID;
 
-public class Sand extends Entity {
+public class Sand extends SolidBlock {
   public static float staticHeight = 1f;
   public static float staticWidth = 1f;
 

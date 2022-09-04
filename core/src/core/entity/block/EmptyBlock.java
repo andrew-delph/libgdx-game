@@ -19,6 +19,7 @@ public abstract class EmptyBlock extends Block {
       EntityBodyBuilder entityBodyBuilder,
       Coordinates coordinates) {
     super(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    this.zindex = -1;
   }
 
   public synchronized CreateBodyCallable addWorld(Chunk chunk) {
