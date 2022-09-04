@@ -364,8 +364,8 @@ public class EntityBodyBuilder {
 
     PolygonShape blockingShape = new PolygonShape();
     blockingShape.setAsBox(
-        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.1f,
-        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2.1f);
+        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
+        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
     FixtureDef blockingFixtureDef = new FixtureDef();
     blockingFixtureDef.shape = blockingShape;
     blockingFixtureDef.density = 1f;
