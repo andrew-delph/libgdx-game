@@ -309,15 +309,17 @@ public class GameController {
     // direction.");
     //    if (removeBlock.getClass() == blockClass) return;
 
-    Block replacementBlock;
-    if (targetCoordinates != null
-        && blockClass.isPresent()
-        && blockClass.get() == DirtBlock.class) {
-      replacementBlock = blockFactory.createDirt(targetCoordinates);
-    } else {
-      replacementBlock = null;
-    }
+    Block replacementBlock = null;
+    if (targetCoordinates != null && blockClass.isPresent()) {
 
+      Class<? extends SolidBlock> aClass = blockClass.get();
+      if (DirtBlock.class.equals(aClass)) {
+        replacementBlock = blockFactory.createDirt(targetCoordinates);
+      } else if (Sand.class.equals(aClass)) {
+        replacementBlock = entityFactory.createSand(targetCoordinates);
+      } else {
+      }
+    }
     this.replaceBlock(Optional.ofNullable(removeBlock), Optional.ofNullable(replacementBlock));
   }
 
