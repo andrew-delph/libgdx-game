@@ -27,6 +27,7 @@ import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.block.DirtBlock;
 import core.entity.block.SolidBlock;
+import core.entity.collision.RayCastService;
 import core.entity.controllers.events.types.AbstractEntityEventType;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.groups.GroupService;
@@ -40,6 +41,7 @@ import core.entity.misc.water.WaterPosition;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import org.apache.logging.log4j.LogManager;
@@ -59,6 +61,7 @@ public class GameController {
   @Inject ChunkFactory chunkFactory;
   @Inject ItemActionService itemActionService;
   @Inject GroupService groupService;
+  @Inject RayCastService rayCastService;
 
   public Entity addEntity(Entity entity) throws ChunkNotFound {
     triggerAddEntity(entity);
@@ -284,24 +287,23 @@ public class GameController {
     Block removeBlock = null;
     Coordinates targetCoordinates = null;
 
-    try {
-      // just remove....
-      if (direction == Direction.LEFT) {
-        targetCoordinates = entity.getCenter().getLeft().getBase();
-        removeBlock = this.gameStore.getBlock(targetCoordinates);
-      } else if (direction == Direction.RIGHT) {
-        targetCoordinates = entity.getCenter().getRight();
-        removeBlock = this.gameStore.getBlock(targetCoordinates);
-      } else if (direction == Direction.UP) {
-        targetCoordinates = entity.getCenter().getUp();
-        removeBlock = this.gameStore.getBlock(targetCoordinates);
-      } else if (direction == Direction.DOWN) {
-        targetCoordinates = entity.getCenter().getDown();
-        removeBlock = this.gameStore.getBlock(targetCoordinates);
-      }
-    } catch (EntityNotFound e) {
-      removeBlock = null;
+    Set<Entity> rayCastSet = null;
+    if (direction == Direction.LEFT) {
+      rayCastSet = rayCastService.rayCast(entity.getCenter(), entity.getCenter().add(-1, 0));
+    } else if (direction == Direction.RIGHT) {
+      rayCastSet = rayCastService.rayCast(entity.getCenter(), entity.getCenter().add(1, 0));
+    } else if (direction == Direction.UP) {
+      rayCastSet = rayCastService.rayCast(entity.getCenter(), entity.getCenter().add(0, 1));
+    } else if (direction == Direction.DOWN) {
+      rayCastSet = rayCastService.rayCast(entity.getCenter(), entity.getCenter().add(0, -1));
+    } else {
+      return;
     }
+
+    removeBlock =
+        (Block)
+            ((Optional<Entity>) rayCastSet.stream().filter(e -> e instanceof SolidBlock).findAny())
+                .orElse(null);
 
     if (removeBlock == null || removeBlock.getClass() != null) {}
 

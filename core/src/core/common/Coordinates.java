@@ -85,6 +85,10 @@ public class Coordinates implements SerializeNetworkData {
     return CommonFactory.createCoordinates(this.getX() + 0.5f, this.getY() + 0.5f);
   }
 
+  public synchronized Coordinates add(float x, float y) {
+    return CommonFactory.createCoordinates(this.getX() + x, this.getY() + y);
+  }
+
   public double calcDistance(Coordinates other) {
     return Math.sqrt(
         Math.pow(this.getXReal() - other.getXReal(), 2)

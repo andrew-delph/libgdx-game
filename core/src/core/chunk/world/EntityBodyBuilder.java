@@ -371,8 +371,9 @@ public class EntityBodyBuilder {
     blockingFixtureDef.density = 1f;
     //    blockingFixtureDef.restitution = 1;
     //    fixtureDef.isSensor = true;
-    Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
-    orbFixture.setFilterData(blockFilter());
+    Fixture blockFixture = theBody.createFixture(blockingFixtureDef);
+    blockFixture.setFilterData(blockFilter());
+    blockFixture.setUserData(new GroundSensor(entity, chunkRange));
 
     //    theBody.setLinearDamping(0.1f);
     //    theBody.setAngularDamping(0.1f);
