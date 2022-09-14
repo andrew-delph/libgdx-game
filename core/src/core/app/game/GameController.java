@@ -301,11 +301,7 @@ public class GameController {
     }
 
     removeBlock =
-        (Block)
-            ((Optional<Entity>) rayCastSet.stream().filter(e -> e instanceof SolidBlock).findAny())
-                .orElse(null);
-
-    if (removeBlock == null || removeBlock.getClass() != null) {}
+        (Block) (rayCastSet.stream().filter(e -> e instanceof SolidBlock).findAny()).orElse(null);
 
     //    if (removeBlock == null) throw new EntityNotFound("Block to remove not found in
     // direction.");
