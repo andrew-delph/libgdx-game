@@ -22,6 +22,7 @@ public class RayCastService {
   @Inject GameStore gameStore;
 
   public Set<Entity> rayCast(Coordinates start, Coordinates end) {
+    System.out.println(start + " , " + end);
     /*
      Returns all the entities of the bodies reached by the ray-cast;
     */

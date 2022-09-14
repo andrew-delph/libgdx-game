@@ -86,7 +86,7 @@ public class Coordinates implements SerializeNetworkData {
   }
 
   public synchronized Coordinates add(float x, float y) {
-    return CommonFactory.createCoordinates(this.getX() + x, this.getY() + y);
+    return CommonFactory.createCoordinates(this.getXReal() + x, this.getYReal() + y);
   }
 
   public double calcDistance(Coordinates other) {

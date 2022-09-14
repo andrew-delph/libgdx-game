@@ -285,17 +285,28 @@ public class GameController {
   public void placeBlock(
       Entity entity, Direction direction, Optional<Class<? extends SolidBlock>> blockClass) {
     Block removeBlock = null;
-    Coordinates targetCoordinates = null;
 
     Set<Entity> rayCastSet = null;
     if (direction == Direction.LEFT) {
-      rayCastSet = rayCastService.rayCast(entity.getCenter(), entity.getCenter().add(-1, 0));
+      rayCastSet =
+          rayCastService.rayCast(
+              entity.getCoordinatesWrapper().getCoordinates(),
+              entity.getCoordinatesWrapper().getCoordinates().add(-1f, 0));
     } else if (direction == Direction.RIGHT) {
-      rayCastSet = rayCastService.rayCast(entity.getCenter(), entity.getCenter().add(1, 0));
+      rayCastSet =
+          rayCastService.rayCast(
+              entity.getCoordinatesWrapper().getCoordinates(),
+              entity.getCoordinatesWrapper().getCoordinates().add(1f, 0));
     } else if (direction == Direction.UP) {
-      rayCastSet = rayCastService.rayCast(entity.getCenter(), entity.getCenter().add(0, 1));
+      rayCastSet =
+          rayCastService.rayCast(
+              entity.getCoordinatesWrapper().getCoordinates(),
+              entity.getCoordinatesWrapper().getCoordinates().add(0, 1f));
     } else if (direction == Direction.DOWN) {
-      rayCastSet = rayCastService.rayCast(entity.getCenter(), entity.getCenter().add(0, -1));
+      rayCastSet =
+          rayCastService.rayCast(
+              entity.getCoordinatesWrapper().getCoordinates(),
+              entity.getCoordinatesWrapper().getCoordinates().add(0, -1f));
     } else {
       return;
     }
@@ -308,6 +319,9 @@ public class GameController {
     //    if (removeBlock.getClass() == blockClass) return;
 
     Block replacementBlock = null;
+    Coordinates targetCoordinates =
+        ((removeBlock == null) ? null : removeBlock.getCoordinatesWrapper().getCoordinates());
+
     if (targetCoordinates != null && blockClass.isPresent()) {
 
       Class<? extends SolidBlock> aClass = blockClass.get();
