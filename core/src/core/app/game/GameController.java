@@ -286,27 +286,29 @@ public class GameController {
       Entity entity, Direction direction, Optional<Class<? extends SolidBlock>> blockClass) {
     Block removeBlock = null;
 
+    Coordinates targetCoordinates = null;
+
     Set<Entity> rayCastSet = null;
     if (direction == Direction.LEFT) {
+      targetCoordinates = entity.getCoordinatesWrapper().getCoordinates().add(-1f, 0);
       rayCastSet =
           rayCastService.rayCast(
-              entity.getCoordinatesWrapper().getCoordinates(),
-              entity.getCoordinatesWrapper().getCoordinates().add(-1f, 0));
+              entity.getCoordinatesWrapper().getCoordinates(), targetCoordinates);
     } else if (direction == Direction.RIGHT) {
+      targetCoordinates = entity.getCoordinatesWrapper().getCoordinates().add(1f, 0);
       rayCastSet =
           rayCastService.rayCast(
-              entity.getCoordinatesWrapper().getCoordinates(),
-              entity.getCoordinatesWrapper().getCoordinates().add(1f, 0));
+              entity.getCoordinatesWrapper().getCoordinates(), targetCoordinates);
     } else if (direction == Direction.UP) {
+      targetCoordinates = entity.getCoordinatesWrapper().getCoordinates().add(0, 1f);
       rayCastSet =
           rayCastService.rayCast(
-              entity.getCoordinatesWrapper().getCoordinates(),
-              entity.getCoordinatesWrapper().getCoordinates().add(0, 1f));
+              entity.getCoordinatesWrapper().getCoordinates(), targetCoordinates);
     } else if (direction == Direction.DOWN) {
+      targetCoordinates = entity.getCoordinatesWrapper().getCoordinates().add(0, -1f);
       rayCastSet =
           rayCastService.rayCast(
-              entity.getCoordinatesWrapper().getCoordinates(),
-              entity.getCoordinatesWrapper().getCoordinates().add(0, -1f));
+              entity.getCoordinatesWrapper().getCoordinates(), targetCoordinates);
     } else {
       return;
     }
@@ -314,13 +316,11 @@ public class GameController {
     removeBlock =
         (Block) (rayCastSet.stream().filter(e -> e instanceof SolidBlock).findAny()).orElse(null);
 
-    //    if (removeBlock == null) throw new EntityNotFound("Block to remove not found in
-    // direction.");
-    //    if (removeBlock.getClass() == blockClass) return;
-
     Block replacementBlock = null;
-    Coordinates targetCoordinates =
-        ((removeBlock == null) ? null : removeBlock.getCoordinatesWrapper().getCoordinates());
+    targetCoordinates =
+        ((removeBlock == null)
+            ? targetCoordinates.getBase()
+            : removeBlock.getCoordinatesWrapper().getCoordinates());
 
     if (targetCoordinates != null && blockClass.isPresent()) {
 
