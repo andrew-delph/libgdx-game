@@ -4,7 +4,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.common.ChunkRange;
 import core.common.CommonFactory;
-import core.common.GameSettings;
 import core.common.GameStore;
 import core.configuration.BaseServerConfig;
 import core.entity.block.Block;
@@ -40,7 +39,7 @@ public class testChunkGenerationService {
 
     Assert.assertTrue(gameStore.doesChunkExist(chunkRangeToTest));
     Assert.assertEquals(
-        GameSettings.CHUNK_SIZE * GameSettings.CHUNK_SIZE,
+        30,
         gameStore.getChunk(chunkRangeToTest).getEntityList().stream()
             .filter(entity -> entity instanceof Block)
             .collect(Collectors.toList())
@@ -59,7 +58,7 @@ public class testChunkGenerationService {
 
     Assert.assertTrue(gameStore.doesChunkExist(chunkRangeToTest));
     Assert.assertEquals(
-        GameSettings.CHUNK_SIZE * GameSettings.CHUNK_SIZE,
+        30,
         gameStore.getChunk(chunkRangeToTest).getEntityList().stream()
             .filter(entity -> entity instanceof Block)
             .collect(Collectors.toList())

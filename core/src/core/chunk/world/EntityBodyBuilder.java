@@ -32,9 +32,9 @@ public class EntityBodyBuilder {
   public static Pair<UUID, Body> createEntityBody(
       World world, ChunkRange chunkRange, Entity entity) {
     float center_x =
-        -(GameSettings.PHYSICS_SCALE - (entity.staticWidth * GameSettings.PHYSICS_SCALE)) / 2f;
+        -(GameSettings.PHYSICS_SCALE - (Entity.staticWidth * GameSettings.PHYSICS_SCALE)) / 2f;
     float center_y =
-        -(GameSettings.PHYSICS_SCALE - (entity.staticHeight * GameSettings.PHYSICS_SCALE)) / 2f;
+        -(GameSettings.PHYSICS_SCALE - (Entity.staticHeight * GameSettings.PHYSICS_SCALE)) / 2f;
 
     Body theBody;
     BodyDef bodyDef = new BodyDef();
@@ -69,8 +69,8 @@ public class EntityBodyBuilder {
 
     // create the main
     mainShape.setAsBox(
-        (entity.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
-        (entity.staticHeight * GameSettings.PHYSICS_SCALE) / 2f,
+        (Entity.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
+        (Entity.staticHeight * GameSettings.PHYSICS_SCALE) / 2f,
         new Vector2(center_x, center_y + 2),
         0);
     mainFixtureDef.shape = mainShape;
@@ -364,15 +364,16 @@ public class EntityBodyBuilder {
 
     PolygonShape blockingShape = new PolygonShape();
     blockingShape.setAsBox(
-        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.1f,
-        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2.1f);
+        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2f,
+        (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
     FixtureDef blockingFixtureDef = new FixtureDef();
     blockingFixtureDef.shape = blockingShape;
     blockingFixtureDef.density = 1f;
     //    blockingFixtureDef.restitution = 1;
     //    fixtureDef.isSensor = true;
-    Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
-    orbFixture.setFilterData(blockFilter());
+    Fixture blockFixture = theBody.createFixture(blockingFixtureDef);
+    blockFixture.setFilterData(blockFilter());
+    blockFixture.setUserData(new GroundSensor(entity, chunkRange));
 
     //    theBody.setLinearDamping(0.1f);
     //    theBody.setAngularDamping(0.1f);

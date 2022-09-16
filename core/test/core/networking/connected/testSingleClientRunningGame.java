@@ -1,5 +1,7 @@
 package core.networking.connected;
 
+import static org.junit.Assert.fail;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -31,7 +33,6 @@ import core.entity.attributes.inventory.Equipped;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.block.DirtBlock;
-import core.entity.block.SkyBlock;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.generation.ChunkBuilderFactory;
 import core.generation.ChunkGenerationService;
@@ -43,6 +44,7 @@ import core.networking.events.consumer.client.incoming.HandshakeIncomingConsumer
 import core.networking.server.ServerNetworkHandle;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Assert;
@@ -528,8 +530,12 @@ public class testSingleClientRunningGame {
             serverBlockFactory.createSky(clientBlock.getCoordinatesWrapper().getCoordinates()),
             CommonFactory.createChunkRange(clientBlock.getCoordinatesWrapper().getCoordinates())));
     TimeUnit.SECONDS.sleep(1);
-    assert serverGameStore.getBlock(CommonFactory.createCoordinates(0, 0)).getClass()
-        == SkyBlock.class;
+    try {
+      serverGameStore.getBlock(CommonFactory.createCoordinates(0, 0));
+      fail("No block should be found.");
+    } catch (EntityNotFound entityNotFound) {
+
+    }
   }
 
   @Test
@@ -553,8 +559,9 @@ public class testSingleClientRunningGame {
     assert serverBlockOriginal != null;
     serverGameController.addEntity(serverBlockOriginal);
     Block serverBlockReplacement =
-        serverBlockFactory.createSky(CommonFactory.createCoordinates(0, 0));
-    serverGameController.replaceBlock(serverBlockOriginal, serverBlockReplacement);
+        serverBlockFactory.createDirt(CommonFactory.createCoordinates(0, 0));
+    serverGameController.replaceBlock(
+        Optional.of(serverBlockOriginal), Optional.ofNullable(serverBlockReplacement));
     TimeUnit.SECONDS.sleep(1);
     assert clientGameStore
         .getBlock(CommonFactory.createCoordinates(0, 0))
@@ -562,8 +569,12 @@ public class testSingleClientRunningGame {
     TimeUnit.SECONDS.sleep(1);
     clientEventService.firePostUpdateEvents();
     serverEventService.firePostUpdateEvents();
-    Assert.assertEquals(
-        clientGameStore.getBlock(CommonFactory.createCoordinates(0, 0)).getClass(), SkyBlock.class);
+
+    try {
+      clientGameStore.getBlock(CommonFactory.createCoordinates(0, 0));
+    } catch (EntityNotFound e) {
+      fail();
+    }
   }
 
   @Test

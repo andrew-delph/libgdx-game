@@ -22,6 +22,16 @@ public class testCoordinates {
         CommonFactory.createCoordinates(0, 0),
         CommonFactory.createCoordinates(0, 0),
         CommonFactory.createCoordinates(0, 0));
+
+    assert Coordinates.isInRange(
+        CommonFactory.createCoordinates(0, 0),
+        CommonFactory.createCoordinates(0, 0),
+        CommonFactory.createCoordinates(0.1f, 0.9f));
+
+    assert !Coordinates.isInRange(
+        CommonFactory.createCoordinates(0, 0),
+        CommonFactory.createCoordinates(0, 0),
+        CommonFactory.createCoordinates(1.1f, 0.9f));
   }
 
   @Test
