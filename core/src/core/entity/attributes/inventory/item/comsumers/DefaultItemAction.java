@@ -1,8 +1,12 @@
 package core.entity.attributes.inventory.item.comsumers;
 
+import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 import core.app.game.GameController;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Coordinates;
+import core.common.Util;
+import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
 import core.entity.attributes.msc.Health;
@@ -20,21 +24,35 @@ public class DefaultItemAction implements ItemActionInterface {
 
   @Override
   public void use(Entity controlee) {
-    Coordinates center = controlee.getCenter();
+    Coordinates myCoordinates = controlee.getCoordinatesWrapper().getCoordinates();
 
     List<Entity> hitEntityList =
-        new LinkedList<>(rayCastService.rayCast(center.getLeft(), center.getRight()));
+        new LinkedList<>(rayCastService.rayCast(myCoordinates.getLeft(), myCoordinates.getRight()));
 
     for (Entity hitEntity : hitEntityList) {
       if (hitEntity.equals(controlee)) continue;
 
       if (!hitEntity.getClass().equals(Entity.class)) continue;
 
+      Coordinates hitCoordinates = hitEntity.getCoordinatesWrapper().getCoordinates();
+
       Health health = hitEntity.getHealth().applyDiff(-52);
+
+      // calculate angle, apply some force...
+      // apply a boop in the opposite direction. and up
+      Vector2 attackPhysicsVector = Util.calcVelocity(myCoordinates, hitCoordinates, 10);
+      attackPhysicsVector.y = 10;
+
+      try {
+        hitEntity.setBodyVelocity(attackPhysicsVector);
+      } catch (ChunkNotFound | BodyNotFound e) {
+        LOGGER.error("Cannot update entity: " + hitEntity.getUuid().toString() + " Velocity");
+      }
+
       try {
         gameController.updateEntityAttribute(hitEntity.getUuid(), health);
       } catch (EntityNotFound e) {
-        LOGGER.error("Cannot update client: " + hitEntity.getUuid().toString() + " Health");
+        LOGGER.error("Cannot update entity: " + hitEntity.getUuid().toString() + " Health");
       }
     }
   }

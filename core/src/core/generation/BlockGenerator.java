@@ -9,7 +9,6 @@ import core.entity.block.BlockFactory;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.misc.Orb;
 import core.entity.misc.Sand;
-import core.entity.misc.water.WaterPosition;
 
 public class BlockGenerator {
 
@@ -27,12 +26,13 @@ public class BlockGenerator {
 
     if (coordinates.getY() > 0) {
       if (coordinates.getY() == 5 && coordinates.getX() == 5) {
-        for (int i = 0; i < 30; i++) {
-          WaterPosition water = entityFactory.createWaterPosition(coordinates);
-
-          water.setEntityController(entityControllerFactory.createWaterPositionController(water));
-          gameController.triggerAddEntity(water);
-        }
+        //        for (int i = 0; i < 30; i++) {
+        //          WaterPosition water = entityFactory.createWaterPosition(coordinates);
+        //
+        //
+        // water.setEntityController(entityControllerFactory.createWaterPositionController(water));
+        //          gameController.triggerAddEntity(water);
+        //        }
       }
     } else if (coordinates.getY() == 0) {
       gameController.triggerAddEntity(blockFactory.createStone(coordinates));

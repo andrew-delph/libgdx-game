@@ -100,7 +100,8 @@ public class EntityController {
           (Body body) -> {
             body.setGravityScale(1);
           });
-      this.entity.setBodyVelocity(new Vector2(0, this.entity.getBodyVelocity().y));
+      // remove for attack booping
+      //      this.entity.setBodyVelocity(new Vector2(0, this.entity.getBodyVelocity().y));
     }
   }
 
