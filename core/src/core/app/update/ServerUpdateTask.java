@@ -9,9 +9,11 @@ import core.common.exceptions.ChunkNotFound;
 import core.entity.ActiveEntityManager;
 import core.entity.misc.water.WaterService;
 import core.generation.ChunkGenerationService;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,8 +44,9 @@ public class ServerUpdateTask extends UpdateTask {
     chunkGenerationService.queueChunkRangeToGenerate(activeEntityManager.getActiveChunkRanges());
 
     // update all active chunks
+    Set<Chunk> chunksOnTick = new HashSet<>();
     try {
-      Set<Chunk> chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
+      chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
       LOGGER.debug("Updating " + chunksOnTick.size() + " chunks.");
 
       executor.invokeAll(chunksOnTick);
@@ -53,7 +56,8 @@ public class ServerUpdateTask extends UpdateTask {
     this.eventService.firePostUpdateEvents();
 
     try {
-      waterService.update();
+      waterService.update(
+          chunksOnTick.stream().map((Chunk c) -> c.chunkRange).collect(Collectors.toSet()));
     } catch (ChunkNotFound e) {
       e.printStackTrace();
     }

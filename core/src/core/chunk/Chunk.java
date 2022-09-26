@@ -89,6 +89,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     //        worldWrapper.destroyEntity(entity);
     //    }
     neighborEntitySet.add(entity);
+    this.nextTick(1);
     return entity;
   }
 
