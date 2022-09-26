@@ -92,6 +92,7 @@ public class EntityBodyBuilder {
     smoothFixtureDef.shape = smoothShape;
     smoothFixtureDef.density = 1f;
     smoothFixtureDef.restitution = 0;
+    smoothFixtureDef.friction = 1;
     smoothFixture = theBody.createFixture(smoothFixtureDef);
     smoothFixture.setFilterData(entityFilter());
 
@@ -133,6 +134,9 @@ public class EntityBodyBuilder {
     rightFixture.setUserData(new RightSensor(entity, chunkRange));
     rightFixture.setFilterData(entityFilter());
 
+    //    theBody.setLinearDamping(1f);
+    //    theBody.setAngularDamping(0.1f);
+
     return new Pair<>(entity.getUuid(), theBody);
   }
 
@@ -154,7 +158,7 @@ public class EntityBodyBuilder {
     fixtureDef.shape = shape;
     fixtureDef.density = 500f;
     fixtureDef.restitution = 0;
-    fixtureDef.friction = 0.1f;
+    fixtureDef.friction = 6f;
     Fixture blockFixture = theBody.createFixture(fixtureDef);
 
     blockFixture.setFilterData(blockFilter());
@@ -311,15 +315,15 @@ public class EntityBodyBuilder {
 
     FixtureDef blockingFixtureDef = new FixtureDef();
     blockingFixtureDef.shape = circleShape;
-    //    blockingFixtureDef.density = 500f;
-    blockingFixtureDef.friction = 0.1f;
+    blockingFixtureDef.density = 3f;
+    blockingFixtureDef.friction = 1f;
     blockingFixtureDef.restitution = 0;
 
     Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
     orbFixture.setFilterData(waterPositionFilter());
 
-    //    theBody.setGravityScale(0.1f);
-    //    theBody.resetMassData();
+    theBody.setLinearDamping(0.05f);
+    theBody.setAngularDamping(0.01f);
 
     return new Pair<>(entity.getUuid(), theBody);
   }
