@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,8 +54,9 @@ public class StandAloneUpdateTask extends UpdateTask {
     // generate them all
     chunkGenerationService.queueChunkRangeToGenerate(requiredChunkRanges);
 
+    Set<Chunk> chunksOnTick = new HashSet<>();
     try {
-      Set<Chunk> chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
+      chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
       LOGGER.debug("Updating " + chunksOnTick.size() + " chunks.");
 
       if (chunksOnTick.size() > 100) {
@@ -73,7 +75,8 @@ public class StandAloneUpdateTask extends UpdateTask {
     this.eventService.firePostUpdateEvents();
 
     try {
-      waterService.update();
+      waterService.update(
+          chunksOnTick.stream().map((Chunk c) -> c.chunkRange).collect(Collectors.toSet()));
     } catch (ChunkNotFound e) {
       e.printStackTrace();
     }

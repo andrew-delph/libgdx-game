@@ -2,8 +2,11 @@ package core.entity.misc.water;
 
 import com.google.inject.Inject;
 import core.app.game.GameController;
+import core.common.ChunkRange;
+import core.common.CommonFactory;
 import core.common.Coordinates;
 import core.common.exceptions.ChunkNotFound;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -21,8 +24,8 @@ public class WaterService {
     currSet.add(coordinates.getBase());
   }
 
-  public void update() throws ChunkNotFound {
-    // get coordinates that dont have water for them
+  public void update(Collection<ChunkRange> updatedWatchChunkRanges) throws ChunkNotFound {
+    // get coordinates that dont have water for them and exist within updatedWatchChunkRanges
     // get coordinates that need to have water
 
     Set<Coordinates> waterToRemove = (new HashSet<>(waterMap.keySet()));
@@ -37,6 +40,7 @@ public class WaterService {
     }
 
     for (Coordinates toRemove : waterToRemove) {
+      if (!updatedWatchChunkRanges.contains(CommonFactory.createChunkRange(toRemove))) continue;
       gameController.removeEntity(waterMap.remove(toRemove));
     }
 
