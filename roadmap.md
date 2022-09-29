@@ -10,7 +10,7 @@ The roadmap is a collection of major feature for each release.
 - [x] Turrets
 - [ ] Entity Attack
 - [ ] Animations
-- [x] Water, Sand
+- [ ] Water, Sand
 
 ## 0.3.x
 
