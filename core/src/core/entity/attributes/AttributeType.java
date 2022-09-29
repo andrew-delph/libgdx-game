@@ -5,5 +5,6 @@ public enum AttributeType {
   HEALTH,
   ITEM,
   EQUIPPED,
-  ANIMATION_STATE
+  ANIMATION_STATE,
+  DIRECTION
 }

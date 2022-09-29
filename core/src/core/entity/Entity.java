@@ -19,6 +19,7 @@ import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Clock;
 import core.common.CommonFactory;
 import core.common.Coordinates;
+import core.common.Direction;
 import core.common.GameSettings;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.attributes.Attribute;
@@ -28,6 +29,7 @@ import core.entity.attributes.inventory.InventoryBag;
 import core.entity.attributes.inventory.item.AbstractInventoryItem;
 import core.entity.attributes.msc.AnimationStateWrapper;
 import core.entity.attributes.msc.CoordinatesWrapper;
+import core.entity.attributes.msc.DirectionWrapper;
 import core.entity.attributes.msc.Health;
 import core.entity.controllers.EntityController;
 import core.entity.controllers.events.types.AbstractEntityEventType;
@@ -51,6 +53,7 @@ public class Entity implements SerializeNetworkData {
   public Health health;
   protected BaseAssetManager baseAssetManager;
   float stateTime;
+  private DirectionWrapper directionWrapper = new DirectionWrapper(Direction.RIGHT);
   private CoordinatesWrapper coordinatesWrapper;
   private UUID uuid;
   private Chunk chunk;
@@ -86,6 +89,14 @@ public class Entity implements SerializeNetworkData {
     this.animationStateWrapper = animationStateWrapper;
   }
 
+  public DirectionWrapper getDirectionWrapper() {
+    return directionWrapper;
+  }
+
+  public void setDirectionWrapper(DirectionWrapper directionWrapper) {
+    this.directionWrapper = directionWrapper;
+  }
+
   public Health getHealth() {
     return health;
   }
@@ -104,6 +115,8 @@ public class Entity implements SerializeNetworkData {
       this.getBag().updateItem((AbstractInventoryItem) attr);
     } else if (attr.getType().equals(AttributeType.EQUIPPED)) {
       this.getBag().setEquipped((Equipped) attr);
+    } else if (attr.getType().equals(AttributeType.DIRECTION)) {
+      this.setDirectionWrapper((DirectionWrapper) attr);
     } else if (attr.getType().equals(AttributeType.ANIMATION_STATE)) {
       this.setAnimationStateWrapper((AnimationStateWrapper) attr);
       return null;

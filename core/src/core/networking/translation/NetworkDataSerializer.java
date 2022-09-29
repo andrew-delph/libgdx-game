@@ -12,6 +12,7 @@ import core.entity.attributes.inventory.item.EmptyInventoryItem;
 import core.entity.attributes.inventory.item.OrbInventoryItem;
 import core.entity.attributes.inventory.item.SwordInventoryItem;
 import core.entity.attributes.msc.AnimationStateWrapper;
+import core.entity.attributes.msc.DirectionWrapper;
 import core.entity.attributes.msc.Health;
 import core.networking.events.interfaces.SerializeNetworkData;
 import core.networking.events.types.outgoing.ChunkSwapOutgoingEventType;
@@ -84,6 +85,14 @@ public class NetworkDataSerializer {
     return NetworkObjects.NetworkData.newBuilder()
         .setKey(DataTranslationEnum.ANIMATION_STATE)
         .setValue(String.valueOf(animationStateWrapper.getAnimationState()))
+        .build();
+  }
+
+  public static NetworkObjects.NetworkData createDirectionWrapper(
+      DirectionWrapper directionWrapper) {
+    return NetworkObjects.NetworkData.newBuilder()
+        .setKey(DataTranslationEnum.DIRECTION_STATE)
+        .setValue(String.valueOf(directionWrapper.getDirection()))
         .build();
   }
 

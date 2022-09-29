@@ -1,6 +1,7 @@
 package core.entity.controllers.actions;
 
 import com.google.inject.Inject;
+import core.app.game.GameController;
 import core.entity.collision.ground.EntityGroundContact;
 import core.entity.collision.ladder.EntityLadderContact;
 import core.entity.collision.left.EntityLeftContact;
@@ -11,12 +12,14 @@ public class EntityActionFactory {
   @Inject EntityLadderContact entityLadderContact;
   @Inject EntityLeftContact entityLeftContact;
   @Inject EntityRightContact entityRightContact;
+  @Inject GameController gameController;
 
   @Inject
   EntityActionFactory() {}
 
   public HorizontalMovementAction createHorizontalMovementAction(int magnitude) {
-    return new HorizontalMovementAction(entityLeftContact, entityRightContact, magnitude);
+    return new HorizontalMovementAction(
+        gameController, entityLeftContact, entityRightContact, magnitude);
   }
 
   public JumpMovementAction createJumpMovementAction() {
