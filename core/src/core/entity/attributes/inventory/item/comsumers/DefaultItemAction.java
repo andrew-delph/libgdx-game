@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Coordinates;
+import core.common.Direction;
 import core.common.Util;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
@@ -26,8 +27,16 @@ public class DefaultItemAction implements ItemActionInterface {
   public void use(Entity controlee) {
     Coordinates myCoordinates = controlee.getCoordinatesWrapper().getCoordinates();
 
+    Coordinates directionCoords;
+
+    if (controlee.getDirectionWrapper().getDirection().equals(Direction.RIGHT)) {
+      directionCoords = myCoordinates.add(1, 0);
+    } else {
+      directionCoords = myCoordinates.add(-1, 0);
+    }
+
     List<Entity> hitEntityList =
-        new LinkedList<>(rayCastService.rayCast(myCoordinates.getLeft(), myCoordinates.getRight()));
+        new LinkedList<>(rayCastService.rayCast(myCoordinates, directionCoords));
 
     for (Entity hitEntity : hitEntityList) {
       if (hitEntity.equals(controlee)) continue;

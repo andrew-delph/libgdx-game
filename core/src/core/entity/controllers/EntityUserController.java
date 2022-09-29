@@ -16,6 +16,7 @@ import core.entity.Entity;
 import core.entity.attributes.inventory.Equipped;
 import core.entity.attributes.inventory.InventoryBag;
 import core.entity.attributes.msc.AnimationStateWrapper;
+import core.entity.attributes.msc.DirectionWrapper;
 import core.entity.block.DirtBlock;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.networking.events.EventTypeFactory;
@@ -136,6 +137,9 @@ public class EntityUserController extends EntityController {
         this.applyAction("left", entity);
         this.gameController.updateEntityAttribute(
             this.entity.getUuid(), new AnimationStateWrapper(AnimationState.WALKING_LEFT));
+
+        this.gameController.updateEntityAttribute(
+            this.entity.getUuid(), new DirectionWrapper(Direction.LEFT));
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -143,6 +147,9 @@ public class EntityUserController extends EntityController {
         this.applyAction("right", entity);
         this.gameController.updateEntityAttribute(
             this.entity.getUuid(), new AnimationStateWrapper(AnimationState.WALKING_RIGHT));
+
+        this.gameController.updateEntityAttribute(
+            this.entity.getUuid(), new DirectionWrapper(Direction.RIGHT));
       }
     }
   }
