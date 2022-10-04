@@ -32,7 +32,6 @@ public class Ladder extends Entity {
 
   @Override
   public synchronized CreateBodyCallable addWorld(Chunk chunk) {
-
     Ladder myLadder = this;
     return new CreateBodyCallable() {
 

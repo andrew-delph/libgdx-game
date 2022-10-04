@@ -67,17 +67,13 @@ public class EntityUserController extends EntityController {
     }
     if (Gdx.input.isKeyPressed(Input.Keys.E)) {
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-        this.gameController.createLadder(
-            this.entity.getCoordinatesWrapper().getCoordinates().getMiddle().getLeft().getBase());
+        this.gameController.createLadder(this.entity.getCenter().getLeft().getBase());
       } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-        this.gameController.createLadder(
-            this.entity.getCoordinatesWrapper().getCoordinates().getMiddle().getRight().getBase());
+        this.gameController.createLadder(this.entity.getCenter().getRight().getBase());
       } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-        this.gameController.createLadder(
-            this.entity.getCoordinatesWrapper().getCoordinates().getMiddle().getDown().getBase());
+        this.gameController.createLadder(this.entity.getCenter().getDown().getBase());
       } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-        this.gameController.createLadder(
-            this.entity.getCoordinatesWrapper().getCoordinates().getMiddle().getUp().getBase());
+        this.gameController.createLadder(this.entity.getCenter().getUp().getBase());
       }
     }
     if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
