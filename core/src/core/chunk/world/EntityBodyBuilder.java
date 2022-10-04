@@ -186,7 +186,7 @@ public class EntityBodyBuilder {
 
     PolygonShape shape = new PolygonShape();
     shape.setAsBox(
-        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 2.0f,
+        (Block.staticWidth * GameSettings.PHYSICS_SCALE) / 1.5f,
         (Block.staticHeight * GameSettings.PHYSICS_SCALE) / 2f);
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = shape;

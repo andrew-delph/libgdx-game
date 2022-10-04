@@ -187,8 +187,8 @@ public class GameController {
   public Entity createLadder(Coordinates coordinates) throws ChunkNotFound {
     try {
       this.gameStore.getBlock(coordinates);
-      return null;
     } catch (EntityNotFound e) {
+      return null;
     }
     if (this.gameStore.getLadder(coordinates) != null) return this.gameStore.getLadder(coordinates);
     Entity entity = entityFactory.createLadder(coordinates);
@@ -340,12 +340,15 @@ public class GameController {
     // 2 only toRemove exists. remove it
     // 3 only toAdd exists. add it
 
-    if (toAdd.isPresent()) {
+    if (toRemove.isPresent()) {
       Ladder removeLadder =
-          this.gameStore.getLadder(toAdd.get().getCoordinatesWrapper().getCoordinates());
+          this.gameStore.getLadder(toRemove.get().getCoordinatesWrapper().getCoordinates());
       if (removeLadder != null) {
         this.removeEntity(removeLadder.getUuid());
       }
+    }
+
+    if (toAdd.isPresent()) {
       Turret removeTurret =
           this.gameStore.getTurret(toAdd.get().getCoordinatesWrapper().getCoordinates());
       if (removeTurret != null) {
