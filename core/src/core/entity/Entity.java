@@ -269,12 +269,11 @@ public class Entity implements SerializeNetworkData {
   }
 
   public Coordinates getCenter() {
-    //    return this.getCoordinatesWrapper().getCoordinates();
     return CommonFactory.createCoordinates(
         this.getCoordinatesWrapper().getCoordinates().getXReal()
-            + ((float) this.getWidth() / GameSettings.PIXEL_SCALE),
+            + ((float) this.getWidth() / GameSettings.PIXEL_SCALE / 2),
         this.getCoordinatesWrapper().getCoordinates().getYReal()
-            + ((float) this.getHeight() / GameSettings.PIXEL_SCALE));
+            + ((float) this.getHeight() / GameSettings.PIXEL_SCALE / 2));
   }
 
   @Override
