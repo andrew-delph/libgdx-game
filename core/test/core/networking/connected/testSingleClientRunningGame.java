@@ -582,7 +582,7 @@ public class testSingleClientRunningGame {
     GameController clientGameController = clientInjector.getInstance(GameController.class);
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
-    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, -1);
     ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     clientNetworkHandle.requestChunkBlocking(chunkRange);
     TimeUnit.SECONDS.sleep(1);
@@ -599,7 +599,7 @@ public class testSingleClientRunningGame {
     GameStore clientGameStore = clientInjector.getInstance(GameStore.class);
     GameStore serverGameStore = serverInjector.getInstance(GameStore.class);
     ChunkBuilderFactory chunkBuilderFactory = serverInjector.getInstance(ChunkBuilderFactory.class);
-    Coordinates coordinates = CommonFactory.createCoordinates(0, 1);
+    Coordinates coordinates = CommonFactory.createCoordinates(0, -1);
     ChunkRange chunkRange = CommonFactory.createChunkRange(coordinates);
     serverGameStore.addChunk(chunkBuilderFactory.create(chunkRange).call());
     clientGameStore.addChunk(clientNetworkHandle.requestChunkBlocking(chunkRange));
