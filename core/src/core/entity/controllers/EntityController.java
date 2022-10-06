@@ -3,6 +3,7 @@ package core.entity.controllers;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import core.app.game.GameController;
+import core.app.screen.assets.animations.AnimationState;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.CommonFactory;
 import core.common.Coordinates;
@@ -11,6 +12,7 @@ import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
+import core.entity.attributes.msc.AnimationStateWrapper;
 import core.entity.controllers.actions.EntityAction;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.controllers.events.consumers.EntityEventConsumer;
@@ -88,6 +90,10 @@ public class EntityController {
             this.entity.getBodyPosition().y / GameSettings.PHYSICS_SCALE);
     if (!this.entity.getCoordinatesWrapper().getCoordinates().equals(moveTo))
       gameController.moveEntity(this.entity.getUuid(), moveTo);
+    else {
+      this.gameController.updateEntityAttribute(
+          this.entity.getUuid(), new AnimationStateWrapper(AnimationState.DEFAULT));
+    }
 
     if (this.getAction("climbUp").isValid(entity)) {
       this.entity.setBodyVelocity(new Vector2(0, 0));
