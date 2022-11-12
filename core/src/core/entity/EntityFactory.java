@@ -12,18 +12,21 @@ import core.entity.misc.Sand;
 import core.entity.misc.Turret;
 import core.entity.misc.water.Water;
 import core.entity.misc.water.WaterPosition;
+import core.entity.statemachine.EntityStateMachineFactory;
 
 public class EntityFactory {
 
   @Inject Clock clock;
   @Inject BaseAssetManager baseAssetManager;
   @Inject EntityBodyBuilder entityBodyBuilder;
+  @Inject EntityStateMachineFactory entityStateMachineFactory;
 
   @Inject
   EntityFactory() {}
 
   public Entity createEntity(Coordinates coordinates) {
     Entity entity = new Entity(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    entity.setEntityStateMachine(entityStateMachineFactory.createEntityStateMachine(entity));
     return entity;
   }
 

@@ -34,8 +34,10 @@ import core.entity.attributes.msc.Health;
 import core.entity.controllers.EntityController;
 import core.entity.controllers.events.types.AbstractEntityEventType;
 import core.entity.controllers.events.types.EntityEventTypeFactory;
+import core.entity.statemachine.EntityStateMachine;
 import core.networking.events.interfaces.SerializeNetworkData;
 import core.networking.translation.NetworkDataSerializer;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
@@ -53,6 +55,7 @@ public class Entity implements SerializeNetworkData {
   public Health health;
   protected BaseAssetManager baseAssetManager;
   float stateTime;
+  private EntityStateMachine entityStateMachine = new EntityStateMachine(this, new HashMap<>());
   private DirectionWrapper directionWrapper = new DirectionWrapper(Direction.RIGHT);
   private CoordinatesWrapper coordinatesWrapper;
   private UUID uuid;
@@ -79,6 +82,14 @@ public class Entity implements SerializeNetworkData {
     this.health = new Health(100);
     this.bag = new InventoryBag();
     stateTime = (float) ThreadLocalRandom.current().nextDouble(0, 20);
+  }
+
+  public EntityStateMachine getEntityStateMachine() {
+    return entityStateMachine;
+  }
+
+  public void setEntityStateMachine(EntityStateMachine entityStateMachine) {
+    this.entityStateMachine = entityStateMachine;
   }
 
   public AnimationStateWrapper getAnimationStateWrapper() {
@@ -180,6 +191,7 @@ public class Entity implements SerializeNetworkData {
   }
 
   public void render(AnimationManager animationManager, SpriteBatch batch) {
+    entityStateMachine.callAnimation();
     stateTime += Gdx.graphics.getDeltaTime();
 
     Vector2 v2 = this.getCoordinatesWrapper().getCoordinates().toRenderVector2();

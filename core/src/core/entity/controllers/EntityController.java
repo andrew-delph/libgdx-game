@@ -12,7 +12,6 @@ import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
-import core.entity.attributes.msc.AnimationStateWrapper;
 import core.entity.controllers.actions.EntityAction;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.controllers.events.consumers.EntityEventConsumer;
@@ -84,6 +83,7 @@ public class EntityController {
   public void beforeWorldUpdate() throws Exception {}
 
   public void afterWorldUpdate() throws Exception {
+    entity.getEntityStateMachine().callAction();
     Coordinates moveTo =
         CommonFactory.createCoordinates(
             this.entity.getBodyPosition().x / GameSettings.PHYSICS_SCALE,
@@ -91,8 +91,7 @@ public class EntityController {
     if (!this.entity.getCoordinatesWrapper().getCoordinates().equals(moveTo))
       gameController.moveEntity(this.entity.getUuid(), moveTo);
     else {
-      this.gameController.updateEntityAttribute(
-          this.entity.getUuid(), new AnimationStateWrapper(AnimationState.DEFAULT));
+      entity.getEntityStateMachine().attemptTransition(AnimationState.DEFAULT);
     }
 
     if (this.getAction("climbUp").isValid(entity)) {

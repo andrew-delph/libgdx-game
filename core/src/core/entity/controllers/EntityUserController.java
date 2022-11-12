@@ -15,8 +15,6 @@ import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
 import core.entity.attributes.inventory.Equipped;
 import core.entity.attributes.inventory.InventoryBag;
-import core.entity.attributes.msc.AnimationStateWrapper;
-import core.entity.attributes.msc.DirectionWrapper;
 import core.entity.block.DirtBlock;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.networking.events.EventTypeFactory;
@@ -78,6 +76,7 @@ public class EntityUserController extends EntityController {
     }
     if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
       gameController.useItem(this.entity);
+      entity.getEntityStateMachine().attemptTransition(AnimationState.ATTACKING);
     }
 
     if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
@@ -119,6 +118,7 @@ public class EntityUserController extends EntityController {
         this.applyAction("climbUp", entity);
       } else if (this.getAction("jump").isValid(entity)) {
         this.applyAction("jump", entity);
+        entity.getEntityStateMachine().attemptTransition(AnimationState.JUMPING);
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -131,21 +131,13 @@ public class EntityUserController extends EntityController {
     if (Gdx.input.isKeyPressed(Input.Keys.A)) {
       if (this.getAction("left").isValid(entity)) {
         this.applyAction("left", entity);
-        this.gameController.updateEntityAttribute(
-            this.entity.getUuid(), new AnimationStateWrapper(AnimationState.WALKING_LEFT));
-
-        this.gameController.updateEntityAttribute(
-            this.entity.getUuid(), new DirectionWrapper(Direction.LEFT));
+        entity.getEntityStateMachine().attemptTransition(AnimationState.WALKING_LEFT);
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.D)) {
       if (this.getAction("right").isValid(entity)) {
         this.applyAction("right", entity);
-        this.gameController.updateEntityAttribute(
-            this.entity.getUuid(), new AnimationStateWrapper(AnimationState.WALKING_RIGHT));
-
-        this.gameController.updateEntityAttribute(
-            this.entity.getUuid(), new DirectionWrapper(Direction.RIGHT));
+        entity.getEntityStateMachine().attemptTransition(AnimationState.WALKING_RIGHT);
       }
     }
   }

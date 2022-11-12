@@ -1,6 +1,5 @@
 package core.entity.statemachine.states;
 
-import core.app.game.GameController;
 import core.app.screen.assets.animations.AnimationState;
 import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
@@ -8,8 +7,7 @@ import core.entity.attributes.msc.AnimationStateWrapper;
 import core.entity.statemachine.EntityStateMachineNodeInterface;
 import java.util.concurrent.TimeUnit;
 
-public class DefaultItemState implements EntityStateMachineNodeInterface {
-  GameController gameController;
+public class DefaultItemState extends EntityStateMachineNodeInterface {
 
   @Override
   public void callAnimation(Entity entity) {
