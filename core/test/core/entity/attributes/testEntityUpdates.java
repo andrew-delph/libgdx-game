@@ -83,12 +83,12 @@ public class testEntityUpdates {
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 1));
 
     AnimationStateWrapper animationStateWrapper =
-        new AnimationStateWrapper(AnimationState.ATTACKING);
+        new AnimationStateWrapper(AnimationState.PUNCH_LEFT);
 
     assert entity.getAnimationStateWrapper().getAnimationState().equals(AnimationState.DEFAULT);
 
     entity.updateAttribute(animationStateWrapper);
 
-    assert entity.getAnimationStateWrapper().getAnimationState().equals(AnimationState.ATTACKING);
+    assert entity.getAnimationStateWrapper().getAnimationState().equals(AnimationState.PUNCH_LEFT);
   }
 }

@@ -237,7 +237,7 @@ public class testClientServerAttributes {
 
     Entity serverEntity = serverGameController.createEntity(CommonFactory.createCoordinates(1, 1));
     AnimationStateWrapper animationStateWrapper =
-        new AnimationStateWrapper(AnimationState.ATTACKING);
+        new AnimationStateWrapper(AnimationState.PUNCH_LEFT);
 
     serverGameController.updateEntityAttribute(serverEntity.getUuid(), animationStateWrapper);
 
@@ -256,7 +256,7 @@ public class testClientServerAttributes {
     assert clientEntity
         .getAnimationStateWrapper()
         .getAnimationState()
-        .equals(AnimationState.ATTACKING);
+        .equals(AnimationState.PUNCH_LEFT);
 
     AnimationStateWrapper animationStateWrapper2 =
         new AnimationStateWrapper(AnimationState.FALLING);

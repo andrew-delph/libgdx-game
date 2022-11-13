@@ -6,5 +6,6 @@ public enum AnimationState {
   WALKING_LEFT,
   JUMPING,
   FALLING,
-  ATTACKING,
+  PUNCH_LEFT,
+  PUNCH_RIGHT,
 }

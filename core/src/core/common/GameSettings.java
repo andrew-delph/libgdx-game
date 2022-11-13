@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class GameSettings {
-  public static final boolean RENDER_DEBUG = true;
+  public static final boolean RENDER_DEBUG = false;
 
   public static final int AI_LIMIT = 10;
 
@@ -17,7 +17,7 @@ public class GameSettings {
   public static final int WORLD_VELOCITY_ITERATIONS = 6;
   public static final int WORLD_POSITION_ITERATIONS = 2;
   public static final int CHUNK_SIZE = 5;
-  public static final int PIXEL_SCALE = 30;
+  public static final int PIXEL_SCALE = 70;
   public static final int PHYSICS_SCALE = 25;
   public static final float GRAVITY = 1f;
   public static final int GENERATION_THREADS = 5;
