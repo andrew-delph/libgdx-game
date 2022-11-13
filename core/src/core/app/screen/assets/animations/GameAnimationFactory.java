@@ -112,6 +112,18 @@ public class GameAnimationFactory {
             new TextureRegion(new Texture(Gdx.files.internal("punch/punch_00" + i + ".png")));
     }
 
+    TextureRegion[] punchFramesRight = new TextureRegion[27];
+    for (int i = 0; i < 27; i++) {
+      if (i < 10)
+        punchFramesRight[i] =
+            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_000" + i + ".png")));
+      else
+        punchFramesRight[i] =
+            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_00" + i + ".png")));
+
+      punchFramesRight[i].flip(true, false);
+    }
+
     return new GameAnimationBuilder()
         .addAnimation(AnimationState.DEFAULT, new Animation<TextureRegion>(0.25f, defaultFrames))
         .addAnimation(
@@ -119,7 +131,9 @@ public class GameAnimationFactory {
         .addAnimation(
             AnimationState.WALKING_RIGHT, new Animation<TextureRegion>(0.05f, walkRightFrames))
         .addAnimation(
-            AnimationState.ATTACKING, new Animation<TextureRegion>(0.05f, punchFramesLeft))
+            AnimationState.PUNCH_LEFT, new Animation<TextureRegion>(0.05f, punchFramesLeft))
+        .addAnimation(
+            AnimationState.PUNCH_RIGHT, new Animation<TextureRegion>(0.05f, punchFramesRight))
         .build();
   }
 

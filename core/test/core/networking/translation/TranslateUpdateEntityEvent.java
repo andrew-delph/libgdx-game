@@ -152,7 +152,7 @@ public class TranslateUpdateEntityEvent {
     Entity entity = entityFactory.createEntity(CommonFactory.createCoordinates(0, 0));
 
     AnimationStateWrapper animationStateWrapper =
-        new AnimationStateWrapper(AnimationState.ATTACKING);
+        new AnimationStateWrapper(AnimationState.PUNCH_LEFT);
 
     UpdateEntityOutgoingEventType outgoing =
         EventTypeFactory.createUpdateEntityOutgoingEvent(

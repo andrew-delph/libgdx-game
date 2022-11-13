@@ -75,8 +75,10 @@ public class EntityUserController extends EntityController {
       }
     }
     if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-
-      entity.getEntityStateMachine().attemptTransition(AnimationState.ATTACKING);
+      if (entity.getDirectionWrapper().getDirection() == Direction.LEFT)
+        entity.getEntityStateMachine().attemptTransition(AnimationState.PUNCH_LEFT);
+      else if (entity.getDirectionWrapper().getDirection() == Direction.RIGHT)
+        entity.getEntityStateMachine().attemptTransition(AnimationState.PUNCH_RIGHT);
     }
 
     if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {

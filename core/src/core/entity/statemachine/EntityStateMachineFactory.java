@@ -24,7 +24,8 @@ public class EntityStateMachineFactory {
 
     Map<AnimationState, EntityStateMachineNodeInterface> stateToNode = new HashMap<>();
     stateToNode.put(AnimationState.DEFAULT, defaultState);
-    stateToNode.put(AnimationState.ATTACKING, defaultItemState);
+    stateToNode.put(AnimationState.PUNCH_LEFT, defaultItemState);
+    stateToNode.put(AnimationState.PUNCH_RIGHT, defaultItemState);
     stateToNode.put(AnimationState.WALKING_LEFT, leftWalkingState);
     stateToNode.put(AnimationState.WALKING_RIGHT, rightWalkingState);
     stateToNode.put(AnimationState.JUMPING, jumpState);
@@ -34,7 +35,7 @@ public class EntityStateMachineFactory {
     Set<AnimationState> allStates =
         Sets.newHashSet(
             AnimationState.DEFAULT,
-            AnimationState.ATTACKING,
+            AnimationState.PUNCH_LEFT,
             AnimationState.WALKING_LEFT,
             AnimationState.WALKING_RIGHT,
             AnimationState.JUMPING);
@@ -43,7 +44,8 @@ public class EntityStateMachineFactory {
     transitions.put(AnimationState.WALKING_LEFT, allStates);
     transitions.put(AnimationState.WALKING_RIGHT, allStates);
     transitions.put(AnimationState.JUMPING, allStates);
-    transitions.put(AnimationState.ATTACKING, Sets.newHashSet());
+    transitions.put(AnimationState.PUNCH_LEFT, Sets.newHashSet());
+    transitions.put(AnimationState.PUNCH_RIGHT, Sets.newHashSet());
 
     return new EntityStateMachine(entity, transitions, stateToNode);
   }
