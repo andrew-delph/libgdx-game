@@ -36,6 +36,7 @@ public class EntityStateMachineFactory {
         Sets.newHashSet(
             AnimationState.DEFAULT,
             AnimationState.PUNCH_LEFT,
+            AnimationState.PUNCH_RIGHT,
             AnimationState.WALKING_LEFT,
             AnimationState.WALKING_RIGHT,
             AnimationState.JUMPING);
