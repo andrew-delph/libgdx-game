@@ -75,7 +75,7 @@ public class EntityUserController extends EntityController {
       }
     }
     if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-      gameController.useItem(this.entity);
+
       entity.getEntityStateMachine().attemptTransition(AnimationState.ATTACKING);
     }
 

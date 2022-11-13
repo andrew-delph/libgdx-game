@@ -12,6 +12,6 @@ public abstract class EntityStateMachineNodeInterface {
   // renders the animation
   // takes the arguments needed to render the animation
 
-  public abstract void callAction(Entity entity, float timeInState);
+  public abstract void callAction(Entity entity, long timeInState);
   //  calls with the
 }

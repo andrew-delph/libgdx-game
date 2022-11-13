@@ -55,7 +55,8 @@ public class Entity implements SerializeNetworkData {
   public Health health;
   protected BaseAssetManager baseAssetManager;
   float stateTime;
-  private EntityStateMachine entityStateMachine = new EntityStateMachine(this, new HashMap<>());
+  private EntityStateMachine entityStateMachine =
+      new EntityStateMachine(this, new HashMap<>(), new HashMap<>());
   private DirectionWrapper directionWrapper = new DirectionWrapper(Direction.RIGHT);
   private CoordinatesWrapper coordinatesWrapper;
   private UUID uuid;

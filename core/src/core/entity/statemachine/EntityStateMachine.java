@@ -3,34 +3,48 @@ package core.entity.statemachine;
 import core.app.screen.assets.animations.AnimationState;
 import core.entity.Entity;
 import java.util.Map;
+import java.util.Set;
 
 public class EntityStateMachine {
-  private Map<AnimationState, EntityStateMachineNodeInterface> children;
-  private EntityStateMachineNodeInterface current;
-  private float stateStartTime = 0;
+  Map<AnimationState, Set<AnimationState>> transitions;
+  Map<AnimationState, EntityStateMachineNodeInterface> stateToNode;
+  long stateStartTime = 0;
+  private AnimationState currentState;
   private Entity entity;
 
   public EntityStateMachine(
-      Entity entity, Map<AnimationState, EntityStateMachineNodeInterface> children) {
-    this.children = children;
+      Entity entity,
+      Map<AnimationState, Set<AnimationState>> transitions,
+      Map<AnimationState, EntityStateMachineNodeInterface> stateToNode) {
+    this.transitions = transitions;
+    this.stateToNode = stateToNode;
     this.entity = entity;
+    currentState = AnimationState.DEFAULT;
   }
 
   public void attemptTransition(AnimationState transition) {
-    if (children.containsKey(transition)) {
-      current = children.get(transition);
-      stateStartTime = System.currentTimeMillis();
+    Set<AnimationState> possibleTransitions = transitions.get(currentState);
+    if (possibleTransitions == null) return;
+    if (possibleTransitions.contains(transition)) {
+      this.setState(transition);
     }
   }
 
+  public void setState(AnimationState transition) {
+    currentState = transition;
+    stateStartTime = System.currentTimeMillis();
+  }
+
   public void callAnimation() {
-    if (current == null) return;
-    current.callAnimation(entity);
+    if (currentState == null) return;
+    if (stateToNode.get(currentState) == null) return;
+    stateToNode.get(currentState).callAnimation(entity);
   }
 
   public void callAction() {
-    if (current == null) return;
-    float timeInState = stateStartTime - System.currentTimeMillis();
-    current.callAction(entity, timeInState);
+    if (currentState == null) return;
+    if (stateToNode.get(currentState) == null) return;
+    long timeInState = System.currentTimeMillis() - stateStartTime;
+    stateToNode.get(currentState).callAction(entity, timeInState);
   }
 }

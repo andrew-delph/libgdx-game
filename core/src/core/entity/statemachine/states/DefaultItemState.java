@@ -22,10 +22,10 @@ public class DefaultItemState extends EntityStateMachineNodeInterface {
   }
 
   @Override
-  public void callAction(Entity entity, float timeInState) {
-    if (TimeUnit.MILLISECONDS.toSeconds((long) timeInState) > 1) {
-      // attack
-      // change state to default
+  public void callAction(Entity entity, long timeInState) {
+    if (TimeUnit.MILLISECONDS.toSeconds(timeInState) > 1) {
+      gameController.useItem(entity);
+      entity.getEntityStateMachine().setState(AnimationState.DEFAULT);
     }
   }
 }

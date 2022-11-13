@@ -28,5 +28,5 @@ public class LeftWalkingState extends EntityStateMachineNodeInterface {
   }
 
   @Override
-  public void callAction(Entity entity, float timeInState) {}
+  public void callAction(Entity entity, long timeInState) {}
 }
