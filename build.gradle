@@ -43,6 +43,7 @@ scmVersion {
     hooks {
         pre {
             context ->
+                println "current version is " + context.currentVersion
                 (new File(System.getProperty("user.dir") + "/core/assets/project.version")).write(context.currentVersion)
                 executeCommand("git fetch")
                 executeCommand("git add .")
