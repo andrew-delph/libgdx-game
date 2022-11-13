@@ -118,7 +118,6 @@ public class EntityUserController extends EntityController {
         this.applyAction("climbUp", entity);
       } else if (this.getAction("jump").isValid(entity)) {
         this.applyAction("jump", entity);
-        entity.getEntityStateMachine().attemptTransition(AnimationState.JUMPING);
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -131,13 +130,11 @@ public class EntityUserController extends EntityController {
     if (Gdx.input.isKeyPressed(Input.Keys.A)) {
       if (this.getAction("left").isValid(entity)) {
         this.applyAction("left", entity);
-        entity.getEntityStateMachine().attemptTransition(AnimationState.WALKING_LEFT);
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.D)) {
       if (this.getAction("right").isValid(entity)) {
         this.applyAction("right", entity);
-        entity.getEntityStateMachine().attemptTransition(AnimationState.WALKING_RIGHT);
       }
     }
   }

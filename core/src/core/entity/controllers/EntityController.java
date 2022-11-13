@@ -62,10 +62,7 @@ public class EntityController {
   }
 
   public void applyAction(String type, Entity entity) throws ChunkNotFound, BodyNotFound {
-    entity.applyBody(
-        (Body body) -> {
-          this.actionMap.get(type).apply(body);
-        });
+    this.actionMap.get(type).apply(entity);
   }
 
   public EntityAction getAction(String type) {

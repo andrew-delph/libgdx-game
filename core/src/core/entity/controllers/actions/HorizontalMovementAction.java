@@ -4,10 +4,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.google.inject.Inject;
 import core.app.game.GameController;
+import core.app.screen.assets.animations.AnimationState;
+import core.chunk.world.exceptions.BodyNotFound;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
 import core.entity.collision.left.EntityLeftContact;
 import core.entity.collision.right.EntityRightContact;
+import java.util.function.Consumer;
 
 public class HorizontalMovementAction implements EntityAction {
 
@@ -29,14 +32,21 @@ public class HorizontalMovementAction implements EntityAction {
   }
 
   @Override
-  public void apply(Body body) {
-    //    if (magnitude < 0) {
-    //      gameController.updateEntityAttribute();
-    //    }
-    //    if (magnitude > 0) {
-    //      //
-    //    }
-    body.setLinearVelocity(new Vector2(this.magnitude, body.getLinearVelocity().y));
+  public void apply(Entity entity) throws ChunkNotFound, BodyNotFound {
+    if (magnitude < 0) {
+      entity.getEntityStateMachine().attemptTransition(AnimationState.WALKING_LEFT);
+    }
+    if (magnitude > 0) {
+      entity.getEntityStateMachine().attemptTransition(AnimationState.WALKING_RIGHT);
+    }
+    entity.applyBody(this.applyBodyConsumer());
+  }
+
+  @Override
+  public Consumer<Body> applyBodyConsumer() {
+    return body -> {
+      body.setLinearVelocity(new Vector2(this.magnitude, body.getLinearVelocity().y));
+    };
   }
 
   @Override
