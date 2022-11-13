@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class EntityStateMachine {
+  private final Entity entity;
   Map<AnimationState, Set<AnimationState>> transitions;
   Map<AnimationState, EntityStateMachineNodeInterface> stateToNode;
   long stateStartTime = 0;
   private AnimationState currentState;
-  private Entity entity;
 
   public EntityStateMachine(
       Entity entity,
