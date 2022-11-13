@@ -102,12 +102,24 @@ public class GameAnimationFactory {
       }
     }
 
+    TextureRegion[] punchFramesLeft = new TextureRegion[27];
+    for (int i = 0; i < 27; i++) {
+      if (i < 10)
+        punchFramesLeft[i] =
+            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_000" + i + ".png")));
+      else
+        punchFramesLeft[i] =
+            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_00" + i + ".png")));
+    }
+
     return new GameAnimationBuilder()
         .addAnimation(AnimationState.DEFAULT, new Animation<TextureRegion>(0.25f, defaultFrames))
         .addAnimation(
             AnimationState.WALKING_LEFT, new Animation<TextureRegion>(0.05f, walkLeftFrames))
         .addAnimation(
             AnimationState.WALKING_RIGHT, new Animation<TextureRegion>(0.05f, walkRightFrames))
+        .addAnimation(
+            AnimationState.ATTACKING, new Animation<TextureRegion>(0.05f, punchFramesLeft))
         .build();
   }
 

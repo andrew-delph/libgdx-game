@@ -11,10 +11,10 @@ public class DefaultItemState extends EntityStateMachineNodeInterface {
 
   @Override
   public void callAnimation(Entity entity) {
-    if (!entity.getAnimationStateWrapper().getAnimationState().equals(AnimationState.DEFAULT)) {
+    if (!entity.getAnimationStateWrapper().getAnimationState().equals(AnimationState.ATTACKING)) {
       try {
         gameController.updateEntityAttribute(
-            entity.getUuid(), new AnimationStateWrapper(AnimationState.DEFAULT));
+            entity.getUuid(), new AnimationStateWrapper(AnimationState.ATTACKING));
       } catch (EntityNotFound e) {
         e.printStackTrace();
       }
