@@ -78,7 +78,6 @@ public class EntityUserController extends EntityController {
       if (entity.getDirectionWrapper().getDirection() == Direction.LEFT)
         entity.getEntityStateMachine().attemptTransition(AnimationState.PUNCH_LEFT);
       else if (entity.getDirectionWrapper().getDirection() == Direction.RIGHT) {
-        System.out.println("right");
         entity.getEntityStateMachine().attemptTransition(AnimationState.PUNCH_RIGHT);
       }
     }

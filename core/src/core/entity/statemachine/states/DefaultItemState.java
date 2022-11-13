@@ -6,7 +6,6 @@ import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
 import core.entity.attributes.msc.AnimationStateWrapper;
 import core.entity.statemachine.EntityStateMachineNodeInterface;
-import java.util.concurrent.TimeUnit;
 
 public class DefaultItemState extends EntityStateMachineNodeInterface {
 
@@ -30,7 +29,7 @@ public class DefaultItemState extends EntityStateMachineNodeInterface {
 
   @Override
   public void callAction(Entity entity, long timeInState) {
-    if (TimeUnit.MILLISECONDS.toSeconds(timeInState) > 1) {
+    if (timeInState > 150) {
       gameController.useItem(entity);
       entity.getEntityStateMachine().setState(AnimationState.DEFAULT);
     }
