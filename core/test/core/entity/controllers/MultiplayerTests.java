@@ -85,31 +85,32 @@ public class MultiplayerTests {
     }
   }
 
-  @Test
-  public void testClientUpdateHealthNoKill()
-      throws ChunkNotFound, InterruptedException, EntityNotFound {
-    Entity client_entity = clientGameController.createEntity(CommonFactory.createCoordinates(0, 0));
-    client_entity.setEntityController(
-        clientEntityControllerFactory.createEntityUserController(client_entity));
-
-    TimeUnit.SECONDS.sleep(1);
-
-    clientGameStore.getEntity(client_entity.getUuid());
-    serverGameStore.getEntity(client_entity.getUuid());
-
-    assert clientGameStore
-        .getEntity(client_entity.getUuid())
-        .equals(serverGameStore.getEntity(client_entity.getUuid()));
-
-    Health newHealth = new Health(-100);
-
-    clientGameController.updateEntityAttribute(client_entity.getUuid(), newHealth);
-
-    TimeUnit.SECONDS.sleep(1);
-
-    assert clientGameStore.getEntity(client_entity.getUuid()).getHealth().equals(newHealth);
-    assert serverGameStore.getEntity(client_entity.getUuid()).getHealth().equals(newHealth);
-  }
+  //  @Test
+  //  public void testClientUpdateHealthNoKill()
+  //      throws ChunkNotFound, InterruptedException, EntityNotFound {
+  //    Entity client_entity = clientGameController.createEntity(CommonFactory.createCoordinates(0,
+  // 0));
+  //    client_entity.setEntityController(
+  //        clientEntityControllerFactory.createEntityUserController(client_entity));
+  //
+  //    TimeUnit.SECONDS.sleep(1);
+  //
+  //    clientGameStore.getEntity(client_entity.getUuid());
+  //    serverGameStore.getEntity(client_entity.getUuid());
+  //
+  //    assert clientGameStore
+  //        .getEntity(client_entity.getUuid())
+  //        .equals(serverGameStore.getEntity(client_entity.getUuid()));
+  //
+  //    Health newHealth = new Health(-100);
+  //
+  //    clientGameController.updateEntityAttribute(client_entity.getUuid(), newHealth);
+  //
+  //    TimeUnit.SECONDS.sleep(1);
+  //
+  //    assert clientGameStore.getEntity(client_entity.getUuid()).getHealth().equals(newHealth);
+  //    assert serverGameStore.getEntity(client_entity.getUuid()).getHealth().equals(newHealth);
+  //  }
 
   @Test
   public void testServerUpdateHealthKill()

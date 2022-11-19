@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.chunk.ActiveChunkManager;
 import core.common.GameStore;
+import core.common.events.EventService;
 import core.common.events.types.EventType;
 import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
@@ -21,6 +22,7 @@ public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
   @Inject ServerNetworkHandle serverNetworkHandle;
   @Inject ActiveChunkManager activeChunkManager;
   @Inject GameStore gameStore;
+  @Inject EventService eventService;
 
   @Override
   public void accept(EventType eventType) {
@@ -36,7 +38,7 @@ public class UpdateEntityIncomingConsumerServer implements Consumer<EventType> {
     }
 
     for (Attribute attr : incoming.getAttributeList()) {
-      entity.updateAttribute(attr);
+      eventService.fireEvent(entity.updateAttribute(attr));
     }
 
     UpdateEntityOutgoingEventType outgoing =
