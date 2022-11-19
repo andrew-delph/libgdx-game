@@ -44,6 +44,7 @@ public class ClientGameScreen extends GameScreen {
     }
     LOGGER.info("my entity " + myEntity.getUuid());
     myEntity.setEntityController(entityControllerFactory.createEntityUserController(myEntity));
+    myEntity.setEntityStateMachine(entityStateMachineFactory.createEntityStateMachine(myEntity));
 
     ((ClientUpdateTask) clientUpdateTask).removeChunkReserve(requestChunkRange);
   }

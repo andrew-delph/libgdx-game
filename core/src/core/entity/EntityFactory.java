@@ -26,7 +26,6 @@ public class EntityFactory {
 
   public Entity createEntity(Coordinates coordinates) {
     Entity entity = new Entity(clock, baseAssetManager, entityBodyBuilder, coordinates);
-    entity.setEntityStateMachine(entityStateMachineFactory.createEntityStateMachine(entity));
     return entity;
   }
 

@@ -80,6 +80,7 @@ public class EntityController {
   public void beforeWorldUpdate() throws Exception {}
 
   public void afterWorldUpdate() throws Exception {
+    entity.getEntityStateMachine().callAnimation();
     entity.getEntityStateMachine().callAction();
     Coordinates moveTo =
         CommonFactory.createCoordinates(
