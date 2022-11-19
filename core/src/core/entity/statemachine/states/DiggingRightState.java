@@ -1,5 +1,6 @@
 package core.entity.statemachine.states;
 
+import com.google.inject.Inject;
 import core.app.screen.assets.animations.AnimationState;
 import core.common.Coordinates;
 import core.common.exceptions.EntityNotFound;
@@ -14,11 +15,7 @@ import java.util.Set;
 
 public class DiggingRightState extends EntityStateMachineNodeInterface {
 
-  RayCastService rayCastService;
-
-  public DiggingRightState(RayCastService rayCastService) {
-    this.rayCastService = rayCastService;
-  }
+  @Inject RayCastService rayCastService;
 
   @Override
   public void callAnimation(Entity entity) {
@@ -38,11 +35,12 @@ public class DiggingRightState extends EntityStateMachineNodeInterface {
   @Override
   public void callAction(Entity entity, long timeInState) {
 
-    if (timeInState < 150) return;
+    if (timeInState < 350) return;
+    else entity.getEntityStateMachine().setState(AnimationState.DEFAULT);
     // after time
 
     Coordinates entityCoordinates = entity.getCoordinatesWrapper().getCoordinates();
-    Coordinates targetCoordinates = entityCoordinates.add(-1, 0);
+    Coordinates targetCoordinates = entityCoordinates.add(1, 0);
 
     Set<Entity> rayCastSet = rayCastService.rayCast(entityCoordinates, targetCoordinates);
 
@@ -51,7 +49,7 @@ public class DiggingRightState extends EntityStateMachineNodeInterface {
 
     if (targetBlock == null) return;
 
-    Health newHealth = targetBlock.getHealth().applyDiff(-20);
+    Health newHealth = targetBlock.getHealth().applyDiff(-50);
 
     try {
       gameController.updateEntityAttribute(targetBlock.getUuid(), newHealth);

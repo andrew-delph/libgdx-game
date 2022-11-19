@@ -38,4 +38,10 @@ public class ServerEntityControllerFactory extends EntityControllerFactory {
     return super.createSolidBlockController(entity)
         .registerEntityEventConsumer(ChangeHealthEventType.type, changeHealthConsumer);
   }
+
+  @Override
+  public EntityController createSandController(Entity entity) {
+    return super.createSandController(entity)
+        .registerEntityEventConsumer(ChangeHealthEventType.type, changeHealthConsumer);
+  }
 }
