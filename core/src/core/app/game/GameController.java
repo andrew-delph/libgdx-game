@@ -117,15 +117,15 @@ public class GameController {
     return entity;
   }
 
-  public Block createSkyBlock(Coordinates coordinates) throws ChunkNotFound {
-    Block entity = blockFactory.createSky(coordinates);
-    this.gameStore.addEntity(entity);
-    CreateEntityOutgoingEventType createEntityOutgoingEvent =
-        EventTypeFactory.createCreateEntityOutgoingEvent(
-            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
-    this.eventService.fireEvent(createEntityOutgoingEvent);
-    return entity;
-  }
+  //  public Block createSkyBlock(Coordinates coordinates) throws ChunkNotFound {
+  //    Block entity = blockFactory.createSky(coordinates);
+  //    this.gameStore.addEntity(entity);
+  //    CreateEntityOutgoingEventType createEntityOutgoingEvent =
+  //        EventTypeFactory.createCreateEntityOutgoingEvent(
+  //            entity.toNetworkData(), CommonFactory.createChunkRange(coordinates));
+  //    this.eventService.fireEvent(createEntityOutgoingEvent);
+  //    return entity;
+  //  }
 
   public Block createDirtBlock(Coordinates coordinates) throws ChunkNotFound {
     Block entity = blockFactory.createDirt(coordinates);
