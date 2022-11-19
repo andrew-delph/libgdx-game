@@ -8,4 +8,6 @@ public enum AnimationState {
   FALLING,
   PUNCH_LEFT,
   PUNCH_RIGHT,
+  DIGGING_LEFT,
+  DIGGING_RIGHT,
 }

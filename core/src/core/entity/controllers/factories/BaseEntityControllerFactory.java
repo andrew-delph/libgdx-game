@@ -27,6 +27,18 @@ public class BaseEntityControllerFactory extends EntityControllerFactory {
   }
 
   @Override
+  public EntityController createSolidBlockController(Entity entity) {
+    return super.createSolidBlockController(entity)
+        .registerEntityEventConsumer(ChangeHealthEventType.type, changeHealthConsumer);
+  }
+
+  @Override
+  public EntityController createSandController(Entity entity) {
+    return super.createSandController(entity)
+        .registerEntityEventConsumer(ChangeHealthEventType.type, changeHealthConsumer);
+  }
+
+  @Override
   public EntityController createRemoteBodyController(Entity entity) {
     return super.createRemoteBodyController(entity)
         .registerEntityEventConsumer(FallDamageEventType.type, fallDamageConsumer)

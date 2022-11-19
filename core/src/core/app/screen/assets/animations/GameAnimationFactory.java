@@ -102,6 +102,7 @@ public class GameAnimationFactory {
       }
     }
 
+    // punch left
     TextureRegion[] punchFramesLeft = new TextureRegion[27];
     for (int i = 0; i < 27; i++) {
       if (i < 10)
@@ -112,6 +113,7 @@ public class GameAnimationFactory {
             new TextureRegion(new Texture(Gdx.files.internal("punch/punch_00" + i + ".png")));
     }
 
+    // punch right
     TextureRegion[] punchFramesRight = new TextureRegion[27];
     for (int i = 0; i < 27; i++) {
       if (i < 10)
@@ -124,6 +126,30 @@ public class GameAnimationFactory {
       punchFramesRight[i].flip(true, false);
     }
 
+    // Dig Left
+    TextureRegion[] digFramesLeft = new TextureRegion[17];
+    for (int i = 0; i < 17; i++) {
+      if (i < 10)
+        digFramesLeft[i] =
+            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_000" + i + ".png")));
+      else
+        digFramesLeft[i] =
+            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_00" + i + ".png")));
+    }
+
+    // Dig Right
+    TextureRegion[] digFramesRight = new TextureRegion[17];
+    for (int i = 0; i < 17; i++) {
+      if (i < 10)
+        digFramesRight[i] =
+            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_000" + i + ".png")));
+      else
+        digFramesRight[i] =
+            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_00" + i + ".png")));
+
+      digFramesRight[i].flip(true, false);
+    }
+
     return new GameAnimationBuilder()
         .addAnimation(AnimationState.DEFAULT, new Animation<TextureRegion>(0.25f, defaultFrames))
         .addAnimation(
@@ -134,6 +160,10 @@ public class GameAnimationFactory {
             AnimationState.PUNCH_LEFT, new Animation<TextureRegion>(0.05f, punchFramesLeft))
         .addAnimation(
             AnimationState.PUNCH_RIGHT, new Animation<TextureRegion>(0.05f, punchFramesRight))
+        .addAnimation(
+            AnimationState.DIGGING_LEFT, new Animation<TextureRegion>(0.05f, digFramesLeft))
+        .addAnimation(
+            AnimationState.DIGGING_RIGHT, new Animation<TextureRegion>(0.05f, digFramesRight))
         .build();
   }
 

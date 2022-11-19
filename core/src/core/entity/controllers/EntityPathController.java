@@ -1,6 +1,7 @@
 package core.entity.controllers;
 
 import core.app.game.GameController;
+import core.app.screen.assets.animations.AnimationState;
 import core.common.Coordinates;
 import core.common.GameStore;
 import core.common.events.EventService;
@@ -65,7 +66,7 @@ public class EntityPathController extends EntityController {
             .getBase()
             .calcDistance(target.getCoordinatesWrapper().getCoordinates())
         < 2) {
-      gameController.useItem(entity);
+      entity.getEntityStateMachine().attemptTransition(AnimationState.PUNCH_LEFT);
     }
     try {
       this.pathGuider.followPath(target.getCoordinatesWrapper().getCoordinates());

@@ -32,4 +32,16 @@ public class ServerEntityControllerFactory extends EntityControllerFactory {
         .registerEntityEventConsumer(FallDamageEventType.type, fallDamageConsumer)
         .registerEntityEventConsumer(ChangeHealthEventType.type, changeHealthConsumer);
   }
+
+  @Override
+  public EntityController createSolidBlockController(Entity entity) {
+    return super.createSolidBlockController(entity)
+        .registerEntityEventConsumer(ChangeHealthEventType.type, changeHealthConsumer);
+  }
+
+  @Override
+  public EntityController createSandController(Entity entity) {
+    return super.createSandController(entity)
+        .registerEntityEventConsumer(ChangeHealthEventType.type, changeHealthConsumer);
+  }
 }

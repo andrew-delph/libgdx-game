@@ -6,6 +6,8 @@ import core.app.screen.assets.animations.AnimationState;
 import core.entity.Entity;
 import core.entity.statemachine.states.DefaultItemState;
 import core.entity.statemachine.states.DefaultState;
+import core.entity.statemachine.states.DiggingLeftState;
+import core.entity.statemachine.states.DiggingRightState;
 import core.entity.statemachine.states.JumpState;
 import core.entity.statemachine.states.LeftWalkingState;
 import core.entity.statemachine.states.RightWalkingState;
@@ -19,6 +21,8 @@ public class EntityStateMachineFactory {
   @Inject LeftWalkingState leftWalkingState;
   @Inject RightWalkingState rightWalkingState;
   @Inject JumpState jumpState;
+  @Inject DiggingLeftState diggingLeftState;
+  @Inject DiggingRightState diggingRightState;
 
   public EntityStateMachine createEntityStateMachine(Entity entity) {
 
@@ -29,6 +33,8 @@ public class EntityStateMachineFactory {
     stateToNode.put(AnimationState.WALKING_LEFT, leftWalkingState);
     stateToNode.put(AnimationState.WALKING_RIGHT, rightWalkingState);
     stateToNode.put(AnimationState.JUMPING, jumpState);
+    stateToNode.put(AnimationState.DIGGING_LEFT, diggingLeftState);
+    stateToNode.put(AnimationState.DIGGING_RIGHT, diggingRightState);
 
     Map<AnimationState, Set<AnimationState>> transitions = new HashMap<>();
 
@@ -39,7 +45,9 @@ public class EntityStateMachineFactory {
             AnimationState.PUNCH_RIGHT,
             AnimationState.WALKING_LEFT,
             AnimationState.WALKING_RIGHT,
-            AnimationState.JUMPING);
+            AnimationState.JUMPING,
+            AnimationState.DIGGING_LEFT,
+            AnimationState.DIGGING_RIGHT);
 
     transitions.put(AnimationState.DEFAULT, allStates);
     transitions.put(AnimationState.WALKING_LEFT, allStates);
@@ -47,6 +55,8 @@ public class EntityStateMachineFactory {
     transitions.put(AnimationState.JUMPING, allStates);
     transitions.put(AnimationState.PUNCH_LEFT, Sets.newHashSet());
     transitions.put(AnimationState.PUNCH_RIGHT, Sets.newHashSet());
+    transitions.put(AnimationState.DIGGING_LEFT, Sets.newHashSet());
+    transitions.put(AnimationState.DIGGING_RIGHT, Sets.newHashSet());
 
     return new EntityStateMachine(entity, transitions, stateToNode);
   }
