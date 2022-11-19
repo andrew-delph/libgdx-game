@@ -5,6 +5,7 @@ import core.app.game.GameController;
 import core.common.Coordinates;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.EntityFactory;
+import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.misc.Orb;
@@ -34,22 +35,27 @@ public class BlockGenerator {
           gameController.triggerAddEntity(water);
         }
       }
-    } else if (coordinates.getY() == 0) {
-      gameController.triggerAddEntity(blockFactory.createStone(coordinates));
-    } else if (Math.random() < 0.1) {
-      gameController.triggerAddEntity(blockFactory.createStone(coordinates));
-    } else if (Math.random() < 0.1) {
+    } else if (Math.random() < 0.1 && coordinates.getY() != 0) {
       gameController.triggerAddEntity(blockFactory.createSky(coordinates));
       Sand sand = entityFactory.createSand(coordinates);
       sand.setEntityController(entityControllerFactory.createSandController(sand));
       gameController.triggerAddEntity(sand);
-    } else if (Math.random() < 0.1) {
+    } else if (Math.random() < 0.1 && coordinates.getY() != 0) {
       Orb orb = entityFactory.createOrb(coordinates);
       orb.setEntityController(entityControllerFactory.createOrbController(orb));
       gameController.triggerAddEntity(orb);
       gameController.triggerAddEntity(blockFactory.createSky(coordinates));
     } else {
-      gameController.triggerAddEntity(blockFactory.createDirt(coordinates));
+      Block block;
+      if (coordinates.getY() == 0) {
+        block = blockFactory.createStone(coordinates);
+      } else if (Math.random() < 0.1) {
+        block = blockFactory.createStone(coordinates);
+      } else {
+        block = blockFactory.createDirt(coordinates);
+      }
+      block.setEntityController(entityControllerFactory.createSolidBlockController(block));
+      gameController.triggerAddEntity(block);
     }
   }
 }
