@@ -5,6 +5,7 @@ import core.app.screen.assets.BaseAssetManager;
 import core.chunk.world.EntityBodyBuilder;
 import core.common.Clock;
 import core.common.Coordinates;
+import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.misc.Ladder;
 import core.entity.misc.Orb;
 import core.entity.misc.Projectile;
@@ -20,6 +21,7 @@ public class EntityFactory {
   @Inject BaseAssetManager baseAssetManager;
   @Inject EntityBodyBuilder entityBodyBuilder;
   @Inject EntityStateMachineFactory entityStateMachineFactory;
+  @Inject EntityControllerFactory entityControllerFactory;
 
   @Inject
   EntityFactory() {}
@@ -41,27 +43,33 @@ public class EntityFactory {
 
   public Turret createTurret(Coordinates coordinates) {
     Turret turret = new Turret(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    turret.setEntityController(entityControllerFactory.createTurretController(turret));
     return turret;
   }
 
   public Orb createOrb(Coordinates coordinates) {
     Orb orb = new Orb(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    orb.setEntityController(entityControllerFactory.createOrbController(orb));
     return orb;
   }
 
   public WaterPosition createWaterPosition(Coordinates coordinates) {
     WaterPosition waterPosition =
         new WaterPosition(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    waterPosition.setEntityController(
+        entityControllerFactory.createWaterPositionController(waterPosition));
     return waterPosition;
   }
 
   public Water createWater(Coordinates coordinates) {
     Water water = new Water(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    water.setEntityController(entityControllerFactory.createWaterController(water));
     return water;
   }
 
   public Sand createSand(Coordinates coordinates) {
     Sand sand = new Sand(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    sand.setEntityController(entityControllerFactory.createSandController(sand));
     return sand;
   }
 }
