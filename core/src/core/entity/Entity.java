@@ -192,7 +192,7 @@ public class Entity implements SerializeNetworkData {
   }
 
   public void render(AnimationManager animationManager, SpriteBatch batch) {
-    entityStateMachine.callAnimation();
+    //    entityStateMachine.callAnimation();
     stateTime += Gdx.graphics.getDeltaTime();
 
     Vector2 v2 = this.getCoordinatesWrapper().getCoordinates().toRenderVector2();
