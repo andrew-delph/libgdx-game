@@ -31,6 +31,9 @@ public class DefaultItemState extends EntityStateMachineNodeInterface {
   public void callAction(Entity entity, long timeInState) {
     if (timeInState > 150) {
       gameController.useItem(entity);
+    }
+
+    if (timeInState > 500) {
       entity.getEntityStateMachine().setState(AnimationState.DEFAULT);
     }
   }
