@@ -24,10 +24,12 @@ public class EntityStateMachine {
 
   public void attemptTransition(AnimationState transition) {
     Set<AnimationState> possibleTransitions = transitions.get(currentState);
+
     if (possibleTransitions == null) return;
-    if (possibleTransitions.contains(transition)) {
-      this.setState(transition);
-    }
+    if (currentState.equals(transition)) return;
+    if (!possibleTransitions.contains(transition)) return;
+
+    this.setState(transition);
   }
 
   public void setState(AnimationState transition) {
