@@ -13,6 +13,7 @@ import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.groups.Group;
 import core.entity.groups.GroupService;
+import core.entity.statemachine.EntityStateMachineFactory;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +28,7 @@ public class AIManager {
   @Inject GameController gameController;
   @Inject EntityControllerFactory entityControllerFactory;
   @Inject GroupService groupService;
+  @Inject EntityStateMachineFactory entityStateMachineFactory;
 
   public Entity requestCreateAI(UserID userID, Coordinates coordinates, UUID target)
       throws EntityNotFound, ChunkNotFound {
@@ -46,6 +48,8 @@ public class AIManager {
     aiEntity.setEntityController(
         entityControllerFactory.createEntityPathController(aiEntity, aiTarget));
     groupService.registerEntityGroup(aiEntity.getUuid(), Group.AI_GROUP);
+
+    aiEntity.setEntityStateMachine(entityStateMachineFactory.createEntityStateMachine(aiEntity));
 
     return aiEntity;
   }

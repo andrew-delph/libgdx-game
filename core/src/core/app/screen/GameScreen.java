@@ -29,6 +29,7 @@ import core.entity.EntityFactory;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.groups.Group;
 import core.entity.groups.GroupService;
+import core.entity.statemachine.EntityStateMachineFactory;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
@@ -52,6 +53,7 @@ public class GameScreen extends ApplicationAdapter {
   @Inject GameSettings gameSettings;
   @Inject GroupService groupService;
   @Inject AnimationManager animationManager;
+  @Inject EntityStateMachineFactory entityStateMachineFactory;
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
   Entity myEntity;
@@ -100,6 +102,8 @@ public class GameScreen extends ApplicationAdapter {
       LOGGER.error(e);
       this.dispose();
     }
+    myEntity.setEntityStateMachine(entityStateMachineFactory.createEntityStateMachine(myEntity));
+
     LOGGER.info("my entity " + myEntity.getUuid());
   }
 
