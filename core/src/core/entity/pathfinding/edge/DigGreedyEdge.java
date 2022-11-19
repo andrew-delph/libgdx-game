@@ -11,7 +11,6 @@ import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EdgeStepperException;
 import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
-import core.entity.block.Block;
 import core.entity.block.BlockFactory;
 import core.entity.block.SkyBlock;
 import core.entity.pathfinding.EntityStructure;
@@ -86,15 +85,15 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
   @Override
   public void follow(Entity entity, RelativePathNode relativePathNode)
       throws EdgeStepperException, ChunkNotFound, BodyNotFound {
-    Block targetBlock =
-        blockFactory.createSky(
-            this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition));
+
     try {
+
       this.gameController.replaceBlock(
           Optional.ofNullable(
               this.gameStore.getBlock(
                   this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))),
-          Optional.ofNullable(targetBlock));
+          Optional.ofNullable(null));
+
     } catch (EntityNotFound e) {
       throw new EdgeStepperException(e.toString());
     }
