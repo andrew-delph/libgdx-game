@@ -12,19 +12,24 @@ import core.entity.Entity;
 import core.entity.misc.Ladder;
 import core.entity.pathfinding.EntityStructure;
 import core.entity.pathfinding.PathGameStoreOverride;
+import core.entity.pathfinding.RelativeCoordinates;
 import core.entity.pathfinding.RelativePathNode;
 import core.entity.pathfinding.RelativeVertex;
 
 public class LadderGreedyEdge extends HorizontalGreedyEdge {
   GameController gameController;
+  RelativeCoordinates ladderPlacement;
 
   public LadderGreedyEdge(
       GameController gameController,
       EntityStructure entityStructure,
       RelativeVertex from,
-      RelativeVertex to) {
-    super(entityStructure, from, to);
+      RelativeVertex to,
+      RelativeCoordinates ladderPlacement,
+      String name) {
+    super(entityStructure, from, to, name);
     this.gameController = gameController;
+    this.ladderPlacement = ladderPlacement;
   }
 
   @Override
@@ -43,7 +48,7 @@ public class LadderGreedyEdge extends HorizontalGreedyEdge {
       PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {
 
     pathGameStoreOverride.registerEntityTypeOverride(
-        Ladder.class, this.applyTransition(sourceCoordinates));
+        Ladder.class, ladderPlacement.applyRelativeCoordinates(sourceCoordinates));
   }
 
   @Override

@@ -33,8 +33,9 @@ public class DigGreedyEdge extends HorizontalGreedyEdge {
       BlockFactory blockFactory,
       EntityStructure entityStructure,
       RelativeVertex position,
-      RelativeCoordinates digPosition) {
-    super(entityStructure, position, position);
+      RelativeCoordinates digPosition,
+      String name) {
+    super(entityStructure, position, position, name);
     this.gameController = gameController;
     this.gameStore = gameStore;
     this.blockFactory = blockFactory;

@@ -18,13 +18,15 @@ public class testAbstractEdge {
         new HorizontalGreedyEdge(
             entityStructure,
             new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
-            new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()));
+            new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
+            "test");
 
     HorizontalGreedyEdge horizontalGreedyEdge2 =
         new HorizontalGreedyEdge(
             entityStructure,
             new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
-            new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()));
+            new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
+            "test");
 
     assert horizontalGreedyEdge1.equals(horizontalGreedyEdge2);
   }
@@ -35,13 +37,15 @@ public class testAbstractEdge {
         new HorizontalGreedyEdge(
             null,
             new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
-            new RelativeVertex(null, new RelativeCoordinates(1f, 0), new Vector2()));
+            new RelativeVertex(null, new RelativeCoordinates(1f, 0), new Vector2()),
+            "test");
 
     HorizontalGreedyEdge horizontalGreedyEdge2 =
         new HorizontalGreedyEdge(
             null,
             new RelativeVertex(null, new RelativeCoordinates(0, 0), new Vector2()),
-            new RelativeVertex(null, new RelativeCoordinates(1.1f, 0), new Vector2()));
+            new RelativeVertex(null, new RelativeCoordinates(1.1f, 0), new Vector2()),
+            "test");
 
     assert !horizontalGreedyEdge1.equals(horizontalGreedyEdge2);
   }

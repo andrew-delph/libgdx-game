@@ -18,8 +18,8 @@ public class HorizontalGreedyEdge extends AbstractEdge {
   RelativeCoordinates currentRelativeCoordinates;
 
   public HorizontalGreedyEdge(
-      EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {
-    super(entityStructure, from, to);
+      EntityStructure entityStructure, RelativeVertex from, RelativeVertex to, String name) {
+    super(entityStructure, from, to, name);
     this.currentRelativeCoordinates = from.getRelativeCoordinates();
   }
 

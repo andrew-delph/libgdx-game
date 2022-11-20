@@ -265,7 +265,7 @@ public class testRelativePath {
   }
 
   @Test
-  public void testRelativePathLadder() throws Exception {
+  public void testRelativePathLadderWithoutBlocks() throws Exception {
     Injector injector = Guice.createInjector(new StandAloneConfig());
 
     RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
@@ -334,7 +334,7 @@ public class testRelativePath {
   }
 
   @Test
-  public void testRelativePathClimbLadder() throws Exception {
+  public void testRelativePathLadderWithBlocks() throws Exception {
     Injector injector = Guice.createInjector(new StandAloneConfig());
 
     RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
@@ -381,17 +381,30 @@ public class testRelativePath {
 
     for (int i = 0; i < 5; i++) {
       Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(2, i);
-      //      Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
       Block replacementBlock2 = blockFactory.createDirt(replacementCoordinates2);
-      //      gameStore.removeEntity(removeBlock2.getUuid());
       gameStore.addEntity(replacementBlock2);
       System.out.println("2" + gameStore.getBlock(replacementCoordinates2).getClass());
     }
 
-    RelativePath relativePath =
+    RelativePath relativePath;
+    relativePath =
         relativePathFactory.create(
-            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(3, 5));
+            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(1, 4));
+    relativePath.search();
 
+    relativePath =
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(4, 1), CommonFactory.createCoordinates(3, 4));
+    relativePath.search();
+
+    relativePath =
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(2, 5));
+    relativePath.search();
+
+    relativePath =
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(4, 1), CommonFactory.createCoordinates(2, 5));
     relativePath.search();
 
     boolean hasLadder = false;
