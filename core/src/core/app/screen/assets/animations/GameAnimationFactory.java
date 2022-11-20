@@ -126,14 +126,7 @@ public class GameAnimationFactory {
   }
 
   GameAnimation createOrbAnimation() {
-    TextureRegion[] orbFrames = new TextureRegion[6];
-
-    orbFrames[0] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 1.png")));
-    orbFrames[1] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 2.png")));
-    orbFrames[2] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 3.png")));
-    orbFrames[3] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 4.png")));
-    orbFrames[4] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 5.png")));
-    orbFrames[5] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 6.png")));
+    TextureRegion[] orbFrames = getFramesFromTxt("orb/Blue/assets.txt", false);
 
     return new GameAnimationBuilder()
         .addAnimation(AnimationState.DEFAULT, new Animation<TextureRegion>(0.2f, orbFrames))
