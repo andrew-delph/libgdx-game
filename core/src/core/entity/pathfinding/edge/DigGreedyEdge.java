@@ -7,7 +7,6 @@ import core.app.game.GameController;
 import core.app.screen.assets.animations.AnimationState;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Coordinates;
-import core.common.Direction;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
@@ -91,10 +90,18 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
   public void follow(Entity entity, RelativePathNode relativePathNode)
       throws EdgeStepperException, ChunkNotFound, BodyNotFound {
 
-    if (entity.getDirectionWrapper().getDirection() == Direction.LEFT) {
+    RelativeCoordinates relativeCoordinatesBase = new RelativeCoordinates(0, 0);
+
+    if (digPosition.equals(relativeCoordinatesBase.getLeft())) {
       entity.getEntityStateMachine().attemptTransition(AnimationState.DIGGING_LEFT);
-    } else {
+    } else if (digPosition.equals(relativeCoordinatesBase.getRight())) {
       entity.getEntityStateMachine().attemptTransition(AnimationState.DIGGING_RIGHT);
+    } else if (digPosition.equals(relativeCoordinatesBase.getDown())) {
+      entity.getEntityStateMachine().attemptTransition(AnimationState.DIGGING_DOWN);
+    } else if (digPosition.equals(relativeCoordinatesBase.getUp())) {
+      entity.getEntityStateMachine().attemptTransition(AnimationState.DIGGING_UP);
+    } else {
+      throw new EdgeStepperException("cannot determine the position of the dig");
     }
 
     try {
