@@ -97,55 +97,16 @@ public class GameAnimationFactory {
     }
 
     // punch left
-    TextureRegion[] punchFramesLeft = new TextureRegion[27];
-    for (int i = 0; i < 27; i++) {
-      if (i < 10)
-        punchFramesLeft[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_000" + i + ".png")));
-      else
-        punchFramesLeft[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_00" + i + ".png")));
-    }
+    TextureRegion[] punchFramesLeft = getFramesFromTxt("punch/assets.txt", false);
 
     // punch right
-    TextureRegion[] punchFramesRight = new TextureRegion[27];
-    for (int i = 0; i < 27; i++) {
-      if (i < 10)
-        punchFramesRight[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_000" + i + ".png")));
-      else
-        punchFramesRight[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_00" + i + ".png")));
-
-      punchFramesRight[i].flip(true, false);
-    }
+    TextureRegion[] punchFramesRight = getFramesFromTxt("punch/assets.txt", true);
 
     // Dig Left
     TextureRegion[] digFramesLeft = getFramesFromTxt("pickaxe/assets.txt", false);
-    //    TextureRegion[] digFramesLeft = new TextureRegion[17];
-    //    for (int i = 0; i < 17; i++) {
-    //      if (i < 10)
-    //        digFramesLeft[i] =
-    //            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_000" + i +
-    // ".png")));
-    //      else
-    //        digFramesLeft[i] =
-    //            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_00" + i +
-    // ".png")));
-    //    }
 
     // Dig Right
-    TextureRegion[] digFramesRight = new TextureRegion[17];
-    for (int i = 0; i < 17; i++) {
-      if (i < 10)
-        digFramesRight[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_000" + i + ".png")));
-      else
-        digFramesRight[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_00" + i + ".png")));
-
-      digFramesRight[i].flip(true, false);
-    }
+    TextureRegion[] digFramesRight = getFramesFromTxt("pickaxe/assets.txt", true);
 
     return new GameAnimationBuilder()
         .addAnimation(AnimationState.DEFAULT, new Animation<TextureRegion>(0.25f, defaultFrames))
