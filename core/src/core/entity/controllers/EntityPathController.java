@@ -65,8 +65,17 @@ public class EntityPathController extends EntityController {
             .getCoordinates()
             .getBase()
             .calcDistance(target.getCoordinatesWrapper().getCoordinates())
-        < 2) {
-      entity.getEntityStateMachine().attemptTransition(AnimationState.PUNCH_LEFT);
+        < 1) {
+
+      if (this.entity
+              .getCoordinatesWrapper()
+              .getCoordinates()
+              .calcDifference(target.getCoordinatesWrapper().getCoordinates())[0]
+          < 0) {
+        this.entity.getEntityStateMachine().attemptTransition(AnimationState.PUNCH_LEFT);
+      } else {
+        this.entity.getEntityStateMachine().attemptTransition(AnimationState.PUNCH_RIGHT);
+      }
     }
     try {
       this.pathGuider.followPath(target.getCoordinatesWrapper().getCoordinates());

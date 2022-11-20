@@ -1,5 +1,6 @@
 package core.common;
 
+import java.util.Arrays;
 import org.junit.Test;
 
 public class testCoordinates {
@@ -55,5 +56,15 @@ public class testCoordinates {
     Coordinates c1 = CommonFactory.createCoordinates(0, 1);
     Coordinates c2 = CommonFactory.createCoordinates(0, 2);
     assert c1.calcDistance(c2) == 1;
+  }
+
+  @Test
+  public void testCalcDifference() {
+    Coordinates c1 = CommonFactory.createCoordinates(0, 1);
+    Coordinates c2 = CommonFactory.createCoordinates(1, 2);
+
+    assert c1.calcDifference(c2)[0] == 1;
+    assert c1.calcDifference(c2)[1] == 1;
+    System.out.println(Arrays.toString(c1.calcDifference(c2)));
   }
 }

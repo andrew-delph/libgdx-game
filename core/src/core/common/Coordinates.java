@@ -95,6 +95,10 @@ public class Coordinates implements SerializeNetworkData {
             + Math.pow(this.getYReal() - other.getYReal(), 2));
   }
 
+  public double[] calcDifference(Coordinates other) {
+    return new double[] {other.getXReal() - this.getXReal(), other.getYReal() - this.getYReal()};
+  }
+
   @Override
   public int hashCode() {
     return (this.x + "," + this.y).hashCode();
