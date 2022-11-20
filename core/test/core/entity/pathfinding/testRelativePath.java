@@ -1,5 +1,7 @@
 package core.entity.pathfinding;
 
+import static org.junit.Assert.fail;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.common.CommonFactory;
@@ -8,6 +10,8 @@ import core.common.GameStore;
 import core.configuration.StandAloneConfig;
 import core.entity.block.Block;
 import core.entity.block.BlockFactory;
+import core.entity.pathfinding.edge.DigGreedyEdge;
+import core.entity.pathfinding.edge.LadderGreedyEdge;
 import core.generation.ChunkBuilderFactory;
 import java.util.Map;
 import org.junit.Test;
@@ -327,7 +331,6 @@ public class testRelativePath {
           pathNode.startPosition + " , " + pathNode.edge.applyTransition(pathNode.startPosition));
       System.out.println();
     }
-    System.out.println("2");
   }
 
   @Test
@@ -370,8 +373,6 @@ public class testRelativePath {
         .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(6, -1)))
         .call();
 
-    //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 1)).getClass());
-
     EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
     edgeRegistration.horizontalGreedyRegisterEdges();
     edgeRegistration.ladderGreedyRegisterEdges();
@@ -389,19 +390,17 @@ public class testRelativePath {
 
     RelativePath relativePath =
         relativePathFactory.create(
-            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(2, 5));
-
-    //    System.out.println("^^^^^^^^^^^^^^");
-    //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 5)).getClass());
-    //    System.out.println(gameStore.getBlock(CommonFactory.createCoordinates(2, 4)).getClass());
-    //    System.out.println("^^^^^^^^^^^^^^");
+            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(3, 5));
 
     relativePath.search();
 
+    boolean hasLadder = false;
     for (RelativePathNode pathNode : relativePath.getPathEdgeList()) {
       System.out.println(pathNode.edge);
+      if (pathNode.edge instanceof LadderGreedyEdge) hasLadder = true;
     }
-    System.out.println("2");
+
+    if (!hasLadder) fail("Has no ladder edge");
   }
 
   @Test
@@ -467,9 +466,12 @@ public class testRelativePath {
 
     relativePath.search();
 
+    boolean hasDig = false;
     for (RelativePathNode pathNode : relativePath.getPathEdgeList()) {
       System.out.println(pathNode.edge);
+      if (pathNode.edge instanceof DigGreedyEdge) hasDig = true;
     }
-    System.out.println("2");
+
+    if (!hasDig) fail("Has no dig edge");
   }
 }

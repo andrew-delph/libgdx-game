@@ -33,13 +33,11 @@ public class BlockGenerator {
         }
       }
     } else if (Math.random() < 0.1 && coordinates.getY() != 0) {
-      gameController.triggerAddEntity(blockFactory.createSky(coordinates));
       Sand sand = entityFactory.createSand(coordinates);
       gameController.triggerAddEntity(sand);
     } else if (Math.random() < 0.1 && coordinates.getY() != 0) {
       Orb orb = entityFactory.createOrb(coordinates);
       gameController.triggerAddEntity(orb);
-      gameController.triggerAddEntity(blockFactory.createSky(coordinates));
     } else {
       Block block;
       if (coordinates.getY() == 0) {
