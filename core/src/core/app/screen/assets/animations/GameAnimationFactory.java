@@ -1,48 +1,42 @@
 package core.app.screen.assets.animations;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GameAnimationFactory {
 
-  GameAnimation createEntityAnimation2() {
-    final int FRAME_COLS = 6, FRAME_ROWS = 5;
-    Texture walkSheet = new Texture(Gdx.files.internal("sprite-animation4.png"));
-    TextureRegion[][] tmp =
-        TextureRegion.split(
-            walkSheet, walkSheet.getWidth() / FRAME_COLS, walkSheet.getHeight() / FRAME_ROWS);
+  TextureRegion[] getFramesFromTxt(String dir, boolean flip) {
+    FileHandle assetsFile = Gdx.files.local(dir);
+    BufferedReader reader = new BufferedReader(assetsFile.reader());
 
-    TextureRegion[] walkRightFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-    int index = 0;
-    for (int i = 0; i < FRAME_ROWS; i++) {
-      for (int j = 0; j < FRAME_COLS; j++) {
-        walkRightFrames[index++] = tmp[i][j];
+    List<String> lines = new LinkedList<>();
+    try {
+      String line = reader.readLine();
+      while (line != null) {
+        lines.add(line);
+        line = reader.readLine();
       }
+      reader.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
-    walkSheet = new Texture(Gdx.files.internal("sprite-animation4.png"));
-    tmp =
-        TextureRegion.split(
-            walkSheet, walkSheet.getWidth() / FRAME_COLS, walkSheet.getHeight() / FRAME_ROWS);
+    TextureRegion[] frames = new TextureRegion[lines.size()];
 
-    TextureRegion[] walkLeftFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-    index = 0;
-    for (int i = 0; i < FRAME_ROWS; i++) {
-      for (int j = 0; j < FRAME_COLS; j++) {
-        tmp[i][j].flip(true, false);
-        walkLeftFrames[index++] = tmp[i][j];
-      }
+    for (int i = 0; i < frames.length; i++) {
+      String fileName = lines.get(i);
+      frames[i] = new TextureRegion(new Texture(Gdx.files.local(fileName)));
+      if (flip) frames[i].flip(true, false);
     }
 
-    return new GameAnimationBuilder()
-        .addAnimation(AnimationState.DEFAULT, new Animation<TextureRegion>(0.025f, walkRightFrames))
-        .addAnimation(
-            AnimationState.WALKING_RIGHT, new Animation<TextureRegion>(0.025f, walkRightFrames))
-        .addAnimation(
-            AnimationState.WALKING_LEFT, new Animation<TextureRegion>(0.025f, walkLeftFrames))
-        .build();
+    return frames;
   }
 
   GameAnimation createEntityAnimation() {
@@ -103,52 +97,16 @@ public class GameAnimationFactory {
     }
 
     // punch left
-    TextureRegion[] punchFramesLeft = new TextureRegion[27];
-    for (int i = 0; i < 27; i++) {
-      if (i < 10)
-        punchFramesLeft[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_000" + i + ".png")));
-      else
-        punchFramesLeft[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_00" + i + ".png")));
-    }
+    TextureRegion[] punchFramesLeft = getFramesFromTxt("punch/assets.txt", false);
 
     // punch right
-    TextureRegion[] punchFramesRight = new TextureRegion[27];
-    for (int i = 0; i < 27; i++) {
-      if (i < 10)
-        punchFramesRight[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_000" + i + ".png")));
-      else
-        punchFramesRight[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("punch/punch_00" + i + ".png")));
-
-      punchFramesRight[i].flip(true, false);
-    }
+    TextureRegion[] punchFramesRight = getFramesFromTxt("punch/assets.txt", true);
 
     // Dig Left
-    TextureRegion[] digFramesLeft = new TextureRegion[17];
-    for (int i = 0; i < 17; i++) {
-      if (i < 10)
-        digFramesLeft[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_000" + i + ".png")));
-      else
-        digFramesLeft[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_00" + i + ".png")));
-    }
+    TextureRegion[] digFramesLeft = getFramesFromTxt("pickaxe/assets.txt", false);
 
     // Dig Right
-    TextureRegion[] digFramesRight = new TextureRegion[17];
-    for (int i = 0; i < 17; i++) {
-      if (i < 10)
-        digFramesRight[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_000" + i + ".png")));
-      else
-        digFramesRight[i] =
-            new TextureRegion(new Texture(Gdx.files.internal("pickaxe/pickaxe_00" + i + ".png")));
-
-      digFramesRight[i].flip(true, false);
-    }
+    TextureRegion[] digFramesRight = getFramesFromTxt("pickaxe/assets.txt", true);
 
     return new GameAnimationBuilder()
         .addAnimation(AnimationState.DEFAULT, new Animation<TextureRegion>(0.25f, defaultFrames))
@@ -168,14 +126,7 @@ public class GameAnimationFactory {
   }
 
   GameAnimation createOrbAnimation() {
-    TextureRegion[] orbFrames = new TextureRegion[6];
-
-    orbFrames[0] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 1.png")));
-    orbFrames[1] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 2.png")));
-    orbFrames[2] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 3.png")));
-    orbFrames[3] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 4.png")));
-    orbFrames[4] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 5.png")));
-    orbFrames[5] = new TextureRegion(new Texture(Gdx.files.internal("orb/Blue/frame 6.png")));
+    TextureRegion[] orbFrames = getFramesFromTxt("orb/Blue/assets.txt", false);
 
     return new GameAnimationBuilder()
         .addAnimation(AnimationState.DEFAULT, new Animation<TextureRegion>(0.2f, orbFrames))
