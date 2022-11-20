@@ -53,21 +53,24 @@ public class LadderGreedyEdge extends HorizontalGreedyEdge {
 
   @Override
   public EdgeStepper getEdgeStepper(Entity entity, RelativePathNode relativePathNode) {
-    return new LadderEdgeStepper(this.gameController);
+    return new LadderEdgeStepper(this.gameController, this.ladderPlacement);
   }
 }
 
 class LadderEdgeStepper extends HorizontalEdgeStepper {
   GameController gameController;
+  RelativeCoordinates ladderPlacement;
 
-  public LadderEdgeStepper(GameController gameController) {
+  public LadderEdgeStepper(GameController gameController, RelativeCoordinates ladderPlacement) {
     this.gameController = gameController;
+    this.ladderPlacement = ladderPlacement;
   }
 
   @Override
   public void follow(Entity entity, RelativePathNode relativePathNode)
       throws EdgeStepperException, ChunkNotFound, BodyNotFound {
-    this.gameController.createLadder(relativePathNode.getEndPosition());
+    this.gameController.createLadder(
+        ladderPlacement.applyRelativeCoordinates(relativePathNode.getStartPosition()));
     super.follow(entity, relativePathNode);
   }
 }

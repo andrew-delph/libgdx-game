@@ -27,6 +27,10 @@ public class RelativePathNode {
     this.cost = cost;
   }
 
+  public Coordinates getStartPosition() {
+    return startPosition;
+  }
+
   public RelativePathNode getPrevious() {
     return previous;
   }

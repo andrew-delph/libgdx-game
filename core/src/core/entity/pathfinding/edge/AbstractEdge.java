@@ -40,8 +40,6 @@ public abstract class AbstractEdge {
     try {
       boolean verify =
           this.entityStructure.verifyEntityStructure(pathGameStoreOverride, coordinates);
-      if (this instanceof LadderGreedyEdge && verify) System.out.println(verify + " " + this);
-
       return verify;
     } catch (Exception e) {
       return false;
