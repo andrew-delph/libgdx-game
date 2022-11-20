@@ -4,8 +4,10 @@ import static core.app.screen.GameScreen.pathDebugRender;
 
 import com.badlogic.gdx.graphics.Color;
 import core.app.game.GameController;
+import core.app.screen.assets.animations.AnimationState;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Coordinates;
+import core.common.Direction;
 import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
@@ -19,7 +21,6 @@ import core.entity.pathfinding.PathGameStoreOverride;
 import core.entity.pathfinding.RelativeCoordinates;
 import core.entity.pathfinding.RelativePathNode;
 import core.entity.pathfinding.RelativeVertex;
-import java.util.Optional;
 
 public class DigGreedyEdge extends HorizontalGreedyEdge {
   GameController gameController;
@@ -90,17 +91,17 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
   public void follow(Entity entity, RelativePathNode relativePathNode)
       throws EdgeStepperException, ChunkNotFound, BodyNotFound {
 
-    try {
-
-      this.gameController.replaceBlock(
-          Optional.ofNullable(
-              this.gameStore.getBlock(
-                  this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))),
-          Optional.empty());
-
-    } catch (EntityNotFound e) {
-      throw new EdgeStepperException(e.toString());
+    if (entity.getDirectionWrapper().getDirection() == Direction.LEFT) {
+      entity.getEntityStateMachine().attemptTransition(AnimationState.DIGGING_LEFT);
+    } else {
+      entity.getEntityStateMachine().attemptTransition(AnimationState.DIGGING_RIGHT);
     }
-    super.follow(entity, relativePathNode);
+
+    try {
+      this.gameStore.getBlock(
+          this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition));
+    } catch (EntityNotFound entityNotFound) {
+      this.finish();
+    }
   }
 }
