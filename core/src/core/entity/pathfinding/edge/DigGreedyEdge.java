@@ -64,8 +64,7 @@ public class DigGreedyEdge extends HorizontalGreedyEdge {
     // TODO change to draw to cover the dig
     if (GameSettings.RENDER_DEBUG) {
       pathDebugRender.setColor(Color.RED);
-      pathDebugRender.line(
-          position.toPhysicsVector2(), this.applyTransition(position).toPhysicsVector2());
+      pathDebugRender.circle(position.toPhysicsVector2().x, position.toPhysicsVector2().y, 4);
     }
   }
 }
