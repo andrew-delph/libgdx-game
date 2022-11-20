@@ -49,9 +49,11 @@ public class EntityUserController extends EntityController {
         entity.getEntityStateMachine().attemptTransition(AnimationState.DIGGING_RIGHT);
         //        this.gameController.placeBlock(this.entity, Direction.RIGHT, Optional.empty());
       } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-        this.gameController.placeBlock(this.entity, Direction.DOWN, Optional.empty());
+        entity.getEntityStateMachine().attemptTransition(AnimationState.DIGGING_DOWN);
+        //        this.gameController.placeBlock(this.entity, Direction.DOWN, Optional.empty());
       } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-        this.gameController.placeBlock(this.entity, Direction.UP, Optional.empty());
+        entity.getEntityStateMachine().attemptTransition(AnimationState.DIGGING_UP);
+        //        this.gameController.placeBlock(this.entity, Direction.UP, Optional.empty());
       }
     }
     if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {

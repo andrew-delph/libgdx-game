@@ -10,4 +10,6 @@ public enum AnimationState {
   PUNCH_RIGHT,
   DIGGING_LEFT,
   DIGGING_RIGHT,
+  DIGGING_UP,
+  DIGGING_DOWN,
 }

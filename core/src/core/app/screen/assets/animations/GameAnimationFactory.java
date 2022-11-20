@@ -122,6 +122,10 @@ public class GameAnimationFactory {
             AnimationState.DIGGING_LEFT, new Animation<TextureRegion>(0.05f, digFramesLeft))
         .addAnimation(
             AnimationState.DIGGING_RIGHT, new Animation<TextureRegion>(0.05f, digFramesRight))
+        .addAnimation(
+            AnimationState.DIGGING_DOWN, new Animation<TextureRegion>(0.05f, digFramesLeft))
+        .addAnimation(
+            AnimationState.DIGGING_UP, new Animation<TextureRegion>(0.05f, digFramesRight))
         .build();
   }
 
