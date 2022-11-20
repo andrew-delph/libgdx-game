@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import core.app.game.GameController;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Coordinates;
+import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EdgeStepperException;
@@ -60,8 +61,11 @@ public class DigGreedyEdge extends HorizontalGreedyEdge {
 
   @Override
   public void render(Coordinates position) {
-    pathDebugRender.setColor(Color.YELLOW);
-    super.render(position);
+    if (GameSettings.RENDER_DEBUG) {
+      pathDebugRender.setColor(Color.YELLOW);
+      pathDebugRender.line(
+          position.toPhysicsVector2(), this.applyTransition(position).toPhysicsVector2());
+    }
   }
 }
 
@@ -92,7 +96,7 @@ class DigEdgeStepper extends HorizontalEdgeStepper {
           Optional.ofNullable(
               this.gameStore.getBlock(
                   this.digPosition.applyRelativeCoordinates(relativePathNode.startPosition))),
-          Optional.ofNullable(null));
+          Optional.empty());
 
     } catch (EntityNotFound e) {
       throw new EdgeStepperException(e.toString());
