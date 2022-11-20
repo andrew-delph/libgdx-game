@@ -13,7 +13,7 @@ import core.entity.collision.RayCastService;
 import core.entity.statemachine.EntityStateMachineNodeInterface;
 import java.util.Set;
 
-public class DiggingRightState extends EntityStateMachineNodeInterface {
+public class DiggingDownState extends EntityStateMachineNodeInterface {
 
   @Inject RayCastService rayCastService;
 
@@ -22,10 +22,10 @@ public class DiggingRightState extends EntityStateMachineNodeInterface {
     if (!entity
         .getAnimationStateWrapper()
         .getAnimationState()
-        .equals(AnimationState.DIGGING_RIGHT)) {
+        .equals(AnimationState.DIGGING_DOWN)) {
       try {
         gameController.updateEntityAttribute(
-            entity.getUuid(), new AnimationStateWrapper(AnimationState.DIGGING_RIGHT));
+            entity.getUuid(), new AnimationStateWrapper(AnimationState.DIGGING_DOWN));
       } catch (EntityNotFound e) {
         e.printStackTrace();
       }
@@ -40,7 +40,7 @@ public class DiggingRightState extends EntityStateMachineNodeInterface {
     // after time
 
     Coordinates entityCoordinates = entity.getCoordinatesWrapper().getCoordinates();
-    Coordinates targetCoordinates = entityCoordinates.add(1, 0);
+    Coordinates targetCoordinates = entityCoordinates.add(0, -1);
 
     Set<Entity> rayCastSet = rayCastService.rayCast(entityCoordinates, targetCoordinates);
 
