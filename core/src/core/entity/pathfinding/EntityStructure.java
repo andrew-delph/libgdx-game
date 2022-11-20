@@ -3,6 +3,8 @@ package core.entity.pathfinding;
 import core.common.Coordinates;
 import core.common.GameStore;
 import core.entity.Entity;
+import core.entity.block.EmptyBlock;
+import core.entity.block.SolidBlock;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,28 +41,41 @@ public class EntityStructure {
       RelativeCoordinates currentRelativeCoordinates = entry.getKey();
       Class<? extends Entity> targetEntityType = entry.getValue();
 
-      List<Class<? extends Entity>> existingEntityList =
+      List<Class<? extends Entity>> existingEntityTypeList =
           pathGameStoreOverride.getEntityListBaseCoordinates(
               currentRelativeCoordinates.applyRelativeCoordinates(coordinates));
 
-      if (existingEntityList == null) {
+      if (existingEntityTypeList == null) {
         List<Entity> entityList =
             this.gameStore.getEntityListBaseCoordinates(
                 currentRelativeCoordinates.applyRelativeCoordinates(coordinates));
-        existingEntityList = new LinkedList<>();
+        existingEntityTypeList = new LinkedList<>();
         for (Entity e : entityList) {
-          existingEntityList.add(e.getClass());
+          existingEntityTypeList.add(e.getClass());
         }
       }
 
       boolean found = false;
-      for (Class<? extends Entity> retrievedEntity : existingEntityList) {
-        if (targetEntityType.isAssignableFrom(retrievedEntity)) {
-          found = true;
-          break;
+
+      // if the targetEntityType is EmptyBlock do something else
+      if (targetEntityType == EmptyBlock.class) {
+        for (Class<? extends Entity> existingEntityType : existingEntityTypeList) {
+          // if the existingEntityType is a solid block. return false
+          if (SolidBlock.class.isAssignableFrom(existingEntityType)) {
+            return false;
+          }
         }
+      } else {
+        // checks if targetEntityType exists.
+        for (Class<? extends Entity> existingEntityType : existingEntityTypeList) {
+          if (existingEntityType == EmptyBlock.class) continue;
+          if (targetEntityType.isAssignableFrom(existingEntityType)) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) return false;
       }
-      if (!found) return false;
     }
     return true;
   }
