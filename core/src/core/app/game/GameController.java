@@ -184,10 +184,11 @@ public class GameController {
   }
 
   public Entity createLadder(Coordinates coordinates) throws ChunkNotFound {
+    coordinates = coordinates.getBase();
     try {
       this.gameStore.getBlock(coordinates);
     } catch (EntityNotFound e) {
-      return null;
+      this.createDirtBlock(coordinates);
     }
     if (this.gameStore.getLadder(coordinates) != null) return this.gameStore.getLadder(coordinates);
     Entity entity = entityFactory.createLadder(coordinates);

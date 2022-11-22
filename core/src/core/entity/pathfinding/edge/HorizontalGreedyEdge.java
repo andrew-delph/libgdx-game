@@ -47,28 +47,29 @@ class HorizontalEdgeStepper extends EdgeStepper {
       throws EdgeStepperException, ChunkNotFound, BodyNotFound {
     String actionKey;
 
-    if (!entity
-            .getCoordinatesWrapper()
-            .getCoordinates()
-            .getBase()
-            .equals(relativePathNode.startPosition.getBase().getDown())
-        && !entity
-            .getCoordinatesWrapper()
-            .getCoordinates()
-            .getBase()
-            .equals(relativePathNode.startPosition.getBase())
-        && !entity
-            .getCoordinatesWrapper()
-            .getCoordinates()
-            .getBase()
-            .equals(relativePathNode.getEndPosition().getBase())) {
-      throw new EdgeStepperException("not on track");
-    }
+    //    if (!entity
+    //            .getCoordinatesWrapper()
+    //            .getCoordinates()
+    //            .getBase()
+    //            .equals(relativePathNode.startPosition.getBase().getDown())
+    //        && !entity
+    //            .getCoordinatesWrapper()
+    //            .getCoordinates()
+    //            .getBase()
+    //            .equals(relativePathNode.startPosition.getBase())
+    //        && !entity
+    //            .getCoordinatesWrapper()
+    //            .getCoordinates()
+    //            .getBase()
+    //            .equals(relativePathNode.getEndPosition().getBase())) {
+    //      throw new EdgeStepperException("not on track");
+    //    }
 
     if (relativePathNode
-            .getEndPosition()
-            .calcDistance(entity.getCoordinatesWrapper().getCoordinates())
-        < 0.3) {
+                .getEndPosition()
+                .calcDistance(entity.getCoordinatesWrapper().getCoordinates())
+            < 0.3
+        || true) {
       Vector2 setBodyPosition = relativePathNode.getEndPosition().toPhysicsVector2();
       entity.setBodyPosition(setBodyPosition);
       this.finish();

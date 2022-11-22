@@ -71,8 +71,6 @@ class LadderEdgeStepper extends HorizontalEdgeStepper {
   @Override
   public void follow(Entity entity, RelativePathNode relativePathNode)
       throws EdgeStepperException, ChunkNotFound, BodyNotFound {
-    this.gameController.createDirtBlock(
-        ladderPlacement.applyRelativeCoordinates(relativePathNode.getStartPosition()));
     this.gameController.createLadder(
         ladderPlacement.applyRelativeCoordinates(relativePathNode.getStartPosition()));
     super.follow(entity, relativePathNode);
