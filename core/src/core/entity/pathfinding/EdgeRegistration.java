@@ -131,13 +131,13 @@ public class EdgeRegistration extends EdgeRegistrationBase {
             "moveLadderRightHorizontalGreedyEdge");
 
     EntityStructure moveLadderLeftEntityStructure = entityStructureFactory.createEntityStructure();
-    moveLadderRightEntityStructure.registerRelativeEntity(
+    moveLadderLeftEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(0, 0), EmptyBlock.class);
-    moveLadderRightEntityStructure.registerRelativeEntity(
+    moveLadderLeftEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(-1, 0), Ladder.class);
-    moveLadderRightEntityStructure.registerRelativeEntity(
+    moveLadderLeftEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(0, 1), EmptyBlock.class);
-    moveLadderRightEntityStructure.registerRelativeEntity(
+    moveLadderLeftEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(-1, 1), EmptyBlock.class);
     RelativeVertex moveLadderLeftFrom =
         new RelativeVertex(

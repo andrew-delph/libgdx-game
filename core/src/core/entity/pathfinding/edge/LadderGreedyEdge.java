@@ -9,6 +9,7 @@ import core.common.Coordinates;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EdgeStepperException;
 import core.entity.Entity;
+import core.entity.block.DirtBlock;
 import core.entity.misc.Ladder;
 import core.entity.pathfinding.EntityStructure;
 import core.entity.pathfinding.PathGameStoreOverride;
@@ -46,7 +47,8 @@ public class LadderGreedyEdge extends HorizontalGreedyEdge {
   @Override
   public void appendPathGameStoreOverride(
       PathGameStoreOverride pathGameStoreOverride, Coordinates sourceCoordinates) {
-
+    pathGameStoreOverride.registerEntityTypeOverride(
+        DirtBlock.class, ladderPlacement.applyRelativeCoordinates(sourceCoordinates));
     pathGameStoreOverride.registerEntityTypeOverride(
         Ladder.class, ladderPlacement.applyRelativeCoordinates(sourceCoordinates));
   }
@@ -69,6 +71,8 @@ class LadderEdgeStepper extends HorizontalEdgeStepper {
   @Override
   public void follow(Entity entity, RelativePathNode relativePathNode)
       throws EdgeStepperException, ChunkNotFound, BodyNotFound {
+    this.gameController.createDirtBlock(
+        ladderPlacement.applyRelativeCoordinates(relativePathNode.getStartPosition()));
     this.gameController.createLadder(
         ladderPlacement.applyRelativeCoordinates(relativePathNode.getStartPosition()));
     super.follow(entity, relativePathNode);
