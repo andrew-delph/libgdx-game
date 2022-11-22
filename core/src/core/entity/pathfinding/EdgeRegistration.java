@@ -110,6 +110,8 @@ public class EdgeRegistration extends EdgeRegistrationBase {
 
     EntityStructure moveLadderRightEntityStructure = entityStructureFactory.createEntityStructure();
     moveLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, 0), EmptyBlock.class);
+    moveLadderRightEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(1, 0), Ladder.class);
     moveLadderRightEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(0, 1), EmptyBlock.class);
@@ -129,16 +131,20 @@ public class EdgeRegistration extends EdgeRegistrationBase {
             "moveLadderRightHorizontalGreedyEdge");
 
     EntityStructure moveLadderLeftEntityStructure = entityStructureFactory.createEntityStructure();
-    moveLadderLeftEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(0, 0), Ladder.class);
-    moveLadderLeftEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(-1, 0), EmptyBlock.class);
+    moveLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, 0), EmptyBlock.class);
+    moveLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(-1, 0), Ladder.class);
+    moveLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, 1), EmptyBlock.class);
+    moveLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(-1, 1), EmptyBlock.class);
     RelativeVertex moveLadderLeftFrom =
         new RelativeVertex(
             moveLadderLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeVertex moveLadderLeftTo =
         new RelativeVertex(
-            moveLadderLeftEntityStructure, new RelativeCoordinates(-1, 0), new Vector2(0, 0));
+            moveLadderLeftEntityStructure, new RelativeCoordinates(-1, 1), new Vector2(0, 0));
     HorizontalGreedyEdge moveLadderLeftHorizontalGreedyEdge =
         new HorizontalGreedyEdge(
             moveLadderLeftEntityStructure,
@@ -159,8 +165,8 @@ public class EdgeRegistration extends EdgeRegistrationBase {
     EntityStructure startLadderLeftEntityStructure = entityStructureFactory.createEntityStructure();
     startLadderLeftEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(0, 0), EmptyBlock.class);
-    startLadderLeftEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(-1, 0), SolidBlock.class);
+    //    startLadderLeftEntityStructure.registerRelativeEntity(
+    //        new RelativeCoordinates(-1, 0), SolidBlock.class);
     RelativeVertex startLadderFrom =
         new RelativeVertex(
             startLadderLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
@@ -180,9 +186,11 @@ public class EdgeRegistration extends EdgeRegistrationBase {
     climbLadderLeftEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(-1, 0), Ladder.class);
     climbLadderLeftEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(0, 1), EmptyBlock.class);
+        new RelativeCoordinates(0, 0), EmptyBlock.class);
     climbLadderLeftEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(-1, 1), SolidBlock.class);
+        new RelativeCoordinates(0, 1), EmptyBlock.class);
+    //    climbLadderLeftEntityStructure.registerRelativeEntity(
+    //        new RelativeCoordinates(-1, 1), SolidBlock.class);
     RelativeVertex climbLadderFrom =
         new RelativeVertex(
             climbLadderLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
@@ -202,8 +210,8 @@ public class EdgeRegistration extends EdgeRegistrationBase {
         entityStructureFactory.createEntityStructure();
     startLadderRightEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(0, 0), EmptyBlock.class);
-    startLadderRightEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(1, 0), SolidBlock.class);
+    //    startLadderRightEntityStructure.registerRelativeEntity(
+    //        new RelativeCoordinates(1, 0), SolidBlock.class);
     RelativeVertex startLadderFromRight =
         new RelativeVertex(
             startLadderRightEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
@@ -224,9 +232,11 @@ public class EdgeRegistration extends EdgeRegistrationBase {
     climbLadderRightEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(1, 0), Ladder.class);
     climbLadderRightEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(0, 1), EmptyBlock.class);
+        new RelativeCoordinates(0, 0), EmptyBlock.class);
     climbLadderRightEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(1, 1), SolidBlock.class);
+        new RelativeCoordinates(0, 1), EmptyBlock.class);
+    //    climbLadderRightEntityStructure.registerRelativeEntity(
+    //        new RelativeCoordinates(1, 1), SolidBlock.class);
     RelativeVertex climbLadderFromRight =
         new RelativeVertex(
             climbLadderRightEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));

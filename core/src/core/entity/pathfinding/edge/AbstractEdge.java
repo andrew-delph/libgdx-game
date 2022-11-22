@@ -26,6 +26,10 @@ public abstract class AbstractEdge {
     this.name = name;
   }
 
+  public String getName() {
+    return name;
+  }
+
   public RelativeVertex getFrom() {
     return from;
   }
