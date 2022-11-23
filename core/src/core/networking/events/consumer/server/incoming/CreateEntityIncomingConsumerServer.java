@@ -12,6 +12,7 @@ import core.entity.Entity;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.entity.groups.Group;
 import core.entity.groups.GroupService;
+import core.entity.misc.Ladder;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.incoming.CreateEntityIncomingEventType;
 import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
@@ -39,6 +40,10 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
               entitySerializationConverter.createEntity(incoming.getData()));
       entity.setEntityController(entityControllerFactory.createRemoteBodyController(entity));
       groupService.registerEntityGroup(entity.getUuid(), Group.PLAYER_GROUP);
+
+      if (entity.getClass().equals(Ladder.class))
+        entity.setEntityController(entityControllerFactory.createLadderController(entity));
+
     } catch (SerializationDataMissing | ChunkNotFound e) {
       e.printStackTrace();
       return;

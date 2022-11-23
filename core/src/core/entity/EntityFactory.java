@@ -33,6 +33,7 @@ public class EntityFactory {
 
   public Ladder createLadder(Coordinates coordinates) {
     Ladder ladder = new Ladder(clock, baseAssetManager, entityBodyBuilder, coordinates);
+    ladder.setEntityController(entityControllerFactory.createLadderController(ladder));
     return ladder;
   }
 
