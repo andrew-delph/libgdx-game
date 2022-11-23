@@ -3,10 +3,13 @@ package core.entity.controllers;
 import core.app.game.GameController;
 import core.app.screen.assets.animations.AnimationState;
 import core.common.Coordinates;
+import core.common.Direction;
 import core.common.GameStore;
 import core.common.events.EventService;
+import core.common.exceptions.EntityNotFound;
 import core.entity.Entity;
 import core.entity.EntityFactory;
+import core.entity.attributes.msc.DirectionWrapper;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.entity.pathfinding.PathGuider;
 import core.entity.pathfinding.PathGuiderFactory;
@@ -72,8 +75,22 @@ public class EntityPathController extends EntityController {
               .getCoordinates()
               .calcDifference(target.getCoordinatesWrapper().getCoordinates())[0]
           < 0) {
+        try {
+          // this is not good but lol
+          this.gameController.updateEntityAttribute(
+              entity.getUuid(), new DirectionWrapper(Direction.LEFT));
+        } catch (EntityNotFound e) {
+          e.printStackTrace();
+        }
         this.entity.getEntityStateMachine().attemptTransition(AnimationState.PUNCH_LEFT);
       } else {
+        try {
+          // this is not good but lol
+          this.gameController.updateEntityAttribute(
+              entity.getUuid(), new DirectionWrapper(Direction.RIGHT));
+        } catch (EntityNotFound e) {
+          e.printStackTrace();
+        }
         this.entity.getEntityStateMachine().attemptTransition(AnimationState.PUNCH_RIGHT);
       }
     }
