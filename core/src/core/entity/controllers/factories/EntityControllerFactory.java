@@ -14,6 +14,7 @@ import core.entity.collision.projectile.ProjectileContact;
 import core.entity.controllers.EntityController;
 import core.entity.controllers.EntityPathController;
 import core.entity.controllers.EntityUserController;
+import core.entity.controllers.LadderController;
 import core.entity.controllers.OrbController;
 import core.entity.controllers.ProjectileController;
 import core.entity.controllers.RemoteBodyController;
@@ -106,11 +107,6 @@ public abstract class EntityControllerFactory {
         entity);
   }
 
-  public EntityController createEntityController(Entity entity) {
-    return new EntityController(
-        gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
-  }
-
   public EntityController createWaterPositionController(Entity entity) {
     return new WaterPositionController(
         gameController,
@@ -140,6 +136,11 @@ public abstract class EntityControllerFactory {
 
   public EntityController createSolidBlockController(Entity entity) {
     return new SolidBlockController(
+        gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
+  }
+
+  public EntityController createLadderController(Entity entity) {
+    return new LadderController(
         gameController, gameStore, entityActionFactory, eventService, eventTypeFactory, entity);
   }
 }
