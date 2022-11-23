@@ -53,7 +53,8 @@ public class TemplateEdgeGenerator {
             rootEntityStructure,
             jumpActionEdge.getFrom(),
             jumpActionEdge.getTo(),
-            Collections.singletonList(jumpActionEdge));
+            Collections.singletonList(jumpActionEdge),
+            "root");
     this.leafTemplateEdge.add(rootTemplateEdge);
     TemplateEdge current = this.leafTemplateEdge.get(this.leafTemplateEdge.size() - 1);
 
@@ -105,7 +106,8 @@ public class TemplateEdgeGenerator {
             newActionEdge.getTo().entityStructure,
             this.rootRelativeVertex,
             newActionEdge.to,
-            newActionEdgeList);
+            newActionEdgeList,
+            "edge");
 
     if (!lastActionEdge
         .getFrom()

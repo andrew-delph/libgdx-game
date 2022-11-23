@@ -12,15 +12,22 @@ import core.entity.pathfinding.RelativeVertex;
 
 public abstract class AbstractEdge {
 
+  final String name;
   public EntityStructure entityStructure;
   public RelativeVertex from;
   public RelativeVertex to;
   boolean finished = false;
 
-  public AbstractEdge(EntityStructure entityStructure, RelativeVertex from, RelativeVertex to) {
+  public AbstractEdge(
+      EntityStructure entityStructure, RelativeVertex from, RelativeVertex to, String name) {
     this.entityStructure = entityStructure;
     this.from = from;
     this.to = to;
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
   }
 
   public RelativeVertex getFrom() {
@@ -35,7 +42,9 @@ public abstract class AbstractEdge {
 
   public boolean isAvailable(PathGameStoreOverride pathGameStoreOverride, Coordinates coordinates) {
     try {
-      return this.entityStructure.verifyEntityStructure(pathGameStoreOverride, coordinates);
+      boolean verify =
+          this.entityStructure.verifyEntityStructure(pathGameStoreOverride, coordinates);
+      return verify;
     } catch (Exception e) {
       return false;
     }
@@ -59,7 +68,7 @@ public abstract class AbstractEdge {
 
   @Override
   public String toString() {
-    return this.getClass() + "{" + "from=" + from + ", to=" + to + '}';
+    return this.getClass() + "{" + "name='" + name + '\'' + ", from=" + from + ", to=" + to + '}';
   }
 
   @Override

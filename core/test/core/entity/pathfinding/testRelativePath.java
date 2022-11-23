@@ -265,7 +265,7 @@ public class testRelativePath {
   }
 
   @Test
-  public void testRelativePathLadder() throws Exception {
+  public void testRelativePathLadderWithoutBlocks() throws Exception {
     Injector injector = Guice.createInjector(new StandAloneConfig());
 
     RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
@@ -334,7 +334,7 @@ public class testRelativePath {
   }
 
   @Test
-  public void testRelativePathClimbLadder() throws Exception {
+  public void testRelativePathLadderWithBlocksRightNoTop() throws Exception {
     Injector injector = Guice.createInjector(new StandAloneConfig());
 
     RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
@@ -381,17 +381,227 @@ public class testRelativePath {
 
     for (int i = 0; i < 5; i++) {
       Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(2, i);
-      //      Block removeBlock2 = gameStore.getBlock(replacementCoordinates2);
       Block replacementBlock2 = blockFactory.createDirt(replacementCoordinates2);
-      //      gameStore.removeEntity(removeBlock2.getUuid());
       gameStore.addEntity(replacementBlock2);
       System.out.println("2" + gameStore.getBlock(replacementCoordinates2).getClass());
     }
 
-    RelativePath relativePath =
-        relativePathFactory.create(
-            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(3, 5));
+    RelativePath relativePath;
 
+    // climb up the right NO TOP
+    relativePath =
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(1, 4));
+    relativePath.search();
+
+    boolean hasLadder = false;
+    for (RelativePathNode pathNode : relativePath.getPathEdgeList()) {
+      System.out.println(pathNode.edge);
+      if (pathNode.edge instanceof LadderGreedyEdge) hasLadder = true;
+    }
+
+    if (!hasLadder) fail("Has no ladder edge");
+  }
+
+  @Test
+  public void testRelativePathLadderWithBlocksLeftNoTop() throws Exception {
+    Injector injector = Guice.createInjector(new StandAloneConfig());
+
+    RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
+
+    GameStore gameStore = injector.getInstance(GameStore.class);
+
+    ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 6)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(10, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 5)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-6, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(6, -1)))
+        .call();
+
+    EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
+    edgeRegistration.horizontalGreedyRegisterEdges();
+    edgeRegistration.ladderGreedyRegisterEdges();
+
+    BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
+
+    for (int i = 0; i < 5; i++) {
+      Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(2, i);
+      Block replacementBlock2 = blockFactory.createDirt(replacementCoordinates2);
+      gameStore.addEntity(replacementBlock2);
+      System.out.println("2" + gameStore.getBlock(replacementCoordinates2).getClass());
+    }
+
+    RelativePath relativePath;
+
+    // climb up the left NO TOP
+    relativePath =
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(4, 1), CommonFactory.createCoordinates(3, 4));
+    relativePath.search();
+
+    boolean hasLadder = false;
+    for (RelativePathNode pathNode : relativePath.getPathEdgeList()) {
+      System.out.println(pathNode.edge);
+      if (pathNode.edge instanceof LadderGreedyEdge) hasLadder = true;
+    }
+
+    if (!hasLadder) fail("Has no ladder edge");
+  }
+
+  @Test
+  public void testRelativePathLadderWithBlocksRightTop() throws Exception {
+    Injector injector = Guice.createInjector(new StandAloneConfig());
+
+    RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
+
+    GameStore gameStore = injector.getInstance(GameStore.class);
+
+    ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 6)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(10, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 5)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-6, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(6, -1)))
+        .call();
+
+    EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
+    edgeRegistration.horizontalGreedyRegisterEdges();
+    edgeRegistration.ladderGreedyRegisterEdges();
+
+    BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
+
+    for (int i = 0; i < 5; i++) {
+      Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(2, i);
+      Block replacementBlock2 = blockFactory.createDirt(replacementCoordinates2);
+      gameStore.addEntity(replacementBlock2);
+      System.out.println("2" + gameStore.getBlock(replacementCoordinates2).getClass());
+    }
+
+    RelativePath relativePath;
+
+    //     climb up the right TOP
+    relativePath =
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(0, 1), CommonFactory.createCoordinates(2, 5));
+    relativePath.search();
+
+    boolean hasLadder = false;
+    for (RelativePathNode pathNode : relativePath.getPathEdgeList()) {
+      System.out.println(pathNode.edge);
+      if (pathNode.edge instanceof LadderGreedyEdge) hasLadder = true;
+    }
+
+    if (!hasLadder) fail("Has no ladder edge");
+  }
+
+  @Test
+  public void testRelativePathLadderWithBlocksLeftTop() throws Exception {
+    Injector injector = Guice.createInjector(new StandAloneConfig());
+
+    RelativePathFactory relativePathFactory = injector.getInstance(RelativePathFactory.class);
+
+    GameStore gameStore = injector.getInstance(GameStore.class);
+
+    ChunkBuilderFactory chunkBuilderFactory = injector.getInstance(ChunkBuilderFactory.class);
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 6)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(5, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(10, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, 5)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(0, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-6, 0)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(-1, -1)))
+        .call();
+    chunkBuilderFactory
+        .create(CommonFactory.createChunkRange(CommonFactory.createCoordinates(6, -1)))
+        .call();
+
+    EdgeRegistration edgeRegistration = injector.getInstance(EdgeRegistration.class);
+    edgeRegistration.horizontalGreedyRegisterEdges();
+    edgeRegistration.ladderGreedyRegisterEdges();
+
+    BlockFactory blockFactory = injector.getInstance(BlockFactory.class);
+
+    for (int i = 0; i < 5; i++) {
+      Coordinates replacementCoordinates2 = CommonFactory.createCoordinates(2, i);
+      Block replacementBlock2 = blockFactory.createDirt(replacementCoordinates2);
+      gameStore.addEntity(replacementBlock2);
+      System.out.println("2" + gameStore.getBlock(replacementCoordinates2).getClass());
+    }
+
+    RelativePath relativePath;
+
+    // climb up the left TOP
+    relativePath =
+        relativePathFactory.create(
+            CommonFactory.createCoordinates(4, 1), CommonFactory.createCoordinates(2, 5));
     relativePath.search();
 
     boolean hasLadder = false;

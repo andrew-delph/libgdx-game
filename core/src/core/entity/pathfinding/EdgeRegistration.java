@@ -59,7 +59,8 @@ public class EdgeRegistration extends EdgeRegistrationBase {
         new RelativeVertex(
             moveLeftEntityStructure, new RelativeCoordinates(-1, 0), new Vector2(0, 0));
     HorizontalGreedyEdge moveLeftHorizontalGreedyEdge =
-        new HorizontalGreedyEdge(moveLeftEntityStructure, moveLeftFrom, moveLeftTo);
+        new HorizontalGreedyEdge(
+            moveLeftEntityStructure, moveLeftFrom, moveLeftTo, "moveLeftHorizontalGreedyEdge");
 
     EntityStructure moveRightEntityStructure = entityStructureFactory.createEntityStructure();
     moveRightEntityStructure.registerRelativeEntity(
@@ -75,7 +76,8 @@ public class EdgeRegistration extends EdgeRegistrationBase {
         new RelativeVertex(
             moveRightEntityStructure, new RelativeCoordinates(1, 0), new Vector2(0, 0));
     HorizontalGreedyEdge moveRightHorizontalGreedyEdge =
-        new HorizontalGreedyEdge(moveRightEntityStructure, moveRightFrom, moveRightTo);
+        new HorizontalGreedyEdge(
+            moveRightEntityStructure, moveRightFrom, moveRightTo, "moveRightHorizontalGreedyEdge");
 
     EntityStructure moveCenterEntityStructure = entityStructureFactory.createEntityStructure();
     moveCenterEntityStructure.registerRelativeEntity(
@@ -89,7 +91,8 @@ public class EdgeRegistration extends EdgeRegistrationBase {
         new RelativeVertex(
             moveCenterEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     HorizontalGreedyEdge centerHorizontalGreedyEdge =
-        new HorizontalGreedyEdge(moveCenterEntityStructure, moveCenterFrom, moveCenterTo);
+        new HorizontalGreedyEdge(
+            moveCenterEntityStructure, moveCenterFrom, moveCenterTo, "centerHorizontalGreedyEdge");
 
     EntityStructure moveDownEntityStructure = entityStructureFactory.createEntityStructure();
     moveDownEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
@@ -102,37 +105,52 @@ public class EdgeRegistration extends EdgeRegistrationBase {
         new RelativeVertex(
             moveDownEntityStructure, new RelativeCoordinates(0, -1), new Vector2(0, 0));
     HorizontalGreedyEdge moveDownHorizontalGreedyEdge =
-        new HorizontalGreedyEdge(moveDownEntityStructure, moveDownFrom, moveDownTo);
+        new HorizontalGreedyEdge(
+            moveDownEntityStructure, moveDownFrom, moveDownTo, "moveDownEntityStructure");
 
     EntityStructure moveLadderRightEntityStructure = entityStructureFactory.createEntityStructure();
     moveLadderRightEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(0, 0), Ladder.class);
+        new RelativeCoordinates(0, 0), EmptyBlock.class);
     moveLadderRightEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(1, 0), EmptyBlock.class);
+        new RelativeCoordinates(1, 0), Ladder.class);
+    moveLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, 1), EmptyBlock.class);
+    moveLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(1, 1), EmptyBlock.class);
     RelativeVertex moveLadderRightFrom =
         new RelativeVertex(
             moveLadderRightEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeVertex moveLadderRightTo =
         new RelativeVertex(
-            moveLadderRightEntityStructure, new RelativeCoordinates(1, 0), new Vector2(0, 0));
+            moveLadderRightEntityStructure, new RelativeCoordinates(1, 1), new Vector2(0, 0));
     HorizontalGreedyEdge moveLadderRightHorizontalGreedyEdge =
         new HorizontalGreedyEdge(
-            moveLadderRightEntityStructure, moveLadderRightFrom, moveLadderRightTo);
+            moveLadderRightEntityStructure,
+            moveLadderRightFrom,
+            moveLadderRightTo,
+            "moveLadderRightHorizontalGreedyEdge");
 
     EntityStructure moveLadderLeftEntityStructure = entityStructureFactory.createEntityStructure();
     moveLadderLeftEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(0, 0), Ladder.class);
+        new RelativeCoordinates(0, 0), EmptyBlock.class);
     moveLadderLeftEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(-1, 0), EmptyBlock.class);
+        new RelativeCoordinates(-1, 0), Ladder.class);
+    moveLadderLeftEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, 1), EmptyBlock.class);
+    moveLadderLeftEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(-1, 1), EmptyBlock.class);
     RelativeVertex moveLadderLeftFrom =
         new RelativeVertex(
             moveLadderLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeVertex moveLadderLeftTo =
         new RelativeVertex(
-            moveLadderLeftEntityStructure, new RelativeCoordinates(-1, 0), new Vector2(0, 0));
+            moveLadderLeftEntityStructure, new RelativeCoordinates(-1, 1), new Vector2(0, 0));
     HorizontalGreedyEdge moveLadderLeftHorizontalGreedyEdge =
         new HorizontalGreedyEdge(
-            moveLadderLeftEntityStructure, moveLadderLeftFrom, moveLadderLeftTo);
+            moveLadderLeftEntityStructure,
+            moveLadderLeftFrom,
+            moveLadderLeftTo,
+            "moveLadderLeftHorizontalGreedyEdge");
 
     this.edgeStore.add(moveRightHorizontalGreedyEdge);
     this.edgeStore.add(moveLeftHorizontalGreedyEdge);
@@ -144,36 +162,101 @@ public class EdgeRegistration extends EdgeRegistrationBase {
 
   @Override
   public void ladderGreedyRegisterEdges() {
-    EntityStructure startLadderEntityStructure = entityStructureFactory.createEntityStructure();
-    startLadderEntityStructure.registerRelativeEntity(
+    EntityStructure startLadderLeftEntityStructure = entityStructureFactory.createEntityStructure();
+    startLadderLeftEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(0, 0), EmptyBlock.class);
-    startLadderEntityStructure.registerRelativeEntity(
-        new RelativeCoordinates(0, -1), SolidBlock.class);
+    //    startLadderLeftEntityStructure.registerRelativeEntity(
+    //        new RelativeCoordinates(-1, 0), SolidBlock.class);
     RelativeVertex startLadderFrom =
         new RelativeVertex(
-            startLadderEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+            startLadderLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeVertex startLadderTo =
         new RelativeVertex(
-            startLadderEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
-    LadderGreedyEdge startLadderGreedyEdge =
+            startLadderLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+    LadderGreedyEdge startLadderLeftGreedyEdge =
         new LadderGreedyEdge(
-            gameController, startLadderEntityStructure, startLadderFrom, startLadderTo);
-    this.edgeStore.add(startLadderGreedyEdge);
+            gameController,
+            startLadderLeftEntityStructure,
+            startLadderFrom,
+            startLadderTo,
+            new RelativeCoordinates(-1, 0),
+            "startLadderLeftGreedyEdge");
 
-    EntityStructure climbLadderEntityStructure = entityStructureFactory.createEntityStructure();
-    climbLadderEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), Ladder.class);
-    climbLadderEntityStructure.registerRelativeEntity(
+    EntityStructure climbLadderLeftEntityStructure = entityStructureFactory.createEntityStructure();
+    climbLadderLeftEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(-1, 0), Ladder.class);
+    climbLadderLeftEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, 0), EmptyBlock.class);
+    climbLadderLeftEntityStructure.registerRelativeEntity(
         new RelativeCoordinates(0, 1), EmptyBlock.class);
+    //    climbLadderLeftEntityStructure.registerRelativeEntity(
+    //        new RelativeCoordinates(-1, 1), SolidBlock.class);
     RelativeVertex climbLadderFrom =
         new RelativeVertex(
-            climbLadderEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+            climbLadderLeftEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
     RelativeVertex climbLadderTo =
         new RelativeVertex(
-            climbLadderEntityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0));
-    LadderGreedyEdge climbLadderGreedyEdge =
+            climbLadderLeftEntityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0));
+    LadderGreedyEdge climbLadderLeftGreedyEdge =
         new LadderGreedyEdge(
-            gameController, climbLadderEntityStructure, climbLadderFrom, climbLadderTo);
-    this.edgeStore.add(climbLadderGreedyEdge);
+            gameController,
+            climbLadderLeftEntityStructure,
+            climbLadderFrom,
+            climbLadderTo,
+            new RelativeCoordinates(-1, 1),
+            "climbLadderLeftGreedyEdge");
+
+    EntityStructure startLadderRightEntityStructure =
+        entityStructureFactory.createEntityStructure();
+    startLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, 0), EmptyBlock.class);
+    //    startLadderRightEntityStructure.registerRelativeEntity(
+    //        new RelativeCoordinates(1, 0), SolidBlock.class);
+    RelativeVertex startLadderFromRight =
+        new RelativeVertex(
+            startLadderRightEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+    RelativeVertex startLadderToRight =
+        new RelativeVertex(
+            startLadderRightEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+    LadderGreedyEdge startLadderRightGreedyEdge =
+        new LadderGreedyEdge(
+            gameController,
+            startLadderRightEntityStructure,
+            startLadderFromRight,
+            startLadderToRight,
+            new RelativeCoordinates(1, 0),
+            "startLadderRightGreedyEdge");
+
+    EntityStructure climbLadderRightEntityStructure =
+        entityStructureFactory.createEntityStructure();
+    climbLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(1, 0), Ladder.class);
+    climbLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, 0), EmptyBlock.class);
+    climbLadderRightEntityStructure.registerRelativeEntity(
+        new RelativeCoordinates(0, 1), EmptyBlock.class);
+    //    climbLadderRightEntityStructure.registerRelativeEntity(
+    //        new RelativeCoordinates(1, 1), SolidBlock.class);
+    RelativeVertex climbLadderFromRight =
+        new RelativeVertex(
+            climbLadderRightEntityStructure, new RelativeCoordinates(0, 0), new Vector2(0, 0));
+    RelativeVertex climbLadderToRight =
+        new RelativeVertex(
+            climbLadderRightEntityStructure, new RelativeCoordinates(0, 1), new Vector2(0, 0));
+    LadderGreedyEdge climbLadderRightGreedyEdge =
+        new LadderGreedyEdge(
+            gameController,
+            climbLadderRightEntityStructure,
+            climbLadderFromRight,
+            climbLadderToRight,
+            new RelativeCoordinates(1, 1),
+            "climbLadderRightGreedyEdge");
+
+    this.edgeStore.add(startLadderLeftGreedyEdge);
+    this.edgeStore.add(climbLadderLeftGreedyEdge);
+
+    this.edgeStore.add(startLadderRightGreedyEdge);
+    this.edgeStore.add(climbLadderRightGreedyEdge);
   }
 
   @Override
@@ -193,7 +276,8 @@ public class EdgeRegistration extends EdgeRegistrationBase {
             this.blockFactory,
             digRightEntityStructure,
             digRightPosition,
-            digPlace);
+            digPlace,
+            "digRightHorizontalGreedyEdge");
 
     EntityStructure digLeftEntityStructure = entityStructureFactory.createEntityStructure();
     digLeftEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
@@ -209,7 +293,8 @@ public class EdgeRegistration extends EdgeRegistrationBase {
             this.blockFactory,
             digLeftEntityStructure,
             digLeftPosition,
-            digLeftPlace);
+            digLeftPlace,
+            "digLeftHorizontalGreedyEdge");
 
     EntityStructure digDownEntityStructure = entityStructureFactory.createEntityStructure();
     digDownEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
@@ -225,7 +310,8 @@ public class EdgeRegistration extends EdgeRegistrationBase {
             this.blockFactory,
             digDownEntityStructure,
             digDownPosition,
-            digDownPlace);
+            digDownPlace,
+            "digDownHorizontalGreedyEdge");
 
     EntityStructure digUpEntityStructure = entityStructureFactory.createEntityStructure();
     digUpEntityStructure.registerRelativeEntity(new RelativeCoordinates(0, 0), EmptyBlock.class);
@@ -240,7 +326,8 @@ public class EdgeRegistration extends EdgeRegistrationBase {
             this.blockFactory,
             digUpEntityStructure,
             digUpPosition,
-            digUpPlace);
+            digUpPlace,
+            "digUpHorizontalGreedyEdge");
 
     this.edgeStore.add(digRightHorizontalGreedyEdge);
     this.edgeStore.add(digLeftHorizontalGreedyEdge);

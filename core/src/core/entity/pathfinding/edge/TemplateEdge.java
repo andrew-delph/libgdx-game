@@ -26,8 +26,9 @@ public class TemplateEdge extends AbstractEdge {
       EntityStructure entityStructure,
       RelativeVertex from,
       RelativeVertex to,
-      List<RelativeActionEdge> actionEdgeList) {
-    super(entityStructure, from, to);
+      List<RelativeActionEdge> actionEdgeList,
+      String name) {
+    super(entityStructure, from, to, name);
     this.actionEdgeList = actionEdgeList;
   }
 
