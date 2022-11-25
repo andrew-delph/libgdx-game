@@ -14,10 +14,10 @@ The roadmap is a collection of major feature for each release.
 
 ## 0.3.x
 
+- [ ] Android, IOS
+- [ ] Server infra
 - [ ] Game menu
 - [ ] Game overlay
-- [ ] Android, IOS
-- [ ] AI spawner
 
 ## 0.4.x
 
