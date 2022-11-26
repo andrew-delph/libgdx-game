@@ -1,10 +1,12 @@
 package core.app.update;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.screen.BaseCamera;
 import core.chunk.Chunk;
 import core.common.ChunkRange;
 import core.common.Clock;
+import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.exceptions.ChunkNotFound;
@@ -16,12 +18,12 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class StandAloneUpdateTask extends UpdateTask {
 
-  static final Logger LOGGER = LogManager.getLogger();
+  static
 
   private final ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -57,10 +59,10 @@ public class StandAloneUpdateTask extends UpdateTask {
     Set<Chunk> chunksOnTick = new HashSet<>();
     try {
       chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
-      LOGGER.debug("Updating " + chunksOnTick.size() + " chunks.");
+      Gdx.app.debug(GameSettings.LOG_TAG,"Updating " + chunksOnTick.size() + " chunks.");
 
       if (chunksOnTick.size() > 100) {
-        LOGGER.warn(
+        Gdx.app.debug(GameSettings.LOG_TAG,
             "Updating "
                 + chunksOnTick.size()
                 + " chunks."

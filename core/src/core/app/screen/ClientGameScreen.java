@@ -1,11 +1,13 @@
 package core.app.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.update.ClientUpdateTask;
 import core.app.update.UpdateTask;
 import core.common.ChunkRange;
 import core.common.CommonFactory;
 import core.common.Coordinates;
+import core.common.GameSettings;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
 import core.common.exceptions.SerializationDataMissing;
@@ -42,7 +44,7 @@ public class ClientGameScreen extends GameScreen {
     } catch (EntityNotFound e) {
       e.printStackTrace();
     }
-    LOGGER.info("my entity " + myEntity.getUuid());
+    Gdx.app.log(GameSettings.LOG_TAG,"my entity " + myEntity.getUuid());
     myEntity.setEntityController(entityControllerFactory.createEntityUserController(myEntity));
     myEntity.setEntityStateMachine(entityStateMachineFactory.createEntityStateMachine(myEntity));
 

@@ -1,7 +1,9 @@
 package core.common.events;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.user.User;
+import core.common.GameSettings;
 import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.CreateTurretEventType;
 import core.common.events.types.ItemActionEventType;
@@ -11,12 +13,12 @@ import core.entity.AIManager;
 import core.entity.Entity;
 import core.entity.attributes.inventory.item.comsumers.ItemActionService;
 import core.entity.misc.Turret;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class SoloEventConsumer extends EventConsumer {
 
-  final Logger LOGGER = LogManager.getLogger();
+
   @Inject ItemActionService itemActionService;
   @Inject AIManager aiManager;
   @Inject User user;
@@ -30,7 +32,7 @@ public class SoloEventConsumer extends EventConsumer {
         eventType -> {
           try {
             CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
-            LOGGER.info("CREATE AI " + realEvent.getCoordinates());
+            Gdx.app.log(GameSettings.LOG_TAG,"CREATE AI " + realEvent.getCoordinates());
 
             aiManager.requestCreateAI(
                 user.getUserID(), realEvent.getCoordinates(), realEvent.getTarget());
@@ -51,7 +53,7 @@ public class SoloEventConsumer extends EventConsumer {
             if (turret != null)
               activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
           } catch (ChunkNotFound | EntityNotFound e) {
-            LOGGER.error(e, e);
+              Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
           }
         });
 
@@ -64,7 +66,7 @@ public class SoloEventConsumer extends EventConsumer {
             if (!gcd) return;
             itemActionService.use(realEvent.getItemActionType(), realEvent.getControleeUUID());
           } catch (EntityNotFound e) {
-            LOGGER.error(e, e);
+              Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
           }
         });
   }

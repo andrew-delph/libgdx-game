@@ -1,10 +1,12 @@
 package core.app.update;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.screen.BaseCamera;
 import core.chunk.Chunk;
 import core.common.ChunkRange;
 import core.common.Clock;
+import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.entity.ActiveEntityManager;
@@ -16,12 +18,12 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class ClientUpdateTask extends UpdateTask {
 
-  static final Logger LOGGER = LogManager.getLogger();
+  static
   @Inject public Clock clock;
   @Inject public GameStore gameStore;
   public ExecutorService executor;
@@ -88,7 +90,7 @@ public class ClientUpdateTask extends UpdateTask {
 
     try {
       Set<Chunk> listChunk = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
-      LOGGER.debug("Updating " + listChunk.size() + " chunks.");
+      Gdx.app.debug(GameSettings.LOG_TAG,"Updating " + listChunk.size() + " chunks.");
       executor.invokeAll(listChunk);
     } catch (InterruptedException e) {
       e.printStackTrace();

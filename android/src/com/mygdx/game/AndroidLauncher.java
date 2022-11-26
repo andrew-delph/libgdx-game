@@ -1,11 +1,17 @@
 package com.mygdx.game;
 
 import android.os.Bundle;
+
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import core.app.screen.GameScreen;
+import com.google.inject.Singleton;
+
+
+
 import core.configuration.StandAloneConfig;
 
 public class AndroidLauncher extends AndroidApplication {
@@ -13,8 +19,27 @@ public class AndroidLauncher extends AndroidApplication {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    Injector injector = Guice.createInjector(new StandAloneConfig());
-    GameScreen gameScreen = injector.getInstance(GameScreen.class);
-    initialize(gameScreen, new AndroidApplicationConfiguration());
+//    PhysicsTest2 physicsTest = new PhysicsTest2();
+
+//    Injector injector = Guice.createInjector(new StandAloneConfig());
+
+    Guice.createInjector(new StandAloneConfig());
+
+
+//    GameScreen gameScreen = injector.getInstance(GameScreen.class);
+
+//    final Logger LOGGER = LogManager.getLogger();
+
+    ApplicationAdapter applicationAdapter = new ApplicationAdapter(){
+      @Override
+      public void render() {
+        super.render();
+        System.out.println("render");
+      }
+    };
+
+    System.out.println("lalalala");
+
+    initialize(applicationAdapter, new AndroidApplicationConfiguration());
   }
 }

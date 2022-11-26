@@ -1,8 +1,10 @@
 package core.networking.events.consumer.server.incoming;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.app.user.User;
+import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.types.CreateTurretEventType;
 import core.common.events.types.EventType;
@@ -12,12 +14,12 @@ import core.entity.ActiveEntityManager;
 import core.entity.Entity;
 import core.entity.misc.Turret;
 import java.util.function.Consumer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class CreateTurretIncomingConsumerServer implements Consumer<EventType> {
 
-  final Logger LOGGER = LogManager.getLogger();
+
 
   @Inject GameController gameController;
   @Inject ActiveEntityManager activeEntityManager;
@@ -34,7 +36,7 @@ public class CreateTurretIncomingConsumerServer implements Consumer<EventType> {
       if (turret != null)
         activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
     } catch (ChunkNotFound | EntityNotFound e) {
-      LOGGER.error(e, e);
+      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
     }
   }
 }

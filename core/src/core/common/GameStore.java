@@ -1,5 +1,6 @@
 package core.common;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.chunk.Chunk;
 import core.chunk.world.exceptions.DestroyBodyException;
@@ -19,12 +20,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class GameStore {
 
-  final Logger LOGGER = LogManager.getLogger();
+
   private final Map<UUID, ChunkRange> entityMap = new ConcurrentHashMap<>();
   @Inject ChunkClockMap chunkClockMap;
   @Inject EventService eventService;
@@ -114,7 +115,7 @@ public class GameStore {
       try {
         entityList.add(this.getEntity(entityUUID));
       } catch (EntityNotFound e) {
-        LOGGER.error(e);
+        Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
       }
     }
     return entityList;
@@ -126,7 +127,7 @@ public class GameStore {
       try {
         entityList.add(this.getEntity(entityUUID));
       } catch (EntityNotFound e) {
-        LOGGER.error(e);
+        Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
       }
     }
     return entityList;

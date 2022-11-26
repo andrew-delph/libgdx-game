@@ -2,6 +2,7 @@ package core.networking.server;
 
 import static core.common.Util.calcTicksFromHours;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.protobuf.Empty;
 import core.app.game.GameController;
@@ -42,11 +43,11 @@ import java.util.UUID;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
 import networking.NetworkObjects.Version;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
-  final Logger LOGGER = LogManager.getLogger();
+
   @Inject ObserverFactory observerFactory;
   @Inject ConnectionStore connectionStore;
   @Inject GameStore gameStore;
@@ -68,7 +69,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   public ServerNetworkHandle() {}
 
   public void start() throws IOException {
-    LOGGER.info("I am server: " + this.user.toString());
+    Gdx.app.log(GameSettings.LOG_TAG,"I am server: " + this.user.toString());
     server =
         ServerBuilder.forPort(99)
             .addService(this)
@@ -189,7 +190,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
   public synchronized void initHandshake(UserID userID, ChunkRange chunkRange) {
     if (syncService.isHandshakeLocked(userID, chunkRange)) {
-      LOGGER.info("SERVER INIT LOCKED " + userID.toString() + " " + chunkRange);
+      Gdx.app.log(GameSettings.LOG_TAG,"SERVER INIT LOCKED " + userID.toString() + " " + chunkRange);
       return;
     }
     syncService.lockHandshake(userID, chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
@@ -197,6 +198,6 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange, uuidList);
     this.send(userID, handshakeOutgoing.toNetworkEvent());
-    LOGGER.info("SERVER INIT HANDSHAKE " + userID.toString() + " " + chunkRange);
+    Gdx.app.log(GameSettings.LOG_TAG,"SERVER INIT HANDSHAKE " + userID.toString() + " " + chunkRange);
   }
 }

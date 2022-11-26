@@ -34,13 +34,13 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class GameScreen extends ApplicationAdapter {
 
   public static ShapeRenderer pathDebugRender;
-  final Logger LOGGER = LogManager.getLogger();
+
   @Inject Game game;
   @Inject GameStore gameStore;
   @Inject EntityFactory entityFactory;
@@ -77,7 +77,7 @@ public class GameScreen extends ApplicationAdapter {
         | SerializationDataMissing
         | BodyNotFound
         | WrongVersion e) {
-      LOGGER.error(e, e);
+      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
       this.dispose();
     }
     batch = new SpriteBatch();
@@ -99,17 +99,17 @@ public class GameScreen extends ApplicationAdapter {
     try {
       myEntity = gameController.addEntity(myEntity);
     } catch (ChunkNotFound e) {
-      LOGGER.error(e);
+      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
       this.dispose();
     }
     myEntity.setEntityStateMachine(entityStateMachineFactory.createEntityStateMachine(myEntity));
 
-    LOGGER.info("my entity " + myEntity.getUuid());
+    Gdx.app.log(GameSettings.LOG_TAG,"my entity " + myEntity.getUuid());
   }
 
   @Override
   public void resize(int width, int height) {
-    LOGGER.info("resize:" + width + "," + height);
+    Gdx.app.log(GameSettings.LOG_TAG,"resize:" + width + "," + height);
     baseCamera.setToOrtho(false, width, height);
   }
 

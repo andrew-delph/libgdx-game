@@ -44,12 +44,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class GameController {
 
-  final Logger LOGGER = LogManager.getLogger();
+
   @Inject GameStore gameStore;
   @Inject EntityFactory entityFactory;
   @Inject EventService eventService;

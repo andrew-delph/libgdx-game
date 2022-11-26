@@ -1,8 +1,10 @@
 package core.entity.pathfinding;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.Coordinates;
+import core.common.GameSettings;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EdgeStepperException;
 import core.entity.Entity;
@@ -10,11 +12,11 @@ import core.entity.attributes.msc.CoordinatesWrapper;
 import core.entity.pathfinding.edge.EdgeStepper;
 import java.util.LinkedList;
 import java.util.Queue;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class PathGuider {
-  final Logger LOGGER = LogManager.getLogger();
+
   public RelativePathNode currentPathNode;
   @Inject RelativePathFactory relativePathFactory;
   Entity entity;
@@ -62,7 +64,7 @@ public class PathGuider {
     try {
       this.currentEdgeStepper.follow(this.entity, this.currentPathNode);
     } catch (EdgeStepperException | ChunkNotFound e) {
-      LOGGER.debug("Edge stepper error: " + e);
+      Gdx.app.debug(GameSettings.LOG_TAG,"Edge stepper error: " + e);
       this.reset();
     }
   }

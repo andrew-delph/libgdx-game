@@ -1,5 +1,6 @@
 package core.networking.client;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.protobuf.Empty;
 import com.sun.tools.javac.util.Pair;
@@ -34,12 +35,12 @@ import java.util.concurrent.TimeUnit;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
 import networking.NetworkObjects.NetworkEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class ClientNetworkHandle {
   public final CountDownLatch authLatch = new CountDownLatch(1);
-  final Logger LOGGER = LogManager.getLogger();
+
   public String host = "localhost";
   public int port = 99;
   RequestNetworkEventObserver requestNetworkEventObserver;
@@ -61,7 +62,7 @@ public class ClientNetworkHandle {
   public ClientNetworkHandle() {}
 
   public void connect() throws InterruptedException, WrongVersion {
-    LOGGER.info(
+    Gdx.app.log(GameSettings.LOG_TAG,
         "I am client: "
             + this.user.toString()
             + ". Connecting to "
@@ -127,7 +128,7 @@ public class ClientNetworkHandle {
       try {
         gameStore.addEntity(toAdd);
       } catch (ChunkNotFound e) {
-        LOGGER.error(e);
+        Gdx.app.error(GameSettings.LOG_TAG,"ChunkNotFound",e);
       }
     }
 
@@ -167,7 +168,7 @@ public class ClientNetworkHandle {
                 try {
                   gameStore.addEntity(toAdd);
                 } catch (ChunkNotFound e) {
-                  LOGGER.error(e);
+                  Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
                   onCompleted();
                 }
               }
@@ -202,14 +203,14 @@ public class ClientNetworkHandle {
 
   public synchronized void initHandshake(ChunkRange chunkRange) {
     if (syncService.isHandshakeLocked(this.user.getUserID(), chunkRange)) {
-      LOGGER.info("CLIENT INIT LOCKED " + " " + chunkRange);
+      Gdx.app.log(GameSettings.LOG_TAG,"CLIENT INIT LOCKED " + " " + chunkRange);
       return;
     }
     syncService.lockHandshake(user.getUserID(), chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange);
     this.send(handshakeOutgoing.toNetworkEvent());
-    LOGGER.info("CLIENT INIT HANDSHAKE " + chunkRange);
+    Gdx.app.log(GameSettings.LOG_TAG,"CLIENT INIT HANDSHAKE " + chunkRange);
   }
 
   public Entity getEntity(Coordinates coordinates) throws SerializationDataMissing, ChunkNotFound {

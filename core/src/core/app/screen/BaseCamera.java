@@ -8,12 +8,11 @@ import core.common.Coordinates;
 import core.common.GameSettings;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class BaseCamera extends OrthographicCamera {
 
-  static final Logger LOGGER = LogManager.getLogger();
 
   @Inject
   public BaseCamera() {}

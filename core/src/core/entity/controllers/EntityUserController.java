@@ -19,12 +19,12 @@ import core.entity.block.DirtBlock;
 import core.entity.controllers.actions.EntityActionFactory;
 import core.networking.events.EventTypeFactory;
 import java.util.Optional;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
 
 public class EntityUserController extends EntityController {
 
-  final Logger LOGGER = LogManager.getLogger();
+
 
   public EntityUserController(
       GameController gameController,
