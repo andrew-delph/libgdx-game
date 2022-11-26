@@ -1,6 +1,5 @@
 package core.app.game;
 
-
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.update.UpdateTask;
