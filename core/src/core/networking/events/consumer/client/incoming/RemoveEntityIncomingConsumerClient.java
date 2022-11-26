@@ -10,8 +10,6 @@ import core.common.exceptions.EntityNotFound;
 import core.networking.events.types.incoming.RemoveEntityIncomingEventType;
 import java.util.function.Consumer;
 
-
-
 public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
 
   @Inject GameController gameController;
@@ -22,7 +20,7 @@ public class RemoveEntityIncomingConsumerClient implements Consumer<EventType> {
     try {
       gameController.triggerRemoveEntity(incoming.getTarget());
     } catch (EntityNotFound | DestroyBodyException e) {
-      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
     }
   }
 }

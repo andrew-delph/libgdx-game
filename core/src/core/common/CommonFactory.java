@@ -9,8 +9,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import networking.NetworkObjects;
 
-
-
 public class CommonFactory {
   static LoadingCache<Pair<Float, Float>, Coordinates> coordinatesCache =
       CacheBuilder.newBuilder()
@@ -38,7 +36,7 @@ public class CommonFactory {
     try {
       return coordinatesCache.get(new Pair<>(x, y));
     } catch (ExecutionException e) {
-      Gdx.app.error(GameSettings.LOG_TAG,("Failed to load Coordinates cache."), e);
+      Gdx.app.error(GameSettings.LOG_TAG, ("Failed to load Coordinates cache."), e);
       return new Coordinates(x, y);
     }
   }
@@ -47,7 +45,7 @@ public class CommonFactory {
     try {
       return chunkRangeCache.get(coordinates);
     } catch (ExecutionException e) {
-      Gdx.app.error(GameSettings.LOG_TAG,("Failed to load ChunkRange cache."), e);
+      Gdx.app.error(GameSettings.LOG_TAG, ("Failed to load ChunkRange cache."), e);
       return new ChunkRange(coordinates);
     }
   }

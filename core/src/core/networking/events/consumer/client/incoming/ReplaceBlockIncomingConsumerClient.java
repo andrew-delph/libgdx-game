@@ -13,8 +13,6 @@ import core.networking.client.ClientNetworkHandle;
 import core.networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import java.util.function.Consumer;
 
-
-
 public class ReplaceBlockIncomingConsumerClient implements Consumer<EventType> {
 
   @Inject GameController gameController;
@@ -26,10 +24,10 @@ public class ReplaceBlockIncomingConsumerClient implements Consumer<EventType> {
     try {
       gameController.triggerReplaceEntity(incoming.getTarget(), incoming.getReplacementBlock());
     } catch (EntityNotFound e) {
-      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       clientNetworkHandle.initHandshake(incoming.getChunkRange());
     } catch (ChunkNotFound | BodyNotFound | DestroyBodyException e) {
-      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
     }
   }
 }

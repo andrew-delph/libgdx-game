@@ -19,10 +19,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-
-
 public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
-
 
   @Inject GameStore gameStore;
   @Inject EventService eventService;
@@ -36,7 +33,7 @@ public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
     Chunk chunk = gameStore.getChunk(chunkRange);
 
     if (chunk == null) {
-      Gdx.app.debug(GameSettings.LOG_TAG,"HandshakeIncomingConsumerClient on null chunk.");
+      Gdx.app.debug(GameSettings.LOG_TAG, "HandshakeIncomingConsumerClient on null chunk.");
       return;
     }
 
@@ -54,7 +51,7 @@ public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
       try {
         chunk.removeEntity(toRemove);
       } catch (EntityNotFound | DestroyBodyException e) {
-        Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       }
     }
 

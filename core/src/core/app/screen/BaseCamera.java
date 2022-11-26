@@ -9,10 +9,7 @@ import core.common.GameSettings;
 import java.util.HashSet;
 import java.util.Set;
 
-
-
 public class BaseCamera extends OrthographicCamera {
-
 
   @Inject
   public BaseCamera() {}

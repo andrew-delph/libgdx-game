@@ -45,10 +45,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-
-
 public class GameController {
-
 
   @Inject GameStore gameStore;
   @Inject EntityFactory entityFactory;

@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -37,7 +36,6 @@ public class PhysicsTest2 extends ApplicationAdapter implements InputProcessor {
   BitmapFont font;
   float torque = 0.0f;
   boolean drawSprite = true;
-
 
   @Override
   public void create() {

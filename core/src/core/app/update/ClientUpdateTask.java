@@ -19,12 +19,9 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
-
 public class ClientUpdateTask extends UpdateTask {
 
-  static
-  @Inject public Clock clock;
+  static @Inject public Clock clock;
   @Inject public GameStore gameStore;
   public ExecutorService executor;
   @Inject EventService eventService;
@@ -90,7 +87,7 @@ public class ClientUpdateTask extends UpdateTask {
 
     try {
       Set<Chunk> listChunk = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
-      Gdx.app.debug(GameSettings.LOG_TAG,"Updating " + listChunk.size() + " chunks.");
+      Gdx.app.debug(GameSettings.LOG_TAG, "Updating " + listChunk.size() + " chunks.");
       executor.invokeAll(listChunk);
     } catch (InterruptedException e) {
       e.printStackTrace();

@@ -20,11 +20,7 @@ import core.entity.controllers.actions.EntityActionFactory;
 import core.networking.events.EventTypeFactory;
 import java.util.Optional;
 
-
-
 public class EntityUserController extends EntityController {
-
-
 
   public EntityUserController(
       GameController gameController,

@@ -15,11 +15,7 @@ import core.entity.Entity;
 import core.entity.misc.Turret;
 import java.util.function.Consumer;
 
-
-
 public class CreateTurretIncomingConsumerServer implements Consumer<EventType> {
-
-
 
   @Inject GameController gameController;
   @Inject ActiveEntityManager activeEntityManager;
@@ -36,7 +32,7 @@ public class CreateTurretIncomingConsumerServer implements Consumer<EventType> {
       if (turret != null)
         activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
     } catch (ChunkNotFound | EntityNotFound e) {
-      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
     }
   }
 }

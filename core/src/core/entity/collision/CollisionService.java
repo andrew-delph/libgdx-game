@@ -17,8 +17,6 @@ import core.entity.collision.right.RightSensor;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
 public class CollisionService {
 
   Map<CollisionPair, ContactWrapper> collisionPairContactWrapperMap;

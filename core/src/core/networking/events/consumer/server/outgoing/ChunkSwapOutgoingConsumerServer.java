@@ -19,10 +19,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import networking.NetworkObjects;
 
-
-
 public class ChunkSwapOutgoingConsumerServer implements Consumer<EventType> {
-
 
   @Inject ActiveChunkManager activeChunkManager;
   @Inject ServerNetworkHandle serverNetworkHandle;
@@ -62,7 +59,8 @@ public class ChunkSwapOutgoingConsumerServer implements Consumer<EventType> {
     try {
       entityToCreate = gameStore.getEntity(chunkSwapOutgoingEventType.getTarget());
     } catch (EntityNotFound e) {
-      Gdx.app.error(GameSettings.LOG_TAG,("Unable to fetch entity for creation in chunk swap outgoing"));
+      Gdx.app.error(
+          GameSettings.LOG_TAG, ("Unable to fetch entity for creation in chunk swap outgoing"));
       return;
     }
 

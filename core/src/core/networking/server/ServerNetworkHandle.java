@@ -44,8 +44,6 @@ import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
 import networking.NetworkObjects.Version;
 
-
-
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
 
   @Inject ObserverFactory observerFactory;
@@ -69,7 +67,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   public ServerNetworkHandle() {}
 
   public void start() throws IOException {
-    Gdx.app.log(GameSettings.LOG_TAG,"I am server: " + this.user.toString());
+    Gdx.app.log(GameSettings.LOG_TAG, "I am server: " + this.user.toString());
     server =
         ServerBuilder.forPort(99)
             .addService(this)
@@ -190,7 +188,8 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
   public synchronized void initHandshake(UserID userID, ChunkRange chunkRange) {
     if (syncService.isHandshakeLocked(userID, chunkRange)) {
-      Gdx.app.log(GameSettings.LOG_TAG,"SERVER INIT LOCKED " + userID.toString() + " " + chunkRange);
+      Gdx.app.log(
+          GameSettings.LOG_TAG, "SERVER INIT LOCKED " + userID.toString() + " " + chunkRange);
       return;
     }
     syncService.lockHandshake(userID, chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
@@ -198,6 +197,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange, uuidList);
     this.send(userID, handshakeOutgoing.toNetworkEvent());
-    Gdx.app.log(GameSettings.LOG_TAG,"SERVER INIT HANDSHAKE " + userID.toString() + " " + chunkRange);
+    Gdx.app.log(
+        GameSettings.LOG_TAG, "SERVER INIT HANDSHAKE " + userID.toString() + " " + chunkRange);
   }
 }

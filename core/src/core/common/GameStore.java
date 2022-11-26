@@ -21,10 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-
-
 public class GameStore {
-
 
   private final Map<UUID, ChunkRange> entityMap = new ConcurrentHashMap<>();
   @Inject ChunkClockMap chunkClockMap;
@@ -115,7 +112,7 @@ public class GameStore {
       try {
         entityList.add(this.getEntity(entityUUID));
       } catch (EntityNotFound e) {
-        Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       }
     }
     return entityList;
@@ -127,7 +124,7 @@ public class GameStore {
       try {
         entityList.add(this.getEntity(entityUUID));
       } catch (EntityNotFound e) {
-        Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       }
     }
     return entityList;

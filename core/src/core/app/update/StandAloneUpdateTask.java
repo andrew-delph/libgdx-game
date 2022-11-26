@@ -19,13 +19,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-
-
 public class StandAloneUpdateTask extends UpdateTask {
 
-  static
-
-  private final ExecutorService executor = Executors.newCachedThreadPool();
+  private static final ExecutorService executor = Executors.newCachedThreadPool();
 
   @Inject public Clock clock;
   @Inject public GameStore gameStore;
@@ -59,10 +55,11 @@ public class StandAloneUpdateTask extends UpdateTask {
     Set<Chunk> chunksOnTick = new HashSet<>();
     try {
       chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
-      Gdx.app.debug(GameSettings.LOG_TAG,"Updating " + chunksOnTick.size() + " chunks.");
+      Gdx.app.debug(GameSettings.LOG_TAG, "Updating " + chunksOnTick.size() + " chunks.");
 
       if (chunksOnTick.size() > 100) {
-        Gdx.app.debug(GameSettings.LOG_TAG,
+        Gdx.app.debug(
+            GameSettings.LOG_TAG,
             "Updating "
                 + chunksOnTick.size()
                 + " chunks."

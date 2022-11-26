@@ -1,6 +1,5 @@
 package core.app.game;
 
-import static core.common.GameSettings.LOG_TAG;
 
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
@@ -19,11 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-
-
 public class Game {
-
-
 
   @Inject UpdateTask updateTask;
   @Inject CollisionService collisionService;
@@ -47,7 +42,7 @@ public class Game {
 
           @Override
           public void run() {
-            Gdx.app.log(GameSettings.LOG_TAG,"RUN GARBAGE COLLECTOR");
+            Gdx.app.log(GameSettings.LOG_TAG, "RUN GARBAGE COLLECTOR");
             System.gc();
           }
         },

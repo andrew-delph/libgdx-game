@@ -17,11 +17,7 @@ import core.entity.groups.GroupService;
 import core.entity.statemachine.EntityStateMachineFactory;
 import java.util.UUID;
 
-
-
 public class AIManager {
-
-
 
   @Inject GameStore gameStore;
   @Inject EntityFactory entityFactory;
@@ -35,7 +31,7 @@ public class AIManager {
       throws EntityNotFound, ChunkNotFound {
 
     if (groupService.getInGroup(Group.AI_GROUP).size() >= GameSettings.AI_LIMIT) {
-      Gdx.app.log(GameSettings.LOG_TAG,"AI limit reached. Not creating another.");
+      Gdx.app.log(GameSettings.LOG_TAG, "AI limit reached. Not creating another.");
       return null;
     }
 
