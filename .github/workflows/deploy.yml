@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
+      #
       - name: Read project.version
         id: version_file
         uses: juliangruber/read-file-action@v1

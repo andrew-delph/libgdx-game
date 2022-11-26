@@ -37,7 +37,7 @@
       "memoryReservation": null,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "andrewdelph/game:server",
+      "image": "309026503458.dkr.ecr.us-east-1.amazonaws.com/game:0.2.54",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
@@ -58,13 +58,13 @@
     }
   ],
   "placementConstraints": [],
-  "memory": "2048",
+  "memory": "1024",
   "taskRoleArn": "arn:aws:iam::309026503458:role/ecsTaskExecutionRole",
   "compatibilities": [
     "EC2",
     "FARGATE"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:309026503458:task-definition/game-task:5",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:309026503458:task-definition/game-task:170",
   "family": "game-task",
   "requiresAttributes": [
     {
@@ -83,6 +83,12 @@
       "targetId": null,
       "targetType": null,
       "value": null,
+      "name": "com.amazonaws.ecs.capability.ecr-auth"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
       "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
     },
     {
@@ -90,6 +96,12 @@
       "targetType": null,
       "value": null,
       "name": "com.amazonaws.ecs.capability.task-iam-role"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.execution-role-ecr-pull"
     },
     {
       "targetId": null,
@@ -110,8 +122,8 @@
   ],
   "networkMode": "awsvpc",
   "runtimePlatform": null,
-  "cpu": "1024",
-  "revision": 5,
+  "cpu": "512",
+  "revision": 170,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,

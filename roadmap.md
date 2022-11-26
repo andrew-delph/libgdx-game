@@ -4,19 +4,20 @@ The roadmap is a collection of major feature for each release.
 
 ## 0.2.x
 
-- [ ] Entity inventory
-- [ ] Entity statistics (health)
-- [ ] Entity fall dmg
-- [ ] Turrets
-- [ ] Water, Sand
-- [ ] Entity Attack
-- [ ] Animations
+- [x] Entity inventory
+- [x] Entity statistics (health)
+- [x] Entity fall dmg
+- [x] Turrets
+- [x] Entity Attack
+- [x] Animations
+- [x] Water, Sand
 
 ## 0.3.x
 
+- [ ] Android, IOS
+- [ ] Server infra
 - [ ] Game menu
 - [ ] Game overlay
-- [ ] Android, IOS
 
 ## 0.4.x
 

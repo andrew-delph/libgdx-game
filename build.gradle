@@ -43,6 +43,7 @@ scmVersion {
     hooks {
         pre {
             context ->
+                println "current version is " + context.currentVersion
                 (new File(System.getProperty("user.dir") + "/core/assets/project.version")).write(context.currentVersion)
                 executeCommand("git fetch")
                 executeCommand("git add .")
@@ -200,6 +201,38 @@ task zipit(type: Zip) {
 
 clean {
     delete "dist", "out"
+}
+
+task writeAllAssetsToFile {
+    doLast {
+        def assetsFolder = new File("${project.rootDir}/core/assets/")
+
+        FileFilter isDir = new FileFilter() {
+            boolean accept(File file) {
+                return file.isDirectory();
+            }
+        };
+
+        FileFilter isFile = new FileFilter() {
+            boolean accept(File file) {
+                return file.isFile();
+            }
+        };
+
+        def handle_folder
+        handle_folder = {
+            File folder ->
+                def assetsFile = new File(folder, "assets.txt")
+                assetsFile.delete()
+                folder.listFiles(isFile).collect { assetsFolder.relativePath(it) }.each {
+                    assetsFile.append(it + "\n")
+                }
+                folder.listFiles(isDir).each {
+                    handle_folder(it)
+                }
+        }
+        handle_folder(assetsFolder)
+    }
 }
 
 

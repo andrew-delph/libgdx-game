@@ -1,0 +1,6 @@
+orb/Yellow/frame 1.png
+orb/Yellow/frame 2.png
+orb/Yellow/frame 3.png
+orb/Yellow/frame 4.png
+orb/Yellow/frame 5.png
+orb/Yellow/frame 6.png

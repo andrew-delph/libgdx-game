@@ -1,0 +1,17 @@
+pickaxe/pickaxe_0000.png
+pickaxe/pickaxe_0001.png
+pickaxe/pickaxe_0002.png
+pickaxe/pickaxe_0003.png
+pickaxe/pickaxe_0004.png
+pickaxe/pickaxe_0005.png
+pickaxe/pickaxe_0006.png
+pickaxe/pickaxe_0007.png
+pickaxe/pickaxe_0008.png
+pickaxe/pickaxe_0009.png
+pickaxe/pickaxe_0010.png
+pickaxe/pickaxe_0011.png
+pickaxe/pickaxe_0012.png
+pickaxe/pickaxe_0013.png
+pickaxe/pickaxe_0014.png
+pickaxe/pickaxe_0015.png
+pickaxe/pickaxe_0016.png
