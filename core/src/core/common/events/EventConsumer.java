@@ -1,10 +1,12 @@
 package core.common.events;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.app.user.User;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
+import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.types.CreateEntityEventType;
 import core.common.events.types.RemoveEntityEventType;
@@ -13,12 +15,8 @@ import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
 import core.entity.ActiveEntityManager;
 import core.entity.controllers.events.types.AbstractEntityEventType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class EventConsumer {
-
-  final Logger LOGGER = LogManager.getLogger();
 
   @Inject EventService eventService;
   @Inject GameController gameController;
@@ -40,7 +38,7 @@ public class EventConsumer {
                 realEvent.getReplacementEntity(),
                 realEvent.getSwapVelocity());
           } catch (EntityNotFound | BodyNotFound | DestroyBodyException | ChunkNotFound e) {
-            LOGGER.error(e, e);
+            Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
           }
         });
     this.eventService.addPostUpdateListener(
@@ -50,7 +48,7 @@ public class EventConsumer {
           try {
             gameController.triggerRemoveEntity(realEvent.getEntityUUID());
           } catch (EntityNotFound | DestroyBodyException e) {
-            LOGGER.error(e, e);
+            Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
           }
         });
     this.eventService.addListener(

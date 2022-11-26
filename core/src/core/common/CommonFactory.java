@@ -1,5 +1,6 @@
 package core.common;
 
+import com.badlogic.gdx.Gdx;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -7,11 +8,8 @@ import com.sun.tools.javac.util.Pair;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import networking.NetworkObjects;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class CommonFactory {
-  static final Logger LOGGER = LogManager.getLogger();
   static LoadingCache<Pair<Float, Float>, Coordinates> coordinatesCache =
       CacheBuilder.newBuilder()
           .maximumSize(1000)
@@ -38,7 +36,7 @@ public class CommonFactory {
     try {
       return coordinatesCache.get(new Pair<>(x, y));
     } catch (ExecutionException e) {
-      LOGGER.error("Failed to load Coordinates cache.", e);
+      Gdx.app.error(GameSettings.LOG_TAG, ("Failed to load Coordinates cache."), e);
       return new Coordinates(x, y);
     }
   }
@@ -47,7 +45,7 @@ public class CommonFactory {
     try {
       return chunkRangeCache.get(coordinates);
     } catch (ExecutionException e) {
-      LOGGER.error("Failed to load ChunkRange cache.", e);
+      Gdx.app.error(GameSettings.LOG_TAG, ("Failed to load ChunkRange cache."), e);
       return new ChunkRange(coordinates);
     }
   }

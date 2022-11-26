@@ -1,5 +1,6 @@
 package core.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.game.GameController;
 import core.app.user.UserID;
@@ -15,12 +16,8 @@ import core.entity.groups.Group;
 import core.entity.groups.GroupService;
 import core.entity.statemachine.EntityStateMachineFactory;
 import java.util.UUID;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class AIManager {
-
-  final Logger LOGGER = LogManager.getLogger();
 
   @Inject GameStore gameStore;
   @Inject EntityFactory entityFactory;
@@ -34,7 +31,7 @@ public class AIManager {
       throws EntityNotFound, ChunkNotFound {
 
     if (groupService.getInGroup(Group.AI_GROUP).size() >= GameSettings.AI_LIMIT) {
-      LOGGER.info("AI limit reached. Not creating another.");
+      Gdx.app.log(GameSettings.LOG_TAG, "AI limit reached. Not creating another.");
       return null;
     }
 

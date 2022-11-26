@@ -16,11 +16,9 @@ import core.entity.collision.right.EntityRightContact;
 import core.entity.collision.right.RightSensor;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class CollisionService {
-  final Logger LOGGER = LogManager.getLogger();
+
   Map<CollisionPair, ContactWrapper> collisionPairContactWrapperMap;
   @Inject EntityGroundContact entityGroundContact;
   @Inject EntityLadderContact entityLadderContact;

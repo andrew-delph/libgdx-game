@@ -1,5 +1,6 @@
 package core.app.game;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.update.UpdateTask;
 import core.chunk.ChunkFactory;
@@ -15,12 +16,8 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class Game {
-
-  final Logger LOGGER = LogManager.getLogger();
 
   @Inject UpdateTask updateTask;
   @Inject CollisionService collisionService;
@@ -44,7 +41,7 @@ public class Game {
 
           @Override
           public void run() {
-            LOGGER.info("RUN GARBAGE COLLECTOR");
+            Gdx.app.log(GameSettings.LOG_TAG, "RUN GARBAGE COLLECTOR");
             System.gc();
           }
         },

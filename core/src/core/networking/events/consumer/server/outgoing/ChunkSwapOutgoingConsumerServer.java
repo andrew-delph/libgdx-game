@@ -1,9 +1,11 @@
 package core.networking.events.consumer.server.outgoing;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.chunk.ActiveChunkManager;
 import core.common.CommonFactory;
+import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.types.EventType;
 import core.common.exceptions.EntityNotFound;
@@ -16,12 +18,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 import networking.NetworkObjects;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ChunkSwapOutgoingConsumerServer implements Consumer<EventType> {
 
-  final Logger LOGGER = LogManager.getLogger();
   @Inject ActiveChunkManager activeChunkManager;
   @Inject ServerNetworkHandle serverNetworkHandle;
   @Inject GameStore gameStore;
@@ -60,7 +59,8 @@ public class ChunkSwapOutgoingConsumerServer implements Consumer<EventType> {
     try {
       entityToCreate = gameStore.getEntity(chunkSwapOutgoingEventType.getTarget());
     } catch (EntityNotFound e) {
-      LOGGER.error("Unable to fetch entity for creation in chunk swap outgoing");
+      Gdx.app.error(
+          GameSettings.LOG_TAG, ("Unable to fetch entity for creation in chunk swap outgoing"));
       return;
     }
 

@@ -1,6 +1,8 @@
 package core.common.events;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
+import core.common.GameSettings;
 import core.common.events.types.EventType;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,12 +12,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class EventService {
 
-  final Logger LOGGER = LogManager.getLogger();
   Map<String, List<Consumer<EventType>>> eventListeners = new HashMap<>();
   Map<String, List<Consumer<EventType>>> eventPostUpdateListeners = new HashMap<>();
   ConcurrentLinkedQueue<EventType> postUpdateQueue = new ConcurrentLinkedQueue<>();
@@ -31,7 +30,7 @@ public class EventService {
 
   public void fireEvent(EventType eventType) {
     if (eventType == null) {
-      LOGGER.debug("eventType is null.");
+      Gdx.app.debug(GameSettings.LOG_TAG, "eventType is null.");
       return;
     }
     if (this.eventListeners.get(eventType.getEventType()) != null) {
@@ -85,7 +84,7 @@ public class EventService {
               .get(eventType.getEventType())
               .forEach(eventConsumer -> eventConsumer.accept(eventType));
         } catch (Exception e) {
-          LOGGER.error("Error with " + eventType, e);
+          Gdx.app.error(GameSettings.LOG_TAG, ("Error with " + eventType), e);
         }
       }
     }

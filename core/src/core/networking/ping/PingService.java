@@ -1,5 +1,6 @@
 package core.networking.ping;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.common.Clock;
@@ -17,13 +18,11 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class PingService extends TimerTask {
   final ConcurrentHashMap<UserID, LinkedHashMap<UUID, PingObject>> pingObjectMap =
       new ConcurrentHashMap<>();
-  final Logger LOGGER = LogManager.getLogger();
+
   Timer timer;
   @Inject ConnectionStore connectionStore;
   @Inject EventService eventService;
@@ -38,7 +37,9 @@ public class PingService extends TimerTask {
     pingObject.setResponseTime(responseTime);
     pingObject.setReceiverTime(receivedTime);
 
-    LOGGER.debug("Received ping: #userID " + userID + " #time " + pingObject.calcPingTime());
+    Gdx.app.debug(
+        GameSettings.LOG_TAG,
+        "Received ping: #userID " + userID + " #time " + pingObject.calcPingTime());
   }
 
   public long calcDelay(UserID userID, Long theirTime) {
@@ -68,7 +69,7 @@ public class PingService extends TimerTask {
       avgPing = totalPing / pingObjectList.size();
       avgDiff = totalDiff / pingObjectList.size();
     } catch (Exception e) {
-      LOGGER.error(e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       return 0;
     }
     long delay = theirTime + avgDiff - ourTime + (long) (avgPing * .1);

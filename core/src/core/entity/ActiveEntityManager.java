@@ -1,8 +1,10 @@
 package core.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.user.UserID;
 import core.common.ChunkRange;
+import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.exceptions.EntityNotFound;
 import java.util.HashMap;
@@ -10,12 +12,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ActiveEntityManager {
 
-  final Logger LOGGER = LogManager.getLogger();
   private final Map<UserID, Set<UUID>> userIDEntityMap = new HashMap<>();
   @Inject GameStore gameStore;
 
@@ -59,7 +58,7 @@ public class ActiveEntityManager {
       try {
         temp = this.gameStore.getEntityChunkRange(entityID);
       } catch (EntityNotFound e) {
-        LOGGER.error(e, e);
+        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
         continue;
       }
       allActiveChunkRange.add(temp);

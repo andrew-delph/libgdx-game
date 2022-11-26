@@ -1,5 +1,6 @@
 package core.chunk;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.World;
 import core.app.game.GameController;
 import core.chunk.world.WorldWrapper;
@@ -9,6 +10,7 @@ import core.common.ChunkRange;
 import core.common.Clock;
 import core.common.CommonFactory;
 import core.common.Coordinates;
+import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.Tick;
 import core.common.exceptions.ChunkNotFound;
@@ -29,12 +31,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import networking.NetworkObjects;
 import networking.NetworkObjects.NetworkData;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class Chunk implements Callable<Chunk>, SerializeNetworkData {
 
-  final Logger LOGGER = LogManager.getLogger();
   final ConcurrentHashMap<UUID, Entity> chunkMap = new ConcurrentHashMap<>();
   private final WorldWrapper worldWrapper;
   private final Set<Entity> neighborEntitySet = new HashSet<>();
@@ -74,7 +73,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     try {
       this.update();
     } catch (Exception e) {
-      LOGGER.error("CHUNK UPDATE FAILED: " + this, e);
+      Gdx.app.error(GameSettings.LOG_TAG, ("CHUNK UPDATE FAILED: " + this), e);
     }
     return this;
   }
@@ -185,7 +184,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       try {
         worldWrapper.destroyEntity(entity);
       } catch (DestroyBodyException e) {
-        LOGGER.error(e);
+        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       }
     }
 
@@ -211,7 +210,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       try {
         this.gameStore.syncEntity(entity);
       } catch (EntityNotFound e) {
-        LOGGER.error(e);
+        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       }
     }
 

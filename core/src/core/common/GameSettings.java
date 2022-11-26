@@ -10,6 +10,8 @@ import java.util.Properties;
 public class GameSettings {
   public static final boolean RENDER_DEBUG = false;
 
+  public static final String LOG_TAG = "My log";
+
   public static final int AI_LIMIT = 10;
 
   public static final int UPDATE_INTERVAL = 15;

@@ -1,9 +1,11 @@
 package core.networking.events.consumer.client.incoming;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.chunk.Chunk;
 import core.chunk.world.exceptions.DestroyBodyException;
 import core.common.ChunkRange;
+import core.common.GameSettings;
 import core.common.GameStore;
 import core.common.events.EventService;
 import core.common.events.types.EventType;
@@ -16,12 +18,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
 
-  final Logger LOGGER = LogManager.getLogger();
   @Inject GameStore gameStore;
   @Inject EventService eventService;
   @Inject ActiveEntityManager activeEntityManager;
@@ -34,7 +33,7 @@ public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
     Chunk chunk = gameStore.getChunk(chunkRange);
 
     if (chunk == null) {
-      LOGGER.debug("HandshakeIncomingConsumerClient on null chunk.");
+      Gdx.app.debug(GameSettings.LOG_TAG, "HandshakeIncomingConsumerClient on null chunk.");
       return;
     }
 
@@ -52,7 +51,7 @@ public class HandshakeIncomingConsumerClient implements Consumer<EventType> {
       try {
         chunk.removeEntity(toRemove);
       } catch (EntityNotFound | DestroyBodyException e) {
-        LOGGER.error(e);
+        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       }
     }
 

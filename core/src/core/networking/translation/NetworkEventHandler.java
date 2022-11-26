@@ -1,19 +1,18 @@
 package core.networking.translation;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import core.app.user.UserID;
+import core.common.GameSettings;
 import core.common.events.EventConsumer;
 import core.common.events.EventService;
 import core.networking.events.EventTypeFactory;
 import core.networking.events.types.outgoing.SubscriptionOutgoingEventType;
 import core.networking.ping.PingService;
 import networking.NetworkObjects;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class NetworkEventHandler extends EventConsumer {
 
-  final Logger LOGGER = LogManager.getLogger();
   @Inject EventTypeFactory eventTypeFactory;
   @Inject EventService eventService;
   @Inject NetworkDataDeserializer networkDataDeserializer;
@@ -69,7 +68,7 @@ public class NetworkEventHandler extends EventConsumer {
             delay, NetworkDataDeserializer.createItemActionEventType(networkEvent));
       }
     } catch (Exception e) {
-      LOGGER.error(networkEvent.toString(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, (networkEvent.toString()), e);
     }
   }
 }
