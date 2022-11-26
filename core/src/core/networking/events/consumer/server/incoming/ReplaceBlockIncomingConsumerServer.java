@@ -17,10 +17,7 @@ import core.networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
 import java.util.function.Consumer;
 
-
-
 public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
-
 
   @Inject ActiveChunkManager activeChunkManager;
   @Inject ServerNetworkHandle serverNetworkHandle;
@@ -32,10 +29,10 @@ public class ReplaceBlockIncomingConsumerServer implements Consumer<EventType> {
     try {
       gameController.triggerReplaceEntity(incoming.getTarget(), incoming.getReplacementBlock());
     } catch (EntityNotFound e) {
-      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       serverNetworkHandle.initHandshake(incoming.getUserID(), incoming.getChunkRange());
     } catch (ChunkNotFound | BodyNotFound | DestroyBodyException e) {
-      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       return;
     }
     ReplaceBlockOutgoingEventType outgoing =

@@ -19,8 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-
-
 public class PingService extends TimerTask {
   final ConcurrentHashMap<UserID, LinkedHashMap<UUID, PingObject>> pingObjectMap =
       new ConcurrentHashMap<>();
@@ -39,7 +37,9 @@ public class PingService extends TimerTask {
     pingObject.setResponseTime(responseTime);
     pingObject.setReceiverTime(receivedTime);
 
-    Gdx.app.debug(GameSettings.LOG_TAG,"Received ping: #userID " + userID + " #time " + pingObject.calcPingTime());
+    Gdx.app.debug(
+        GameSettings.LOG_TAG,
+        "Received ping: #userID " + userID + " #time " + pingObject.calcPingTime());
   }
 
   public long calcDelay(UserID userID, Long theirTime) {
@@ -69,7 +69,7 @@ public class PingService extends TimerTask {
       avgPing = totalPing / pingObjectList.size();
       avgDiff = totalDiff / pingObjectList.size();
     } catch (Exception e) {
-      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       return 0;
     }
     long delay = theirTime + avgDiff - ourTime + (long) (avgPing * .1);

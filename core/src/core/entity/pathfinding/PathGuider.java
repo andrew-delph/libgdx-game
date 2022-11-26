@@ -13,8 +13,6 @@ import core.entity.pathfinding.edge.EdgeStepper;
 import java.util.LinkedList;
 import java.util.Queue;
 
-
-
 public class PathGuider {
 
   public RelativePathNode currentPathNode;
@@ -64,7 +62,7 @@ public class PathGuider {
     try {
       this.currentEdgeStepper.follow(this.entity, this.currentPathNode);
     } catch (EdgeStepperException | ChunkNotFound e) {
-      Gdx.app.debug(GameSettings.LOG_TAG,"Edge stepper error: " + e);
+      Gdx.app.debug(GameSettings.LOG_TAG, "Edge stepper error: " + e);
       this.reset();
     }
   }

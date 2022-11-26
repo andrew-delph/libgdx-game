@@ -35,8 +35,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-
 public class GameScreen extends ApplicationAdapter {
 
   public static ShapeRenderer pathDebugRender;
@@ -77,7 +75,7 @@ public class GameScreen extends ApplicationAdapter {
         | SerializationDataMissing
         | BodyNotFound
         | WrongVersion e) {
-      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       this.dispose();
     }
     batch = new SpriteBatch();
@@ -99,17 +97,17 @@ public class GameScreen extends ApplicationAdapter {
     try {
       myEntity = gameController.addEntity(myEntity);
     } catch (ChunkNotFound e) {
-      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       this.dispose();
     }
     myEntity.setEntityStateMachine(entityStateMachineFactory.createEntityStateMachine(myEntity));
 
-    Gdx.app.log(GameSettings.LOG_TAG,"my entity " + myEntity.getUuid());
+    Gdx.app.log(GameSettings.LOG_TAG, "my entity " + myEntity.getUuid());
   }
 
   @Override
   public void resize(int width, int height) {
-    Gdx.app.log(GameSettings.LOG_TAG,"resize:" + width + "," + height);
+    Gdx.app.log(GameSettings.LOG_TAG, "resize:" + width + "," + height);
     baseCamera.setToOrtho(false, width, height);
   }
 

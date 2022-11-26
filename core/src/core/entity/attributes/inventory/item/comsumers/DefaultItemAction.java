@@ -17,10 +17,7 @@ import core.entity.collision.RayCastService;
 import java.util.LinkedList;
 import java.util.List;
 
-
-
 public class DefaultItemAction implements ItemActionInterface {
-
 
   @Inject RayCastService rayCastService;
   @Inject GameController gameController;
@@ -57,13 +54,17 @@ public class DefaultItemAction implements ItemActionInterface {
       try {
         hitEntity.setBodyVelocity(attackPhysicsVector);
       } catch (ChunkNotFound | BodyNotFound e) {
-        Gdx.app.error(GameSettings.LOG_TAG,("Cannot update entity: " + hitEntity.getUuid().toString() + " Velocity"));
+        Gdx.app.error(
+            GameSettings.LOG_TAG,
+            ("Cannot update entity: " + hitEntity.getUuid().toString() + " Velocity"));
       }
 
       try {
         gameController.updateEntityAttribute(hitEntity.getUuid(), health);
       } catch (EntityNotFound e) {
-        Gdx.app.error(GameSettings.LOG_TAG,("Cannot update entity: " + hitEntity.getUuid().toString() + " Health"));
+        Gdx.app.error(
+            GameSettings.LOG_TAG,
+            ("Cannot update entity: " + hitEntity.getUuid().toString() + " Health"));
       }
     }
   }

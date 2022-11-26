@@ -32,10 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import networking.NetworkObjects;
 import networking.NetworkObjects.NetworkData;
 
-
-
 public class Chunk implements Callable<Chunk>, SerializeNetworkData {
-
 
   final ConcurrentHashMap<UUID, Entity> chunkMap = new ConcurrentHashMap<>();
   private final WorldWrapper worldWrapper;
@@ -76,7 +73,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     try {
       this.update();
     } catch (Exception e) {
-      Gdx.app.error(GameSettings.LOG_TAG,("CHUNK UPDATE FAILED: " + this), e);
+      Gdx.app.error(GameSettings.LOG_TAG, ("CHUNK UPDATE FAILED: " + this), e);
     }
     return this;
   }
@@ -187,7 +184,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       try {
         worldWrapper.destroyEntity(entity);
       } catch (DestroyBodyException e) {
-        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(),e);
+        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       }
     }
 
@@ -213,7 +210,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
       try {
         this.gameStore.syncEntity(entity);
       } catch (EntityNotFound e) {
-        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(),e);
+        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       }
     }
 

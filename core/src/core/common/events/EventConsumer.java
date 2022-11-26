@@ -16,11 +16,7 @@ import core.common.exceptions.EntityNotFound;
 import core.entity.ActiveEntityManager;
 import core.entity.controllers.events.types.AbstractEntityEventType;
 
-
-
 public class EventConsumer {
-
-
 
   @Inject EventService eventService;
   @Inject GameController gameController;
@@ -42,7 +38,7 @@ public class EventConsumer {
                 realEvent.getReplacementEntity(),
                 realEvent.getSwapVelocity());
           } catch (EntityNotFound | BodyNotFound | DestroyBodyException | ChunkNotFound e) {
-            Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+            Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
           }
         });
     this.eventService.addPostUpdateListener(
@@ -52,7 +48,7 @@ public class EventConsumer {
           try {
             gameController.triggerRemoveEntity(realEvent.getEntityUUID());
           } catch (EntityNotFound | DestroyBodyException e) {
-              Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+            Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
           }
         });
     this.eventService.addListener(

@@ -11,10 +11,7 @@ import core.networking.events.types.outgoing.SubscriptionOutgoingEventType;
 import core.networking.ping.PingService;
 import networking.NetworkObjects;
 
-
-
 public class NetworkEventHandler extends EventConsumer {
-
 
   @Inject EventTypeFactory eventTypeFactory;
   @Inject EventService eventService;
@@ -71,7 +68,7 @@ public class NetworkEventHandler extends EventConsumer {
             delay, NetworkDataDeserializer.createItemActionEventType(networkEvent));
       }
     } catch (Exception e) {
-      Gdx.app.error(GameSettings.LOG_TAG,(networkEvent.toString()), e);
+      Gdx.app.error(GameSettings.LOG_TAG, (networkEvent.toString()), e);
     }
   }
 }

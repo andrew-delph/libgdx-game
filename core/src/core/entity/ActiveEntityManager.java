@@ -13,10 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-
-
 public class ActiveEntityManager {
-
 
   private final Map<UserID, Set<UUID>> userIDEntityMap = new HashMap<>();
   @Inject GameStore gameStore;
@@ -61,7 +58,7 @@ public class ActiveEntityManager {
       try {
         temp = this.gameStore.getEntityChunkRange(entityID);
       } catch (EntityNotFound e) {
-        Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+        Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
         continue;
       }
       allActiveChunkRange.add(temp);

@@ -14,10 +14,7 @@ import core.entity.Entity;
 import core.entity.attributes.inventory.item.comsumers.ItemActionService;
 import core.entity.misc.Turret;
 
-
-
 public class SoloEventConsumer extends EventConsumer {
-
 
   @Inject ItemActionService itemActionService;
   @Inject AIManager aiManager;
@@ -32,7 +29,7 @@ public class SoloEventConsumer extends EventConsumer {
         eventType -> {
           try {
             CreateAIEntityEventType realEvent = (CreateAIEntityEventType) eventType;
-            Gdx.app.log(GameSettings.LOG_TAG,"CREATE AI " + realEvent.getCoordinates());
+            Gdx.app.log(GameSettings.LOG_TAG, "CREATE AI " + realEvent.getCoordinates());
 
             aiManager.requestCreateAI(
                 user.getUserID(), realEvent.getCoordinates(), realEvent.getTarget());
@@ -53,7 +50,7 @@ public class SoloEventConsumer extends EventConsumer {
             if (turret != null)
               activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
           } catch (ChunkNotFound | EntityNotFound e) {
-              Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+            Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
           }
         });
 
@@ -66,7 +63,7 @@ public class SoloEventConsumer extends EventConsumer {
             if (!gcd) return;
             itemActionService.use(realEvent.getItemActionType(), realEvent.getControleeUUID());
           } catch (EntityNotFound e) {
-              Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+            Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
           }
         });
   }

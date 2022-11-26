@@ -17,13 +17,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-
-
 public class ServerUpdateTask extends UpdateTask {
 
-  static
-
-  public final ExecutorService executor = Executors.newCachedThreadPool();
+  public static final ExecutorService executor = Executors.newCachedThreadPool();
   @Inject public Clock clock;
   @Inject public GameStore gameStore;
   @Inject EventService eventService;
@@ -49,7 +45,7 @@ public class ServerUpdateTask extends UpdateTask {
     Set<Chunk> chunksOnTick = new HashSet<>();
     try {
       chunksOnTick = this.gameStore.getChunkOnClock(this.clock.getCurrentTick());
-      Gdx.app.debug(GameSettings.LOG_TAG,"Updating " + chunksOnTick.size() + " chunks.");
+      Gdx.app.debug(GameSettings.LOG_TAG, "Updating " + chunksOnTick.size() + " chunks.");
 
       executor.invokeAll(chunksOnTick);
     } catch (InterruptedException e) {

@@ -14,10 +14,7 @@ import core.networking.events.types.incoming.CreateEntityIncomingEventType;
 import core.networking.translation.NetworkDataDeserializer;
 import java.util.function.Consumer;
 
-
-
 public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
-
 
   @Inject GameController gameController;
   @Inject NetworkDataDeserializer entitySerializationConverter;
@@ -32,19 +29,19 @@ public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
       entity = entitySerializationConverter.createEntity(realEvent.getData());
       entity.setEntityController(entityControllerFactory.createRemoteBodyController(entity));
     } catch (SerializationDataMissing e) {
-      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
       // TODO disconnect the client
       return;
     }
 
     if (gameStore.doesEntityExist(entity.getUuid())) {
-      Gdx.app.debug(GameSettings.LOG_TAG,"Entity already exists: " + entity.getUuid());
+      Gdx.app.debug(GameSettings.LOG_TAG, "Entity already exists: " + entity.getUuid());
       return;
     }
     try {
       gameController.triggerAddEntity(entity);
     } catch (ChunkNotFound e) {
-      Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+      Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
     }
   }
 }

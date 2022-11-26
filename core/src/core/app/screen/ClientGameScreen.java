@@ -44,7 +44,7 @@ public class ClientGameScreen extends GameScreen {
     } catch (EntityNotFound e) {
       e.printStackTrace();
     }
-    Gdx.app.log(GameSettings.LOG_TAG,"my entity " + myEntity.getUuid());
+    Gdx.app.log(GameSettings.LOG_TAG, "my entity " + myEntity.getUuid());
     myEntity.setEntityController(entityControllerFactory.createEntityUserController(myEntity));
     myEntity.setEntityStateMachine(entityStateMachineFactory.createEntityStateMachine(myEntity));
 

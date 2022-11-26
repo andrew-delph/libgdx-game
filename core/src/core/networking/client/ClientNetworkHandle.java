@@ -36,8 +36,6 @@ import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
 import networking.NetworkObjects.NetworkEvent;
 
-
-
 public class ClientNetworkHandle {
   public final CountDownLatch authLatch = new CountDownLatch(1);
 
@@ -62,7 +60,8 @@ public class ClientNetworkHandle {
   public ClientNetworkHandle() {}
 
   public void connect() throws InterruptedException, WrongVersion {
-    Gdx.app.log(GameSettings.LOG_TAG,
+    Gdx.app.log(
+        GameSettings.LOG_TAG,
         "I am client: "
             + this.user.toString()
             + ". Connecting to "
@@ -128,7 +127,7 @@ public class ClientNetworkHandle {
       try {
         gameStore.addEntity(toAdd);
       } catch (ChunkNotFound e) {
-        Gdx.app.error(GameSettings.LOG_TAG,"ChunkNotFound",e);
+        Gdx.app.error(GameSettings.LOG_TAG, "ChunkNotFound", e);
       }
     }
 
@@ -168,7 +167,7 @@ public class ClientNetworkHandle {
                 try {
                   gameStore.addEntity(toAdd);
                 } catch (ChunkNotFound e) {
-                  Gdx.app.error(GameSettings.LOG_TAG,e.getMessage(), e);
+                  Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
                   onCompleted();
                 }
               }
@@ -203,14 +202,14 @@ public class ClientNetworkHandle {
 
   public synchronized void initHandshake(ChunkRange chunkRange) {
     if (syncService.isHandshakeLocked(this.user.getUserID(), chunkRange)) {
-      Gdx.app.log(GameSettings.LOG_TAG,"CLIENT INIT LOCKED " + " " + chunkRange);
+      Gdx.app.log(GameSettings.LOG_TAG, "CLIENT INIT LOCKED " + " " + chunkRange);
       return;
     }
     syncService.lockHandshake(user.getUserID(), chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
     HandshakeOutgoingEventType handshakeOutgoing =
         EventTypeFactory.createHandshakeOutgoingEventType(chunkRange);
     this.send(handshakeOutgoing.toNetworkEvent());
-    Gdx.app.log(GameSettings.LOG_TAG,"CLIENT INIT HANDSHAKE " + chunkRange);
+    Gdx.app.log(GameSettings.LOG_TAG, "CLIENT INIT HANDSHAKE " + chunkRange);
   }
 
   public Entity getEntity(Coordinates coordinates) throws SerializationDataMissing, ChunkNotFound {
