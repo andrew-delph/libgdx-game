@@ -10,6 +10,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.2'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.18'
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.16'
     }
 }
 
@@ -86,7 +87,7 @@ allprojects {
     ext {
         appName = "my-gdx-game"
         gdxVersion = '1.9.12'
-        roboVMVersion = '2.3.11'
+        roboVMVersion = '2.3.16'
         box2DLightsVersion = '1.5'
         ashleyVersion = '1.7.3'
         aiVersion = '1.8.2'
@@ -155,6 +156,20 @@ project(":core") {
                 grpc {}
             }
         }
+    }
+}
+
+project(":ios") {
+    apply plugin: "java-library"
+    apply plugin: "robovm"
+
+    dependencies {
+        implementation project(":core")
+        api "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
+        api "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
+        api "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+
     }
 }
 
