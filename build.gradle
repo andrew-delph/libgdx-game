@@ -118,7 +118,7 @@ project(":core") {
         implementation "io.grpc:grpc-services:1.32.1"
         implementation 'org.apache.tomcat:annotations-api:6.0.53'
         implementation 'com.google.inject:guice:4.0:no_aop'
-        implementation "com.google.guava:guava:31.1-jre"
+        implementation "com.google.guava:guava:20.1-jre"
 
         implementation "org.javatuples:javatuples:1.2"
 

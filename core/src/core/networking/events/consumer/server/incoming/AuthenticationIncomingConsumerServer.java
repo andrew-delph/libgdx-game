@@ -7,14 +7,16 @@ import core.common.events.types.EventType;
 import core.networking.ConnectionStore;
 import core.networking.events.types.incoming.AuthenticationIncomingEventType;
 import core.networking.server.ServerNetworkHandle;
-import java.util.function.Consumer;
+
 import networking.NetworkObjects;
 
-public class AuthenticationIncomingConsumerServer implements Consumer<EventType> {
+public class AuthenticationIncomingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject ServerNetworkHandle serverNetworkHandle;
+  @Inject
+  ServerNetworkHandle serverNetworkHandle;
 
-  @Inject ConnectionStore connectionStore;
+  @Inject
+  ConnectionStore connectionStore;
 
   @Override
   public void accept(EventType eventType) {

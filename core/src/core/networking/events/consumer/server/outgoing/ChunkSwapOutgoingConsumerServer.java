@@ -16,14 +16,17 @@ import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Consumer;
+
 import networking.NetworkObjects;
 
-public class ChunkSwapOutgoingConsumerServer implements Consumer<EventType> {
+public class ChunkSwapOutgoingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject ActiveChunkManager activeChunkManager;
-  @Inject ServerNetworkHandle serverNetworkHandle;
-  @Inject GameStore gameStore;
+  @Inject
+  ActiveChunkManager activeChunkManager;
+  @Inject
+  ServerNetworkHandle serverNetworkHandle;
+  @Inject
+  GameStore gameStore;
 
   @Override
   public void accept(EventType eventType) {

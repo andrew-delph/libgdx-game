@@ -10,7 +10,7 @@ import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
 import core.entity.collision.left.EntityLeftContact;
 import core.entity.collision.right.EntityRightContact;
-import java.util.function.Consumer;
+
 
 public class HorizontalMovementAction implements EntityAction {
 
@@ -43,7 +43,7 @@ public class HorizontalMovementAction implements EntityAction {
   }
 
   @Override
-  public Consumer<Body> applyBodyConsumer() {
+  public MyConsumer<Body> applyBodyConsumer() {
     return body -> {
       body.setLinearVelocity(new Vector2(this.magnitude, body.getLinearVelocity().y));
     };

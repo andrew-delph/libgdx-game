@@ -18,17 +18,24 @@ import core.networking.events.types.incoming.CreateEntityIncomingEventType;
 import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
 import core.networking.translation.NetworkDataDeserializer;
-import java.util.function.Consumer;
 
-public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
 
-  @Inject GameController gameController;
-  @Inject NetworkDataDeserializer entitySerializationConverter;
-  @Inject ServerNetworkHandle serverNetworkHandle;
-  @Inject ActiveEntityManager activeEntityManager;
-  @Inject ActiveChunkManager activeChunkManager;
-  @Inject EntityControllerFactory entityControllerFactory;
-  @Inject GroupService groupService;
+public class CreateEntityIncomingConsumerServer implements MyConsumer<EventType> {
+
+  @Inject
+  GameController gameController;
+  @Inject
+  NetworkDataDeserializer entitySerializationConverter;
+  @Inject
+  ServerNetworkHandle serverNetworkHandle;
+  @Inject
+  ActiveEntityManager activeEntityManager;
+  @Inject
+  ActiveChunkManager activeChunkManager;
+  @Inject
+  EntityControllerFactory entityControllerFactory;
+  @Inject
+  GroupService groupService;
 
   @Override
   public void accept(EventType eventType) {
@@ -41,8 +48,9 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
       entity.setEntityController(entityControllerFactory.createRemoteBodyController(entity));
       groupService.registerEntityGroup(entity.getUuid(), Group.PLAYER_GROUP);
 
-      if (entity.getClass().equals(Ladder.class))
+      if (entity.getClass().equals(Ladder.class)) {
         entity.setEntityController(entityControllerFactory.createLadderController(entity));
+      }
 
     } catch (SerializationDataMissing | ChunkNotFound e) {
       e.printStackTrace();
@@ -58,7 +66,9 @@ public class CreateEntityIncomingConsumerServer implements Consumer<EventType> {
             incoming.getData(), incoming.getChunkRange());
 
     for (UserID userID : activeChunkManager.getChunkRangeUsers(incoming.getChunkRange())) {
-      if (userID.equals(incoming.getUserID())) continue;
+      if (userID.equals(incoming.getUserID())) {
+        continue;
+      }
       serverNetworkHandle.send(userID, outgoing.toNetworkEvent());
     }
   }

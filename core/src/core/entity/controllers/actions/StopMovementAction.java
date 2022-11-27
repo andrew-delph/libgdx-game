@@ -7,12 +7,13 @@ import core.app.screen.assets.animations.AnimationState;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
-import java.util.function.Consumer;
+
 
 public class StopMovementAction implements EntityAction {
 
   @Inject
-  StopMovementAction() {}
+  StopMovementAction() {
+  }
 
   @Override
   public void apply(Entity entity) throws ChunkNotFound, BodyNotFound {
@@ -21,7 +22,7 @@ public class StopMovementAction implements EntityAction {
   }
 
   @Override
-  public Consumer<Body> applyBodyConsumer() {
+  public MyConsumer<Body> applyBodyConsumer() {
     return body -> {
       body.setLinearVelocity(new Vector2(0, body.getLinearVelocity().y));
     };

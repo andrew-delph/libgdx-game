@@ -13,12 +13,14 @@ import core.networking.server.ServerNetworkHandle;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 
-public class HandshakeIncomingConsumerServer implements Consumer<EventType> {
 
-  @Inject GameStore gameStore;
-  @Inject ServerNetworkHandle serverNetworkHandle;
+public class HandshakeIncomingConsumerServer implements MyConsumer<EventType> {
+
+  @Inject
+  GameStore gameStore;
+  @Inject
+  ServerNetworkHandle serverNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {

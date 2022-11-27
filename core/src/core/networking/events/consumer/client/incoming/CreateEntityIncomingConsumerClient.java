@@ -12,14 +12,18 @@ import core.entity.Entity;
 import core.entity.controllers.factories.EntityControllerFactory;
 import core.networking.events.types.incoming.CreateEntityIncomingEventType;
 import core.networking.translation.NetworkDataDeserializer;
-import java.util.function.Consumer;
 
-public class CreateEntityIncomingConsumerClient implements Consumer<EventType> {
 
-  @Inject GameController gameController;
-  @Inject NetworkDataDeserializer entitySerializationConverter;
-  @Inject GameStore gameStore;
-  @Inject EntityControllerFactory entityControllerFactory;
+public class CreateEntityIncomingConsumerClient implements MyConsumer<EventType> {
+
+  @Inject
+  GameController gameController;
+  @Inject
+  NetworkDataDeserializer entitySerializationConverter;
+  @Inject
+  GameStore gameStore;
+  @Inject
+  EntityControllerFactory entityControllerFactory;
 
   @Override
   public void accept(EventType eventType) {

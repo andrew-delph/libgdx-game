@@ -23,6 +23,7 @@ import core.common.GameStore;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.SerializationDataMissing;
 import core.common.exceptions.WrongVersion;
+import core.common.javautil.MyConsumer;
 import core.entity.ActiveEntityManager;
 import core.entity.Entity;
 import core.entity.EntityFactory;
@@ -31,27 +32,40 @@ import core.entity.groups.Group;
 import core.entity.groups.GroupService;
 import core.entity.statemachine.EntityStateMachineFactory;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GameScreen extends ApplicationAdapter {
 
   public static ShapeRenderer pathDebugRender;
 
-  @Inject Game game;
-  @Inject GameStore gameStore;
-  @Inject EntityFactory entityFactory;
-  @Inject BaseAssetManager baseAssetManager;
-  @Inject BaseCamera baseCamera;
-  @Inject GameController gameController;
-  @Inject EntityControllerFactory entityControllerFactory;
-  @Inject ActiveEntityManager activeEntityManager;
-  @Inject User user;
-  @Inject GameSettings gameSettings;
-  @Inject GroupService groupService;
-  @Inject AnimationManager animationManager;
-  @Inject EntityStateMachineFactory entityStateMachineFactory;
+  @Inject
+  Game game;
+  @Inject
+  GameStore gameStore;
+  @Inject
+  EntityFactory entityFactory;
+  @Inject
+  BaseAssetManager baseAssetManager;
+  @Inject
+  BaseCamera baseCamera;
+  @Inject
+  GameController gameController;
+  @Inject
+  EntityControllerFactory entityControllerFactory;
+  @Inject
+  ActiveEntityManager activeEntityManager;
+  @Inject
+  User user;
+  @Inject
+  GameSettings gameSettings;
+  @Inject
+  GroupService groupService;
+  @Inject
+  AnimationManager animationManager;
+  @Inject
+  EntityStateMachineFactory entityStateMachineFactory;
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
   Entity myEntity;
@@ -61,7 +75,8 @@ public class GameScreen extends ApplicationAdapter {
   float stateTime;
 
   @Inject
-  public GameScreen() {}
+  public GameScreen() {
+  }
 
   @Override
   public void create() {
@@ -148,16 +163,20 @@ public class GameScreen extends ApplicationAdapter {
         gameStore.getEntityInRange(
             baseCamera.getBottomLeftCoordinates(), baseCamera.getTopRightCoordinates());
 
-    renderList =
-        renderList.stream()
-            .sorted(Comparator.comparingInt(entity -> entity.zindex))
-            .collect(Collectors.toList());
+    Collections.sort(renderList, new Comparator<Entity>() {
+      @Override
+      public int compare(Entity entity, Entity t1) {
+        return entity.zindex - t1.zindex;
+      }
+    });
 
     for (Entity entity : renderList) {
       // render entity
       try {
         entity.render(animationManager, batch);
-        if (entity.getEntityController() != null) entity.getEntityController().render();
+        if (entity.getEntityController() != null) {
+          entity.getEntityController().render();
+        }
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -174,8 +193,11 @@ public class GameScreen extends ApplicationAdapter {
       mainChunk
           .getWorldWrapper()
           .applyWorld(
-              (World world) -> {
-                debugRenderer.render(world, debugMatrix);
+              new MyConsumer<World>() {
+                @Override
+                public void accept(World world) {
+                  debugRenderer.render(world, debugMatrix);
+                }
               });
       pathDebugRender.end();
 
@@ -192,7 +214,9 @@ public class GameScreen extends ApplicationAdapter {
               (CommonFactory.createChunkRange(myEntity.getCoordinatesWrapper().getCoordinates()))
                   .getRight());
 
-      if (lowerChunk == null) return;
+      if (lowerChunk == null) {
+        return;
+      }
       debugMatrix =
           batch
               .getProjectionMatrix()
@@ -205,17 +229,23 @@ public class GameScreen extends ApplicationAdapter {
                   0,
                   -10
                       - GameSettings.PIXEL_SCALE
-                          * GameSettings.CHUNK_SIZE
-                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                      * GameSettings.CHUNK_SIZE
+                      * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0);
+
       lowerChunk
           .getWorldWrapper()
           .applyWorld(
-              (World world) -> {
-                debugRenderer.render(world, debugMatrix);
+              new MyConsumer<World>() {
+                @Override
+                public void accept(World world) {
+                  debugRenderer.render(world, debugMatrix);
+                }
               });
 
-      if (leftChunk == null) return;
+      if (leftChunk == null) {
+        return;
+      }
       debugMatrix =
           batch
               .getProjectionMatrix()
@@ -227,19 +257,24 @@ public class GameScreen extends ApplicationAdapter {
               .translate(
                   -10
                       - GameSettings.PIXEL_SCALE
-                          * GameSettings.CHUNK_SIZE
-                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                      * GameSettings.CHUNK_SIZE
+                      * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0,
                   0);
 
       leftChunk
           .getWorldWrapper()
           .applyWorld(
-              (World world) -> {
-                debugRenderer.render(world, debugMatrix);
+              new MyConsumer<World>() {
+                @Override
+                public void accept(World world) {
+                  debugRenderer.render(world, debugMatrix);
+                }
               });
 
-      if (rightChunk == null) return;
+      if (rightChunk == null) {
+        return;
+      }
       debugMatrix =
           batch
               .getProjectionMatrix()
@@ -251,15 +286,19 @@ public class GameScreen extends ApplicationAdapter {
               .translate(
                   10
                       + GameSettings.PIXEL_SCALE
-                          * GameSettings.CHUNK_SIZE
-                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                      * GameSettings.CHUNK_SIZE
+                      * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0,
                   0);
+
       rightChunk
           .getWorldWrapper()
           .applyWorld(
-              (World world) -> {
-                debugRenderer.render(world, debugMatrix);
+              new MyConsumer<World>() {
+                @Override
+                public void accept(World world) {
+                  debugRenderer.render(world, debugMatrix);
+                }
               });
     }
   }

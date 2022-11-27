@@ -13,14 +13,18 @@ import core.common.exceptions.EntityNotFound;
 import core.entity.ActiveEntityManager;
 import core.entity.Entity;
 import core.entity.misc.Turret;
-import java.util.function.Consumer;
 
-public class CreateTurretIncomingConsumerServer implements Consumer<EventType> {
 
-  @Inject GameController gameController;
-  @Inject ActiveEntityManager activeEntityManager;
-  @Inject User user;
-  @Inject GameStore gameStore;
+public class CreateTurretIncomingConsumerServer implements MyConsumer<EventType> {
+
+  @Inject
+  GameController gameController;
+  @Inject
+  ActiveEntityManager activeEntityManager;
+  @Inject
+  User user;
+  @Inject
+  GameStore gameStore;
 
   @Override
   public void accept(EventType eventType) {
@@ -29,8 +33,9 @@ public class CreateTurretIncomingConsumerServer implements Consumer<EventType> {
     try {
       Entity entity = gameStore.getEntity(realEvent.getEntityUUID());
       Turret turret = gameController.createTurret(entity, realEvent.getCoordinates());
-      if (turret != null)
+      if (turret != null) {
         activeEntityManager.registerActiveEntity(user.getUserID(), turret.getUuid());
+      }
     } catch (ChunkNotFound | EntityNotFound e) {
       Gdx.app.error(GameSettings.LOG_TAG, e.getMessage(), e);
     }

@@ -7,12 +7,14 @@ import core.common.events.types.EventType;
 import core.common.exceptions.ChunkNotFound;
 import core.common.exceptions.EntityNotFound;
 import core.entity.AIManager;
-import java.util.function.Consumer;
 
-public class CreateAIEntityConsumerServer implements Consumer<EventType> {
 
-  @Inject User user;
-  @Inject AIManager aiManager;
+public class CreateAIEntityConsumerServer implements MyConsumer<EventType> {
+
+  @Inject
+  User user;
+  @Inject
+  AIManager aiManager;
 
   @Override
   public void accept(EventType eventType) {

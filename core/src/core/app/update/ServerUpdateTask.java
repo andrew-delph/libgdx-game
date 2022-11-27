@@ -1,8 +1,11 @@
 package core.app.update;
 
 import com.badlogic.gdx.Gdx;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import core.chunk.Chunk;
+import core.common.ChunkRange;
 import core.common.Clock;
 import core.common.GameSettings;
 import core.common.GameStore;
@@ -11,24 +14,32 @@ import core.common.exceptions.ChunkNotFound;
 import core.entity.ActiveEntityManager;
 import core.entity.misc.water.WaterService;
 import core.generation.ChunkGenerationService;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 public class ServerUpdateTask extends UpdateTask {
 
   public static final ExecutorService executor = Executors.newCachedThreadPool();
-  @Inject public Clock clock;
-  @Inject public GameStore gameStore;
-  @Inject EventService eventService;
-  @Inject ActiveEntityManager activeEntityManager;
-  @Inject ChunkGenerationService chunkGenerationService;
+  @Inject
+  public Clock clock;
+  @Inject
+  public GameStore gameStore;
+  @Inject
+  EventService eventService;
+  @Inject
+  ActiveEntityManager activeEntityManager;
+  @Inject
+  ChunkGenerationService chunkGenerationService;
 
-  @Inject WaterService waterService;
+  @Inject
+  WaterService waterService;
 
-  public ServerUpdateTask() {}
+  public ServerUpdateTask() {
+  }
 
   @Override
   public void run() {
@@ -54,8 +65,17 @@ public class ServerUpdateTask extends UpdateTask {
     this.eventService.firePostUpdateEvents();
 
     try {
-      waterService.update(
-          chunksOnTick.stream().map((Chunk c) -> c.chunkRange).collect(Collectors.toSet()));
+      Collection<ChunkRange> updatedWatchChunkRanges = Collections2.transform(chunksOnTick,
+          new Function<Chunk, ChunkRange>() {
+            @NullableDecl
+            @Override
+            public ChunkRange apply(@NullableDecl Chunk input) {
+              return input.chunkRange;
+            }
+          });
+
+      waterService.update(updatedWatchChunkRanges);
+
     } catch (ChunkNotFound e) {
       e.printStackTrace();
     }
