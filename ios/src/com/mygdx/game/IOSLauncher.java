@@ -19,14 +19,14 @@ public class IOSLauncher extends IOSApplication.Delegate {
 
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
 
-//    ApplicationAdapter applicationAdapter =
-//        new ApplicationAdapter() {
-//          @Override
-//          public void render() {
-//            super.render();
-//            System.out.println("render");
-//          }
-//        };
+    //    ApplicationAdapter applicationAdapter =
+    //        new ApplicationAdapter() {
+    //          @Override
+    //          public void render() {
+    //            super.render();
+    //            System.out.println("render");
+    //          }
+    //        };
 
     return new IOSApplication(gameScreen, config);
   }
