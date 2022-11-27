@@ -170,6 +170,8 @@ project(":ios") {
         api "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
 
+        implementation 'com.google.inject:guice:4.0:no_aop'
+
     }
 }
 
