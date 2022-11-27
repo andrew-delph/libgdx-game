@@ -24,22 +24,15 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 public class ServerUpdateTask extends UpdateTask {
 
   public static final ExecutorService executor = Executors.newCachedThreadPool();
-  @Inject
-  public Clock clock;
-  @Inject
-  public GameStore gameStore;
-  @Inject
-  EventService eventService;
-  @Inject
-  ActiveEntityManager activeEntityManager;
-  @Inject
-  ChunkGenerationService chunkGenerationService;
+  @Inject public Clock clock;
+  @Inject public GameStore gameStore;
+  @Inject EventService eventService;
+  @Inject ActiveEntityManager activeEntityManager;
+  @Inject ChunkGenerationService chunkGenerationService;
 
-  @Inject
-  WaterService waterService;
+  @Inject WaterService waterService;
 
-  public ServerUpdateTask() {
-  }
+  public ServerUpdateTask() {}
 
   @Override
   public void run() {
@@ -65,14 +58,16 @@ public class ServerUpdateTask extends UpdateTask {
     this.eventService.firePostUpdateEvents();
 
     try {
-      Collection<ChunkRange> updatedWatchChunkRanges = Collections2.transform(chunksOnTick,
-          new Function<Chunk, ChunkRange>() {
-            @NullableDecl
-            @Override
-            public ChunkRange apply(@NullableDecl Chunk input) {
-              return input.chunkRange;
-            }
-          });
+      Collection<ChunkRange> updatedWatchChunkRanges =
+          Collections2.transform(
+              chunksOnTick,
+              new Function<Chunk, ChunkRange>() {
+                @NullableDecl
+                @Override
+                public ChunkRange apply(@NullableDecl Chunk input) {
+                  return input.chunkRange;
+                }
+              });
 
       waterService.update(updatedWatchChunkRanges);
 

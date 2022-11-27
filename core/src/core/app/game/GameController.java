@@ -48,33 +48,20 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
-
 public class GameController {
 
-  @Inject
-  GameStore gameStore;
-  @Inject
-  EntityFactory entityFactory;
-  @Inject
-  EventService eventService;
-  @Inject
-  EventTypeFactory eventTypeFactory;
-  @Inject
-  BlockFactory blockFactory;
-  @Inject
-  EntityControllerFactory entityControllerFactory;
-  @Inject
-  User user;
-  @Inject
-  ActiveEntityManager activeEntityManager;
-  @Inject
-  ChunkFactory chunkFactory;
-  @Inject
-  ItemActionService itemActionService;
-  @Inject
-  GroupService groupService;
-  @Inject
-  RayCastService rayCastService;
+  @Inject GameStore gameStore;
+  @Inject EntityFactory entityFactory;
+  @Inject EventService eventService;
+  @Inject EventTypeFactory eventTypeFactory;
+  @Inject BlockFactory blockFactory;
+  @Inject EntityControllerFactory entityControllerFactory;
+  @Inject User user;
+  @Inject ActiveEntityManager activeEntityManager;
+  @Inject ChunkFactory chunkFactory;
+  @Inject ItemActionService itemActionService;
+  @Inject GroupService groupService;
+  @Inject RayCastService rayCastService;
 
   public Entity addEntity(Entity entity) throws ChunkNotFound {
     triggerAddEntity(entity);
@@ -331,16 +318,17 @@ public class GameController {
     }
 
     // from the set... get a block which is instanceof SolidBlock
-    Collection<Entity> filteredRayCastSet = Collections2.filter(rayCastSet,
-        new Predicate<Entity>() {
-          @Override
-          public boolean apply(Entity input) {
-            return input instanceof SolidBlock;
-          }
-        });
+    Collection<Entity> filteredRayCastSet =
+        Collections2.filter(
+            rayCastSet,
+            new Predicate<Entity>() {
+              @Override
+              public boolean apply(Entity input) {
+                return input instanceof SolidBlock;
+              }
+            });
 
-    removeBlock =
-        (Block) filteredRayCastSet.iterator().next();
+    removeBlock = (Block) filteredRayCastSet.iterator().next();
 
     Block replacementBlock = null;
     targetCoordinates =

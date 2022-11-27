@@ -7,13 +7,10 @@ import core.common.events.types.EventType;
 import core.networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
 
-
 public class RemoveEntityOutgoingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  ActiveChunkManager activeChunkManager;
-  @Inject
-  ServerNetworkHandle serverNetworkHandle;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ServerNetworkHandle serverNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {

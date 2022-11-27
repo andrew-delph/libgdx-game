@@ -8,16 +8,13 @@ import core.generation.ChunkGenerationService;
 import core.networking.events.types.incoming.SubscriptionIncomingEventType;
 import java.util.List;
 import java.util.Set;
-
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class SubscriptionIncomingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  ActiveChunkManager activeChunkManager;
-  @Inject
-  ChunkGenerationService chunkGenerationService;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ChunkGenerationService chunkGenerationService;
 
   @Override
   public void accept(EventType eventType) {

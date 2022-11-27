@@ -40,7 +40,6 @@ import core.networking.translation.NetworkDataSerializer;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
-
 import networking.NetworkObjects;
 
 public class Entity implements SerializeNetworkData {
@@ -271,8 +270,8 @@ public class Entity implements SerializeNetworkData {
     }
     Entity entity = (Entity) o;
     return Objects.equal(
-        this.getCoordinatesWrapper().getCoordinates(),
-        entity.getCoordinatesWrapper().getCoordinates())
+            this.getCoordinatesWrapper().getCoordinates(),
+            entity.getCoordinatesWrapper().getCoordinates())
         && Objects.equal(health, entity.health)
         && Objects.equal(uuid, entity.uuid)
         && Objects.equal(bag, entity.bag)

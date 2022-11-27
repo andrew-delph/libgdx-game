@@ -14,17 +14,12 @@ import core.entity.ActiveEntityManager;
 import core.entity.Entity;
 import core.entity.misc.Turret;
 
-
 public class CreateTurretIncomingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  GameController gameController;
-  @Inject
-  ActiveEntityManager activeEntityManager;
-  @Inject
-  User user;
-  @Inject
-  GameStore gameStore;
+  @Inject GameController gameController;
+  @Inject ActiveEntityManager activeEntityManager;
+  @Inject User user;
+  @Inject GameStore gameStore;
 
   @Override
   public void accept(EventType eventType) {

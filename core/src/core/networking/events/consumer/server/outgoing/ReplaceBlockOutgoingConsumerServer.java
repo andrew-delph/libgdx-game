@@ -8,15 +8,11 @@ import core.common.events.types.EventType;
 import core.networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
 
-
 public class ReplaceBlockOutgoingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  EventService eventService;
-  @Inject
-  ActiveChunkManager activeChunkManager;
-  @Inject
-  ServerNetworkHandle serverNetworkHandle;
+  @Inject EventService eventService;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ServerNetworkHandle serverNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {

@@ -6,13 +6,10 @@ import core.common.events.types.ItemActionEventType;
 import core.entity.attributes.inventory.item.comsumers.ItemActionService;
 import core.networking.client.ClientNetworkHandle;
 
-
 public class ItemActionOutgoingConsumerClient implements MyConsumer<EventType> {
 
-  @Inject
-  ClientNetworkHandle clientNetworkHandle;
-  @Inject
-  ItemActionService itemActionService;
+  @Inject ClientNetworkHandle clientNetworkHandle;
+  @Inject ItemActionService itemActionService;
 
   @Override
   public void accept(EventType eventType) {

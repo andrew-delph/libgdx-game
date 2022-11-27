@@ -19,23 +19,15 @@ import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
 import core.networking.translation.NetworkDataDeserializer;
 
-
 public class CreateEntityIncomingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  GameController gameController;
-  @Inject
-  NetworkDataDeserializer entitySerializationConverter;
-  @Inject
-  ServerNetworkHandle serverNetworkHandle;
-  @Inject
-  ActiveEntityManager activeEntityManager;
-  @Inject
-  ActiveChunkManager activeChunkManager;
-  @Inject
-  EntityControllerFactory entityControllerFactory;
-  @Inject
-  GroupService groupService;
+  @Inject GameController gameController;
+  @Inject NetworkDataDeserializer entitySerializationConverter;
+  @Inject ServerNetworkHandle serverNetworkHandle;
+  @Inject ActiveEntityManager activeEntityManager;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject EntityControllerFactory entityControllerFactory;
+  @Inject GroupService groupService;
 
   @Override
   public void accept(EventType eventType) {

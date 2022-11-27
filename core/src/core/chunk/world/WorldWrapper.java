@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-
 public class WorldWrapper {
 
   private final World world = new World(new Vector2(0, -GameSettings.GRAVITY), false);

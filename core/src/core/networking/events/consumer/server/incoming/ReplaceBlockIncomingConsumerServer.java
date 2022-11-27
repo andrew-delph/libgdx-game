@@ -16,15 +16,11 @@ import core.networking.events.types.incoming.ReplaceBlockIncomingEventType;
 import core.networking.events.types.outgoing.ReplaceBlockOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
 
-
 public class ReplaceBlockIncomingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  ActiveChunkManager activeChunkManager;
-  @Inject
-  ServerNetworkHandle serverNetworkHandle;
-  @Inject
-  GameController gameController;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ServerNetworkHandle serverNetworkHandle;
+  @Inject GameController gameController;
 
   @Override
   public void accept(EventType eventType) {

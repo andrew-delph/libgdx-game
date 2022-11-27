@@ -16,26 +16,18 @@ import core.networking.events.types.incoming.DisconnectionIncomingEventType;
 import core.networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
 import java.util.UUID;
-
 import java.util.logging.Logger;
 
 public class DisconnectionIncomingConsumerServer implements MyConsumer<EventType> {
 
   private static final Logger LOGGER = Logger.getLogger(GameStore.class.getName());
-  @Inject
-  EventService eventService;
-  @Inject
-  ServerNetworkHandle serverNetworkHandle;
-  @Inject
-  GameStore gameStore;
-  @Inject
-  EventTypeFactory eventTypeFactory;
-  @Inject
-  ConnectionStore connectionStore;
-  @Inject
-  ActiveChunkManager activeChunkManager;
-  @Inject
-  ActiveEntityManager activeEntityManager;
+  @Inject EventService eventService;
+  @Inject ServerNetworkHandle serverNetworkHandle;
+  @Inject GameStore gameStore;
+  @Inject EventTypeFactory eventTypeFactory;
+  @Inject ConnectionStore connectionStore;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ActiveEntityManager activeEntityManager;
 
   @Override
   public void accept(EventType eventType) {

@@ -12,13 +12,10 @@ import core.common.exceptions.EntityNotFound;
 import core.networking.client.ClientNetworkHandle;
 import core.networking.events.types.incoming.ReplaceBlockIncomingEventType;
 
-
 public class ReplaceBlockIncomingConsumerClient implements MyConsumer<EventType> {
 
-  @Inject
-  GameController gameController;
-  @Inject
-  ClientNetworkHandle clientNetworkHandle;
+  @Inject GameController gameController;
+  @Inject ClientNetworkHandle clientNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {

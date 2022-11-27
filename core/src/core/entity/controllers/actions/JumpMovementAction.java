@@ -8,7 +8,6 @@ import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
 import core.entity.collision.ground.EntityGroundContact;
 
-
 public class JumpMovementAction implements EntityAction {
 
   EntityGroundContact entityGroundContact;

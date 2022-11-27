@@ -43,13 +43,16 @@ public class ChunkClockMap {
 
   Set<Chunk> getChunksOnTick(final Tick tick) {
 
-    Set<Chunk> onMyTick = new HashSet<Chunk>(Collections2.filter(map.values(),
-        new Predicate<Chunk>() {
-          @Override
-          public boolean apply(@NullableDecl Chunk input) {
-            return input != null && input.updateTick.time == tick.time;
-          }
-        }));
+    Set<Chunk> onMyTick =
+        new HashSet<Chunk>(
+            Collections2.filter(
+                map.values(),
+                new Predicate<Chunk>() {
+                  @Override
+                  public boolean apply(@NullableDecl Chunk input) {
+                    return input != null && input.updateTick.time == tick.time;
+                  }
+                }));
 
     Set<Chunk> surroundingChunks = new HashSet<>();
 

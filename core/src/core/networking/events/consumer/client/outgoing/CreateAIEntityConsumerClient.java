@@ -5,11 +5,9 @@ import core.common.events.types.CreateAIEntityEventType;
 import core.common.events.types.EventType;
 import core.networking.client.ClientNetworkHandle;
 
-
 public class CreateAIEntityConsumerClient implements MyConsumer<EventType> {
 
-  @Inject
-  ClientNetworkHandle clientNetworkHandle;
+  @Inject ClientNetworkHandle clientNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {

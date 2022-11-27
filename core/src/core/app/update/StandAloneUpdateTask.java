@@ -26,23 +26,15 @@ public class StandAloneUpdateTask extends UpdateTask {
 
   private static final ExecutorService executor = Executors.newCachedThreadPool();
 
-  @Inject
-  public Clock clock;
-  @Inject
-  public GameStore gameStore;
-  @Inject
-  EventService eventService;
-  @Inject
-  BaseCamera baseCamera;
-  @Inject
-  ActiveEntityManager activeEntityManager;
-  @Inject
-  ChunkGenerationService chunkGenerationService;
-  @Inject
-  WaterService waterService;
+  @Inject public Clock clock;
+  @Inject public GameStore gameStore;
+  @Inject EventService eventService;
+  @Inject BaseCamera baseCamera;
+  @Inject ActiveEntityManager activeEntityManager;
+  @Inject ChunkGenerationService chunkGenerationService;
+  @Inject WaterService waterService;
 
-  public StandAloneUpdateTask() {
-  }
+  public StandAloneUpdateTask() {}
 
   @Override
   public void run() {
@@ -85,14 +77,16 @@ public class StandAloneUpdateTask extends UpdateTask {
     this.eventService.firePostUpdateEvents();
 
     try {
-      Collection<ChunkRange> updatedWatchChunkRanges = Collections2.transform(chunksOnTick,
-          new Function<Chunk, ChunkRange>() {
-            @NullableDecl
-            @Override
-            public ChunkRange apply(@NullableDecl Chunk input) {
-              return input.chunkRange;
-            }
-          });
+      Collection<ChunkRange> updatedWatchChunkRanges =
+          Collections2.transform(
+              chunksOnTick,
+              new Function<Chunk, ChunkRange>() {
+                @NullableDecl
+                @Override
+                public ChunkRange apply(@NullableDecl Chunk input) {
+                  return input.chunkRange;
+                }
+              });
 
       waterService.update(updatedWatchChunkRanges);
     } catch (ChunkNotFound e) {

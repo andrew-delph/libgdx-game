@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 public class EventService {
 
   Map<String, List<MyConsumer<EventType>>> eventListeners = new HashMap<>();
@@ -22,8 +21,7 @@ public class EventService {
   ExecutorService executorService = Executors.newCachedThreadPool();
 
   @Inject
-  public EventService() {
-  }
+  public EventService() {}
 
   public void addListener(String type, MyConsumer<EventType> eventConsumer) {
     this.eventListeners.computeIfAbsent(type, k -> new ArrayList<>());

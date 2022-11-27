@@ -149,13 +149,16 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getLeft().getDown()));
     neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight().getUp()));
     neighborChunkList.add(this.gameStore.getChunk(this.chunkRange.getRight().getDown()));
-    neighborChunkList = new ArrayList<>(
-        Collections2.filter(neighborChunkList, new Predicate<Chunk>() {
-          @Override
-          public boolean apply(@NullableDecl Chunk input) {
-            return input != null;
-          }
-        }));
+    neighborChunkList =
+        new ArrayList<>(
+            Collections2.filter(
+                neighborChunkList,
+                new Predicate<Chunk>() {
+                  @Override
+                  public boolean apply(@NullableDecl Chunk input) {
+                    return input != null;
+                  }
+                }));
     return neighborChunkList;
   }
 
@@ -301,7 +304,7 @@ public class Chunk implements Callable<Chunk>, SerializeNetworkData {
     for (Entity entity : entityList) {
       if (entity instanceof Turret
           && Coordinates.isInRange(
-          coordinates, coordinates, entity.getCoordinatesWrapper().getCoordinates())) {
+              coordinates, coordinates, entity.getCoordinatesWrapper().getCoordinates())) {
 
         return (Turret) entity;
       }

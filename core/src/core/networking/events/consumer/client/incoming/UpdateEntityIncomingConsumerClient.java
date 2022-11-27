@@ -11,13 +11,10 @@ import core.entity.attributes.Attribute;
 import core.networking.client.ClientNetworkHandle;
 import core.networking.events.types.incoming.UpdateEntityIncomingEventType;
 
-
 public class UpdateEntityIncomingConsumerClient implements MyConsumer<EventType> {
 
-  @Inject
-  ClientNetworkHandle clientNetworkHandle;
-  @Inject
-  GameStore gameStore;
+  @Inject ClientNetworkHandle clientNetworkHandle;
+  @Inject GameStore gameStore;
 
   @Override
   public void accept(EventType eventType) {

@@ -18,15 +18,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-
 public class HandshakeIncomingConsumerClient implements MyConsumer<EventType> {
 
-  @Inject
-  GameStore gameStore;
-  @Inject
-  EventService eventService;
-  @Inject
-  ActiveEntityManager activeEntityManager;
+  @Inject GameStore gameStore;
+  @Inject EventService eventService;
+  @Inject ActiveEntityManager activeEntityManager;
 
   @Override
   public void accept(EventType eventType) {

@@ -5,11 +5,9 @@ import core.common.events.types.EventType;
 import core.networking.client.ClientNetworkHandle;
 import core.networking.events.types.outgoing.HandshakeOutgoingEventType;
 
-
 public class HandshakeOutgoingConsumerClient implements MyConsumer<EventType> {
 
-  @Inject
-  ClientNetworkHandle clientNetworkHandle;
+  @Inject ClientNetworkHandle clientNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {

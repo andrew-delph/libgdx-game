@@ -6,15 +6,12 @@ import core.chunk.ActiveChunkManager;
 import core.common.events.types.EventType;
 import core.networking.events.types.outgoing.CreateEntityOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
-
 import networking.NetworkObjects;
 
 public class CreateEntityOutgoingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  ActiveChunkManager activeChunkManager;
-  @Inject
-  ServerNetworkHandle serverNetworkHandle;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ServerNetworkHandle serverNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {

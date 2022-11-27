@@ -13,17 +13,12 @@ import core.entity.controllers.factories.EntityControllerFactory;
 import core.networking.events.types.incoming.CreateEntityIncomingEventType;
 import core.networking.translation.NetworkDataDeserializer;
 
-
 public class CreateEntityIncomingConsumerClient implements MyConsumer<EventType> {
 
-  @Inject
-  GameController gameController;
-  @Inject
-  NetworkDataDeserializer entitySerializationConverter;
-  @Inject
-  GameStore gameStore;
-  @Inject
-  EntityControllerFactory entityControllerFactory;
+  @Inject GameController gameController;
+  @Inject NetworkDataDeserializer entitySerializationConverter;
+  @Inject GameStore gameStore;
+  @Inject EntityControllerFactory entityControllerFactory;
 
   @Override
   public void accept(EventType eventType) {

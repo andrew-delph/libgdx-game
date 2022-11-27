@@ -6,11 +6,9 @@ import core.networking.events.types.outgoing.PingRequestOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
 import core.networking.translation.NetworkDataSerializer;
 
-
 public class PingRequestOutgoingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  ServerNetworkHandle serverNetworkHandle;
+  @Inject ServerNetworkHandle serverNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {

@@ -7,11 +7,9 @@ import core.common.events.types.EventType;
 import core.common.exceptions.EntityNotFound;
 import core.networking.events.types.incoming.ChunkSwapIncomingEventType;
 
-
 public class ChunkSwapIncomingConsumerClient implements MyConsumer<EventType> {
 
-  @Inject
-  GameStore gameStore;
+  @Inject GameStore gameStore;
 
   @Override
   public void accept(EventType eventType) {

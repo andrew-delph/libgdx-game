@@ -14,19 +14,13 @@ import core.networking.events.types.incoming.RemoveEntityIncomingEventType;
 import core.networking.events.types.outgoing.RemoveEntityOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
 
-
 public class RemoveEntityIncomingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  GameController gameController;
-  @Inject
-  ServerNetworkHandle serverNetworkHandle;
-  @Inject
-  ActiveChunkManager activeChunkManager;
-  @Inject
-  ActiveEntityManager activeEntityManager;
-  @Inject
-  User user;
+  @Inject GameController gameController;
+  @Inject ServerNetworkHandle serverNetworkHandle;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject ActiveEntityManager activeEntityManager;
+  @Inject User user;
 
   @Override
   public void accept(EventType eventType) {

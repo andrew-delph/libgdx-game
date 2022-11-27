@@ -9,11 +9,9 @@ import core.common.events.types.EventType;
 import core.common.exceptions.EntityNotFound;
 import core.networking.events.types.incoming.RemoveEntityIncomingEventType;
 
-
 public class RemoveEntityIncomingConsumerClient implements MyConsumer<EventType> {
 
-  @Inject
-  GameController gameController;
+  @Inject GameController gameController;
 
   @Override
   public void accept(EventType eventType) {

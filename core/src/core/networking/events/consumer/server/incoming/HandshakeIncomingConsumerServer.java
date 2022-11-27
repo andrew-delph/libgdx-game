@@ -14,13 +14,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-
 public class HandshakeIncomingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  GameStore gameStore;
-  @Inject
-  ServerNetworkHandle serverNetworkHandle;
+  @Inject GameStore gameStore;
+  @Inject ServerNetworkHandle serverNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {

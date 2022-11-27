@@ -15,19 +15,13 @@ import core.networking.events.types.outgoing.UpdateEntityOutgoingEventType;
 import core.networking.server.ServerNetworkHandle;
 import core.networking.translation.NetworkDataDeserializer;
 
-
 public class UpdateEntityIncomingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  NetworkDataDeserializer entitySerializationConverter;
-  @Inject
-  ServerNetworkHandle serverNetworkHandle;
-  @Inject
-  ActiveChunkManager activeChunkManager;
-  @Inject
-  GameStore gameStore;
-  @Inject
-  EventService eventService;
+  @Inject NetworkDataDeserializer entitySerializationConverter;
+  @Inject ServerNetworkHandle serverNetworkHandle;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject GameStore gameStore;
+  @Inject EventService eventService;
 
   @Override
   public void accept(EventType eventType) {

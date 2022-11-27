@@ -7,7 +7,6 @@ import core.common.exceptions.ChunkNotFound;
 import core.entity.Entity;
 import core.entity.collision.ladder.EntityLadderContact;
 
-
 public class ClimbUpMovementAction implements EntityAction {
 
   EntityLadderContact entityLadderContact;

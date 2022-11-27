@@ -5,11 +5,9 @@ import core.common.events.types.CreateTurretEventType;
 import core.common.events.types.EventType;
 import core.networking.client.ClientNetworkHandle;
 
-
 public class CreateTurretOutgoingConsumerClient implements MyConsumer<EventType> {
 
-  @Inject
-  ClientNetworkHandle clientNetworkHandle;
+  @Inject ClientNetworkHandle clientNetworkHandle;
 
   @Override
   public void accept(EventType eventType) {

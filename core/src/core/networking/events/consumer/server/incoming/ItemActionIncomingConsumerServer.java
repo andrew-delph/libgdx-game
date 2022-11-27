@@ -6,11 +6,9 @@ import core.common.events.types.ItemActionEventType;
 import core.common.exceptions.EntityNotFound;
 import core.entity.attributes.inventory.item.comsumers.ItemActionService;
 
-
 public class ItemActionIncomingConsumerServer implements MyConsumer<EventType> {
 
-  @Inject
-  ItemActionService itemActionService;
+  @Inject ItemActionService itemActionService;
 
   @Override
   public void accept(EventType eventType) {

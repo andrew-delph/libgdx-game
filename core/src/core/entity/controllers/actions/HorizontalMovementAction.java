@@ -11,7 +11,6 @@ import core.entity.Entity;
 import core.entity.collision.left.EntityLeftContact;
 import core.entity.collision.right.EntityRightContact;
 
-
 public class HorizontalMovementAction implements EntityAction {
 
   int magnitude;

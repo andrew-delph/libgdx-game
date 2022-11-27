@@ -40,32 +40,19 @@ public class GameScreen extends ApplicationAdapter {
 
   public static ShapeRenderer pathDebugRender;
 
-  @Inject
-  Game game;
-  @Inject
-  GameStore gameStore;
-  @Inject
-  EntityFactory entityFactory;
-  @Inject
-  BaseAssetManager baseAssetManager;
-  @Inject
-  BaseCamera baseCamera;
-  @Inject
-  GameController gameController;
-  @Inject
-  EntityControllerFactory entityControllerFactory;
-  @Inject
-  ActiveEntityManager activeEntityManager;
-  @Inject
-  User user;
-  @Inject
-  GameSettings gameSettings;
-  @Inject
-  GroupService groupService;
-  @Inject
-  AnimationManager animationManager;
-  @Inject
-  EntityStateMachineFactory entityStateMachineFactory;
+  @Inject Game game;
+  @Inject GameStore gameStore;
+  @Inject EntityFactory entityFactory;
+  @Inject BaseAssetManager baseAssetManager;
+  @Inject BaseCamera baseCamera;
+  @Inject GameController gameController;
+  @Inject EntityControllerFactory entityControllerFactory;
+  @Inject ActiveEntityManager activeEntityManager;
+  @Inject User user;
+  @Inject GameSettings gameSettings;
+  @Inject GroupService groupService;
+  @Inject AnimationManager animationManager;
+  @Inject EntityStateMachineFactory entityStateMachineFactory;
   Box2DDebugRenderer debugRenderer;
   Matrix4 debugMatrix;
   Entity myEntity;
@@ -75,8 +62,7 @@ public class GameScreen extends ApplicationAdapter {
   float stateTime;
 
   @Inject
-  public GameScreen() {
-  }
+  public GameScreen() {}
 
   @Override
   public void create() {
@@ -163,12 +149,14 @@ public class GameScreen extends ApplicationAdapter {
         gameStore.getEntityInRange(
             baseCamera.getBottomLeftCoordinates(), baseCamera.getTopRightCoordinates());
 
-    Collections.sort(renderList, new Comparator<Entity>() {
-      @Override
-      public int compare(Entity entity, Entity t1) {
-        return entity.zindex - t1.zindex;
-      }
-    });
+    Collections.sort(
+        renderList,
+        new Comparator<Entity>() {
+          @Override
+          public int compare(Entity entity, Entity t1) {
+            return entity.zindex - t1.zindex;
+          }
+        });
 
     for (Entity entity : renderList) {
       // render entity
@@ -229,8 +217,8 @@ public class GameScreen extends ApplicationAdapter {
                   0,
                   -10
                       - GameSettings.PIXEL_SCALE
-                      * GameSettings.CHUNK_SIZE
-                      * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                          * GameSettings.CHUNK_SIZE
+                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0);
 
       lowerChunk
@@ -257,8 +245,8 @@ public class GameScreen extends ApplicationAdapter {
               .translate(
                   -10
                       - GameSettings.PIXEL_SCALE
-                      * GameSettings.CHUNK_SIZE
-                      * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                          * GameSettings.CHUNK_SIZE
+                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0,
                   0);
 
@@ -286,8 +274,8 @@ public class GameScreen extends ApplicationAdapter {
               .translate(
                   10
                       + GameSettings.PIXEL_SCALE
-                      * GameSettings.CHUNK_SIZE
-                      * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
+                          * GameSettings.CHUNK_SIZE
+                          * ((float) GameSettings.PHYSICS_SCALE / GameSettings.PIXEL_SCALE),
                   0,
                   0);
 
