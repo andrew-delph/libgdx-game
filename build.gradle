@@ -120,6 +120,8 @@ project(":core") {
         implementation 'com.google.inject:guice:4.0:no_aop'
         implementation "com.google.guava:guava:31.1-jre"
 
+        implementation "org.javatuples:javatuples:1.2"
+
         testImplementation 'org.hamcrest:hamcrest-library:2.1'
         testImplementation "org.mockito:mockito-all:1.9.5"
         testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
