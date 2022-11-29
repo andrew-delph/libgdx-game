@@ -20,9 +20,9 @@ public class IOSLauncher extends IOSApplication.Delegate {
 
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
 
-//    ManagedChannelBuilder.forAddress("lala", 1)
-//        .usePlaintext()
-//        .build();
+    //    ManagedChannelBuilder.forAddress("lala", 1)
+    //        .usePlaintext()
+    //        .build();
 
     ApplicationAdapter applicationAdapter =
         new ApplicationAdapter() {
@@ -30,8 +30,8 @@ public class IOSLauncher extends IOSApplication.Delegate {
           public void render() {
             super.render();
             System.out.println("render");
-//            MyConsumer myConsumer = x -> System.out.println(x + "lala");
-//            myConsumer.run("thisOKOKOOK");
+            //            MyConsumer myConsumer = x -> System.out.println(x + "lala");
+            //            myConsumer.run("thisOKOKOOK");
           }
         };
 
