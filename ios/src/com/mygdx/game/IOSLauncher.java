@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import com.google.inject.Guice;
@@ -19,16 +20,22 @@ public class IOSLauncher extends IOSApplication.Delegate {
 
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
 
-    //    ApplicationAdapter applicationAdapter =
-    //        new ApplicationAdapter() {
-    //          @Override
-    //          public void render() {
-    //            super.render();
-    //            System.out.println("render");
-    //          }
-    //        };
+//    ManagedChannelBuilder.forAddress("lala", 1)
+//        .usePlaintext()
+//        .build();
 
-    return new IOSApplication(gameScreen, config);
+    ApplicationAdapter applicationAdapter =
+        new ApplicationAdapter() {
+          @Override
+          public void render() {
+            super.render();
+            System.out.println("render");
+//            MyConsumer myConsumer = x -> System.out.println(x + "lala");
+//            myConsumer.run("thisOKOKOOK");
+          }
+        };
+
+    return new IOSApplication(applicationAdapter, config);
   }
 
   public static void main(String[] argv) {
