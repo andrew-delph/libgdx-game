@@ -30,9 +30,9 @@ public class IOSLauncher extends IOSApplication.Delegate {
 //
 //    GameScreen gameScreen = injector.getInstance(GameScreen.class);
 
-//    ManagedChannelBuilder.forAddress("lala", 1)
-//        .usePlaintext()
-//        .build();
+    //    ManagedChannelBuilder.forAddress("lala", 1)
+    //        .usePlaintext()
+    //        .build();
 
     ApplicationAdapter applicationAdapter =
         new ApplicationAdapter() {
