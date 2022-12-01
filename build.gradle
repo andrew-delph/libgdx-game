@@ -178,6 +178,12 @@ project(":ios") {
         implementation 'com.google.inject:guice:4.0:no_aop'
         implementation "org.javatuples:javatuples:1.2"
 
+        implementation 'io.grpc:grpc-netty:1.32.1'
+        implementation 'io.grpc:grpc-okhttp:1.32.1'
+        implementation 'io.grpc:grpc-protobuf:1.32.1'
+        implementation 'io.grpc:grpc-stub:1.32.1'
+        implementation "io.grpc:grpc-services:1.32.1"
+
 //        testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
 
 //        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
