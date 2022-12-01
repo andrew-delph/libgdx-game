@@ -18,17 +18,19 @@ public class IOSLauncher extends IOSApplication.Delegate {
   protected IOSApplication createApplication() {
     IOSApplicationConfiguration config = new IOSApplicationConfiguration();
 
-    Injector injector = Guice.createInjector(new Module() {
-      @Override
-      public void configure(Binder binder) {
-        binder.bind(InjectionTest.class);
-      }
-    });
+    Injector injector =
+        Guice.createInjector(
+            new Module() {
+              @Override
+              public void configure(Binder binder) {
+                binder.bind(InjectionTest.class);
+              }
+            });
 
     InjectionTest injectionTest = injector.getInstance(InjectionTest.class);
 
-//
-//    GameScreen gameScreen = injector.getInstance(GameScreen.class);
+    //
+    //    GameScreen gameScreen = injector.getInstance(GameScreen.class);
 
     //    ManagedChannelBuilder.forAddress("lala", 1)
     //        .usePlaintext()
@@ -45,14 +47,13 @@ public class IOSLauncher extends IOSApplication.Delegate {
 
             try {
               // this crashes the app with no logs
-              Injector injector = Guice.createInjector(
-                  new StandAloneConfig());
+              Injector injector = Guice.createInjector(new StandAloneConfig());
             } catch (Exception e) {
               System.out.println("caught the error");
             }
 
-//            MyConsumer myConsumer = x -> System.out.println(x + "lala");
-//            myConsumer.run("thisOKOKOOK");
+            //            MyConsumer myConsumer = x -> System.out.println(x + "lala");
+            //            myConsumer.run("thisOKOKOOK");
           }
         };
 
