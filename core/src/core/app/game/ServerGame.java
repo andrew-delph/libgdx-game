@@ -23,8 +23,9 @@ public class ServerGame extends Game {
   public void start()
       throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
           BodyNotFound {
-    edgeRegistration.edgeRegistration();
     super.start();
+
+    edgeRegistration.edgeRegistration();
   }
 
   @Override
