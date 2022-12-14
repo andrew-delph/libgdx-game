@@ -1,3 +1,4 @@
 [submodule "core/src/proto"]
 	path = core/src/proto
 	url = https://github.com/newthing72/game-proto.git
+	branch = main

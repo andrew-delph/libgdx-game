@@ -5,6 +5,7 @@ import static core.common.Util.calcTicksFromHours;
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.protobuf.Empty;
+import core.app.game.Game;
 import core.app.game.GameController;
 import core.app.user.User;
 import core.app.user.UserID;
@@ -37,11 +38,14 @@ import io.grpc.Status;
 import io.grpc.protobuf.services.ProtoReflectionService;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import networking.NetworkObjectServiceGrpc;
 import networking.NetworkObjects;
+import networking.NetworkObjects.STATUS;
 import networking.NetworkObjects.Version;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
@@ -61,6 +65,7 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   @Inject EntityControllerFactory entityControllerFactory;
   @Inject GroupService groupService;
   @Inject ActiveEntityManager activeEntityManager;
+  @Inject Game game;
   private Server server;
 
   @Inject
@@ -154,13 +159,26 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
       return;
     }
 
-    NetworkObjects.Health healthData =
+    NetworkObjects.STATUS serverStatus =
+        (connectionStore.size() > 0) ? STATUS.ACTIVE : STATUS.INACTIVE;
+
+    Instant now = Instant.now();
+
+    Duration upTime = Duration.between(game.gameStartTime, now);
+
+    NetworkObjects.Health.Builder healthDataBuilder =
         NetworkObjects.Health.newBuilder()
-            .setHealthy(true)
             .setId(this.user.getUserID().toString())
-            .setConnections(connectionStore.size())
-            .build();
-    responseObserver.onNext(healthData);
+            .setStatus(serverStatus)
+            .setUptime(upTime.toMillis())
+            .setConnections(connectionStore.size());
+
+    if (connectionStore.inactiveStartTime != null) {
+      Duration inActiveTime = Duration.between(connectionStore.inactiveStartTime, now);
+      healthDataBuilder.setInactiveTime(inActiveTime.toMillis());
+    }
+
+    responseObserver.onNext(healthDataBuilder.build());
     responseObserver.onCompleted();
   }
 
