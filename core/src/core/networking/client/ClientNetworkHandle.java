@@ -68,7 +68,7 @@ public class ClientNetworkHandle {
             + gameSettings.getHost()
             + ":"
             + gameSettings.getPort());
-    if (gameSettings.getHost().equals("localhost")) {
+    if (gameSettings.getHost().equals("localhost") || true) {
       this.channel =
           ManagedChannelBuilder.forAddress(gameSettings.getHost(), gameSettings.getPort())
               .usePlaintext()
