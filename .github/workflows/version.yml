@@ -17,6 +17,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.workflow_run.head_branch }}
+          submodules: recursive
 
       - name: Setup Java 11
         uses: actions/setup-java@v2
