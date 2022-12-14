@@ -13,18 +13,19 @@ import core.common.exceptions.SerializationDataMissing;
 import core.common.exceptions.WrongVersion;
 import core.entity.collision.CollisionService;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class Game {
 
+  public Instant gameStartTime;
   @Inject UpdateTask updateTask;
   @Inject CollisionService collisionService;
   @Inject EventConsumer eventConsumer;
   @Inject ChunkFactory chunkFactory;
   @Inject GameStore gameStore;
-
   Timer timer;
 
   @Inject
@@ -47,6 +48,7 @@ public class Game {
         },
         0,
         TimeUnit.MINUTES.toMillis(2));
+    gameStartTime = Instant.now();
   }
 
   public void init()
