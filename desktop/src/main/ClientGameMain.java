@@ -12,6 +12,7 @@ public class ClientGameMain {
     Injector injector = Guice.createInjector(new ClientConfig());
     GameScreen gameScreen = injector.getInstance(GameScreen.class);
 
+
     LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
     config.height = 500;

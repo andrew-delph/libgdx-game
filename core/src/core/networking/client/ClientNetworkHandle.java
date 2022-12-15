@@ -39,8 +39,6 @@ import networking.NetworkObjects.NetworkEvent;
 public class ClientNetworkHandle {
   public final CountDownLatch authLatch = new CountDownLatch(1);
 
-  public String host = "localhost";
-  public int port = 99;
   RequestNetworkEventObserver requestNetworkEventObserver;
   @Inject ObserverFactory observerFactory;
   @Inject EventTypeFactory eventTypeFactory;
@@ -60,22 +58,22 @@ public class ClientNetworkHandle {
   public ClientNetworkHandle() {}
 
   public void connect() throws InterruptedException, WrongVersion {
+
+    String host = gameSettings.getHost();
+    int port = gameSettings.getPort();
+
+    if (gameSettings.isMatchMakerAddress()) {
+      host = MatchmakerUtil.getGameServerAddress(host);
+    }
+
     Gdx.app.log(
         GameSettings.LOG_TAG,
-        "I am client: "
-            + this.user.toString()
-            + ". Connecting to "
-            + gameSettings.getHost()
-            + ":"
-            + gameSettings.getPort());
-    if (gameSettings.getHost().equals("localhost") || true) {
-      this.channel =
-          ManagedChannelBuilder.forAddress(gameSettings.getHost(), gameSettings.getPort())
-              .usePlaintext()
-              .build();
+        "I am client: " + this.user.toString() + ". Connecting to " + host + ":" + port);
+
+    if (host.equals("localhost") || true) {
+      this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
     } else {
-      this.channel =
-          ManagedChannelBuilder.forAddress(gameSettings.getHost(), gameSettings.getPort()).build();
+      this.channel = ManagedChannelBuilder.forAddress(host, port).build();
     }
     this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
     this.blockStub = NetworkObjectServiceGrpc.newBlockingStub(channel);

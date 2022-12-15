@@ -126,6 +126,9 @@ project(":core") {
         testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 
+        implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+        implementation 'com.google.code.gson:gson:2.8.5'
+
     }
     sourceSets {
         main {
@@ -167,6 +170,7 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         implementation 'com.google.inject:guice:4.0:no_aop'
+
     }
 }
 

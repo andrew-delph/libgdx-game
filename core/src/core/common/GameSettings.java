@@ -31,6 +31,7 @@ public class GameSettings {
   public static final Integer GCD_TIMEOUT = 50;
   private static final String HOST_KEY = "host";
   private static final String PORT_KEY = "port";
+  private static final String IS_MATCHMAKER = "matchmaker";
   private Properties properties;
   private String VERSION = null;
 
@@ -40,6 +41,7 @@ public class GameSettings {
     Properties defaults = new Properties();
     defaults.setProperty(HOST_KEY, "localhost");
     defaults.setProperty(PORT_KEY, "99");
+    defaults.setProperty(IS_MATCHMAKER, "1");
     return defaults;
   }
 
@@ -75,6 +77,10 @@ public class GameSettings {
 
   public int getPort() {
     return Integer.parseInt(this.getValue(PORT_KEY));
+  }
+
+  public boolean isMatchMakerAddress() {
+    return this.getValue(IS_MATCHMAKER).equals("1");
   }
 
   public String getVersion() {
