@@ -39,7 +39,7 @@ public class GameSettings {
 
   private Properties getDefaults() {
     Properties defaults = new Properties();
-    defaults.setProperty(HOST_KEY, "localhost");
+    defaults.setProperty(HOST_KEY, "https://solarsim.net");
     defaults.setProperty(PORT_KEY, "99");
     defaults.setProperty(IS_MATCHMAKER, "1");
     return defaults;
