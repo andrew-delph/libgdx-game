@@ -13,7 +13,11 @@ public class MatchmakerUtil {
     // for a series of attempts try and get a server from the matchmaker
 
     OkHttpClient httpClient = new OkHttpClient();
-    Request request = new Request.Builder().url(matchMakerAddress).build();
+    Request request =
+        new Request.Builder()
+            .url(matchMakerAddress)
+            .addHeader("authorization", "libgdx-game")
+            .build();
 
     String gameAddress = null;
     while (gameAddress == null) {
