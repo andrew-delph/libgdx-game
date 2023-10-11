@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option java_package = "networking";
+option java_outer_classname = "NetworkObjects";
+
+import "google/protobuf/empty.proto";
+
+message NetworkEvent{
+  string event = 1;
+  NetworkData data = 2;
+  string user = 3;
+  int64 time = 4;
+}
+
+message NetworkData{
+  string key = 1;
+  string value = 2;
+  repeated NetworkData children = 3;
+}
+
+enum STATUS{
+  ACTIVE = 0;
+  INACTIVE = 1;
+  UNHEALTHY = 2;
+}
+
+message Health{
+  string id = 1;
+  STATUS status = 2;
+  int32 connections = 3;
+  int64 inactive_time = 4;
+  int64 uptime = 5;
+}
+message Version{
+  string version = 1;
+}
+
+service NetworkObjectService{
+  rpc networkObjectStream(stream NetworkEvent) returns (stream NetworkEvent) {};
+  rpc getChunk(NetworkEvent) returns (NetworkEvent){};
+  rpc getEntity(NetworkEvent) returns (NetworkEvent){};
+  rpc health(google.protobuf.Empty) returns(Health){
+
+  };
+  rpc getVersion(google.protobuf.Empty) returns(Version){};
+}
