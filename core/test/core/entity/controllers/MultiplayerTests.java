@@ -47,7 +47,10 @@ public class MultiplayerTests {
 
   @Before
   public void setup()
-      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
+      throws IOException,
+          InterruptedException,
+          SerializationDataMissing,
+          WrongVersion,
           BodyNotFound {
     // block implementation of handshake
     clientInjector = Guice.createInjector(new ClientConfig());

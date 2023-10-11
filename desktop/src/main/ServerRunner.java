@@ -15,7 +15,10 @@ import java.io.IOException;
 public class ServerRunner {
 
   public static void main(String[] args)
-      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
+      throws IOException,
+          InterruptedException,
+          SerializationDataMissing,
+          WrongVersion,
           BodyNotFound {
     Injector injector = Guice.createInjector(new BaseServerConfig());
 

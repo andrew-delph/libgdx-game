@@ -32,7 +32,10 @@ public class Game {
   public Game() throws Exception {}
 
   public void start()
-      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
+      throws IOException,
+          InterruptedException,
+          SerializationDataMissing,
+          WrongVersion,
           BodyNotFound {
     init();
     timer = new Timer(true);

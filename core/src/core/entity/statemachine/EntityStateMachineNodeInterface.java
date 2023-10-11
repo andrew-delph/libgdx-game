@@ -9,6 +9,7 @@ public abstract class EntityStateMachineNodeInterface {
   @Inject protected GameController gameController;
 
   public abstract void callAnimation(Entity entity);
+
   // renders the animation
   // takes the arguments needed to render the animation
 

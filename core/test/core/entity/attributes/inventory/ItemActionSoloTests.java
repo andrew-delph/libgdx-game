@@ -42,7 +42,10 @@ public class ItemActionSoloTests {
 
   @Before
   public void setup()
-      throws WrongVersion, SerializationDataMissing, IOException, InterruptedException,
+      throws WrongVersion,
+          SerializationDataMissing,
+          IOException,
+          InterruptedException,
           BodyNotFound {
 
     injector =

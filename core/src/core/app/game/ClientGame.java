@@ -28,7 +28,10 @@ public class ClientGame extends Game {
 
   @Override
   public void start()
-      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
+      throws IOException,
+          InterruptedException,
+          SerializationDataMissing,
+          WrongVersion,
           BodyNotFound {
     super.start();
   }

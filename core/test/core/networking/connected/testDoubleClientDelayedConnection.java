@@ -71,7 +71,10 @@ public class testDoubleClientDelayedConnection {
 
   @Test
   public void testDoubleClientCreateEntity()
-      throws InterruptedException, EntityNotFound, SerializationDataMissing, WrongVersion,
+      throws InterruptedException,
+          EntityNotFound,
+          SerializationDataMissing,
+          WrongVersion,
           ChunkNotFound {
     client_a_NetworkHandle.connect();
 

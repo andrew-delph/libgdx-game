@@ -22,8 +22,12 @@ public class testOrbInventory {
 
   @Test
   public void testPickup()
-      throws WrongVersion, SerializationDataMissing, IOException, InterruptedException,
-          BodyNotFound, ChunkNotFound {
+      throws WrongVersion,
+          SerializationDataMissing,
+          IOException,
+          InterruptedException,
+          BodyNotFound,
+          ChunkNotFound {
     // create a game. start it.
     // put a block down
     // put an entity on top of the block.
@@ -62,8 +66,12 @@ public class testOrbInventory {
 
   @Test
   public void testPickup2()
-      throws InterruptedException, ChunkNotFound, WrongVersion, SerializationDataMissing,
-          IOException, BodyNotFound {
+      throws InterruptedException,
+          ChunkNotFound,
+          WrongVersion,
+          SerializationDataMissing,
+          IOException,
+          BodyNotFound {
     // same as testPickup
     // but 2 entities should exist
     // after 11 orbs there should be none in the world. sum of orbs is 11

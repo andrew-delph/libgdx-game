@@ -30,7 +30,10 @@ public class testGame {
 
   @Before
   public void setup()
-      throws IOException, WrongVersion, SerializationDataMissing, InterruptedException,
+      throws IOException,
+          WrongVersion,
+          SerializationDataMissing,
+          InterruptedException,
           BodyNotFound {
     injector = Guice.createInjector(new StandAloneConfig());
     game = injector.getInstance(Game.class);

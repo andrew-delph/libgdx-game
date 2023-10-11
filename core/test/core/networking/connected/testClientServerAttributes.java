@@ -132,8 +132,13 @@ public class testClientServerAttributes {
 
   @Test
   public void testCreateHealth()
-      throws WrongVersion, SerializationDataMissing, IOException, InterruptedException,
-          BodyNotFound, ChunkNotFound, EntityNotFound {
+      throws WrongVersion,
+          SerializationDataMissing,
+          IOException,
+          InterruptedException,
+          BodyNotFound,
+          ChunkNotFound,
+          EntityNotFound {
     // connect
     // create entity, make sure equal
 
@@ -146,8 +151,13 @@ public class testClientServerAttributes {
 
   @Test
   public void testCreateHealthNotDefault()
-      throws ChunkNotFound, WrongVersion, SerializationDataMissing, IOException,
-          InterruptedException, BodyNotFound, EntityNotFound {
+      throws ChunkNotFound,
+          WrongVersion,
+          SerializationDataMissing,
+          IOException,
+          InterruptedException,
+          BodyNotFound,
+          EntityNotFound {
     // create entity, health is not default
 
     Entity serverEntity = serverGameController.createEntity(CommonFactory.createCoordinates(1, 1));
@@ -162,8 +172,13 @@ public class testClientServerAttributes {
 
   @Test
   public void testUpdateHealth()
-      throws ChunkNotFound, InterruptedException, EntityNotFound, WrongVersion,
-          SerializationDataMissing, IOException, BodyNotFound {
+      throws ChunkNotFound,
+          InterruptedException,
+          EntityNotFound,
+          WrongVersion,
+          SerializationDataMissing,
+          IOException,
+          BodyNotFound {
     // update health
 
     Entity serverEntity = serverGameController.createEntity(CommonFactory.createCoordinates(1, 1));
@@ -196,8 +211,13 @@ public class testClientServerAttributes {
 
   @Test
   public void testInventoryUpdate()
-      throws ChunkNotFound, InterruptedException, EntityNotFound, WrongVersion,
-          SerializationDataMissing, IOException, BodyNotFound {
+      throws ChunkNotFound,
+          InterruptedException,
+          EntityNotFound,
+          WrongVersion,
+          SerializationDataMissing,
+          IOException,
+          BodyNotFound {
     // test inventory is no default
 
     Entity serverEntity = serverGameController.createEntity(CommonFactory.createCoordinates(1, 1));
@@ -231,8 +251,13 @@ public class testClientServerAttributes {
 
   @Test
   public void testAnimationStateUpdate()
-      throws ChunkNotFound, InterruptedException, EntityNotFound, WrongVersion,
-          SerializationDataMissing, IOException, BodyNotFound {
+      throws ChunkNotFound,
+          InterruptedException,
+          EntityNotFound,
+          WrongVersion,
+          SerializationDataMissing,
+          IOException,
+          BodyNotFound {
     // test inventory is no default
 
     Entity serverEntity = serverGameController.createEntity(CommonFactory.createCoordinates(1, 1));
