@@ -40,7 +40,7 @@ public class GameSettings {
   private Properties getDefaults() {
     Properties defaults = new Properties();
     defaults.setProperty(HOST_KEY, "https://solarsim.net");
-    defaults.setProperty(PORT_KEY, "99");
+    defaults.setProperty(PORT_KEY, "9999");
     defaults.setProperty(IS_MATCHMAKER, "1");
     return defaults;
   }
@@ -48,7 +48,9 @@ public class GameSettings {
   public void load() {
     if (properties != null) return;
     properties = this.getDefaults();
-    File configFile = new File(System.getProperty("user.dir") + "/config.properties");
+    String configFilePath = System.getProperty("user.dir") + "/config.properties";
+    System.out.println("configFilePath: "+configFilePath);
+    File configFile = new File(configFilePath);
     if (configFile.exists() && !configFile.isDirectory() && configFile.canRead()) {
       try {
         properties.load(new FileReader(configFile));
