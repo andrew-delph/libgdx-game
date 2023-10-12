@@ -2,7 +2,6 @@ package core.entity.misc;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import core.common.Pair;
 import core.app.screen.assets.BaseAssetManager;
 import core.chunk.Chunk;
 import core.chunk.world.CreateBodyCallable;
@@ -10,6 +9,7 @@ import core.chunk.world.EntityBodyBuilder;
 import core.common.Clock;
 import core.common.Coordinates;
 import core.common.GameSettings;
+import core.common.Pair;
 import core.entity.Entity;
 import java.util.UUID;
 

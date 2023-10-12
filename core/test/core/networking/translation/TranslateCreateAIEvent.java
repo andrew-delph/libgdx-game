@@ -16,8 +16,9 @@ public class TranslateCreateAIEvent {
     UUID uuid = UUID.randomUUID();
 
     CreateAIEntityEventType outgoing = EventTypeFactory.createAIEntityEventType(coordinates, uuid);
-    CreateAIEntityEventType incoming = NetworkDataDeserializer.createCreateAIEntityEventType(
-        NetworkDataSerializer.createCreateAIEntityEventType(outgoing));
+    CreateAIEntityEventType incoming =
+        NetworkDataDeserializer.createCreateAIEntityEventType(
+            NetworkDataSerializer.createCreateAIEntityEventType(outgoing));
 
     assert incoming.getTarget().equals(outgoing.getTarget());
     assert incoming.getCoordinates().equals(outgoing.getCoordinates());

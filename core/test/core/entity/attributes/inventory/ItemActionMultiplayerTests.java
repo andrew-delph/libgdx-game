@@ -60,7 +60,10 @@ public class ItemActionMultiplayerTests {
 
   @Before
   public void setup()
-      throws IOException, InterruptedException, SerializationDataMissing, WrongVersion,
+      throws IOException,
+          InterruptedException,
+          SerializationDataMissing,
+          WrongVersion,
           BodyNotFound {
     clientInjector =
         Guice.createInjector(

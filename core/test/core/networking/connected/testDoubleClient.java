@@ -67,7 +67,10 @@ public class testDoubleClient {
 
   @Before
   public void setup()
-      throws IOException, SerializationDataMissing, InterruptedException, WrongVersion,
+      throws IOException,
+          SerializationDataMissing,
+          InterruptedException,
+          WrongVersion,
           BodyNotFound {
     client_a_Injector = Guice.createInjector(new ClientConfig());
     client_b_Injector = Guice.createInjector(new ClientConfig());

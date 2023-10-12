@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.base.Objects;
-import core.common.Pair;
 import core.app.screen.assets.BaseAssetManager;
 import core.app.screen.assets.animations.AnimationManager;
 import core.app.screen.assets.animations.AnimationState;
@@ -21,6 +20,7 @@ import core.common.CommonFactory;
 import core.common.Coordinates;
 import core.common.Direction;
 import core.common.GameSettings;
+import core.common.Pair;
 import core.common.exceptions.ChunkNotFound;
 import core.entity.attributes.Attribute;
 import core.entity.attributes.AttributeType;
@@ -55,7 +55,8 @@ public class Entity implements SerializeNetworkData {
   public Health health;
   protected BaseAssetManager baseAssetManager;
   float stateTime;
-  private EntityStateMachine entityStateMachine = new EntityStateMachine(this, new HashMap<>(), new HashMap<>());
+  private EntityStateMachine entityStateMachine =
+      new EntityStateMachine(this, new HashMap<>(), new HashMap<>());
   private DirectionWrapper directionWrapper = new DirectionWrapper(Direction.RIGHT);
   private CoordinatesWrapper coordinatesWrapper;
   private UUID uuid;
@@ -63,7 +64,8 @@ public class Entity implements SerializeNetworkData {
   private EntityController entityController;
   private int width;
   private int height;
-  private AnimationStateWrapper animationStateWrapper = new AnimationStateWrapper(AnimationState.DEFAULT);
+  private AnimationStateWrapper animationStateWrapper =
+      new AnimationStateWrapper(AnimationState.DEFAULT);
 
   public Entity(
       Clock clock,
@@ -144,8 +146,7 @@ public class Entity implements SerializeNetworkData {
 
   public Chunk getChunk() throws ChunkNotFound {
     Chunk toReturn = chunk;
-    if (toReturn == null)
-      throw new ChunkNotFound(this.toString());
+    if (toReturn == null) throw new ChunkNotFound(this.toString());
     return toReturn;
   }
 
@@ -267,8 +268,8 @@ public class Entity implements SerializeNetworkData {
     }
     Entity entity = (Entity) o;
     return Objects.equal(
-        this.getCoordinatesWrapper().getCoordinates(),
-        entity.getCoordinatesWrapper().getCoordinates())
+            this.getCoordinatesWrapper().getCoordinates(),
+            entity.getCoordinatesWrapper().getCoordinates())
         && Objects.equal(health, entity.health)
         && Objects.equal(uuid, entity.uuid)
         && Objects.equal(bag, entity.bag)

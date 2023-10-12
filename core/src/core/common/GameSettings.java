@@ -49,7 +49,7 @@ public class GameSettings {
     if (properties != null) return;
     properties = this.getDefaults();
     String configFilePath = System.getProperty("user.dir") + "/config.properties";
-    System.out.println("configFilePath: "+configFilePath);
+    System.out.println("configFilePath: " + configFilePath);
     File configFile = new File(configFilePath);
     if (configFile.exists() && !configFile.isDirectory() && configFile.canRead()) {
       try {

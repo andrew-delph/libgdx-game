@@ -50,52 +50,36 @@ import networking.NetworkObjects.Version;
 
 public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectServiceImplBase {
 
-  @Inject
-  ObserverFactory observerFactory;
-  @Inject
-  ConnectionStore connectionStore;
-  @Inject
-  GameStore gameStore;
-  @Inject
-  EventTypeFactory eventTypeFactory;
-  @Inject
-  ActiveChunkManager activeChunkManager;
-  @Inject
-  User user;
-  @Inject
-  ChunkGenerationService chunkGenerationService;
-  @Inject
-  GameSettings gameSettings;
-  @Inject
-  PingService pingService;
-  @Inject
-  SyncService syncService;
-  @Inject
-  Clock clock;
-  @Inject
-  GameController gameController;
-  @Inject
-  EntityControllerFactory entityControllerFactory;
-  @Inject
-  GroupService groupService;
-  @Inject
-  ActiveEntityManager activeEntityManager;
-  @Inject
-  Game game;
+  @Inject ObserverFactory observerFactory;
+  @Inject ConnectionStore connectionStore;
+  @Inject GameStore gameStore;
+  @Inject EventTypeFactory eventTypeFactory;
+  @Inject ActiveChunkManager activeChunkManager;
+  @Inject User user;
+  @Inject ChunkGenerationService chunkGenerationService;
+  @Inject GameSettings gameSettings;
+  @Inject PingService pingService;
+  @Inject SyncService syncService;
+  @Inject Clock clock;
+  @Inject GameController gameController;
+  @Inject EntityControllerFactory entityControllerFactory;
+  @Inject GroupService groupService;
+  @Inject ActiveEntityManager activeEntityManager;
+  @Inject Game game;
   private Server server;
 
   @Inject
-  public ServerNetworkHandle() {
-  }
+  public ServerNetworkHandle() {}
 
   public void start() throws IOException {
     int port = gameSettings.getPort();
     Gdx.app.log(GameSettings.LOG_TAG, "I am server: " + this.user.toString() + " port: " + port);
 
-    server = ServerBuilder.forPort(port)
-        .addService(this)
-        .addService(ProtoReflectionService.newInstance())
-        .build();
+    server =
+        ServerBuilder.forPort(port)
+            .addService(this)
+            .addService(ProtoReflectionService.newInstance())
+            .build();
     server.start();
     pingService.start();
   }
@@ -105,10 +89,11 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
       StreamObserver<NetworkObjects.NetworkEvent> responseObserver) {
     RequestNetworkEventObserver requestNetworkEventObserver = observerFactory.create();
     requestNetworkEventObserver.responseObserver = responseObserver;
-    NetworkObjects.NetworkEvent authenticationEvent = NetworkObjects.NetworkEvent.newBuilder()
-        .setEvent("authentication")
-        .setUser(user.getUserID().toString())
-        .build();
+    NetworkObjects.NetworkEvent authenticationEvent =
+        NetworkObjects.NetworkEvent.newBuilder()
+            .setEvent("authentication")
+            .setUser(user.getUserID().toString())
+            .build();
     requestNetworkEventObserver.responseObserver.onNext(authenticationEvent);
     return requestNetworkEventObserver;
   }
@@ -149,15 +134,16 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
     Entity returnEntity = null;
     try {
-      returnEntity = gameController.createEntity(
-          coordinates,
-          (entity -> {
-            entity.setEntityController(
-                entityControllerFactory.createRemoteBodyController(entity));
+      returnEntity =
+          gameController.createEntity(
+              coordinates,
+              (entity -> {
+                entity.setEntityController(
+                    entityControllerFactory.createRemoteBodyController(entity));
 
-            groupService.registerEntityGroup(entity.getUuid(), Group.PLAYER_GROUP);
-            activeEntityManager.registerActiveEntity(requestedUser, entity.getUuid());
-          }));
+                groupService.registerEntityGroup(entity.getUuid(), Group.PLAYER_GROUP);
+                activeEntityManager.registerActiveEntity(requestedUser, entity.getUuid());
+              }));
     } catch (ChunkNotFound e) {
       e.printStackTrace();
       return;
@@ -175,17 +161,19 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
       return;
     }
 
-    NetworkObjects.STATUS serverStatus = (connectionStore.size() > 0) ? STATUS.ACTIVE : STATUS.INACTIVE;
+    NetworkObjects.STATUS serverStatus =
+        (connectionStore.size() > 0) ? STATUS.ACTIVE : STATUS.INACTIVE;
 
     Instant now = Instant.now();
 
     Duration upTime = Duration.between(game.gameStartTime, now);
 
-    NetworkObjects.Health.Builder healthDataBuilder = NetworkObjects.Health.newBuilder()
-        .setId(this.user.getUserID().toString())
-        .setStatus(serverStatus)
-        .setUptime(upTime.toMillis())
-        .setConnections(connectionStore.size());
+    NetworkObjects.Health.Builder healthDataBuilder =
+        NetworkObjects.Health.newBuilder()
+            .setId(this.user.getUserID().toString())
+            .setStatus(serverStatus)
+            .setUptime(upTime.toMillis())
+            .setConnections(connectionStore.size());
 
     if (connectionStore.inactiveStartTime != null) {
       Duration inActiveTime = Duration.between(connectionStore.inactiveStartTime, now);
@@ -198,8 +186,8 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
 
   @Override
   public void getVersion(Empty request, StreamObserver<Version> responseObserver) {
-    NetworkObjects.Version versionData = NetworkObjects.Version.newBuilder().setVersion(gameSettings.getVersion())
-        .build();
+    NetworkObjects.Version versionData =
+        NetworkObjects.Version.newBuilder().setVersion(gameSettings.getVersion()).build();
     responseObserver.onNext(versionData);
     responseObserver.onCompleted();
   }
@@ -209,10 +197,11 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
   }
 
   public synchronized void send(UserID userID, NetworkObjects.NetworkEvent networkEvent) {
-    networkEvent = networkEvent.toBuilder()
-        .setUser(user.getUserID().toString())
-        .setTime(Clock.getCurrentTime())
-        .build();
+    networkEvent =
+        networkEvent.toBuilder()
+            .setUser(user.getUserID().toString())
+            .setTime(Clock.getCurrentTime())
+            .build();
     RequestNetworkEventObserver observer = connectionStore.getConnection(userID);
     observer.responseObserver.onNext(networkEvent);
   }
@@ -225,8 +214,8 @@ public class ServerNetworkHandle extends NetworkObjectServiceGrpc.NetworkObjectS
     }
     syncService.lockHandshake(userID, chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
     List<UUID> uuidList = new LinkedList<>(this.gameStore.getChunk(chunkRange).getEntityUUIDSet());
-    HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.createHandshakeOutgoingEventType(chunkRange,
-        uuidList);
+    HandshakeOutgoingEventType handshakeOutgoing =
+        EventTypeFactory.createHandshakeOutgoingEventType(chunkRange, uuidList);
     this.send(userID, handshakeOutgoing.toNetworkEvent());
     Gdx.app.log(
         GameSettings.LOG_TAG, "SERVER INIT HANDSHAKE " + userID.toString() + " " + chunkRange);

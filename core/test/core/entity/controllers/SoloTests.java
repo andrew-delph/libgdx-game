@@ -31,7 +31,10 @@ public class SoloTests {
 
   @Before
   public void setup()
-      throws WrongVersion, SerializationDataMissing, IOException, InterruptedException,
+      throws WrongVersion,
+          SerializationDataMissing,
+          IOException,
+          InterruptedException,
           BodyNotFound {
     injector = Guice.createInjector(new StandAloneConfig());
 

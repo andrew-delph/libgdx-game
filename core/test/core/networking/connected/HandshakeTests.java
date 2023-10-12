@@ -359,7 +359,10 @@ public class HandshakeTests {
 
   @Test
   public void testClientInitReplaceHandshake()
-      throws InterruptedException, WrongVersion, SerializationDataMissing, IOException,
+      throws InterruptedException,
+          WrongVersion,
+          SerializationDataMissing,
+          IOException,
           ChunkNotFound {
     // server updates an entity that doesn't exist on client
     BlockFactory blockFactory = clientInjector.getInstance(BlockFactory.class);
