@@ -2,7 +2,7 @@ package core.entity.misc;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.sun.tools.javac.util.Pair;
+import core.common.Pair;
 import core.app.screen.assets.BaseAssetManager;
 import core.chunk.Chunk;
 import core.chunk.world.CreateBodyCallable;
@@ -35,10 +35,10 @@ public class Orb extends Entity {
 
   @Override
   public synchronized int getUpdateTimeout() {
-    //    if (isLive) {
-    //      isLive = false;
-    //      return 1;
-    //    }
+    // if (isLive) {
+    // isLive = false;
+    // return 1;
+    // }
     return Integer.MAX_VALUE;
   }
 

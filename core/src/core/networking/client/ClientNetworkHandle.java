@@ -3,7 +3,7 @@ package core.networking.client;
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.protobuf.Empty;
-import com.sun.tools.javac.util.Pair;
+import core.common.Pair;
 import core.app.user.User;
 import core.chunk.Chunk;
 import core.chunk.ChunkFactory;
@@ -40,22 +40,33 @@ public class ClientNetworkHandle {
   public final CountDownLatch authLatch = new CountDownLatch(1);
 
   RequestNetworkEventObserver requestNetworkEventObserver;
-  @Inject ObserverFactory observerFactory;
-  @Inject EventTypeFactory eventTypeFactory;
-  @Inject NetworkDataDeserializer entitySerializationConverter;
-  @Inject GameStore gameStore;
-  @Inject ChunkFactory chunkFactory;
-  @Inject User user;
-  @Inject GameSettings gameSettings;
-  @Inject PingService pingService;
-  @Inject SyncService syncService;
-  @Inject NetworkDataDeserializer networkDataDeserializer;
+  @Inject
+  ObserverFactory observerFactory;
+  @Inject
+  EventTypeFactory eventTypeFactory;
+  @Inject
+  NetworkDataDeserializer entitySerializationConverter;
+  @Inject
+  GameStore gameStore;
+  @Inject
+  ChunkFactory chunkFactory;
+  @Inject
+  User user;
+  @Inject
+  GameSettings gameSettings;
+  @Inject
+  PingService pingService;
+  @Inject
+  SyncService syncService;
+  @Inject
+  NetworkDataDeserializer networkDataDeserializer;
   private ManagedChannel channel;
   private NetworkObjectServiceGrpc.NetworkObjectServiceStub asyncStub;
   private NetworkObjectServiceGrpc.NetworkObjectServiceBlockingStub blockStub;
 
   @Inject
-  public ClientNetworkHandle() {}
+  public ClientNetworkHandle() {
+  }
 
   public void connect() throws InterruptedException, WrongVersion {
 
@@ -78,13 +89,12 @@ public class ClientNetworkHandle {
     this.asyncStub = NetworkObjectServiceGrpc.newStub(channel);
     this.blockStub = NetworkObjectServiceGrpc.newBlockingStub(channel);
     requestNetworkEventObserver = observerFactory.create();
-    requestNetworkEventObserver.responseObserver =
-        this.asyncStub.networkObjectStream(requestNetworkEventObserver);
+    requestNetworkEventObserver.responseObserver = this.asyncStub.networkObjectStream(requestNetworkEventObserver);
 
     this.checkVersion();
 
-    NetworkObjects.NetworkEvent authenticationEvent =
-        NetworkObjects.NetworkEvent.newBuilder().setEvent(DataTranslationEnum.AUTH).build();
+    NetworkObjects.NetworkEvent authenticationEvent = NetworkObjects.NetworkEvent.newBuilder()
+        .setEvent(DataTranslationEnum.AUTH).build();
     this.send(authenticationEvent);
     if (!authLatch.await(5, TimeUnit.SECONDS)) {
       throw new InterruptedException("did not receive auth information");
@@ -93,11 +103,10 @@ public class ClientNetworkHandle {
   }
 
   public synchronized void send(NetworkObjects.NetworkEvent networkEvent) {
-    networkEvent =
-        networkEvent.toBuilder()
-            .setUser(this.user.toString())
-            .setTime(Clock.getCurrentTime())
-            .build();
+    networkEvent = networkEvent.toBuilder()
+        .setUser(this.user.toString())
+        .setTime(Clock.getCurrentTime())
+        .build();
     requestNetworkEventObserver.responseObserver.onNext(networkEvent);
   }
 
@@ -113,13 +122,12 @@ public class ClientNetworkHandle {
       }
     }
 
-    GetChunkOutgoingEventType outgoing =
-        eventTypeFactory.createGetChunkOutgoingEventType(chunkRange, this.user.getUserID());
-    NetworkObjects.NetworkEvent retrievedNetworkEvent =
-        this.blockStub.getChunk(outgoing.toNetworkEvent());
+    GetChunkOutgoingEventType outgoing = eventTypeFactory.createGetChunkOutgoingEventType(chunkRange,
+        this.user.getUserID());
+    NetworkObjects.NetworkEvent retrievedNetworkEvent = this.blockStub.getChunk(outgoing.toNetworkEvent());
 
-    Pair<ChunkRange, List<Entity>> chunkData =
-        entitySerializationConverter.createChunkData(retrievedNetworkEvent.getData());
+    Pair<ChunkRange, List<Entity>> chunkData = entitySerializationConverter
+        .createChunkData(retrievedNetworkEvent.getData());
 
     for (Entity toAdd : chunkData.snd) {
       try {
@@ -146,9 +154,8 @@ public class ClientNetworkHandle {
       }
     }
 
-    GetChunkOutgoingEventType outgoing =
-        eventTypeFactory.createGetChunkOutgoingEventType(
-            requestedChunkRange, this.user.getUserID());
+    GetChunkOutgoingEventType outgoing = eventTypeFactory.createGetChunkOutgoingEventType(
+        requestedChunkRange, this.user.getUserID());
     // make the async request
     // at the end of the request remove the lock
     asyncStub.getChunk(
@@ -159,8 +166,8 @@ public class ClientNetworkHandle {
           public void onNext(NetworkObjects.NetworkEvent networkEvent) {
             // calls data received
             try {
-              Pair<ChunkRange, List<Entity>> chunkData =
-                  entitySerializationConverter.createChunkData(networkEvent.getData());
+              Pair<ChunkRange, List<Entity>> chunkData = entitySerializationConverter
+                  .createChunkData(networkEvent.getData());
               for (Entity toAdd : chunkData.snd) {
                 try {
                   gameStore.addEntity(toAdd);
@@ -181,7 +188,8 @@ public class ClientNetworkHandle {
           }
 
           @Override
-          public void onCompleted() {}
+          public void onCompleted() {
+          }
         });
     // in the observer. at the end
     return true;
@@ -204,19 +212,17 @@ public class ClientNetworkHandle {
       return;
     }
     syncService.lockHandshake(user.getUserID(), chunkRange, GameSettings.HANDSHAKE_TIMEOUT);
-    HandshakeOutgoingEventType handshakeOutgoing =
-        EventTypeFactory.createHandshakeOutgoingEventType(chunkRange);
+    HandshakeOutgoingEventType handshakeOutgoing = EventTypeFactory.createHandshakeOutgoingEventType(chunkRange);
     this.send(handshakeOutgoing.toNetworkEvent());
     Gdx.app.log(GameSettings.LOG_TAG, "CLIENT INIT HANDSHAKE " + chunkRange);
   }
 
   public Entity getEntity(Coordinates coordinates) throws SerializationDataMissing, ChunkNotFound {
-    NetworkEvent entityNetworkEvent =
-        this.blockStub.getEntity(
-            NetworkObjects.NetworkEvent.newBuilder()
-                .setUser(user.getUserID().toString())
-                .setData(coordinates.toNetworkData())
-                .build());
+    NetworkEvent entityNetworkEvent = this.blockStub.getEntity(
+        NetworkObjects.NetworkEvent.newBuilder()
+            .setUser(user.getUserID().toString())
+            .setData(coordinates.toNetworkData())
+            .build());
 
     Entity requestedEntity = networkDataDeserializer.createEntity(entityNetworkEvent.getData());
 

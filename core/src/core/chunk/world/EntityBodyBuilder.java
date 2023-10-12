@@ -10,9 +10,10 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.sun.tools.javac.util.Pair;
+
 import core.common.ChunkRange;
 import core.common.GameSettings;
+import core.common.Pair;
 import core.entity.Entity;
 import core.entity.block.Block;
 import core.entity.collision.EntitySensor;
@@ -31,10 +32,8 @@ public class EntityBodyBuilder {
 
   public static Pair<UUID, Body> createEntityBody(
       World world, ChunkRange chunkRange, Entity entity) {
-    float center_x =
-        -(GameSettings.PHYSICS_SCALE - (Entity.staticWidth * GameSettings.PHYSICS_SCALE)) / 2f;
-    float center_y =
-        -(GameSettings.PHYSICS_SCALE - (Entity.staticHeight * GameSettings.PHYSICS_SCALE)) / 2f;
+    float center_x = -(GameSettings.PHYSICS_SCALE - (Entity.staticWidth * GameSettings.PHYSICS_SCALE)) / 2f;
+    float center_y = -(GameSettings.PHYSICS_SCALE - (Entity.staticHeight * GameSettings.PHYSICS_SCALE)) / 2f;
 
     Body theBody;
     BodyDef bodyDef = new BodyDef();
@@ -134,8 +133,8 @@ public class EntityBodyBuilder {
     rightFixture.setUserData(new RightSensor(entity, chunkRange));
     rightFixture.setFilterData(entityFilter());
 
-    //    theBody.setLinearDamping(1f);
-    //    theBody.setAngularDamping(0.1f);
+    // theBody.setLinearDamping(1f);
+    // theBody.setAngularDamping(0.1f);
 
     return new Pair<>(entity.getUuid(), theBody);
   }
@@ -164,7 +163,7 @@ public class EntityBodyBuilder {
     blockFixture.setFilterData(blockFilter());
     blockFixture.setUserData(new GroundSensor(entity, chunkRange));
 
-    //    theBody.resetMassData();
+    // theBody.resetMassData();
 
     return new Pair<>(entity.getUuid(), theBody);
   }
@@ -252,7 +251,7 @@ public class EntityBodyBuilder {
     Fixture blockFixture = theBody.createFixture(fixtureDef);
 
     blockFixture.setFilterData(ladderFilter());
-    //    blockFixture.setUserData(new LadderSensor(entity, chunkRange));
+    // blockFixture.setUserData(new LadderSensor(entity, chunkRange));
 
     return new Pair<>(entity.getUuid(), theBody);
   }
@@ -275,7 +274,7 @@ public class EntityBodyBuilder {
     blockingFixtureDef.shape = blockingShape;
     blockingFixtureDef.density = 1f;
     blockingFixtureDef.restitution = 1;
-    //    fixtureDef.isSensor = true;
+    // fixtureDef.isSensor = true;
     Fixture orbFixture = theBody.createFixture(blockingFixtureDef);
     orbFixture.setFilterData(entityFilter());
 
@@ -373,14 +372,14 @@ public class EntityBodyBuilder {
     FixtureDef blockingFixtureDef = new FixtureDef();
     blockingFixtureDef.shape = blockingShape;
     blockingFixtureDef.density = 1f;
-    //    blockingFixtureDef.restitution = 1;
-    //    fixtureDef.isSensor = true;
+    // blockingFixtureDef.restitution = 1;
+    // fixtureDef.isSensor = true;
     Fixture blockFixture = theBody.createFixture(blockingFixtureDef);
     blockFixture.setFilterData(blockFilter());
     blockFixture.setUserData(new GroundSensor(entity, chunkRange));
 
-    //    theBody.setLinearDamping(0.1f);
-    //    theBody.setAngularDamping(0.1f);
+    // theBody.setLinearDamping(0.1f);
+    // theBody.setAngularDamping(0.1f);
 
     return new Pair<>(entity.getUuid(), theBody);
   }

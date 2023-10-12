@@ -3,7 +3,7 @@ package core.entity.misc.water;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.sun.tools.javac.util.Pair;
+import core.common.Pair;
 import core.app.screen.assets.BaseAssetManager;
 import core.app.screen.assets.animations.AnimationManager;
 import core.chunk.Chunk;
@@ -26,7 +26,8 @@ public class WaterPosition extends Entity {
   }
 
   @Override
-  public void render(AnimationManager animationManager, SpriteBatch batch) {}
+  public void render(AnimationManager animationManager, SpriteBatch batch) {
+  }
 
   @Override
   public synchronized int getUpdateTimeout() {

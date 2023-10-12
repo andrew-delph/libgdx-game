@@ -3,7 +3,7 @@ package core.networking.translation;
 import static core.networking.translation.DataTranslationEnum.COORDINATES;
 
 import com.google.inject.Inject;
-import com.sun.tools.javac.util.Pair;
+import core.common.Pair;
 import core.app.screen.assets.animations.AnimationState;
 import core.app.user.UserID;
 import core.chunk.Chunk;
@@ -57,11 +57,16 @@ import networking.NetworkObjects;
 import networking.NetworkObjects.NetworkData;
 
 public class NetworkDataDeserializer {
-  @Inject EntityFactory entityFactory;
-  @Inject BlockFactory blockFactory;
-  @Inject ChunkFactory chunkFactory;
-  @Inject GameStore gameStore;
-  @Inject EntityControllerFactory entityControllerFactory;
+  @Inject
+  EntityFactory entityFactory;
+  @Inject
+  BlockFactory blockFactory;
+  @Inject
+  ChunkFactory chunkFactory;
+  @Inject
+  GameStore gameStore;
+  @Inject
+  EntityControllerFactory entityControllerFactory;
 
   public static ChunkRange createChunkRange(NetworkObjects.NetworkData networkData) {
     // TODO put in translations
@@ -149,8 +154,10 @@ public class NetworkDataDeserializer {
         // it will be another attribute
       }
     }
-    if (chunkRange == null) throw new SerializationDataMissing("Missing chunkRange");
-    if (uuid == null) throw new SerializationDataMissing("Missing uuid");
+    if (chunkRange == null)
+      throw new SerializationDataMissing("Missing chunkRange");
+    if (uuid == null)
+      throw new SerializationDataMissing("Missing uuid");
 
     return EventTypeFactory.createUpdateEntityIncomingEvent(user, attributeList, chunkRange, uuid);
   }
@@ -182,7 +189,8 @@ public class NetworkDataDeserializer {
         index = Integer.valueOf(child.getValue());
       }
     }
-    if (index == null) throw new SerializationDataMissing("Missing index");
+    if (index == null)
+      throw new SerializationDataMissing("Missing index");
     return new EmptyInventoryItem(index);
   }
 
@@ -194,7 +202,8 @@ public class NetworkDataDeserializer {
         index = Integer.valueOf(child.getValue());
       }
     }
-    if (index == null) throw new SerializationDataMissing("Missing index");
+    if (index == null)
+      throw new SerializationDataMissing("Missing index");
     return new OrbInventoryItem(index);
   }
 
@@ -206,7 +215,8 @@ public class NetworkDataDeserializer {
         index = Integer.valueOf(child.getValue());
       }
     }
-    if (index == null) throw new SerializationDataMissing("Missing index");
+    if (index == null)
+      throw new SerializationDataMissing("Missing index");
     return new SwordInventoryItem(index);
   }
 
@@ -221,8 +231,10 @@ public class NetworkDataDeserializer {
         controleeUUID = createUUID(child);
       }
     }
-    if (controleeUUID == null) throw new SerializationDataMissing("Missing controleeUUID");
-    if (itemActionType == null) throw new SerializationDataMissing("Missing itemActionType");
+    if (controleeUUID == null)
+      throw new SerializationDataMissing("Missing controleeUUID");
+    if (itemActionType == null)
+      throw new SerializationDataMissing("Missing itemActionType");
     return new ItemActionEventType(itemActionType, controleeUUID);
   }
 
@@ -243,8 +255,10 @@ public class NetworkDataDeserializer {
         networkData = child;
       }
     }
-    if (chunkRange == null) throw new SerializationDataMissing("Missing chunkRange");
-    if (networkData == null) throw new SerializationDataMissing("Missing networkData");
+    if (chunkRange == null)
+      throw new SerializationDataMissing("Missing chunkRange");
+    if (networkData == null)
+      throw new SerializationDataMissing("Missing networkData");
 
     return EventTypeFactory.createCreateEntityIncomingEvent(userID, networkData, chunkRange);
   }
@@ -267,8 +281,10 @@ public class NetworkDataDeserializer {
           break;
       }
     }
-    if (chunkRange == null) throw new SerializationDataMissing("Missing chunkRange");
-    if (target == null) throw new SerializationDataMissing("Missing target");
+    if (chunkRange == null)
+      throw new SerializationDataMissing("Missing chunkRange");
+    if (target == null)
+      throw new SerializationDataMissing("Missing target");
     return EventTypeFactory.createRemoveEntityIncomingEvent(user, chunkRange, target);
   }
 
@@ -303,8 +319,10 @@ public class NetworkDataDeserializer {
           break;
       }
     }
-    if (target == null) throw new SerializationDataMissing("Missing target uuid");
-    if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
+    if (target == null)
+      throw new SerializationDataMissing("Missing target uuid");
+    if (coordinates == null)
+      throw new SerializationDataMissing("Missing coordinates");
 
     return EventTypeFactory.createAIEntityEventType(coordinates, target);
   }
@@ -328,9 +346,12 @@ public class NetworkDataDeserializer {
           break;
       }
     }
-    if (target == null) throw new SerializationDataMissing("Missing target uuid");
-    if (from == null) throw new SerializationDataMissing("Missing from");
-    if (to == null) throw new SerializationDataMissing("Missing to");
+    if (target == null)
+      throw new SerializationDataMissing("Missing target uuid");
+    if (from == null)
+      throw new SerializationDataMissing("Missing from");
+    if (to == null)
+      throw new SerializationDataMissing("Missing to");
 
     return EventTypeFactory.createChunkSwapIncomingEventType(target, from, to);
   }
@@ -352,7 +373,8 @@ public class NetworkDataDeserializer {
       }
     }
 
-    if (pingID == null) throw new SerializationDataMissing("Missing pingID");
+    if (pingID == null)
+      throw new SerializationDataMissing("Missing pingID");
     return EventTypeFactory.createPingRequestIncomingEventType(user, pingID);
   }
 
@@ -377,7 +399,8 @@ public class NetworkDataDeserializer {
       }
     }
 
-    if (pingID == null) throw new SerializationDataMissing("Missing pingID");
+    if (pingID == null)
+      throw new SerializationDataMissing("Missing pingID");
     return EventTypeFactory.createPingResponseIncomingEventType(user, pingID, time);
   }
 
@@ -396,8 +419,10 @@ public class NetworkDataDeserializer {
           break;
       }
     }
-    if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
-    if (uuid == null) throw new SerializationDataMissing("Missing uuid");
+    if (coordinates == null)
+      throw new SerializationDataMissing("Missing coordinates");
+    if (uuid == null)
+      throw new SerializationDataMissing("Missing uuid");
 
     return EventTypeFactory.createTurretEventType(uuid, coordinates);
   }
@@ -475,9 +500,12 @@ public class NetworkDataDeserializer {
       }
     }
 
-    if (uuid == null) throw new SerializationDataMissing("Missing UUID");
-    if (coordinates == null) throw new SerializationDataMissing("Missing coordinates");
-    if (health == null) throw new SerializationDataMissing("Missing health");
+    if (uuid == null)
+      throw new SerializationDataMissing("Missing UUID");
+    if (coordinates == null)
+      throw new SerializationDataMissing("Missing coordinates");
+    if (health == null)
+      throw new SerializationDataMissing("Missing health");
     entity.setUuid(uuid);
     entity.setCoordinatesWrapper(new CoordinatesWrapper(coordinates));
     entity.health = health;
@@ -515,9 +543,12 @@ public class NetworkDataDeserializer {
           break;
       }
     }
-    if (target == null) throw new SerializationDataMissing("Missing target uuid");
-    if (chunkRange == null) throw new SerializationDataMissing("Missing chunkRange");
-    if (replacementBlock == null) throw new SerializationDataMissing("Missing replacementBlock");
+    if (target == null)
+      throw new SerializationDataMissing("Missing target uuid");
+    if (chunkRange == null)
+      throw new SerializationDataMissing("Missing chunkRange");
+    if (replacementBlock == null)
+      throw new SerializationDataMissing("Missing replacementBlock");
 
     return EventTypeFactory.createReplaceBlockIncomingEvent(
         user, target, (Block) replacementBlock, chunkRange);

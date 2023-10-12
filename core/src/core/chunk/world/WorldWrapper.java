@@ -3,7 +3,7 @@ package core.chunk.world;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.sun.tools.javac.util.Pair;
+import core.common.Pair;
 import core.chunk.world.exceptions.BodyNotFound;
 import core.chunk.world.exceptions.DestroyBodyException;
 import core.common.ChunkRange;
@@ -32,7 +32,8 @@ public class WorldWrapper {
 
   public synchronized void addEntity(CreateBodyCallable createBodyCallable) {
     Pair<UUID, Body> pair = createBodyCallable.addWorld(world);
-    if (pair == null) return;
+    if (pair == null)
+      return;
     uuidBodyMap.put(pair.fst, pair.snd);
   }
 

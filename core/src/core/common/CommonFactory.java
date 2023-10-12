@@ -4,33 +4,31 @@ import com.badlogic.gdx.Gdx;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.sun.tools.javac.util.Pair;
+import core.common.Pair;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import networking.NetworkObjects;
 
 public class CommonFactory {
-  static LoadingCache<Pair<Float, Float>, Coordinates> coordinatesCache =
-      CacheBuilder.newBuilder()
-          .maximumSize(1000)
-          .expireAfterWrite(10, TimeUnit.SECONDS)
-          .build(
-              new CacheLoader<Pair<Float, Float>, Coordinates>() {
-                public Coordinates load(Pair<Float, Float> pair) {
-                  return new Coordinates(pair.fst, pair.snd);
-                }
-              });
+  static LoadingCache<Pair<Float, Float>, Coordinates> coordinatesCache = CacheBuilder.newBuilder()
+      .maximumSize(1000)
+      .expireAfterWrite(10, TimeUnit.SECONDS)
+      .build(
+          new CacheLoader<Pair<Float, Float>, Coordinates>() {
+            public Coordinates load(Pair<Float, Float> pair) {
+              return new Coordinates(pair.fst, pair.snd);
+            }
+          });
 
-  static LoadingCache<Coordinates, ChunkRange> chunkRangeCache =
-      CacheBuilder.newBuilder()
-          .maximumSize(1000)
-          .expireAfterWrite(10, TimeUnit.MINUTES)
-          .build(
-              new CacheLoader<Coordinates, ChunkRange>() {
-                public ChunkRange load(Coordinates coordinates) {
-                  return new ChunkRange(coordinates);
-                }
-              });
+  static LoadingCache<Coordinates, ChunkRange> chunkRangeCache = CacheBuilder.newBuilder()
+      .maximumSize(1000)
+      .expireAfterWrite(10, TimeUnit.MINUTES)
+      .build(
+          new CacheLoader<Coordinates, ChunkRange>() {
+            public ChunkRange load(Coordinates coordinates) {
+              return new ChunkRange(coordinates);
+            }
+          });
 
   public static Coordinates createCoordinates(float x, float y) {
     try {

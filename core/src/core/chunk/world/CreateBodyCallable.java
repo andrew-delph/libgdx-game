@@ -2,7 +2,7 @@ package core.chunk.world;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.sun.tools.javac.util.Pair;
+import core.common.Pair;
 import java.util.UUID;
 
 public abstract class CreateBodyCallable {

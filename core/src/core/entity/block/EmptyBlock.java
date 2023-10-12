@@ -2,7 +2,7 @@ package core.entity.block;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.sun.tools.javac.util.Pair;
+import core.common.Pair;
 import core.app.screen.assets.BaseAssetManager;
 import core.chunk.Chunk;
 import core.chunk.world.CreateBodyCallable;

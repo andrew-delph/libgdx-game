@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.base.Objects;
-import com.sun.tools.javac.util.Pair;
+import core.common.Pair;
 import core.app.screen.assets.BaseAssetManager;
 import core.app.screen.assets.animations.AnimationManager;
 import core.app.screen.assets.animations.AnimationState;
@@ -48,15 +48,14 @@ public class Entity implements SerializeNetworkData {
   public static float staticWidth = 0.8f;
   private final Clock clock;
   private final InventoryBag bag;
-  //  public Coordinates coordinates;
+  // public Coordinates coordinates;
   public int zindex = 3;
   public EntityBodyBuilder entityBodyBuilder;
   public Sprite sprite;
   public Health health;
   protected BaseAssetManager baseAssetManager;
   float stateTime;
-  private EntityStateMachine entityStateMachine =
-      new EntityStateMachine(this, new HashMap<>(), new HashMap<>());
+  private EntityStateMachine entityStateMachine = new EntityStateMachine(this, new HashMap<>(), new HashMap<>());
   private DirectionWrapper directionWrapper = new DirectionWrapper(Direction.RIGHT);
   private CoordinatesWrapper coordinatesWrapper;
   private UUID uuid;
@@ -64,8 +63,7 @@ public class Entity implements SerializeNetworkData {
   private EntityController entityController;
   private int width;
   private int height;
-  private AnimationStateWrapper animationStateWrapper =
-      new AnimationStateWrapper(AnimationState.DEFAULT);
+  private AnimationStateWrapper animationStateWrapper = new AnimationStateWrapper(AnimationState.DEFAULT);
 
   public Entity(
       Clock clock,
@@ -77,7 +75,7 @@ public class Entity implements SerializeNetworkData {
     this.clock = clock;
     this.baseAssetManager = baseAssetManager;
     this.entityBodyBuilder = entityBodyBuilder;
-    //    this.coordinates = coordinates;
+    // this.coordinates = coordinates;
     this.coordinatesWrapper = new CoordinatesWrapper(coordinates);
     this.uuid = UUID.randomUUID();
     this.health = new Health(100);
@@ -146,7 +144,8 @@ public class Entity implements SerializeNetworkData {
 
   public Chunk getChunk() throws ChunkNotFound {
     Chunk toReturn = chunk;
-    if (toReturn == null) throw new ChunkNotFound(this.toString());
+    if (toReturn == null)
+      throw new ChunkNotFound(this.toString());
     return toReturn;
   }
 
@@ -192,7 +191,7 @@ public class Entity implements SerializeNetworkData {
   }
 
   public void render(AnimationManager animationManager, SpriteBatch batch) {
-    //    entityStateMachine.callAnimation();
+    // entityStateMachine.callAnimation();
     stateTime += Gdx.graphics.getDeltaTime();
 
     Vector2 v2 = this.getCoordinatesWrapper().getCoordinates().toRenderVector2();
@@ -268,8 +267,8 @@ public class Entity implements SerializeNetworkData {
     }
     Entity entity = (Entity) o;
     return Objects.equal(
-            this.getCoordinatesWrapper().getCoordinates(),
-            entity.getCoordinatesWrapper().getCoordinates())
+        this.getCoordinatesWrapper().getCoordinates(),
+        entity.getCoordinatesWrapper().getCoordinates())
         && Objects.equal(health, entity.health)
         && Objects.equal(uuid, entity.uuid)
         && Objects.equal(bag, entity.bag)
