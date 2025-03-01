@@ -3,6 +3,6 @@ rootProject.name = 'game'
 include 'core'
 include 'desktop'
 
-if (properties['exclude.android'] != 'true') {
-    include 'android'
-}
+// if (properties['exclude.android'] != 'true') {
+//     include 'android'
+// }

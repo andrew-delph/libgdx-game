@@ -27,3 +27,8 @@ The game can be controlled using the following key bindings:
 | Place Dirt    | Shift + Move |
 | Spawn Enemy   | F           |
 
+
+## Development
+
+- [Install mise](https://mise.jdx.dev/)
+- run `gradle :desktop:build`
